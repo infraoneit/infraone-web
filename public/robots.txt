@@ -1,0 +1,16 @@
+# InfraOne IT Solutions - robots.txt
+# https://www.infraone.ch
+
+User-agent: *
+Allow: /
+
+# Block admin and API routes
+Disallow: /api/
+Disallow: /keystatic/
+Disallow: /_next/
+
+# Sitemap location
+Sitemap: https://www.infraone.ch/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

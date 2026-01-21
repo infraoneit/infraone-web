@@ -1,0 +1,80 @@
+# InfraOne IT Solutions
+# https://www.infraone.ch
+
+> InfraOne IT Solutions GmbH ist ein Schweizer IT-Dienstleister mit Hauptsitz in Winterthur.
+> Wir bieten IT-Support, Webdesign und Cloud-Telefonie für KMU und Privatpersonen in der Deutschschweiz.
+
+## Unternehmen
+
+InfraOne IT Solutions GmbH
+Standorte: Winterthur (Hauptsitz), Schaffhausen, Andelfingen
+Regionen: Zürich, Winterthur, Schaffhausen, Thurgau, St. Gallen, Ostschweiz
+Gegründet: 2016
+Mitarbeiter: 5-10
+
+## Kontakt
+
+- Telefon: 052 222 18 18
+- Notfall: 076 587 50 55
+- E-Mail: info@infraone.ch
+- Website: https://www.infraone.ch
+
+## Dienstleistungen
+
+### IT-Support & Informatik-Support
+Wir bieten professionellen IT-Support für KMU und Privatpersonen:
+- Remote-Support: CHF 120.–/h (Fernwartung via AnyDesk)
+- Vor-Ort-Support: CHF 157.–/h (persönlicher Einsatz)
+- Supportzeiten: Mo–Fr 08:00–17:00 (erweitert bis 23:00 mit Zuschlag)
+- Keine Anfahrtskosten in Winterthur und Andelfingen
+- Regionale Seiten: /it-support/winterthur, /it-support/zuerich, /it-support/schaffhausen, /it-support/thurgau, /it-support/st-gallen, /it-support/andelfingen
+
+### Webdesign
+Moderne, SEO-optimierte Websites für Schweizer Unternehmen:
+- Starter-Paket: ab CHF 990 (bis 5 Seiten, Wix/WordPress/Next.js)
+- KMU-Paket: ab CHF 2'490 (bis 15 Seiten, individuelles Design)
+- Pro-Paket: ab CHF 4'990 (unbegrenzte Seiten, Next.js + Keystatic CMS)
+- Technologien: Wix, WordPress, Next.js mit Keystatic CMS
+- Regionale Seiten: /webdesign/winterthur, /webdesign/zuerich, /webdesign/schaffhausen, /webdesign/thurgau, /webdesign/st-gallen, /webdesign/basel, /webdesign/bern, /webdesign/luzern, /webdesign/aargau, /webdesign/zug, /webdesign/solothurn, /webdesign/graubuenden
+
+### Cloud-Telefonie & VoIP
+Wartungsfreie Cloud-Telefonanlagen mit Peoplefone:
+- Benutzerpaket: ab CHF 15.–/Monat (1-5 Benutzer)
+- Flatrate Schweiz: CHF 19.–/Monat
+- Flatrate CH+EU: CHF 22.–/Monat
+- Features: Handy-App, Voicemail, Warteschlaufe, IVR
+- Partner: Peoplefone (zertifiziert), 3CX, Yeastar
+- Regionale Seiten: /telefonie/winterthur, /telefonie/zuerich, /telefonie/schaffhausen, /telefonie/thurgau, /telefonie/st-gallen, /telefonie/rapperswil
+
+### Weitere Leistungen
+- IT-Netzwerke: Planung, Installation, Wartung (/it-netzwerke)
+- Videoüberwachung: IP-Kameras, NVR-Systeme (/videoueberwachung)
+- Digital Signage: Digitale Beschilderung (/digital-signage)
+- Gebäudeautomation: Smart Building Lösungen (/gebaeudeautomation)
+- Kontrollraum-Lösungen: Leitstellen, Videowände (/kontrollraum)
+- Software-Entwicklung: Individuelle Lösungen (/software-entwicklung)
+
+## Referenzen
+
+Wir betreuen über 200 Kunden in der Deutschschweiz, darunter:
+- Schaltkraft AG (Elektroinstallationen) - schaltkraft.ch
+- Elektro-Tel AG (Elektro & Telekommunikation) - elektro-tel.ch
+- Höppli Architektur AG (Architektur) - winterthur-architekten.ch
+
+## USPs (Unique Selling Points)
+
+1. Lokaler Service: Büros in Winterthur, Schaffhausen, Andelfingen
+2. Schnelle Reaktion: Remote-Support oft innert 15 Minuten
+3. Transparente Preise: Keine versteckten Kosten, Abrechnung im 15-Minuten-Takt
+4. 20% Neukunden-Rabatt
+5. Schweizer Hosting: Alle Daten in Schweizer Rechenzentren
+
+## Wichtige URLs
+
+- Homepage: https://www.infraone.ch
+- Kontakt: https://www.infraone.ch/kontakt
+- IT-Support: https://www.infraone.ch/it-support
+- Webdesign: https://www.infraone.ch/webdesign
+- Cloud-Telefonie: https://www.infraone.ch/cloud-telefonie
+- Unternehmen: https://www.infraone.ch/unternehmen
+- Blog: https://www.infraone.ch/blog
