@@ -4,13 +4,12 @@
 User-agent: *
 Allow: /
 
-# Block admin and API routes
+# Block admin and internal tools
 Disallow: /api/
 Disallow: /keystatic/
-Disallow: /_next/
 
-# Sitemap location
+# IMPORTANT: allow Next.js assets for proper rendering
+Allow: /_next/
+
+# Sitemap
 Sitemap: https://www.infraone.ch/sitemap.xml
-
-# Crawl-delay for polite crawling
-Crawl-delay: 1
