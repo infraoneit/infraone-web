@@ -159,6 +159,12 @@ const faqs = [
 ];
 
 // Regional content with unique SEO text
+interface LocalIndustry {
+    name: string;
+    description: string;
+    websiteNeeds: string;
+}
+
 interface RegionalData {
     headline: string;
     subheadline: string;
@@ -168,6 +174,10 @@ interface RegionalData {
     stats: { label: string; value: string }[];
     localFaq: { question: string; answer: string };
     regionalImage: string;
+    // New fields for unique content
+    localIndustries?: LocalIndustry[];
+    additionalFaqs?: { question: string; answer: string }[];
+    whyChooseUs?: string;
 }
 
 const regionalContent: Record<string, RegionalData> = {
@@ -190,6 +200,16 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Winterthurer Kunden', value: '45+' }, { label: 'Jahre Erfahrung', value: '8+' }],
         localFaq: { question: 'Kann ich bei Ihnen im Büro vorbeikommen?', answer: 'Ja, sehr gerne! Unser Büro befindet sich in der Winterthurer Altstadt. Vereinbaren Sie einfach einen Termin für ein kostenloses Erstgespräch bei einem Kaffee.' },
         regionalImage: '/images/regions/winterthur.png',
+        localIndustries: [
+            { name: 'Maschinenbau & Industrie', description: 'Winterthur hat eine stolze Industriegeschichte. Vom Sulzer-Areal bis zum Technopark sind hier innovative Unternehmen zu Hause.', websiteNeeds: 'Technische Produktpräsentationen, B2B-Fokus, Mehrsprachigkeit' },
+            { name: 'Gesundheit & Praxen', description: 'Zahlreiche Arztpraxen, Therapiezentren und Gesundheitsdienstleister in Winterthur benötigen professionelle Online-Präsenzen.', websiteNeeds: 'Online-Terminbuchung, vertrauenswürdiges Design, DSGVO-konform' },
+            { name: 'Einzelhandel & Gastronomie', description: 'Die lebendige Altstadt und das Einkaufszentrum Rosenberg bieten vielfältige Retail- und Gastro-Angebote.', websiteNeeds: 'Online-Shop, Speisekarten, Öffnungszeiten, Google Maps Integration' },
+        ],
+        additionalFaqs: [
+            { question: 'Muss ich für die Website-Erstellung persönlich vorbeikommen?', answer: 'Nein, der gesamte Prozess kann 100% remote ablaufen. Wir arbeiten mit Videocalls, geteilten Dokumenten und Online-Feedback-Tools. Persönliche Treffen sind natürlich jederzeit möglich – unser Büro ist nur wenige Gehminuten von der Altstadt entfernt.' },
+            { question: 'Wie lange dauert ein Website-Projekt in Winterthur?', answer: 'Eine Standard-Website ist in 2-4 Wochen live. Für komplexere Projekte mit Online-Shop oder individueller Entwicklung planen wir 6-8 Wochen ein. Dank unserer lokalen Präsenz können wir bei dringenden Anpassungen schnell reagieren.' },
+        ],
+        whyChooseUs: 'Als echte Winterthurer Agentur verstehen wir die lokalen Bedürfnisse besser als eine anonyme Grossagentur aus Zürich. Wir kennen die Stadt, die Branchen und die Menschen. Das macht den Unterschied.',
     },
     zuerich: {
         headline: 'Webdesign Zürich',
@@ -200,6 +220,16 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Zürcher Projekte', value: '30+' }, { label: 'Durchschn. Lighthouse Score', value: '95+' }],
         localFaq: { question: 'Bieten Sie auch Vor-Ort-Termine in Zürich an?', answer: 'Selbstverständlich. Von unserem Büro in Winterthur sind wir in 20 Minuten bei Ihnen in Zürich – oder wir treffen uns an einem neutralen Ort.' },
         regionalImage: '/images/regions/zuerich.png',
+        localIndustries: [
+            { name: 'Finanzdienstleistungen', description: 'Zürich ist Europas führender Finanzplatz. Banken, Vermögensverwalter und FinTechs prägen die Wirtschaft.', websiteNeeds: 'Vertrauenswürdiges Design, Compliance-konform, mehrsprachig, sichere Formulare' },
+            { name: 'Kreativwirtschaft & Agenturen', description: 'Vom Seefeld bis Kreis 5 – Zürich beherbergt eine lebendige Kreativszene mit Agenturen und Freelancern.', websiteNeeds: 'Portfolio-Präsentation, visueller Impact, schnelle Ladezeiten' },
+            { name: 'Tech & Startups', description: 'Die ETH-Nähe und Googles Präsenz machen Zürich zum Tech-Hub. Startups brauchen agile digitale Lösungen.', websiteNeeds: 'Modernes Design, Skalierbarkeit, Integration mit SaaS-Tools' },
+        ],
+        additionalFaqs: [
+            { question: 'Muss ich für Besprechungen nach Winterthur kommen?', answer: 'Nein, wir arbeiten zu 100% remote wenn gewünscht. Alternativ treffen wir uns gerne in Zürich – die S-Bahn braucht nur 20 Minuten.' },
+            { question: 'Verstehen Sie die hohen Ansprüche des Zürcher Marktes?', answer: 'Absolut. Wir haben für Zürcher Unternehmen aus der Finanz-, Tech- und Kreativbranche gearbeitet. Wir wissen, dass hier höchste Qualität erwartet wird.' },
+        ],
+        whyChooseUs: 'Als Agentur aus der Region bieten wir Zürcher Qualität zu faireren Preisen – ohne die Überkopfkosten einer Bahnhofstrasse-Agentur.',
     },
     schaffhausen: {
         headline: 'Webdesign Schaffhausen',
@@ -210,6 +240,16 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Schaffhauser Kunden', value: '15+' }, { label: 'Weiterempfehlungsrate', value: '100%' }],
         localFaq: { question: 'Haben Sie Erfahrung mit lokalen Branchen wie Weinbau oder Industrie?', answer: 'Ja, wir haben bereits mehrere Websites für Schaffhauser Weingüter und Industriebetriebe erstellt. Wir verstehen die Anforderungen dieser Branchen.' },
         regionalImage: '/images/regions/schaffhausen.png',
+        localIndustries: [
+            { name: 'Industrie & Produktion', description: 'Von SIG über Georg Fischer bis zu spezialisierten Zulieferern – Schaffhausen hat eine starke industrielle Basis.', websiteNeeds: 'B2B-Kommunikation, technische Produktkataloge, Karriereseiten' },
+            { name: 'Weinbau & Landwirtschaft', description: 'Das Schaffhauser Blauburgunderland ist bekannt für exzellente Weine. Weingüter brauchen ansprechende Online-Auftritte.', websiteNeeds: 'Emotionales Storytelling, Online-Shop, Veranstaltungskalender' },
+            { name: 'Tourismus & Freizeit', description: 'Rheinfall, Munot und Altstadt ziehen Besucher an. Lokale Anbieter brauchen attraktive digitale Präsenzen.', websiteNeeds: 'Mehrsprachigkeit, Buchungssysteme, Mobile-first Design' },
+        ],
+        additionalFaqs: [
+            { question: 'Können Sie Websites für Weingüter mit Online-Shop erstellen?', answer: 'Ja, wir haben bereits mehrere Wein-Online-Shops umgesetzt. Dabei berücksichtigen wir die speziellen Anforderungen wie Versandbedingungen und Altersverifikation.' },
+            { question: 'Arbeiten Sie auch mit deutschen Kunden in der Grenznähe?', answer: 'Selbstverständlich. Wir betreuen auch Kunden aus dem nahen Süddeutschland. Die Währungsumrechnung und DSGVO-Konformität beherrschen wir.' },
+        ],
+        whyChooseUs: 'Als regionale Agentur mit echtem Schaffhauser Bezug verstehen wir die lokale Mentalität: bodenständig, qualitätsbewusst und mit Blick fürs Wesentliche.',
     },
     thurgau: {
         headline: 'Webdesign Thurgau',
@@ -220,6 +260,16 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Thurgauer Projekte', value: '20+' }, { label: 'Ø Reaktionszeit', value: '< 4h' }],
         localFaq: { question: 'Haben Sie Erfahrung mit Tourismus-Websites am Bodensee?', answer: 'Ja, wir haben bereits mehrere Hotel- und Gastro-Websites in der Bodenseeregion umgesetzt. Mobile-Optimierung und Buchungssysteme sind unsere Stärke.' },
         regionalImage: '/images/regions/thurgau.png',
+        localIndustries: [
+            { name: 'Hotellerie & Gastronomie', description: 'Die Bodenseeregion lebt vom Tourismus. Hotels, Restaurants und Freizeitanbieter brauchen ansprechende digitale Auftritte.', websiteNeeds: 'Buchungssysteme, Bildergalerien, Speisekarten, mehrsprachig (DE/EN)' },
+            { name: 'Landwirtschaft & Direktvermarktung', description: 'Mostereien, Hofläden und Obstbauern verkaufen direkt an Endkunden. E-Commerce wird immer wichtiger.', websiteNeeds: 'Online-Shop, Produktkatalog, Liefergebiete, saisonale Angebote' },
+            { name: 'Gewerbe & Handwerk', description: 'Vom Schreiner in Frauenfeld bis zum Elektriker in Kreuzlingen – lokales Gewerbe braucht Sichtbarkeit.', websiteNeeds: 'Leistungsübersicht, Referenzen, Kontaktformular, Google Maps' },
+        ],
+        additionalFaqs: [
+            { question: 'Können Sie Buchungssysteme für Hotels integrieren?', answer: 'Ja, wir integrieren gängige Buchungssysteme wie Booking.com, oder setzen auf individuelle Lösungen für kleinere Betriebe.' },
+            { question: 'Bieten Sie Schulungen für die Website-Pflege an?', answer: 'Ja, nach Projektabschluss schulen wir Sie remote oder vor Ort in der Pflege Ihrer Website. Mit Keystatic CMS ist die Bedienung kinderleicht.' },
+        ],
+        whyChooseUs: 'Wir kennen den Thurgau – von Frauenfeld bis Romanshorn. Diese Regionalkenntnis fliesst in jedes Projekt ein.',
     },
     bern: {
         headline: 'Webdesign Bern',
@@ -230,6 +280,16 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Berner Kunden', value: '10+' }, { label: 'Projekterfolgsrate', value: '100%' }],
         localFaq: { question: 'Wie funktioniert die Zusammenarbeit über die Distanz?', answer: 'Wir arbeiten mit Videocalls, geteilten Projektboards und regelmässigen Updates. Bei Bedarf sind wir auch persönlich in Bern – die Anreise dauert nur 1 Stunde.' },
         regionalImage: '/images/webdesign-hero.png',
+        localIndustries: [
+            { name: 'Bundesverwaltung & Öffentlicher Sektor', description: 'Als Bundesstadt beherbergt Bern zahlreiche Behörden und Organisationen mit hohen Anforderungen an Barrierefreiheit.', websiteNeeds: 'WCAG-Konformität, Mehrsprachigkeit (DE/FR/IT/EN), sichere Formulare' },
+            { name: 'Tourismus & Kultur', description: 'UNESCO-Welterbe, Bärenpark und Bundeshaus – Bern ist ein Tourismusmagnet mit vielfältigem Kulturangebot.', websiteNeeds: 'Veranstaltungskalender, Ticketing, Bildergalerien, mehrsprachig' },
+            { name: 'Bildung & Forschung', description: 'Universität Bern, Pädagogische Hochschule und zahlreiche Forschungsinstitute prägen den Standort.', websiteNeeds: 'Content Management für viele Autoren, Publikationsverzeichnisse, moderne UX' },
+        ],
+        additionalFaqs: [
+            { question: 'Können Sie barrierefreie Websites nach WCAG erstellen?', answer: 'Ja, wir entwickeln Websites nach WCAG 2.1 AA-Standard. Für öffentliche Institutionen ist dies oft Pflicht – wir kennen die Anforderungen.' },
+            { question: 'Arbeiten Sie auch auf Französisch?', answer: 'Wir erstellen mehrsprachige Websites in Deutsch, Französisch, Italienisch und Englisch. Die Übersetzung koordinieren wir mit professionellen Partnern.' },
+        ],
+        whyChooseUs: '100% Remote-Zusammenarbeit mit Schweizer Qualität. Wir verstehen die Bedürfnisse des öffentlichen Sektors und wissen, dass in Bern Zuverlässigkeit zählt.',
     },
     basel: {
         headline: 'Webdesign Basel',
@@ -311,6 +371,7 @@ interface WebdesignContentProps {
 export function WebdesignContent({ regionSlug, showRegionalLinks = true }: WebdesignContentProps) {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
     const content = regionalContent[regionSlug || 'default'] || regionalContent.default;
+    const isHubPage = !regionSlug; // Hub page has no regionSlug
 
     const regions = [
         { name: 'Winterthur', href: '/webdesign/winterthur' },
@@ -423,78 +484,209 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                 </div>
             </section>
 
-            {/* Pricing Section */}
+            {/* Local Industries Section - Only for regional pages */}
+            {regionSlug && content.localIndustries && content.localIndustries.length > 0 && (
+                <section className="py-12 lg:py-16 bg-surface">
+                    <div className="container mx-auto px-4">
+                        <AnimatedSection animation="slideUp" className="text-center mb-10">
+                            <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-3">
+                                Webdesign für {content.headline.replace('Webdesign ', '')}er Branchen
+                            </h2>
+                            <p className="text-text-secondary max-w-2xl mx-auto">
+                                Wir verstehen die spezifischen Anforderungen der lokalen Wirtschaft und entwickeln massgeschneiderte Lösungen.
+                            </p>
+                        </AnimatedSection>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                            {content.localIndustries.map((industry, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: index * 0.1 }}
+                                    className="p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors"
+                                >
+                                    <h3 className="text-lg font-bold text-text-primary mb-2">{industry.name}</h3>
+                                    <p className="text-sm text-text-secondary mb-4">{industry.description}</p>
+                                    <div className="pt-3 border-t border-border">
+                                        <p className="text-xs text-primary font-medium mb-1">Was diese Branche braucht:</p>
+                                        <p className="text-xs text-text-secondary">{industry.websiteNeeds}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {content.whyChooseUs && (
+                            <div className="mt-10 max-w-3xl mx-auto">
+                                <div className="p-6 rounded-2xl bg-primary/5 border border-primary">
+                                    <h3 className="font-bold text-text-primary mb-2 flex items-center gap-2">
+                                        <Star className="w-5 h-5 text-primary" />
+                                        Warum InfraOne für {content.headline.replace('Webdesign ', '')}?
+                                    </h3>
+                                    <p className="text-text-secondary">{content.whyChooseUs}</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+            )}
+
+            {/* Pricing Section - Differentiated for Hub vs Spoke */}
             <section id="pakete" className="py-16 lg:py-24 bg-surface">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-                            Unsere Webdesign-Pakete
+                            {isHubPage ? 'Investition in Ihre digitale Zukunft' : `Webdesign-Pakete für ${content.headline.replace('Webdesign ', '')}`}
                         </h2>
-                        <p className="text-text-secondary">Transparente Preise. Keine versteckten Kosten.</p>
+                        <p className="text-text-secondary max-w-2xl mx-auto">
+                            {isHubPage
+                                ? 'Faire Preise, keine Überraschungen. Jedes Projekt beginnt mit einem kostenlosen Erstgespräch.'
+                                : 'Dieselbe Qualität, angepasst an Ihre regionalen Bedürfnisse.'}
+                        </p>
                     </AnimatedSection>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
-                        {packages.map((pkg, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                whileHover={{ y: -10 }}
-                                className={`relative p-8 rounded-2xl border ${pkg.popular
-                                    ? 'bg-primary text-white border-primary shadow-2xl shadow-primary/20'
-                                    : 'bg-card border-border hover:border-primary/50'
-                                    } transition-all duration-300`}
-                            >
-                                {pkg.popular && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-primary text-sm font-bold px-4 py-1 rounded-full">
-                                        Beliebt
-                                    </div>
-                                )}
-
-                                <div className="text-center mb-6">
-                                    <h3 className={`text-2xl font-bold mb-2 ${pkg.popular ? 'text-white' : 'text-text-primary'}`}>
-                                        {pkg.name}
-                                    </h3>
-                                    <div className={`text-4xl font-bold mb-2 ${pkg.popular ? 'text-white' : 'text-primary'}`}>
-                                        {pkg.price}
-                                    </div>
-                                    <p className={`text-sm ${pkg.popular ? 'text-white/80' : 'text-text-secondary'}`}>
-                                        {pkg.description}
-                                    </p>
-                                    <div className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-medium ${pkg.popular ? 'bg-white/20' : 'bg-primary/10 text-primary'}`}>
-                                        {pkg.platforms}
-                                    </div>
-                                </div>
-
-                                <ul className="space-y-3 mb-8">
-                                    {pkg.features.map((feature, i) => (
-                                        <li key={i} className="flex items-center gap-2">
-                                            <Check className={`w-5 h-5 flex-shrink-0 ${pkg.popular ? 'text-white' : 'text-primary'}`} />
-                                            <span className={`text-sm ${pkg.popular ? 'text-white/90' : 'text-text-secondary'}`}>
-                                                {feature}
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-
-                                <Button
-                                    variant={pkg.popular ? 'secondary' : 'primary'}
-                                    size="lg"
-                                    className={`w-full ${pkg.popular ? 'bg-white text-primary hover:bg-white/90' : ''}`}
-                                    asChild
+                    {isHubPage ? (
+                        /* Hub: Full detailed packages */
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
+                            {packages.map((pkg, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: index * 0.1 }}
+                                    whileHover={{ y: -10 }}
+                                    className={`relative p-8 rounded-2xl border ${pkg.popular
+                                        ? 'bg-primary text-white border-primary shadow-2xl shadow-primary/20'
+                                        : 'bg-card border-border hover:border-primary/50'
+                                        } transition-all duration-300`}
                                 >
-                                    <Link href="/kontakt">
-                                        Anfragen
+                                    {pkg.popular && (
+                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-primary text-sm font-bold px-4 py-1 rounded-full">
+                                            Beliebt
+                                        </div>
+                                    )}
+
+                                    <div className="text-center mb-6">
+                                        <h3 className={`text-2xl font-bold mb-2 ${pkg.popular ? 'text-white' : 'text-text-primary'}`}>
+                                            {pkg.name}
+                                        </h3>
+                                        <div className={`text-4xl font-bold mb-2 ${pkg.popular ? 'text-white' : 'text-primary'}`}>
+                                            {pkg.price}
+                                        </div>
+                                        <p className={`text-sm ${pkg.popular ? 'text-white/80' : 'text-text-secondary'}`}>
+                                            {pkg.description}
+                                        </p>
+                                        <div className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-medium ${pkg.popular ? 'bg-white/20' : 'bg-primary/10 text-primary'}`}>
+                                            {pkg.platforms}
+                                        </div>
+                                    </div>
+
+                                    <ul className="space-y-3 mb-8">
+                                        {pkg.features.map((feature, i) => (
+                                            <li key={i} className="flex items-center gap-2">
+                                                <Check className={`w-5 h-5 flex-shrink-0 ${pkg.popular ? 'text-white' : 'text-primary'}`} />
+                                                <span className={`text-sm ${pkg.popular ? 'text-white/90' : 'text-text-secondary'}`}>
+                                                    {feature}
+                                                </span>
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    <Button
+                                        variant={pkg.popular ? 'secondary' : 'primary'}
+                                        size="lg"
+                                        className={`w-full ${pkg.popular ? 'bg-white text-primary hover:bg-white/90' : ''}`}
+                                        asChild
+                                    >
+                                        <Link href="/kontakt">
+                                            Anfragen
+                                            <ArrowRight className="w-4 h-4" />
+                                        </Link>
+                                    </Button>
+                                </motion.div>
+                            ))}
+                        </div>
+                    ) : (
+                        /* Spoke: Condensed packages with CTA to Hub */
+                        <div className="max-w-4xl mx-auto">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                                {packages.map((pkg, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: index * 0.1 }}
+                                        className={`p-6 rounded-xl border text-center ${pkg.popular
+                                            ? 'bg-primary text-white border-primary'
+                                            : 'bg-card border-border'
+                                            }`}
+                                    >
+                                        <h3 className={`text-lg font-bold mb-1 ${pkg.popular ? 'text-white' : 'text-text-primary'}`}>
+                                            {pkg.name}
+                                        </h3>
+                                        <div className={`text-2xl font-bold mb-2 ${pkg.popular ? 'text-white' : 'text-primary'}`}>
+                                            {pkg.price}
+                                        </div>
+                                        <p className={`text-xs ${pkg.popular ? 'text-white/70' : 'text-text-secondary'}`}>
+                                            {pkg.features.slice(0, 3).join(' • ')}
+                                        </p>
+                                    </motion.div>
+                                ))}
+                            </div>
+                            <div className="text-center">
+                                <Button variant="outline" size="lg" asChild>
+                                    <Link href="/webdesign#pakete">
+                                        Alle Pakete im Detail
                                         <ArrowRight className="w-4 h-4" />
                                     </Link>
                                 </Button>
-                            </motion.div>
-                        ))}
-                    </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </section>
+
+            {/* Hub-Exclusive: Methodology Section */}
+            {isHubPage && (
+                <section className="py-16 lg:py-24 bg-background">
+                    <div className="container mx-auto px-4">
+                        <AnimatedSection animation="slideUp" className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                                So arbeiten wir
+                            </h2>
+                            <p className="text-text-secondary max-w-2xl mx-auto">
+                                Ein strukturierter Prozess für messbare Ergebnisse. Vier Phasen von der Idee bis zum Launch.
+                            </p>
+                        </AnimatedSection>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                            {[
+                                { step: '01', title: 'Discovery', desc: 'Wir analysieren Ihre Ziele, Zielgruppe und Wettbewerber. Gemeinsam definieren wir die optimale Strategie.', icon: '🎯' },
+                                { step: '02', title: 'Design', desc: 'Modernes UI/UX-Design, das Ihre Marke stärkt. Wireframes und interaktive Prototypen zur Freigabe.', icon: '✨' },
+                                { step: '03', title: 'Entwicklung', desc: 'Sauberer Code, optimierte Performance. Wir bauen mit bewährten Technologien für maximale Stabilität.', icon: '⚡' },
+                                { step: '04', title: 'Launch', desc: 'Testing, SEO-Feinschliff und Go-Live. Danach: kontinuierliche Optimierung und Support.', icon: '🚀' },
+                            ].map((phase, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: index * 0.1 }}
+                                    className="relative p-6 rounded-2xl bg-card border border-border"
+                                >
+                                    <div className="text-4xl mb-4">{phase.icon}</div>
+                                    <div className="text-xs font-bold text-primary mb-2">{phase.step}</div>
+                                    <h3 className="text-lg font-bold text-text-primary mb-2">{phase.title}</h3>
+                                    <p className="text-sm text-text-secondary">{phase.desc}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* References Section */}
             <section className="py-16 lg:py-24 bg-background">
@@ -816,6 +1008,27 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                                 </div>
                             )}
                         </div>
+
+                        {/* Additional FAQs - Unique per Region */}
+                        {content.additionalFaqs && content.additionalFaqs.map((faq, index) => (
+                            <div
+                                key={`additional-${index}`}
+                                className="rounded-xl border-2 border-primary bg-primary/5 overflow-hidden"
+                            >
+                                <button
+                                    onClick={() => setOpenFaq(openFaq === (100 + index) ? null : (100 + index))}
+                                    className="w-full flex items-center justify-between p-4 text-left"
+                                >
+                                    <span className="font-medium text-text-primary">{faq.question}</span>
+                                    <ChevronDown className={`w-5 h-5 text-primary transition-transform ${openFaq === (100 + index) ? 'rotate-180' : ''}`} />
+                                </button>
+                                {openFaq === (100 + index) && (
+                                    <div className="px-4 pb-4">
+                                        <p className="text-text-secondary">{faq.answer}</p>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>

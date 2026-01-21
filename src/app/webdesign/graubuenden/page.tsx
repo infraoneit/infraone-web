@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { WebdesignContent } from '@/components/pages/WebdesignContent';
-import { generateLocalBusinessSchema } from '@/lib/seo/schema';
+import { generateProfessionalServiceSchema } from '@/lib/seo/schema';
 
 export const metadata: Metadata = {
     title: 'Webdesign Graubünden | Websites ab CHF 990 | InfraOne',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function WebdesignGraubuendenPage() {
-    const localBusinessSchema = generateLocalBusinessSchema(
+    const professionalServiceSchema = generateProfessionalServiceSchema(
         'graubuenden',
         'Webdesign',
         'https://www.infraone.ch/webdesign/graubuenden'
@@ -25,7 +25,7 @@ export default function WebdesignGraubuendenPage() {
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
             />
             <WebdesignContent regionSlug="graubuenden" />
         </>

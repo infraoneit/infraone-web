@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { CloudTelefonieContent } from '@/components/pages/CloudTelefonieContent';
-import { generateLocalBusinessSchema } from '@/lib/seo/schema';
+import { generateProfessionalServiceSchema } from '@/lib/seo/schema';
 
 export const metadata: Metadata = {
     title: 'Cloud-Telefonie Rapperswil | VoIP Zürichsee | InfraOne',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function TelefonieRapperswilPage() {
-    const localBusinessSchema = generateLocalBusinessSchema(
+    const professionalServiceSchema = generateProfessionalServiceSchema(
         'rapperswil',
         'Cloud-Telefonie',
         'https://www.infraone.ch/telefonie/rapperswil'
@@ -25,7 +25,7 @@ export default function TelefonieRapperswilPage() {
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
             />
             <CloudTelefonieContent regionSlug="rapperswil" />
         </>

@@ -4,7 +4,8 @@ import Image from 'next/image';
 import { Phone, Monitor, MapPin, Clock, Users, Shield, ArrowRight, CheckCircle } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
-import { generateServiceSchema } from '@/lib/seo/schema';
+import { generateServiceSchema, generateFAQSchema } from '@/lib/seo/schema';
+import { FAQList } from '@/components/ui/FAQList';
 
 export const metadata: Metadata = {
     title: 'IT-Support & Informatik-Support Schweiz | Preise & Leistungen',
@@ -43,6 +44,15 @@ const supportTypes = [
         description: 'Unterstützung für interne IT, SLA-Modelle, Stellvertretung, Netzwerk-Fehlerbehebung.',
         price: 'Auf Anfrage',
     },
+];
+
+// FAQs
+const faqs = [
+    { question: 'Wie schnell können Sie helfen?', answer: 'Remote-Support ist meist innert 15 Minuten verfügbar. Vor-Ort-Einsätze planen wir nach Dringlichkeit – bei Notfällen oft noch am gleichen Tag.' },
+    { question: 'Was kostet der IT-Support?', answer: 'Remote-Support: CHF 120.–/h. Vor-Ort-Support: CHF 157.–/h. Im Raum Winterthur & Andelfingen keine Anfahrtskosten, sonst faire Pauschalen.' },
+    { question: 'Betreuen Sie auch Privatpersonen?', answer: 'Ja! Wir helfen sowohl KMU als auch Privatpersonen bei allen IT-Problemen – vom langsamen PC bis zum Virenbefall.' },
+    { question: 'Wie läuft Remote-Support ab?', answer: 'Sie laden eine kleine Software herunter (AnyDesk), teilen uns den Code mit, und wir können Ihren Bildschirm sehen und Probleme direkt beheben.' },
+    { question: 'Muss ich einen Vertrag abschliessen?', answer: 'Nein. Wir arbeiten für die meisten Kunden auf Abruf. Wartungsverträge (SLA) bieten wir für Firmen an, die garantierte Reaktionszeiten benötigen.' },
 ];
 
 const regions = [
@@ -93,11 +103,17 @@ export default function ITSupportPage() {
         ['Schweiz', 'Winterthur', 'Zürich', 'Schaffhausen', 'Thurgau', 'St. Gallen']
     );
 
+    const faqSchema = generateFAQSchema(faqs);
+
     return (
         <>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
             {/* Hero */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
@@ -269,6 +285,19 @@ export default function ITSupportPage() {
                             </StaggerItem>
                         ))}
                     </StaggerContainer>
+                </div>
+            </section>
+
+            {/* FAQs */}
+            <section className="py-16 lg:py-24 bg-surface">
+                <div className="container mx-auto px-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">Häufige Fragen</h2>
+                        <p className="text-text-secondary max-w-2xl mx-auto">Antworten auf die wichtigsten Fragen zu unserem Support.</p>
+                    </AnimatedSection>
+                    <div className="max-w-3xl mx-auto">
+                        <FAQList items={faqs} />
+                    </div>
                 </div>
             </section>
 

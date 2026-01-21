@@ -2,11 +2,12 @@ import { Metadata } from 'next';
 import { ServicePageTemplate } from '@/components/templates/ServicePageTemplate';
 import { Cloud, Building, Headphones } from 'lucide-react';
 import { generateServiceSchema } from '@/lib/seo/schema';
+import { processSteps } from '@/data/telefonie';
 
 export const metadata: Metadata = {
-    title: 'Telefonie & Kommunikation | Cloud Telefonanlagen Winterthur',
-    description: 'Moderne Business-Telefonie mit peoplefone, 3CX und Yeastar. Cloud und On-Premise Telefonanlagen für KMU in Winterthur und der Schweiz.',
-    keywords: ['3CX Telefonie', 'peoplefone', 'Cloud Telefonanlage', 'VoIP Winterthur', 'Yeastar'],
+    title: 'Telefonie & Kommunikation | Business-Telefonie Schweiz',
+    description: 'Moderne Business-Telefonie für Ihr Unternehmen. Cloud-Lösungen und On-Premise Anlagen von Peoplefone, 3CX und Yeastar. Kostenloses Erstgespräch.',
+    keywords: ['Telefonie Schweiz', 'Business Telefonie', 'Cloud Telefonie', 'On-Premise', '3CX', 'Peoplefone', 'Yeastar'],
     alternates: {
         canonical: 'https://www.infraone.ch/telefonie',
         languages: {
@@ -42,25 +43,6 @@ const features = [
     },
 ];
 
-const processSteps = [
-    {
-        title: 'Analyse Ihrer aktuellen Telefonie',
-        description: 'Wir schauen uns Ihre bestehende Lösung an, verstehen Ihre Anforderungen und identifizieren Verbesserungspotenzial.',
-    },
-    {
-        title: 'Massgeschneidertes Konzept',
-        description: 'Ob Cloud oder On-Premise, peoplefone, 3CX oder Yeastar – wir empfehlen die Lösung, die zu Ihrem Unternehmen passt.',
-    },
-    {
-        title: 'Professionelle Installation',
-        description: 'Wir konfigurieren Ihre Telefonanlage, portieren Ihre Nummern und schulen Ihr Team im Umgang mit dem neuen System.',
-    },
-    {
-        title: 'Laufender Support',
-        description: 'Bei Fragen oder Problemen sind wir für Sie da. Mit Wartungsverträgen sichern Sie sich schnelle Hilfe und regelmässige Updates.',
-    },
-];
-
 const advantages = [
     {
         icon: <Cloud className="w-8 h-8" />,
@@ -83,7 +65,7 @@ export default function TelefoniePage() {
     const serviceSchema = generateServiceSchema(
         'Telefonie & Kommunikation',
         'Telecommunications Service',
-        'Moderne Business-Telefonie mit peoplefone, 3CX und Yeastar. Cloud und On-Premise Telefonanlagen für KMU in der Schweiz.',
+        'Moderne Business-Telefonie für Ihr Unternehmen. Cloud-Lösungen und On-Premise Anlagen.',
         'https://www.infraone.ch/telefonie'
     );
 
@@ -104,7 +86,12 @@ export default function TelefoniePage() {
                 advantages={advantages}
                 ctaHeadline="Bereit für moderne Telefonie?"
                 ctaButtonLabel="Kostenloses Erstgespräch"
-                ctaButtonHref="/kontakt"
+                ctaButtonHref="tel:+41522221818"
+            // Note: User explicitly asked for "Kostenloses Erstgespräch" and number 052 222 18 18.
+            // The template takes ctaButtonHref for the primary button. I'll point it to call for now or contact.
+            // Re-reading user request: "Kostenloses Erstgespräch" and "052 222 18 18" are mentioned near each other.
+            // The template usually has a button for link and a secondary for phone.
+            // I will stick to standard layout but ensure text matches.
             />
         </>
     );

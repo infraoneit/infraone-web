@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Phone } from 'lucide-react';
+import { ArrowRight, CheckCircle, Phone, Users, Hash, Tv, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
+import { FAQList } from '@/components/ui/FAQList';
 
 interface Feature {
     number: string;
@@ -43,9 +44,19 @@ interface ServicePageProps {
     advantages?: Advantage[];
 
     // CTA
+    // Pricing (Optional)
+    pricingModules?: {
+        userPackages: { range: string; price: string; per: string }[];
+        tariffs: { name: string; price: string; description: string }[];
+        internetTV: { name: string; price: string }[];
+        phoneNumbers: { range: string; price: string }[];
+    };
     ctaHeadline: string;
     ctaButtonLabel?: string;
     ctaButtonHref?: string;
+
+    // FAQs
+    faqs?: { question: string; answer: string }[];
 }
 
 export function ServicePageTemplate({
@@ -57,9 +68,11 @@ export function ServicePageTemplate({
     processHeadline = 'So läuft unsere Zusammenarbeit ab',
     processSteps = [],
     advantages = [],
+    pricingModules,
     ctaHeadline,
     ctaButtonLabel = 'Jetzt Beratung anfordern',
     ctaButtonHref = '/kontakt',
+    faqs = [],
 }: ServicePageProps) {
     return (
         <>
@@ -219,6 +232,125 @@ export function ServicePageTemplate({
                                 </StaggerItem>
                             ))}
                         </StaggerContainer>
+                    </div>
+                </section>
+            )}
+
+            {/* Pricing Section (Optional) */}
+            {pricingModules && (
+                <section id="preise" className="py-16 lg:py-24 bg-background">
+                    <div className="container mx-auto px-4">
+                        <AnimatedSection animation="slideUp" className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                                Preisübersicht
+                            </h2>
+                            <p className="text-text-secondary">
+                                Peoplefone Hosted – monatliche Fixpreise, keine versteckten Kosten
+                            </p>
+                        </AnimatedSection>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                            {/* Benutzerpakete */}
+                            <div className="p-5 rounded-2xl bg-card border border-border">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <Users className="w-5 h-5 text-primary" />
+                                    <h3 className="font-bold text-text-primary">Benutzerpakete</h3>
+                                </div>
+                                <div className="space-y-2">
+                                    {pricingModules.userPackages.map((pkg, index) => (
+                                        <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
+                                            <span className="text-xs text-text-secondary">{pkg.range}</span>
+                                            <span className="font-bold text-primary text-sm">{pkg.price}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Tarifmodelle */}
+                            <div className="p-5 rounded-2xl bg-card border border-border">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <Phone className="w-5 h-5 text-primary" />
+                                    <h3 className="font-bold text-text-primary">Tarifmodelle</h3>
+                                </div>
+                                <div className="space-y-2">
+                                    {pricingModules.tariffs.map((tariff, index) => (
+                                        <div key={index} className="py-1.5 border-b border-border last:border-0">
+                                            <div className="flex justify-between">
+                                                <span className="font-medium text-text-primary text-xs">{tariff.name}</span>
+                                                <span className="font-bold text-primary text-sm">{tariff.price}</span>
+                                            </div>
+                                            <p className="text-xs text-text-secondary mt-0.5">{tariff.description}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Telefonnummern */}
+                            <div className="p-5 rounded-2xl bg-card border border-border">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <Hash className="w-5 h-5 text-primary" />
+                                    <h3 className="font-bold text-text-primary">Telefonnummern</h3>
+                                </div>
+                                <div className="space-y-2">
+                                    {pricingModules.phoneNumbers.map((num, index) => (
+                                        <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
+                                            <span className="text-xs text-text-secondary">{num.range}</span>
+                                            <span className="font-bold text-primary text-sm">{num.price}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <p className="text-xs text-text-secondary mt-3">pro Monat</p>
+                            </div>
+
+                            {/* Internet & TV */}
+                            <div className="p-5 rounded-2xl bg-primary/5 border border-primary">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <Tv className="w-5 h-5 text-primary" />
+                                    <h3 className="font-bold text-text-primary">Internet & TV</h3>
+                                </div>
+                                <div className="space-y-2">
+                                    {pricingModules.internetTV.map((item, index) => (
+                                        <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
+                                            <span className="text-xs text-text-primary">{item.name}</span>
+                                            <span className="font-bold text-primary text-sm">{item.price}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="mt-3 p-2 rounded-lg bg-primary/10">
+                                    <p className="text-xs font-medium text-primary">
+                                        Kombi: Internet + IP = CHF 59.–/Mo
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="text-center mt-8">
+                            <a
+                                href="https://cloud-telefonanlagen.ch#rechner"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
+                            >
+                                Kosten für Ihre Konfiguration berechnen
+                                <ExternalLink className="w-4 h-4" />
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* FAQs Section */}
+            {faqs.length > 0 && (
+                <section className="py-16 lg:py-24 bg-surface border-t border-border">
+                    <div className="container mx-auto px-4">
+                        <AnimatedSection animation="slideUp" className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                                Häufige Fragen
+                            </h2>
+                        </AnimatedSection>
+                        <div className="max-w-3xl mx-auto">
+                            <FAQList items={faqs} />
+                        </div>
                     </div>
                 </section>
             )}

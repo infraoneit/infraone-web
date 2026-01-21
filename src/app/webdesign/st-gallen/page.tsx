@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { WebdesignContent } from '@/components/pages/WebdesignContent';
-import { generateLocalBusinessSchema } from '@/lib/seo/schema';
+import { generateProfessionalServiceSchema } from '@/lib/seo/schema';
 
 export const metadata: Metadata = {
     title: 'Webdesign St. Gallen | Websites ab CHF 990 | InfraOne',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function WebdesignStGallenPage() {
-    const localBusinessSchema = generateLocalBusinessSchema(
+    const professionalServiceSchema = generateProfessionalServiceSchema(
         'st-gallen',
         'Webdesign',
         'https://www.infraone.ch/webdesign/st-gallen'
@@ -25,7 +25,7 @@ export default function WebdesignStGallenPage() {
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
             />
             <WebdesignContent regionSlug="st-gallen" />
         </>

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { CloudTelefonieContent } from '@/components/pages/CloudTelefonieContent';
-import { generateLocalBusinessSchema } from '@/lib/seo/schema';
+import { generateProfessionalServiceSchema } from '@/lib/seo/schema';
 
 export const metadata: Metadata = {
     title: 'Cloud-Telefonie Thurgau | VoIP am Bodensee | InfraOne',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function TelefonieThurgauPage() {
-    const localBusinessSchema = generateLocalBusinessSchema(
+    const professionalServiceSchema = generateProfessionalServiceSchema(
         'thurgau',
         'Cloud-Telefonie',
         'https://www.infraone.ch/telefonie/thurgau'
@@ -25,7 +25,7 @@ export default function TelefonieThurgauPage() {
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
             />
             <CloudTelefonieContent regionSlug="thurgau" />
         </>

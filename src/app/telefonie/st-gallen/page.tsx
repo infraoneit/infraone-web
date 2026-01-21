@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { CloudTelefonieContent } from '@/components/pages/CloudTelefonieContent';
-import { generateLocalBusinessSchema } from '@/lib/seo/schema';
+import { generateProfessionalServiceSchema } from '@/lib/seo/schema';
 
 export const metadata: Metadata = {
     title: 'Cloud-Telefonie St. Gallen | VoIP Ostschweiz | InfraOne',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function TelefonieStGallenPage() {
-    const localBusinessSchema = generateLocalBusinessSchema(
+    const professionalServiceSchema = generateProfessionalServiceSchema(
         'st-gallen',
         'Cloud-Telefonie',
         'https://www.infraone.ch/telefonie/st-gallen'
@@ -25,7 +25,7 @@ export default function TelefonieStGallenPage() {
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
             />
             <CloudTelefonieContent regionSlug="st-gallen" />
         </>

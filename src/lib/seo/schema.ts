@@ -236,6 +236,58 @@ export function generateServiceSchema(
 }
 
 /**
+ * Generiert ProfessionalService Schema für Remote-Dienstleistungen (z.B. Webdesign)
+ * Wichtig: Kein lokaler Geo-Standort, da 100% remote möglich
+ */
+export function generateProfessionalServiceSchema(
+    regionSlug: string,
+    serviceName: string,
+    serviceUrl: string
+): WithContext<LocalBusiness> {
+    const regionNames: Record<string, string> = {
+        winterthur: 'Winterthur',
+        zuerich: 'Zürich',
+        schaffhausen: 'Schaffhausen',
+        'st-gallen': 'St. Gallen',
+        thurgau: 'Thurgau',
+        basel: 'Basel',
+        bern: 'Bern',
+        luzern: 'Luzern',
+        aargau: 'Aargau',
+        zug: 'Zug',
+        solothurn: 'Solothurn',
+        graubuenden: 'Graubünden',
+    };
+
+    const regionName = regionNames[regionSlug] || regionSlug;
+
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ProfessionalService',
+        name: `InfraOne ${serviceName} – ${regionName}`,
+        description: `${serviceName} Dienstleistungen für Unternehmen in ${regionName}. 100% remote möglich, persönliche Beratung auf Wunsch.`,
+        url: serviceUrl,
+        telephone: '+41522221818',
+        email: 'info@infraone.ch',
+        // Echter Firmenstandort (nicht Region)
+        address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Winterthur',
+            addressRegion: 'Zürich',
+            postalCode: '8400',
+            addressCountry: 'CH',
+        },
+        // Bediente Region
+        areaServed: {
+            '@type': 'Place',
+            name: regionName,
+        },
+        priceRange: '$$',
+        // Keine Geo-Koordinaten, da Remote-Service
+    };
+}
+
+/**
  * Generiert FAQPage Schema
  */
 export function generateFAQSchema(

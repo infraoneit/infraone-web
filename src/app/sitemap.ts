@@ -13,11 +13,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: '/blog', priority: 0.8, changeFrequency: 'weekly' as const },
     ];
 
-    // Service pages
+    // Service pages (Hub pages for SEO)
     const servicePages = [
-        { url: '/it-support', priority: 0.9 },
-        { url: '/webdesign', priority: 0.9 },
-        { url: '/telefonie', priority: 0.9 },
+        { url: '/it-support', priority: 1.0 },
+        { url: '/webdesign', priority: 1.0 },
+        { url: '/telefonie', priority: 1.0 },
         { url: '/cloud-telefonie', priority: 0.9 },
         { url: '/it-netzwerke', priority: 0.8 },
         { url: '/videoueberwachung', priority: 0.8 },
@@ -27,32 +27,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: '/software-entwicklung', priority: 0.8 },
     ];
 
-    // Webdesign regional pages
+    // Webdesign regional pages (Spoke pages - canonicalized to /webdesign)
     const webdesignRegions = [
         'winterthur', 'zuerich', 'schaffhausen', 'thurgau', 'st-gallen',
         'basel', 'bern', 'luzern', 'aargau', 'zug', 'solothurn', 'graubuenden'
     ];
     const webdesignPages = webdesignRegions.map(region => ({
         url: `/webdesign/${region}`,
-        priority: 0.8,
+        priority: 0.6,
     }));
 
-    // IT-Support regional pages
+    // IT-Support regional pages (Spoke pages - canonicalized to /it-support)
     const itSupportRegions = [
         'winterthur', 'zuerich', 'schaffhausen', 'thurgau', 'st-gallen', 'andelfingen'
     ];
     const itSupportPages = itSupportRegions.map(region => ({
         url: `/it-support/${region}`,
-        priority: 0.8,
+        priority: 0.6,
     }));
 
-    // Telefonie regional pages
+    // Telefonie regional pages (Spoke pages - canonicalized to /telefonie)
     const telefonieRegions = [
         'winterthur', 'zuerich', 'schaffhausen', 'thurgau', 'st-gallen', 'rapperswil'
     ];
     const telefoniePages = telefonieRegions.map(region => ({
         url: `/telefonie/${region}`,
-        priority: 0.8,
+        priority: 0.6,
     }));
 
     // Blog posts

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { CloudTelefonieContent } from '@/components/pages/CloudTelefonieContent';
-import { generateLocalBusinessSchema } from '@/lib/seo/schema';
+import { generateProfessionalServiceSchema } from '@/lib/seo/schema';
 
 export const metadata: Metadata = {
     title: 'Cloud-Telefonie Winterthur | Ihr lokaler VoIP-Partner | InfraOne',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function TelefonieWinterthurPage() {
-    const localBusinessSchema = generateLocalBusinessSchema(
+    const professionalServiceSchema = generateProfessionalServiceSchema(
         'winterthur',
         'Cloud-Telefonie',
         'https://www.infraone.ch/telefonie/winterthur'
@@ -25,7 +25,7 @@ export default function TelefonieWinterthurPage() {
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
             />
             <CloudTelefonieContent regionSlug="winterthur" />
         </>

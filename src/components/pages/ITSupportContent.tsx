@@ -35,6 +35,9 @@ interface RegionalData {
     localFaq: { question: string; answer: string };
     anfahrt: string;
     regionalImage: string;
+    // Enhanced regional content
+    additionalFaqs?: { question: string; answer: string }[];
+    localIndustries?: { name: string; need: string }[];
 }
 
 // Unique regional content for IT-Support
@@ -60,6 +63,15 @@ const regionalContent: Record<string, RegionalData> = {
         localFaq: { question: 'Wie schnell können Sie in Winterthur vor Ort sein?', answer: 'Da unser Büro in der Winterthurer Altstadt liegt, sind wir bei dringenden Fällen oft in unter 30 Minuten bei Ihnen. Keine Anfahrtskosten im gesamten Stadtgebiet.' },
         anfahrt: 'Keine Anfahrtskosten',
         regionalImage: '/images/regions/winterthur.png',
+        localIndustries: [
+            { name: 'Arztpraxen', need: 'Sichere Patientendaten, schnelle Hilfe bei Ausfällen, HIN-Mail' },
+            { name: 'Handwerk & Gewerbe', need: 'Robuste Hardware, einfache Bedienung, Backup-Lösungen' },
+            { name: 'Dienstleister', need: 'Microsoft 365, Cloud-Speicher, Remote-Work-Setup' },
+        ],
+        additionalFaqs: [
+            { question: 'Können Sie auch defekte Hardware reparieren?', answer: 'Ja, in unserer Werkstatt in Winterthur reparieren wir PCs und Laptops. Sie können das Gerät direkt bei uns vorbeibringen.' },
+            { question: 'Bieten Sie auch Support für Apple/Mac?', answer: 'Ja, wir sind spezialisiert auf Windows und macOS. Viele unserer Kunden nutzen eine gemischte Umgebung.' },
+        ],
     },
     zuerich: {
         headline: 'IT-Support Zürich',
@@ -71,6 +83,15 @@ const regionalContent: Record<string, RegionalData> = {
         localFaq: { question: 'Fallen in Zürich Anfahrtskosten an?', answer: 'Ja, für Vor-Ort-Einsätze in Zürich berechnen wir eine Anfahrtspauschale von CHF 40.–. Bei längeren Einsätzen oder Wartungsverträgen entfällt diese oft.' },
         anfahrt: 'CHF 40.– Pauschale',
         regionalImage: '/images/regions/zuerich.png',
+        localIndustries: [
+            { name: 'Kanzleien & Beratung', need: 'Vertraulichkeit, Dokumentenmanagement, sichere E-Mail' },
+            { name: 'Startups', need: 'Skalierbare Cloud-Lösungen, flexible Arbeitsplätze, SaaS-Management' },
+            { name: 'Privatpersonen', need: 'WLAN-Optimierung, Drucker-Probleme, Virenschutz' },
+        ],
+        additionalFaqs: [
+            { question: 'Arbeiten Sie auch im Zentrum (Kreis 1)?', answer: 'Ja, wir betreuen mehrere Kunden in der Innenstadt. Dank guter ÖV-Anbindung sind wir auch ohne Parkplatzsuche schnell vor Ort.' },
+            { question: 'Können Sie unser Büro komplett vernetzen?', answer: 'Ja, wir übernehmen die komplette Netzwerkplanung: WLAN, Firewall, Server und Arbeitsplätze. Alles aus einer Hand.' },
+        ],
     },
     schaffhausen: {
         headline: 'IT-Support Schaffhausen',
@@ -82,6 +103,15 @@ const regionalContent: Record<string, RegionalData> = {
         localFaq: { question: 'Betreuen Sie auch Industrieunternehmen?', answer: 'Ja, wir haben langjährige Erfahrung mit Industrie-IT: Vernetzung von Maschinensteuerungen, OT-Security, und klassische Office-IT. Wir verstehen beide Welten.' },
         anfahrt: 'Keine Anfahrtskosten',
         regionalImage: '/images/regions/schaffhausen.png',
+        localIndustries: [
+            { name: 'Industrie & Fertigung', need: 'Robuste IT in Werkhallen, Anbindung Maschinen, Ausfallsicherheit' },
+            { name: 'Logistik', need: 'Scanner-Lösungen, Etikettendrucker, stabiles WLAN im Lager' },
+            { name: 'Gewerbe', need: 'Kassensysteme, E-Mail-Archivierung, zuverlässige Backups' },
+        ],
+        additionalFaqs: [
+            { question: 'Haben Sie Erfahrung mit ERP-Systemen?', answer: 'Wir arbeiten eng mit ERP-Herstellern zusammen und stellen die technische Basis (Server, Netzwerk) sicher, damit Ihre Software reibungslos läuft.' },
+            { question: 'Bieten Sie auch am Wochenende Support?', answer: 'Für Vertragskunden mit SLA bieten wir auch erweiterten Support am Wochenende an.' },
+        ],
     },
     thurgau: {
         headline: 'IT-Support Thurgau',
@@ -93,6 +123,15 @@ const regionalContent: Record<string, RegionalData> = {
         localFaq: { question: 'Wie schnell sind Sie im Thurgau vor Ort?', answer: 'Je nach Standort zwischen 20 Minuten (Frauenfeld) und 45 Minuten (Kreuzlingen). Bei dringenden Fällen priorisieren wir entsprechend.' },
         anfahrt: 'CHF 20-40.– je nach Ort',
         regionalImage: '/images/regions/thurgau.png',
+        localIndustries: [
+            { name: 'Gastronomie & Hotels', need: 'Gäste-WLAN, Kassensysteme, Reservations-Software' },
+            { name: 'Landwirtschaft', need: 'Hof-PC, Herdenmanagement-Software, Überwachungskameras' },
+            { name: 'Produktion', need: 'Ausfallsichere Server, Zeiterfassung, Lagerverwaltung' },
+        ],
+        additionalFaqs: [
+            { question: 'Können Sie auch bei schlechtem Internet auf dem Land helfen?', answer: 'Ja, wir haben Erfahrung mit LTE/5G-Lösungen oder Richtfunk, um auch abgelegene Höfe oder Betriebe schnell ans Internet anzubinden.' },
+            { question: 'Verkaufen Sie auch Computer und Drucker?', answer: 'Ja, wir beraten Sie herstellerunabhängig und beschaffen die passende Hardware zu fairen Preisen, inklusive Installation vor Ort.' },
+        ],
     },
     'st-gallen': {
         headline: 'IT-Support St. Gallen',
@@ -104,6 +143,15 @@ const regionalContent: Record<string, RegionalData> = {
         localFaq: { question: 'Haben Sie Erfahrung mit Unternehmen aus dem HSG-Umfeld?', answer: 'Ja, wir betreuen mehrere Beratungsunternehmen und Startups, die aus dem HSG-Umfeld entstanden sind. Schnelle Skalierung und moderne Cloud-Lösungen sind unser Metier.' },
         anfahrt: 'CHF 50.– Pauschale',
         regionalImage: '/images/regions/st-gallen.png',
+        localIndustries: [
+            { name: 'Startups', need: 'MacBook-Support, Cloud-Only, Microsoft 365, Teams' },
+            { name: 'Bildung', need: 'Schul-IT, iPad-Klassen, sicheres WLAN für Studenten' },
+            { name: 'Textil & Design', need: 'Grosse Datenmengen, Backups, Adobe Creative Cloud Support' },
+        ],
+        additionalFaqs: [
+            { question: 'Bieten Sie auch regelmässige Wartung an?', answer: 'Ja, mit unseren Managed Services überwachen wir Ihre Systeme proaktiv. Wir beheben Probleme oft, bevor Sie sie bemerken.' },
+            { question: 'Können Sie uns beim Umzug helfen?', answer: 'Gerne. Wir übernehmen den Abbau der IT am alten Standort und den fachgerechten Aufbau und Test am neuen Ort in St. Gallen.' },
+        ],
     },
     andelfingen: {
         headline: 'IT-Support Andelfingen',
@@ -113,8 +161,17 @@ const regionalContent: Record<string, RegionalData> = {
         localBenefits: ['20 Min ab Winterthur', 'Persönlicher Service', 'Landwirtschafts-Know-how', 'Faire Konditionen'],
         stats: [{ label: 'Weinland-Kunden', value: '25+' }, { label: 'Weiterempfehlung', value: '100%' }],
         localFaq: { question: 'Verstehen Sie die Bedürfnisse von Landwirtschaftsbetrieben?', answer: 'Ja, wir betreuen mehrere Bauern- und Weinbaubetriebe im Weinland. Von der Anbindung von Melkrobotern bis zur Buchhaltungssoftware – wir kennen die Anforderungen.' },
-        anfahrt: 'CHF 20.– Pauschale',
+        anfahrt: 'Keine Anfahrtskosten',
         regionalImage: '/images/regions/andelfingen.png',
+        localIndustries: [
+            { name: 'Landwirtschaft & Weinbau', need: 'Robuste PCs, Hof-Verwaltung, Etikettendruck' },
+            { name: 'Lokales Gewerbe', need: 'Kassen-PCs, Rechnungswesen, Datensicherung' },
+            { name: 'Privathaushalte', need: 'Internet einrichten, Drucker, Smartphone-Hilfe' },
+        ],
+        additionalFaqs: [
+            { question: 'Kommen Sie auch für kleine Probleme vorbei?', answer: 'Ja, wir helfen auch, wenn "nur" der Drucker klemmt oder das Internet langsam ist. Im Weinland berechnen wir keine Anfahrt.' },
+            { question: 'Können Sie alte Computer wieder schneller machen?', answer: 'Oft ja. Mit einer SSD-Aufrüstung bringen wir ältere PCs und Laptops wieder auf Trab – eine kostengünstige Alternative zum Neukauf.' },
+        ],
     },
 };
 
@@ -309,9 +366,44 @@ export function ITSupportContent({ regionSlug }: ITSupportContentProps) {
                             </button>
                             {openFaq === 99 && <div className="px-4 pb-4"><p className="text-text-secondary">{content.localFaq.answer}</p></div>}
                         </div>
+
+                        {/* Additional Regional FAQs */}
+                        {content.additionalFaqs && content.additionalFaqs.map((faq, index) => (
+                            <div key={`add-${index}`} className="rounded-xl border border-border bg-card overflow-hidden">
+                                <button onClick={() => setOpenFaq(openFaq === (100 + index) ? null : (100 + index))} className="w-full flex items-center justify-between p-4 text-left">
+                                    <span className="font-medium text-text-primary">{faq.question}</span>
+                                    <ChevronDown className={`w-5 h-5 text-primary transition-transform ${openFaq === (100 + index) ? 'rotate-180' : ''}`} />
+                                </button>
+                                {openFaq === (100 + index) && <div className="px-4 pb-4"><p className="text-text-secondary">{faq.answer}</p></div>}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
+
+            {/* Regional Industries - Only on Regional Pages */}
+            {regionSlug && content.localIndustries && (
+                <section className="py-12 lg:py-16 bg-background border-t border-border">
+                    <div className="container mx-auto px-4">
+                        <AnimatedSection animation="slideUp" className="text-center mb-12">
+                            <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+                                IT-Lösungen für {content.headline.replace('IT-Support ', '')}
+                            </h2>
+                            <p className="text-text-secondary max-w-2xl mx-auto">
+                                Wir kennen die spezifischen Anforderungen lokaler Branchen.
+                            </p>
+                        </AnimatedSection>
+                        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                            {content.localIndustries.map((industry, index) => (
+                                <div key={index} className="p-6 rounded-2xl bg-surface border border-border">
+                                    <h3 className="font-bold text-text-primary mb-2">{industry.name}</h3>
+                                    <p className="text-sm text-text-secondary">{industry.need}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Regional Links */}
             <section className="py-12 lg:py-16 bg-background">
