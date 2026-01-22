@@ -1,7 +1,7 @@
-﻿import { Organization, LocalBusiness, Service, FAQPage, WebSite, AboutPage, WithContext } from 'schema-dts';
+import { Organization, LocalBusiness, Service, FAQPage, WebSite, AboutPage, WithContext } from 'schema-dts';
 
 /**
- * Geo-Koordinaten fÃ¼r Schweizer Regionen
+ * Geo-Koordinaten fÃƒÂ¼r Schweizer Regionen
  */
 export interface GeoCoordinates {
     latitude: number;
@@ -17,7 +17,7 @@ export interface RegionalData {
 }
 
 /**
- * Geo-Koordinaten-Datenbank fÃ¼r Schweizer StÃ¤dte/Regionen
+ * Geo-Koordinaten-Datenbank fÃƒÂ¼r Schweizer StÃƒÂ¤dte/Regionen
  */
 export const REGION_COORDINATES: Record<string, GeoCoordinates> = {
     winterthur: { latitude: 47.4996, longitude: 8.7243 },
@@ -37,7 +37,7 @@ export const REGION_COORDINATES: Record<string, GeoCoordinates> = {
 };
 
 /**
- * Generiert Organization Schema fÃ¼r die Homepage
+ * Generiert Organization Schema fÃƒÂ¼r die Homepage
  */
 export function generateOrganizationSchema(): WithContext<Organization> {
     return {
@@ -46,14 +46,14 @@ export function generateOrganizationSchema(): WithContext<Organization> {
         name: 'InfraOne IT Solutions GmbH',
         url: 'https://www.infraone.ch',
         logo: 'https://www.infraone.ch/infraone-logo-schwarz.svg',
-        description: 'IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur, Schaffhausen & ZÃ¼rich. Ihr Informatiker fÃ¼r KMU & Privatkunden.',
+        description: 'IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur, Schaffhausen & ZÃƒÂ¼rich. Ihr Informatiker fÃƒÂ¼r KMU & Privatkunden.',
         telephone: '+41522221818',
         email: 'info@infraone.ch',
         address: {
             '@type': 'PostalAddress',
             streetAddress: '',
             addressLocality: 'Winterthur',
-            addressRegion: 'ZÃ¼rich',
+            addressRegion: 'ZÃƒÂ¼rich',
             postalCode: '8400',
             addressCountry: 'CH',
         },
@@ -74,13 +74,13 @@ export function generateOrganizationSchema(): WithContext<Organization> {
             },
         ],
         sameAs: [
-            // Social Media Profile URLs kÃ¶nnen hier hinzugefÃ¼gt werden
+            // Social Media Profile URLs kÃƒÂ¶nnen hier hinzugefÃƒÂ¼gt werden
         ],
     };
 }
 
 /**
- * Generiert LocalBusiness Schema fÃ¼r regionale Service-Seiten
+ * Generiert LocalBusiness Schema fÃƒÂ¼r regionale Service-Seiten
  */
 export function generateLocalBusinessSchema(
     regionSlug: string,
@@ -139,7 +139,7 @@ export function generateLocalBusinessSchema(
     };
 }
 /**
- * Generiert WebSite Schema fÃ¼r die Homepage (Sitelinks Search Box Support)
+ * Generiert WebSite Schema fÃƒÂ¼r die Homepage (Sitelinks Search Box Support)
  */
 export function generateWebSiteSchema(): WithContext<WebSite> {
     return {
@@ -159,7 +159,7 @@ export function generateWebSiteSchema(): WithContext<WebSite> {
 }
 
 /**
- * Generiert das Haupt-LocalBusiness Schema fÃ¼r die Homepage (Winterthur HQ)
+ * Generiert das Haupt-LocalBusiness Schema fÃƒÂ¼r die Homepage (Winterthur HQ)
  */
 export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
     return {
@@ -175,7 +175,7 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
             '@type': 'PostalAddress',
             streetAddress: '',
             addressLocality: 'Winterthur',
-            addressRegion: 'ZÃ¼rich',
+            addressRegion: 'ZÃƒÂ¼rich',
             postalCode: '8400',
             addressCountry: 'CH',
         },
@@ -193,7 +193,7 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
             },
         ],
         sameAs: [
-            // Hier kÃ¶nnten LinkedIn, Facebook etc. URLs stehen
+            // Hier kÃƒÂ¶nnten LinkedIn, Facebook etc. URLs stehen
         ],
         areaServed: {
             '@type': 'GeoCircle',
@@ -208,14 +208,14 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
 }
 
 /**
- * Generiert Service Schema fÃ¼r Hauptseiten
+ * Generiert Service Schema fÃƒÂ¼r Hauptseiten
  */
 export function generateServiceSchema(
     serviceName: string,
     serviceType: string,
     description: string,
     serviceUrl: string,
-    areaServed: string[] = ['Schweiz', 'ZÃ¼rich', 'Winterthur', 'Schaffhausen', 'Thurgau', 'St. Gallen']
+    areaServed: string[] = ['Schweiz', 'ZÃƒÂ¼rich', 'Winterthur', 'Schaffhausen', 'Thurgau', 'St. Gallen']
 ): WithContext<Service> {
     return {
         '@context': 'https://schema.org',
@@ -237,17 +237,18 @@ export function generateServiceSchema(
 }
 
 /**
- * Generiert ProfessionalService Schema fÃ¼r Remote-Dienstleistungen (z.B. Webdesign)
- * Wichtig: Kein lokaler Geo-Standort, da 100% remote mÃ¶glich
+ * Generiert ProfessionalService Schema fÃƒÂ¼r Remote-Dienstleistungen (z.B. Webdesign)
+ * Wichtig: Kein lokaler Geo-Standort, da 100% remote mÃƒÂ¶glich
  */
 export function generateProfessionalServiceSchema(
     regionSlug: string,
     serviceName: string,
-    serviceUrl: string
+    serviceUrl: string,
+    areaServedList?: string[]
 ): WithContext<LocalBusiness> {
     const regionNames: Record<string, string> = {
         winterthur: 'Winterthur',
-        zuerich: 'ZÃ¼rich',
+        zuerich: 'ZÃƒÂ¼rich',
         schaffhausen: 'Schaffhausen',
         'st-gallen': 'St. Gallen',
         thurgau: 'Thurgau',
@@ -257,7 +258,7 @@ export function generateProfessionalServiceSchema(
         aargau: 'Aargau',
         zug: 'Zug',
         solothurn: 'Solothurn',
-        graubuenden: 'GraubÃ¼nden',
+        graubuenden: 'GraubÃƒÂ¼nden',
     };
 
     const regionName = regionNames[regionSlug] || regionSlug;
@@ -265,8 +266,8 @@ export function generateProfessionalServiceSchema(
     return {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
-        name: `InfraOne ${serviceName} â€“ ${regionName}`,
-        description: `${serviceName} Dienstleistungen fÃ¼r Unternehmen in ${regionName}. 100% remote mÃ¶glich, persÃ¶nliche Beratung auf Wunsch.`,
+        name: `InfraOne ${serviceName} Ã¢â‚¬â€œ ${regionName}`,
+        description: `${serviceName} Dienstleistungen fÃƒÂ¼r Unternehmen in ${regionName}. 100% remote mÃƒÂ¶glich, persÃƒÂ¶nliche Beratung auf Wunsch.`,
         url: serviceUrl,
         telephone: '+41522221818',
         email: 'info@infraone.ch',
@@ -274,15 +275,14 @@ export function generateProfessionalServiceSchema(
         address: {
             '@type': 'PostalAddress',
             addressLocality: 'Winterthur',
-            addressRegion: 'ZÃ¼rich',
+            addressRegion: 'ZÃƒÂ¼rich',
             postalCode: '8400',
             addressCountry: 'CH',
         },
-        // Bediente Region
-        areaServed: {
-            '@type': 'Place',
-            name: regionName,
-        },
+        // Bediente Region (aus Parameter oder Standard)
+        areaServed: areaServedList && areaServedList.length > 0
+            ? areaServedList.map(area => ({ '@type': 'Place', name: area }))
+            : { '@type': 'Place', name: regionName },
         priceRange: '$$',
         // Keine Geo-Koordinaten, da Remote-Service
     };
@@ -309,14 +309,14 @@ export function generateFAQSchema(
 }
 
 /**
- * Generiert AboutPage Schema fÃ¼r die Unternehmensseite
+ * Generiert AboutPage Schema fÃƒÂ¼r die Unternehmensseite
  */
 export function generateAboutPageSchema(): WithContext<AboutPage> {
     return {
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
-        name: 'Ãœber InfraOne IT Solutions',
-        description: 'Erfahren Sie mehr Ã¼ber InfraOne IT Solutions GmbH, unser Team, unsere Werte und unsere Geschichte.',
+        name: 'ÃƒÅ“ber InfraOne IT Solutions',
+        description: 'Erfahren Sie mehr ÃƒÂ¼ber InfraOne IT Solutions GmbH, unser Team, unsere Werte und unsere Geschichte.',
         url: 'https://www.infraone.ch/unternehmen',
         mainEntity: {
             '@type': 'Organization',
