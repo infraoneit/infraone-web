@@ -1,4 +1,4 @@
-import { blogPosts, BlogPost } from '@/data/blogPosts';
+﻿import { blogPosts, BlogPost } from '@/data/blogPosts';
 import fs from 'fs';
 import path from 'path';
 
@@ -10,13 +10,13 @@ async function getReader() {
 }
 
 /**
- * Kategorie-Mapping für schöne Anzeige
+ * Kategorie-Mapping fuer schoene Anzeige
  */
 const categoryDisplayNames: Record<string, string> = {
     'it-wissen': 'IT-Wissen',
     'telefonie': 'Telefonie',
     'netzwerke': 'Netzwerke',
-    'gebaeudeautomation': 'Gebäudeautomation',
+    'gebaeudeautomation': 'Gebaeudeautomation',
     'webdesign': 'Webdesign',
     'kontrollraum': 'Kontrollraum',
 };
@@ -71,7 +71,7 @@ async function processContent(content: any, slug: string): Promise<string> {
 }
 
 /**
- * Lädt alle Blog-Posts aus beiden Quellen (statisch + Keystatic)
+ * Laedt alle Blog-Posts aus beiden Quellen (statisch + Keystatic)
  * Sortiert nach Datum (neueste zuerst)
  */
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
@@ -86,13 +86,8 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
         for (const post of keystaticPosts) {
             const entry = post.entry;
             
-            // Keywords können Array oder String sein
-            let keywordsArray: string[] = [];
-            if (Array.isArray(entry.keywords)) {
-                keywordsArray = entry.keywords;
-            } else if (typeof entry.keywords === 'string') {
-                keywordsArray = entry.keywords.split(',').map((k: string) => k.trim());
-            }
+            // Keywords aus Keystatic (immer Array)
+            const keywordsArray: string[] = entry.keywords ? [...entry.keywords] : [];
             
             // Content laden (aus .mdoc Datei oder Reader)
             const contentString = await processContent(entry.content, post.slug);
@@ -122,7 +117,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
                 featuredImage: featuredImageUrl,
             };
             
-            // Nur hinzufügen wenn nicht bereits als statischer Post vorhanden
+            // Nur hinzufuegen wenn nicht bereits als statischer Post vorhanden
             if (!allPosts.some(p => p.slug === blogPost.slug)) {
                 allPosts.push(blogPost);
             }
@@ -136,7 +131,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
 }
 
 /**
- * Lädt einen einzelnen Blog-Post nach Slug
+ * Laedt einen einzelnen Blog-Post nach Slug
  */
 export async function getBlogPostBySlugAsync(slug: string): Promise<BlogPost | null> {
     // Zuerst in statischen Posts suchen
@@ -154,13 +149,8 @@ export async function getBlogPostBySlugAsync(slug: string): Promise<BlogPost | n
             return null;
         }
 
-        // Keywords können Array oder String sein
-        let keywordsArray: string[] = [];
-        if (Array.isArray(post.keywords)) {
-            keywordsArray = post.keywords;
-        } else if (typeof post.keywords === 'string') {
-            keywordsArray = post.keywords.split(',').map((k: string) => k.trim());
-        }
+        // Keywords aus Keystatic (immer Array)
+        const keywordsArray: string[] = post.keywords ? [...post.keywords] : [];
         
         // Content laden
         const contentString = await processContent(post.content, slug);
@@ -195,7 +185,7 @@ export async function getBlogPostBySlugAsync(slug: string): Promise<BlogPost | n
 }
 
 /**
- * Gibt alle Blog-Slugs zurück (für generateStaticParams)
+ * Gibt alle Blog-Slugs zurueck (fuer generateStaticParams)
  */
 export async function getAllBlogSlugs(): Promise<string[]> {
     const slugs = blogPosts.map(p => p.slug);
