@@ -96,7 +96,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
                     },
                     // Custom Image Rendering
                     img: ({ src, alt }) => {
-                        if (!src) return null;
+                        if (!src || typeof src !== 'string') return null;
                         
                         // Relative Pfade für Next.js Image
                         const imageSrc = src.startsWith('/') ? src : `/${src}`;
