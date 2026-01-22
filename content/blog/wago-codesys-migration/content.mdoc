@@ -1,0 +1,57 @@
+## WAGO SPS auf Codesys 3.5 Migrieren – So gelingt der Umstieg
+
+CODESYS 3.5 ist heute Standard in der Welt der modernen Gebäudeautomation und industriellen Steuerung. Auch bei WAGO SPS-Systemen lohnt sich die Migration – für mehr Leistung, Modularität und Zukunftssicherheit.
+
+Wenn du noch ältere WAGO-Projekte (z.B. CODESYS 2.3 oder ältere Bibliotheken) betreibst, ist jetzt der richtige Zeitpunkt für die Umstellung.
+
+### Vorteile der Migration auf CODESYS 3.5
+
+- **Moderne Entwicklungsumgebung** mit objektorientierter Programmierung
+- **Starke Visualisierungsmöglichkeiten** (WebVisu, HTML5-kompatibel)
+- **Mehr Flexibilität** durch strukturierte Projekte & modulare Bibliotheken
+- **Aktive Community** & Hersteller-Support
+- **Langfristige Wartbarkeit** für professionelle Automationslösungen
+- **Kompatibel** mit WAGO PFC100 / PFC200 und anderen CODESYS-kompatiblen Steuerungen
+
+### Schritt-für-Schritt-Anleitung: Migration auf CODESYS 3.5
+
+#### 1. Projektanalyse
+
+Überprüfe deine bestehende CODESYS 2.3 Anwendung: Welche Bibliotheken werden verwendet? Gibt es veraltete Befehle, Visualisierungselemente oder proprietäre Erweiterungen?
+
+#### 2. Neue Projektstruktur anlegen
+
+Erstelle in CODESYS 3.5 ein neues leeres Projekt mit dem passenden Zielsystem (z.B. „WAGO PFC200"). Achte auf die richtige Firmware-Version.
+
+#### 3. Bibliotheken aktualisieren
+
+Verwende aktuelle CODESYS 3.5-Bibliotheken, z.B. WAGOApp PLCCommunication oder WAGOApp Modbus. Vermeide inkompatible Alt-Bibliotheken.
+
+#### 4. Programmcode übertragen und umschreiben
+
+Funktionen, FBs und globale Variablen manuell migrieren. Nutze OOP (Objektorientierung), ENUMs und Interfaces für sauberen, wartbaren Code.
+
+#### 5. Visualisierung neu aufbauen
+
+Nutze WebVisu oder das Visualisierungselement in CODESYS 3.5 – kompatibel mit Browsern ohne zusätzliche Plugins (HTML5).
+
+#### 6. Kompilieren, testen und aufspielen
+
+Baue das Projekt und lade es auf die WAGO SPS. Teste die Ein-/Ausgänge, Protokolle (z.B. Modbus, MQTT) und Visualisierung.
+
+#### 7. Dokumentation anpassen
+
+Passe Projektdokumentation, Netzwerktopologie, IP-Adressen und Benutzerhandbuch an. So bleibt alles auditfähig und nachvollziehbar.
+
+### Anwendungsbeispiele
+
+- Gebäudeleittechnik mit WAGO SPS & Loxone
+- HLK-Steuerung, Lichtmanagement und Energie-Monitoring
+- Sicherheitstechnik & Türmanagement in öffentlichen Gebäuden
+- Smart Building-Projekte für Schulen, Villen, Büros und KMU
+
+### Fazit
+
+Die Migration auf CODESYS 3.5 ist der Schlüssel für eine zukunftssichere, moderne Steuerungslösung. Sie eröffnet neue Möglichkeiten für Visualisierung, Modularisierung und professionelle Projektstrukturen – besonders im Bereich Smart Building und Industrieautomation.
+
+**Bei InfraOne IT Solutions unterstützen wir dich gerne bei der Analyse, Planung und Umsetzung deiner Migration.**

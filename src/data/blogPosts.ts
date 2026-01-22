@@ -10,6 +10,7 @@ export interface BlogPost {
     category: string;
     keywords: string[];
     readingTime: string;
+    featuredImage?: string; // Optionales Titelbild (Pfad zum Bild)
 }
 
 export const blogPosts: BlogPost[] = [
@@ -303,7 +304,7 @@ Die Migration auf CODESYS 3.5 ist der Schlüssel für eine zukunftssichere, mode
     },
 ];
 
-// Helper function to get a blog post by slug
+// Helper function to get a blog post by slug (from static data)
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
     return blogPosts.find(post => post.slug === slug);
 }
@@ -322,5 +323,16 @@ export function generateBlogMetadata(post: BlogPost): Metadata {
             publishedTime: post.date,
             authors: [post.author],
         },
+        alternates: {
+            canonical: `https://www.infraone.ch/blog/${post.slug}`,
+            languages: {
+                'de-CH': `https://www.infraone.ch/blog/${post.slug}`,
+            },
+        },
     };
+}
+
+// Export all static blog posts for use with Keystatic combined data
+export function getAllStaticBlogPosts(): BlogPost[] {
+    return blogPosts;
 }

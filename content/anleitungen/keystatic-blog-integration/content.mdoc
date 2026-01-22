@@ -1,0 +1,517 @@
+## Übersicht
+
+Diese Anleitung erklärt Schritt für Schritt, wie Keystatic CMS in eine Next.js Website integriert wird, um Blog-Artikel über eine grafische Oberfläche zu erstellen und zu verwalten.
+
+**Was ist Keystatic?**
+
+Keystatic ist ein Git-basiertes Headless CMS, das direkt im Projekt arbeitet. Inhalte werden als JSON/YAML/Markdown-Dateien gespeichert – keine externe Datenbank erforderlich.
+
+---
+
+## 1. Installation
+
+### 1.1 Pakete installieren
+
+```bash
+npm install @keystatic/core @keystatic/next
+```
+
+### 1.2 Projektstruktur
+
+Nach der Installation benötigst du folgende Dateien:
+
+```
+projekt/
+├── keystatic.config.ts          # Hauptkonfiguration
+├── src/
+│   └── app/
+│       ├── (keystatic)/         # Route Group für CMS
+│       │   └── keystatic/
+│       │       └── [[...params]]/
+│       │           └── page.tsx # CMS-Seite
+│       └── (website)/           # Route Group für Website
+│           └── blog/
+│               └── [slug]/
+│                   └── page.tsx # Blog-Detail
+├── content/
+│   └── blog/                    # Hier speichert Keystatic die Inhalte
+```
+
+---
+
+## 2. Keystatic Konfiguration
+
+### 2.1 Datei: keystatic.config.ts
+
+Diese Datei definiert alle Collections (z.B. Blog-Artikel) und Singletons (z.B. Einstellungen).
+
+```typescript
+import { config, fields, collection } from '@keystatic/core';
+
+export default config({
+    storage: {
+        kind: 'local',  // Speichert lokal im Dateisystem
+    },
+    ui: {
+        brand: {
+            name: 'Mein CMS',  // Name im CMS-Header
+        },
+    },
+    collections: {
+        blog: collection({
+            label: 'Blog Artikel',
+            slugField: 'slug',
+            path: 'content/blog/*',
+            entryLayout: 'content',  // WICHTIG: Ermöglicht Ordnerstruktur
+            format: { data: 'json' },
+            schema: {
+                // Felder hier definieren...
+            },
+        }),
+    },
+});
+```
+
+### 2.2 Wichtige Konfigurationsoptionen
+
+| Option | Beschreibung |
+|--------|--------------|
+| `storage.kind` | `'local'` für lokale Entwicklung, `'github'` für GitHub-Integration |
+| `slugField` | Welches Feld als URL-Slug verwendet wird |
+| `path` | Wo die Content-Dateien gespeichert werden |
+| `entryLayout` | `'content'` = Ordnerstruktur mit separater Markdoc-Datei |
+| `format.data` | `'json'` oder `'yaml'` für Metadaten |
+
+---
+
+## 3. Blog Collection Schema
+
+### 3.1 Vollständiges Schema-Beispiel
+
+```typescript
+schema: {
+    // Grundinformationen
+    slug: fields.text({ 
+        label: 'URL-Slug',
+        description: 'URL-freundlicher Name (z.B. "mein-artikel")',
+    }),
+    title: fields.text({ 
+        label: 'Artikel-Titel',
+        validation: { isRequired: true },
+    }),
+    excerpt: fields.text({ 
+        label: 'Kurzbeschreibung',
+        multiline: true,
+        validation: { isRequired: true },
+    }),
+
+    // Kategorisierung
+    category: fields.select({
+        label: 'Kategorie',
+        options: [
+            { label: 'IT-Wissen', value: 'it-wissen' },
+            { label: 'Netzwerke', value: 'netzwerke' },
+        ],
+        defaultValue: 'it-wissen',
+    }),
+    keywords: fields.array(
+        fields.text({ label: 'Schlagwort' }),
+        { label: 'Schlagwörter' }
+    ),
+
+    // Titelbild
+    featuredImage: fields.image({
+        label: 'Titelbild',
+        directory: 'public/images/blog',
+        publicPath: '/images/blog/',
+    }),
+
+    // Datum & Lesezeit
+    publishDate: fields.date({ 
+        label: 'Veröffentlichungsdatum',
+        defaultValue: { kind: 'today' },
+    }),
+    readingTime: fields.text({ 
+        label: 'Lesezeit',
+        defaultValue: '5 Min.',
+    }),
+
+    // Artikelinhalt (Rich-Text-Editor)
+    content: fields.markdoc({
+        label: 'Artikelinhalt',
+        options: {
+            heading: [2, 3, 4],
+            bold: true,
+            italic: true,
+            link: true,
+            blockquote: true,
+            orderedList: true,
+            unorderedList: true,
+            code: true,
+            codeBlock: true,
+            table: true,
+            image: {
+                directory: 'public/images/blog',
+                publicPath: '/images/blog/',
+            },
+        },
+    }),
+
+    // SEO
+    metaTitle: fields.text({ label: 'SEO: Meta-Titel' }),
+    metaDescription: fields.text({ 
+        label: 'SEO: Meta-Beschreibung',
+        multiline: true,
+    }),
+}
+```
+
+### 3.2 Feldtypen-Übersicht
+
+| Feldtyp | Verwendung |
+|---------|------------|
+| `fields.text()` | Einfache Textfelder |
+| `fields.text({ multiline: true })` | Mehrzeilige Textfelder |
+| `fields.select()` | Dropdown-Auswahl |
+| `fields.array()` | Listen (z.B. Tags) |
+| `fields.image()` | Bild-Upload |
+| `fields.date()` | Datumsauswahl |
+| `fields.markdoc()` | Rich-Text-Editor |
+| `fields.checkbox()` | Ja/Nein-Auswahl |
+| `fields.integer()` | Ganzzahlen |
+
+---
+
+## 4. Dateistruktur für Blog-Artikel
+
+### 4.1 So speichert Keystatic die Daten
+
+Mit `entryLayout: 'content'` erstellt Keystatic folgende Struktur:
+
+```
+content/blog/
+├── mein-artikel.json           # Metadaten (Titel, Kategorie, etc.)
+└── mein-artikel/
+    └── content.mdoc            # Artikelinhalt (Markdoc)
+```
+
+### 4.2 Beispiel: mein-artikel.json
+
+```json
+{
+  "title": "Mein erster Artikel",
+  "excerpt": "Eine kurze Beschreibung des Artikels.",
+  "category": "it-wissen",
+  "keywords": ["Keyword 1", "Keyword 2"],
+  "featuredImage": "/images/blog/mein-artikel/titelbild.png",
+  "publishDate": "2026-01-22",
+  "readingTime": "5 Min.",
+  "metaTitle": "Mein Artikel | Meine Website",
+  "metaDescription": "SEO-Beschreibung hier."
+}
+```
+
+### 4.3 Beispiel: mein-artikel/content.mdoc
+
+```markdown
+## Einleitung
+
+Hier beginnt der **Artikelinhalt** mit Markdoc-Formatierung.
+
+### Unterüberschrift
+
+- Aufzählung 1
+- Aufzählung 2
+
+1. Nummerierte Liste
+2. Zweiter Punkt
+
+Ein [Link](https://example.com) im Text.
+```
+
+---
+
+## 5. CMS-Route einrichten (Next.js App Router)
+
+### 5.1 Route Groups verwenden
+
+Um das CMS vom Website-Layout zu trennen, verwende Route Groups:
+
+```
+src/app/
+├── (keystatic)/              # CMS ohne Website-Layout
+│   └── keystatic/
+│       └── [[...params]]/
+│           └── page.tsx
+├── (website)/                # Website mit Header/Footer
+│   ├── layout.tsx
+│   └── blog/
+│       └── [slug]/
+│           └── page.tsx
+└── layout.tsx                # Root Layout (minimal)
+```
+
+### 5.2 Datei: src/app/(keystatic)/keystatic/[[...params]]/page.tsx
+
+```typescript
+import { makePage } from '@keystatic/next/ui/app';
+import keystaticConfig from '../../../../../keystatic.config';
+
+export default makePage(keystaticConfig);
+```
+
+### 5.3 Root Layout anpassen
+
+Das Root Layout (`src/app/layout.tsx`) sollte minimal sein:
+
+```typescript
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <html lang="de">
+            <body>{children}</body>
+        </html>
+    );
+}
+```
+
+Header und Footer gehören in `src/app/(website)/layout.tsx`.
+
+---
+
+## 6. Blog-Daten im Frontend laden
+
+### 6.1 Utility-Funktion: src/lib/blog.ts
+
+```typescript
+import fs from 'fs';
+import path from 'path';
+
+export interface BlogPost {
+    slug: string;
+    title: string;
+    excerpt: string;
+    content: string;
+    date: string;
+    category: string;
+    keywords: string[];
+    readingTime: string;
+    featuredImage?: string;
+}
+
+// Markdoc-Inhalt aus Datei lesen
+function readContent(slug: string): string {
+    const mdocPath = path.join(
+        process.cwd(), 
+        'content', 'blog', slug, 'content.mdoc'
+    );
+    if (fs.existsSync(mdocPath)) {
+        return fs.readFileSync(mdocPath, 'utf-8');
+    }
+    return '';
+}
+
+// Alle Blog-Posts laden
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+    const blogDir = path.join(process.cwd(), 'content', 'blog');
+    const files = fs.readdirSync(blogDir);
+    
+    const posts: BlogPost[] = [];
+    
+    for (const file of files) {
+        if (file.endsWith('.json')) {
+            const slug = file.replace('.json', '');
+            const jsonPath = path.join(blogDir, file);
+            const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+            
+            posts.push({
+                slug,
+                title: data.title,
+                excerpt: data.excerpt,
+                content: readContent(slug),
+                date: data.publishDate,
+                category: data.category,
+                keywords: data.keywords || [],
+                readingTime: data.readingTime,
+                featuredImage: data.featuredImage,
+            });
+        }
+    }
+    
+    // Nach Datum sortieren (neueste zuerst)
+    return posts.sort((a, b) => 
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+}
+
+// Einzelnen Post laden
+export async function getBlogPost(slug: string): Promise<BlogPost | null> {
+    const posts = await getAllBlogPosts();
+    return posts.find(p => p.slug === slug) || null;
+}
+```
+
+### 6.2 In der Blog-Seite verwenden
+
+```typescript
+// src/app/(website)/blog/[slug]/page.tsx
+import { getBlogPost, getAllBlogPosts } from '@/lib/blog';
+import { notFound } from 'next/navigation';
+import { MarkdownRenderer } from '@/components/ui/MarkdownRenderer';
+
+export async function generateStaticParams() {
+    const posts = await getAllBlogPosts();
+    return posts.map(post => ({ slug: post.slug }));
+}
+
+export default async function BlogPostPage({ 
+    params 
+}: { 
+    params: Promise<{ slug: string }> 
+}) {
+    const { slug } = await params;
+    const post = await getBlogPost(slug);
+
+    if (!post) {
+        notFound();
+    }
+
+    return (
+        <article>
+            <h1>{post.title}</h1>
+            <MarkdownRenderer content={post.content} />
+        </article>
+    );
+}
+```
+
+---
+
+## 7. Markdown/Markdoc rendern
+
+### 7.1 Komponente: src/components/ui/MarkdownRenderer.tsx
+
+```typescript
+"use client";
+
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkHtml from 'remark-html';
+
+interface Props {
+    content: string;
+}
+
+export function MarkdownRenderer({ content }: Props) {
+    const html = unified()
+        .use(remarkParse)
+        .use(remarkHtml)
+        .processSync(content)
+        .toString();
+
+    return (
+        <div 
+            className="prose prose-lg max-w-none"
+            dangerouslySetInnerHTML={{ __html: html }}
+        />
+    );
+}
+```
+
+### 7.2 Pakete installieren
+
+```bash
+npm install unified remark-parse remark-html
+```
+
+---
+
+## 8. Häufige Probleme & Lösungen
+
+### Problem: Collection zeigt keine Einträge
+
+**Ursache:** Falsche Dateistruktur.
+
+**Lösung:** Mit `entryLayout: 'content'` muss die Struktur so sein:
+
+```
+content/blog/
+├── artikel-slug.json           # JSON im Hauptordner
+└── artikel-slug/
+    └── content.mdoc            # Markdoc im Unterordner
+```
+
+NICHT so:
+
+```
+content/blog/
+└── artikel-slug/
+    ├── index.json              # FALSCH!
+    └── content.mdoc
+```
+
+### Problem: Bilder werden nicht angezeigt
+
+**Ursache:** Falscher `publicPath`.
+
+**Lösung:** `directory` und `publicPath` müssen zusammenpassen:
+
+```typescript
+featuredImage: fields.image({
+    directory: 'public/images/blog',  // Wo gespeichert wird
+    publicPath: '/images/blog/',      // URL-Pfad (ohne 'public')
+}),
+```
+
+### Problem: CMS hat Website-Layout
+
+**Ursache:** Keystatic-Route nicht in eigener Route Group.
+
+**Lösung:** Route Groups verwenden:
+
+```
+src/app/
+├── (keystatic)/    # Ohne Layout
+└── (website)/      # Mit Header/Footer
+```
+
+---
+
+## 9. Checkliste für neue Blog-Artikel
+
+1. Im CMS unter `/keystatic` einloggen
+2. "Blog Artikel" → "Neuer Eintrag"
+3. Alle Pflichtfelder ausfüllen:
+   - Titel (H1)
+   - Kurzbeschreibung
+   - Kategorie wählen
+4. Optional:
+   - Titelbild hochladen
+   - Schlagwörter hinzufügen
+   - SEO-Felder ausfüllen
+5. Artikelinhalt im Rich-Text-Editor schreiben
+6. "Speichern" klicken
+7. Website neu laden – Artikel erscheint automatisch
+
+---
+
+## 10. Zusammenfassung
+
+| Komponente | Datei/Ort |
+|------------|-----------|
+| Keystatic Config | `keystatic.config.ts` |
+| CMS-Route | `src/app/(keystatic)/keystatic/[[...params]]/page.tsx` |
+| Blog-Inhalte | `content/blog/[slug].json` + `content/blog/[slug]/content.mdoc` |
+| Daten laden | `src/lib/blog.ts` |
+| Markdown rendern | `src/components/ui/MarkdownRenderer.tsx` |
+| Blog-Seite | `src/app/(website)/blog/[slug]/page.tsx` |
+
+**Wichtigste Erkenntnisse:**
+
+1. `entryLayout: 'content'` aktiviert Ordnerstruktur für Rich-Text
+2. JSON-Datei im Hauptordner, Markdoc in Unterordner
+3. Route Groups trennen CMS vom Website-Layout
+4. Bilder: `directory` = Speicherort, `publicPath` = URL

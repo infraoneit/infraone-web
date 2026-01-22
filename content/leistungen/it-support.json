@@ -1,0 +1,144 @@
+{
+  "heroSection": {
+    "categoryLabel": "IT-SUPPORT & COMPUTERHILFE",
+    "headline": "Informatik-Support",
+    "subheadline": "Sofort. Schweizweit.",
+    "description": "Schnelle IT-Hilfe für KMU & Private – per Telefon, Remote oder vor Ort. Transparente Preise, persönlicher Kontakt, keine Warteschleifen.",
+    "primaryButtonText": "052 222 18 18",
+    "primaryButtonHref": "tel:+41522221818",
+    "secondaryButtonText": "Remote-Support starten",
+    "secondaryButtonAction": "download",
+    "secondaryButtonUrl": "https://anydesk.com/de/downloads/thank-you?dv=win_exe",
+    "secondaryButtonFile": "/downloads/heroSection/secondaryButtonFile.zip",
+    "secondaryButtonFileName": "infraone-remote-support"
+  },
+  "pricingSection": {
+    "sectionTitle": "IT-Support Preise & Leistungen",
+    "sectionSubtitle": "Transparente Preise ohne versteckte Kosten. Abrechnung im 15-Minuten-Takt.",
+    "gridColumns": "4",
+    "priceCards": [
+      {
+        "title": "Telefonischer Support",
+        "description": "Sofortige Problemlösung durch zertifizierte Techniker.",
+        "price": "CHF 120.–/h",
+        "icon": "phone"
+      },
+      {
+        "title": "Remote Support",
+        "description": "90% aller Probleme lösen wir innert Minuten – die schnellste Methode.",
+        "price": "CHF 120.–/h",
+        "icon": "monitor"
+      },
+      {
+        "title": "Vor-Ort-Support",
+        "description": "Persönliche Betreuung vor Ort in Ihrer Region. Seriös, klar, effizient.",
+        "price": "CHF 157.–/h",
+        "icon": "mappin"
+      },
+      {
+        "title": "KMU-IT-Support",
+        "description": "Unterstützung für interne IT, SLA-Modelle, Stellvertretung, Netzwerk-Fehlerbehebung.",
+        "price": "Auf Anfrage",
+        "icon": "users"
+      }
+    ],
+    "travelCosts": {
+      "freeRegions": "Winterthur & Andelfingen",
+      "freeRegionsNote": "Keine Anfahrtskosten",
+      "otherRegions": "Übrige Regionen",
+      "otherRegionsPrice": "CHF 2.00/km (ab Winterthur)"
+    },
+    "supportHours": {
+      "regularLabel": "Regulär: Mo–Fr 08:00–17:00",
+      "regularNote": "Normaltarif",
+      "extendedLabel": "Erweitert: bis 23:00 Uhr",
+      "extendedNote": "+50% Zuschlag, Best-Effort",
+      "slaNote": "24/7-Verfügbarkeit nur mit aktivem SLA-Vertrag möglich."
+    }
+  },
+  "regionsSection": {
+    "sectionTitle": "IT-Support in Ihrer Region",
+    "sectionSubtitle": "Vor-Ort-Einsätze in der Ostschweiz – Remote-Support schweizweit.",
+    "regions": [
+      {
+        "name": "IT-Support Winterthur",
+        "slug": "winterthur",
+        "description": "Hauptstandort. Vor Ort innert kurzer Zeit. Anfahrt kostenlos.",
+        "isFree": true
+      },
+      {
+        "name": "IT-Support Zürich",
+        "slug": "zuerich",
+        "description": "Vor-Ort-Einsätze meist am selben Tag. Remote-Support jederzeit.",
+        "isFree": false
+      },
+      {
+        "name": "IT-Support Schaffhausen",
+        "slug": "schaffhausen",
+        "description": "Vor-Ort-Einsätze in der Region Schaffhausen. Anfahrt kostenlos.",
+        "isFree": true
+      },
+      {
+        "name": "IT-Support Thurgau",
+        "slug": "thurgau",
+        "description": "Betreuung für Industrie, Gewerbe und Verwaltungen im Thurgau.",
+        "isFree": false
+      },
+      {
+        "name": "IT-Support St. Gallen",
+        "slug": "st-gallen",
+        "description": "Vor-Ort-Einsätze in der Ostschweiz meist am selben Tag.",
+        "isFree": false
+      },
+      {
+        "name": "IT-Support Andelfingen",
+        "slug": "andelfingen",
+        "description": "Standort Kleinandelfingen. Anfahrt kostenlos.",
+        "isFree": true
+      }
+    ]
+  },
+  "faqsSection": {
+    "sectionTitle": "Häufige Fragen",
+    "sectionSubtitle": "Antworten auf die wichtigsten Fragen zu unserem Support.",
+    "faqs": [
+      {
+        "question": "Wie schnell können Sie helfen?",
+        "answer": "Remote-Support ist meist innert 15 Minuten verfügbar. Vor-Ort-Einsätze planen wir nach Dringlichkeit – bei Notfällen oft noch am gleichen Tag."
+      },
+      {
+        "question": "Was kostet der IT-Support?",
+        "answer": "Remote-Support: CHF 120.–/h. Vor-Ort-Support: CHF 157.–/h. Im Raum Winterthur keine Anfahrtskosten, in anderen Regionen faire Pauschalen."
+      },
+      {
+        "question": "Betreuen Sie auch Privatpersonen?",
+        "answer": "Ja! Wir helfen sowohl KMU als auch Privatpersonen bei allen IT-Problemen – vom langsamen PC bis zum Virenbefall."
+      },
+      {
+        "question": "Wie läuft Remote-Support ab?",
+        "answer": "Sie laden eine kleine Software herunter (AnyDesk), teilen uns den Code mit, und wir können Ihren Bildschirm sehen und Probleme direkt beheben."
+      },
+      {
+        "question": "Muss ich einen Vertrag abschliessen?",
+        "answer": "Nein, Sie können unseren Support auch ohne Vertrag nutzen. Für regelmässige Betreuung bieten wir optional SLA-Verträge mit garantierten Reaktionszeiten."
+      }
+    ]
+  },
+  "ctaSection": {
+    "headline": "IT-Notfall? Wir sind erreichbar.",
+    "subtitle": "Telefon oder WhatsApp – sofortige Hilfe für dringende IT-Probleme.",
+    "emergencyPhone": "076 587 50 55",
+    "emergencyPhoneLink": "tel:+41765875055",
+    "whatsappLabel": "WhatsApp öffnen",
+    "whatsappLink": "https://wa.me/41765875055"
+  },
+  "seoSection": {
+    "metaTitle": "IT-Support Schweiz – Schnelle Hilfe für KMU & Privat | InfraOne",
+    "metaDescription": "Professioneller IT-Support in der Deutschschweiz. Remote-Hilfe innert Minuten, Vor-Ort-Service. Faire Preise, persönliche Betreuung. Jetzt anfragen!"
+  },
+  "structuredDataSection": {
+    "schemaType": "ProfessionalService",
+    "areaServed": ["Schweiz", "Winterthur", "Zürich", "Schaffhausen", "Thurgau", "St. Gallen"],
+    "includeFaqSchema": true
+  }
+}
