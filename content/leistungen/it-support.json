@@ -138,7 +138,7 @@
   },
   "structuredDataSection": {
     "schemaType": "ProfessionalService",
-    "areaServed": ["Schweiz", "Winterthur", "Zürich", "Schaffhausen", "Thurgau", "St. Gallen"],
+    "areaServed": ["Schweiz", "Winterthur", "Zuerich", "Schaffhausen", "Thurgau", "St. Gallen"],
     "includeFaqSchema": true
   }
 }

@@ -100,10 +100,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
-}
+/* Smooth Scrolling entfernt - verursacht Scroll-Animation bei Seitenwechsel */
 
 /* Selection */
 ::selection {

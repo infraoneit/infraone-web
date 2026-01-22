@@ -1,12 +1,37 @@
+import dynamic from 'next/dynamic';
 import { HeroSection } from '@/components/sections/HeroSection';
-import { AdvantagesSection } from '@/components/sections/AdvantagesSection';
-import { ServicesSection } from '@/components/sections/ServicesSection';
-import { PartnerSlider } from '@/components/sections/PartnerSlider';
-import { PromoSection } from '@/components/sections/PromoSection';
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
-import { ContactSection } from '@/components/sections/ContactSection';
-
 import { generateWebSiteSchema, generateMainBusinessSchema } from '@/lib/seo/schema';
+
+// Lazy Loading fuer Below-the-fold Sections (reduziert initiales Bundle)
+const AdvantagesSection = dynamic(
+  () => import('@/components/sections/AdvantagesSection').then(mod => ({ default: mod.AdvantagesSection })),
+  { ssr: true }
+);
+
+const PartnerSlider = dynamic(
+  () => import('@/components/sections/PartnerSlider').then(mod => ({ default: mod.PartnerSlider })),
+  { ssr: true }
+);
+
+const ServicesSection = dynamic(
+  () => import('@/components/sections/ServicesSection').then(mod => ({ default: mod.ServicesSection })),
+  { ssr: true }
+);
+
+const PromoSection = dynamic(
+  () => import('@/components/sections/PromoSection').then(mod => ({ default: mod.PromoSection })),
+  { ssr: true }
+);
+
+const TestimonialsSection = dynamic(
+  () => import('@/components/sections/TestimonialsSection').then(mod => ({ default: mod.TestimonialsSection })),
+  { ssr: true }
+);
+
+const ContactSection = dynamic(
+  () => import('@/components/sections/ContactSection').then(mod => ({ default: mod.ContactSection })),
+  { ssr: true }
+);
 
 export default function HomePage() {
   const websiteSchema = generateWebSiteSchema();
@@ -22,25 +47,15 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(mainBusinessSchema) }}
       />
-      {/* Hero Section */}
+      {/* Hero Section - sofort laden (above the fold) */}
       <HeroSection />
 
-      {/* Why InfraOne */}
+      {/* Below-the-fold Sections - lazy loaded */}
       <AdvantagesSection />
-
-      {/* Partner Slider */}
       <PartnerSlider />
-
-      {/* Services Grid */}
       <ServicesSection />
-
-      {/* Promo Banner */}
       <PromoSection />
-
-      {/* Testimonials */}
       <TestimonialsSection />
-
-      {/* Contact */}
       <ContactSection />
     </>
   );

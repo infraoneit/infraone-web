@@ -518,29 +518,29 @@ src/app/
 
 ---
 
-## 11. Singletons fÃ¼r Service-/Leistungsseiten
+## 11. Singletons für Service-/Leistungsseiten
 
-Im Gegensatz zu Collections (fÃ¼r beliebig viele EintrÃ¤ge wie Blog-Artikel) sind **Singletons** fÃ¼r einzelne, einzigartige Inhalte gedacht â€“ z.B. eine IT-Support-Hauptseite, Site-Settings oder den Footer.
+Im Gegensatz zu Collections (für beliebig viele Einträge wie Blog-Artikel) sind **Singletons** für einzelne, einzigartige Inhalte gedacht – z.B. eine IT-Support-Hauptseite, Site-Settings oder den Footer.
 
 ### 11.1 Collection vs. Singleton
 
 | Eigenschaft | Collection | Singleton |
 |------------|------------|-----------|
-| **Verwendung** | Viele gleichartige EintrÃ¤ge | Einzelne, einzigartige Seite |
+| **Verwendung** | Viele gleichartige Einträge | Einzelne, einzigartige Seite |
 | **Beispiele** | Blog-Artikel, Testimonials, Team | IT-Support-Seite, Footer, Settings |
 | **Datei-Struktur** | `content/blog/*.json` | `content/leistungen/it-support.json` |
 | **Import** | `collection()` | `singleton()` |
 
 ### 11.2 Singleton in keystatic.config.ts definieren
 
-`	ypescript
+```typescript
 import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
     // ...
     singletons: {
         itSupport: singleton({
-            label: 'Leistungen â†’ IT-Support',  // Name im CMS
+            label: 'Leistungen → IT-Support',  // Name im CMS
             path: 'content/leistungen/it-support',  // Speicherort
             format: { data: 'json' },  // Dateiformat
             schema: {
@@ -550,25 +550,25 @@ export default config({
     },
     // ...
 });
-`
+```
 
 ---
 
 ## 12. Schema-Design mit logischen Gruppen
 
-FÃ¼r Ã¼bersichtliche Eingabemasken gruppiere zusammengehÃ¶rige Felder mit `fields.object()`.
+Für übersichtliche Eingabemasken gruppiere zusammengehörige Felder mit `fields.object()`.
 
 ### 12.1 Grundstruktur mit Sections
 
-`	ypescript
+```typescript
 schema: {
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    // ðŸ“Œ SECTION: HERO-BEREICH
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    // ═══════════════════════════════════════════════════════════
+    // 📌 SECTION: HERO-BEREICH
+    // ═══════════════════════════════════════════════════════════
     heroSection: fields.object({
         headline: fields.text({
-            label: 'Ãœberschrift (H1)',
-            description: 'HauptÃ¼berschrift der Seite',
+            label: 'Überschrift (H1)',
+            description: 'Hauptüberschrift der Seite',
             validation: { isRequired: true },
         }),
         subheadline: fields.text({
@@ -585,32 +585,32 @@ schema: {
             publicPath: '/images/leistungen/',
         }),
     }, {
-        label: 'ðŸ“Œ HERO-BEREICH',
+        label: '📌 HERO-BEREICH',
         description: 'Der oberste Bereich der Seite',
     }),
 
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    // ðŸ’° SECTION: PREISE
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    // ═══════════════════════════════════════════════════════════
+    // 💰 SECTION: PREISE
+    // ═══════════════════════════════════════════════════════════
     pricingSection: fields.object({
         // ... weitere Felder
     }, {
-        label: 'ðŸ’° PREISE & LEISTUNGEN',
+        label: '💰 PREISE & LEISTUNGEN',
     }),
 }
-`
+```
 
 ### 12.2 Warum Emojis in Labels?
 
 Emojis machen die CMS-Navigation intuitiver:
 
-- ðŸ“Œ = Hero/Header
-- ðŸ’° = Preise/Kosten
-- ðŸ“ = Regionen/Standorte
-- â“ = FAQs
-- ðŸš¨ = Call-to-Action/Notfall
-- ðŸ” = SEO
-- âš™ï¸ = Technische Einstellungen
+- 📌 = Hero/Header
+- 💰 = Preise/Kosten
+- 📍 = Regionen/Standorte
+- ❓ = FAQs
+- 🚨 = Call-to-Action/Notfall
+- 🔍 = SEO
+- ⚙️ = Technische Einstellungen
 
 ---
 
@@ -618,7 +618,7 @@ Emojis machen die CMS-Navigation intuitiver:
 
 ### 13.1 Select (Dropdown)
 
-`	ypescript
+```typescript
 gridColumns: fields.select({
     label: 'Kacheln pro Reihe',
     description: 'Layout der Preis-Karten',
@@ -629,37 +629,37 @@ gridColumns: fields.select({
     ],
     defaultValue: '4',
 }),
-`
+```
 
 ### 13.2 Multiselect (Mehrfachauswahl)
 
-`	ypescript
+```typescript
 areaServed: fields.multiselect({
     label: 'Bediente Regionen',
     description: 'In welchen Regionen wird angeboten?',
     options: [
         { label: 'Schweiz (ganze)', value: 'Schweiz' },
         { label: 'Winterthur', value: 'Winterthur' },
-        { label: 'ZÃ¼rich', value: 'ZÃ¼rich' },
+        { label: 'Zürich', value: 'Zürich' },
         // ... weitere
     ],
-    defaultValue: ['Schweiz', 'Winterthur', 'ZÃ¼rich'],
+    defaultValue: ['Schweiz', 'Winterthur', 'Zürich'],
 }),
-`
+```
 
 ### 13.3 Checkbox
 
-`	ypescript
+```typescript
 includeFaqSchema: fields.checkbox({
     label: 'FAQ Schema generieren',
     description: 'FAQs als Structured Data ausgeben?',
     defaultValue: true,
 }),
-`
+```
 
-### 13.4 Array mit Objekten (fÃ¼r Listen)
+### 13.4 Array mit Objekten (für Listen)
 
-`	ypescript
+```typescript
 priceCards: fields.array(
     fields.object({
         title: fields.text({ label: 'Titel' }),
@@ -668,9 +668,9 @@ priceCards: fields.array(
         icon: fields.select({
             label: 'Icon',
             options: [
-                { label: 'ðŸ“ž Telefon', value: 'phone' },
-                { label: 'ðŸ–¥ï¸ Monitor', value: 'monitor' },
-                { label: 'ðŸ“ Pin', value: 'mappin' },
+                { label: '📞 Telefon', value: 'phone' },
+                { label: '🖥️ Monitor', value: 'monitor' },
+                { label: '📍 Pin', value: 'mappin' },
                 // ... weitere Icons
             ],
             defaultValue: 'phone',
@@ -678,15 +678,15 @@ priceCards: fields.array(
     }),
     {
         label: 'Preis-Karten',
-        description: 'Beliebig viele Karten hinzufÃ¼gen',
+        description: 'Beliebig viele Karten hinzufügen',
         itemLabel: props => props.fields.title.value || 'Neue Karte',
     }
 ),
-`
+```
 
-### 13.5 File Upload (fÃ¼r Downloads)
+### 13.5 File Upload (für Downloads)
 
-`	ypescript
+```typescript
 downloadFile: fields.file({
     label: 'Download-Datei',
     description: 'ZIP, EXE, PDF etc.',
@@ -697,7 +697,7 @@ downloadFileName: fields.text({
     label: 'Download-Dateiname',
     description: 'Wie soll die Datei beim Download heissen?',
 }),
-`
+```
 
 ---
 
@@ -705,7 +705,7 @@ downloadFileName: fields.text({
 
 ### 14.1 Schema-Definition
 
-`	ypescript
+```typescript
 secondaryButtonText: fields.text({
     label: 'Button Text',
     defaultValue: 'Remote-Support starten',
@@ -713,17 +713,17 @@ secondaryButtonText: fields.text({
 secondaryButtonAction: fields.select({
     label: 'Button Aktion',
     options: [
-        { label: 'ðŸ”— Link Ã¶ffnen', value: 'link' },
-        { label: 'ðŸ“¥ Datei herunterladen', value: 'download' },
+        { label: '🔗 Link öffnen', value: 'link' },
+        { label: '📥 Datei herunterladen', value: 'download' },
     ],
     defaultValue: 'link',
 }),
 secondaryButtonUrl: fields.text({
-    label: 'URL (fÃ¼r Link)',
+    label: 'URL (für Link)',
     description: 'z.B. "/kontakt" oder "https://example.com"',
 }),
 secondaryButtonFile: fields.file({
-    label: 'Datei (fÃ¼r Download)',
+    label: 'Datei (für Download)',
     directory: 'public/downloads',
     publicPath: '/downloads/',
 }),
@@ -731,11 +731,11 @@ secondaryButtonFileName: fields.text({
     label: 'Download-Dateiname',
     description: 'z.B. "AnyDesk.exe"',
 }),
-`
+```
 
 ### 14.2 Frontend-Implementierung
 
-`	ypescript
+```typescript
 // Daten aus CMS
 const isDownload = heroSection.secondaryButtonAction === 'download';
 const buttonHref = isDownload 
@@ -754,7 +754,7 @@ const downloadFileName = heroSection.secondaryButtonFileName;
     {isDownload ? <DownloadIcon /> : <LinkIcon />}
     {heroSection.secondaryButtonText}
 </a>
-`
+```
 
 ---
 
@@ -762,7 +762,7 @@ const downloadFileName = heroSection.secondaryButtonFileName;
 
 ### 15.1 Icon-Map definieren
 
-`	ypescript
+```typescript
 import { 
     Phone, Monitor, MapPin, Users, Shield, Cloud, 
     Wrench, Zap, Headphones, Globe, Mail, Server, 
@@ -792,11 +792,11 @@ const iconMap: Record<string, React.ReactNode> = {
     printer: <Printer className="w-8 h-8" />,
     wifi: <Wifi className="w-8 h-8" />,
 };
-`
+```
 
 ### 15.2 Icon aus CMS-Daten rendern
 
-`	ypescript
+```typescript
 {priceCards.map((card, index) => (
     <div key={index}>
         {iconMap[card.icon] || <Monitor className="w-8 h-8" />}
@@ -805,7 +805,7 @@ const iconMap: Record<string, React.ReactNode> = {
         <p>{card.price}</p>
     </div>
 ))}
-`
+```
 
 ---
 
@@ -813,23 +813,23 @@ const iconMap: Record<string, React.ReactNode> = {
 
 ### 16.1 Grid-Spalten-Mapping
 
-`	ypescript
+```typescript
 const gridColumnsMap: Record<string, string> = {
     '2': 'md:grid-cols-2 lg:grid-cols-2',
     '3': 'md:grid-cols-2 lg:grid-cols-3',
     '4': 'md:grid-cols-2 lg:grid-cols-4',
 };
-`
+```
 
 ### 16.2 Verwendung im JSX
 
-`	ypescript
-<div className={`grid `` gap-6`}>
+```typescript
+<div className={`grid ${gridColumnsMap[pricingSection.gridColumns || '4']} gap-6`}>
     {pricingSection.priceCards.map((card, index) => (
         // Karten hier...
     ))}
 </div>
-`
+```
 
 ---
 
@@ -837,7 +837,7 @@ const gridColumnsMap: Record<string, string> = {
 
 ### 17.1 Utility-Funktion: src/lib/leistungen.ts
 
-`	ypescript
+```typescript
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
 
@@ -862,11 +862,11 @@ export async function getITSupportData() {
         return null;
     }
 }
-`
+```
 
 ### 17.2 In der Page-Komponente verwenden
 
-`	ypescript
+```typescript
 // src/app/(website)/it-support/page.tsx
 import { getITSupportData } from '@/lib/leistungen';
 
@@ -889,7 +889,7 @@ export default async function ITSupportPage() {
         </>
     );
 }
-`
+```
 
 ---
 
@@ -897,7 +897,7 @@ export default async function ITSupportPage() {
 
 ### 18.1 Schema.org Helper-Funktionen
 
-`	ypescript
+```typescript
 // src/lib/seo/schema.ts
 
 export function generateProfessionalServiceSchema(
@@ -933,11 +933,11 @@ export function generateFAQSchema(faqs: { question: string; answer: string }[]) 
         })),
     };
 }
-`
+```
 
 ### 18.2 Im Page verwenden
 
-`	ypescript
+```typescript
 // Daten aus CMS
 const structuredData = cmsData?.structuredDataSection ?? {
     schemaType: 'ProfessionalService',
@@ -970,23 +970,23 @@ return (
         {/* Page content... */}
     </>
 );
-`
+```
 
 ---
 
-## 19. VollstÃ¤ndiges Beispiel: IT-Support Singleton
+## 19. Vollständiges Beispiel: IT-Support Singleton
 
 ### 19.1 Dateistruktur
 
-`
+```
 content/
-â””â”€â”€ leistungen/
-    â””â”€â”€ it-support.json    # Alle Daten in einer JSON-Datei
-`
+└── leistungen/
+    └── it-support.json    # Alle Daten in einer JSON-Datei
+```
 
 ### 19.2 Beispiel-JSON (it-support.json)
 
-`json
+```json
 {
   "heroSection": {
     "categoryLabel": "IT-SUPPORT & COMPUTERHILFE",
@@ -1007,13 +1007,13 @@ content/
       {
         "title": "Telefonischer Support",
         "description": "Schnelle Hilfe...",
-        "price": "CHF 120.â€“/h",
+        "price": "CHF 120.–/h",
         "icon": "phone"
       }
     ]
   },
   "faqsSection": {
-    "sectionTitle": "HÃ¤ufige Fragen",
+    "sectionTitle": "Häufige Fragen",
     "faqs": [
       {
         "question": "Wie schnell erhalte ich Hilfe?",
@@ -1027,36 +1027,36 @@ content/
   },
   "structuredDataSection": {
     "schemaType": "ProfessionalService",
-    "areaServed": ["Schweiz", "Winterthur", "ZÃ¼rich"],
+    "areaServed": ["Schweiz", "Winterthur", "Zürich"],
     "includeFaqSchema": true
   }
 }
-`
+```
 
 ---
 
 ## 20. Checkliste: Neues Singleton erstellen
 
 1. **keystatic.config.ts**
-   - [ ] Singleton unter `singletons: {}` definieren
-   - [ ] Label und Path setzen
-   - [ ] Schema mit logischen Gruppen (`fields.object`) strukturieren
-   - [ ] Emojis in Labels fÃ¼r bessere Navigation
+   - Singleton unter `singletons: {}` definieren
+   - Label und Path setzen
+   - Schema mit logischen Gruppen (`fields.object`) strukturieren
+   - Emojis in Labels für bessere Navigation
 
 2. **Utility-Funktion erstellen (src/lib/)**
-   - [ ] `getXYZData()` Funktion mit Keystatic Reader
-   - [ ] Error-Handling implementieren
+   - `getXYZData()` Funktion mit Keystatic Reader
+   - Error-Handling implementieren
 
 3. **Page-Komponente anpassen**
-   - [ ] Daten mit `await getXYZData()` laden
-   - [ ] Fallback-Daten definieren
-   - [ ] Dynamisch rendern
+   - Daten mit `await getXYZData()` laden
+   - Fallback-Daten definieren
+   - Dynamisch rendern
 
 4. **Optionale Erweiterungen**
-   - [ ] Icon-Mapping fÃ¼r Select-Felder
-   - [ ] Grid-Layout-Steuerung
-   - [ ] Button-Aktionen (Link/Download)
-   - [ ] Structured Data Integration
+   - Icon-Mapping für Select-Felder
+   - Grid-Layout-Steuerung
+   - Button-Aktionen (Link/Download)
+   - Structured Data Integration
 
 ---
 
@@ -1067,8 +1067,8 @@ content/
 | **Zweck** | Viele Artikel | Eine Seite |
 | **Speicherung** | `content/blog/*.json` | `content/leistungen/it-support.json` |
 | **Content-Datei** | Separater Ordner mit content.mdoc | Alles in einer JSON |
-| **entryLayout** | `'content'` (fÃ¼r Markdoc) | Nicht benÃ¶tigt |
+| **entryLayout** | `'content'` (für Markdoc) | Nicht benötigt |
 | **Laden** | `getAllBlogPosts()` | `getITSupportData()` |
 | **Reader-Aufruf** | `reader.collections.blog.all()` | `reader.singletons.itSupport.read()` |
 
-**Wichtig:** Singletons haben KEINEN `entryLayout: 'content'` â€“ alle Daten liegen in einer JSON-Datei.
+**Wichtig:** Singletons haben KEINEN `entryLayout: 'content'` – alle Daten liegen in einer JSON-Datei.

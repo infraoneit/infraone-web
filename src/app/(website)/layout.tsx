@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css";
+import "@/app/globals.css";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -9,11 +9,15 @@ import { generateOrganizationSchema } from "@/lib/seo/schema";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -21,18 +25,18 @@ export const metadata: Metadata = {
     default: "InfraOne IT Solutions | IT-Support, Webdesign & Telefonie in Winterthur",
     template: "%s | InfraOne IT Solutions"
   },
-  description: "IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur, Schaffhausen & Zürich. Ihr Informatiker für KMU & Privatkunden. 20% Neukunden-Rabatt!",
+  description: "IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur, Schaffhausen & Zuerich. Ihr Informatiker fuer KMU & Privatkunden. 20% Neukunden-Rabatt!",
   keywords: [
     "IT Support Winterthur",
     "Webdesign Winterthur",
     "Cloud Telefonanlage Schweiz",
     "Informatiker Winterthur",
-    "IT Dienstleister Zürich",
+    "IT Dienstleister Zuerich",
     "VoIP Schweiz",
     "Netzwerk Infrastruktur",
     "3CX Telefonie",
     "peoplefone",
-    "Videoüberwachung",
+    "Videoueberwachung",
   ],
   authors: [{ name: "InfraOne IT Solutions GmbH" }],
   creator: "InfraOne IT Solutions GmbH",
@@ -49,13 +53,13 @@ export const metadata: Metadata = {
     url: "https://www.infraone.ch",
     siteName: "InfraOne IT Solutions",
     title: "InfraOne IT Solutions | IT-Support, Webdesign & Telefonie",
-    description: "Digitale Lösungen für KMU & Privatpersonen – IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur.",
+    description: "Digitale Loesungen fuer KMU & Privatpersonen - IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur.",
     images: [
       {
         url: "/images/infraone-og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "InfraOne IT Solutions – Telefonie, IT Security, Server Systeme, Microsoft, Firewall, Netzwerk, Cloud, Automatisierung",
+        alt: "InfraOne IT Solutions - Telefonie, IT Security, Server Systeme, Microsoft, Firewall, Netzwerk, Cloud, Automatisierung",
       },
     ],
   },

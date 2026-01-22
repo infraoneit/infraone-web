@@ -1,4 +1,4 @@
-﻿import { blogPosts, BlogPost } from '@/data/blogPosts';
+import { blogPosts, BlogPost } from '@/data/blogPosts';
 import fs from 'fs';
 import path from 'path';
 
@@ -10,13 +10,13 @@ async function getReader() {
 }
 
 /**
- * Kategorie-Mapping fuer schoene Anzeige
+ * Kategorie-Mapping für schöne Anzeige
  */
 const categoryDisplayNames: Record<string, string> = {
     'it-wissen': 'IT-Wissen',
     'telefonie': 'Telefonie',
     'netzwerke': 'Netzwerke',
-    'gebaeudeautomation': 'Gebaeudeautomation',
+    'gebaeudeautomation': 'Gebäudeautomation',
     'webdesign': 'Webdesign',
     'kontrollraum': 'Kontrollraum',
 };
@@ -71,7 +71,7 @@ async function processContent(content: any, slug: string): Promise<string> {
 }
 
 /**
- * Laedt alle Blog-Posts aus beiden Quellen (statisch + Keystatic)
+ * Lädt alle Blog-Posts aus beiden Quellen (statisch + Keystatic)
  * Sortiert nach Datum (neueste zuerst)
  */
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
@@ -117,7 +117,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
                 featuredImage: featuredImageUrl,
             };
             
-            // Nur hinzufuegen wenn nicht bereits als statischer Post vorhanden
+            // Nur hinzufügen wenn nicht bereits als statischer Post vorhanden
             if (!allPosts.some(p => p.slug === blogPost.slug)) {
                 allPosts.push(blogPost);
             }
@@ -131,7 +131,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
 }
 
 /**
- * Laedt einen einzelnen Blog-Post nach Slug
+ * Lädt einen einzelnen Blog-Post nach Slug
  */
 export async function getBlogPostBySlugAsync(slug: string): Promise<BlogPost | null> {
     // Zuerst in statischen Posts suchen
@@ -185,7 +185,7 @@ export async function getBlogPostBySlugAsync(slug: string): Promise<BlogPost | n
 }
 
 /**
- * Gibt alle Blog-Slugs zurueck (fuer generateStaticParams)
+ * Gibt alle Blog-Slugs zurück (für generateStaticParams)
  */
 export async function getAllBlogSlugs(): Promise<string[]> {
     const slugs = blogPosts.map(p => p.slug);

@@ -1,0 +1,211 @@
+## Einführung
+
+Es ist passiert: Das Admin-Passwort für Ihren Windows 11-PC ist vergessen oder verloren. Vielleicht haben Sie das System mit einem lokalen Konto eingerichtet (OOBE-Bypass) und jetzt keinen Zugriff mehr. Standard-Wiederherstellungsmethoden versagen, besonders wenn BitLocker aktiv ist. Doch es gibt einen bewährten Trick, der in vielen Fällen funktioniert: der Utilman.exe-Trick.
+
+In diesem Artikel dokumentiere ich den gesamten Prozess, den ich erfolgreich auf einem Lenovo IdeaPad 5 2-in-1 mit Windows 11 und BitLocker-Verschlüsselung angewendet habe.
+
+**Hinweis:** Diese Anleitung ist ausschliesslich für Lernzwecke und die Wiederherstellung eigener Geräte gedacht.
+
+## Wann funktioniert dieser Trick?
+
+- Windows 10/11 mit lokalen Benutzerkonten
+- BitLocker kann aktiv sein (funktioniert, wenn Systempartition zugänglich)
+- Admin-Zugriff auf BIOS/UEFI vorhanden
+- Physikalischer Zugang zum Gerät
+
+## Voraussetzungen
+
+- Windows 11 Installations-USB (kostenlos via Media Creation Tool)
+- Zweiter funktionierender PC zum Erstellen des USB-Sticks
+- USB-Stick (mindestens 8 GB)
+- BIOS/UEFI-Zugang auf dem Ziel-PC (meist F2 oder F12 beim Booten)
+
+## Schritt-für-Schritt Anleitung
+
+### Phase 1: Windows 11 Installationsmedium erstellen
+
+1. Laden Sie auf einem funktionierenden PC das Media Creation Tool von Microsoft herunter
+1. Führen Sie es aus und wählen Sie "Installationsmedium für einen anderen PC erstellen"
+1. Folgen Sie den Anweisungen, um den USB-Stick zu beschreiben (ca. 20–30 Minuten)
+
+### Phase 2: Vom Installations-USB booten
+
+1. Stecken Sie den USB-Stick in den gesperrten PC
+1. Starten Sie den PC und drücken Sie sofort F12 (Boot-Menü) oder F2 (BIOS/UEFI)
+1. Wählen Sie den USB-Stick als Boot-Gerät
+
+**Wichtig:** Falls Secure Boot aktiviert ist und den Boot verhindert:
+
+- In BIOS/UEFI: Secure Boot deaktivieren
+- Boot Order anpassen (USB zuerst)
+- Änderungen speichern und neu starten
+
+### Phase 3: Windows Reparaturmodus starten
+
+1. Im Windows Setup: Sprache wählen, dann "Weiter"
+1. **Nicht** auf "Jetzt installieren" klicken!
+1. Stattdessen: "Computer reparieren" (unten links im Fenster)
+1. Navigieren Sie: "Problembehandlung" → "Erweiterte Optionen" → "Eingabeaufforderung"
+
+### Phase 4: Utilman.exe ersetzen
+
+In der geöffneten Eingabeaufforderung:
+
+```
+# 1. Prüfen, welches Laufwerk zugänglich ist
+dir c:\windows
+
+# Falls Fehler: d:, e: probieren (BitLocker kann C: blockieren)
+
+# 2. In das System32-Verzeichnis wechseln
+cd /d c:\windows\system32
+
+# 3. Originale utilman.exe sichern
+move utilman.exe utilman.exe.bak
+
+# 4. cmd.exe als utilman.exe kopieren
+copy cmd.exe utilman.exe
+
+# 5. Verlassen
+exit
+
+```
+
+**Pro-Tipp:** Bei BitLocker-Verschlüsselung ist oft nur die Datenpartition verschlüsselt. Probieren Sie `d:\windows\system32` oder `e:\windows\system32`, falls `c:` nicht zugänglich ist.
+
+### Phase 5: PC neu starten und Trick anwenden
+
+1. USB-Stick entfernen
+1. Windows normal booten lassen
+1. Am Anmeldebildschirm: Klicken Sie auf das "Erleichterte Bedienung"-Symbol (unten rechts, sieht aus wie eine Uhr mit Pfeil)
+1. Es öffnet sich eine Command Prompt mit Administratorrechten
+
+### Phase 6: Passwort für Admin-Benutzer zurücksetzen
+
+In der Command Prompt:
+
+```
+# 1. Bestehenden Admin-Benutzer identifizieren (falls Name unbekannt)
+net user
+
+# 2. Passwort für 'admin' (oder Ihren Benutzernamen) zurücksetzen
+net user admin *
+
+```
+
+Was passiert:
+
+- Sie werden aufgefordert, ein neues Passwort einzugeben
+- Das Passwort wird nicht angezeigt (Sicherheitsfeature)
+- Passwort eingeben, Enter drücken
+- Zur Bestätigung dasselbe Passwort erneut eingeben
+
+**Alternative bei anderen Benutzernamen:**
+
+```
+# Für Standard-Administrator
+net user Administrator *
+
+# Bei Leerzeichen im Namen
+net user "Admin User" *
+
+```
+
+### Phase 7: Anmelden und Utilman.exe wiederherstellen
+
+1. Mit dem neuen Passwort anmelden
+1. Nach erfolgreichem Login: Command Prompt als Administrator öffnen (Windows + X → Terminal (Admin))
+1. Utilman.exe zurücksetzen:
+
+```
+cd /d c:\windows\system32
+move utilman.exe.bak utilman.exe
+
+```
+
+## Troubleshooting und häufige Probleme
+
+### Problem 1: "Zugriff verweigert" beim Ersetzen von utilman.exe
+
+**Lösung:** Stellen Sie sicher, dass Sie im Reparaturmodus die Eingabeaufforderung als Administrator geöffnet haben.
+
+### Problem 2: Laufwerk C: nicht gefunden (BitLocker)
+
+**Lösung:** Probieren Sie andere Laufwerke:
+
+```
+dir d:\windows\system32
+dir e:\windows\system32
+dir f:\windows\system32
+
+```
+
+### Problem 3: Secure Boot blockiert USB-Boot
+
+**Lösung:** Im BIOS/UEFI:
+
+- Secure Boot deaktivieren
+- Boot Mode ggf. auf "Legacy" oder "CSM" stellen
+- Änderungen speichern
+
+### Problem 4: "Erleichterte Bedienung"-Symbol öffnet nichts
+
+**Lösung:**
+
+- Windows Defender/Update blockiert möglicherweise den Trick
+- Ältere Windows 11 Version (22H2 oder früher) probieren
+- Alternative: sethc.exe-Trick (Sticky Keys) verwenden
+
+## Alternative Methoden
+
+### Sethc.exe (Sticky Keys) Trick
+
+Im Reparaturmodus:
+
+```
+cd /d c:\windows\system32
+move sethc.exe sethc.exe.bak
+copy cmd.exe sethc.exe
+
+```
+
+Am Anmeldebildschirm: 5× Shift-Taste drücken → Command Prompt öffnet sich
+
+### Offline NT Password und Registry Editor
+
+1. Tool herunterladen
+1. Auf USB brennen (mit dd oder Rufus)
+1. Vom USB booten und Passwort zurücksetzen
+
+### Kommerzielle Tools
+
+- **PCUnlocker:** Einfache GUI, höhere Erfolgschance
+- **Konboot:** Automatische Login-Umgehung
+
+## Sicherheitshinweise und rechtliche Aspekte
+
+**Nur für eigene Geräte:** Verwenden Sie diese Methoden ausschliesslich für Ihre eigenen Computer.
+
+**BitLocker-Wiederherstellungsschlüssel:** Immer zuerst versuchen, den offiziellen Wiederherstellungsschlüssel zu finden:
+
+- Microsoft-Konto: account.microsoft.com/devices/recoverykey
+- Ausgedruckter Code
+- USB-Stick mit Schlüssel
+- Unternehmens-IT (bei Firmengeräten)
+
+**Datenverlustrisiko:** Bei TPM-Reset oder Neuinstallation gehen alle Daten verloren.
+
+**Windows Updates:** Neuere Windows-Versionen erschweren diese Tricks – halten Sie Backup-Passwörter bereit.
+
+## Erfolgsstatistik und Erfahrungen
+
+- **Lokale Konten:** Sehr hohe Erfolgsrate (mehr als 90 %)
+- **Microsoft-Konten:** Eingeschränkt, da Online-Authentifizierung benötigt wird
+- **BitLocker aktiv:** Erfolg, wenn Systempartition nicht verschlüsselt (häufig der Fall)
+- **Windows 11 23H2 und neuer:** Geringere Erfolgsrate aufgrund verbesserter Sicherheit
+
+## Fazit
+
+Der Utilman.exe-Trick ist ein mächtiges Werkzeug in der Windows-Administrator-Toolbox. Er zeigt die grundlegende Schwachstelle des Windows-Anmeldesystems: Die Integration von Hilfsprogrammen in den Login-Prozess. Microsoft arbeitet daran, diese Lücken zu schliessen, aber für ältere Systeme und lokale Konten bleibt der Trick eine lebensrettende Lösung.
+
+**Wichtigste Lektion:** Erstellen Sie immer einen BitLocker-Wiederherstellungsschlüssel und bewahren Sie ihn sicher auf. Prävention ist besser als jede Notfall-Lösung.

@@ -94,8 +94,9 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
                             </a>
                         );
                     },
-                    // Custom Image Rendering
+                    // Custom Image Rendering - Type guard for string
                     img: ({ src, alt }) => {
+                        // Ensure src is a string (not Blob) before using string methods
                         if (!src || typeof src !== 'string') return null;
                         
                         // Relative Pfade für Next.js Image

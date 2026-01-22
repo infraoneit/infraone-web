@@ -44,7 +44,7 @@ export function HeroSection() {
         <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-background via-background to-surface">
             {/* Background Image */}
             <div className="absolute inset-0 opacity-10">
-                <Image src="/images/hero_homepage_1768423161913.png" alt="" fill className="object-cover" priority />
+                <Image src="/images/hero_homepage_1768423161913.png" alt="" fill className="object-cover" priority sizes="100vw" quality={75} />
             </div>
 
             {/* Background Pattern */}
@@ -127,11 +127,7 @@ export function HeroSection() {
                             {/* Image */}
                             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border-2 border-primary/20 shadow-2xl">
                                 <Image
-                                    src="/images/hero_it_network_1768423176860.png"
-                                    alt="IT-Infrastruktur und Serverraum"
-                                    fill
-                                    className="object-cover"
-                                    priority
+                                    src="/images/hero_it_network_1768423176860.png" alt="IT-Infrastruktur und Serverraum" fill className="object-cover" priority sizes="(max-width: 1024px) 100vw, 50vw" quality={80}
                                 />
                                 {/* Overlay Gradient */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
