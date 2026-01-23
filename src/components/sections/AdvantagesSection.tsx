@@ -18,13 +18,13 @@ const defaultAdvantages: Advantage[] = [
     },
     {
         icon: <Settings className="w-8 h-8" />,
-        title: 'Technik & Zuverlässigkeit',
-        description: 'Bewährte Systeme, die leicht bedienbar sind und zuverlässig funktionieren – optimal auf Unternehmen abgestimmt.',
+        title: 'Technik trifft Erfahrung',
+        description: 'Unsere Systeme sind leicht bedienbar, zuverlässig im Betrieb und optimal auf Unternehmen abgestimmt.',
     },
     {
         icon: <Shield className="w-8 h-8" />,
-        title: 'Sicher & Nachhaltig',
-        description: 'Wir setzen auf Lösungen, die langfristig funktionieren – klar verständlich, sicher geschützt und professionell betreut.',
+        title: 'Zuverlässig & nachhaltig',
+        description: 'Wir setzen auf Lösungen, die langfristig funktionieren – klar verständlich, sicher und professionell betreut.',
     },
 ];
 

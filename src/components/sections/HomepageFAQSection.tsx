@@ -44,7 +44,7 @@ export function HomepageFAQSection() {
                 </AnimatedSection>
 
                 <div className="max-w-3xl mx-auto">
-                    <FAQList faqs={homepageFaqs} />
+                    <FAQList items={homepageFaqs} />
                 </div>
             </div>
         </section>
