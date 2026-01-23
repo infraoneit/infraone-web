@@ -4,11 +4,20 @@ import Image from 'next/image';
 import { 
     Phone, Monitor, MapPin, Clock, Users, Shield, ArrowRight, CheckCircle,
     Cloud, Wrench, Zap, Headphones, Globe, Mail, Server, HardDrive,
-    BarChart3, Lock, Settings, Smartphone, Laptop, Printer, Wifi, Download
+    BarChart3, Lock, Settings, Smartphone, Laptop, Printer, Wifi, Download,
+    AlertTriangle, AlertCircle
 } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
-import { generateServiceSchema, generateFAQSchema } from '@/lib/seo/schema';
+import { 
+    generateServiceSchema, 
+    generateFAQSchema, 
+    generateITSupportHubSchema, 
+    generateOfferCatalogSchema, 
+    generateItemListSchema, 
+    generateBreadcrumbListSchema 
+} from '@/lib/seo/schema';
+import { BASE_URL } from '@/lib/constants';
 import { FAQList } from '@/components/ui/FAQList';
 import { getITSupportData } from '@/lib/leistungen';
 
@@ -74,27 +83,30 @@ export default async function ITSupportPage() {
     };
 
     const pricingSection = cmsData?.pricingSection ?? {
-        sectionTitle: 'IT-Support Preise & Leistungen',
+        sectionTitle: 'IT-Support Preise & Einsatzzeiten',
         sectionSubtitle: 'Transparente Preise ohne versteckte Kosten. Abrechnung im 15-Minuten-Takt.',
         gridColumns: '4',
         priceCards: [
-            { title: 'Telefonischer Support', description: 'Sofortige Problemlösung durch zertifizierte Techniker.', price: 'CHF 120.–/h', icon: 'phone' },
-            { title: 'Remote Support', description: '90% aller Probleme lösen wir innert Minuten – die schnellste Methode.', price: 'CHF 120.–/h', icon: 'monitor' },
-            { title: 'Vor-Ort-Support', description: 'Persönliche Betreuung vor Ort in Ihrer Region. Seriös, klar, effizient.', price: 'CHF 157.–/h', icon: 'mappin' },
-            { title: 'KMU-IT-Support', description: 'Unterstützung für interne IT, SLA-Modelle, Stellvertretung, Netzwerk-Fehlerbehebung.', price: 'Auf Anfrage', icon: 'users' },
+            { title: 'Telefon- & Remote-Support', description: 'Sofortige Problemlösung durch zertifizierte Techniker. 90% aller Probleme lösen wir innert Minuten.', price: 'CHF 130.–/h', billing: 'Mindestverrechnung: 15 Minuten', icon: 'phone' },
+            { title: 'Vor-Ort-Support (Privatkunden)', description: 'Persönliche Betreuung vor Ort für Privatpersonen. Seriös, klar, effizient.', price: 'CHF 145.–/h', billing: 'Mindestverrechnung: 30 Minuten', icon: 'monitor' },
+            { title: 'Vor-Ort-Support (Firma / KMU)', description: 'Professionelle Betreuung für Unternehmen. SLA-Modelle verfügbar.', price: 'CHF 167.–/h', billing: 'Mindestverrechnung: 30 Minuten', icon: 'mappin' },
+            { title: 'Schulungen / Workshops / Beratung', description: 'Individuelle Schulungen, Workshops und IT-Beratung für Ihr Team.', price: 'CHF 200.–/h', billing: 'Nach Aufwand', icon: 'users' },
         ],
         travelCosts: {
-            freeRegions: 'Winterthur & Andelfingen',
+            freeRegions: 'Grossraum Winterthur & Andelfingen',
             freeRegionsNote: 'Keine Anfahrtskosten',
             otherRegions: 'Übrige Regionen',
-            otherRegionsPrice: 'CHF 2.00/km (ab Winterthur)',
+            otherRegionsPrice: 'CHF 2.00 / km',
+            otherRegionsNote: 'Pro gefahrenem Kilometer (Hin- und Rückweg kombiniert). Verrechnung ab Standort Winterthur.',
         },
         supportHours: {
-            regularLabel: 'Regulär: Mo–Fr 08:00–17:00',
-            regularNote: 'Normaltarif',
-            extendedLabel: 'Erweitert: bis 23:00 Uhr',
-            extendedNote: '+50% Zuschlag, Best-Effort',
-            slaNote: '24/7-Verfügbarkeit nur mit aktivem SLA-Vertrag möglich.',
+            times: [
+                { time: 'Mo–Fr 08:00–17:00', text: 'regulärer Tarif', style: 'neutral' },
+                { time: 'Mo–Fr 17:00–23:00', text: '+25 % Zuschlag', style: 'warning' },
+                { time: 'Samstag / Sonntag / Feiertage', text: '+50 % Zuschlag', style: 'warning' },
+                { time: '23:00–08:00', text: 'nur mit SLA, +100 % Zuschlag', style: 'danger' },
+            ],
+            note: 'Support bis 23:00 Uhr sowie an Wochenenden und Feiertagen ist verfügbar (mit Zuschlag, Best-Effort).\nOhne aktives SLA sind Einsätze zwischen 23:00 und 08:00 Uhr ausgeschlossen.',
         },
     };
 
@@ -131,10 +143,15 @@ export default async function ITSupportPage() {
         sectionTitle: 'Häufige Fragen',
         sectionSubtitle: 'Antworten auf die wichtigsten Fragen zu unserem Support.',
         faqs: [
-            { question: 'Wie schnell können Sie helfen?', answer: 'Remote-Support ist meist innert 15 Minuten verfügbar. Vor-Ort-Einsätze planen wir nach Dringlichkeit – bei Notfällen oft noch am gleichen Tag.' },
-            { question: 'Was kostet der IT-Support?', answer: 'Remote-Support: CHF 120.–/h. Vor-Ort-Support: CHF 157.–/h. Im Raum Winterthur & Andelfingen keine Anfahrtskosten, sonst faire Pauschalen.' },
-            { question: 'Betreuen Sie auch Privatpersonen?', answer: 'Ja! Wir helfen sowohl KMU als auch Privatpersonen bei allen IT-Problemen – vom langsamen PC bis zum Virenbefall.' },
+            { question: 'Wie schnell erhalte ich IT Support im Notfall?', answer: 'Im Notfall (Pikett) reagieren wir sofort. Während den Bürozeiten haben Sie direkt einen Techniker am Apparat oder werden innert Kürze zurückgerufen. Remote-Support ist meist innert 15 Minuten verfügbar. Vor-Ort-Einsätze planen wir nach Dringlichkeit – bei Notfällen oft noch am gleichen Tag.' },
+            { question: 'Bieten Sie Support für Privatkunden?', answer: 'Ja. Wir unterstützen Privatpersonen genauso professionell wie Firmenkunden bei allen Computer- und Internetproblemen.' },
+            { question: 'Können Sie Outlook- und E-Mail-Probleme sofort lösen?', answer: 'Ja. 90% dieser Probleme lösen wir direkt per Fernwartung, ohne dass jemand vorbeikommen muss.' },
+            { question: 'Was kostet Remote-Support?', answer: 'Telefon- & Remote-Support kostet CHF 130.–/h. Wir verrechnen transparent nach Zeitaufwand mit einer Mindestverrechnung von nur 15 Minuten.' },
+            { question: 'Was mache ich, wenn mein Computer nicht startet?', answer: 'Rufen Sie an. Oft können wir per Telefon erste Tipps geben oder kommen vorbei, um die Hardware zu prüfen.' },
             { question: 'Wie läuft Remote-Support ab?', answer: 'Sie laden eine kleine Software herunter (AnyDesk), teilen uns den Code mit, und wir können Ihren Bildschirm sehen und Probleme direkt beheben.' },
+            { question: 'Lösen Sie Server- und Netzwerkprobleme für KMU?', answer: 'Absolut. Das ist unser Kerngeschäft. Wir betreuen ganze Server-Infrastrukturen und Firmennetzwerke.' },
+            { question: 'Wie wird die Fahrzeit verrechnet?', answer: 'Nur Kilometer, keine separate Fahrzeitpauschale. CHF 2.00/km ab Standort Winterthur.' },
+            { question: 'Gibt es eine Mindestdauer bei Notfalleinsätzen?', answer: 'Nein. Es gilt ausschliesslich die jeweilige Mindestverrechnung gemäss Einsatzart (Remote 15 Minuten, Vor Ort 30 Minuten).' },
             { question: 'Muss ich einen Vertrag abschliessen?', answer: 'Nein. Wir arbeiten für die meisten Kunden auf Abruf. Wartungsverträge (SLA) bieten wir für Firmen an, die garantierte Reaktionszeiten benötigen.' },
         ],
     };
@@ -155,44 +172,75 @@ export default async function ITSupportPage() {
         includeFaqSchema: true,
     };
 
-    // Schema.org generieren (mit CMS-Einstellungen)
-    const serviceSchema = {
-        '@context': 'https://schema.org',
-        '@type': structuredData.schemaType || 'ProfessionalService',
-        name: 'IT-Support & Informatik-Support',
-        serviceType: 'Computer Support Services',
-        description: 'Professioneller IT-Support für KMU und Privatpersonen. Remote-Support CHF 120/h, Vor-Ort CHF 157/h. Schnelle Hilfe bei Computer-, Netzwerk- und IT-Problemen.',
-        url: 'https://www.infraone.ch/it-support',
-        provider: {
-            '@type': 'Organization',
-            name: 'InfraOne IT Solutions GmbH',
-            url: 'https://www.infraone.ch',
-        },
-        areaServed: (structuredData.areaServed || []).map((area: string) => ({
-            '@type': 'Place',
-            name: area,
-        })),
-        telephone: '+41522221818',
-        email: 'info@infraone.ch',
-        priceRange: '$$',
-    };
+    // Schema.org generieren - Hub mit 5 Schemas
+    // 1. IT-Support Hub Service Schema
+    const hubServiceSchema = generateITSupportHubSchema();
 
+    // 2. OfferCatalog Schema (Preise)
+    const offerCatalogSchema = generateOfferCatalogSchema(pricingSection.priceCards);
+
+    // 3. ItemList Schema (Häufige Probleme)
+    const commonProblems = [
+        'PC startet nicht / schwarzer Bildschirm',
+        'Outlook Fehler / E-Mails senden nicht',
+        'Viren / Malware / Betrugswarnung',
+        'Internet langsam / WLAN instabil',
+        'Microsoft 365 Probleme',
+        'Drucker funktioniert nicht',
+        'Serverstörung / Freigaben weg',
+        'Windows Update Fehler',
+        'VPN funktioniert nicht',
+        'Backup-Warnungen / Daten weg',
+        'Netzwerkstörung in KMU',
+        'Bluescreen / PC stürzt ab',
+        'Kein Ton / Audio defekt',
+    ];
+    const problemsListSchema = generateItemListSchema(commonProblems, 'Häufige IT-Probleme, die wir sofort lösen');
+
+    // 4. FAQ Schema
     const faqSchema = structuredData.includeFaqSchema !== false 
         ? generateFAQSchema(faqsSection.faqs) 
         : null;
 
+    // 5. Breadcrumb Schema
+    const breadcrumbSchema = generateBreadcrumbListSchema([
+        { name: 'Home', url: BASE_URL },
+        { name: 'IT-Support', url: `${BASE_URL}/it-support` },
+    ]);
+
     return (
         <>
+            {/* 1. IT-Support Hub Service Schema */}
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(hubServiceSchema) }}
             />
+            
+            {/* 2. OfferCatalog Schema (Preise) */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(offerCatalogSchema) }}
+            />
+            
+            {/* 3. ItemList Schema (Häufige Probleme) */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(problemsListSchema) }}
+            />
+            
+            {/* 4. FAQ Schema */}
             {faqSchema && (
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
                 />
             )}
+            
+            {/* 5. Breadcrumb Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
 
             {/* Hero */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
@@ -269,69 +317,144 @@ export default async function ITSupportPage() {
                     <StaggerContainer className={`grid ${gridClass} gap-6`} staggerDelay={0.1}>
                         {pricingSection.priceCards.map((card, index) => (
                             <StaggerItem key={index}>
-                                <div className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors">
+                                <div className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors flex flex-col">
                                     <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
                                         {iconMap[card.icon] || <Monitor className="w-8 h-8" />}
                                     </div>
                                     <h3 className="text-lg font-bold text-text-primary mb-2">{card.title}</h3>
-                                    <p className="text-sm text-text-secondary mb-4">{card.description}</p>
-                                    <p className="text-xl font-bold text-primary">{card.price}</p>
+                                    <p className="text-sm text-text-secondary mb-4 flex-grow">{card.description}</p>
+                                    <div>
+                                        <p className="text-2xl font-bold text-primary mb-2">{card.price}</p>
+                                        {(card as any).billing && (
+                                            <p className="text-xs text-text-secondary border-t border-border pt-2 font-medium">{(card as any).billing}</p>
+                                        )}
+                                    </div>
                                 </div>
                             </StaggerItem>
                         ))}
                     </StaggerContainer>
 
-                    {/* Additional Pricing Info */}
-                    <div className="mt-12 max-w-3xl mx-auto">
-                        <div className="p-6 rounded-2xl bg-card border border-border">
-                            <h3 className="text-lg font-bold text-text-primary mb-4">Anfahrtskosten</h3>
-                            <div className="grid md:grid-cols-2 gap-4 text-sm">
-                                <div className="flex items-start gap-3">
-                                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                                    <div>
-                                        <p className="font-medium text-text-primary">{pricingSection.travelCosts.freeRegions}</p>
-                                        <p className="text-text-secondary">{pricingSection.travelCosts.freeRegionsNote}</p>
-                                    </div>
+                    {/* Times & Surcharges + Emergency Grid */}
+                    <div className="mt-12 grid lg:grid-cols-2 gap-8">
+                        {/* Supportzeiten & Zuschläge */}
+                        <AnimatedSection animation="slideUp" delay={0.2}>
+                            <div className="p-8 rounded-2xl border border-border bg-card h-full">
+                                <h3 className="text-2xl font-bold text-text-primary mb-6">Supportzeiten & Zuschläge</h3>
+                                <div className="space-y-4 mb-8">
+                                    {(pricingSection.supportHours as any).times?.map((item: any, i: number) => (
+                                        <div 
+                                            key={i} 
+                                            className={`flex justify-between items-center pb-2 ${
+                                                i === 0 
+                                                    ? 'border-b border-dashed border-border' 
+                                                    : item.style === 'warning'
+                                                    ? 'border border-yellow-500/50 bg-yellow-500/5 rounded px-3 py-2'
+                                                    : item.style === 'danger'
+                                                    ? 'border border-red-500/50 bg-red-500/10 rounded px-3 py-2'
+                                                    : 'border-b border-border'
+                                            }`}
+                                        >
+                                            <span className="font-mono font-medium text-text-primary">{item.time}</span>
+                                            <span className={`${
+                                                item.style === 'warning' 
+                                                    ? 'text-yellow-600 dark:text-yellow-500 font-bold' 
+                                                    : item.style === 'danger' 
+                                                    ? 'text-red-500 font-bold' 
+                                                    : 'text-text-secondary'
+                                            }`}>
+                                                {item.text}
+                                            </span>
+                                        </div>
+                                    ))}
                                 </div>
-                                <div className="flex items-start gap-3">
-                                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                                    <div>
-                                        <p className="font-medium text-text-primary">{pricingSection.travelCosts.otherRegions}</p>
-                                        <p className="text-text-secondary">{pricingSection.travelCosts.otherRegionsPrice}</p>
-                                    </div>
+                                <div className="flex gap-3 p-4 rounded-lg bg-primary/10 border border-primary/20">
+                                    <AlertCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+                                    <p className="text-sm leading-relaxed text-text-primary whitespace-pre-line">
+                                        {(pricingSection.supportHours as any).note}
+                                    </p>
                                 </div>
                             </div>
+                        </AnimatedSection>
 
-                            <div className="mt-6 pt-6 border-t border-border">
-                                <h3 className="text-lg font-bold text-text-primary mb-4">Supportzeiten</h3>
-                                <div className="grid md:grid-cols-2 gap-4 text-sm">
-                                    <div className="flex items-start gap-3">
-                                        <Clock className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                                        <div>
-                                            <p className="font-medium text-text-primary">{pricingSection.supportHours.regularLabel}</p>
-                                            <p className="text-text-secondary">{pricingSection.supportHours.regularNote}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start gap-3">
-                                        <Clock className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                                        <div>
-                                            <p className="font-medium text-text-primary">{pricingSection.supportHours.extendedLabel}</p>
-                                            <p className="text-text-secondary">{pricingSection.supportHours.extendedNote}</p>
-                                        </div>
+                        {/* Emergency & Travel Block */}
+                        <AnimatedSection animation="slideUp" delay={0.3}>
+                            <div className="flex flex-col gap-8 h-full">
+                                {/* Emergency Box */}
+                                <div className="flex-1 p-8 rounded-2xl bg-primary text-white shadow-xl flex flex-col justify-center items-center text-center relative overflow-hidden group">
+                                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
+                                    <div className="relative z-10">
+                                        <h3 className="text-xl font-bold mb-2 uppercase tracking-wide">IT-Notfall – Telefon & WhatsApp</h3>
+                                        <a href="tel:0765875055" className="block text-4xl md:text-5xl font-black my-4 hover:scale-105 transition-transform">
+                                            076 587 50 55
+                                        </a>
+                                        <a href="https://wa.me/41765875055" target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-primary px-4 py-1 rounded-full text-sm font-bold mb-4 hover:bg-gray-100 transition">
+                                            WhatsApp
+                                        </a>
+                                        <p className="text-white/90 font-medium">Sofort erreichbar bis 23:00 Uhr</p>
                                     </div>
                                 </div>
-                                <p className="text-xs text-text-secondary mt-4">
-                                    <Shield className="w-4 h-4 inline mr-1" />
-                                    {pricingSection.supportHours.slaNote}
-                                </p>
+
+                                {/* Travel Costs */}
+                                <div className="p-8 rounded-2xl border border-border bg-card flex-1 flex flex-col justify-center">
+                                    <h3 className="text-xl font-bold text-text-primary mb-4">Anfahrtskosten</h3>
+                                    <ul className="space-y-2 mb-4">
+                                        <li className="flex items-center gap-2">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                            <span className="text-text-primary">{pricingSection.travelCosts.freeRegions}: <span className="text-text-secondary">{pricingSection.travelCosts.freeRegionsNote}</span></span>
+                                        </li>
+                                        <li className="flex items-center gap-2">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                            <span className="text-text-primary">{pricingSection.travelCosts.otherRegions}: <span className="text-text-secondary">{pricingSection.travelCosts.otherRegionsPrice}</span></span>
+                                        </li>
+                                    </ul>
+                                    {(pricingSection.travelCosts as any).otherRegionsNote && (
+                                        <p className="text-sm text-text-secondary">{(pricingSection.travelCosts as any).otherRegionsNote}</p>
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        </AnimatedSection>
                     </div>
                 </div>
             </section>
 
-            {/* Regional Support */}
+            {/* Häufige Probleme */}
             <section className="py-16 lg:py-24 bg-background">
+                <div className="container mx-auto px-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                            Häufige Probleme, die wir sofort lösen
+                        </h2>
+                    </AnimatedSection>
+
+                    <StaggerContainer className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" staggerDelay={0.05}>
+                        {[
+                            'PC startet nicht / schwarzer Bildschirm',
+                            'Outlook Fehler / E-Mails senden nicht',
+                            'Viren / Malware / Betrugswarnung',
+                            'Internet langsam / WLAN instabil',
+                            'Microsoft 365 Probleme',
+                            'Drucker funktioniert nicht',
+                            'Serverstörung / Freigaben weg',
+                            'Windows Update Fehler',
+                            'VPN funktioniert nicht',
+                            'Backup-Warnungen / Daten weg',
+                            'Netzwerkstörung in KMU',
+                            'Bluescreen / PC stürzt ab',
+                            'Kein Ton / Audio defekt',
+                        ].map((problem, index) => (
+                            <StaggerItem key={index}>
+                                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card hover:border-primary/50 transition-colors h-full">
+                                    <AlertTriangle className="w-5 h-5 text-primary flex-shrink-0" />
+                                    <span className="font-medium text-text-primary text-sm">{problem}</span>
+                                </div>
+                            </StaggerItem>
+                        ))}
+                    </StaggerContainer>
+                </div>
+            </section>
+
+            {/* Regional Support */}
+            <section className="py-16 lg:py-24 bg-surface">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
@@ -370,6 +493,49 @@ export default async function ITSupportPage() {
                             </StaggerItem>
                         ))}
                     </StaggerContainer>
+                </div>
+            </section>
+
+            {/* Warum InfraOne */}
+            <section className="py-16 lg:py-24 bg-background">
+                <div className="container mx-auto px-4">
+                    <div className="grid lg:grid-cols-2 gap-16 items-start">
+                        <AnimatedSection animation="slideUp">
+                            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6">
+                                Warum InfraOne für Support?
+                            </h2>
+                            <p className="text-lg text-text-secondary mb-6">
+                                Schnell, transparent, persönlich – seit Jahren vertrauen uns KMU und Privatpersonen ihre IT an.
+                            </p>
+                            <Link 
+                                href="/unternehmen" 
+                                className="inline-flex items-center gap-2 text-primary font-semibold hover:underline group"
+                            >
+                                Mehr über InfraOne
+                                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            </Link>
+                        </AnimatedSection>
+
+                        <StaggerContainer className="grid md:grid-cols-2 gap-4" staggerDelay={0.05}>
+                            {[
+                                'Keine Warteschleife',
+                                'Reaktionszeit im Notfall: 1–2 Stunden',
+                                'Schweizer Techniker',
+                                'Transparente Preise',
+                                'Remote-Fixrate sehr hoch',
+                                'Erfahrung aus KMU- und Privatkunden-Support',
+                                'Keine Vertragsbindung für Privatkunden',
+                                'Keine Mindeststunden bei Notfalleinsätzen',
+                            ].map((benefit, index) => (
+                                <StaggerItem key={index}>
+                                    <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card hover:border-primary/50 transition-all hover:scale-[1.02] h-full">
+                                        <CheckCircle className="w-6 h-6 text-primary flex-shrink-0" />
+                                        <span className="font-medium text-text-primary">{benefit}</span>
+                                    </div>
+                                </StaggerItem>
+                            ))}
+                        </StaggerContainer>
+                    </div>
                 </div>
             </section>
 

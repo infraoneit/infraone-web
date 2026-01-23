@@ -116,6 +116,10 @@ export default config({
                             title: fields.text({ label: 'Titel', description: 'z.B. "Telefonischer Support"' }),
                             description: fields.text({ label: 'Beschreibung', multiline: true }),
                             price: fields.text({ label: 'Preis', description: 'z.B. "CHF 120.–/h" oder "Auf Anfrage"' }),
+                            billing: fields.text({ 
+                                label: 'Abrechnungshinweis', 
+                                description: 'z.B. "Mindestverrechnung: 15 Minuten" (optional)' 
+                            }),
                             icon: fields.select({
                                 label: 'Icon',
                                 options: [
@@ -167,13 +171,51 @@ export default config({
                             label: 'Preis uebrige Regionen',
                             defaultValue: 'CHF 2.00/km (ab Winterthur)',
                         }),
+                        otherRegionsNote: fields.text({
+                            label: 'Zusaetzlicher Hinweis',
+                            description: 'z.B. "Pro gefahrenem Kilometer (Hin- und Rueckweg kombiniert)..."',
+                            multiline: true,
+                        }),
                     }, { label: 'Anfahrtskosten' }),
                     supportHours: fields.object({
-                        regularLabel: fields.text({ label: 'Regulaer Label', defaultValue: 'Regulaer: Mo-Fr 08:00-17:00' }),
-                        regularNote: fields.text({ label: 'Regulaer Hinweis', defaultValue: 'Normaltarif' }),
-                        extendedLabel: fields.text({ label: 'Erweitert Label', defaultValue: 'Erweitert: bis 23:00 Uhr' }),
-                        extendedNote: fields.text({ label: 'Erweitert Hinweis', defaultValue: '+50% Zuschlag, Best-Effort' }),
-                        slaNote: fields.text({ label: 'SLA-Hinweis', defaultValue: '24/7-Verfuegbarkeit nur mit aktivem SLA-Vertrag moeglich.' }),
+                        times: fields.array(
+                            fields.object({
+                                time: fields.text({ 
+                                    label: 'Zeitfenster', 
+                                    description: 'z.B. "Mo–Fr 08:00–17:00"' 
+                                }),
+                                text: fields.text({ 
+                                    label: 'Beschreibung', 
+                                    description: 'z.B. "regulaerer Tarif" oder "+25% Zuschlag"' 
+                                }),
+                                style: fields.select({
+                                    label: 'Hervorhebung',
+                                    description: 'Farb-Stil fuer diese Zeile',
+                                    options: [
+                                        { label: 'Neutral (Standard)', value: 'neutral' },
+                                        { label: 'Warnung (gelb)', value: 'warning' },
+                                        { label: 'Gefahr (rot)', value: 'danger' },
+                                    ],
+                                    defaultValue: 'neutral',
+                                }),
+                            }),
+                            {
+                                label: 'Zeitfenster',
+                                description: 'Supportzeiten mit Zuschlaegen',
+                                itemLabel: props => props.fields.time.value || 'Neues Zeitfenster',
+                            }
+                        ),
+                        note: fields.text({ 
+                            label: 'Zusaetzlicher Hinweis', 
+                            description: 'Allgemeiner Hinweis unter der Tabelle',
+                            multiline: true,
+                        }),
+                        // Alte Felder als optional beibehalten fuer Rueckwaertskompatibilitaet
+                        regularLabel: fields.text({ label: '[ALT] Regulaer Label (wird nicht mehr verwendet)' }),
+                        regularNote: fields.text({ label: '[ALT] Regulaer Hinweis (wird nicht mehr verwendet)' }),
+                        extendedLabel: fields.text({ label: '[ALT] Erweitert Label (wird nicht mehr verwendet)' }),
+                        extendedNote: fields.text({ label: '[ALT] Erweitert Hinweis (wird nicht mehr verwendet)' }),
+                        slaNote: fields.text({ label: '[ALT] SLA-Hinweis (wird nicht mehr verwendet)' }),
                     }, { label: 'Supportzeiten' }),
                 }, {
                     label: 'PREISE & LEISTUNGEN',
@@ -734,6 +776,12 @@ export default config({
                         { label: 'Basel', value: 'Basel' },
                         { label: 'Bern', value: 'Bern' },
                         { label: 'Luzern', value: 'Luzern' },
+                        // Winterthur Stadtteile
+                        { label: 'Eulachstadt (Winterthur)', value: 'Eulachstadt' },
+                        { label: 'Töss (Winterthur)', value: 'Töss' },
+                        { label: 'Seen (Winterthur)', value: 'Seen' },
+                        { label: 'Wülflingen (Winterthur)', value: 'Wülflingen' },
+                        { label: 'Veltheim (Winterthur)', value: 'Veltheim' },
                     ],
                     defaultValue: ['Schweiz'],
                 }),

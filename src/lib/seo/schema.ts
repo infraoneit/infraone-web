@@ -334,3 +334,288 @@ export function generateAboutPageSchema(): WithContext<AboutPage> {
 export function renderJsonLd(schema: any): string {
     return JSON.stringify(schema);
 }
+
+/**
+ * HUB & SPOKE SCHEMA FUNCTIONS
+ * Für saubere Hub-&-Spoke-Struktur mit korrekten Relationen
+ */
+
+import { BASE_URL } from '@/lib/constants';
+
+/**
+ * Generiert LocalBusiness Schema für das Layout (sitewide)
+ * Mit @id für Referenzierung durch andere Schemas
+ */
+export function generateSitewideLocalBusinessSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'LocalBusiness',
+        '@id': `${BASE_URL}/#business`,
+        name: 'InfraOne IT Solutions GmbH',
+        url: BASE_URL,
+        telephone: '+41522221818',
+        email: 'info@infraone.ch',
+        address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Winterthur',
+            addressRegion: 'Zürich',
+            postalCode: '8400',
+            addressCountry: 'CH',
+        },
+        priceRange: '$$',
+    };
+}
+
+/**
+ * Generiert WebSite Schema für das Layout (sitewide)
+ * Mit @id für Referenzierung
+ */
+export function generateSitewideWebSiteSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        '@id': `${BASE_URL}/#website`,
+        url: BASE_URL,
+        name: 'InfraOne IT Solutions',
+        publisher: { '@id': `${BASE_URL}/#business` },
+    };
+}
+
+/**
+ * Generiert Service Schema für Hub-Seite (/cloud-telefonie)
+ */
+export function generateHubServiceSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/cloud-telefonie#service`,
+        name: 'Cloud-Telefonie',
+        serviceType: ['Cloud-Telefonie', 'VoIP', 'Hosted PBX'],
+        provider: { '@id': `${BASE_URL}/#business` },
+        url: `${BASE_URL}/cloud-telefonie`,
+        areaServed: { '@type': 'Country', name: 'Switzerland' },
+    };
+}
+
+/**
+ * Generiert Service Schema für Spoke-Seite (z.B. /cloud-telefonie/winterthur)
+ */
+export function generateSpokeServiceSchema(regionSlug: string, regionName: string) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/cloud-telefonie/${regionSlug}#service`,
+        name: `Cloud-Telefonie in ${regionName}`,
+        serviceType: ['Cloud-Telefonie', 'VoIP', 'Hosted PBX'],
+        provider: { '@id': `${BASE_URL}/#business` },
+        url: `${BASE_URL}/cloud-telefonie/${regionSlug}`,
+        areaServed: { '@type': 'AdministrativeArea', name: regionName },
+        isPartOf: { '@id': `${BASE_URL}/cloud-telefonie#service` },
+    };
+}
+
+/**
+ * Generiert BreadcrumbList Schema
+ */
+export function generateBreadcrumbListSchema(items: Array<{ name: string; url: string }>) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: items.map((item, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: item.name,
+            item: item.url,
+        })),
+    };
+}
+
+/**
+ * Generiert WebPage Schema
+ */
+export function generateWebPageSchema(url: string, name: string, description?: string) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url: url,
+        name: name,
+        ...(description && { description }),
+        isPartOf: { '@id': `${BASE_URL}/#website` },
+    };
+}
+
+/**
+ * IT-SUPPORT HUB & SPOKE SCHEMA FUNCTIONS
+ * Spezifische Schemas für IT-Support Cluster (Hub + 6 Spokes)
+ */
+
+/**
+ * Generiert IT-Support Hub Schema (ProfessionalService)
+ * Für /it-support Hauptseite
+ */
+export function generateITSupportHubSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ProfessionalService',
+        '@id': `${BASE_URL}/it-support#service`,
+        name: 'IT-Support & Informatik-Support',
+        serviceType: ['Computer Support', 'IT Support', 'Technical Support', 'Network Support'],
+        description: 'Professioneller IT-Support für KMU und Privatpersonen in der Schweiz. Remote-Support innert Minuten, Vor-Ort-Service innerhalb 24h.',
+        provider: { '@id': `${BASE_URL}/#business` },
+        url: `${BASE_URL}/it-support`,
+        areaServed: { '@type': 'Country', name: 'Switzerland' },
+        offers: {
+            '@type': 'AggregateOffer',
+            priceCurrency: 'CHF',
+            lowPrice: '130',
+            highPrice: '200',
+            priceSpecification: [
+                {
+                    '@type': 'UnitPriceSpecification',
+                    price: '130',
+                    priceCurrency: 'CHF',
+                    name: 'Remote-Support',
+                },
+                {
+                    '@type': 'UnitPriceSpecification',
+                    price: '145',
+                    priceCurrency: 'CHF',
+                    name: 'Vor-Ort-Support Privat',
+                },
+            ],
+        },
+    };
+}
+
+/**
+ * Generiert OfferCatalog Schema für IT-Support Preise
+ * Für die Preisliste auf /it-support
+ */
+export function generateOfferCatalogSchema(priceCards: Array<{ title: string; description: string; price: string }>) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'OfferCatalog',
+        name: 'IT-Support Preise',
+        itemListElement: priceCards.map((card, index) => {
+            const priceMatch = card.price.match(/\d+/);
+            const priceValue = priceMatch ? priceMatch[0] : undefined;
+            
+            return {
+                '@type': 'Offer',
+                position: index + 1,
+                itemOffered: {
+                    '@type': 'Service',
+                    name: card.title,
+                    description: card.description,
+                },
+                ...(priceValue && {
+                    price: priceValue,
+                    priceCurrency: 'CHF',
+                }),
+            };
+        }),
+    };
+}
+
+/**
+ * Generiert ItemList Schema für Listen (z.B. Häufige Probleme)
+ */
+export function generateItemListSchema(items: string[], listName: string) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: listName,
+        itemListElement: items.map((item, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: item,
+        })),
+    };
+}
+
+/**
+ * Generiert LocalBusiness + ITService Schema für Standort-Spokes (mit Büro)
+ * Für /it-support/winterthur, /andelfingen, /schaffhausen, /thurgau
+ */
+export function generateITServiceLocalBusinessSchema(
+    regionSlug: string,
+    regionName: string,
+    address: {
+        street?: string;
+        postalCode: string;
+        addressLocality: string;
+    },
+    openingHours: string[] = ['Mo–Fr 08:00–17:00'],
+    emergencyNote: string = 'Notfall-Support verfügbar bis 23:00 Uhr'
+) {
+    const geo = REGION_COORDINATES[regionSlug];
+    
+    return {
+        '@context': 'https://schema.org',
+        '@type': ['LocalBusiness', 'ComputerStore'],
+        '@id': `${BASE_URL}/it-support/${regionSlug}#business`,
+        name: `InfraOne IT Solutions - ${regionName}`,
+        url: `${BASE_URL}/it-support/${regionSlug}`,
+        telephone: '+41522221818',
+        email: 'info@infraone.ch',
+        address: {
+            '@type': 'PostalAddress',
+            ...(address.street && { streetAddress: address.street }),
+            postalCode: address.postalCode,
+            addressLocality: address.addressLocality,
+            addressCountry: 'CH',
+        },
+        ...(geo && {
+            geo: {
+                '@type': 'GeoCoordinates',
+                latitude: geo.latitude,
+                longitude: geo.longitude,
+            },
+        }),
+        openingHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            opens: '08:00',
+            closes: '17:00',
+        },
+        specialOpeningHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            opens: '08:00',
+            closes: '23:00',
+            description: emergencyNote,
+        },
+        priceRange: '$$',
+        areaServed: {
+            '@type': 'AdministrativeArea',
+            name: regionName,
+        },
+    };
+}
+
+/**
+ * Generiert Virtual Spoke Schema für Regionen ohne physisches Büro
+ * Für /it-support/zuerich, /st-gallen
+ */
+export function generateVirtualSpokeSchema(
+    regionSlug: string,
+    regionName: string,
+    providerBusinessId: string // z.B. '/it-support/winterthur#business'
+) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/it-support/${regionSlug}#service`,
+        name: `IT-Support ${regionName}`,
+        serviceType: ['Computer Support', 'IT Support', 'Technical Support'],
+        description: `IT-Support-Dienstleistungen für ${regionName}. Bedient durch unser qualifiziertes Team.`,
+        provider: { '@id': providerBusinessId },
+        url: `${BASE_URL}/it-support/${regionSlug}`,
+        areaServed: {
+            '@type': 'AdministrativeArea',
+            name: regionName,
+        },
+        isPartOf: { '@id': `${BASE_URL}/it-support#service` },
+    };
+}

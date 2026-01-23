@@ -1,1 +1,72 @@
-{"slug":"winterthur","name":"Winterthur","isFree":true,"anfahrt":"Keine Anfahrtskosten","headline":"IT-Support Winterthur","subheadline":"Ihr IT-Partner in Winterthur","description":"Schneller IT-Support vor Ort und Remote.","intro":"Als lokaler IT-Partner sind wir schnell bei Ihnen.","regionalImage":"/images/regions/winterthur.png","localBenefits":["Keine Anfahrt","30 Min vor Ort","200+ Kunden"],"stats":[{"label":"Kunden","value":"200+"}],"localIndustries":[{"name":"Arztpraxen","need":"Sichere Daten"}],"localFaqQuestion":"Wie schnell vor Ort?","localFaqAnswer":"Oft in 30 Minuten.","additionalFaqs":[{"question":"Hardware?","answer":"Ja."}],"metaTitle":"IT-Support Winterthur","metaDescription":"IT-Support Winterthur von InfraOne","keywords":["IT Support Winterthur"],"schemaType":"LocalBusiness","includeFaqSchema":true,"canonicalUrl":"https://www.infraone.ch/it-support/winterthur","areaServed":["Schweiz","Winterthur","Zuerich"]}
+{
+  "slug": "winterthur",
+  "name": "Winterthur",
+  "isFree": true,
+  "anfahrt": "Keine Anfahrtskosten",
+  "headline": "IT-Support Winterthur",
+  "subheadline": "Ihr lokaler IT-Partner in der Eulachstadt",
+  "description": "Hauptstandort Winterthur: Keine Anfahrtskosten, schnelle Vor-Ort-Einsätze, Remote-Support innert Minuten. Für Geschäft und Privat.",
+  "intro": "Als Winterthurer IT-Dienstleister sind wir dort, wo Sie uns brauchen – schnell und unkompliziert. Vom Technopark über die Altstadt bis nach Töss: Winterthur ist unser Zuhause. Wenn Ihr Computer in der Marktgasse streikt oder das Netzwerk im Industriequartier Grüze ausfällt, sind wir in kurzer Zeit bei Ihnen. Kein langes Warten, keine überrissenen Anfahrtskosten. Von der Arztpraxis in Seen bis zum Handwerksbetrieb in Wülflingen – wir kennen die lokale Wirtschaft und ihre IT-Anforderungen. Viele unserer Kunden betreuen wir seit Jahren, weil sie wissen: Wenn es brennt, sind wir da.",
+  "regionalImage": "/images/regions/winterthur.png",
+  "localBenefits": [
+    "Hauptstandort – keine Anfahrt",
+    "Vor-Ort in 30 Minuten möglich",
+    "Lokale Ansprechpartner",
+    "Über 200 Winterthurer Kunden"
+  ],
+  "stats": [
+    {
+      "label": "Winterthurer Kunden",
+      "value": "200+"
+    },
+    {
+      "label": "Ø Anfahrt",
+      "value": "< 30 Min"
+    }
+  ],
+  "localIndustries": [
+    {
+      "name": "Arztpraxen",
+      "need": "Sichere Patientendaten, schnelle Hilfe bei Ausfällen, HIN-Mail"
+    },
+    {
+      "name": "Handwerk & Gewerbe",
+      "need": "Robuste Hardware, einfache Bedienung, Backup-Lösungen"
+    },
+    {
+      "name": "Dienstleister",
+      "need": "Microsoft 365, Cloud-Speicher, Remote-Work-Setup"
+    }
+  ],
+  "localFaqQuestion": "Wie schnell können Sie in Winterthur vor Ort sein?",
+  "localFaqAnswer": "Als Hauptstandort sind wir meist innerhalb von 30 Minuten bei Ihnen. Bei dringenden Notfällen oft noch schneller.",
+  "additionalFaqs": [
+    {
+      "question": "Können Sie auch defekte Hardware reparieren?",
+      "answer": "Ja, wir reparieren defekte PCs, Laptops und Server. Bei irreparablen Geräten beraten wir Sie zu Ersatz-Hardware."
+    },
+    {
+      "question": "Bieten Sie auch Support für Apple/Mac?",
+      "answer": "Ja, wir unterstützen sowohl Windows- als auch macOS-Systeme."
+    }
+  ],
+  "metaTitle": "IT-Support Winterthur | Schnelle Hilfe vor Ort | InfraOne",
+  "metaDescription": "IT-Support in Winterthur: Hauptstandort, keine Anfahrtskosten, Vor-Ort in 30 Min. Remote-Support innert Minuten. ☎ 052 222 18 18",
+  "keywords": [
+    "IT Support Winterthur",
+    "Informatik Support Winterthur",
+    "PC Hilfe Winterthur",
+    "Computer Support Winterthur"
+  ],
+  "schemaType": "LocalBusiness",
+  "includeFaqSchema": true,
+  "canonicalUrl": "https://www.infraone.ch/it-support/winterthur",
+  "areaServed": [
+    "Winterthur",
+    "Eulachstadt",
+    "Töss",
+    "Seen",
+    "Wülflingen",
+    "Veltheim"
+  ]
+}

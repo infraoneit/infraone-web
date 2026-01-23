@@ -46,12 +46,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.6,
     }));
 
-    // Telefonie regional pages (Spoke pages - canonicalized to /telefonie)
+    // Cloud-Telefonie regional pages (Spoke pages - canonicalized to /cloud-telefonie/<region>)
     const telefonieRegions = [
         'winterthur', 'zuerich', 'schaffhausen', 'thurgau', 'st-gallen', 'rapperswil'
     ];
     const telefoniePages = telefonieRegions.map(region => ({
-        url: `/telefonie/${region}`,
+        url: `/cloud-telefonie/${region}`,
         priority: 0.6,
     }));
 

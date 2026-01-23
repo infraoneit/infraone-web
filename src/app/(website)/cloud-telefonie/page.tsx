@@ -5,8 +5,9 @@ import { Phone, Cloud, Globe, Wifi, Users, Calculator, CheckCircle, ArrowRight, 
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
 import { FAQList } from '@/components/ui/FAQList';
-import { generateProfessionalServiceSchema, generateFAQSchema } from '@/lib/seo/schema';
+import { generateHubServiceSchema, generateWebPageSchema, generateBreadcrumbListSchema, generateFAQSchema } from '@/lib/seo/schema';
 import { globalFaqs, pricingModules } from '@/data/telefonie';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Cloud-Telefonanlagen Schweiz | VoIP für KMU | Peoplefone & 3CX',
@@ -87,21 +88,32 @@ const alternativeSolutions = [
 ];
 
 const regions = [
-    { name: 'Zürich', href: '/telefonie/zuerich' },
-    { name: 'Winterthur', href: '/telefonie/winterthur' },
-    { name: 'Schaffhausen', href: '/telefonie/schaffhausen' },
-    { name: 'Thurgau', href: '/telefonie/thurgau' },
-    { name: 'St. Gallen', href: '/telefonie/st-gallen' },
-    { name: 'Rapperswil', href: '/telefonie/rapperswil' },
+    { name: 'Zürich', href: '/cloud-telefonie/zuerich' },
+    { name: 'Winterthur', href: '/cloud-telefonie/winterthur' },
+    { name: 'Schaffhausen', href: '/cloud-telefonie/schaffhausen' },
+    { name: 'Thurgau', href: '/cloud-telefonie/thurgau' },
+    { name: 'St. Gallen', href: '/cloud-telefonie/st-gallen' },
+    { name: 'Rapperswil', href: '/cloud-telefonie/rapperswil' },
 ];
 
 export default function CloudTelefoniePage() {
-    const serviceSchema = generateProfessionalServiceSchema(
-        'default',
-        'Cloud-Telefonanlagen',
-        'https://www.infraone.ch/cloud-telefonie'
+    // Hub Service Schema
+    const serviceSchema = generateHubServiceSchema();
+
+    // WebPage Schema
+    const webPageSchema = generateWebPageSchema(
+        `${BASE_URL}/cloud-telefonie`,
+        'Cloud-Telefonie',
+        'Cloud-Telefonanlagen für Schweizer KMU: VoIP mit Peoplefone & 3CX'
     );
 
+    // Breadcrumb Schema
+    const breadcrumbSchema = generateBreadcrumbListSchema([
+        { name: 'Home', url: BASE_URL },
+        { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` },
+    ]);
+
+    // FAQ Schema
     const faqSchema = generateFAQSchema(globalFaqs);
 
     return (
@@ -109,6 +121,14 @@ export default function CloudTelefoniePage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
             <script
                 type="application/ld+json"

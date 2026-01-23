@@ -13,47 +13,70 @@
     "secondaryButtonFileName": "infraone-remote-support"
   },
   "pricingSection": {
-    "sectionTitle": "IT-Support Preise & Leistungen",
+    "sectionTitle": "IT-Support Preise & Einsatzzeiten",
     "sectionSubtitle": "Transparente Preise ohne versteckte Kosten. Abrechnung im 15-Minuten-Takt.",
     "gridColumns": "4",
     "priceCards": [
       {
-        "title": "Telefonischer Support",
-        "description": "Sofortige Problemlösung durch zertifizierte Techniker.",
-        "price": "CHF 120.–/h",
+        "title": "Telefon- & Remote-Support",
+        "description": "Sofortige Problemlösung durch zertifizierte Techniker. 90% aller Probleme lösen wir innert Minuten.",
+        "price": "CHF 130.–/h",
+        "billing": "Mindestverrechnung: 15 Minuten",
         "icon": "phone"
       },
       {
-        "title": "Remote Support",
-        "description": "90% aller Probleme lösen wir innert Minuten – die schnellste Methode.",
-        "price": "CHF 120.–/h",
+        "title": "Vor-Ort-Support (Privatkunden)",
+        "description": "Persönliche Betreuung vor Ort für Privatpersonen. Seriös, klar, effizient.",
+        "price": "CHF 145.–/h",
+        "billing": "Mindestverrechnung: 30 Minuten",
         "icon": "monitor"
       },
       {
-        "title": "Vor-Ort-Support",
-        "description": "Persönliche Betreuung vor Ort in Ihrer Region. Seriös, klar, effizient.",
-        "price": "CHF 157.–/h",
+        "title": "Vor-Ort-Support (Firma / KMU)",
+        "description": "Professionelle Betreuung für Unternehmen. SLA-Modelle verfügbar.",
+        "price": "CHF 167.–/h",
+        "billing": "Mindestverrechnung: 30 Minuten",
         "icon": "mappin"
       },
       {
-        "title": "KMU-IT-Support",
-        "description": "Unterstützung für interne IT, SLA-Modelle, Stellvertretung, Netzwerk-Fehlerbehebung.",
-        "price": "Auf Anfrage",
+        "title": "Schulungen / Workshops / Beratung",
+        "description": "Individuelle Schulungen, Workshops und IT-Beratung für Ihr Team.",
+        "price": "CHF 200.–/h",
+        "billing": "Nach Aufwand",
         "icon": "users"
       }
     ],
     "travelCosts": {
-      "freeRegions": "Winterthur & Andelfingen",
+      "freeRegions": "Grossraum Winterthur & Andelfingen",
       "freeRegionsNote": "Keine Anfahrtskosten",
       "otherRegions": "Übrige Regionen",
-      "otherRegionsPrice": "CHF 2.00/km (ab Winterthur)"
+      "otherRegionsPrice": "CHF 2.00 / km",
+      "otherRegionsNote": "Pro gefahrenem Kilometer (Hin- und Rückweg kombiniert). Verrechnung ab Standort Winterthur."
     },
     "supportHours": {
-      "regularLabel": "Regulär: Mo–Fr 08:00–17:00",
-      "regularNote": "Normaltarif",
-      "extendedLabel": "Erweitert: bis 23:00 Uhr",
-      "extendedNote": "+50% Zuschlag, Best-Effort",
-      "slaNote": "24/7-Verfügbarkeit nur mit aktivem SLA-Vertrag möglich."
+      "times": [
+        {
+          "time": "Mo–Fr 08:00–17:00",
+          "text": "regulärer Tarif",
+          "style": "neutral"
+        },
+        {
+          "time": "Mo–Fr 17:00–23:00",
+          "text": "+25 % Zuschlag",
+          "style": "warning"
+        },
+        {
+          "time": "Samstag / Sonntag / Feiertage",
+          "text": "+50 % Zuschlag",
+          "style": "warning"
+        },
+        {
+          "time": "23:00–08:00",
+          "text": "nur mit SLA, +100 % Zuschlag",
+          "style": "danger"
+        }
+      ],
+      "note": "Support bis 23:00 Uhr sowie an Wochenenden und Feiertagen ist verfügbar (mit Zuschlag, Best-Effort).\nOhne aktives SLA sind Einsätze zwischen 23:00 und 08:00 Uhr ausgeschlossen."
     }
   },
   "regionsSection": {
@@ -103,24 +126,44 @@
     "sectionSubtitle": "Antworten auf die wichtigsten Fragen zu unserem Support.",
     "faqs": [
       {
-        "question": "Wie schnell können Sie helfen?",
-        "answer": "Remote-Support ist meist innert 15 Minuten verfügbar. Vor-Ort-Einsätze planen wir nach Dringlichkeit – bei Notfällen oft noch am gleichen Tag."
+        "question": "Wie schnell erhalte ich IT Support im Notfall?",
+        "answer": "Im Notfall (Pikett) reagieren wir sofort. Während den Bürozeiten haben Sie direkt einen Techniker am Apparat oder werden innert Kürze zurückgerufen. Remote-Support ist meist innert 15 Minuten verfügbar. Vor-Ort-Einsätze planen wir nach Dringlichkeit – bei Notfällen oft noch am gleichen Tag."
       },
       {
-        "question": "Was kostet der IT-Support?",
-        "answer": "Remote-Support: CHF 120.–/h. Vor-Ort-Support: CHF 157.–/h. Im Raum Winterthur keine Anfahrtskosten, in anderen Regionen faire Pauschalen."
+        "question": "Bieten Sie Support für Privatkunden?",
+        "answer": "Ja. Wir unterstützen Privatpersonen genauso professionell wie Firmenkunden bei allen Computer- und Internetproblemen."
       },
       {
-        "question": "Betreuen Sie auch Privatpersonen?",
-        "answer": "Ja! Wir helfen sowohl KMU als auch Privatpersonen bei allen IT-Problemen – vom langsamen PC bis zum Virenbefall."
+        "question": "Können Sie Outlook- und E-Mail-Probleme sofort lösen?",
+        "answer": "Ja. 90% dieser Probleme lösen wir direkt per Fernwartung, ohne dass jemand vorbeikommen muss."
+      },
+      {
+        "question": "Was kostet Remote-Support?",
+        "answer": "Telefon- & Remote-Support kostet CHF 130.–/h. Wir verrechnen transparent nach Zeitaufwand mit einer Mindestverrechnung von nur 15 Minuten."
+      },
+      {
+        "question": "Was mache ich, wenn mein Computer nicht startet?",
+        "answer": "Rufen Sie an. Oft können wir per Telefon erste Tipps geben oder kommen vorbei, um die Hardware zu prüfen."
       },
       {
         "question": "Wie läuft Remote-Support ab?",
         "answer": "Sie laden eine kleine Software herunter (AnyDesk), teilen uns den Code mit, und wir können Ihren Bildschirm sehen und Probleme direkt beheben."
       },
       {
+        "question": "Lösen Sie Server- und Netzwerkprobleme für KMU?",
+        "answer": "Absolut. Das ist unser Kerngeschäft. Wir betreuen ganze Server-Infrastrukturen und Firmennetzwerke."
+      },
+      {
+        "question": "Wie wird die Fahrzeit verrechnet?",
+        "answer": "Nur Kilometer, keine separate Fahrzeitpauschale. CHF 2.00/km ab Standort Winterthur."
+      },
+      {
+        "question": "Gibt es eine Mindestdauer bei Notfalleinsätzen?",
+        "answer": "Nein. Es gilt ausschliesslich die jeweilige Mindestverrechnung gemäss Einsatzart (Remote 15 Minuten, Vor Ort 30 Minuten)."
+      },
+      {
         "question": "Muss ich einen Vertrag abschliessen?",
-        "answer": "Nein, Sie können unseren Support auch ohne Vertrag nutzen. Für regelmässige Betreuung bieten wir optional SLA-Verträge mit garantierten Reaktionszeiten."
+        "answer": "Nein. Wir arbeiten für die meisten Kunden auf Abruf. Wartungsverträge (SLA) bieten wir für Firmen an, die garantierte Reaktionszeiten benötigen."
       }
     ]
   },
@@ -138,7 +181,14 @@
   },
   "structuredDataSection": {
     "schemaType": "ProfessionalService",
-    "areaServed": ["Schweiz", "Winterthur", "Zuerich", "Schaffhausen", "Thurgau", "St. Gallen"],
+    "areaServed": [
+      "Schweiz",
+      "Winterthur",
+      "Zuerich",
+      "Schaffhausen",
+      "Thurgau",
+      "St. Gallen"
+    ],
     "includeFaqSchema": true
   }
 }

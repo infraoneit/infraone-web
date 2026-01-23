@@ -229,12 +229,12 @@ export function CloudTelefonieContent({
     showRegionalLinks = true,
     regionSlug,
     regions = [
-        { name: 'Zürich', href: '/telefonie/zuerich' },
-        { name: 'Winterthur', href: '/telefonie/winterthur' },
-        { name: 'Schaffhausen', href: '/telefonie/schaffhausen' },
-        { name: 'Thurgau', href: '/telefonie/thurgau' },
-        { name: 'St. Gallen', href: '/telefonie/st-gallen' },
-        { name: 'Rapperswil', href: '/telefonie/rapperswil' },
+        { name: 'Zürich', href: '/cloud-telefonie/zuerich' },
+        { name: 'Winterthur', href: '/cloud-telefonie/winterthur' },
+        { name: 'Schaffhausen', href: '/cloud-telefonie/schaffhausen' },
+        { name: 'Thurgau', href: '/cloud-telefonie/thurgau' },
+        { name: 'St. Gallen', href: '/cloud-telefonie/st-gallen' },
+        { name: 'Rapperswil', href: '/cloud-telefonie/rapperswil' },
     ].filter(r => !regionSlug || !r.href.includes(regionSlug))
 }: CloudTelefonieContentProps) {
     const content = regionalContent[regionSlug || 'default'] || regionalContent.default;

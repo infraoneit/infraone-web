@@ -4,7 +4,7 @@ import "@/app/globals.css";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { generateOrganizationSchema } from "@/lib/seo/schema";
+import { generateSitewideLocalBusinessSchema, generateSitewideWebSiteSchema } from "@/lib/seo/schema";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -103,7 +103,11 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(generateOrganizationSchema()) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(generateSitewideLocalBusinessSchema()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(generateSitewideWebSiteSchema()) }}
         />
       </head>
       <body
