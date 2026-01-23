@@ -68,5 +68,31 @@
     "Seen",
     "Wülflingen",
     "Veltheim"
-  ]
+  ],
+  "addressLocality": "Winterthur",
+  "postalCode": "8400",
+  "openingHours": [
+    {
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "17:00"
+    }
+  ],
+  "specialOpeningHours": [
+    {
+      "opens": "08:00",
+      "closes": "23:00",
+      "validFrom": "2024-01-01",
+      "validThrough": "2024-12-31"
+    }
+  ],
+  "supportHours": {
+    "times": [
+      { "time": "Mo–Fr 08:00–17:00", "text": "regulärer Tarif", "style": "neutral" },
+      { "time": "Mo–Fr 17:00–23:00", "text": "+25% Zuschlag", "style": "warning" },
+      { "time": "Sa / So / Feiertage", "text": "+50% Zuschlag", "style": "warning" },
+      { "time": "23:00–08:00", "text": "nur mit SLA, +100%", "style": "danger" }
+    ],
+    "note": "Support bis 23:00 Uhr sowie an Wochenenden und Feiertagen ist verfügbar (mit Zuschlag, Best-Effort).\nOhne aktives SLA sind Einsätze zwischen 23:00 und 08:00 Uhr ausgeschlossen."
+  }
 }

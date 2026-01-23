@@ -1,0 +1,82 @@
+{
+  "slug": "st-gallen",
+  "name": "St. Gallen",
+  "isFree": false,
+  "anfahrt": "CHF 2.00/km",
+  "headline": "IT-Support St. Gallen",
+  "subheadline": "IT-Expertise für die Ostschweizer Metropole",
+  "description": "IT-Support für St. Gallen: Remote-Hilfe sofort, Vor-Ort in 30 Min. Spezialisiert auf Bildung, Startups, Textil & Design. Kompetenter Service für die Ostschweizer Wirtschaft.",
+  "intro": "St. Gallen – das wirtschaftliche und akademische Zentrum der Ostschweiz. Von Stickerei-Unternehmen mit digitaler Produktion über HSG-Startups bis zu Bildungseinrichtungen: Die IT-Anforderungen sind vielfältig und anspruchsvoll. Wenn der Computer an der Uni streikt, das Netzwerk im Textilbetrieb ausfällt oder die Cloud-Lösung beim Startup nicht funktioniert – helfen wir schnell und kompetent. Remote-Support starten wir meist während des Telefonats. Für Vor-Ort-Einsätze sind wir von Tägerwilen aus in etwa 30 Minuten bei Ihnen. Wir verstehen die Ostschweizer Mentalität: gradlinig, qualitätsbewusst, ohne Schnörkel.",
+  "regionalImage": "/images/regions/st-gallen.png",
+  "localBenefits": [
+    "30 Min ab Tägerwilen",
+    "Remote-Support sofort",
+    "Uni & Bildungs-Know-how",
+    "Faire Anfahrtskosten"
+  ],
+  "stats": [
+    {
+      "label": "St. Galler Kunden",
+      "value": "45+"
+    },
+    {
+      "label": "Ø Anfahrt",
+      "value": "30 Min"
+    }
+  ],
+  "localIndustries": [
+    {
+      "name": "Bildungseinrichtungen",
+      "need": "Schul-IT, iPad-Klassen, sicheres WLAN für Studenten"
+    },
+    {
+      "name": "Textil & Design",
+      "need": "Grosse Datenmengen, Backups, Adobe Creative Cloud Support"
+    },
+    {
+      "name": "Startups",
+      "need": "MacBook-Support, Cloud-Only, Microsoft 365, Teams"
+    }
+  ],
+  "localFaqQuestion": "Können Sie uns beim Umzug helfen?",
+  "localFaqAnswer": "Gerne. Wir übernehmen den Abbau der IT am alten Standort und den fachgerechten Aufbau und Test am neuen Ort in St. Gallen.",
+  "additionalFaqs": [
+    {
+      "question": "Bieten Sie auch regelmässige Wartung an?",
+      "answer": "Ja, mit unseren Managed Services überwachen wir Ihre Systeme proaktiv. Wir beheben Probleme oft, bevor Sie sie bemerken."
+    },
+    {
+      "question": "Betreuen Sie auch Bildungseinrichtungen?",
+      "answer": "Ja, wir haben Erfahrung mit Schul-IT, iPad-Verwaltung und sicheren WLAN-Lösungen für Bildungseinrichtungen."
+    }
+  ],
+  "metaTitle": "IT-Support St. Gallen | Schnelle IT-Hilfe | InfraOne",
+  "metaDescription": "IT-Support St. Gallen: Schnelle Hilfe für KMU und Privatpersonen. Remote innert Minuten, Vor-Ort in 30 Min. ab CHF 130/h Remote, ab CHF 145/h Vor-Ort. ☎ 052 222 18 18",
+  "keywords": [
+    "IT Support St. Gallen",
+    "Computerhilfe St. Gallen",
+    "PC Support St. Gallen",
+    "IT Service St. Gallen"
+  ],
+  "schemaType": "ProfessionalService",
+  "includeFaqSchema": true,
+  "canonicalUrl": "https://www.infraone.ch/it-support/st-gallen",
+  "areaServed": [
+    "St. Gallen",
+    "Gossau",
+    "Wil"
+  ],
+  "addressLocality": "",
+  "postalCode": "",
+  "openingHours": [],
+  "specialOpeningHours": [],
+  "supportHours": {
+    "times": [
+      { "time": "Mo–Fr 08:00–17:00", "text": "regulärer Tarif", "style": "neutral" },
+      { "time": "Mo–Fr 17:00–23:00", "text": "+25% Zuschlag", "style": "warning" },
+      { "time": "Sa / So / Feiertage", "text": "+50% Zuschlag", "style": "warning" },
+      { "time": "23:00–08:00", "text": "nur mit SLA, +100%", "style": "danger" }
+    ],
+    "note": "Support bis 23:00 Uhr sowie an Wochenenden und Feiertagen ist verfügbar (mit Zuschlag, Best-Effort).\nOhne aktives SLA sind Einsätze zwischen 23:00 und 08:00 Uhr ausgeschlossen."
+  }
+}

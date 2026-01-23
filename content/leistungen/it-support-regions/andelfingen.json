@@ -1,0 +1,97 @@
+{
+  "slug": "andelfingen",
+  "name": "Andelfingen",
+  "isFree": true,
+  "anfahrt": "Keine Anfahrtskosten",
+  "headline": "IT-Support Andelfingen & Weinland",
+  "subheadline": "Lokaler IT-Partner im Zürcher Weinland",
+  "description": "IT-Support Andelfingen & Weinland mit Büro in Kleinandelfingen. Spezialisiert auf Landwirtschaft & Gewerbe. Keine Anfahrtskosten, persönlicher Service vor Ort.",
+  "intro": "Das Zürcher Weinland rund um Andelfingen ist geprägt von Landwirtschaft, Weinbau und einem aktiven Gewerbe. Von unserem Standort in Kleinandelfingen aus betreuen wir die gesamte Region persönlich und kompetent. Wenn auf dem Bauernhof der PC streikt, in der Gärtnerei die Warenwirtschaft nicht mehr läuft oder im Gewerbebetrieb das Backup fehlt, sind wir schnell vor Ort. Keine anonyme Hotline, keine überteuerten Anfahrten. Ob Buchhaltungssoftware für den Weinbaubetrieb, Kassensystem für den Hofladen oder Anbindung von Agrartechnik – wir verstehen die Anforderungen lokaler Betriebe und bieten massgeschneiderte Lösungen.",
+  "regionalImage": "/images/regions/andelfingen.png",
+  "localBenefits": [
+    "Büro im Weinland",
+    "Keine Anfahrtskosten",
+    "Versteht lokale Betriebe",
+    "Schnelle Reaktionszeit"
+  ],
+  "stats": [
+    {
+      "label": "Kunden im Weinland",
+      "value": "40+"
+    },
+    {
+      "label": "Ø Anfahrt",
+      "value": "< 20 Min"
+    }
+  ],
+  "localIndustries": [
+    {
+      "name": "Landwirtschaft",
+      "need": "Robuste Lösungen, Agrarsoftware, Melkroboter-Anbindung"
+    },
+    {
+      "name": "Weinbau",
+      "need": "Buchhaltung, Webshop, Warenwirtschaft"
+    },
+    {
+      "name": "Gewerbe & Handwerk",
+      "need": "Einfache Bedienung, Backup, Datensicherheit"
+    }
+  ],
+  "localFaqQuestion": "Verstehen Sie die Bedürfnisse von Landwirtschaftsbetrieben?",
+  "localFaqAnswer": "Ja, wir betreuen mehrere Bauern- und Weinbaubetriebe im Weinland. Von der Anbindung von Melkrobotern bis zur Buchhaltungssoftware – wir kennen die Anforderungen.",
+  "additionalFaqs": [
+    {
+      "question": "Kommen Sie auch für kleine Probleme vorbei?",
+      "answer": "Ja, wir helfen auch, wenn 'nur' der Drucker klemmt oder das Internet langsam ist. Im Weinland berechnen wir keine Anfahrt."
+    },
+    {
+      "question": "Können Sie alte Computer wieder schneller machen?",
+      "answer": "Oft ja. Mit einer SSD-Aufrüstung bringen wir ältere PCs und Laptops wieder auf Trab – eine kostengünstige Alternative zum Neukauf."
+    }
+  ],
+  "metaTitle": "IT-Support Andelfingen | IT-Hilfe im Weinland | InfraOne",
+  "metaDescription": "IT-Support Andelfingen & Weinland: Persönlicher Service für KMU und Privatpersonen. 20 Min Anfahrt. ab CHF 130/h Remote, ab CHF 145/h Vor-Ort. ☎ 052 222 18 18",
+  "keywords": [
+    "IT Support Andelfingen",
+    "Computerhilfe Weinland",
+    "PC Support Andelfingen",
+    "IT Support Zürcher Weinland"
+  ],
+  "schemaType": "LocalBusiness",
+  "includeFaqSchema": true,
+  "canonicalUrl": "https://www.infraone.ch/it-support/andelfingen",
+  "areaServed": [
+    "Andelfingen",
+    "Zürcher Weinland",
+    "Kleinandelfingen",
+    "Flaach",
+    "Dachsen"
+  ],
+  "addressLocality": "Kleinandelfingen",
+  "postalCode": "8451",
+  "openingHours": [
+    {
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "17:00"
+    }
+  ],
+  "specialOpeningHours": [
+    {
+      "opens": "08:00",
+      "closes": "23:00",
+      "validFrom": "2024-01-01",
+      "validThrough": "2024-12-31"
+    }
+  ],
+  "supportHours": {
+    "times": [
+      { "time": "Mo–Fr 08:00–17:00", "text": "regulärer Tarif", "style": "neutral" },
+      { "time": "Mo–Fr 17:00–23:00", "text": "+25% Zuschlag", "style": "warning" },
+      { "time": "Sa / So / Feiertage", "text": "+50% Zuschlag", "style": "warning" },
+      { "time": "23:00–08:00", "text": "nur mit SLA, +100%", "style": "danger" }
+    ],
+    "note": "Support bis 23:00 Uhr sowie an Wochenenden und Feiertagen ist verfügbar (mit Zuschlag, Best-Effort).\nOhne aktives SLA sind Einsätze zwischen 23:00 und 08:00 Uhr ausgeschlossen."
+  }
+}

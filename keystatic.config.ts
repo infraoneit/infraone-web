@@ -765,6 +765,7 @@ export default config({
                     description: 'Regionen fuer Structured Data',
                     options: [
                         { label: 'Schweiz', value: 'Schweiz' },
+                        // Hauptregionen
                         { label: 'Winterthur', value: 'Winterthur' },
                         { label: 'Zuerich', value: 'Zuerich' },
                         { label: 'Schaffhausen', value: 'Schaffhausen' },
@@ -777,13 +778,131 @@ export default config({
                         { label: 'Bern', value: 'Bern' },
                         { label: 'Luzern', value: 'Luzern' },
                         // Winterthur Stadtteile
-                        { label: 'Eulachstadt (Winterthur)', value: 'Eulachstadt' },
-                        { label: 'Töss (Winterthur)', value: 'Töss' },
-                        { label: 'Seen (Winterthur)', value: 'Seen' },
-                        { label: 'Wülflingen (Winterthur)', value: 'Wülflingen' },
-                        { label: 'Veltheim (Winterthur)', value: 'Veltheim' },
+                        { label: 'Eulachstadt', value: 'Eulachstadt' },
+                        { label: 'Töss', value: 'Töss' },
+                        { label: 'Seen', value: 'Seen' },
+                        { label: 'Wülflingen', value: 'Wülflingen' },
+                        { label: 'Veltheim', value: 'Veltheim' },
+                        // Zürich Stadtteile
+                        { label: 'Oerlikon', value: 'Oerlikon' },
+                        { label: 'Altstetten', value: 'Altstetten' },
+                        { label: 'Wiedikon', value: 'Wiedikon' },
+                        // Schaffhausen Region
+                        { label: 'Neuhausen am Rheinfall', value: 'Neuhausen am Rheinfall' },
+                        { label: 'Stein am Rhein', value: 'Stein am Rhein' },
+                        // Weinland
+                        { label: 'Zürcher Weinland', value: 'Zürcher Weinland' },
+                        { label: 'Kleinandelfingen', value: 'Kleinandelfingen' },
+                        { label: 'Flaach', value: 'Flaach' },
+                        { label: 'Dachsen', value: 'Dachsen' },
+                        // Thurgau Städte
+                        { label: 'Frauenfeld', value: 'Frauenfeld' },
+                        { label: 'Kreuzlingen', value: 'Kreuzlingen' },
+                        { label: 'Weinfelden', value: 'Weinfelden' },
+                        { label: 'Arbon', value: 'Arbon' },
+                        { label: 'Romanshorn', value: 'Romanshorn' },
+                        // St. Gallen Städte
+                        { label: 'Gossau', value: 'Gossau' },
+                        { label: 'Wil', value: 'Wil' },
                     ],
                     defaultValue: ['Schweiz'],
+                }),
+
+                // STRUCTURED DATA FELDER (für LocalBusiness Schema)
+                addressLocality: fields.text({
+                    label: 'Ort (addressLocality)',
+                    description: 'Ort für Structured Data, z.B. "Winterthur" oder "Kleinandelfingen"',
+                }),
+                postalCode: fields.text({
+                    label: 'PLZ (postalCode)',
+                    description: 'Postleitzahl für Structured Data, z.B. "8400" oder "8451"',
+                }),
+                openingHours: fields.array(
+                    fields.object({
+                        dayOfWeek: fields.multiselect({
+                            label: 'Wochentage',
+                            description: 'An welchen Tagen gelten diese Öffnungszeiten',
+                            options: [
+                                { label: 'Montag', value: 'Monday' },
+                                { label: 'Dienstag', value: 'Tuesday' },
+                                { label: 'Mittwoch', value: 'Wednesday' },
+                                { label: 'Donnerstag', value: 'Thursday' },
+                                { label: 'Freitag', value: 'Friday' },
+                                { label: 'Samstag', value: 'Saturday' },
+                                { label: 'Sonntag', value: 'Sunday' },
+                            ],
+                            defaultValue: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                        }),
+                        opens: fields.text({ 
+                            label: 'Öffnet um', 
+                            description: 'Format: HH:MM, z.B. "08:00"',
+                            defaultValue: '08:00',
+                        }),
+                        closes: fields.text({ 
+                            label: 'Schließt um', 
+                            description: 'Format: HH:MM, z.B. "17:00"',
+                            defaultValue: '17:00',
+                        }),
+                    }),
+                    {
+                        label: 'Öffnungszeiten',
+                        description: 'Reguläre Öffnungszeiten für LocalBusiness Schema',
+                        itemLabel: props => `${props.fields.opens.value || '?'} - ${props.fields.closes.value || '?'}`,
+                    }
+                ),
+                specialOpeningHours: fields.array(
+                    fields.object({
+                        opens: fields.text({ 
+                            label: 'Öffnet um',
+                            description: 'Format: HH:MM',
+                        }),
+                        closes: fields.text({ 
+                            label: 'Schließt um',
+                            description: 'Format: HH:MM',
+                        }),
+                        validFrom: fields.text({ 
+                            label: 'Gültig von',
+                            description: 'Format: YYYY-MM-DD',
+                        }),
+                        validThrough: fields.text({ 
+                            label: 'Gültig bis',
+                            description: 'Format: YYYY-MM-DD',
+                        }),
+                    }),
+                    {
+                        label: 'Spezielle Öffnungszeiten',
+                        description: 'z.B. Notfall-Support-Zeiten, Feiertagsregelungen',
+                        itemLabel: props => `Notfall: ${props.fields.opens.value || '?'} - ${props.fields.closes.value || '?'}`,
+                    }
+                ),
+                supportHours: fields.object({
+                    times: fields.array(
+                        fields.object({
+                            time: fields.text({ label: 'Zeit', description: 'z.B. "Mo-Fr 08:00-17:00"' }),
+                            text: fields.text({ label: 'Beschreibung', description: 'z.B. "regulärer Tarif"' }),
+                            style: fields.select({
+                                label: 'Stil',
+                                options: [
+                                    { label: 'Neutral', value: 'neutral' },
+                                    { label: 'Warnung (Gelb)', value: 'warning' },
+                                    { label: 'Gefahr (Rot)', value: 'danger' },
+                                ],
+                                defaultValue: 'neutral',
+                            }),
+                        }),
+                        {
+                            label: 'Support-Zeiten',
+                            itemLabel: props => props.fields.time.value || 'Neue Zeit',
+                        }
+                    ),
+                    note: fields.text({
+                        label: 'Hinweis',
+                        description: 'Zusätzlicher Hinweis zu Support-Zeiten',
+                        multiline: true,
+                    }),
+                }, {
+                    label: 'Support-Zeiten & Zuschläge',
+                    description: 'Anzeige der Support-Zeiten auf der Regionalseite',
                 }),
             },
         }),

@@ -1,0 +1,98 @@
+{
+  "slug": "thurgau",
+  "name": "Thurgau",
+  "isFree": true,
+  "anfahrt": "Keine Anfahrtskosten",
+  "headline": "IT-Support Thurgau",
+  "subheadline": "Ihr IT-Partner am Bodensee",
+  "description": "IT-Support Thurgau mit Standort in Tägerwilen. Persönlicher Service für Frauenfeld, Kreuzlingen, Weinfelden, Arbon. Spezialisiert auf Tourismus, Gastronomie & Landwirtschaft.",
+  "intro": "Der Thurgau – bekannt für Äpfel, den Bodensee und eine vielfältige Wirtschaft. Von unserem Standort in Tägerwilen (bei Kreuzlingen) aus betreuen wir den gesamten Kanton persönlich und kompetent. Ob Obstbaubetrieb, Arztpraxis, Handwerksbetrieb oder Hotel am Bodensee – wenn die IT streikt, sind wir schnell vor Ort. Von Frauenfeld über Kreuzlingen bis Weinfelden und Arbon: Wir kennen die Region, sprechen Thurgauer Dialekt und verstehen die Anforderungen lokaler Betriebe. Keine anonyme Hotline, sondern echte Nachbarschaftshilfe mit IT-Expertise.",
+  "regionalImage": "/images/regions/thurgau.png",
+  "localBenefits": [
+    "Büro in Tägerwilen",
+    "Keine Anfahrtskosten",
+    "Kennt lokale Betriebe",
+    "Schnelle Reaktionszeit"
+  ],
+  "stats": [
+    {
+      "label": "Thurgauer Kunden",
+      "value": "60+"
+    },
+    {
+      "label": "Ø Anfahrt",
+      "value": "< 25 Min"
+    }
+  ],
+  "localIndustries": [
+    {
+      "name": "Landwirtschaft & Obstbau",
+      "need": "Robuste Hardware, Agrarsoftware, Wetterstation-Anbindung"
+    },
+    {
+      "name": "Gesundheitswesen",
+      "need": "Sichere Patientendaten, HIN-Mail, Praxissoftware"
+    },
+    {
+      "name": "Tourismus & Gastronomie",
+      "need": "Kassensysteme, Buchungssoftware, WLAN für Gäste"
+    }
+  ],
+  "localFaqQuestion": "Betreuen Sie den ganzen Kanton Thurgau?",
+  "localFaqAnswer": "Ja, von Tägerwilen aus sind wir in Frauenfeld, Kreuzlingen, Weinfelden und der gesamten Region schnell vor Ort. Remote-Support ist sofort verfügbar.",
+  "additionalFaqs": [
+    {
+      "question": "Verstehen Sie die Bedürfnisse von Obstbaubetrieben?",
+      "answer": "Ja, wir betreuen mehrere Obstbau- und Landwirtschaftsbetriebe im Thurgau. Von der Anbindung von Wetterstationen bis zur Buchhaltungssoftware."
+    },
+    {
+      "question": "Können Sie auch am Bodensee-Ufer vor Ort sein?",
+      "answer": "Ja, von Romanshorn über Kreuzlingen bis Gottlieben – wir betreuen Kunden entlang des gesamten Thurgauer Bodenseeufers."
+    }
+  ],
+  "metaTitle": "IT-Support Thurgau | IT-Hilfe Frauenfeld, Kreuzlingen | InfraOne",
+  "metaDescription": "IT-Support Thurgau: Schneller Service in Frauenfeld, Kreuzlingen, Weinfelden. Remote innert Minuten, Vor-Ort mit kurzer Anfahrt. ☎ 052 222 18 18",
+  "keywords": [
+    "IT Support Thurgau",
+    "Computerhilfe Frauenfeld",
+    "PC Support Kreuzlingen",
+    "IT Service Weinfelden"
+  ],
+  "schemaType": "LocalBusiness",
+  "includeFaqSchema": true,
+  "canonicalUrl": "https://www.infraone.ch/it-support/thurgau",
+  "areaServed": [
+    "Thurgau",
+    "Frauenfeld",
+    "Kreuzlingen",
+    "Weinfelden",
+    "Arbon",
+    "Romanshorn"
+  ],
+  "addressLocality": "Tägerwilen",
+  "postalCode": "8274",
+  "openingHours": [
+    {
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "17:00"
+    }
+  ],
+  "specialOpeningHours": [
+    {
+      "opens": "08:00",
+      "closes": "23:00",
+      "validFrom": "2024-01-01",
+      "validThrough": "2024-12-31"
+    }
+  ],
+  "supportHours": {
+    "times": [
+      { "time": "Mo–Fr 08:00–17:00", "text": "regulärer Tarif", "style": "neutral" },
+      { "time": "Mo–Fr 17:00–23:00", "text": "+25% Zuschlag", "style": "warning" },
+      { "time": "Sa / So / Feiertage", "text": "+50% Zuschlag", "style": "warning" },
+      { "time": "23:00–08:00", "text": "nur mit SLA, +100%", "style": "danger" }
+    ],
+    "note": "Support bis 23:00 Uhr sowie an Wochenenden und Feiertagen ist verfügbar (mit Zuschlag, Best-Effort).\nOhne aktives SLA sind Einsätze zwischen 23:00 und 08:00 Uhr ausgeschlossen."
+  }
+}
