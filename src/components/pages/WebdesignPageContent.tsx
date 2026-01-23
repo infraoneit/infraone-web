@@ -111,7 +111,7 @@ export function WebdesignPageContent() {
                                 className={`relative p-8 rounded-2xl border ${pkg.popular
                                     ? 'bg-primary text-white border-primary shadow-2xl shadow-primary/20'
                                     : 'bg-card border-border hover:border-primary/50'
-                                    } transition-all duration-300`}
+                                    } transition-all duration-150`}
                             >
                                 {pkg.popular && (
                                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-primary text-sm font-bold px-4 py-1 rounded-full">

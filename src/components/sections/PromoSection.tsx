@@ -40,7 +40,7 @@ export function PromoSection({
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.3 }}
                     className="max-w-3xl mx-auto text-center text-white"
                 >
                     {/* Icon */}
@@ -48,7 +48,7 @@ export function PromoSection({
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
                         className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-6"
                     >
                         <Gift className="w-8 h-8" />

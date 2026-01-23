@@ -354,7 +354,7 @@ export default function CloudTelefoniePage() {
                         {alternativeSolutions.map((solution, index) => (
                             <div
                                 key={index}
-                                className="p-6 rounded-2xl bg-card border border-border text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                                className="p-6 rounded-2xl bg-card border border-border text-center transition-all duration-150 hover:-translate-y-1 hover:shadow-lg"
                             >
                                 <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
                                     {solution.icon}

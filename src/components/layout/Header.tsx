@@ -88,7 +88,7 @@ export function Header() {
             {/* Main Header */}
             <header
                 className={cn(
-                    'sticky top-0 z-50 transition-all duration-300',
+                    'sticky top-0 z-50 transition-all duration-200',
                     isScrolled
                         ? 'bg-background/95 backdrop-blur-lg shadow-lg border-b border-border'
                         : 'bg-background'
@@ -197,7 +197,7 @@ export function Header() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.3 }}
+                            transition={{ duration: 0.2 }}
                             className="lg:hidden bg-background border-t border-border overflow-hidden"
                         >
                             <div className="container mx-auto px-4 py-4">

@@ -82,7 +82,7 @@ export default function KontaktPage() {
                                     href={location.mapUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group block h-full p-6 rounded-2xl bg-card border border-border hover:border-primary hover:shadow-xl transition-all duration-300"
+                                    className="group block h-full p-6 rounded-2xl bg-card border border-border hover:border-primary hover:shadow-xl transition-all duration-150"
                                 >
                                     <div className="flex items-start gap-4">
                                         <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">

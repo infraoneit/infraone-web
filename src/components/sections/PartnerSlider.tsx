@@ -37,7 +37,7 @@ export function PartnerSlider() {
     return (
         <section className="py-12 lg:py-16 bg-surface border-y border-border overflow-hidden">
             <div className="container mx-auto px-4">
-                <h2 className="text-center text-sm font-medium text-text-secondary mb-8 uppercase tracking-wider">
+                <h2 className="text-center text-sm font-medium text-text-secondary mb-10 uppercase tracking-wider">
                     Unsere Partner & Technologien
                 </h2>
             </div>
@@ -49,7 +49,7 @@ export function PartnerSlider() {
 
                 {/* Scrolling Container */}
                 <motion.div
-                    className="flex gap-12 items-center"
+                    className="flex gap-8 items-center"
                     animate={{
                         x: ['0%', '-50%'],
                     }}
@@ -66,13 +66,13 @@ export function PartnerSlider() {
                             key={`${partner.name}-${index}`}
                             className="flex-shrink-0 group"
                         >
-                            <div className="w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                            <div className="w-40 h-20 flex items-center justify-center rounded-xl bg-background/50 dark:bg-card/80 border border-border/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-150 p-4">
                                 <Image
                                     src={partner.logo}
                                     alt={partner.name}
-                                    width={100}
-                                    height={50}
-                                    className="object-contain max-h-12 w-auto"
+                                    width={120}
+                                    height={60}
+                                    className="object-contain max-h-16 w-auto grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-150"
                                 />
                             </div>
                         </div>

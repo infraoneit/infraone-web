@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { WebdesignContent } from '@/components/pages/WebdesignContent';
-import { generateServiceSchema } from '@/lib/seo/schema';
+import { generateServiceSchema, generateAggregateRatingSchema } from '@/lib/seo/schema';
 
 export const metadata: Metadata = {
     title: 'Webdesign Schweiz | Websites ab CHF 990 | InfraOne',
@@ -22,11 +22,17 @@ export default function WebdesignPage() {
         'https://www.infraone.ch/webdesign'
     );
 
+    const aggregateRatingSchema = generateAggregateRatingSchema();
+
     return (
         <>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }}
             />
             <WebdesignContent />
         </>

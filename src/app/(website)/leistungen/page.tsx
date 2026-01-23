@@ -115,7 +115,7 @@ export default function LeistungenPage() {
                         {services.map((service, index) => (
                             <StaggerItem key={index}>
                                 <Link href={service.href} className="block h-full">
-                                    <div className="group h-full p-6 rounded-2xl bg-card border border-border hover:border-primary hover:shadow-xl transition-all duration-300">
+                                    <div className="group h-full p-6 rounded-2xl bg-card border border-border hover:border-primary hover:shadow-xl transition-all duration-150">
                                         <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} text-white flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                                             {service.icon}
                                         </div>

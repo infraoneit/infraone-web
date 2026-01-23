@@ -27,14 +27,14 @@ function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: n
                 <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.6, delay: 0.2 }}
+                    transition={{ duration: 0.3, delay: 0.2 }}
                     className="ml-16 md:ml-20 relative"
                 >
                     {/* Year Badge */}
                     <motion.div 
                         initial={{ scale: 0 }}
                         animate={isInView ? { scale: 1 } : {}}
-                        transition={{ duration: 0.4, type: "spring" }}
+                        transition={{ duration: 0.3, type: "spring", stiffness: 400 }}
                         className={`absolute -left-16 md:-left-20 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center z-10 shadow-lg ${event.highlight ? 'bg-primary text-white' : 'bg-surface border-3 border-primary text-primary'}`}
                     >
                         <span className="text-xs md:text-sm font-bold">{event.year.slice(-2)}</span>
@@ -57,8 +57,8 @@ function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: n
                         <motion.div
                             initial={{ opacity: 0, x: -60 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
-                            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
-                            className={`p-8 rounded-2xl border text-right ${event.highlight ? 'bg-primary/5 border-primary shadow-xl shadow-primary/10' : 'bg-surface border-border hover:border-primary/40 hover:shadow-lg'} transition-all duration-300`}
+                            transition={{ duration: 0.4, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
+                            className={`p-8 rounded-2xl border text-right ${event.highlight ? 'bg-primary/5 border-primary shadow-xl shadow-primary/10' : 'bg-surface border-border hover:border-primary/40 hover:shadow-lg'} transition-all duration-150`}
                         >
                             <span className="text-sm font-bold text-primary tracking-wider uppercase">{event.year}</span>
                             <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">{event.title}</h3>
@@ -73,7 +73,7 @@ function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: n
                     <motion.div
                         initial={{ scale: 0, rotate: -180 }}
                         animate={isInView ? { scale: 1, rotate: 0 } : {}}
-                        transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
+                        transition={{ duration: 0.3, type: "spring", stiffness: 400 }}
                         className={`sticky top-32 w-20 h-20 rounded-full flex items-center justify-center z-20 shadow-xl ${event.highlight ? 'bg-primary text-white ring-4 ring-primary/20' : 'bg-surface border-4 border-primary text-primary'}`}
                     >
                         <span className="text-lg font-black">{event.year}</span>
@@ -91,8 +91,8 @@ function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: n
                         <motion.div
                             initial={{ opacity: 0, x: 60 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
-                            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
-                            className={`p-8 rounded-2xl border ${event.highlight ? 'bg-primary/5 border-primary shadow-xl shadow-primary/10' : 'bg-surface border-border hover:border-primary/40 hover:shadow-lg'} transition-all duration-300`}
+                            transition={{ duration: 0.4, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
+                            className={`p-8 rounded-2xl border ${event.highlight ? 'bg-primary/5 border-primary shadow-xl shadow-primary/10' : 'bg-surface border-border hover:border-primary/40 hover:shadow-lg'} transition-all duration-150`}
                         >
                             <span className="text-sm font-bold text-primary tracking-wider uppercase">{event.year}</span>
                             <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">{event.title}</h3>
@@ -122,7 +122,7 @@ export function Timeline({ events, introText }: TimelineProps) {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7 }}
+                    transition={{ duration: 0.4 }}
                     className="max-w-3xl mx-auto text-center mb-12 md:mb-16 lg:mb-24 px-4"
                 >
                     <p className="text-lg md:text-xl text-text-secondary leading-relaxed italic">

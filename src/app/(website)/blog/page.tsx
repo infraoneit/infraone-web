@@ -37,7 +37,7 @@ export default async function BlogPage() {
                         {sortedPosts.map((post) => (
                             <StaggerItem key={post.slug}>
                                 <Link href={`/blog/${post.slug}`} className="block h-full">
-                                    <article className="group h-full flex flex-col p-6 rounded-2xl bg-card border border-border hover:border-primary hover:shadow-xl transition-all duration-300">
+                                    <article className="group h-full flex flex-col p-6 rounded-2xl bg-card border border-border hover:border-primary hover:shadow-xl transition-all duration-150">
                                         <div className="mb-4">
                                             <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
                                                 <Tag className="w-3 h-3" />
@@ -65,7 +65,7 @@ export default async function BlogPage() {
                                                     {post.readingTime}
                                                 </span>
                                             </div>
-                                            <span className="flex items-center gap-1 text-primary font-medium opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                                            <span className="flex items-center gap-1 text-primary font-medium opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-150">
                                                 Lesen
                                                 <ArrowRight className="w-3.5 h-3.5" />
                                             </span>

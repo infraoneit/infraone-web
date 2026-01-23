@@ -106,8 +106,8 @@ export function ServicesSection() {
                             <Link href={service.href} className="block h-full group">
                                 <motion.div
                                     whileHover={{ y: -8, scale: 1.02 }}
-                                    transition={{ type: 'spring', stiffness: 300 }}
-                                    className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 relative overflow-hidden"
+                                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                                    className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-150 relative overflow-hidden"
                                 >
                                     {/* Accent Line at Top */}
                                     <div className="absolute top-0 left-0 right-0 h-1 bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -135,7 +135,7 @@ export function ServicesSection() {
                                     {/* CTA Link */}
                                     <div className="flex items-center gap-2 text-sm font-medium text-primary opacity-80 group-hover:opacity-100 transition-opacity">
                                         <span>Mehr erfahren</span>
-                                        <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" />
+                                        <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-150" />
                                     </div>
                                 </motion.div>
                             </Link>

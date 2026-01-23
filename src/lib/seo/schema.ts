@@ -1,4 +1,4 @@
-import { Organization, LocalBusiness, Service, FAQPage, WebSite, AboutPage, WithContext } from 'schema-dts';
+import { Organization, LocalBusiness, Service, FAQPage, WebSite, AboutPage, AggregateRating, WithContext } from 'schema-dts';
 
 /**
  * Geo-Koordinaten fÃƒÂ¼r Schweizer Regionen
@@ -617,5 +617,84 @@ export function generateVirtualSpokeSchema(
             name: regionName,
         },
         isPartOf: { '@id': `${BASE_URL}/it-support#service` },
+    };
+}
+
+/**
+ * Generiert AggregateRating Schema für Testimonials
+ */
+export function generateAggregateRatingSchema() {
+    return {
+        '@type': 'AggregateRating',
+        '@id': `${BASE_URL}/webdesign#rating`,
+        ratingValue: '5',
+        bestRating: '5',
+        worstRating: '1',
+        ratingCount: '3',
+        review: [
+            {
+                '@type': 'Review',
+                author: {
+                    '@type': 'Person',
+                    name: 'Albert Sulejmani',
+                },
+                reviewRating: {
+                    '@type': 'Rating',
+                    ratingValue: '5',
+                    bestRating: '5',
+                },
+                reviewBody: 'Unsere neue Website fühlt sich endlich so professionell an wie unsere Arbeit. Die Seite ist klar aufgebaut, schnell und auf das Wesentliche reduziert. Wir wurden von Anfang an verstanden und konnten unsere Inhalte Schritt für Schritt gemeinsam sauber aufbauen. Änderungen sind heute unkompliziert möglich, genau so wie wir es wollten.',
+                itemReviewed: {
+                    '@type': 'Service',
+                    name: 'Webdesign & Website-Entwicklung',
+                    provider: {
+                        '@type': 'Organization',
+                        name: 'InfraOne IT Solutions GmbH',
+                    },
+                },
+            },
+            {
+                '@type': 'Review',
+                author: {
+                    '@type': 'Person',
+                    name: 'Salvatore Irrera',
+                },
+                reviewRating: {
+                    '@type': 'Rating',
+                    ratingValue: '5',
+                    bestRating: '5',
+                },
+                reviewBody: 'Von der ersten Idee bis zur fertigen Website lief alles strukturiert und transparent. Die neue Seite ist modern, übersichtlich und leicht zu pflegen. Besonders schätzen wir, dass wir Inhalte selbst anpassen können, ohne jedes Mal extern Hilfe zu brauchen.',
+                itemReviewed: {
+                    '@type': 'Service',
+                    name: 'Webdesign & Website-Entwicklung',
+                    provider: {
+                        '@type': 'Organization',
+                        name: 'InfraOne IT Solutions GmbH',
+                    },
+                },
+            },
+            {
+                '@type': 'Review',
+                author: {
+                    '@type': 'Person',
+                    name: 'Peer Höppli',
+                },
+                reviewRating: {
+                    '@type': 'Rating',
+                    ratingValue: '5',
+                    bestRating: '5',
+                },
+                reviewBody: 'Die Website wurde extrem schnell umgesetzt und bringt unsere Projekte genau so zur Geltung, wie wir es uns vorgestellt haben. Klare Gestaltung, einfache Bedienung und ein sehr gutes Preis-Leistungs-Verhältnis. Wir sind rundum zufrieden.',
+                itemReviewed: {
+                    '@type': 'Service',
+                    name: 'Webdesign & Website-Entwicklung',
+                    provider: {
+                        '@type': 'Organization',
+                        name: 'InfraOne IT Solutions GmbH',
+                    },
+                },
+            },
+        ],
     };
 }

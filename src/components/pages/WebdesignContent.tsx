@@ -3,7 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Check, ArrowRight, Code, Rocket, Palette, Star, ExternalLink, ChevronDown, Blocks, FileCode, Zap } from 'lucide-react';
+import { 
+    Check, ArrowRight, Code, Rocket, Palette, Star, ExternalLink, ChevronDown, Blocks, FileCode, Zap, Target, Sparkles, Wrench,
+    Factory, Stethoscope, ShoppingBag, Landmark, Palette as PaletteIcon, Lightbulb, Cpu,
+    Wine, Plane, Hammer, Users, Utensils, Apple, Ship, Shirt, CalendarDays, Music, 
+    Pill, FlaskConical, Truck, Hotel, Heart, Clock, Mountain, HardHat, Bitcoin, Building2, GraduationCap
+} from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { useState } from 'react';
@@ -65,27 +70,30 @@ const packages = [
 const references = [
     {
         name: 'Schaltkraft AG',
-        url: 'https://schaltkraft.ch',
+        url: 'https://schaltkraft-admin.netlify.app',
         description: 'Elektroinstallationen & Gebäudetechnik',
-        quote: 'Die neue Website hat unsere Online-Sichtbarkeit massiv verbessert. Professionell, schnell und immer erreichbar.',
-        author: 'Thomas Müller',
-        role: 'Geschäftsführer',
+        quote: 'Unsere neue Website fühlt sich endlich so professionell an wie unsere Arbeit. Die Seite ist klar aufgebaut, schnell und auf das Wesentliche reduziert. Wir wurden von Anfang an verstanden und konnten unsere Inhalte Schritt für Schritt gemeinsam sauber aufbauen. Änderungen sind heute unkompliziert möglich, genau so wie wir es wollten.',
+        author: 'Albert Sulejmani',
+        role: 'CEO Schaltkraft AG',
+        image: '/images/webdesign-referenzen/website-referenz-industrie.jpg',
     },
     {
         name: 'Elektro-Tel AG',
-        url: 'https://elektro-tel.ch',
+        url: 'https://elektro-tel.netlify.app',
         description: 'Elektro & Telekommunikation',
-        quote: 'Von der Beratung bis zur Umsetzung alles aus einer Hand. Das Keystatic CMS ist kinderleicht zu bedienen.',
-        author: 'Marco Weber',
-        role: 'Inhaber',
+        quote: 'Von der ersten Idee bis zur fertigen Website lief alles strukturiert und transparent. Die neue Seite ist modern, übersichtlich und leicht zu pflegen. Besonders schätzen wir, dass wir Inhalte selbst anpassen können, ohne jedes Mal extern Hilfe zu brauchen.',
+        author: 'Salvatore Irrera',
+        role: 'Inhaber Elektro-Tel AG',
+        image: '/images/webdesign-referenzen/website-referenz-handwerk.jpg',
     },
     {
-        name: 'Höppli Architektur AG',
-        url: 'https://winterthur-architekten.ch',
-        description: 'Architektur & Planung Winterthur',
-        quote: 'Moderne Website, die unsere Projekte perfekt präsentiert. Die Ladezeiten sind unglaublich schnell.',
-        author: 'Andrea Höppli',
-        role: 'Geschäftsführerin',
+        name: 'Höppli Architektur GmbH',
+        url: 'https://winterthur-architekten.netlify.app',
+        description: 'Architektur & Planung, Winterthur',
+        quote: 'Die Website wurde extrem schnell umgesetzt und bringt unsere Projekte genau so zur Geltung, wie wir es uns vorgestellt haben. Klare Gestaltung, einfache Bedienung und ein sehr gutes Preis-Leistungs-Verhältnis. Wir sind rundum zufrieden.',
+        author: 'Peer Höppli',
+        role: 'Gründer',
+        image: '/images/webdesign-referenzen/website-referenz-architektur.jpg',
     },
 ];
 
@@ -202,8 +210,9 @@ const regionalContent: Record<string, RegionalData> = {
         regionalImage: '/images/regions/winterthur.png',
         localIndustries: [
             { name: 'Maschinenbau & Industrie', description: 'Winterthur hat eine stolze Industriegeschichte. Vom Sulzer-Areal bis zum Technopark sind hier innovative Unternehmen zu Hause.', websiteNeeds: 'Technische Produktpräsentationen, B2B-Fokus, Mehrsprachigkeit' },
-            { name: 'Gesundheit & Praxen', description: 'Zahlreiche Arztpraxen, Therapiezentren und Gesundheitsdienstleister in Winterthur benötigen professionelle Online-Präsenzen.', websiteNeeds: 'Online-Terminbuchung, vertrauenswürdiges Design, DSGVO-konform' },
+            { name: 'Gesundheit & Medizintechnik', description: 'Zahlreiche Arztpraxen, Therapiezentren und Gesundheitsdienstleister in Winterthur benötigen professionelle Online-Präsenzen.', websiteNeeds: 'Online-Terminbuchung, vertrauenswürdiges Design, DSGVO-konform' },
             { name: 'Einzelhandel & Gastronomie', description: 'Die lebendige Altstadt und das Einkaufszentrum Rosenberg bieten vielfältige Retail- und Gastro-Angebote.', websiteNeeds: 'Online-Shop, Speisekarten, Öffnungszeiten, Google Maps Integration' },
+            { name: 'Tech-Startups & Innovation', description: 'Der Technopark Winterthur beherbergt junge Tech-Unternehmen, die digitale Lösungen entwickeln.', websiteNeeds: 'Modernes Design, Investor Relations, Team-Vorstellung, Portfolio' },
         ],
         additionalFaqs: [
             { question: 'Muss ich für die Website-Erstellung persönlich vorbeikommen?', answer: 'Nein, der gesamte Prozess kann 100% remote ablaufen. Wir arbeiten mit Videocalls, geteilten Dokumenten und Online-Feedback-Tools. Persönliche Treffen sind natürlich jederzeit möglich – unser Büro ist nur wenige Gehminuten von der Altstadt entfernt.' },
@@ -222,8 +231,9 @@ const regionalContent: Record<string, RegionalData> = {
         regionalImage: '/images/regions/zuerich.png',
         localIndustries: [
             { name: 'Finanzdienstleistungen', description: 'Zürich ist Europas führender Finanzplatz. Banken, Vermögensverwalter und FinTechs prägen die Wirtschaft.', websiteNeeds: 'Vertrauenswürdiges Design, Compliance-konform, mehrsprachig, sichere Formulare' },
-            { name: 'Kreativwirtschaft & Agenturen', description: 'Vom Seefeld bis Kreis 5 – Zürich beherbergt eine lebendige Kreativszene mit Agenturen und Freelancern.', websiteNeeds: 'Portfolio-Präsentation, visueller Impact, schnelle Ladezeiten' },
+            { name: 'Kreativagenturen & Design', description: 'Vom Seefeld bis Kreis 5 – Zürich beherbergt eine lebendige Kreativszene mit Agenturen und Freelancern.', websiteNeeds: 'Portfolio-Präsentation, visueller Impact, schnelle Ladezeiten' },
             { name: 'Tech & Startups', description: 'Die ETH-Nähe und Googles Präsenz machen Zürich zum Tech-Hub. Startups brauchen agile digitale Lösungen.', websiteNeeds: 'Modernes Design, Skalierbarkeit, Integration mit SaaS-Tools' },
+            { name: 'Beratung & Consulting', description: 'Zürich ist Schweizer Zentrum für Unternehmensberatung, Steuerberatung und Management Consulting.', websiteNeeds: 'Professionelle Außenwirkung, Leistungsübersicht, Case Studies, Kontaktformulare' },
         ],
         additionalFaqs: [
             { question: 'Muss ich für Besprechungen nach Winterthur kommen?', answer: 'Nein, wir arbeiten zu 100% remote wenn gewünscht. Alternativ treffen wir uns gerne in Zürich – die S-Bahn braucht nur 20 Minuten.' },
@@ -243,7 +253,8 @@ const regionalContent: Record<string, RegionalData> = {
         localIndustries: [
             { name: 'Industrie & Produktion', description: 'Von SIG über Georg Fischer bis zu spezialisierten Zulieferern – Schaffhausen hat eine starke industrielle Basis.', websiteNeeds: 'B2B-Kommunikation, technische Produktkataloge, Karriereseiten' },
             { name: 'Weinbau & Landwirtschaft', description: 'Das Schaffhauser Blauburgunderland ist bekannt für exzellente Weine. Weingüter brauchen ansprechende Online-Auftritte.', websiteNeeds: 'Emotionales Storytelling, Online-Shop, Veranstaltungskalender' },
-            { name: 'Tourismus & Freizeit', description: 'Rheinfall, Munot und Altstadt ziehen Besucher an. Lokale Anbieter brauchen attraktive digitale Präsenzen.', websiteNeeds: 'Mehrsprachigkeit, Buchungssysteme, Mobile-first Design' },
+            { name: 'Tourismus & Rheinfall', description: 'Rheinfall, Munot und Altstadt ziehen Besucher an. Lokale Anbieter brauchen attraktive digitale Präsenzen.', websiteNeeds: 'Mehrsprachigkeit, Buchungssysteme, Mobile-first Design' },
+            { name: 'Handwerk & Gewerbe', description: 'Schreiner, Elektriker und Sanitärbetriebe prägen das lokale Gewerbe in Stadt und Region Schaffhausen.', websiteNeeds: 'Leistungsübersicht, Referenzbilder, Kontaktformular, Notfall-Hotline' },
         ],
         additionalFaqs: [
             { question: 'Können Sie Websites für Weingüter mit Online-Shop erstellen?', answer: 'Ja, wir haben bereits mehrere Wein-Online-Shops umgesetzt. Dabei berücksichtigen wir die speziellen Anforderungen wie Versandbedingungen und Altersverifikation.' },
@@ -262,8 +273,9 @@ const regionalContent: Record<string, RegionalData> = {
         regionalImage: '/images/regions/thurgau.png',
         localIndustries: [
             { name: 'Hotellerie & Gastronomie', description: 'Die Bodenseeregion lebt vom Tourismus. Hotels, Restaurants und Freizeitanbieter brauchen ansprechende digitale Auftritte.', websiteNeeds: 'Buchungssysteme, Bildergalerien, Speisekarten, mehrsprachig (DE/EN)' },
-            { name: 'Landwirtschaft & Direktvermarktung', description: 'Mostereien, Hofläden und Obstbauern verkaufen direkt an Endkunden. E-Commerce wird immer wichtiger.', websiteNeeds: 'Online-Shop, Produktkatalog, Liefergebiete, saisonale Angebote' },
-            { name: 'Gewerbe & Handwerk', description: 'Vom Schreiner in Frauenfeld bis zum Elektriker in Kreuzlingen – lokales Gewerbe braucht Sichtbarkeit.', websiteNeeds: 'Leistungsübersicht, Referenzen, Kontaktformular, Google Maps' },
+            { name: 'Obstbau & Direktvermarktung', description: 'Mostereien, Hofläden und Obstbauern im "Mostindien" verkaufen direkt an Endkunden. E-Commerce wird immer wichtiger.', websiteNeeds: 'Online-Shop, Produktkatalog, Liefergebiete, saisonale Angebote' },
+            { name: 'Handwerk & Bau', description: 'Vom Schreiner in Frauenfeld bis zum Elektriker in Kreuzlingen – lokales Gewerbe braucht Sichtbarkeit.', websiteNeeds: 'Leistungsübersicht, Referenzen, Kontaktformular, Google Maps' },
+            { name: 'Bootsbau & Wassersport', description: 'Am Bodensee sind Bootsbauer, Segelschulen und Wassersportanbieter zu Hause.', websiteNeeds: 'Bildergalerien, Kursanmeldung, Preislisten, Online-Buchung' },
         ],
         additionalFaqs: [
             { question: 'Können Sie Buchungssysteme für Hotels integrieren?', answer: 'Ja, wir integrieren gängige Buchungssysteme wie Booking.com, oder setzen auf individuelle Lösungen für kleinere Betriebe.' },
@@ -281,9 +293,10 @@ const regionalContent: Record<string, RegionalData> = {
         localFaq: { question: 'Wie funktioniert die Zusammenarbeit über die Distanz?', answer: 'Wir arbeiten mit Videocalls, geteilten Projektboards und regelmässigen Updates. Bei Bedarf sind wir auch persönlich in Bern – die Anreise dauert nur 1 Stunde.' },
         regionalImage: '/images/webdesign-hero.png',
         localIndustries: [
-            { name: 'Bundesverwaltung & Öffentlicher Sektor', description: 'Als Bundesstadt beherbergt Bern zahlreiche Behörden und Organisationen mit hohen Anforderungen an Barrierefreiheit.', websiteNeeds: 'WCAG-Konformität, Mehrsprachigkeit (DE/FR/IT/EN), sichere Formulare' },
-            { name: 'Tourismus & Kultur', description: 'UNESCO-Welterbe, Bärenpark und Bundeshaus – Bern ist ein Tourismusmagnet mit vielfältigem Kulturangebot.', websiteNeeds: 'Veranstaltungskalender, Ticketing, Bildergalerien, mehrsprachig' },
-            { name: 'Bildung & Forschung', description: 'Universität Bern, Pädagogische Hochschule und zahlreiche Forschungsinstitute prägen den Standort.', websiteNeeds: 'Content Management für viele Autoren, Publikationsverzeichnisse, moderne UX' },
+            { name: 'Bundesverwaltung & NGOs', description: 'Als Bundesstadt beherbergt Bern zahlreiche Behörden, Verbände und Organisationen mit hohen Anforderungen.', websiteNeeds: 'WCAG-Konformität, Mehrsprachigkeit (DE/FR/IT/EN), sichere Formulare' },
+            { name: 'Tourismus & UNESCO-Welterbe', description: 'Die Berner Altstadt, Bärenpark und Bundeshaus ziehen internationale Gäste an.', websiteNeeds: 'Veranstaltungskalender, Ticketing, Bildergalerien, mehrsprachig' },
+            { name: 'Bildung & Forschung', description: 'Universität Bern, PH Bern und Forschungsinstitute prägen den Standort.', websiteNeeds: 'Content Management, Publikationsverzeichnisse, moderne UX' },
+            { name: 'Kulturinstitutionen & Museen', description: 'Kunstmuseum, Zentrum Paul Klee und viele kleinere Kulturorte brauchen digitale Auftritte.', websiteNeeds: 'Ausstellungskalender, Ticketshop, Virtueller Rundgang, mehrsprachig' },
         ],
         additionalFaqs: [
             { question: 'Können Sie barrierefreie Websites nach WCAG erstellen?', answer: 'Ja, wir entwickeln Websites nach WCAG 2.1 AA-Standard. Für öffentliche Institutionen ist dies oft Pflicht – wir kennen die Anforderungen.' },
@@ -300,6 +313,17 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Basler Projekte', value: '8+' }, { label: 'Sprachversionen', value: 'DE/EN/FR' }],
         localFaq: { question: 'Können Sie auch mehrsprachige Websites für internationale Kunden erstellen?', answer: 'Ja, mehrsprachige Websites sind unsere Spezialität. Wir setzen auf Next.js mit i18n-Unterstützung für optimale SEO in allen Sprachen.' },
         regionalImage: '/images/webdesign-hero.png',
+        localIndustries: [
+            { name: 'Pharma & Life Sciences', description: 'Basel ist weltweit führend in Pharma und Life Sciences. Roche, Novartis und viele Zulieferer haben hier ihren Sitz.', websiteNeeds: 'B2B-Kommunikation, Compliance, mehrsprachig, technische Dokumentation' },
+            { name: 'Chemie & Industrie', description: 'Die chemische Industrie hat in Basel eine lange Tradition und ist bis heute prägend.', websiteNeeds: 'Produktkataloge, Sicherheitsdatenblätter, Zertifizierungen, Karriereseiten' },
+            { name: 'Kunst & Galerien', description: 'Art Basel und zahlreiche Galerien machen die Stadt zum internationalen Kunstzentrum.', websiteNeeds: 'Portfolio-Präsentation, Online-Kataloge, Vernissage-Kalender, E-Commerce' },
+            { name: 'Logistik & Rheinhafen', description: 'Der Rheinhafen Basel ist wichtigster Schweizer Binnenhafen. Logistikunternehmen brauchen digitale Präsenz.', websiteNeeds: 'Service-Übersicht, Online-Anfragen, Tracking-Systeme, mehrsprachig' },
+        ],
+        additionalFaqs: [
+            { question: 'Haben Sie Erfahrung mit Pharma-Websites und strengen Compliance-Anforderungen?', answer: 'Ja, wir haben bereits Websites für Life-Sciences-Unternehmen erstellt und kennen die regulatorischen Anforderungen.' },
+            { question: 'Können Sie Websites in drei Sprachen (DE/FR/EN) umsetzen?', answer: 'Selbstverständlich. Mehrsprachige Websites mit optimaler SEO für jede Sprache sind unsere Stärke.' },
+        ],
+        whyChooseUs: 'Als Agentur aus der Region verstehen wir die Basler Mentalität: weltoffen, qualitätsbewusst und mit hohen Ansprüchen an Professionalität.',
     },
     luzern: {
         headline: 'Webdesign Luzern',
@@ -310,6 +334,17 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Zentralschweizer Kunden', value: '12+' }, { label: 'Tourismus-Projekte', value: '5+' }],
         localFaq: { question: 'Verstehen Sie die Bedürfnisse der Tourismusbranche?', answer: 'Absolut. Wir haben Erfahrung mit Hotel-Websites, Buchungssystemen und mehrsprachigen Tourismusportalen. Schnelle Ladezeiten für mobile Gäste sind Standard.' },
         regionalImage: '/images/webdesign-hero.png',
+        localIndustries: [
+            { name: 'Hotellerie & Luxus-Tourismus', description: 'Luzern ist eines der Top-Reiseziele der Schweiz. Hotels und Resorts brauchen erstklassige Websites.', websiteNeeds: 'Buchungssysteme, 360°-Rundgänge, mehrsprachig, Premium-Design' },
+            { name: 'Ausflugsschifffahrt & Wassersport', description: 'Vierwaldstättersee-Schifffahrt, Segelschulen und Bootsvermietungen prägen die Region.', websiteNeeds: 'Online-Ticketing, Fahrpläne, Wetterdaten, mobile Optimierung' },
+            { name: 'Kultur & Event-Locations', description: 'KKL, Luzerner Festspiele und viele Event-Locations brauchen professionelle digitale Auftritte.', websiteNeeds: 'Veranstaltungskalender, Ticketshop, Saalplanung, Newsletter' },
+            { name: 'Gesundheit & Wellness', description: 'Kurkliniken, Wellnesshotels und Gesundheitszentren in der Zentralschweiz setzen auf digitale Präsenz.', websiteNeeds: 'Online-Buchung, Behandlungsangebot, Ärzteverzeichnis, Vertrauensaufbau' },
+        ],
+        additionalFaqs: [
+            { question: 'Können Sie Buchungssysteme für Hotels integrieren?', answer: 'Ja, wir integrieren führende Buchungssysteme oder erstellen individuelle Lösungen. Die Integration ist nahtlos und benutzerfreundlich.' },
+            { question: 'Wie gehen Sie mit mehrsprachigen Inhalten für internationale Gäste um?', answer: 'Wir setzen auf Next.js mit i18n-Unterstützung. Jede Sprache wird separat für SEO optimiert, die Umschaltung ist intuitiv.' },
+        ],
+        whyChooseUs: 'Luzern steht für Qualität und Gastfreundschaft. Genau diese Werte transportieren wir auch in Ihre Website – professionell, einladend und mit Liebe zum Detail.',
     },
     'st-gallen': {
         headline: 'Webdesign St. Gallen',
@@ -320,6 +355,17 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Ostschweizer Kunden', value: '25+' }, { label: 'Anfahrt ab Winterthur', value: '35 Min' }],
         localFaq: { question: 'Haben Sie Erfahrung mit Unternehmen aus dem HSG-Umfeld?', answer: 'Ja, wir haben bereits Websites für Startups aus dem HSG-Inkubator und Beratungsunternehmen in St. Gallen entwickelt. Wir verstehen die hohen Ansprüche der Region.' },
         regionalImage: '/images/regions/st-gallen.png',
+        localIndustries: [
+            { name: 'Textil & Mode', description: 'St. Gallen hat eine lange Textiltradition. Moderne Textilunternehmen und Modegeschäfte setzen auf digitale Präsenz.', websiteNeeds: 'E-Commerce, Lookbooks, Produktkonfiguratoren, Newsletter' },
+            { name: 'Finanzwesen & Versicherungen', description: 'St. Gallen ist ein wichtiger Finanzplatz der Ostschweiz mit Kantonalbank, Privatbanken und Versicherungen.', websiteNeeds: 'Vertrauenswürdiges Design, sichere Formulare, Compliance-konform' },
+            { name: 'Gastronomie & Veranstaltungen', description: 'Von der Weggiser Altstadtbeiz bis zu Event-Locations – St. Gallen hat eine vielfältige Gastro-Szene.', websiteNeeds: 'Speisekarten, Event-Kalender, Reservierungssystem, Social Media' },
+            { name: 'Beratung & Dienstleistungen', description: 'Die HSG-Nähe zieht Unternehmensberater, Coaches und spezialisierte Dienstleister an.', websiteNeeds: 'Professionelle Positionierung, Service-Beschreibungen, Kundenstimmen' },
+        ],
+        additionalFaqs: [
+            { question: 'Arbeiten Sie auch mit HSG-Startups und Alumni-Unternehmen?', answer: 'Ja, wir haben bereits mehrere Projekte mit HSG-Startups umgesetzt. Wir verstehen die Anforderungen junger, dynamischer Unternehmen.' },
+            { question: 'Wie schnell sind Sie vor Ort, wenn ein persönliches Treffen gewünscht ist?', answer: 'Von Winterthur nach St. Gallen sind es nur 35 Minuten mit der S-Bahn. Wir sind flexibel und kommen gerne persönlich vorbei.' },
+        ],
+        whyChooseUs: 'Als Agentur aus der Nachbarregion verstehen wir die Ostschweizer Mentalität perfekt: pragmatisch, qualitätsbewusst und mit Blick fürs Wesentliche.',
     },
     aargau: {
         headline: 'Webdesign Aargau',
@@ -330,6 +376,17 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Aargauer Kunden', value: '18+' }, { label: 'Branchen betreut', value: '12+' }],
         localFaq: { question: 'Betreuen Sie auch die grösseren Städte wie Baden oder Aarau?', answer: 'Ja, wir haben Kunden in Baden, Aarau, Brugg, Wettingen, Wohlen und vielen weiteren Aargauer Gemeinden. Die Region kennen wir gut.' },
         regionalImage: '/images/webdesign-hero.png',
+        localIndustries: [
+            { name: 'Energie & Cleantech', description: 'Der Aargau ist Energie-Kanton. Von Axpo bis zu Solarfirmen – viele Unternehmen brauchen digitale Präsenz.', websiteNeeds: 'Technische Erklärungen, Referenzprojekte, Nachhaltigkeitsberichte, Kontaktformulare' },
+            { name: 'Logistik & Industrie', description: 'Die zentrale Lage macht den Aargau zum Logistik-Hub. Industrie und Produktion sind stark vertreten.', websiteNeeds: 'B2B-Kommunikation, Standortvorteile, Karriereseiten, mehrsprachig' },
+            { name: 'Gesundheitswesen & Kliniken', description: 'Kantonsspital, Reha-Kliniken und spezialisierte Gesundheitszentren im Aargau.', websiteNeeds: 'Patienteninformationen, Online-Terminbuchung, Notfall-Infos, Barrierefreiheit' },
+            { name: 'Handwerk & KMU', description: 'Vom Schreiner in Baden bis zum Sanitärbetrieb in Aarau – das Gewerbe prägt den Aargau.', websiteNeeds: 'Leistungsübersicht, Referenzbilder, Notfall-Hotline, Google Maps' },
+        ],
+        additionalFaqs: [
+            { question: 'Haben Sie Erfahrung mit Energie- und Cleantech-Unternehmen?', answer: 'Ja, wir haben bereits Websites für Solarfirmen und Energiedienstleister entwickelt. Technische Inhalte verständlich zu vermitteln ist unsere Stärke.' },
+            { question: 'Arbeiten Sie auch mit Industriebetrieben und produzierenden Unternehmen?', answer: 'Absolut. B2B-Kommunikation, Produktkataloge und Karriereseiten für Industrieunternehmen gehören zu unseren Kernkompetenzen.' },
+        ],
+        whyChooseUs: 'Der Aargau ist KMU-Land. Wir verstehen die Bedürfnisse mittelständischer Unternehmen perfekt und liefern Websites mit echtem Mehrwert.',
     },
     zug: {
         headline: 'Webdesign Zug',
@@ -340,6 +397,17 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Zuger Projekte', value: '6+' }, { label: 'Performance Score', value: '98+' }],
         localFaq: { question: 'Haben Sie Erfahrung mit Tech-Startups und Blockchain-Unternehmen?', answer: 'Ja, wir haben bereits Websites für FinTech- und Blockchain-Unternehmen entwickelt. Moderne Technologie und erstklassiges Design sind unsere Stärke.' },
         regionalImage: '/images/webdesign-hero.png',
+        localIndustries: [
+            { name: 'Blockchain & Crypto', description: 'Das Crypto Valley Zug ist weltbekannt. Blockchain-Startups und Krypto-Unternehmen brauchen moderne Websites.', websiteNeeds: 'Technisches Whitepaper, Token-Präsentation, Roadmap, mehrsprachig' },
+            { name: 'Finanzdienstleistungen', description: 'Niedrige Steuern ziehen internationale Finanzunternehmen nach Zug.', websiteNeeds: 'Premium-Design, Compliance, mehrsprachig, sichere Kontaktformulare' },
+            { name: 'Unternehmensberatung', description: 'Steuerberater, Wirtschaftsprüfer und Consultants sind in Zug stark vertreten.', websiteNeeds: 'Professionelle Positionierung, Service-Portfolio, Kundenstimmen, Blog' },
+            { name: 'Tech-Konzerne & Innovation', description: 'Internationale Tech-Unternehmen haben in Zug ihren Schweizer Sitz.', websiteNeeds: 'Corporate Design, Investor Relations, Karriereseiten, mehrsprachig' },
+        ],
+        additionalFaqs: [
+            { question: 'Verstehen Sie die technischen Anforderungen von Blockchain-Unternehmen?', answer: 'Ja, wir haben bereits mehrere Crypto- und Blockchain-Websites entwickelt. Web3-Integration und technische Whitepapers gehören zu unserem Portfolio.' },
+            { question: 'Können Sie Websites für internationale Konzerne mit höchsten Ansprüchen entwickeln?', answer: 'Absolut. Wir arbeiten mit modernster Technologie (Next.js, TypeScript) und liefern Enterprise-Grade-Qualität.' },
+        ],
+        whyChooseUs: 'Zug steht für Innovation und Exzellenz. Genau das liefern wir auch: Websites auf Weltklasse-Niveau, die Ihre Marke perfekt repräsentieren.',
     },
     solothurn: {
         headline: 'Webdesign Solothurn',
@@ -350,6 +418,17 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Solothurner Kunden', value: '5+' }, { label: 'Kundenzufriedenheit', value: '100%' }],
         localFaq: { question: 'Wie funktioniert die Zusammenarbeit über die Distanz?', answer: 'Wir arbeiten mit regelmässigen Videocalls und einem geteilten Projektboard. Sie sind immer informiert und können jederzeit Feedback geben.' },
         regionalImage: '/images/webdesign-hero.png',
+        localIndustries: [
+            { name: 'Uhrenindustrie & Präzision', description: 'Grenchen ist Uhrenstadt. Präzisionsmechanik und Zulieferer brauchen hochwertige digitale Präsenz.', websiteNeeds: 'Produktkataloge, technische Details, B2B-Shop, mehrsprachig' },
+            { name: 'Gesundheit & Kliniken', description: 'Bürgerspital Solothurn und spezialisierte Praxen benötigen professionelle Websites.', websiteNeeds: 'Patienteninformationen, Online-Terminbuchung, Ärzteporträts, Notfall-Infos' },
+            { name: 'Tourismus & Barockstadt', description: 'Die schöne Altstadt und kulturelle Angebote ziehen Besucher an.', websiteNeeds: 'Veranstaltungskalender, Gastronomie-Guide, Übernachtungssuche, mehrsprachig' },
+            { name: 'Gewerbe & Handwerk', description: 'Schreiner, Elektriker und Sanitärbetriebe im Kanton Solothurn brauchen Sichtbarkeit.', websiteNeeds: 'Leistungsübersicht, Referenzen, Kontaktformular, Notdienst-Hotline' },
+        ],
+        additionalFaqs: [
+            { question: 'Haben Sie Erfahrung mit Uhren- und Präzisionsmechanik-Unternehmen?', answer: 'Ja, wir haben bereits Websites für technisch anspruchsvolle Branchen entwickelt. Produktkataloge und B2B-Shops sind unsere Stärke.' },
+            { question: 'Können Sie auch mehrsprachige Websites für internationale Kunden erstellen?', answer: 'Selbstverständlich. Viele Solothurner Unternehmen exportieren international – mehrsprachige Websites mit SEO-Optimierung sind Standard.' },
+        ],
+        whyChooseUs: 'Solothurn verbindet Tradition mit Innovation. Genau diese Balance finden wir auch in unseren Websites – zeitlos elegant und technisch auf der Höhe der Zeit.',
     },
     graubuenden: {
         headline: 'Webdesign Graubünden',
@@ -360,6 +439,17 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Bündner Projekte', value: '8+' }, { label: 'Sprachen', value: 'DE/EN/IT' }],
         localFaq: { question: 'Können Sie auch italienischsprachige Websites für das Engadin erstellen?', answer: 'Ja, wir erstellen mehrsprachige Websites in Deutsch, Englisch und Italienisch. Die SEO-Optimierung erfolgt für alle Sprachen separat.' },
         regionalImage: '/images/webdesign-hero.png',
+        localIndustries: [
+            { name: 'Luxushotellerie & Resorts', description: 'St. Moritz, Davos und Arosa sind weltbekannte Destinationen. Hotels brauchen erstklassige Websites.', websiteNeeds: 'Premium-Design, Buchungssystem, 360°-Touren, mehrsprachig (DE/EN/IT)' },
+            { name: 'Skischulen & Bergbahnen', description: 'Skischulen, Bergbahnen und Outdoor-Anbieter im größten Kanton der Schweiz.', websiteNeeds: 'Online-Buchung, Wetterinfos, Pistenplan, Live-Webcams' },
+            { name: 'Gastronomie & Kulinarik', description: 'Von Bergrestaurants bis zu Gourmet-Tempeln – Graubünden hat kulinarisch viel zu bieten.', websiteNeeds: 'Speisekarten, Reservierungssystem, Bildergalerien, mehrsprachig' },
+            { name: 'Bau & Energietechnik', description: 'Bauunternehmen und Energietechniker für den anspruchsvollen Bergbau und erneuerbare Energien.', websiteNeeds: 'Referenzprojekte, technische Expertise, Kontaktformular, Notdienst' },
+        ],
+        additionalFaqs: [
+            { question: 'Können Sie Websites mit Live-Webcams und Wetterdaten integrieren?', answer: 'Ja, wir integrieren Live-Webcams, Wetterwidgets und Pistenpläne nahtlos in Ihre Website. Alles mobile-optimiert.' },
+            { question: 'Wie gehen Sie mit der Dreisprachigkeit (DE/IT/EN) um?', answer: 'Wir setzen auf Next.js mit i18n-Unterstützung. Jede Sprache wird separat für SEO optimiert, die Navigation ist intuitiv.' },
+        ],
+        whyChooseUs: 'Graubünden ist einzigartig – Ihre Website sollte es auch sein. Wir entwickeln digitale Auftritte, die der Schönheit und Vielfalt des Kantons gerecht werden.',
     },
 };
 
@@ -367,6 +457,60 @@ interface WebdesignContentProps {
     regionSlug?: string;
     showRegionalLinks?: boolean;
 }
+
+// Icon-Mapping-Funktion für Branchen
+const getIndustryIcon = (industryName: string) => {
+    const iconMap: Record<string, any> = {
+        'Maschinenbau & Industrie': Factory,
+        'Gesundheit & Medizintechnik': Stethoscope,
+        'Einzelhandel & Gastronomie': ShoppingBag,
+        'Tech-Startups & Innovation': Lightbulb,
+        'Finanzdienstleistungen': Landmark,
+        'Kreativagenturen & Design': PaletteIcon,
+        'Tech & Startups': Cpu,
+        'Beratung & Consulting': Users,
+        'Industrie & Produktion': Factory,
+        'Weinbau & Landwirtschaft': Wine,
+        'Tourismus & Rheinfall': Plane,
+        'Handwerk & Gewerbe': Hammer,
+        'Hotellerie & Gastronomie': Utensils,
+        'Obstbau & Direktvermarktung': Apple,
+        'Handwerk & Bau': Hammer,
+        'Bootsbau & Wassersport': Ship,
+        'Textil & Mode': Shirt,
+        'Finanzwesen & Versicherungen': Landmark,
+        'Gastronomie & Veranstaltungen': CalendarDays,
+        'Beratung & Dienstleistungen': Users,
+        'Bundesverwaltung & NGOs': Building2,
+        'Tourismus & UNESCO-Welterbe': Plane,
+        'Bildung & Forschung': GraduationCap,
+        'Kulturinstitutionen & Museen': Music,
+        'Pharma & Life Sciences': Pill,
+        'Chemie & Industrie': FlaskConical,
+        'Kunst & Galerien': PaletteIcon,
+        'Logistik & Rheinhafen': Truck,
+        'Hotellerie & Luxus-Tourismus': Hotel,
+        'Ausflugsschifffahrt & Wassersport': Ship,
+        'Kultur & Event-Locations': Music,
+        'Gesundheit & Wellness': Heart,
+        'Energie & Cleantech': Zap,
+        'Logistik & Industrie': Truck,
+        'Gesundheitswesen & Kliniken': Stethoscope,
+        'Handwerk & KMU': Wrench,
+        'Blockchain & Crypto': Bitcoin,
+        'Unternehmensberatung': Users,
+        'Tech-Konzerne & Innovation': Cpu,
+        'Uhrenindustrie & Präzision': Clock,
+        'Gesundheit & Kliniken': Stethoscope,
+        'Tourismus & Barockstadt': Plane,
+        'Gewerbe & Handwerk': Hammer,
+        'Luxushotellerie & Resorts': Hotel,
+        'Skischulen & Bergbahnen': Mountain,
+        'Gastronomie & Kulinarik': Utensils,
+        'Bau & Energietechnik': HardHat,
+    };
+    return iconMap[industryName] || Factory;
+};
 
 export function WebdesignContent({ regionSlug, showRegionalLinks = true }: WebdesignContentProps) {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -404,13 +548,13 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <AnimatedSection animation="slideUp">
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-4">
+                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 leading-tight">
                                 <span className="gradient-text">{content.headline}</span>
                             </h1>
-                            <p className="text-xl md:text-2xl text-primary font-medium mb-4">
+                            <p className="text-2xl md:text-3xl text-primary font-medium mb-6 leading-snug">
                                 {content.subheadline}
                             </p>
-                            <p className="text-lg text-text-secondary max-w-xl mb-8">
+                            <p className="text-xl text-text-secondary max-w-xl mb-10 leading-relaxed">
                                 {content.description}
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4">
@@ -445,35 +589,35 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
             {/* Regional Intro Section - Unique per Region */}
             <section className="py-12 lg:py-16 bg-background">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
+                    <div>
                         <AnimatedSection animation="slideUp">
-                            <p className="text-lg text-text-secondary leading-relaxed mb-8">
+                            <p className="text-xl text-text-secondary leading-relaxed mb-10">
                                 {content.intro}
                             </p>
 
                             {/* Local Benefits & Stats */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Benefits */}
-                                <div className="p-6 rounded-2xl bg-card border border-border">
-                                    <h3 className="font-bold text-text-primary mb-4">Ihre Vorteile</h3>
-                                    <div className="grid grid-cols-2 gap-3">
+                                <div className="p-8 rounded-2xl bg-card border border-border">
+                                    <h3 className="text-xl font-bold text-text-primary mb-6">Ihre Vorteile</h3>
+                                    <div className="grid grid-cols-2 gap-4">
                                         {content.localBenefits.map((benefit, i) => (
-                                            <div key={i} className="flex items-center gap-2">
-                                                <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                                                <span className="text-sm text-text-secondary">{benefit}</span>
+                                            <div key={i} className="flex items-center gap-3">
+                                                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                                                <span className="text-base text-text-secondary">{benefit}</span>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
 
                                 {/* Stats */}
-                                <div className="p-6 rounded-2xl bg-primary/5 border border-primary">
-                                    <h3 className="font-bold text-text-primary mb-4">In Zahlen</h3>
-                                    <div className="grid grid-cols-2 gap-4">
+                                <div className="p-8 rounded-2xl bg-primary/5 border border-primary">
+                                    <h3 className="text-xl font-bold text-text-primary mb-6">In Zahlen</h3>
+                                    <div className="grid grid-cols-2 gap-6">
                                         {content.stats.map((stat, i) => (
                                             <div key={i} className="text-center">
-                                                <div className="text-2xl font-bold text-primary">{stat.value}</div>
-                                                <div className="text-xs text-text-secondary">{stat.label}</div>
+                                                <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
+                                                <div className="text-sm text-text-secondary">{stat.label}</div>
                                             </div>
                                         ))}
                                     </div>
@@ -484,62 +628,14 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                 </div>
             </section>
 
-            {/* Local Industries Section - Only for regional pages */}
-            {regionSlug && content.localIndustries && content.localIndustries.length > 0 && (
-                <section className="py-12 lg:py-16 bg-surface">
-                    <div className="container mx-auto px-4">
-                        <AnimatedSection animation="slideUp" className="text-center mb-10">
-                            <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-3">
-                                Webdesign für {content.headline.replace('Webdesign ', '')}er Branchen
-                            </h2>
-                            <p className="text-text-secondary max-w-2xl mx-auto">
-                                Wir verstehen die spezifischen Anforderungen der lokalen Wirtschaft und entwickeln massgeschneiderte Lösungen.
-                            </p>
-                        </AnimatedSection>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                            {content.localIndustries.map((industry, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.1 }}
-                                    className="p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors"
-                                >
-                                    <h3 className="text-lg font-bold text-text-primary mb-2">{industry.name}</h3>
-                                    <p className="text-sm text-text-secondary mb-4">{industry.description}</p>
-                                    <div className="pt-3 border-t border-border">
-                                        <p className="text-xs text-primary font-medium mb-1">Was diese Branche braucht:</p>
-                                        <p className="text-xs text-text-secondary">{industry.websiteNeeds}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        {content.whyChooseUs && (
-                            <div className="mt-10 max-w-3xl mx-auto">
-                                <div className="p-6 rounded-2xl bg-primary/5 border border-primary">
-                                    <h3 className="font-bold text-text-primary mb-2 flex items-center gap-2">
-                                        <Star className="w-5 h-5 text-primary" />
-                                        Warum InfraOne für {content.headline.replace('Webdesign ', '')}?
-                                    </h3>
-                                    <p className="text-text-secondary">{content.whyChooseUs}</p>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </section>
-            )}
-
             {/* Pricing Section - Differentiated for Hub vs Spoke */}
             <section id="pakete" className="py-16 lg:py-24 bg-surface">
                 <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
                             {isHubPage ? 'Investition in Ihre digitale Zukunft' : `Webdesign-Pakete für ${content.headline.replace('Webdesign ', '')}`}
                         </h2>
-                        <p className="text-text-secondary max-w-2xl mx-auto">
+                        <p className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
                             {isHubPage
                                 ? 'Faire Preise, keine Überraschungen. Jedes Projekt beginnt mit einem kostenlosen Erstgespräch.'
                                 : 'Dieselbe Qualität, angepasst an Ihre regionalen Bedürfnisse.'}
@@ -548,46 +644,46 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
 
                     {isHubPage ? (
                         /* Hub: Full detailed packages */
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                             {packages.map((pkg, index) => (
                                 <motion.div
                                     key={index}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 40 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ delay: index * 0.1 }}
-                                    whileHover={{ y: -10 }}
-                                    className={`relative p-8 rounded-2xl border ${pkg.popular
-                                        ? 'bg-primary text-white border-primary shadow-2xl shadow-primary/20'
-                                        : 'bg-card border-border hover:border-primary/50'
-                                        } transition-all duration-300`}
+                                    transition={{ delay: index * 0.15, duration: 0.3 }}
+                                    whileHover={{ y: -12, scale: 1.02, transition: { duration: 0.15 } }}
+                                    className={`relative p-10 rounded-3xl border-2 ${pkg.popular
+                                        ? 'bg-gradient-to-br from-primary via-primary to-primary/90 text-white border-primary shadow-2xl shadow-primary/30 scale-105'
+                                        : 'bg-gradient-to-br from-card to-surface border-border hover:border-primary hover:shadow-2xl'
+                                        } transition-all duration-200`}
                                 >
-                                    {pkg.popular && (
-                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-primary text-sm font-bold px-4 py-1 rounded-full">
-                                            Beliebt
-                                        </div>
-                                    )}
+                    {pkg.popular && (
+                        <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-white text-primary text-sm font-bold px-6 py-2 rounded-full shadow-lg">
+                            Beliebt
+                        </div>
+                    )}
 
-                                    <div className="text-center mb-6">
-                                        <h3 className={`text-2xl font-bold mb-2 ${pkg.popular ? 'text-white' : 'text-text-primary'}`}>
+                                    <div className="text-center mb-8">
+                                        <h3 className={`text-3xl font-bold mb-3 ${pkg.popular ? 'text-white' : 'text-text-primary'}`}>
                                             {pkg.name}
                                         </h3>
-                                        <div className={`text-4xl font-bold mb-2 ${pkg.popular ? 'text-white' : 'text-primary'}`}>
+                                        <div className={`text-5xl font-extrabold mb-3 ${pkg.popular ? 'text-white' : 'text-primary'}`}>
                                             {pkg.price}
                                         </div>
-                                        <p className={`text-sm ${pkg.popular ? 'text-white/80' : 'text-text-secondary'}`}>
+                                        <p className={`text-base mb-4 ${pkg.popular ? 'text-white/90' : 'text-text-secondary'}`}>
                                             {pkg.description}
                                         </p>
-                                        <div className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-medium ${pkg.popular ? 'bg-white/20' : 'bg-primary/10 text-primary'}`}>
+                                        <div className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${pkg.popular ? 'bg-white/20 text-white' : 'bg-primary/15 text-primary'}`}>
                                             {pkg.platforms}
                                         </div>
                                     </div>
 
-                                    <ul className="space-y-3 mb-8">
+                                    <ul className="space-y-4 mb-10">
                                         {pkg.features.map((feature, i) => (
-                                            <li key={i} className="flex items-center gap-2">
-                                                <Check className={`w-5 h-5 flex-shrink-0 ${pkg.popular ? 'text-white' : 'text-primary'}`} />
-                                                <span className={`text-sm ${pkg.popular ? 'text-white/90' : 'text-text-secondary'}`}>
+                                            <li key={i} className="flex items-start gap-3">
+                                                <Check className={`w-6 h-6 flex-shrink-0 mt-0.5 ${pkg.popular ? 'text-white' : 'text-primary'}`} />
+                                                <span className={`text-base leading-relaxed ${pkg.popular ? 'text-white/95' : 'text-text-secondary'}`}>
                                                     {feature}
                                                 </span>
                                             </li>
@@ -597,12 +693,12 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                                     <Button
                                         variant={pkg.popular ? 'secondary' : 'primary'}
                                         size="lg"
-                                        className={`w-full ${pkg.popular ? 'bg-white text-primary hover:bg-white/90' : ''}`}
+                                        className={`w-full text-base py-6 ${pkg.popular ? 'bg-white text-primary hover:bg-white/95 shadow-lg' : 'hover:scale-105'} transition-all`}
                                         asChild
                                     >
                                         <Link href="/kontakt">
-                                            Anfragen
-                                            <ArrowRight className="w-4 h-4" />
+                                            Jetzt anfragen
+                                            <ArrowRight className="w-5 h-5" />
                                         </Link>
                                     </Button>
                                 </motion.div>
@@ -610,8 +706,8 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                         </div>
                     ) : (
                         /* Spoke: Condensed packages with CTA to Hub */
-                        <div className="max-w-4xl mx-auto">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div className="max-w-5xl mx-auto">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                                 {packages.map((pkg, index) => (
                                     <motion.div
                                         key={index}
@@ -619,28 +715,29 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ delay: index * 0.1 }}
-                                        className={`p-6 rounded-xl border text-center ${pkg.popular
-                                            ? 'bg-primary text-white border-primary'
-                                            : 'bg-card border-border'
-                                            }`}
+                                        whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                                        className={`p-8 rounded-2xl border-2 text-center ${pkg.popular
+                                            ? 'bg-gradient-to-br from-primary to-primary/90 text-white border-primary shadow-xl scale-105'
+                                            : 'bg-card border-border hover:border-primary hover:shadow-lg'
+                                            } transition-all duration-200`}
                                     >
-                                        <h3 className={`text-lg font-bold mb-1 ${pkg.popular ? 'text-white' : 'text-text-primary'}`}>
+                                        <h3 className={`text-xl font-bold mb-2 ${pkg.popular ? 'text-white' : 'text-text-primary'}`}>
                                             {pkg.name}
                                         </h3>
-                                        <div className={`text-2xl font-bold mb-2 ${pkg.popular ? 'text-white' : 'text-primary'}`}>
+                                        <div className={`text-3xl font-extrabold mb-3 ${pkg.popular ? 'text-white' : 'text-primary'}`}>
                                             {pkg.price}
                                         </div>
-                                        <p className={`text-xs ${pkg.popular ? 'text-white/70' : 'text-text-secondary'}`}>
+                                        <p className={`text-sm leading-relaxed ${pkg.popular ? 'text-white/80' : 'text-text-secondary'}`}>
                                             {pkg.features.slice(0, 3).join(' • ')}
                                         </p>
                                     </motion.div>
                                 ))}
                             </div>
                             <div className="text-center">
-                                <Button variant="outline" size="lg" asChild>
+                                <Button variant="outline" size="lg" asChild className="hover:scale-105 transition-transform">
                                     <Link href="/webdesign#pakete">
-                                        Alle Pakete im Detail
-                                        <ArrowRight className="w-4 h-4" />
+                                        Alle Pakete im Detail ansehen
+                                        <ArrowRight className="w-5 h-5" />
                                     </Link>
                                 </Button>
                             </div>
@@ -649,41 +746,94 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                 </div>
             </section>
 
-            {/* Hub-Exclusive: Methodology Section */}
-            {isHubPage && (
-                <section className="py-16 lg:py-24 bg-background">
+            {/* Local Industries Section - Only for regional pages */}
+            {regionSlug && content.localIndustries && content.localIndustries.length > 0 && (
+                <section className="py-12 lg:py-16 bg-background">
                     <div className="container mx-auto px-4">
                         <AnimatedSection animation="slideUp" className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-                                So arbeiten wir
+                                Webdesign für {content.headline.replace('Webdesign ', '')}er Branchen
                             </h2>
-                            <p className="text-text-secondary max-w-2xl mx-auto">
-                                Ein strukturierter Prozess für messbare Ergebnisse. Vier Phasen von der Idee bis zum Launch.
+                            <p className="text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed">
+                                Wir verstehen die spezifischen Anforderungen der lokalen Wirtschaft und entwickeln massgeschneiderte Lösungen.
                             </p>
                         </AnimatedSection>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                            {[
-                                { step: '01', title: 'Discovery', desc: 'Wir analysieren Ihre Ziele, Zielgruppe und Wettbewerber. Gemeinsam definieren wir die optimale Strategie.', icon: '🎯' },
-                                { step: '02', title: 'Design', desc: 'Modernes UI/UX-Design, das Ihre Marke stärkt. Wireframes und interaktive Prototypen zur Freigabe.', icon: '✨' },
-                                { step: '03', title: 'Entwicklung', desc: 'Sauberer Code, optimierte Performance. Wir bauen mit bewährten Technologien für maximale Stabilität.', icon: '⚡' },
-                                { step: '04', title: 'Launch', desc: 'Testing, SEO-Feinschliff und Go-Live. Danach: kontinuierliche Optimierung und Support.', icon: '🚀' },
-                            ].map((phase, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.1 }}
-                                    className="relative p-6 rounded-2xl bg-card border border-border"
-                                >
-                                    <div className="text-4xl mb-4">{phase.icon}</div>
-                                    <div className="text-xs font-bold text-primary mb-2">{phase.step}</div>
-                                    <h3 className="text-lg font-bold text-text-primary mb-2">{phase.title}</h3>
-                                    <p className="text-sm text-text-secondary">{phase.desc}</p>
-                                </motion.div>
-                            ))}
+                        <div className="grid grid-cols-1 md:grid-cols-6 gap-6 auto-rows-fr">
+                            {content.localIndustries.map((industry, index) => {
+                                // Bento-Grid: Variiere die Spaltengröße für visuelle Hierarchie
+                                let colSpan = 'md:col-span-2';
+                                if (index === 0) colSpan = 'md:col-span-4';
+                                else if (index === 2) colSpan = 'md:col-span-3';
+                                else if (index === 3) colSpan = 'md:col-span-3';
+                                
+                                const IconComponent = getIndustryIcon(industry.name);
+                                
+                                return (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: index * 0.12, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                                        whileHover={{ 
+                                            y: -6, 
+                                            scale: 1.01,
+                                            transition: { duration: 0.2, ease: 'easeOut' }
+                                        }}
+                                        className={`${colSpan} group relative p-10 rounded-3xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-200 shadow-sm hover:shadow-[0_0_40px_rgba(61,150,70,0.12)]`}
+                                    >
+                                        {/* Subtiler Glow-Effekt mit Primary-Farbe */}
+                                        <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" 
+                                             style={{
+                                                 background: 'radial-gradient(circle at center, rgba(61, 150, 70, 0.05) 0%, transparent 70%)'
+                                             }}
+                                        />
+                                        
+                                        <div className="relative z-10">
+                                            {/* Icon-Container */}
+                                            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200">
+                                                <IconComponent className="w-8 h-8 text-primary" />
+                                            </div>
+                                            
+                                            <h3 className="text-xl font-bold text-text-primary mb-4 group-hover:text-primary transition-colors duration-200">
+                                                {industry.name}
+                                            </h3>
+                                            <p className="text-base text-text-secondary mb-8 leading-relaxed">
+                                                {industry.description}
+                                            </p>
+                                            <div className="pt-6 border-t border-border/60">
+                                                <p className="text-sm text-primary font-semibold mb-3">
+                                                    Was diese Branche braucht:
+                                                </p>
+                                                <p className="text-sm text-text-secondary leading-relaxed">
+                                                    {industry.websiteNeeds}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
+
+                        {content.whyChooseUs && (
+                            <div className="mt-16 text-center">
+                                <div className="inline-block p-12 rounded-3xl bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/20 max-w-4xl">
+                                    {/* Großes Icon oben */}
+                                    <div className="w-20 h-20 rounded-full bg-primary/15 flex items-center justify-center mx-auto mb-6">
+                                        <Star className="w-10 h-10 text-primary" />
+                                    </div>
+                                    
+                                    <h3 className="text-2xl font-bold text-text-primary mb-4">
+                                        Warum InfraOne für {content.headline.replace('Webdesign ', '')}?
+                                    </h3>
+                                    
+                                    <p className="text-lg text-text-secondary leading-relaxed">
+                                        {content.whyChooseUs}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </section>
             )}
@@ -691,40 +841,53 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
             {/* References Section */}
             <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
                             Unsere Referenzen
                         </h2>
-                        <p className="text-text-secondary">Projekte, auf die wir stolz sind</p>
+                        <p className="text-xl text-text-secondary">Projekte, auf die wir stolz sind</p>
                     </AnimatedSection>
 
                     <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.1}>
                         {references.map((ref, index) => (
                             <StaggerItem key={index}>
-                                <div className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary transition-colors">
-                                    <div className="mb-4">
-                                        <h3 className="text-lg font-bold text-text-primary mb-1">{ref.name}</h3>
-                                        <p className="text-sm text-text-secondary">{ref.description}</p>
-                                    </div>
-                                    <a
-                                        href={ref.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline mb-4"
-                                    >
-                                        Website ansehen
-                                        <ExternalLink className="w-4 h-4" />
-                                    </a>
-                                    <div className="pt-4 border-t border-border">
-                                        <div className="flex gap-1 mb-2">
-                                            {[...Array(5)].map((_, i) => (
-                                                <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                                            ))}
+                                <div className="h-full rounded-2xl bg-card border border-border hover:border-primary transition-colors overflow-hidden">
+                                    {ref.image && (
+                                        <a href={ref.url} target="_blank" rel="noopener noreferrer" className="block overflow-hidden bg-surface">
+                                            <Image 
+                                                src={ref.image} 
+                                                alt={`Website ${ref.name}`} 
+                                                width={400} 
+                                                height={280} 
+                                                className="w-full h-56 object-contain p-4 hover:scale-105 transition-transform duration-200"
+                                            />
+                                        </a>
+                                    )}
+                                    <div className="p-6">
+                                        <div className="mb-4">
+                                            <h3 className="text-lg font-bold text-text-primary mb-1">{ref.name}</h3>
+                                            <p className="text-sm text-text-secondary">{ref.description}</p>
                                         </div>
-                                        <p className="text-sm text-text-secondary italic mb-2">"{ref.quote}"</p>
-                                        <p className="text-xs text-text-secondary">
-                                            <span className="font-medium text-text-primary">{ref.author}</span>, {ref.role}
-                                        </p>
+                                        <a
+                                            href={ref.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline mb-4"
+                                        >
+                                            Website ansehen
+                                            <ExternalLink className="w-4 h-4" />
+                                        </a>
+                                        <div className="pt-4 border-t border-border">
+                                            <div className="flex gap-1 mb-2">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                                                ))}
+                                            </div>
+                                            <p className="text-sm text-text-secondary italic mb-2">"{ref.quote}"</p>
+                                            <p className="text-xs text-text-secondary">
+                                                <span className="font-medium text-text-primary">{ref.author}</span>, {ref.role}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </StaggerItem>
@@ -733,17 +896,75 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                 </div>
             </section>
 
+            {/* Hub-Exclusive: Methodology Section */}
+            {isHubPage && (
+                <section className="py-16 lg:py-24 bg-surface">
+                    <div className="container mx-auto px-4">
+                        <AnimatedSection animation="slideUp" className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
+                                So arbeiten wir
+                            </h2>
+                            <p className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+                                Ein strukturierter Prozess für messbare Ergebnisse. Vier Phasen von der Idee bis zum Launch.
+                            </p>
+                        </AnimatedSection>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                            {[
+                                { step: '01', title: 'Discovery', desc: 'Wir analysieren Ihre Ziele, Zielgruppe und Wettbewerber. Gemeinsam definieren wir die optimale Strategie.', icon: Target },
+                                { step: '02', title: 'Design', desc: 'Modernes UI/UX-Design, das Ihre Marke stärkt. Wireframes und interaktive Prototypen zur Freigabe.', icon: Palette },
+                                { step: '03', title: 'Entwicklung', desc: 'Sauberer Code, optimierte Performance. Wir bauen mit bewährten Technologien für maximale Stabilität.', icon: Wrench },
+                                { step: '04', title: 'Launch', desc: 'Testing, SEO-Feinschliff und Go-Live. Danach: kontinuierliche Optimierung und Support.', icon: Rocket },
+                            ].map((phase, index) => {
+                                const IconComponent = phase.icon;
+                                return (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: index * 0.1, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                                        whileHover={{ 
+                                            y: -6, 
+                                            scale: 1.01,
+                                            transition: { duration: 0.3, ease: 'easeOut' }
+                                        }}
+                                        className="group relative p-10 rounded-3xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-200 shadow-sm hover:shadow-[0_0_40px_rgba(61,150,70,0.12)]"
+                                    >
+                                        {/* Subtiler Glow-Effekt mit Primary-Farbe */}
+                                        <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" 
+                                             style={{
+                                                 background: 'radial-gradient(circle at center, rgba(61, 150, 70, 0.05) 0%, transparent 70%)'
+                                             }}
+                                        />
+                                        
+                                        <div className="relative z-10">
+                                            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200">
+                                                <IconComponent className="w-8 h-8 text-primary" />
+                                            </div>
+                                            <div className="text-xs font-bold text-primary/60 mb-2">{phase.step}</div>
+                                            <h3 className="text-xl font-bold text-text-primary mb-3 group-hover:text-primary transition-colors duration-200">{phase.title}</h3>
+                                            <p className="text-base text-text-secondary leading-relaxed">{phase.desc}</p>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* Platforms Section */}
-            <section className="py-16 lg:py-24 bg-surface">
+            <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
                             Welche Technologie passt zu Ihnen?
                         </h2>
-                        <p className="text-text-secondary">Wir beraten Sie ehrlich – ohne Buzzwords</p>
+                        <p className="text-xl text-text-secondary">Wir beraten Sie ehrlich – ohne Buzzwords</p>
                     </AnimatedSection>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {platforms.map((platform, index) => (
                             <motion.div
                                 key={index}
@@ -844,7 +1065,7 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                                                     alt="Keystatic Dashboard – Übersichtliche Content-Verwaltung mit allen Bereichen Ihrer Website"
                                                     width={400}
                                                     height={250}
-                                                    className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+                                                    className="w-full h-auto group-hover:scale-105 transition-transform duration-200"
                                                 />
                                                 <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors flex items-center justify-center">
                                                     <ExternalLink className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg" />
@@ -864,7 +1085,7 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                                                     alt="Keystatic Projekteverwaltung – Einfache Bearbeitung von Portfolio und Referenzen"
                                                     width={400}
                                                     height={250}
-                                                    className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+                                                    className="w-full h-auto group-hover:scale-105 transition-transform duration-200"
                                                 />
                                                 <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors flex items-center justify-center">
                                                     <ExternalLink className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg" />
@@ -884,7 +1105,7 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                                                     alt="Keystatic Stellenanzeigen – Karriereseite selbst pflegen ohne Programmierkenntnisse"
                                                     width={400}
                                                     height={250}
-                                                    className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+                                                    className="w-full h-auto group-hover:scale-105 transition-transform duration-200"
                                                 />
                                                 <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors flex items-center justify-center">
                                                     <ExternalLink className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg" />
@@ -949,7 +1170,7 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                                                 alt="Keystatic CMS Dashboard – Intuitive Content-Verwaltung für Ihre Website"
                                                 width={450}
                                                 height={280}
-                                                className="group-hover:scale-105 transition-transform duration-300"
+                                                className="group-hover:scale-105 transition-transform duration-200"
                                             />
                                             <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors flex items-center justify-center">
                                                 <ExternalLink className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg" />
@@ -966,8 +1187,8 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
             {/* FAQs Section */}
             <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
                             Häufige Fragen
                         </h2>
                     </AnimatedSection>
@@ -1037,8 +1258,8 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
             {showRegionalLinks && (
                 <section className="py-12 lg:py-16 bg-surface">
                     <div className="container mx-auto px-4">
-                        <AnimatedSection animation="slideUp" className="text-center mb-8">
-                            <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+                        <AnimatedSection animation="slideUp" className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6">
                                 Webdesign in Ihrer Region
                             </h2>
                         </AnimatedSection>
@@ -1060,10 +1281,10 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
             {/* CTA */}
             <section className="py-16 lg:py-20 bg-primary">
                 <div className="container mx-auto px-4 text-center text-white">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6">
                         Bereit für Ihre neue Website?
                     </h2>
-                    <p className="text-lg opacity-90 mb-8 max-w-xl mx-auto">
+                    <p className="text-xl opacity-90 mb-10 max-w-2xl mx-auto leading-relaxed">
                         Kostenloses Erstgespräch – wir beraten Sie unverbindlich.
                     </p>
                     <Button

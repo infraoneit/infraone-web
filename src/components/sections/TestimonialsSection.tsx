@@ -67,7 +67,7 @@ export function TestimonialsSection({
                             <motion.div
                                 whileHover={{ y: -5 }}
                                 transition={{ duration: 0.2 }}
-                                className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                                className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-150"
                             >
                                 {/* Quote Icon */}
                                 <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-4">

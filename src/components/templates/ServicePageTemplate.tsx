@@ -147,7 +147,7 @@ export function ServicePageTemplate({
                             <StaggerItem key={index}>
                                 <motion.div
                                     whileHover={{ y: -5 }}
-                                    className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300"
+                                    className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-150"
                                 >
                                     <div className="flex items-start gap-6">
                                         <span className="text-5xl font-bold text-primary/20 group-hover:text-primary/40 transition-colors">

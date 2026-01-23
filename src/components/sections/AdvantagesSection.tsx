@@ -18,13 +18,13 @@ const defaultAdvantages: Advantage[] = [
     },
     {
         icon: <Settings className="w-8 h-8" />,
-        title: 'Technik trifft Erfahrung',
-        description: 'Unsere Systeme sind leicht bedienbar, zuverlässig im Betrieb und optimal auf Unternehmen abgestimmt.',
+        title: 'Technik & Zuverlässigkeit',
+        description: 'Bewährte Systeme, die leicht bedienbar sind und zuverlässig funktionieren – optimal auf Unternehmen abgestimmt.',
     },
     {
         icon: <Shield className="w-8 h-8" />,
-        title: 'Zuverlässig & nachhaltig',
-        description: 'Wir setzen auf Lösungen, die langfristig funktionieren – klar verständlich, sicher und professionell betreut.',
+        title: 'Sicher & Nachhaltig',
+        description: 'Wir setzen auf Lösungen, die langfristig funktionieren – klar verständlich, sicher geschützt und professionell betreut.',
     },
 ];
 
@@ -58,10 +58,10 @@ export function AdvantagesSection({
                             <motion.div
                                 whileHover={{ y: -5, scale: 1.02 }}
                                 transition={{ duration: 0.2 }}
-                                className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
+                                className="group relative h-full p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-150"
                             >
                                 {/* Icon */}
-                                <div className="w-16 h-16 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                                <div className="w-16 h-16 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-150">
                                     {advantage.icon}
                                 </div>
 

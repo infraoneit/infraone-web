@@ -31,7 +31,7 @@ export function FAQList({ items, className = '' }: FAQListProps) {
                         />
                     </button>
                     <div
-                        className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                        className={`overflow-hidden transition-all duration-200 ease-in-out ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                             }`}
                     >
                         <div className="px-4 pb-4 pt-0">

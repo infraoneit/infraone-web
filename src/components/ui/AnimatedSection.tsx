@@ -50,7 +50,7 @@ export function AnimatedSection({
     children,
     animation = 'slideUp',
     delay = 0,
-    duration = 0.5,
+    duration = 0.3,
     className = '',
     once = true,
     threshold = 0.1,
@@ -126,7 +126,7 @@ export function StaggerItem({
                 visible: { opacity: 1, y: 0 },
             }}
             transition={{
-                duration: 0.5,
+                duration: 0.3,
                 ease: [0.25, 0.4, 0.25, 1],
             }}
             className={className}

@@ -33,6 +33,11 @@ const ContactSection = dynamic(
   { ssr: true }
 );
 
+const HomepageFAQSection = dynamic(
+  () => import('@/components/sections/HomepageFAQSection').then(mod => ({ default: mod.HomepageFAQSection })),
+  { ssr: true }
+);
+
 export default function HomePage() {
   const websiteSchema = generateWebSiteSchema();
   const mainBusinessSchema = generateMainBusinessSchema();
@@ -56,6 +61,7 @@ export default function HomePage() {
       <ServicesSection />
       <PromoSection />
       <TestimonialsSection />
+      <HomepageFAQSection />
       <ContactSection />
     </>
   );

@@ -59,7 +59,7 @@ export function HeroSection() {
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6 }}
+                        transition={{ duration: 0.4 }}
                         className="relative"
                     >
                         {/* Overline */}
@@ -116,7 +116,7 @@ export function HeroSection() {
                     <motion.div
                         initial={{ opacity: 0, x: 30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
+                        transition={{ duration: 0.4, delay: 0.2 }}
                         className="relative hidden lg:block"
                     >
                         {/* Main Image Container */}
@@ -173,7 +173,7 @@ export function HeroSection() {
                                         <button
                                             key={index}
                                             onClick={() => setCurrentTestimonial(index)}
-                                            className={`w-1.5 h-1.5 rounded-full transition-all ${index === currentTestimonial
+                                            className={`w-1.5 h-1.5 rounded-full transition-all duration-150 ${index === currentTestimonial
                                                 ? 'bg-primary w-4'
                                                 : 'bg-border hover:bg-primary/50'
                                                 }`}
