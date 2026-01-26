@@ -26,7 +26,13 @@ export function PartnerSlider() {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        const checkMobile = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            // #region agent log
+            fetch('http://127.0.0.1:7243/ingest/76e31c2b-b08d-4504-912c-35dd7c31c4ea',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'PartnerSlider.tsx:31',message:'Mobile detection',data:{isMobile:mobile,windowWidth:window.innerWidth},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'E'})}).catch(()=>{});
+            // #endregion
+        };
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
@@ -50,13 +56,14 @@ export function PartnerSlider() {
 
                 {/* Scrolling Container */}
                 <motion.div
+                    key={isMobile ? 'mobile-anim' : 'desktop-anim'}
                     className="flex gap-8 items-center"
                     animate={{
                         x: ['0%', '-50%'],
                     }}
                     transition={{
                         x: {
-                            duration: isMobile ? 20 : 40,
+                            duration: isMobile ? 4 : 40,
                             repeat: Infinity,
                             ease: 'linear',
                         },
@@ -65,17 +72,33 @@ export function PartnerSlider() {
                     {extendedPartners.map((partner, index) => (
                         <div
                             key={`${partner.name}-${index}`}
-                            className="flex-shrink-0 w-32 h-16 flex items-center justify-center"
+                            className="flex-shrink-0 w-56 h-24 flex items-center justify-center"
+                            ref={index === 0 ? (el) => {
+                                if (el) {
+                                    // #region agent log
+                                    const styles = window.getComputedStyle(el);
+                                    fetch('http://127.0.0.1:7243/ingest/76e31c2b-b08d-4504-912c-35dd7c31c4ea',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'PartnerSlider.tsx:68',message:'Container computed styles',data:{className:el.className,width:styles.width,height:styles.height,display:styles.display},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
+                                    // #endregion
+                                }
+                            } : undefined}
                         >
                             <Image
                                 src={partner.logo}
                                 alt={partner.name}
-                                width={120}
-                                height={60}
+                                width={224}
+                                height={96}
                                 className={cn(
-                                    "object-contain max-w-full max-h-full transition-all duration-300",
+                                    "w-full h-auto object-contain transition-all duration-300",
                                     "dark:brightness-0 dark:invert"
                                 )}
+                                ref={index === 0 ? (img) => {
+                                    if (img) {
+                                        // #region agent log
+                                        const imgStyles = window.getComputedStyle(img);
+                                        fetch('http://127.0.0.1:7243/ingest/76e31c2b-b08d-4504-912c-35dd7c31c4ea',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'PartnerSlider.tsx:77',message:'Image computed styles POST-FIX',data:{width:imgStyles.width,height:imgStyles.height,maxWidth:imgStyles.maxWidth,maxHeight:imgStyles.maxHeight,objectFit:imgStyles.objectFit},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'BC'})}).catch(()=>{});
+                                        // #endregion
+                                    }
+                                } : undefined}
                             />
                         </div>
                     ))}
