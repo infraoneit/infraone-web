@@ -116,7 +116,7 @@ export function Header() {
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between h-16 lg:h-20">
                         {/* Logo - Show dark logo in light mode, light logo in dark mode */}
-                        <Link href="/" className="relative z-10 flex-shrink-0">
+                        <Link href="/" className="relative z-[110] flex-shrink-0">
                             {/* Light mode logo (black) - visible when NOT dark mode */}
                             <Image
                                 src="/infraone-logo-schwarz.svg"
@@ -192,7 +192,7 @@ export function Header() {
                         </div>
 
                         {/* Mobile Menu Button */}
-                        <div className="flex lg:hidden items-center gap-2">
+                        <div className="flex lg:hidden items-center gap-2 relative z-[110]">
                             <ThemeToggle />
                             <button
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -200,7 +200,7 @@ export function Header() {
                                 aria-label="Menü öffnen"
                             >
                                 {isMobileMenuOpen ? (
-                                    <X className="w-6 h-6" />
+                                    <X className="w-6 h-6 text-white" />
                                 ) : (
                                     <Menu className="w-6 h-6" />
                                 )}
@@ -217,9 +217,9 @@ export function Header() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-40 lg:hidden flex flex-col pt-24 overflow-y-auto"
+                            className="fixed inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 z-[100] lg:hidden flex flex-col overflow-y-auto"
                         >
-                            <div className="container mx-auto px-6 py-8 flex flex-col gap-6 min-h-[calc(100vh-6rem)]">
+                            <div className="container mx-auto px-6 py-24 flex flex-col gap-6 min-h-screen">
                                 {/* Navigation Links */}
                                 <nav className="flex flex-col gap-3">
                                     {navigation.map((item) => (
