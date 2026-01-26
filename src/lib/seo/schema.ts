@@ -941,6 +941,14 @@ export function generateHomepageOfferCatalogSchema() {
                 '@type': 'Offer',
                 itemOffered: {
                     '@type': 'Service',
+                    name: 'IT-Support & Managed Services',
+                    description: 'Professioneller IT-Support für KMU in Winterthur, Zürich und Ostschweiz - vor Ort oder remote',
+                },
+            },
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
                     name: 'IT-Systeme & Netzwerke',
                     description: 'Stabile IT-Infrastrukturen mit Server, Cloud, Microsoft 365, Backup und Netzwerksicherheit',
                 },
@@ -950,31 +958,23 @@ export function generateHomepageOfferCatalogSchema() {
                 itemOffered: {
                     '@type': 'Service',
                     name: 'Webdesign & Website-Entwicklung',
-                    description: 'Moderne, SEO-optimierte Websites ab CHF 990',
+                    description: 'Moderne, SEO-optimierte Websites ab CHF 990 - Wix, WordPress oder Next.js',
                 },
             },
             {
                 '@type': 'Offer',
                 itemOffered: {
                     '@type': 'Service',
-                    name: 'Cloud-Telefonie',
-                    description: 'VoIP-Telefonanlagen mit Peoplefone & 3CX',
+                    name: 'Cloud-Telefonie & VoIP',
+                    description: 'Cloud-Telefonanlagen mit 3CX und Peoplefone - flexibel, skalierbar, professionell',
                 },
             },
             {
                 '@type': 'Offer',
                 itemOffered: {
                     '@type': 'Service',
-                    name: 'Videoüberwachung',
-                    description: 'Professionelle CCTV-Lösungen für Unternehmen und Privatkunden',
-                },
-            },
-            {
-                '@type': 'Offer',
-                itemOffered: {
-                    '@type': 'Service',
-                    name: 'Videoüberwachung',
-                    description: 'Professionelle Sicherheitslösungen',
+                    name: 'Videoüberwachung & Sicherheitssysteme',
+                    description: 'Professionelle CCTV-Lösungen und IP-Kameras für Unternehmen und Privatkunden',
                 },
             },
             {
@@ -982,7 +982,31 @@ export function generateHomepageOfferCatalogSchema() {
                 itemOffered: {
                     '@type': 'Service',
                     name: 'Software-Entwicklung',
-                    description: 'Individuelle Softwarelösungen für Ihr Unternehmen',
+                    description: 'Individuelle Softwarelösungen und Web-Applikationen für Ihr Unternehmen',
+                },
+            },
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
+                    name: 'Digital Signage',
+                    description: 'Digitale Beschilderung und Content-Management für Bildschirme und Displays',
+                },
+            },
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
+                    name: 'Kontrollraum-Lösungen',
+                    description: 'Multimonitor-Systeme und Kontrollraum-Technologie für professionelle Überwachung',
+                },
+            },
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
+                    name: 'Gebäudeautomation & Smart Building',
+                    description: 'Intelligente Gebäudesteuerung für Klima, Licht, Zugang und Energie',
                 },
             },
         ],
