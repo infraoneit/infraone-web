@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { generateBreadcrumbListSchema, generateWebPageSchema } from '@/lib/seo/schema';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Impressum | Rechtliche Informationen',
@@ -7,8 +9,34 @@ export const metadata: Metadata = {
 };
 
 export default function ImpressumPage() {
+    // Breadcrumb Schema
+    const breadcrumbSchema = generateBreadcrumbListSchema([
+        { name: 'Home', url: BASE_URL },
+        { name: 'Impressum', url: `${BASE_URL}/impressum` },
+    ]);
+    
+    // WebPage Schema
+    const webPageSchema = generateWebPageSchema(
+        `${BASE_URL}/impressum`,
+        'Impressum - InfraOne IT Solutions',
+        'Impressum und rechtliche Informationen der InfraOne IT Solutions GmbH.'
+    );
+
     return (
-        <section className="py-16 lg:py-24 bg-background">
+        <>
+            {/* Breadcrumb Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            
+            {/* WebPage Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+            />
+            
+            <section className="py-16 lg:py-24 bg-background">
             <div className="container mx-auto px-4">
                 <div className="max-w-3xl mx-auto">
                     <AnimatedSection animation="slideUp">
@@ -69,5 +97,6 @@ export default function ImpressumPage() {
                 </div>
             </div>
         </section>
+        </>
     );
 }

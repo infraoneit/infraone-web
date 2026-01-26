@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { CloudTelefonieContent } from '@/components/pages/CloudTelefonieContent';
-import { generateSpokeServiceSchema, generateWebPageSchema, generateBreadcrumbListSchema } from '@/lib/seo/schema';
+import { generateCloudTelefonieVirtualSpokeSchema, generateFAQSchema, generateWebPageSchema, generateBreadcrumbListSchema } from '@/lib/seo/schema';
+import { generateCloudTelefonieSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
@@ -16,37 +17,18 @@ export const metadata: Metadata = {
 };
 
 export default function CloudTelefonieWinterthurPage() {
-    // Spoke Service Schema
-    const serviceSchema = generateSpokeServiceSchema('winterthur', 'Winterthur');
-
-    // WebPage Schema
-    const webPageSchema = generateWebPageSchema(
-        `${BASE_URL}/cloud-telefonie/winterthur`,
-        'Cloud-Telefonie Winterthur',
-        'Cloud-Telefonie Winterthur: Hauptstandort – persönliche Betreuung & schnelle Reaktionszeit'
-    );
-
-    // Breadcrumb Schema
-    const breadcrumbSchema = generateBreadcrumbListSchema([
-        { name: 'Home', url: BASE_URL },
-        { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` },
-        { name: 'Winterthur', url: `${BASE_URL}/cloud-telefonie/winterthur` },
-    ]);
+    const serviceSchema = generateCloudTelefonieVirtualSpokeSchema('winterthur', 'Winterthur', `${BASE_URL}/#business-winterthur`);
+    const spokeFaqs = generateCloudTelefonieSpokeFaqs('Winterthur');
+    const faqSchema = generateFAQSchema(spokeFaqs);
+    const webPageSchema = generateWebPageSchema(`${BASE_URL}/cloud-telefonie/winterthur`, 'Cloud-Telefonie Winterthur', 'Hauptstandort – persönliche Betreuung & schnelle Reaktionszeit');
+    const breadcrumbSchema = generateBreadcrumbListSchema([{ name: 'Home', url: BASE_URL }, { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` }, { name: 'Winterthur', url: `${BASE_URL}/cloud-telefonie/winterthur` }]);
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
             <CloudTelefonieContent regionSlug="winterthur" />
         </>
     );

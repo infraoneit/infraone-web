@@ -1,8 +1,15 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { ContactSection } from '@/components/sections/ContactSection';
+import { 
+    generateContactPageSchema,
+    generateContactPageLocalBusinessSchema,
+    generateBreadcrumbListSchema,
+    generateWebPageSchema,
+} from '@/lib/seo/schema';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Kontakt | IT-Support Winterthur anfragen',
@@ -46,8 +53,56 @@ const locations = [
 ];
 
 export default function KontaktPage() {
+    // 1. ContactPage Schema
+    const contactPageSchema = generateContactPageSchema();
+    
+    // 2-5. LocalBusiness Schemas für alle 4 Standorte
+    const localBusinessSchemas = locations.map((location) =>
+        generateContactPageLocalBusinessSchema(location, location.city.toLowerCase())
+    );
+    
+    // 6. Breadcrumb Schema
+    const breadcrumbSchema = generateBreadcrumbListSchema([
+        { name: 'Home', url: BASE_URL },
+        { name: 'Kontakt', url: `${BASE_URL}/kontakt` },
+    ]);
+    
+    // 7. WebPage Schema
+    const webPageSchema = generateWebPageSchema(
+        `${BASE_URL}/kontakt`,
+        'Kontakt - InfraOne IT Solutions',
+        'Kontaktieren Sie InfraOne IT Solutions an 4 Standorten in der Ostschweiz.'
+    );
+
     return (
         <>
+            {/* 1. ContactPage Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageSchema) }}
+            />
+            
+            {/* 2-5. LocalBusiness Schemas (4 Standorte) */}
+            {localBusinessSchemas.map((schema, index) => (
+                <script
+                    key={`localbusiness-${index}`}
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+                />
+            ))}
+            
+            {/* 6. Breadcrumb Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            
+            {/* 7. WebPage Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+            />
+            
             {/* Hero Section */}
             <section className="relative py-12 lg:py-16 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
@@ -133,6 +188,37 @@ export default function KontaktPage() {
                                 <span className="text-xs text-text-secondary">Öffnungszeiten</span>
                             </div>
                         </div>
+
+                        {/* Social Media */}
+                        <div className="mt-8 flex justify-center gap-4">
+                            <a
+                                href="https://www.facebook.com/profile.php?id=61587228175938"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 rounded-xl bg-card border border-border hover:border-primary hover:bg-primary hover:text-white text-text-secondary transition-all duration-150 flex items-center justify-center"
+                                aria-label="Facebook"
+                            >
+                                <Facebook className="w-6 h-6" />
+                            </a>
+                            <a
+                                href="https://www.instagram.com/infraoneit/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 rounded-xl bg-card border border-border hover:border-primary hover:bg-primary hover:text-white text-text-secondary transition-all duration-150 flex items-center justify-center"
+                                aria-label="Instagram"
+                            >
+                                <Instagram className="w-6 h-6" />
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/infraone-it-solutions"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 rounded-xl bg-card border border-border hover:border-primary hover:bg-primary hover:text-white text-text-secondary transition-all duration-150 flex items-center justify-center"
+                                aria-label="LinkedIn"
+                            >
+                                <Linkedin className="w-6 h-6" />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -140,18 +226,17 @@ export default function KontaktPage() {
             {/* Contact Form Section */}
             <ContactSection />
 
-            {/* Map Section - Main Location */}
+            {/* Map Section - All Locations */}
             <section className="py-0">
-                <div className="h-[400px] w-full bg-surface">
+                <div className="w-full bg-surface h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] xl:h-[600px]">
                     <iframe
-                        src={locations[0].mapEmbed}
-                        width="100%"
-                        height="100%"
+                        src="https://www.google.com/maps/d/u/0/embed?mid=1qrDQP5-5myC_ouXC45qpdf4Vl_Ge_c0&ehbc=2E312F&noprof=1"
+                        className="w-full h-full"
                         style={{ border: 0 }}
                         allowFullScreen
                         loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade"
-                        title="Hauptstandort Winterthur"
+                        title="InfraOne IT Solutions Standorte"
                     />
                 </div>
             </section>

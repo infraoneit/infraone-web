@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Clock, ExternalLink } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, ExternalLink, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 const footerLinks = {
     services: [
@@ -129,6 +129,37 @@ export function Footer() {
                                 <Clock className="w-4 h-4 flex-shrink-0" />
                                 <span>Mo-Fr 8:00-17:00</span>
                             </div>
+                        </div>
+
+                        {/* Social Media */}
+                        <div className="flex gap-3 mt-6">
+                            <a
+                                href="https://www.facebook.com/profile.php?id=61587228175938"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-lg bg-card border border-border hover:border-primary hover:bg-primary hover:text-white text-text-secondary transition-all duration-150 flex items-center justify-center"
+                                aria-label="Facebook"
+                            >
+                                <Facebook className="w-5 h-5" />
+                            </a>
+                            <a
+                                href="https://www.instagram.com/infraoneit/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-lg bg-card border border-border hover:border-primary hover:bg-primary hover:text-white text-text-secondary transition-all duration-150 flex items-center justify-center"
+                                aria-label="Instagram"
+                            >
+                                <Instagram className="w-5 h-5" />
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/infraone-it-solutions"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-lg bg-card border border-border hover:border-primary hover:bg-primary hover:text-white text-text-secondary transition-all duration-150 flex items-center justify-center"
+                                aria-label="LinkedIn"
+                            >
+                                <Linkedin className="w-5 h-5" />
+                            </a>
                         </div>
                     </div>
 

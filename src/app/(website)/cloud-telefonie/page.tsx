@@ -5,7 +5,13 @@ import { Phone, Cloud, Globe, Wifi, Users, Calculator, CheckCircle, ArrowRight, 
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
 import { FAQList } from '@/components/ui/FAQList';
-import { generateHubServiceSchema, generateWebPageSchema, generateBreadcrumbListSchema, generateFAQSchema } from '@/lib/seo/schema';
+import { 
+    generateHubServiceSchema, 
+    generateWebPageSchema, 
+    generateBreadcrumbListSchema, 
+    generateFAQSchema,
+    generateItemListSchema,
+} from '@/lib/seo/schema';
 import { globalFaqs, pricingModules } from '@/data/telefonie';
 import { BASE_URL } from '@/lib/constants';
 
@@ -97,8 +103,22 @@ const regions = [
 ];
 
 export default function CloudTelefoniePage() {
-    // Hub Service Schema
+    // Hub Service Schema (ProfessionalService)
     const serviceSchema = generateHubServiceSchema();
+
+    // ItemList Schema (Business-Features)
+    const businessFeatures = [
+        'Unbegrenzte interne Anrufe',
+        'Peoplefone Handy-App (iOS/Android)',
+        'Kostenlose Anrufe zwischen Peoplefone-Kunden (auch international)',
+        'Anrufweiterleitung & Rufgruppen',
+        'Voicemail mit E-Mail-Benachrichtigung',
+        'Online-Portal zur Verwaltung',
+        'Statistiken & Anrufhistorie',
+        'Fax2Mail',
+        'Telefonbuch & Kurzwahlen',
+    ];
+    const itemListSchema = generateItemListSchema(businessFeatures, 'Cloud-Telefonie Business-Features');
 
     // WebPage Schema
     const webPageSchema = generateWebPageSchema(
@@ -118,18 +138,31 @@ export default function CloudTelefoniePage() {
 
     return (
         <>
+            {/* Hub Service Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
             />
+            
+            {/* ItemList Schema (Business-Features) */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+            />
+            
+            {/* WebPage Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
             />
+            
+            {/* Breadcrumb Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
+            
+            {/* FAQ Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

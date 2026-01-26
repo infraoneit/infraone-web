@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { CloudTelefonieContent } from '@/components/pages/CloudTelefonieContent';
-import { generateSpokeServiceSchema, generateWebPageSchema, generateBreadcrumbListSchema } from '@/lib/seo/schema';
+import { generateCloudTelefonieVirtualSpokeSchema, generateFAQSchema, generateWebPageSchema, generateBreadcrumbListSchema } from '@/lib/seo/schema';
+import { generateCloudTelefonieSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
@@ -16,37 +17,18 @@ export const metadata: Metadata = {
 };
 
 export default function CloudTelefonieThurgauPage() {
-    // Spoke Service Schema
-    const serviceSchema = generateSpokeServiceSchema('thurgau', 'Thurgau');
-
-    // WebPage Schema
-    const webPageSchema = generateWebPageSchema(
-        `${BASE_URL}/cloud-telefonie/thurgau`,
-        'Cloud-Telefonie Thurgau',
-        'Cloud-Telefonie Thurgau: Spezielle Lösungen für Hotels & Gastro am Bodensee'
-    );
-
-    // Breadcrumb Schema
-    const breadcrumbSchema = generateBreadcrumbListSchema([
-        { name: 'Home', url: BASE_URL },
-        { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` },
-        { name: 'Thurgau', url: `${BASE_URL}/cloud-telefonie/thurgau` },
-    ]);
+    const serviceSchema = generateCloudTelefonieVirtualSpokeSchema('thurgau', 'Thurgau', `${BASE_URL}/#business-taegerwilen`);
+    const spokeFaqs = generateCloudTelefonieSpokeFaqs('Thurgau');
+    const faqSchema = generateFAQSchema(spokeFaqs);
+    const webPageSchema = generateWebPageSchema(`${BASE_URL}/cloud-telefonie/thurgau`, 'Cloud-Telefonie Thurgau', 'Spezielle Lösungen für Hotels & Gastro am Bodensee');
+    const breadcrumbSchema = generateBreadcrumbListSchema([{ name: 'Home', url: BASE_URL }, { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` }, { name: 'Thurgau', url: `${BASE_URL}/cloud-telefonie/thurgau` }]);
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
             <CloudTelefonieContent regionSlug="thurgau" />
         </>
     );

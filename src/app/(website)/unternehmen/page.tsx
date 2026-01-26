@@ -4,7 +4,13 @@ import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/
 import { Timeline } from '@/components/ui/Timeline';
 import { Users, Target, Award, Heart, Linkedin, Mail } from 'lucide-react';
 
-import { generateAboutPageSchema } from '@/lib/seo/schema';
+import { 
+    generateAboutPageSchema,
+    generatePersonSchema,
+    generateBreadcrumbListSchema,
+    generateWebPageSchema,
+} from '@/lib/seo/schema';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Über uns | InfraOne IT Solutions Winterthur',
@@ -86,13 +92,55 @@ const timelineEvents = [
     },
 ];
 export default function UnternehmenPage() {
+    // 1. AboutPage Schema
     const aboutSchema = generateAboutPageSchema();
+    
+    // 2. Person Schema (CEO)
+    const personSchema = generatePersonSchema(
+        'Aladdin Avci',
+        'Geschäftsführer & Gründer',
+        'Mit einem Hintergrund in Elektrotechnik und IT verbindet Aladdin Avci zwei Disziplinen, die heute enger zusammengehören als je zuvor. Als diplomierter Techniker HF Systemtechnik ist er nicht nur Stratege, sondern auch Macher: nah an Projekten, Kunden und Partnern.',
+        'aladdin.avci@infraone.ch',
+        'https://www.linkedin.com/in/infraone-it-solutions'
+    );
+    
+    // 3. Breadcrumb Schema
+    const breadcrumbSchema = generateBreadcrumbListSchema([
+        { name: 'Home', url: BASE_URL },
+        { name: 'Über uns', url: `${BASE_URL}/unternehmen` },
+    ]);
+    
+    // 4. WebPage Schema
+    const webPageSchema = generateWebPageSchema(
+        `${BASE_URL}/unternehmen`,
+        'Über InfraOne IT Solutions',
+        'Erfahren Sie mehr über InfraOne IT Solutions, unser Team, unsere Werte und unsere Geschichte.'
+    );
 
     return (
         <>
+            {/* 1. AboutPage Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+            />
+            
+            {/* 2. Person Schema (CEO) */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+            />
+            
+            {/* 3. Breadcrumb Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            
+            {/* 4. WebPage Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
             />
 
             {/* Hero */}
@@ -180,7 +228,7 @@ export default function UnternehmenPage() {
                                             <span className="font-medium">E-Mail</span>
                                         </a>
                                         <a
-                                            href="https://www.linkedin.com/in/aladdin-avci/"
+                                            href="https://www.linkedin.com/in/infraone-it-solutions"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-card border border-border hover:border-primary text-text-primary hover:text-primary transition-all"

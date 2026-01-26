@@ -2,7 +2,9 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ServicePageTemplate } from '@/components/templates/ServicePageTemplate';
 import { Home, Lightbulb, BarChart3 } from 'lucide-react';
-import { generateServiceSchema } from '@/lib/seo/schema';
+import { generateServiceWithMultipleProvidersSchema, generateFAQSchema, generateBreadcrumbListSchema, generateWebPageSchema } from '@/lib/seo/schema';
+import { gebaeudeautomationFaqs } from '@/data/webdesign-faqs';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Gebäudeautomation & Smart Building | Loxone Partner',
@@ -81,19 +83,21 @@ const advantages = [
 ];
 
 export default function GebaeudeautomationPage() {
-    const serviceSchema = generateServiceSchema(
-        'Gebäudeautomation & IoT',
-        'Building Automation Service',
-        'Intelligente Gebäudesteuerung mit SmartPlace, WAGO und Loxone. Smart Building, Energiemonitoring und IoT-Integration für Unternehmen.',
-        'https://www.infraone.ch/gebaeudeautomation'
+    const serviceSchema = generateServiceWithMultipleProvidersSchema(
+        'Gebäudeautomation & IoT', 'Building Automation Service',
+        'Intelligente Gebäudesteuerung mit SmartPlace, WAGO und Loxone.',
+        `${BASE_URL}/gebaeudeautomation`
     );
+    const faqSchema = generateFAQSchema(gebaeudeautomationFaqs);
+    const breadcrumbSchema = generateBreadcrumbListSchema([{ name: 'Home', url: BASE_URL }, { name: 'Gebäudeautomation', url: `${BASE_URL}/gebaeudeautomation` }]);
+    const webPageSchema = generateWebPageSchema(`${BASE_URL}/gebaeudeautomation`, 'Gebäudeautomation & IoT', 'Intelligente Gebäudesteuerung.');
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
             <ServicePageTemplate
                 heroImage="/images/hero_automation_1768423264177.png"
                 headline="Gebäudeautomation & IoT"

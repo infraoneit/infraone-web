@@ -1,7 +1,14 @@
 import { Metadata } from 'next';
 import { ServicePageTemplate } from '@/components/templates/ServicePageTemplate';
 import { Eye, Lock, Zap } from 'lucide-react';
-import { generateServiceSchema } from '@/lib/seo/schema';
+import {
+    generateServiceWithMultipleProvidersSchema,
+    generateFAQSchema,
+    generateBreadcrumbListSchema,
+    generateWebPageSchema,
+} from '@/lib/seo/schema';
+import { videoueberwachungFaqs } from '@/data/webdesign-faqs';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Videoüberwachung | Milestone VMS & UniFi Protect Winterthur',
@@ -80,19 +87,30 @@ const advantages = [
 ];
 
 export default function VideoueberwachungPage() {
-    const serviceSchema = generateServiceSchema(
+    const serviceSchema = generateServiceWithMultipleProvidersSchema(
         'Videoüberwachung & CCTV',
         'Security System Service',
-        'Professionelle CCTV-Lösungen mit Milestone VMS, UniFi Protect und Aluha für KMU und Privatkunden. Videoüberwachung Winterthur.',
-        'https://www.infraone.ch/videoueberwachung'
+        'Professionelle CCTV-Lösungen mit Milestone VMS, UniFi Protect und Aluha für KMU und Privatkunden.',
+        `${BASE_URL}/videoueberwachung`
+    );
+
+    const faqSchema = generateFAQSchema(videoueberwachungFaqs);
+    const breadcrumbSchema = generateBreadcrumbListSchema([
+        { name: 'Home', url: BASE_URL },
+        { name: 'Videoüberwachung', url: `${BASE_URL}/videoueberwachung` },
+    ]);
+    const webPageSchema = generateWebPageSchema(
+        `${BASE_URL}/videoueberwachung`,
+        'Videoüberwachung & CCTV',
+        'Professionelle CCTV-Lösungen mit Milestone VMS, UniFi Protect und Aluha.'
     );
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
             <ServicePageTemplate
                 heroImage="/images/hero_video_1768423206506.png"
                 headline="Videoüberwachung"

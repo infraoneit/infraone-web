@@ -1,7 +1,14 @@
 import { Metadata } from 'next';
 import { ServicePageTemplate } from '@/components/templates/ServicePageTemplate';
 import { Puzzle, Headphones, Shield } from 'lucide-react';
-import { generateServiceSchema } from '@/lib/seo/schema';
+import { 
+    generateServiceWithMultipleProvidersSchema,
+    generateFAQSchema,
+    generateBreadcrumbListSchema,
+    generateWebPageSchema,
+} from '@/lib/seo/schema';
+import { itNetzwerkeFaqs } from '@/data/webdesign-faqs';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'IT-Systeme & Netzwerke | IT-Dienstleister Winterthur',
@@ -80,18 +87,54 @@ const advantages = [
 ];
 
 export default function ITNetzwerkePage() {
-    const serviceSchema = generateServiceSchema(
+    // Service Schema mit allen 4 Provider-Standorten
+    const serviceSchema = generateServiceWithMultipleProvidersSchema(
         'IT-Systeme & Netzwerke',
         'Computer Networking Service',
         'Planung, Aufbau & Betreuung moderner IT-Netzwerke für KMU. Stabile IT-Infrastruktur, Cloud-Lösungen, Server & Virtualisierung.',
-        'https://www.infraone.ch/it-netzwerke'
+        `${BASE_URL}/it-netzwerke`
+    );
+
+    // FAQ Schema
+    const faqSchema = generateFAQSchema(itNetzwerkeFaqs);
+
+    // Breadcrumb Schema
+    const breadcrumbSchema = generateBreadcrumbListSchema([
+        { name: 'Home', url: BASE_URL },
+        { name: 'IT-Netzwerke', url: `${BASE_URL}/it-netzwerke` },
+    ]);
+
+    // WebPage Schema
+    const webPageSchema = generateWebPageSchema(
+        `${BASE_URL}/it-netzwerke`,
+        'IT-Systeme & Netzwerke',
+        'Planung, Aufbau & Betreuung moderner IT-Netzwerke für KMU.'
     );
 
     return (
         <>
+            {/* Service Schema (mit 4 Provider-Standorten) */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+            />
+            
+            {/* FAQ Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            
+            {/* Breadcrumb Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            
+            {/* WebPage Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
             />
             <ServicePageTemplate
                 heroImage="/images/hero_it_network_1768423176860.png"

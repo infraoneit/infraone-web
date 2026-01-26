@@ -1,7 +1,9 @@
 import { Metadata } from 'next';
 import { ServicePageTemplate } from '@/components/templates/ServicePageTemplate';
 import { Cog, Database, Rocket } from 'lucide-react';
-import { generateServiceSchema } from '@/lib/seo/schema';
+import { generateServiceWithMultipleProvidersSchema, generateFAQSchema, generateBreadcrumbListSchema, generateWebPageSchema } from '@/lib/seo/schema';
+import { softwareEntwicklungFaqs } from '@/data/webdesign-faqs';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Software-Entwicklung & App-Entwicklung | InfraOne',
@@ -80,19 +82,21 @@ const advantages = [
 ];
 
 export default function SoftwareEntwicklungPage() {
-    const serviceSchema = generateServiceSchema(
-        'Software-Entwicklung',
-        'Software Development Service',
-        'Massgeschneiderte Software für Ihr Unternehmen. API-Entwicklung, Automatisierung, Datenbankanbindungen und individuelle Anwendungen.',
-        'https://www.infraone.ch/software-entwicklung'
+    const serviceSchema = generateServiceWithMultipleProvidersSchema(
+        'Software-Entwicklung', 'Software Development Service',
+        'Massgeschneiderte Software für Ihr Unternehmen. API-Entwicklung, Automatisierung.',
+        `${BASE_URL}/software-entwicklung`
     );
+    const faqSchema = generateFAQSchema(softwareEntwicklungFaqs);
+    const breadcrumbSchema = generateBreadcrumbListSchema([{ name: 'Home', url: BASE_URL }, { name: 'Software-Entwicklung', url: `${BASE_URL}/software-entwicklung` }]);
+    const webPageSchema = generateWebPageSchema(`${BASE_URL}/software-entwicklung`, 'Software-Entwicklung', 'Massgeschneiderte Software für Ihr Unternehmen.');
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
             <ServicePageTemplate
                 heroImage="/images/hero_software_1768423249576.png"
                 headline="Software-Entwicklung"

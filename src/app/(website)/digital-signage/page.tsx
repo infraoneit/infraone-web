@@ -1,7 +1,9 @@
 import { Metadata } from 'next';
 import { ServicePageTemplate } from '@/components/templates/ServicePageTemplate';
 import { Tv, Settings, Cloud } from 'lucide-react';
-import { generateServiceSchema } from '@/lib/seo/schema';
+import { generateServiceWithMultipleProvidersSchema, generateFAQSchema, generateBreadcrumbListSchema, generateWebPageSchema } from '@/lib/seo/schema';
+import { digitalSignageFaqs } from '@/data/webdesign-faqs';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Digital Signage Lösungen | Infoscreens & Werbedisplays',
@@ -80,19 +82,21 @@ const advantages = [
 ];
 
 export default function DigitalSignagePage() {
-    const serviceSchema = generateServiceSchema(
-        'Digital Signage',
-        'Digital Signage Service',
-        'Professionelle Digital Signage Lösungen mit Xibo CMS. Lokaler Mini-Server für bis zu 10 Bildschirme. Custom Widgets für jede Anforderung.',
-        'https://www.infraone.ch/digital-signage'
+    const serviceSchema = generateServiceWithMultipleProvidersSchema(
+        'Digital Signage', 'Digital Signage Service',
+        'Professionelle Digital Signage Lösungen mit Xibo CMS.',
+        `${BASE_URL}/digital-signage`
     );
+    const faqSchema = generateFAQSchema(digitalSignageFaqs);
+    const breadcrumbSchema = generateBreadcrumbListSchema([{ name: 'Home', url: BASE_URL }, { name: 'Digital Signage', url: `${BASE_URL}/digital-signage` }]);
+    const webPageSchema = generateWebPageSchema(`${BASE_URL}/digital-signage`, 'Digital Signage', 'Professionelle Digital Signage Lösungen.');
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
             <ServicePageTemplate
                 heroImage="/images/hero_digital_signage_1768423279297.png"
                 headline="Digital Signage"

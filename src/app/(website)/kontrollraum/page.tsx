@@ -1,7 +1,9 @@
 import { Metadata } from 'next';
 import { ServicePageTemplate } from '@/components/templates/ServicePageTemplate';
 import { Monitor, Cpu, Zap } from 'lucide-react';
-import { generateServiceSchema } from '@/lib/seo/schema';
+import { generateServiceWithMultipleProvidersSchema, generateFAQSchema, generateBreadcrumbListSchema, generateWebPageSchema } from '@/lib/seo/schema';
+import { kontrollraumFaqs } from '@/data/webdesign-faqs';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Kontrollraum & Leitstellen Planung | KVM & Videowalls',
@@ -80,19 +82,21 @@ const advantages = [
 ];
 
 export default function KontrollraumPage() {
-    const serviceSchema = generateServiceSchema(
-        'Kontrollraum-Lösungen',
-        'Control Room System Service',
-        'KVM-Systeme von BlackBox für Leitstellen und Kontrollräume. Zentrale Steuerung, Visualisierung und Ausfallsicherheit.',
-        'https://www.infraone.ch/kontrollraum'
+    const serviceSchema = generateServiceWithMultipleProvidersSchema(
+        'Kontrollraum-Lösungen', 'Control Room System Service',
+        'KVM-Systeme von BlackBox für Leitstellen und Kontrollräume.',
+        `${BASE_URL}/kontrollraum`
     );
+    const faqSchema = generateFAQSchema(kontrollraumFaqs);
+    const breadcrumbSchema = generateBreadcrumbListSchema([{ name: 'Home', url: BASE_URL }, { name: 'Kontrollraum', url: `${BASE_URL}/kontrollraum` }]);
+    const webPageSchema = generateWebPageSchema(`${BASE_URL}/kontrollraum`, 'Kontrollraum-Lösungen', 'KVM-Systeme für Leitstellen und Kontrollräume.');
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
             <ServicePageTemplate
                 heroImage="/images/hero_automation_1768423264177.png"
                 headline="Kontrollraum-Lösungen"

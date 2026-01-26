@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { CloudTelefonieContent } from '@/components/pages/CloudTelefonieContent';
-import { generateSpokeServiceSchema, generateWebPageSchema, generateBreadcrumbListSchema } from '@/lib/seo/schema';
+import { generateCloudTelefonieVirtualSpokeSchema, generateFAQSchema, generateWebPageSchema, generateBreadcrumbListSchema } from '@/lib/seo/schema';
+import { generateCloudTelefonieSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
@@ -16,37 +17,18 @@ export const metadata: Metadata = {
 };
 
 export default function CloudTelefonieSchaffhausenPage() {
-    // Spoke Service Schema
-    const serviceSchema = generateSpokeServiceSchema('schaffhausen', 'Schaffhausen');
-
-    // WebPage Schema
-    const webPageSchema = generateWebPageSchema(
-        `${BASE_URL}/cloud-telefonie/schaffhausen`,
-        'Cloud-Telefonie Schaffhausen',
-        'Cloud-Telefonie Schaffhausen: Industrie-Erfahrung, persönliche Beratung'
-    );
-
-    // Breadcrumb Schema
-    const breadcrumbSchema = generateBreadcrumbListSchema([
-        { name: 'Home', url: BASE_URL },
-        { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` },
-        { name: 'Schaffhausen', url: `${BASE_URL}/cloud-telefonie/schaffhausen` },
-    ]);
+    const serviceSchema = generateCloudTelefonieVirtualSpokeSchema('schaffhausen', 'Schaffhausen', `${BASE_URL}/#business-schaffhausen`);
+    const spokeFaqs = generateCloudTelefonieSpokeFaqs('Schaffhausen');
+    const faqSchema = generateFAQSchema(spokeFaqs);
+    const webPageSchema = generateWebPageSchema(`${BASE_URL}/cloud-telefonie/schaffhausen`, 'Cloud-Telefonie Schaffhausen', 'Industrie-Erfahrung, persönliche Beratung');
+    const breadcrumbSchema = generateBreadcrumbListSchema([{ name: 'Home', url: BASE_URL }, { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` }, { name: 'Schaffhausen', url: `${BASE_URL}/cloud-telefonie/schaffhausen` }]);
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
             <CloudTelefonieContent regionSlug="schaffhausen" />
         </>
     );

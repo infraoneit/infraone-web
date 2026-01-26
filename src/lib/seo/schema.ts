@@ -621,7 +621,7 @@ export function generateVirtualSpokeSchema(
 }
 
 /**
- * Generiert AggregateRating Schema für Testimonials
+ * Generiert AggregateRating Schema für Testimonials (Webdesign Hub - INTERNE Reviews)
  */
 export function generateAggregateRatingSchema() {
     return {
@@ -696,5 +696,558 @@ export function generateAggregateRatingSchema() {
                 },
             },
         ],
+    };
+}
+
+/**
+ * ========================================
+ * NEUE SCHEMA-FUNKTIONEN FÜR HOMEPAGE & ERWEITERTE SEITEN
+ * ========================================
+ */
+
+/**
+ * Generiert erweiterte Organization Schema mit Social Media Links
+ * Für die Startseite
+ */
+export function generateOrganizationSchemaExtended(): WithContext<Organization> {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        '@id': `${BASE_URL}/#organization`,
+        name: 'InfraOne IT Solutions GmbH',
+        url: BASE_URL,
+        logo: `${BASE_URL}/infraone-logo-schwarz.svg`,
+        description: 'IT-Support, Webdesign & Cloud-Telefonanlagen in Winterthur, Schaffhausen & Zürich. Ihr kompetenter IT-Partner für KMU & Privatkunden in der Ostschweiz.',
+        telephone: '+41522221818',
+        email: 'info@infraone.ch',
+        address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Rudolf-Diesel-Strasse 25',
+            addressLocality: 'Winterthur',
+            addressRegion: 'Zürich',
+            postalCode: '8404',
+            addressCountry: 'CH',
+        },
+        contactPoint: [
+            {
+                '@type': 'ContactPoint',
+                telephone: '+41522221818',
+                contactType: 'customer service',
+                availableLanguage: ['German'],
+                areaServed: 'CH',
+            },
+            {
+                '@type': 'ContactPoint',
+                telephone: '+41765875055',
+                contactType: 'emergency',
+                availableLanguage: ['German'],
+                areaServed: 'CH',
+            },
+        ],
+        sameAs: [
+            'https://www.facebook.com/profile.php?id=61587228175938',
+            'https://www.instagram.com/infraoneit/',
+            'https://www.linkedin.com/in/infraone-it-solutions',
+        ],
+        foundingDate: '2004',
+        numberOfEmployees: {
+            '@type': 'QuantitativeValue',
+            value: '5-10',
+        },
+    };
+}
+
+/**
+ * Generiert LocalBusiness Schema für 4 physische Standorte (Homepage)
+ */
+export function generateContactPageLocalBusinessSchema(
+    location: {
+        city: string;
+        street: string;
+        zip: string;
+        isMain: boolean;
+        mapUrl: string;
+    },
+    businessId: string
+) {
+    const geo = REGION_COORDINATES[location.city.toLowerCase()];
+    
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'LocalBusiness',
+        '@id': `${BASE_URL}/#business-${businessId}`,
+        name: `InfraOne IT Solutions ${location.isMain ? 'GmbH - Hauptsitz' : ''}`,
+        url: BASE_URL,
+        telephone: '+41522221818',
+        email: 'info@infraone.ch',
+        address: {
+            '@type': 'PostalAddress',
+            streetAddress: location.street,
+            postalCode: location.zip,
+            addressLocality: location.city,
+            addressCountry: 'CH',
+        },
+        ...(geo && {
+            geo: {
+                '@type': 'GeoCoordinates',
+                latitude: geo.latitude,
+                longitude: geo.longitude,
+            },
+        }),
+        openingHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            opens: '08:00',
+            closes: location.isMain ? '17:30' : '17:00',
+        },
+        priceRange: '$$',
+        hasMap: location.mapUrl,
+    };
+}
+
+/**
+ * Generiert ContactPage Schema
+ */
+export function generateContactPageSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        '@id': `${BASE_URL}/kontakt#webpage`,
+        url: `${BASE_URL}/kontakt`,
+        name: 'Kontakt - InfraOne IT Solutions',
+        description: 'Kontaktieren Sie InfraOne IT Solutions an 4 Standorten in der Ostschweiz. Winterthur, Schaffhausen, Tägerwilen, Kleinandelfingen.',
+        isPartOf: { '@id': `${BASE_URL}/#website` },
+    };
+}
+
+/**
+ * Generiert Person Schema (z.B. für CEO auf Über-uns-Seite)
+ */
+export function generatePersonSchema(
+    name: string,
+    jobTitle: string,
+    bio: string,
+    email?: string,
+    linkedin?: string
+) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: name,
+        jobTitle: jobTitle,
+        description: bio,
+        worksFor: {
+            '@type': 'Organization',
+            '@id': `${BASE_URL}/#organization`,
+            name: 'InfraOne IT Solutions GmbH',
+        },
+        ...(email && { email: email }),
+        ...(linkedin && { sameAs: [linkedin] }),
+    };
+}
+
+/**
+ * Generiert externe Review Schemas (Google Reviews)
+ * Für die Startseite
+ */
+interface ExternalReview {
+    name: string;
+    company: string;
+    quote: string;
+    rating: number;
+    service: string;
+    googleReviewUrl: string;
+}
+
+export function generateExternalReviewsSchema(reviews: ExternalReview[]) {
+    return reviews.map((review) => ({
+        '@type': 'Review',
+        author: {
+            '@type': 'Person',
+            name: review.name,
+        },
+        reviewRating: {
+            '@type': 'Rating',
+            ratingValue: review.rating.toString(),
+            bestRating: '5',
+        },
+        reviewBody: review.quote,
+        url: review.googleReviewUrl,
+        itemReviewed: {
+            '@type': 'Service',
+            name: review.service,
+            provider: {
+                '@type': 'Organization',
+                name: 'InfraOne IT Solutions GmbH',
+            },
+        },
+    }));
+}
+
+/**
+ * Generiert AggregateRating für Homepage mit externen Google Reviews
+ */
+export function generateHomepageAggregateRatingSchema(reviews: ExternalReview[]) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'AggregateRating',
+        '@id': `${BASE_URL}/#aggregateRating`,
+        ratingValue: '5',
+        bestRating: '5',
+        worstRating: '1',
+        ratingCount: reviews.length.toString(),
+        itemReviewed: {
+            '@type': 'Organization',
+            '@id': `${BASE_URL}/#organization`,
+        },
+    };
+}
+
+/**
+ * Generiert OfferCatalog für Homepage (Hauptdienstleistungen)
+ */
+export function generateHomepageOfferCatalogSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'OfferCatalog',
+        name: 'InfraOne IT Solutions - Dienstleistungen',
+        itemListElement: [
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
+                    name: 'IT-Support & Managed Services',
+                    description: 'Professioneller IT-Support für KMU und Privatkunden',
+                },
+            },
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
+                    name: 'Webdesign & Website-Entwicklung',
+                    description: 'Moderne, SEO-optimierte Websites ab CHF 990',
+                },
+            },
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
+                    name: 'Cloud-Telefonie',
+                    description: 'VoIP-Telefonanlagen mit Peoplefone & 3CX',
+                },
+            },
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
+                    name: 'IT-Netzwerke & Server',
+                    description: 'Planung und Betreuung moderner IT-Infrastrukturen',
+                },
+            },
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
+                    name: 'Videoüberwachung',
+                    description: 'Professionelle Sicherheitslösungen',
+                },
+            },
+            {
+                '@type': 'Offer',
+                itemOffered: {
+                    '@type': 'Service',
+                    name: 'Software-Entwicklung',
+                    description: 'Individuelle Softwarelösungen für Ihr Unternehmen',
+                },
+            },
+        ],
+    };
+}
+
+/**
+ * Generiert Product Schema (z.B. für Webdesign-Pakete)
+ */
+export function generateProductSchema(
+    name: string,
+    price: string,
+    description: string,
+    features: string[]
+) {
+    const priceMatch = price.match(/\d+/);
+    const priceValue = priceMatch ? priceMatch[0] : undefined;
+    
+    return {
+        '@type': 'Product',
+        name: name,
+        description: description,
+        offers: {
+            '@type': 'Offer',
+            price: priceValue,
+            priceCurrency: 'CHF',
+            availability: 'https://schema.org/InStock',
+            seller: {
+                '@type': 'Organization',
+                name: 'InfraOne IT Solutions GmbH',
+            },
+        },
+        ...(features.length > 0 && {
+            additionalProperty: features.map(feature => ({
+                '@type': 'PropertyValue',
+                name: 'Feature',
+                value: feature,
+            })),
+        }),
+    };
+}
+
+/**
+ * Generiert WebDesign Service Schema (spezifisch für Webdesign Hub)
+ */
+export function generateWebDesignServiceSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/webdesign#service`,
+        serviceType: 'Web Design',
+        name: 'Webdesign & Website-Entwicklung',
+        description: 'Professionelles Webdesign in der Schweiz. Moderne, SEO-optimierte Websites ab CHF 990.',
+        provider: {
+            '@type': 'Organization',
+            '@id': `${BASE_URL}/#organization`,
+        },
+        url: `${BASE_URL}/webdesign`,
+        areaServed: {
+            '@type': 'Country',
+            name: 'Switzerland',
+        },
+        offers: {
+            '@type': 'AggregateOffer',
+            priceCurrency: 'CHF',
+            lowPrice: '990',
+            highPrice: '3990',
+            offerCount: '3',
+        },
+    };
+}
+
+/**
+ * Generiert 3 Webdesign-Pakete als Product Schemas
+ */
+export function generateWebdesignPackageProducts() {
+    return [
+        generateProductSchema(
+            'Webdesign Starter-Paket',
+            'CHF 990',
+            'Einsteigerpaket für kleine Unternehmen und Einzelunternehmer',
+            ['Responsive Design', 'SEO-Grundoptimierung', 'Kontaktformular', 'SSL-Zertifikat']
+        ),
+        generateProductSchema(
+            'Webdesign KMU-Paket',
+            'CHF 1990',
+            'Professionelles Paket für etablierte KMU',
+            ['Individuelles Design', 'Erweiterte SEO', 'Blog-System', 'Mehrsprachigkeit']
+        ),
+        generateProductSchema(
+            'Webdesign Pro-Paket',
+            'CHF 3990',
+            'Premium-Lösung für anspruchsvolle Projekte',
+            ['Custom Development', 'E-Commerce Integration', 'Advanced Features', 'Priority Support']
+        ),
+    ];
+}
+
+/**
+ * Generiert Blog Schema für Blog-Übersichtsseite
+ */
+export function generateBlogSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Blog',
+        '@id': `${BASE_URL}/blog#blog`,
+        name: 'InfraOne IT Solutions Blog',
+        description: 'IT-Wissen, Praxistipps und Neuigkeiten',
+        url: `${BASE_URL}/blog`,
+        publisher: {
+            '@type': 'Organization',
+            '@id': `${BASE_URL}/#organization`,
+        },
+    };
+}
+
+/**
+ * Generiert BlogPosting Schema für einzelne Artikel
+ */
+export function generateBlogPostingSchema(
+    title: string,
+    excerpt: string,
+    slug: string,
+    datePublished: string,
+    category: string,
+    readingTime: string
+) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        '@id': `${BASE_URL}/blog/${slug}#article`,
+        headline: title,
+        description: excerpt,
+        url: `${BASE_URL}/blog/${slug}`,
+        datePublished: datePublished,
+        author: {
+            '@type': 'Organization',
+            name: 'InfraOne IT Solutions GmbH',
+            url: BASE_URL,
+        },
+        publisher: {
+            '@type': 'Organization',
+            '@id': `${BASE_URL}/#organization`,
+        },
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `${BASE_URL}/blog/${slug}`,
+        },
+        articleSection: category,
+        timeRequired: readingTime,
+        inLanguage: 'de-CH',
+    };
+}
+
+/**
+ * Generiert Speakable Schema für Voice Search (Blog-Artikel)
+ */
+export function generateSpeakableSchema(speakableSelectors: string[]) {
+    return {
+        speakable: {
+            '@type': 'SpeakableSpecification',
+            cssSelector: speakableSelectors,
+        },
+    };
+}
+
+/**
+ * Generiert Service Schema mit mehreren Provider-Standorten
+ * Für Standard-Services ohne regionale Spokes
+ */
+export function generateServiceWithMultipleProvidersSchema(
+    serviceName: string,
+    serviceType: string,
+    description: string,
+    serviceUrl: string
+) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: serviceName,
+        serviceType: serviceType,
+        description: description,
+        url: serviceUrl,
+        provider: [
+            { '@id': `${BASE_URL}/#business-winterthur` },
+            { '@id': `${BASE_URL}/#business-schaffhausen` },
+            { '@id': `${BASE_URL}/#business-taegerwilen` },
+            { '@id': `${BASE_URL}/#business-kleinandelfingen` },
+        ],
+        areaServed: {
+            '@type': 'Country',
+            name: 'Switzerland',
+        },
+    };
+}
+
+/**
+ * Generiert Webdesign Spoke Schema (physischer Standort mit Büro)
+ * Für Winterthur, Schaffhausen, Thurgau
+ */
+export function generateWebdesignPhysicalSpokeSchema(
+    regionSlug: string,
+    regionName: string,
+    areaServedList?: string[]
+) {
+    const geo = REGION_COORDINATES[regionSlug];
+    
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ProfessionalService',
+        '@id': `${BASE_URL}/webdesign/${regionSlug}#service`,
+        name: `InfraOne Webdesign - ${regionName}`,
+        description: `Professionelles Webdesign für Unternehmen in ${regionName}. Moderne Websites ab CHF 990.`,
+        serviceType: 'Web Design',
+        url: `${BASE_URL}/webdesign/${regionSlug}`,
+        telephone: '+41522221818',
+        email: 'info@infraone.ch',
+        address: {
+            '@type': 'PostalAddress',
+            addressLocality: regionName,
+            addressCountry: 'CH',
+        },
+        ...(geo && {
+            geo: {
+                '@type': 'GeoCoordinates',
+                latitude: geo.latitude,
+                longitude: geo.longitude,
+            },
+        }),
+        openingHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            opens: '08:00',
+            closes: '17:00',
+        },
+        areaServed: areaServedList && areaServedList.length > 0
+            ? areaServedList.map(area => ({ '@type': 'Place', name: area }))
+            : { '@type': 'Place', name: regionName },
+        priceRange: '$$',
+        isPartOf: { '@id': `${BASE_URL}/webdesign#service` },
+    };
+}
+
+/**
+ * Generiert Webdesign Spoke Schema (virtueller Standort ohne Büro)
+ * Für alle anderen Regionen (Zürich, Basel, Bern, etc.)
+ */
+export function generateWebdesignVirtualSpokeSchema(
+    regionSlug: string,
+    regionName: string,
+    providerBusinessId: string,
+    areaServedList?: string[]
+) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/webdesign/${regionSlug}#service`,
+        name: `Webdesign ${regionName}`,
+        serviceType: 'Web Design',
+        description: `Webdesign-Dienstleistungen für ${regionName}. 100% remote möglich.`,
+        provider: { '@id': providerBusinessId },
+        url: `${BASE_URL}/webdesign/${regionSlug}`,
+        areaServed: areaServedList && areaServedList.length > 0
+            ? areaServedList.map(area => ({ '@type': 'Place', name: area }))
+            : { '@type': 'AdministrativeArea', name: regionName },
+        isPartOf: { '@id': `${BASE_URL}/webdesign#service` },
+    };
+}
+
+/**
+ * Generiert Cloud-Telefonie Spoke Schema (alle virtuell)
+ */
+export function generateCloudTelefonieVirtualSpokeSchema(
+    regionSlug: string,
+    regionName: string,
+    providerBusinessId: string
+) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/cloud-telefonie/${regionSlug}#service`,
+        name: `Cloud-Telefonie in ${regionName}`,
+        serviceType: ['Cloud-Telefonie', 'VoIP', 'Hosted PBX'],
+        description: `Cloud-Telefonanlagen für Unternehmen in ${regionName}. Schweizweite VoIP-Lösungen.`,
+        provider: { '@id': providerBusinessId },
+        url: `${BASE_URL}/cloud-telefonie/${regionSlug}`,
+        areaServed: {
+            '@type': 'AdministrativeArea',
+            name: regionName,
+        },
+        isPartOf: { '@id': `${BASE_URL}/cloud-telefonie#service` },
     };
 }

@@ -6,29 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Phone, CheckCircle, Shield, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-
-const testimonials = [
-    {
-        quote: "Schneller Support und kompetente Beratung",
-        author: "Konradhof Winterthur",
-        service: "IT-Support",
-    },
-    {
-        quote: "Endlich eine IT, die einfach funktioniert!",
-        author: "Handwerksbetrieb Müller",
-        service: "Cloud-Telefonie",
-    },
-    {
-        quote: "Professionell, zuverlässig und fair",
-        author: "Praxis Dr. Muster",
-        service: "Netzwerk",
-    },
-    {
-        quote: "Top Betreuung für unsere Webprojekte",
-        author: "Startup AG",
-        service: "Webdesign",
-    },
-];
+import { testimonials } from '@/data/testimonials';
 
 export function HeroSection() {
     const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -148,7 +126,7 @@ export function HeroSection() {
                                 </div>
 
                                 {/* Rotating Quote */}
-                                <div className="h-[60px] relative overflow-hidden">
+                                <div className="h-[80px] relative overflow-hidden">
                                     <AnimatePresence mode="wait">
                                         <motion.div
                                             key={currentTestimonial}
@@ -157,11 +135,11 @@ export function HeroSection() {
                                             exit={{ opacity: 0, y: -10 }}
                                             transition={{ duration: 0.3 }}
                                         >
-                                            <p className="text-xs text-text-secondary italic leading-relaxed">
+                                            <p className="text-xs text-text-secondary italic leading-relaxed line-clamp-3">
                                                 &ldquo;{testimonials[currentTestimonial].quote}&rdquo;
                                             </p>
                                             <p className="text-xs font-semibold text-primary mt-2">
-                                                — {testimonials[currentTestimonial].author}
+                                                — {testimonials[currentTestimonial].name}
                                             </p>
                                         </motion.div>
                                     </AnimatePresence>

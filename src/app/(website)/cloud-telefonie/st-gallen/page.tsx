@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { CloudTelefonieContent } from '@/components/pages/CloudTelefonieContent';
-import { generateSpokeServiceSchema, generateWebPageSchema, generateBreadcrumbListSchema } from '@/lib/seo/schema';
+import { generateCloudTelefonieVirtualSpokeSchema, generateFAQSchema, generateWebPageSchema, generateBreadcrumbListSchema } from '@/lib/seo/schema';
+import { generateCloudTelefonieSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
@@ -16,37 +17,18 @@ export const metadata: Metadata = {
 };
 
 export default function CloudTelefonieStGallenPage() {
-    // Spoke Service Schema
-    const serviceSchema = generateSpokeServiceSchema('st-gallen', 'St. Gallen');
-
-    // WebPage Schema
-    const webPageSchema = generateWebPageSchema(
-        `${BASE_URL}/cloud-telefonie/st-gallen`,
-        'Cloud-Telefonie St. Gallen',
-        'Cloud-Telefonie St. Gallen: Startup- & Industrie-Erfahrung für die Ostschweiz'
-    );
-
-    // Breadcrumb Schema
-    const breadcrumbSchema = generateBreadcrumbListSchema([
-        { name: 'Home', url: BASE_URL },
-        { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` },
-        { name: 'St. Gallen', url: `${BASE_URL}/cloud-telefonie/st-gallen` },
-    ]);
+    const serviceSchema = generateCloudTelefonieVirtualSpokeSchema('st-gallen', 'St. Gallen', `${BASE_URL}/#business-taegerwilen`);
+    const spokeFaqs = generateCloudTelefonieSpokeFaqs('St. Gallen');
+    const faqSchema = generateFAQSchema(spokeFaqs);
+    const webPageSchema = generateWebPageSchema(`${BASE_URL}/cloud-telefonie/st-gallen`, 'Cloud-Telefonie St. Gallen', 'Startup- & Industrie-Erfahrung für die Ostschweiz');
+    const breadcrumbSchema = generateBreadcrumbListSchema([{ name: 'Home', url: BASE_URL }, { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` }, { name: 'St. Gallen', url: `${BASE_URL}/cloud-telefonie/st-gallen` }]);
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
             <CloudTelefonieContent regionSlug="st-gallen" />
         </>
     );

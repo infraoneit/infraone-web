@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
 import { ServicePageTemplate } from '@/components/templates/ServicePageTemplate';
 import { Cloud, Building, Headphones } from 'lucide-react';
-import { generateServiceSchema } from '@/lib/seo/schema';
+import { generateServiceWithMultipleProvidersSchema, generateFAQSchema, generateBreadcrumbListSchema, generateWebPageSchema } from '@/lib/seo/schema';
 import { processSteps } from '@/data/telefonie';
+import { telefonieFaqs } from '@/data/webdesign-faqs';
+import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Telefonie & Kommunikation | Business-Telefonie Schweiz',
@@ -62,19 +64,21 @@ const advantages = [
 ];
 
 export default function TelefoniePage() {
-    const serviceSchema = generateServiceSchema(
-        'Telefonie & Kommunikation',
-        'Telecommunications Service',
-        'Moderne Business-Telefonie für Ihr Unternehmen. Cloud-Lösungen und On-Premise Anlagen.',
-        'https://www.infraone.ch/telefonie'
+    const serviceSchema = generateServiceWithMultipleProvidersSchema(
+        'Telefonie & Kommunikation', 'Telecommunications Service',
+        'Moderne Business-Telefonie für Ihr Unternehmen. Cloud und On-Premise.',
+        `${BASE_URL}/telefonie`
     );
+    const faqSchema = generateFAQSchema(telefonieFaqs);
+    const breadcrumbSchema = generateBreadcrumbListSchema([{ name: 'Home', url: BASE_URL }, { name: 'Telefonie', url: `${BASE_URL}/telefonie` }]);
+    const webPageSchema = generateWebPageSchema(`${BASE_URL}/telefonie`, 'Telefonie & Kommunikation', 'Moderne Business-Telefonie.');
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
             <ServicePageTemplate
                 heroImage="/images/hero_telefonie_1768423192251.png"
                 headline="Telefonie & Kommunikation"
