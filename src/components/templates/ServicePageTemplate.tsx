@@ -77,7 +77,7 @@ export function ServicePageTemplate({
     return (
         <>
             {/* Hero Section */}
-            <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
+            <section className="relative py-12 md:py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 {/* Background Image - dezent wie bei IT-Support SEO Seiten */}
                 {heroImage && (
                     <div className="absolute inset-0 opacity-10">
@@ -87,6 +87,8 @@ export function ServicePageTemplate({
                             fill
                             className="object-cover"
                             priority
+                            quality={85}
+                            sizes="100vw"
                         />
                     </div>
                 )}
@@ -130,6 +132,9 @@ export function ServicePageTemplate({
                                         alt={headline}
                                         fill
                                         className="object-cover"
+                                        priority
+                                        quality={85}
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
                                 </div>
@@ -142,7 +147,7 @@ export function ServicePageTemplate({
             {/* Features Section */}
             <section className="py-16 lg:py-24 bg-surface">
                 <div className="container mx-auto px-4">
-                    <StaggerContainer className="grid md:grid-cols-2 gap-8" staggerDelay={0.15}>
+                    <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8" staggerDelay={0.15}>
                         {features.map((feature, index) => (
                             <StaggerItem key={index}>
                                 <motion.div

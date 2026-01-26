@@ -11,6 +11,7 @@ const geistSans = Geist({
   subsets: ["latin"],
   display: "swap",
   preload: true,
+  fallback: ['system-ui', 'arial'],
 });
 
 const geistMono = Geist_Mono({
@@ -18,9 +19,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
   preload: false,
+  fallback: ['Courier New', 'monospace'],
 });
 
 export const metadata: Metadata = {
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
   title: {
     default: "InfraOne IT Solutions | IT-Support, Webdesign & Telefonie in Winterthur",
     template: "%s | InfraOne IT Solutions"
@@ -99,8 +107,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" suppressHydrationWarning>
+    <html lang="de" suppressHydrationWarning className="dark">
       <head>
+        {/* Dark Mode Script - MUST run before first paint to prevent flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'dark';
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `,
+          }}
+        />
+        {/* Resource Hints for Performance */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(generateSitewideLocalBusinessSchema()) }}

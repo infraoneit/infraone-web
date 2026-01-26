@@ -191,3 +191,109 @@ body {
 .animate-slide-down {
   animation: slide-down 0.3s ease-out forwards;
 }
+
+/* ========================================
+   Mobile Optimizations
+   ======================================== */
+
+/* Tablet & Mobile */
+@media (max-width: 768px) {
+  /* Touch Targets mindestens 44x44px (iOS Human Interface Guidelines) */
+  button, a, [role="button"], input[type="button"], input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Bessere Tap-Highlights für Touch */
+  * {
+    -webkit-tap-highlight-color: rgba(61, 150, 70, 0.2);
+  }
+  
+  /* Smooth Scrolling auf Mobile */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent horizontal overflow */
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  /* Container Padding Optimierung */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Bessere Text Readability auf kleinen Screens */
+  body {
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+/* iPhone SE & Extra kleine Displays (< 375px) */
+@media (max-width: 374px) {
+  :root {
+    font-size: 14px;  /* Kleinere Base Font Size */
+  }
+  
+  /* Kompaktere Paddings */
+  .container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  /* Kleinere Headlines auf sehr kleinen Screens */
+  h1 {
+    font-size: 1.75rem !important;
+    line-height: 1.2;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Safe Area für iPhones mit Notch/Dynamic Island */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Fixed Header angepasst für Notch */
+  header {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+  
+  /* Footer angepasst für Home Indicator */
+  footer {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Landscape Mode Optimierungen für Mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+  /* Reduzierte Vertical Spacing im Landscape */
+  section {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  /* Hero Section kompakter im Landscape */
+  .hero-section {
+    min-height: auto !important;
+  }
+}
+
+/* Prevent Text Inflation auf Android */
+@media screen and (max-width: 768px) {
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+}

@@ -177,7 +177,7 @@ export function Header() {
                             <ThemeToggle />
                             <button
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className="p-2 rounded-lg hover:bg-surface transition-colors"
+                                className="p-3 rounded-lg hover:bg-surface transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
                                 aria-label="Menü öffnen"
                             >
                                 {isMobileMenuOpen ? (
