@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { WebdesignContent } from '@/components/pages/WebdesignContent';
 import { 
     generateWebDesignServiceSchema, 
-    generateAggregateRatingSchema,
     generateWebdesignPackageProducts,
     generateOfferCatalogSchema,
     generateFAQSchema,
@@ -41,19 +40,16 @@ export default function WebdesignPage() {
     // 3. OfferCatalog Schema
     const offerCatalogSchema = generateOfferCatalogSchema(packages);
 
-    // 4. AggregateRating Schema (mit internen Reviews)
-    const aggregateRatingSchema = generateAggregateRatingSchema();
-
-    // 5. FAQ Schema
+    // 4. FAQ Schema
     const faqSchema = generateFAQSchema(webdesignHubFaqs);
 
-    // 6. Breadcrumb Schema
+    // 5. Breadcrumb Schema
     const breadcrumbSchema = generateBreadcrumbListSchema([
         { name: 'Home', url: BASE_URL },
         { name: 'Webdesign', url: `${BASE_URL}/webdesign` },
     ]);
 
-    // 7. WebPage Schema
+    // 6. WebPage Schema
     const webPageSchema = generateWebPageSchema(
         `${BASE_URL}/webdesign`,
         'Webdesign & Website-Entwicklung',
@@ -86,28 +82,19 @@ export default function WebdesignPage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(offerCatalogSchema) }}
             />
             
-            {/* 4. AggregateRating Schema (mit internen Reviews) */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify({
-                    '@context': 'https://schema.org',
-                    ...aggregateRatingSchema
-                }) }}
-            />
-            
-            {/* 5. FAQ Schema */}
+            {/* 4. FAQ Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
             
-            {/* 6. Breadcrumb Schema */}
+            {/* 5. Breadcrumb Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
             
-            {/* 7. WebPage Schema */}
+            {/* 6. WebPage Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
