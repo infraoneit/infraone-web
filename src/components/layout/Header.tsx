@@ -54,12 +54,21 @@ export function Header() {
 
     useEffect(() => {
         if (isMobileMenuOpen) {
+            // Lock scroll on both body and html
             document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.height = '100vh';
         } else {
-            document.body.style.overflow = 'unset';
+            // Unlock scroll
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+            document.body.style.height = '';
         }
+        
         return () => {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+            document.body.style.height = '';
         };
     }, [isMobileMenuOpen]);
 
@@ -195,7 +204,16 @@ export function Header() {
                         <div className="flex lg:hidden items-center gap-2 relative z-[110]">
                             <ThemeToggle />
                             <button
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                onClick={() => {
+                                    const newState = !isMobileMenuOpen;
+                                    
+                                    // Scroll to top when opening menu
+                                    if (newState) {
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    }
+                                    
+                                    setIsMobileMenuOpen(newState);
+                                }}
                                 className="p-3 rounded-lg hover:bg-surface transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
                                 aria-label="Menü öffnen"
                             >
