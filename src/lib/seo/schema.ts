@@ -192,6 +192,15 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
                 closes: '17:00',
             },
         ],
+        specialOpeningHoursSpecification: [
+            {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                opens: '08:00',
+                closes: '23:00',
+                description: 'IT-Notfall-Support verfügbar',
+            },
+        ],
         sameAs: [
             // Hier kÃƒÂ¶nnten LinkedIn, Facebook etc. URLs stehen
         ],
@@ -350,7 +359,7 @@ export function generateSitewideLocalBusinessSchema() {
     return {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
-        '@id': `${BASE_URL}/#business`,
+        '@id': `${BASE_URL}/#organization`,
         name: 'InfraOne IT Solutions GmbH',
         url: BASE_URL,
         telephone: '+41522221818',
@@ -377,7 +386,7 @@ export function generateSitewideWebSiteSchema() {
         '@id': `${BASE_URL}/#website`,
         url: BASE_URL,
         name: 'InfraOne IT Solutions',
-        publisher: { '@id': `${BASE_URL}/#business` },
+        publisher: { '@id': `${BASE_URL}/#organization` },
     };
 }
 
@@ -391,7 +400,7 @@ export function generateHubServiceSchema() {
         '@id': `${BASE_URL}/cloud-telefonie#service`,
         name: 'Cloud-Telefonie',
         serviceType: ['Cloud-Telefonie', 'VoIP', 'Hosted PBX'],
-        provider: { '@id': `${BASE_URL}/#business` },
+        provider: { '@id': `${BASE_URL}/#organization` },
         url: `${BASE_URL}/cloud-telefonie`,
         areaServed: { '@type': 'Country', name: 'Switzerland' },
     };
@@ -407,7 +416,7 @@ export function generateSpokeServiceSchema(regionSlug: string, regionName: strin
         '@id': `${BASE_URL}/cloud-telefonie/${regionSlug}#service`,
         name: `Cloud-Telefonie in ${regionName}`,
         serviceType: ['Cloud-Telefonie', 'VoIP', 'Hosted PBX'],
-        provider: { '@id': `${BASE_URL}/#business` },
+        provider: { '@id': `${BASE_URL}/#organization` },
         url: `${BASE_URL}/cloud-telefonie/${regionSlug}`,
         areaServed: { '@type': 'AdministrativeArea', name: regionName },
         isPartOf: { '@id': `${BASE_URL}/cloud-telefonie#service` },
@@ -462,7 +471,7 @@ export function generateITSupportHubSchema() {
         name: 'IT-Support & Informatik-Support',
         serviceType: ['Computer Support', 'IT Support', 'Technical Support', 'Network Support'],
         description: 'Professioneller IT-Support für KMU und Privatpersonen in der Schweiz. Remote-Support innert Minuten, Vor-Ort-Service innerhalb 24h.',
-        provider: { '@id': `${BASE_URL}/#business` },
+        provider: { '@id': `${BASE_URL}/#organization` },
         url: `${BASE_URL}/it-support`,
         areaServed: { '@type': 'Country', name: 'Switzerland' },
         offers: {
@@ -800,6 +809,13 @@ export function generateContactPageLocalBusinessSchema(
             dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
             opens: '08:00',
             closes: '17:00',
+        },
+        specialOpeningHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            opens: '08:00',
+            closes: '23:00',
+            description: 'IT-Notfall-Support verfügbar',
         },
         priceRange: '$$',
         hasMap: location.mapUrl,
@@ -1190,6 +1206,13 @@ export function generateWebdesignPhysicalSpokeSchema(
             dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
             opens: '08:00',
             closes: '17:00',
+        },
+        specialOpeningHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            opens: '08:00',
+            closes: '23:00',
+            description: 'IT-Notfall-Support verfügbar',
         },
         areaServed: areaServedList && areaServedList.length > 0
             ? areaServedList.map(area => ({ '@type': 'Place', name: area }))
