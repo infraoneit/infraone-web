@@ -145,6 +145,7 @@ export default function ITNetzwerkePage() {
                 processHeadline="So läuft unsere Zusammenarbeit ab"
                 processSteps={processSteps}
                 advantages={advantages}
+                faqs={itNetzwerkeFaqs}
                 ctaHeadline="Du willst eine stabile IT-Landschaft?"
                 ctaButtonLabel="Jetzt Beratung anfordern"
                 ctaButtonHref="/kontakt"

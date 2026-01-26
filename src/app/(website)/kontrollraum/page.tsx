@@ -106,6 +106,7 @@ export default function KontrollraumPage() {
                 processHeadline="Ihr Weg zur professionellen Kontrollraum-Lösung"
                 processSteps={processSteps}
                 advantages={advantages}
+                faqs={kontrollraumFaqs}
                 ctaHeadline="Planen Sie einen Kontrollraum?"
                 ctaButtonLabel="Beratung anfordern"
                 ctaButtonHref="/kontakt"

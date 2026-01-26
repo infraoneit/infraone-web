@@ -88,6 +88,7 @@ export default function TelefoniePage() {
                 processHeadline="So läuft Ihre Telefonie-Umstellung ab"
                 processSteps={processSteps}
                 advantages={advantages}
+                faqs={telefonieFaqs}
                 ctaHeadline="Bereit für moderne Telefonie?"
                 ctaButtonLabel="Kostenloses Erstgespräch"
                 ctaButtonHref="tel:+41522221818"

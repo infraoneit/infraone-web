@@ -106,6 +106,7 @@ export default function DigitalSignagePage() {
                 processHeadline="Von der Idee zum Display-Netzwerk"
                 processSteps={processSteps}
                 advantages={advantages}
+                faqs={digitalSignageFaqs}
                 ctaHeadline="Bereit für Digital Signage?"
                 ctaButtonLabel="Projekt besprechen"
                 ctaButtonHref="/kontakt"

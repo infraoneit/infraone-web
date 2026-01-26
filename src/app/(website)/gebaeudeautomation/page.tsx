@@ -107,6 +107,7 @@ export default function GebaeudeautomationPage() {
                 processHeadline="Ihr Weg zum Smart Building"
                 processSteps={processSteps}
                 advantages={advantages}
+                faqs={gebaeudeautomationFaqs}
                 ctaHeadline="Bereit für intelligente Gebäudetechnik?"
                 ctaButtonLabel="Beratung anfordern"
                 ctaButtonHref="/kontakt"

@@ -106,6 +106,7 @@ export default function SoftwareEntwicklungPage() {
                 processHeadline="Unser Entwicklungsprozess"
                 processSteps={processSteps}
                 advantages={advantages}
+                faqs={softwareEntwicklungFaqs}
                 ctaHeadline="Haben Sie ein Software-Projekt im Kopf?"
                 ctaButtonLabel="Projekt besprechen"
                 ctaButtonHref="/kontakt"

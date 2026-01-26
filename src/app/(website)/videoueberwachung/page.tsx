@@ -120,6 +120,7 @@ export default function VideoueberwachungPage() {
                 processHeadline="So entsteht Ihre Videoüberwachung"
                 processSteps={processSteps}
                 advantages={advantages}
+                faqs={videoueberwachungFaqs}
                 ctaHeadline="Mehr Sicherheit für Ihr Unternehmen?"
                 ctaButtonLabel="Beratung anfordern"
                 ctaButtonHref="/kontakt"
