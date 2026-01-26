@@ -1,7 +1,7 @@
 import { Organization, LocalBusiness, Service, FAQPage, WebSite, AboutPage, AggregateRating, WithContext } from 'schema-dts';
 
 /**
- * Geo-Koordinaten fÃƒÂ¼r Schweizer Regionen
+ * Geo-Koordinaten für Schweizer Regionen
  */
 export interface GeoCoordinates {
     latitude: number;
@@ -17,7 +17,7 @@ export interface RegionalData {
 }
 
 /**
- * Geo-Koordinaten-Datenbank fÃƒÂ¼r Schweizer StÃƒÂ¤dte/Regionen
+ * Geo-Koordinaten-Datenbank für Schweizer Städte/Regionen
  */
 export const REGION_COORDINATES: Record<string, GeoCoordinates> = {
     winterthur: { latitude: 47.4996, longitude: 8.7243 },
@@ -37,7 +37,7 @@ export const REGION_COORDINATES: Record<string, GeoCoordinates> = {
 };
 
 /**
- * Generiert Organization Schema fÃƒÂ¼r die Homepage
+ * Generiert Organization Schema für die Homepage
  */
 export function generateOrganizationSchema(): WithContext<Organization> {
     return {
@@ -46,14 +46,14 @@ export function generateOrganizationSchema(): WithContext<Organization> {
         name: 'InfraOne IT Solutions GmbH',
         url: 'https://www.infraone.ch',
         logo: 'https://www.infraone.ch/infraone-logo-schwarz.svg',
-        description: 'IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur, Schaffhausen & ZÃƒÂ¼rich. Ihr Informatiker fÃƒÂ¼r KMU & Privatkunden.',
+        description: 'IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur, Schaffhausen & Zürich. Ihr Informatiker für KMU & Privatkunden.',
         telephone: '+41522221818',
         email: 'info@infraone.ch',
         address: {
             '@type': 'PostalAddress',
-            streetAddress: '',
+            streetAddress: 'Rudolf-Diesel-Strasse 25',
             addressLocality: 'Winterthur',
-            addressRegion: 'ZÃƒÂ¼rich',
+            addressRegion: 'Zürich',
             postalCode: '8400',
             addressCountry: 'CH',
         },
@@ -74,13 +74,13 @@ export function generateOrganizationSchema(): WithContext<Organization> {
             },
         ],
         sameAs: [
-            // Social Media Profile URLs kÃƒÂ¶nnen hier hinzugefÃƒÂ¼gt werden
+            // Social Media Profile URLs können hier hinzugefügt werden
         ],
     };
 }
 
 /**
- * Generiert LocalBusiness Schema fÃƒÂ¼r regionale Service-Seiten
+ * Generiert LocalBusiness Schema für regionale Service-Seiten
  */
 export function generateLocalBusinessSchema(
     regionSlug: string,
@@ -139,7 +139,7 @@ export function generateLocalBusinessSchema(
     };
 }
 /**
- * Generiert WebSite Schema fÃƒÂ¼r die Homepage (Sitelinks Search Box Support)
+ * Generiert WebSite Schema für die Homepage (Sitelinks Search Box Support)
  */
 export function generateWebSiteSchema(): WithContext<WebSite> {
     return {
@@ -159,7 +159,7 @@ export function generateWebSiteSchema(): WithContext<WebSite> {
 }
 
 /**
- * Generiert das Haupt-LocalBusiness Schema fÃƒÂ¼r die Homepage (Winterthur HQ)
+ * Generiert das Haupt-LocalBusiness Schema für die Homepage (Winterthur HQ)
  */
 export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
     return {
@@ -173,9 +173,9 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
         priceRange: '$$',
         address: {
             '@type': 'PostalAddress',
-            streetAddress: '',
+            streetAddress: 'Rudolf-Diesel-Strasse 25',
             addressLocality: 'Winterthur',
-            addressRegion: 'ZÃƒÂ¼rich',
+            addressRegion: 'Zürich',
             postalCode: '8400',
             addressCountry: 'CH',
         },
@@ -202,7 +202,7 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
             },
         ],
         sameAs: [
-            // Hier kÃƒÂ¶nnten LinkedIn, Facebook etc. URLs stehen
+            // Hier könnten LinkedIn, Facebook etc. URLs stehen
         ],
         areaServed: {
             '@type': 'GeoCircle',
@@ -217,14 +217,14 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
 }
 
 /**
- * Generiert Service Schema fÃƒÂ¼r Hauptseiten
+ * Generiert Service Schema für Hauptseiten
  */
 export function generateServiceSchema(
     serviceName: string,
     serviceType: string,
     description: string,
     serviceUrl: string,
-    areaServed: string[] = ['Schweiz', 'ZÃƒÂ¼rich', 'Winterthur', 'Schaffhausen', 'Thurgau', 'St. Gallen']
+    areaServed: string[] = ['Schweiz', 'Zürich', 'Winterthur', 'Schaffhausen', 'Thurgau', 'St. Gallen']
 ): WithContext<Service> {
     return {
         '@context': 'https://schema.org',
@@ -246,8 +246,8 @@ export function generateServiceSchema(
 }
 
 /**
- * Generiert ProfessionalService Schema fÃƒÂ¼r Remote-Dienstleistungen (z.B. Webdesign)
- * Wichtig: Kein lokaler Geo-Standort, da 100% remote mÃƒÂ¶glich
+ * Generiert ProfessionalService Schema für Remote-Dienstleistungen (z.B. Webdesign)
+ * Wichtig: Kein lokaler Geo-Standort, da 100% remote möglich
  */
 export function generateProfessionalServiceSchema(
     regionSlug: string,
@@ -257,7 +257,7 @@ export function generateProfessionalServiceSchema(
 ): WithContext<LocalBusiness> {
     const regionNames: Record<string, string> = {
         winterthur: 'Winterthur',
-        zuerich: 'ZÃƒÂ¼rich',
+        zuerich: 'Zürich',
         schaffhausen: 'Schaffhausen',
         'st-gallen': 'St. Gallen',
         thurgau: 'Thurgau',
@@ -267,7 +267,7 @@ export function generateProfessionalServiceSchema(
         aargau: 'Aargau',
         zug: 'Zug',
         solothurn: 'Solothurn',
-        graubuenden: 'GraubÃƒÂ¼nden',
+        graubuenden: 'Graubünden',
     };
 
     const regionName = regionNames[regionSlug] || regionSlug;
@@ -275,8 +275,8 @@ export function generateProfessionalServiceSchema(
     return {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
-        name: `InfraOne ${serviceName} Ã¢â‚¬â€œ ${regionName}`,
-        description: `${serviceName} Dienstleistungen fÃƒÂ¼r Unternehmen in ${regionName}. 100% remote mÃƒÂ¶glich, persÃƒÂ¶nliche Beratung auf Wunsch.`,
+        name: `InfraOne ${serviceName} - ${regionName}`,
+        description: `${serviceName} Dienstleistungen für Unternehmen in ${regionName}. 100% remote möglich, persönliche Beratung auf Wunsch.`,
         url: serviceUrl,
         telephone: '+41522221818',
         email: 'info@infraone.ch',
@@ -284,7 +284,7 @@ export function generateProfessionalServiceSchema(
         address: {
             '@type': 'PostalAddress',
             addressLocality: 'Winterthur',
-            addressRegion: 'ZÃƒÂ¼rich',
+            addressRegion: 'Zürich',
             postalCode: '8400',
             addressCountry: 'CH',
         },
@@ -318,14 +318,14 @@ export function generateFAQSchema(
 }
 
 /**
- * Generiert AboutPage Schema fÃƒÂ¼r die Unternehmensseite
+ * Generiert AboutPage Schema für die Unternehmensseite
  */
 export function generateAboutPageSchema(): WithContext<AboutPage> {
     return {
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
         name: 'ÃƒÅ“ber InfraOne IT Solutions',
-        description: 'Erfahren Sie mehr ÃƒÂ¼ber InfraOne IT Solutions GmbH, unser Team, unsere Werte und unsere Geschichte.',
+        description: 'Erfahren Sie mehr über InfraOne IT Solutions GmbH, unser Team, unsere Werte und unsere Geschichte.',
         url: 'https://www.infraone.ch/unternehmen',
         mainEntity: {
             '@type': 'Organization',
@@ -762,7 +762,7 @@ export function generateOrganizationSchemaExtended(): WithContext<Organization> 
         foundingDate: '2004',
         numberOfEmployees: {
             '@type': 'QuantitativeValue',
-            value: '5-10',
+            value: 10,
         },
     };
 }
@@ -782,6 +782,15 @@ export function generateContactPageLocalBusinessSchema(
 ) {
     const geo = REGION_COORDINATES[location.city.toLowerCase()];
     
+    // Image-Mapping für Standorte
+    const imageMapping: Record<string, string> = {
+        'winterthur': '/images/unternehmen/infraone-hauptsitz-winterthur.webp',
+        'schaffhausen': '/images/unternehmen/infraone-filiale-schaffhausen.webp',
+        'taegerwilen': '/images/unternehmen/infraone-filiale-taegerwilen.webp',
+        'kleinandelfingen': '/images/unternehmen/infraone-filiale-kleinandelfingen.webp',
+    };
+    const locationImage = imageMapping[businessId] || '/infraone-logo-schwarz.svg';
+    
     return {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
@@ -790,6 +799,7 @@ export function generateContactPageLocalBusinessSchema(
         url: BASE_URL,
         telephone: '+41522221818',
         email: 'info@infraone.ch',
+        image: `${BASE_URL}${locationImage}`,
         address: {
             '@type': 'PostalAddress',
             streetAddress: location.street,
@@ -1184,6 +1194,14 @@ export function generateWebdesignPhysicalSpokeSchema(
 ) {
     const geo = REGION_COORDINATES[regionSlug];
     
+    // Image-Mapping für physische Standorte
+    const imageMapping: Record<string, string> = {
+        'winterthur': '/images/unternehmen/infraone-hauptsitz-winterthur.webp',
+        'schaffhausen': '/images/unternehmen/infraone-filiale-schaffhausen.webp',
+        'thurgau': '/images/unternehmen/infraone-filiale-taegerwilen.webp',
+    };
+    const locationImage = imageMapping[regionSlug] || '/infraone-logo-schwarz.svg';
+    
     return {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
@@ -1194,6 +1212,7 @@ export function generateWebdesignPhysicalSpokeSchema(
         url: `${BASE_URL}/webdesign/${regionSlug}`,
         telephone: '+41522221818',
         email: 'info@infraone.ch',
+        image: `${BASE_URL}${locationImage}`,
         address: {
             '@type': 'PostalAddress',
             addressLocality: regionName,
