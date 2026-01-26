@@ -324,7 +324,7 @@ export function generateAboutPageSchema(): WithContext<AboutPage> {
     return {
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
-        name: 'ÃƒÅ“ber InfraOne IT Solutions',
+        name: 'Über InfraOne IT Solutions',
         description: 'Erfahren Sie mehr über InfraOne IT Solutions GmbH, unser Team, unsere Werte und unsere Geschichte.',
         url: 'https://www.infraone.ch/unternehmen',
         mainEntity: {
