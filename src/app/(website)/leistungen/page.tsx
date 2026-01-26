@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Server, Phone, Video, Code, Palette, Monitor, Tv, Building2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Server, Phone, Video, Code, Palette, Monitor, Tv, Building2, Plus } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 
 import { generateServiceSchema } from '@/lib/seo/schema';
@@ -20,60 +21,60 @@ export const metadata: Metadata = {
 
 const services = [
     {
-        icon: <Server className="w-8 h-8" />,
+        icon: Server,
         title: 'IT-Systeme & Netzwerke',
-        description: 'Stabile IT-Infrastrukturen für Ihr Unternehmen. Server, Cloud, Netzwerk und Sicherheit.',
+        subtitle: 'für Unternehmen & Privatpersonen',
+        description: 'Stabile IT-Infrastrukturen mit Server, Cloud, Microsoft 365, Backup und Netzwerksicherheit.',
         href: '/it-netzwerke',
-        color: 'from-green-500 to-emerald-600',
     },
     {
-        icon: <Phone className="w-8 h-8" />,
+        icon: Phone,
         title: 'Telefonie & Kommunikation',
-        description: 'Moderne Business-Telefonie mit peoplefone, 3CX und Yeastar.',
+        subtitle: 'peoplefone • 3CX • Yeastar',
+        description: 'Moderne VoIP-Telefonanlagen für flexibles Arbeiten – im Büro, unterwegs oder im Homeoffice.',
         href: '/telefonie',
-        color: 'from-blue-500 to-cyan-600',
     },
     {
-        icon: <Video className="w-8 h-8" />,
+        icon: Video,
         title: 'Videoüberwachung',
-        description: 'Professionelle CCTV-Lösungen mit Milestone VMS und UniFi Protect.',
+        subtitle: 'Milestone • UniFi Protect • Aluha',
+        description: 'Professionelle CCTV-Lösungen für Unternehmen und Privatkunden – datenschutzkonform.',
         href: '/videoueberwachung',
-        color: 'from-red-500 to-orange-600',
     },
     {
-        icon: <Code className="w-8 h-8" />,
+        icon: Code,
         title: 'Software-Entwicklung',
-        description: 'Individuelle Softwarelösungen, API-Entwicklung und Automatisierung.',
+        subtitle: 'Individuelle Lösungen',
+        description: 'Massgeschneiderte Software, API-Entwicklung und Prozessautomatisierung für Ihr Unternehmen.',
         href: '/software-entwicklung',
-        color: 'from-purple-500 to-violet-600',
     },
     {
-        icon: <Palette className="w-8 h-8" />,
+        icon: Palette,
         title: 'Webdesign',
-        description: 'Moderne, SEO-optimierte Websites ab CHF 990.',
+        subtitle: 'WordPress • Wix • Next.js',
+        description: 'Moderne, SEO-optimierte Websites ab CHF 990 – von der Visitenkarten-Website bis zur Web-App.',
         href: '/webdesign',
-        color: 'from-pink-500 to-rose-600',
     },
     {
-        icon: <Monitor className="w-8 h-8" />,
+        icon: Monitor,
         title: 'Kontrollraum-Lösungen',
-        description: 'KVM-Systeme von BlackBox für Leitstellen und Kontrollräume.',
+        subtitle: 'BlackBox KVM-Systeme',
+        description: 'KVM-over-IP für Leitstellen und Überwachungszentralen – bis zu 16 Monitore pro Arbeitsplatz.',
         href: '/kontrollraum',
-        color: 'from-gray-500 to-slate-600',
     },
     {
-        icon: <Tv className="w-8 h-8" />,
+        icon: Tv,
         title: 'Digital Signage',
-        description: 'Professionelle Display-Lösungen mit Xibo CMS.',
+        subtitle: 'Xibo CMS • Custom Widgets',
+        description: 'Display-Netzwerke für dynamische Inhalte – lokal betrieben, ohne Cloud-Abhängigkeit.',
         href: '/digital-signage',
-        color: 'from-amber-500 to-yellow-600',
     },
     {
-        icon: <Building2 className="w-8 h-8" />,
+        icon: Building2,
         title: 'Gebäudeautomation & IoT',
-        description: 'Intelligente Steuerung mit SmartPlace, WAGO und Loxone.',
+        subtitle: 'SmartPlace • WAGO • Loxone',
+        description: 'Intelligente Steuerung für Beleuchtung, Heizung, Beschattung und Energiemonitoring.',
         href: '/gebaeudeautomation',
-        color: 'from-teal-500 to-cyan-600',
     },
 ];
 
@@ -114,22 +115,41 @@ export default function LeistungenPage() {
                     <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={0.08}>
                         {services.map((service, index) => (
                             <StaggerItem key={index}>
-                                <Link href={service.href} className="block h-full">
-                                    <div className="group h-full p-6 rounded-2xl bg-card border border-border hover:border-primary hover:shadow-xl transition-all duration-150">
-                                        <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} text-white flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                                            {service.icon}
+                                <Link href={service.href} className="block h-full group">
+                                    <motion.div
+                                        whileHover={{ y: -8, scale: 1.02 }}
+                                        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                                        className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-150 relative overflow-hidden"
+                                    >
+                                        {/* Accent Line at Top */}
+                                        <div className="absolute top-0 left-0 right-0 h-1 bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                        {/* Icon */}
+                                        <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                                            <service.icon className="w-7 h-7" />
                                         </div>
-                                        <h2 className="text-lg font-bold text-text-primary mb-2 group-hover:text-primary transition-colors">
+
+                                        {/* Title */}
+                                        <h2 className="text-lg font-bold text-text-primary mb-1 group-hover:text-primary transition-colors">
                                             {service.title}
                                         </h2>
-                                        <p className="text-sm text-text-secondary mb-4">
+
+                                        {/* Subtitle */}
+                                        <p className="text-xs font-medium text-primary mb-3">
+                                            {service.subtitle}
+                                        </p>
+
+                                        {/* Description */}
+                                        <p className="text-sm text-text-secondary mb-4 line-clamp-3">
                                             {service.description}
                                         </p>
-                                        <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-                                            Mehr erfahren
-                                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                        </span>
-                                    </div>
+
+                                        {/* CTA Link */}
+                                        <div className="flex items-center gap-2 text-sm font-medium text-primary opacity-80 group-hover:opacity-100 transition-opacity">
+                                            <span>Mehr erfahren</span>
+                                            <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-150" />
+                                        </div>
+                                    </motion.div>
                                 </Link>
                             </StaggerItem>
                         ))}

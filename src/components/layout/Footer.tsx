@@ -215,9 +215,8 @@ export function Footer() {
                     <div>
                         <h3 className="text-lg font-bold text-text-primary mb-4">Support</h3>
                         <a
-                            href="https://www.teamviewer.com/de/solutions/use-cases/quicksupport/"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href="/downloads/heroSection/infraone-support-tool.zip"
+                            download
                             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors text-sm font-medium mb-6"
                         >
                             Support Anfordern

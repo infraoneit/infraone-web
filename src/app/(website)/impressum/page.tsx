@@ -73,7 +73,7 @@ export default function ImpressumPage() {
 
                         <h3 className="text-lg font-semibold text-text-primary mt-6 mb-2">Mehrwertsteuer-Nummer</h3>
                         <p>
-                            CHE-XXX.XXX.XXX MWST
+                            CHE-288.114.187 MWST
                         </p>
 
                         <h3 className="text-lg font-semibold text-text-primary mt-6 mb-2">Haftungsausschluss</h3>

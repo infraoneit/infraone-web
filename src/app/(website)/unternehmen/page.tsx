@@ -176,15 +176,15 @@ export default function UnternehmenPage() {
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
                             <AnimatedSection animation="slideUp" delay={0.1}>
                                 <div className="relative">
-                                    <div className="aspect-[4/5] relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5 border border-border">
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <div className="text-center p-8">
-                                                <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
-                                                    <Users className="w-16 h-16 text-primary/50" />
-                                                </div>
-                                                <p className="text-sm text-text-secondary">Foto folgt</p>
-                                            </div>
-                                        </div>
+                                    <div className="aspect-[4/5] relative rounded-2xl overflow-hidden border border-border">
+                                        <Image
+                                            src="/images/team/profilbild-ceo.png"
+                                            alt="Aladdin Avci - Geschäftsführer InfraOne IT Solutions"
+                                            fill
+                                            className="object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
+                                            quality={85}
+                                        />
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-2xl -z-10" />
                                     <div className="absolute -top-4 -left-4 w-16 h-16 bg-primary/5 rounded-xl -z-10" />
