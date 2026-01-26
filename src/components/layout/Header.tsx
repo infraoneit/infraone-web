@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -61,6 +62,24 @@ export function Header() {
             document.body.style.overflow = 'unset';
         };
     }, [isMobileMenuOpen]);
+
+    const pathname = usePathname();
+
+    // Handler für Mobile Menu Links mit Scroll-to-Top
+    const handleLinkClick = () => {
+        setIsMobileMenuOpen(false);
+        setActiveSubmenu(null);
+        // Force scroll to top after navigation
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }, 50);
+    };
+
+    // Close mobile menu on route change
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+        setActiveSubmenu(null);
+    }, [pathname]);
 
     return (
         <>
@@ -190,50 +209,55 @@ export function Header() {
                     </div>
                 </div>
 
-                {/* Mobile Menu */}
+                {/* Mobile Menu - Fullscreen Overlay */}
                 <AnimatePresence>
                     {isMobileMenuOpen && (
                         <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="lg:hidden bg-background border-t border-border overflow-hidden"
+                            className="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-40 lg:hidden flex flex-col pt-24 overflow-y-auto"
                         >
-                            <div className="container mx-auto px-4 py-4">
-                                <nav className="flex flex-col gap-2">
+                            <div className="container mx-auto px-6 py-8 flex flex-col gap-6 min-h-[calc(100vh-6rem)]">
+                                {/* Navigation Links */}
+                                <nav className="flex flex-col gap-3">
                                     {navigation.map((item) => (
                                         <div key={item.label}>
                                             {item.submenu ? (
-                                                <div>
+                                                <div className="border-b border-white/10 pb-3">
+                                                    {/* Dienstleistungen Accordion Button */}
                                                     <button
                                                         onClick={() =>
                                                             setActiveSubmenu(activeSubmenu === item.label ? null : item.label)
                                                         }
-                                                        className="flex items-center justify-between w-full px-4 py-3 rounded-lg text-text-primary hover:bg-surface transition-colors"
+                                                        className="flex items-center justify-between w-full px-4 py-4 rounded-lg text-white hover:bg-white/10 transition-colors text-xl font-bold uppercase tracking-wide min-h-[56px]"
                                                     >
-                                                        {item.label}
+                                                        <span>{item.label}</span>
                                                         <ChevronDown
                                                             className={cn(
-                                                                'w-5 h-5 transition-transform',
+                                                                'w-6 h-6 transition-transform duration-300',
                                                                 activeSubmenu === item.label && 'rotate-180'
                                                             )}
                                                         />
                                                     </button>
+                                                    
+                                                    {/* Dienstleistungen Submenu */}
                                                     <AnimatePresence>
                                                         {activeSubmenu === item.label && (
                                                             <motion.div
                                                                 initial={{ opacity: 0, height: 0 }}
                                                                 animate={{ opacity: 1, height: 'auto' }}
                                                                 exit={{ opacity: 0, height: 0 }}
-                                                                className="pl-4 mt-1 space-y-1"
+                                                                transition={{ duration: 0.2 }}
+                                                                className="mt-2 pl-4 space-y-2 overflow-hidden"
                                                             >
                                                                 {item.submenu.map((subItem) => (
                                                                     <Link
                                                                         key={subItem.label}
                                                                         href={subItem.href}
-                                                                        className="block px-4 py-2 rounded-lg text-sm text-text-secondary hover:text-primary hover:bg-surface transition-colors"
-                                                                        onClick={() => setIsMobileMenuOpen(false)}
+                                                                        className="block px-4 py-3 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors text-base min-h-[48px] flex items-center"
+                                                                        onClick={handleLinkClick}
                                                                     >
                                                                         {subItem.label}
                                                                     </Link>
@@ -245,8 +269,8 @@ export function Header() {
                                             ) : (
                                                 <Link
                                                     href={item.href}
-                                                    className="block px-4 py-3 rounded-lg text-text-primary hover:bg-surface transition-colors"
-                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                    className="block px-4 py-4 rounded-lg text-white hover:bg-white/10 transition-colors text-xl font-bold uppercase tracking-wide min-h-[56px] flex items-center"
+                                                    onClick={handleLinkClick}
                                                 >
                                                     {item.label}
                                                 </Link>
@@ -255,23 +279,38 @@ export function Header() {
                                     ))}
                                 </nav>
 
-                                <div className="mt-4 pt-4 border-t border-border">
-                                    <Button variant="primary" size="lg" className="w-full" asChild>
-                                        <Link href="/kontakt" onClick={() => setIsMobileMenuOpen(false)}>
+                                {/* CTA Button - Prominent platziert */}
+                                <div className="mt-4 pt-4 border-t border-white/10">
+                                    <Button 
+                                        variant="primary" 
+                                        size="lg" 
+                                        className="w-full text-lg font-bold uppercase min-h-[56px]" 
+                                        asChild
+                                    >
+                                        <Link href="/kontakt" onClick={handleLinkClick}>
                                             Kostenloses Erstgespräch
                                         </Link>
                                     </Button>
                                 </div>
 
-                                <div className="mt-4 flex flex-col gap-2 text-sm text-text-secondary">
-                                    <a href="tel:+41522221818" className="flex items-center gap-2">
-                                        <Phone className="w-4 h-4" />
-                                        052 222 18 18
-                                    </a>
-                                    <a href="mailto:info@infraone.ch" className="flex items-center gap-2">
-                                        <Mail className="w-4 h-4" />
-                                        info@infraone.ch
-                                    </a>
+                                {/* Contact Info - Unten */}
+                                <div className="mt-auto pt-6 border-t border-white/10">
+                                    <div className="flex flex-col gap-3 text-base text-white/70">
+                                        <a 
+                                            href="tel:+41522221818" 
+                                            className="flex items-center gap-3 hover:text-primary transition-colors min-h-[44px]"
+                                        >
+                                            <Phone className="w-5 h-5 flex-shrink-0" />
+                                            <span>052 222 18 18</span>
+                                        </a>
+                                        <a 
+                                            href="mailto:info@infraone.ch" 
+                                            className="flex items-center gap-3 hover:text-primary transition-colors min-h-[44px]"
+                                        >
+                                            <Mail className="w-5 h-5 flex-shrink-0" />
+                                            <span>info@infraone.ch</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
