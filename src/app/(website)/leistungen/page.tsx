@@ -1,4 +1,5 @@
-import { Metadata } from 'next';
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -6,18 +7,6 @@ import { ArrowRight, Server, Phone, Video, Code, Palette, Monitor, Tv, Building2
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 
 import { generateServiceSchema } from '@/lib/seo/schema';
-
-export const metadata: Metadata = {
-    title: 'Leistungen | IT-Dienstleistungen Winterthur',
-    description: 'Alle IT-Dienstleistungen von InfraOne: Netzwerke, Telefonie, Sicherheit, Webdesign, Software und Gebäudeautomation.',
-    keywords: ['IT Dienstleistungen', 'IT Service Winterthur', 'Informatik Winterthur'],
-    alternates: {
-        canonical: 'https://www.infraone.ch/leistungen',
-        languages: {
-            'de-CH': 'https://www.infraone.ch/leistungen',
-        },
-    },
-};
 
 const services = [
     {
