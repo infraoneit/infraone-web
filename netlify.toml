@@ -5,23 +5,15 @@
 [build.environment]
   NODE_VERSION = "22"
   NODE_ENV = "production"
-  NPM_FLAGS = "--legacy-peer-deps"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["node_modules/**"]
-
-# Cache optimizations
-[build.processing]
-  skip_processing = false
-
-# Redirect rules
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
-  conditions = {Role = ["admin"]}
+  # Only include Next.js server artifacts, NOT node_modules (Netlify installs those automatically)
+  included_files = [
+    ".next/server/**",
+    ".next/required-server-files.json",
+    "package.json"
+  ]
