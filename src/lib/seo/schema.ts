@@ -985,7 +985,8 @@ export function generateProductSchema(
     name: string,
     price: string,
     description: string,
-    features: string[]
+    features: string[],
+    imageUrl?: string
 ) {
     const priceMatch = price.match(/\d+/);
     const priceValue = priceMatch ? priceMatch[0] : undefined;
@@ -994,6 +995,7 @@ export function generateProductSchema(
         '@type': 'Product',
         name: name,
         description: description,
+        ...(imageUrl && { image: imageUrl }),
         offers: {
             '@type': 'Offer',
             price: priceValue,
@@ -1053,19 +1055,22 @@ export function generateWebdesignPackageProducts() {
             'Webdesign Starter-Paket',
             'CHF 990',
             'Perfekt für Startups und Kleinunternehmen. Bis zu 5 Seiten, responsive Design, SEO-Grundoptimierung.',
-            ['Responsive Design', 'SEO-Grundoptimierung', 'Kontaktformular', 'SSL-Zertifikat', '3 Monate Support']
+            ['Responsive Design', 'SEO-Grundoptimierung', 'Kontaktformular', 'SSL-Zertifikat', '3 Monate Support'],
+            `${BASE_URL}/images/offer/webdesign-starter-paket.png`
         ),
         generateProductSchema(
             'Webdesign KMU-Paket',
             'CHF 2490',
             'Für etablierte Unternehmen. Bis zu 15 Seiten, individuelles Design, Blog-Funktion, erweiterte SEO.',
-            ['Individuelles Design', 'Erweiterte SEO', 'Blog-Funktion', 'Google Analytics', 'Newsletter-Integration', 'Social Media Anbindung', '6 Monate Support']
+            ['Individuelles Design', 'Erweiterte SEO', 'Blog-Funktion', 'Google Analytics', 'Newsletter-Integration', 'Social Media Anbindung', '6 Monate Support'],
+            `${BASE_URL}/images/offer/webdesign-kmu-paket.png`
         ),
         generateProductSchema(
             'Webdesign Pro-Paket',
             'CHF 4990',
             'Maximale Performance & Kontrolle. Headless CMS, custom Development, unbegrenzte Seiten.',
-            ['Unbegrenzte Seiten', 'Headless CMS', 'Maximale Performance', 'Vollständige SEO', 'Custom Entwicklung', 'API-Integration', 'Multi-Language', '12 Monate Support']
+            ['Unbegrenzte Seiten', 'Headless CMS', 'Maximale Performance', 'Vollständige SEO', 'Custom Entwicklung', 'API-Integration', 'Multi-Language', '12 Monate Support'],
+            `${BASE_URL}/images/offer/webdesign-pro-paket.png`
         ),
     ];
 }
