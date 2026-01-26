@@ -189,7 +189,7 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
                 '@type': 'OpeningHoursSpecification',
                 dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
                 opens: '08:00',
-                closes: '17:30',
+                closes: '17:00',
             },
         ],
         sameAs: [
@@ -799,7 +799,7 @@ export function generateContactPageLocalBusinessSchema(
             '@type': 'OpeningHoursSpecification',
             dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
             opens: '08:00',
-            closes: location.isMain ? '17:30' : '17:00',
+            closes: '17:00',
         },
         priceRange: '$$',
         hasMap: location.mapUrl,
@@ -914,8 +914,8 @@ export function generateHomepageOfferCatalogSchema() {
                 '@type': 'Offer',
                 itemOffered: {
                     '@type': 'Service',
-                    name: 'IT-Support & Managed Services',
-                    description: 'Professioneller IT-Support für KMU und Privatkunden',
+                    name: 'IT-Systeme & Netzwerke',
+                    description: 'Stabile IT-Infrastrukturen mit Server, Cloud, Microsoft 365, Backup und Netzwerksicherheit',
                 },
             },
             {
@@ -938,8 +938,8 @@ export function generateHomepageOfferCatalogSchema() {
                 '@type': 'Offer',
                 itemOffered: {
                     '@type': 'Service',
-                    name: 'IT-Netzwerke & Server',
-                    description: 'Planung und Betreuung moderner IT-Infrastrukturen',
+                    name: 'Videoüberwachung',
+                    description: 'Professionelle CCTV-Lösungen für Unternehmen und Privatkunden',
                 },
             },
             {
@@ -1022,7 +1022,7 @@ export function generateWebDesignServiceSchema() {
             '@type': 'AggregateOffer',
             priceCurrency: 'CHF',
             lowPrice: '990',
-            highPrice: '3990',
+            highPrice: '4990',
             offerCount: '3',
         },
     };
@@ -1036,20 +1036,20 @@ export function generateWebdesignPackageProducts() {
         generateProductSchema(
             'Webdesign Starter-Paket',
             'CHF 990',
-            'Einsteigerpaket für kleine Unternehmen und Einzelunternehmer',
-            ['Responsive Design', 'SEO-Grundoptimierung', 'Kontaktformular', 'SSL-Zertifikat']
+            'Perfekt für Startups und Kleinunternehmen. Bis zu 5 Seiten, responsive Design, SEO-Grundoptimierung.',
+            ['Responsive Design', 'SEO-Grundoptimierung', 'Kontaktformular', 'SSL-Zertifikat', '3 Monate Support']
         ),
         generateProductSchema(
             'Webdesign KMU-Paket',
-            'CHF 1990',
-            'Professionelles Paket für etablierte KMU',
-            ['Individuelles Design', 'Erweiterte SEO', 'Blog-System', 'Mehrsprachigkeit']
+            'CHF 2490',
+            'Für etablierte Unternehmen. Bis zu 15 Seiten, individuelles Design, Blog-Funktion, erweiterte SEO.',
+            ['Individuelles Design', 'Erweiterte SEO', 'Blog-Funktion', 'Google Analytics', 'Newsletter-Integration', 'Social Media Anbindung', '6 Monate Support']
         ),
         generateProductSchema(
             'Webdesign Pro-Paket',
-            'CHF 3990',
-            'Premium-Lösung für anspruchsvolle Projekte',
-            ['Custom Development', 'E-Commerce Integration', 'Advanced Features', 'Priority Support']
+            'CHF 4990',
+            'Maximale Performance & Kontrolle. Headless CMS, custom Development, unbegrenzte Seiten.',
+            ['Unbegrenzte Seiten', 'Headless CMS', 'Maximale Performance', 'Vollständige SEO', 'Custom Entwicklung', 'API-Integration', 'Multi-Language', '12 Monate Support']
         ),
     ];
 }
