@@ -1,36 +1,37 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 const partners = [
-    { name: 'Microsoft', logo: '/images/partners/partner-microsoft.png' },
-    { name: '3CX', logo: '/images/partners/partner-3cx.png' },
-    { name: 'Cisco', logo: '/images/partners/partner-cisco.jpg' },
-    { name: 'Fortinet', logo: '/images/partners/partner-fortinet.png' },
-    { name: 'HPE', logo: '/images/partners/partner-hpe.png' },
-    { name: 'Lenovo', logo: '/images/partners/partner-lenovo.jpg' },
-    { name: 'Sophos', logo: '/images/partners/partner-sophos.jpg' },
-    { name: 'Swisscom', logo: '/images/partners/partner-swisscom.png' },
-    { name: 'Synology', logo: '/images/partners/partner-synology.jpg' },
-    { name: 'Ubiquiti', logo: '/images/partners/partner-ubiquiti.png' },
-    { name: 'Veeam', logo: '/images/partners/partner-veeam.png' },
-    { name: 'VMware', logo: '/images/partners/partner-vmware.png' },
-    { name: 'BlackBox', logo: '/images/partners/partner-blackbox.png' },
-    { name: 'Axis', logo: '/images/partners/partner-axis.png' },
-    { name: 'Milestone', logo: '/images/partners/partner-milestone.png' },
-    { name: 'AG Neovo', logo: '/images/partners/partner-agneovo.png' },
-    { name: 'Samsung', logo: '/images/partners/partner-samung.png' },
-    { name: 'Proxmox', logo: '/images/partners/partner-proxmox.png' },
-    { name: 'iWay', logo: '/images/partners/partner-iway.png' },
-    { name: 'Digital Republic', logo: '/images/partners/partner-digital-republic.png' },
-    { name: 'Wildix', logo: '/images/partners/partner-wildix.png' },
-    { name: 'Wix', logo: '/images/partners/partner-wix.png' },
-    { name: 'Also', logo: '/images/partners/partner-also.jpg' },
-    { name: 'EET', logo: '/images/partners/partner-eet.jpg' },
+    { name: 'Microsoft', logo: '/images/partners/partner-microsoft.svg' },
+    { name: '3CX', logo: '/images/partners/partner-3cx.svg' },
+    { name: 'Fortinet', logo: '/images/partners/partner-fortinet.svg' },
+    { name: 'HPE', logo: '/images/partners/partner-hpe.svg' },
+    { name: 'Lenovo', logo: '/images/partners/partner-lenovo.svg' },
+    { name: 'Sophos', logo: '/images/partners/partner-sophos.svg' },
+    { name: 'Swisscom', logo: '/images/partners/partner-swisscom.svg' },
+    { name: 'Synology', logo: '/images/partners/partner-synology.svg' },
+    { name: 'Ubiquiti', logo: '/images/partners/partner-ubiquiti.svg' },
+    { name: 'VMware', logo: '/images/partners/partner-vmware.svg' },
+    { name: 'BlackBox', logo: '/images/partners/partner-blackbox.svg' },
+    { name: 'iWay', logo: '/images/partners/partner-iway.svg' },
+    { name: 'peoplefone', logo: '/images/partners/partner-peoplefone.svg' },
 ];
 
 export function PartnerSlider() {
+    // Mobile detection for responsive animation speed
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     // Duplicate the partners array for seamless infinite scroll
     const extendedPartners = [...partners, ...partners];
 
@@ -55,7 +56,7 @@ export function PartnerSlider() {
                     }}
                     transition={{
                         x: {
-                            duration: 40,
+                            duration: isMobile ? 20 : 40,
                             repeat: Infinity,
                             ease: 'linear',
                         },
@@ -64,17 +65,18 @@ export function PartnerSlider() {
                     {extendedPartners.map((partner, index) => (
                         <div
                             key={`${partner.name}-${index}`}
-                            className="flex-shrink-0 group"
+                            className="flex-shrink-0 w-32 h-16 flex items-center justify-center"
                         >
-                            <div className="w-40 h-20 flex items-center justify-center rounded-xl bg-background/50 dark:bg-card/80 border border-border/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-150 p-4">
-                                <Image
-                                    src={partner.logo}
-                                    alt={partner.name}
-                                    width={120}
-                                    height={60}
-                                    className="object-contain max-h-16 w-auto grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-150"
-                                />
-                            </div>
+                            <Image
+                                src={partner.logo}
+                                alt={partner.name}
+                                width={120}
+                                height={60}
+                                className={cn(
+                                    "object-contain max-w-full max-h-full transition-all duration-300",
+                                    "dark:brightness-0 dark:invert"
+                                )}
+                            />
                         </div>
                     ))}
                 </motion.div>
