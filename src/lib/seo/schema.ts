@@ -109,6 +109,30 @@ export function generateLocalBusinessSchema(
 
     const regionName = regionNames[regionSlug] || regionSlug;
 
+    // Physische Standorte mit vollständiger Adresse
+    const physicalLocations: Record<string, {street: string; zip: string; image: string; region: string}> = {
+        'winterthur': { 
+            street: 'Rudolf-Diesel-Strasse 25', 
+            zip: '8404',
+            region: 'Zürich',
+            image: '/images/unternehmen/infraone-hauptsitz-winterthur.webp'
+        },
+        'schaffhausen': { 
+            street: 'Solenbergstrasse 35', 
+            zip: '8207',
+            region: 'Schaffhausen',
+            image: '/images/unternehmen/infraone-filiale-schaffhausen.webp'
+        },
+        'thurgau': { 
+            street: 'Bahnhofstrasse 17', 
+            zip: '8274',
+            region: 'Thurgau',
+            image: '/images/unternehmen/infraone-filiale-taegerwilen.webp'
+        }
+    };
+
+    const locationData = physicalLocations[regionSlug];
+
     // Area Served aus CMS oder Standard
     const areaServed = areaServedList && areaServedList.length > 0
         ? areaServedList.map(area => ({ '@type': 'Place' as const, name: area }))
@@ -122,8 +146,16 @@ export function generateLocalBusinessSchema(
         url: serviceUrl,
         telephone: '+41522221818',
         email: 'info@infraone.ch',
+        image: locationData 
+            ? `${BASE_URL}${locationData.image}` 
+            : `${BASE_URL}/infraone-logo-schwarz.svg`,
         address: {
             '@type': 'PostalAddress',
+            ...(locationData && {
+                streetAddress: locationData.street,
+                postalCode: locationData.zip,
+                addressRegion: locationData.region,
+            }),
             addressLocality: regionName,
             addressCountry: 'CH',
         },
@@ -473,6 +505,15 @@ export function generateITSupportHubSchema() {
         description: 'Professioneller IT-Support für KMU und Privatpersonen in der Schweiz. Remote-Support innert Minuten, Vor-Ort-Service innerhalb 24h.',
         provider: { '@id': `${BASE_URL}/#organization` },
         url: `${BASE_URL}/it-support`,
+        image: `${BASE_URL}/infraone-logo-schwarz.svg`,
+        address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Rudolf-Diesel-Strasse 25',
+            addressLocality: 'Winterthur',
+            addressRegion: 'Zürich',
+            postalCode: '8404',
+            addressCountry: 'CH',
+        },
         areaServed: { '@type': 'Country', name: 'Switzerland' },
         offers: {
             '@type': 'AggregateOffer',
@@ -1227,6 +1268,14 @@ export function generateWebdesignPhysicalSpokeSchema(
     };
     const locationImage = imageMapping[regionSlug] || '/infraone-logo-schwarz.svg';
     
+    // Address-Mapping für physische Standorte
+    const physicalAddresses: Record<string, {street: string; zip: string; region: string}> = {
+        'winterthur': { street: 'Rudolf-Diesel-Strasse 25', zip: '8404', region: 'Zürich' },
+        'schaffhausen': { street: 'Solenbergstrasse 35', zip: '8207', region: 'Schaffhausen' },
+        'thurgau': { street: 'Bahnhofstrasse 17', zip: '8274', region: 'Thurgau' }
+    };
+    const addressData = physicalAddresses[regionSlug];
+    
     return {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
@@ -1240,6 +1289,11 @@ export function generateWebdesignPhysicalSpokeSchema(
         image: `${BASE_URL}${locationImage}`,
         address: {
             '@type': 'PostalAddress',
+            ...(addressData && {
+                streetAddress: addressData.street,
+                postalCode: addressData.zip,
+                addressRegion: addressData.region,
+            }),
             addressLocality: regionName,
             addressCountry: 'CH',
         },
