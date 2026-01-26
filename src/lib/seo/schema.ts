@@ -717,6 +717,7 @@ export function generateOrganizationSchemaExtended(): WithContext<Organization> 
         name: 'InfraOne IT Solutions GmbH',
         url: BASE_URL,
         logo: `${BASE_URL}/infraone-logo-schwarz.svg`,
+        image: `${BASE_URL}/images/infraone-og-image.jpg`,
         description: 'IT-Support, Webdesign & Cloud-Telefonanlagen in Winterthur, Schaffhausen & Zürich. Ihr kompetenter IT-Partner für KMU & Privatkunden in der Ostschweiz.',
         telephone: '+41522221818',
         email: 'info@infraone.ch',
@@ -874,12 +875,9 @@ export function generateExternalReviewsSchema(reviews: ExternalReview[]) {
         reviewBody: review.quote,
         url: review.googleReviewUrl,
         itemReviewed: {
-            '@type': 'Service',
-            name: review.service,
-            provider: {
-                '@type': 'Organization',
-                name: 'InfraOne IT Solutions GmbH',
-            },
+            '@type': 'Organization',
+            '@id': `${BASE_URL}/#organization`,
+            name: 'InfraOne IT Solutions GmbH',
         },
     }));
 }
