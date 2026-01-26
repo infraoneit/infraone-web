@@ -14,7 +14,7 @@ export function ThemeToggle() {
     if (!mounted) {
         return (
             <button
-                className="relative p-2 rounded-lg bg-surface hover:bg-border transition-colors duration-200"
+                className="relative p-2 rounded-lg bg-surface hover:bg-border transition-colors duration-200 flex items-center justify-center min-w-[44px] min-h-[44px]"
                 aria-label="Theme umschalten"
             >
                 <Moon className="w-5 h-5 text-primary opacity-50" />
@@ -25,7 +25,7 @@ export function ThemeToggle() {
     return (
         <button
             onClick={toggleTheme}
-            className="relative p-2 rounded-lg bg-surface hover:bg-border transition-colors duration-200 group"
+            className="relative p-2 rounded-lg bg-surface hover:bg-border transition-colors duration-200 group flex items-center justify-center min-w-[44px] min-h-[44px]"
             aria-label="Theme umschalten"
         >
             {theme === 'light' ? (
