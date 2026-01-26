@@ -54,7 +54,7 @@ export function generateOrganizationSchema(): WithContext<Organization> {
             streetAddress: 'Rudolf-Diesel-Strasse 25',
             addressLocality: 'Winterthur',
             addressRegion: 'Zürich',
-            postalCode: '8400',
+            postalCode: '8404',
             addressCountry: 'CH',
         },
         contactPoint: [
@@ -176,7 +176,7 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
             streetAddress: 'Rudolf-Diesel-Strasse 25',
             addressLocality: 'Winterthur',
             addressRegion: 'Zürich',
-            postalCode: '8400',
+            postalCode: '8404',
             addressCountry: 'CH',
         },
         geo: {
@@ -786,7 +786,8 @@ export function generateContactPageLocalBusinessSchema(
     const imageMapping: Record<string, string> = {
         'winterthur': '/images/unternehmen/infraone-hauptsitz-winterthur.webp',
         'schaffhausen': '/images/unternehmen/infraone-filiale-schaffhausen.webp',
-        'taegerwilen': '/images/unternehmen/infraone-filiale-taegerwilen.webp',
+        'tägerwilen': '/images/unternehmen/infraone-filiale-taegerwilen.webp',
+        'taegerwilen': '/images/unternehmen/infraone-filiale-taegerwilen.webp', // Fallback ohne Umlaut
         'kleinandelfingen': '/images/unternehmen/infraone-filiale-kleinandelfingen.webp',
     };
     const locationImage = imageMapping[businessId] || '/infraone-logo-schwarz.svg';
