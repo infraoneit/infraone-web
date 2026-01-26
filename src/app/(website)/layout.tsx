@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { generateSitewideLocalBusinessSchema, generateSitewideWebSiteSchema } from "@/lib/seo/schema";
 
 const geistSans = Geist({
@@ -145,8 +146,10 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
+          <ScrollToTop />
           <Header />
-          <main className="flex-1">
+          {/* pt-16 lg:pt-20 compensates for fixed header height */}
+          <main className="flex-1 pt-16 lg:pt-20">
             {children}
           </main>
           <Footer />

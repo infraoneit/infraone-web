@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { useTheme } from '@/components/ui/ThemeProvider';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
@@ -40,6 +41,7 @@ const navigation: NavItem[] = [
 ];
 
 export function Header() {
+    const { theme } = useTheme();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
@@ -54,34 +56,37 @@ export function Header() {
 
     useEffect(() => {
         if (isMobileMenuOpen) {
-            // Lock scroll on both body and html
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden';
-            document.body.style.height = '100vh';
+            // Speichere aktuelle Scroll-Position
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+            document.body.classList.add('mobile-menu-open');
         } else {
-            // Unlock scroll
-            document.body.style.overflow = '';
-            document.documentElement.style.overflow = '';
-            document.body.style.height = '';
+            // Stelle Scroll-Position wieder her
+            const scrollY = document.body.style.top;
+            document.body.classList.remove('mobile-menu-open');
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
         }
         
         return () => {
-            document.body.style.overflow = '';
-            document.documentElement.style.overflow = '';
-            document.body.style.height = '';
+            document.body.classList.remove('mobile-menu-open');
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
         };
     }, [isMobileMenuOpen]);
 
     const pathname = usePathname();
 
-    // Handler für Mobile Menu Links mit Scroll-to-Top
+    // Handler für Mobile Menu Links
     const handleLinkClick = () => {
         setIsMobileMenuOpen(false);
         setActiveSubmenu(null);
-        // Force scroll to top after navigation
-        setTimeout(() => {
-            window.scrollTo({ top: 0, behavior: 'instant' });
-        }, 50);
+        // Scroll to top wird vom globalen ScrollToTop Handler übernommen
     };
 
     // Close mobile menu on route change
@@ -113,10 +118,10 @@ export function Header() {
                 </div>
             </div>
 
-            {/* Main Header */}
+            {/* Main Header - Fixed positioning for reliable sticky behavior */}
             <header
                 className={cn(
-                    'sticky top-0 z-50 transition-all duration-200',
+                    'fixed top-0 left-0 right-0 z-50 transition-all duration-200',
                     isScrolled
                         ? 'bg-background/95 backdrop-blur-lg shadow-lg border-b border-border'
                         : 'bg-background'
@@ -202,23 +207,19 @@ export function Header() {
 
                         {/* Mobile Menu Button */}
                         <div className="flex lg:hidden items-center gap-2 relative z-[110]">
-                            <ThemeToggle />
+                            <ThemeToggle darkOverlay={isMobileMenuOpen && theme === 'dark'} />
                             <button
                                 onClick={() => {
-                                    const newState = !isMobileMenuOpen;
-                                    
-                                    // Scroll to top when opening menu
-                                    if (newState) {
-                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    }
-                                    
-                                    setIsMobileMenuOpen(newState);
+                                    setIsMobileMenuOpen(!isMobileMenuOpen);
                                 }}
                                 className="p-3 rounded-lg hover:bg-surface transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
                                 aria-label="Menü öffnen"
                             >
                                 {isMobileMenuOpen ? (
-                                    <X className="w-6 h-6 text-white" />
+                                    <X className={cn(
+                                        "w-6 h-6",
+                                        theme === 'dark' ? "text-white" : "text-slate-900"
+                                    )} />
                                 ) : (
                                     <Menu className="w-6 h-6" />
                                 )}
@@ -235,21 +236,29 @@ export function Header() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="fixed inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 z-[100] lg:hidden flex flex-col overflow-y-auto"
+                            className="fixed inset-0 bg-background z-[100] lg:hidden flex flex-col overflow-hidden touch-manipulation"
                         >
-                            <div className="container mx-auto px-6 py-24 flex flex-col gap-6 min-h-screen">
+                            <div className="container mx-auto px-6 pt-20 pb-6 flex flex-col gap-6 min-h-screen overflow-y-auto">
                                 {/* Navigation Links */}
                                 <nav className="flex flex-col gap-3">
                                     {navigation.map((item) => (
                                         <div key={item.label}>
                                             {item.submenu ? (
-                                                <div className="border-b border-white/10 pb-3">
+                                                <div className={cn(
+                                                    "border-b pb-3",
+                                                    theme === 'dark' ? "border-white/10" : "border-slate-900/10"
+                                                )}>
                                                     {/* Dienstleistungen Accordion Button */}
                                                     <button
                                                         onClick={() =>
                                                             setActiveSubmenu(activeSubmenu === item.label ? null : item.label)
                                                         }
-                                                        className="flex items-center justify-between w-full px-4 py-4 rounded-lg text-white hover:bg-white/10 transition-colors text-xl font-bold uppercase tracking-wide min-h-[56px]"
+                                                        className={cn(
+                                                            "flex items-center justify-between w-full px-4 py-4 rounded-lg transition-colors text-xl font-bold uppercase tracking-wide min-h-[56px]",
+                                                            theme === 'dark'
+                                                                ? "text-white hover:bg-white/10"
+                                                                : "text-slate-900 hover:bg-slate-900/10"
+                                                        )}
                                                     >
                                                         <span>{item.label}</span>
                                                         <ChevronDown
@@ -274,7 +283,12 @@ export function Header() {
                                                                     <Link
                                                                         key={subItem.label}
                                                                         href={subItem.href}
-                                                                        className="block px-4 py-3 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors text-base min-h-[48px] flex items-center"
+                                                                        className={cn(
+                                                                            "block px-4 py-3 rounded-lg transition-colors text-base min-h-[48px] flex items-center",
+                                                                            theme === 'dark'
+                                                                                ? "text-white/80 hover:text-white hover:bg-white/10"
+                                                                                : "text-slate-600 hover:text-slate-900 hover:bg-slate-900/10"
+                                                                        )}
                                                                         onClick={handleLinkClick}
                                                                     >
                                                                         {subItem.label}
@@ -287,7 +301,12 @@ export function Header() {
                                             ) : (
                                                 <Link
                                                     href={item.href}
-                                                    className="block px-4 py-4 rounded-lg text-white hover:bg-white/10 transition-colors text-xl font-bold uppercase tracking-wide min-h-[56px] flex items-center"
+                                                    className={cn(
+                                                        "block px-4 py-4 rounded-lg transition-colors text-xl font-bold uppercase tracking-wide min-h-[56px] flex items-center",
+                                                        theme === 'dark'
+                                                            ? "text-white hover:bg-white/10"
+                                                            : "text-slate-900 hover:bg-slate-900/10"
+                                                    )}
                                                     onClick={handleLinkClick}
                                                 >
                                                     {item.label}
@@ -298,7 +317,10 @@ export function Header() {
                                 </nav>
 
                                 {/* CTA Button - Prominent platziert */}
-                                <div className="mt-4 pt-4 border-t border-white/10">
+                                <div className={cn(
+                                    "mt-4 pt-4 border-t",
+                                    theme === 'dark' ? "border-white/10" : "border-slate-900/10"
+                                )}>
                                     <Button 
                                         variant="primary" 
                                         size="lg" 
@@ -312,8 +334,14 @@ export function Header() {
                                 </div>
 
                                 {/* Contact Info - Unten */}
-                                <div className="mt-auto pt-6 border-t border-white/10">
-                                    <div className="flex flex-col gap-3 text-base text-white/70">
+                                <div className={cn(
+                                    "mt-auto pt-6 border-t",
+                                    theme === 'dark' ? "border-white/10" : "border-slate-900/10"
+                                )}>
+                                    <div className={cn(
+                                        "flex flex-col gap-3 text-base",
+                                        theme === 'dark' ? "text-white/70" : "text-slate-600"
+                                    )}>
                                         <a 
                                             href="tel:+41522221818" 
                                             className="flex items-center gap-3 hover:text-primary transition-colors min-h-[44px]"

@@ -99,6 +99,15 @@ html, body {
   padding: 0;
 }
 
+/* Mobile Menu Scroll Lock - Position Fixed Solution */
+body.mobile-menu-open {
+  overflow: hidden !important;
+}
+
+html:has(body.mobile-menu-open) {
+  overflow: hidden !important;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
