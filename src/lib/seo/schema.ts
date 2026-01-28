@@ -110,21 +110,21 @@ export function generateLocalBusinessSchema(
     const regionName = regionNames[regionSlug] || regionSlug;
 
     // Physische Standorte mit vollständiger Adresse
-    const physicalLocations: Record<string, {street: string; zip: string; image: string; region: string}> = {
-        'winterthur': { 
-            street: 'Rudolf-Diesel-Strasse 25', 
+    const physicalLocations: Record<string, { street: string; zip: string; image: string; region: string }> = {
+        'winterthur': {
+            street: 'Rudolf-Diesel-Strasse 25',
             zip: '8404',
             region: 'Zürich',
             image: '/images/unternehmen/infraone-hauptsitz-winterthur.webp'
         },
-        'schaffhausen': { 
-            street: 'Solenbergstrasse 35', 
+        'schaffhausen': {
+            street: 'Solenbergstrasse 35',
             zip: '8207',
             region: 'Schaffhausen',
             image: '/images/unternehmen/infraone-filiale-schaffhausen.webp'
         },
-        'thurgau': { 
-            street: 'Bahnhofstrasse 17', 
+        'thurgau': {
+            street: 'Bahnhofstrasse 17',
             zip: '8274',
             region: 'Thurgau',
             image: '/images/unternehmen/infraone-filiale-taegerwilen.webp'
@@ -146,8 +146,8 @@ export function generateLocalBusinessSchema(
         url: serviceUrl,
         telephone: '+41522221818',
         email: 'info@infraone.ch',
-        image: locationData 
-            ? `${BASE_URL}${locationData.image}` 
+        image: locationData
+            ? `${BASE_URL}${locationData.image}`
             : `${BASE_URL}/infraone-logo-schwarz.svg`,
         address: {
             '@type': 'PostalAddress',
@@ -550,7 +550,7 @@ export function generateOfferCatalogSchema(priceCards: Array<{ title: string; de
         itemListElement: priceCards.map((card, index) => {
             const priceMatch = card.price.match(/\d+/);
             const priceValue = priceMatch ? priceMatch[0] : undefined;
-            
+
             return {
                 '@type': 'Offer',
                 position: index + 1,
@@ -600,7 +600,7 @@ export function generateITServiceLocalBusinessSchema(
     emergencyNote: string = 'Notfall-Support verfügbar bis 23:00 Uhr'
 ) {
     const geo = REGION_COORDINATES[regionSlug];
-    
+
     return {
         '@context': 'https://schema.org',
         '@type': ['LocalBusiness', 'ComputerStore'],
@@ -800,7 +800,7 @@ export function generateOrganizationSchemaExtended(): WithContext<Organization> 
             'https://www.instagram.com/infraoneit/',
             'https://www.linkedin.com/in/infraone-it-solutions',
         ],
-        foundingDate: '2004',
+        foundingDate: '2015',
         numberOfEmployees: {
             '@type': 'QuantitativeValue',
             value: 10,
@@ -822,7 +822,7 @@ export function generateContactPageLocalBusinessSchema(
     businessId: string
 ) {
     const geo = REGION_COORDINATES[location.city.toLowerCase()];
-    
+
     // Image-Mapping für Standorte
     const imageMapping: Record<string, string> = {
         'winterthur': '/images/unternehmen/infraone-hauptsitz-winterthur.webp',
@@ -832,7 +832,7 @@ export function generateContactPageLocalBusinessSchema(
         'kleinandelfingen': '/images/unternehmen/infraone-filiale-kleinandelfingen.webp',
     };
     const locationImage = imageMapping[businessId] || '/infraone-logo-schwarz.svg';
-    
+
     return {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
@@ -1066,7 +1066,7 @@ export function generateProductSchema(
 ) {
     const priceMatch = price.match(/\d+/);
     const priceValue = priceMatch ? priceMatch[0] : undefined;
-    
+
     return {
         '@type': 'Product',
         name: name,
@@ -1259,7 +1259,7 @@ export function generateWebdesignPhysicalSpokeSchema(
     areaServedList?: string[]
 ) {
     const geo = REGION_COORDINATES[regionSlug];
-    
+
     // Image-Mapping für physische Standorte
     const imageMapping: Record<string, string> = {
         'winterthur': '/images/unternehmen/infraone-hauptsitz-winterthur.webp',
@@ -1267,15 +1267,15 @@ export function generateWebdesignPhysicalSpokeSchema(
         'thurgau': '/images/unternehmen/infraone-filiale-taegerwilen.webp',
     };
     const locationImage = imageMapping[regionSlug] || '/infraone-logo-schwarz.svg';
-    
+
     // Address-Mapping für physische Standorte
-    const physicalAddresses: Record<string, {street: string; zip: string; region: string}> = {
+    const physicalAddresses: Record<string, { street: string; zip: string; region: string }> = {
         'winterthur': { street: 'Rudolf-Diesel-Strasse 25', zip: '8404', region: 'Zürich' },
         'schaffhausen': { street: 'Solenbergstrasse 35', zip: '8207', region: 'Schaffhausen' },
         'thurgau': { street: 'Bahnhofstrasse 17', zip: '8274', region: 'Thurgau' }
     };
     const addressData = physicalAddresses[regionSlug];
-    
+
     return {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
