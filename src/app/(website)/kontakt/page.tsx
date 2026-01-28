@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { ContactSection } from '@/components/sections/ContactSection';
-import { 
+import {
     generateContactPageSchema,
     generateContactPageLocalBusinessSchema,
     generateBreadcrumbListSchema,
@@ -55,18 +55,18 @@ const locations = [
 export default function KontaktPage() {
     // 1. ContactPage Schema
     const contactPageSchema = generateContactPageSchema();
-    
+
     // 2-5. LocalBusiness Schemas für alle 4 Standorte
     const localBusinessSchemas = locations.map((location) =>
         generateContactPageLocalBusinessSchema(location, location.city.toLowerCase())
     );
-    
+
     // 6. Breadcrumb Schema
     const breadcrumbSchema = generateBreadcrumbListSchema([
         { name: 'Home', url: BASE_URL },
         { name: 'Kontakt', url: `${BASE_URL}/kontakt` },
     ]);
-    
+
     // 7. WebPage Schema
     const webPageSchema = generateWebPageSchema(
         `${BASE_URL}/kontakt`,
@@ -81,7 +81,7 @@ export default function KontaktPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageSchema) }}
             />
-            
+
             {/* 2-5. LocalBusiness Schemas (4 Standorte) */}
             {localBusinessSchemas.map((schema, index) => (
                 <script
@@ -90,19 +90,19 @@ export default function KontaktPage() {
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
                 />
             ))}
-            
+
             {/* 6. Breadcrumb Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
-            
+
             {/* 7. WebPage Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
             />
-            
+
             {/* Hero Section */}
             <section className="relative py-12 lg:py-16 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
@@ -226,19 +226,32 @@ export default function KontaktPage() {
             {/* Contact Form Section */}
             <ContactSection />
 
-            {/* Map Section - All Locations */}
+            {/* Map Section - Clickable Static Image */}
             <section className="py-0">
-                <div className="w-full bg-surface h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] xl:h-[600px]">
-                    <iframe
-                        src="https://www.google.com/maps/d/u/0/embed?mid=1qrDQP5-5myC_ouXC45qpdf4Vl_Ge_c0&ehbc=2E312F&noprof=1"
-                        className="w-full h-full"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title="InfraOne IT Solutions Standorte"
+                <a
+                    href="https://www.google.com/maps/d/u/0/viewer?mid=1qrDQP5-5myC_ouXC45qpdf4Vl_Ge_c0&ll=47.53687988859944%2C8.747026250000007&z=10"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full relative h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] xl:h-[600px] group overflow-hidden cursor-pointer"
+                >
+                    {/* Static Map Image */}
+                    <Image
+                        src="/images/infraone-standorte.jpg"
+                        alt="InfraOne Standorte: Winterthur (Hauptsitz), Schaffhausen, Tägerwilen, Kleinandelfingen"
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        priority={false}
+                        quality={90}
                     />
-                </div>
+
+                    {/* Hover Overlay mit Hinweis */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm px-8 py-4 rounded-xl shadow-2xl flex items-center gap-3">
+                            <MapPin className="w-6 h-6 text-primary" />
+                            <span className="font-semibold text-text-primary text-lg">Karte in Google Maps öffnen</span>
+                        </div>
+                    </div>
+                </a>
             </section>
         </>
     );
