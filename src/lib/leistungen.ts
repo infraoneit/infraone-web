@@ -92,7 +92,8 @@ export async function getITSupportData(): Promise<ITSupportCMSData | null> {
             return data as ITSupportCMSData;
         }
     } catch (error) {
-        console.error('[Leistungen] Error loading IT-Support data:', error);
+        // Error handling: return empty data on failure
+        return null;
     }
     return null;
 }
@@ -137,7 +138,8 @@ export async function getITSupportRegion(slug: string): Promise<ITSupportRegionD
             return data as ITSupportRegionData;
         }
     } catch (error) {
-        console.error(`[Leistungen] Error loading IT-Support region '${slug}':`, error);
+        // Error handling: return null on failure
+        return null;
     }
     return null;
 }
@@ -155,7 +157,8 @@ export async function getAllITSupportRegionSlugs(): Promise<string[]> {
                 .map(f => f.replace('.json', ''));
         }
     } catch (error) {
-        console.error('[Leistungen] Error getting IT-Support region slugs:', error);
+        // Error handling: return empty array on failure
+        return [];
     }
     return [];
 }

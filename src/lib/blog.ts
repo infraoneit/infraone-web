@@ -24,16 +24,17 @@ const categoryDisplayNames: Record<string, string> = {
 /**
  * Liest den Content direkt aus der .mdoc Datei
  */
-function readMdocContent(slug: string): string {
+function readMdocContent(slug: string): string | null {
     try {
         const mdocPath = path.join(process.cwd(), 'content', 'blog', slug, 'content.mdoc');
         if (fs.existsSync(mdocPath)) {
             return fs.readFileSync(mdocPath, 'utf-8');
         }
     } catch (e) {
-        console.error(`[Blog] Error reading mdoc for ${slug}:`, e);
+        // Error reading mdoc: return null
+        return null;
     }
-    return '';
+    return null;
 }
 
 /**
@@ -45,11 +46,11 @@ async function processContent(content: any, slug: string): Promise<string> {
     if (mdocContent) {
         return mdocContent;
     }
-    
+
     // Fallback: Versuche den Content aus dem Reader zu laden
     if (!content) return '';
     if (typeof content === 'string') return content;
-    
+
     // Wenn es eine async Funktion ist (Markdoc Reader)
     if (typeof content === 'function') {
         try {
@@ -62,11 +63,11 @@ async function processContent(content: any, slug: string): Promise<string> {
                 return JSON.stringify(doc);
             }
         } catch (e) {
-            console.error('[Blog] Error processing markdoc content:', e);
+            // Error processing markdoc content: skip content
         }
         return '';
     }
-    
+
     return String(content);
 }
 
@@ -82,16 +83,16 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
         // Keystatic Blog-Posts laden
         const reader = await getReader();
         const keystaticPosts = await reader.collections.blog.all();
-        
+
         for (const post of keystaticPosts) {
             const entry = post.entry;
-            
+
             // Keywords aus Keystatic (immer Array)
             const keywordsArray: string[] = entry.keywords ? [...entry.keywords] : [];
-            
+
             // Content laden (aus .mdoc Datei oder Reader)
             const contentString = await processContent(entry.content, post.slug);
-            
+
             // Titelbild verarbeiten (kann String oder Objekt sein)
             let featuredImageUrl: string | undefined;
             if (entry.featuredImage) {
@@ -102,7 +103,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
                     featuredImageUrl = (entry.featuredImage as any).src || undefined;
                 }
             }
-            
+
             // Konvertiere zu BlogPost Format
             const blogPost: BlogPost = {
                 slug: post.slug,
@@ -116,14 +117,15 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
                 readingTime: entry.readingTime || '5 Min.',
                 featuredImage: featuredImageUrl,
             };
-            
+
             // Nur hinzufügen wenn nicht bereits als statischer Post vorhanden
             if (!allPosts.some(p => p.slug === blogPost.slug)) {
                 allPosts.push(blogPost);
             }
         }
     } catch (error) {
-        console.error('[Blog] Error loading Keystatic posts:', error);
+        // Error loading Keystatic posts: return empty array
+        return [];
     }
 
     // Sortieren nach Datum (neueste zuerst)
@@ -144,14 +146,14 @@ export async function getBlogPostBySlugAsync(slug: string): Promise<BlogPost | n
         // In Keystatic suchen
         const reader = await getReader();
         const post = await reader.collections.blog.read(slug);
-        
+
         if (!post) {
             return null;
         }
 
         // Keywords aus Keystatic (immer Array)
         const keywordsArray: string[] = post.keywords ? [...post.keywords] : [];
-        
+
         // Content laden
         const contentString = await processContent(post.content, slug);
 
@@ -178,10 +180,9 @@ export async function getBlogPostBySlugAsync(slug: string): Promise<BlogPost | n
             featuredImage: featuredImageUrl,
         };
     } catch (error) {
-        console.error(`[Blog] Error reading Keystatic post '${slug}':`, error);
+        // Error reading Keystatic post: return null
+        return null;
     }
-
-    return null;
 }
 
 /**
@@ -199,7 +200,8 @@ export async function getAllBlogSlugs(): Promise<string[]> {
             }
         }
     } catch (error) {
-        console.error('[Blog] Error getting Keystatic slugs:', error);
+        // Error getting Keystatic slugs: return empty array
+        return [];
     }
 
     return slugs;

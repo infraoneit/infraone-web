@@ -29,9 +29,6 @@ export function PartnerSlider() {
         const checkMobile = () => {
             const mobile = window.innerWidth < 768;
             setIsMobile(mobile);
-            // #region agent log
-            fetch('http://127.0.0.1:7243/ingest/76e31c2b-b08d-4504-912c-35dd7c31c4ea',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'PartnerSlider.tsx:31',message:'Mobile detection',data:{isMobile:mobile,windowWidth:window.innerWidth},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'E'})}).catch(()=>{});
-            // #endregion
         };
         checkMobile();
         window.addEventListener('resize', checkMobile);
@@ -73,14 +70,7 @@ export function PartnerSlider() {
                         <div
                             key={`${partner.name}-${index}`}
                             className="flex-shrink-0 w-56 h-24 flex items-center justify-center"
-                            ref={index === 0 ? (el) => {
-                                if (el) {
-                                    // #region agent log
-                                    const styles = window.getComputedStyle(el);
-                                    fetch('http://127.0.0.1:7243/ingest/76e31c2b-b08d-4504-912c-35dd7c31c4ea',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'PartnerSlider.tsx:68',message:'Container computed styles',data:{className:el.className,width:styles.width,height:styles.height,display:styles.display},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
-                                    // #endregion
-                                }
-                            } : undefined}
+
                         >
                             <Image
                                 src={partner.logo}
@@ -91,14 +81,7 @@ export function PartnerSlider() {
                                     "w-full h-auto object-contain transition-all duration-300",
                                     "dark:brightness-0 dark:invert"
                                 )}
-                                ref={index === 0 ? (img) => {
-                                    if (img) {
-                                        // #region agent log
-                                        const imgStyles = window.getComputedStyle(img);
-                                        fetch('http://127.0.0.1:7243/ingest/76e31c2b-b08d-4504-912c-35dd7c31c4ea',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'PartnerSlider.tsx:77',message:'Image computed styles POST-FIX',data:{width:imgStyles.width,height:imgStyles.height,maxWidth:imgStyles.maxWidth,maxHeight:imgStyles.maxHeight,objectFit:imgStyles.objectFit},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'BC'})}).catch(()=>{});
-                                        // #endregion
-                                    }
-                                } : undefined}
+
                             />
                         </div>
                     ))}

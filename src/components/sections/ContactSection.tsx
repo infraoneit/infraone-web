@@ -46,7 +46,7 @@ export function ContactSection({
             setStatus('success');
             form.reset();
         } catch (error) {
-            console.error('Form error:', error);
+            // Error handling: set error status
             setStatus('error');
         }
     };
@@ -169,10 +169,10 @@ export function ContactSection({
                                     </Button>
                                 </motion.div>
                             ) : (
-                                <form 
+                                <form
                                     name="contact"
                                     method="POST"
-                                    onSubmit={handleSubmit} 
+                                    onSubmit={handleSubmit}
                                     className="space-y-6"
                                 >
                                     {/* Hidden fields for Netlify */}
