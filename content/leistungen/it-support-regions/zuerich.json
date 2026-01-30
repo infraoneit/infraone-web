@@ -1,13 +1,11 @@
 {
-  "slug": "zuerich",
   "name": "Zürich",
   "isFree": false,
   "anfahrt": "CHF 2.00/km",
   "headline": "IT-Support Zürich",
   "subheadline": "Schnelle IT-Hilfe für die Wirtschaftsmetropole",
-  "description": "IT-Support für Zürich: Remote-Hilfe sofort, Vor-Ort-Service in 25 Min von Winterthur. Für Startups, KMU, Kanzleien. Spezialisiert auf schnelle Problemlösung im Business-Kontext.",
-  "intro": "Zürich – das wirtschaftliche Herz der Schweiz, wo IT-Ausfälle besonders teuer sind. Von Startups an der Europaallee über Kanzleien am Paradeplatz bis zu Arztpraxen in Oerlikon: Wir verstehen, dass hier jede Minute zählt. Wenn Excel vor dem wichtigen Report abstürzt, das VPN nicht funktioniert oder der Server mitten im Geschäft ausfällt – helfen wir schnell und kompetent. Remote-Support starten wir oft noch während des Telefonats. Für Vor-Ort-Einsätze sind wir von Winterthur aus in 25 Minuten in der Zürcher Innenstadt. Kompetente IT-Hilfe ohne die Preise einer Zürcher Agentur.",
-  "regionalImage": "/images/regions/zuerich.png",
+  "description": "IT-Support für Zürich: Remote-Hilfe, Vor-Ort-Service am selben Tag. Für Startups, KMU, Kanzleien. Spezialisiert auf schnelle Problemlösung im Business-Kontext.",
+  "intro": "Zürich – das wirtschaftliche Herz der Schweiz, wo IT-Ausfälle besonders teuer sind. Von Startups an der Europaallee über Kanzleien am Paradeplatz bis zu Arztpraxen in Oerlikon: Wir verstehen, dass hier jede Minute zählt. Wenn Excel vor dem wichtigen Report abstürzt, das VPN nicht funktioniert oder der Server mitten im Geschäft ausfällt – helfen wir schnell und kompetent. Remote-Support starten wir oft noch während des Telefonats. Für Vor-Ort-Einsätze sind wir von Winterthur aus in weniger als einer Stunde in der Zürcher Innenstadt. Kompetente IT-Hilfe ohne die Preise einer Zürcher Agentur.",
   "localBenefits": [
     "25 Min ab Winterthur",
     "Remote-Support sofort",
@@ -51,7 +49,7 @@
     }
   ],
   "metaTitle": "IT-Support Zürich | Schnelle IT-Hilfe für KMU | InfraOne",
-  "metaDescription": "IT-Support Zürich: Schnelle Hilfe für KMU und Privatpersonen. Remote innert Minuten, Vor-Ort in 25 Min. ab CHF 130/h Remote, ab CHF 145/h Vor-Ort. ☎ 052 222 18 18",
+  "metaDescription": "IT-Support Zürich: Schnelle Hilfe für KMU und Privatpersonen. ab CHF 130/h Remote, ab CHF 145/h Vor-Ort. ☎ 052 222 18 18",
   "keywords": [
     "IT Support Zürich",
     "Computerhilfe Zürich",
@@ -67,16 +65,30 @@
     "Altstetten",
     "Wiedikon"
   ],
-  "addressLocality": "",
-  "postalCode": "",
   "openingHours": [],
   "specialOpeningHours": [],
   "supportHours": {
     "times": [
-      { "time": "Mo–Fr 08:00–17:00", "text": "regulärer Tarif", "style": "neutral" },
-      { "time": "Mo–Fr 17:00–23:00", "text": "+25% Zuschlag", "style": "warning" },
-      { "time": "Sa / So / Feiertage", "text": "+50% Zuschlag", "style": "warning" },
-      { "time": "23:00–08:00", "text": "nur mit SLA, +100%", "style": "danger" }
+      {
+        "time": "Mo–Fr 08:00–17:00",
+        "text": "regulärer Tarif",
+        "style": "neutral"
+      },
+      {
+        "time": "Mo–Fr 17:00–23:00",
+        "text": "+25% Zuschlag",
+        "style": "warning"
+      },
+      {
+        "time": "Sa / So / Feiertage",
+        "text": "+50% Zuschlag",
+        "style": "warning"
+      },
+      {
+        "time": "23:00–08:00",
+        "text": "nur mit SLA, +100%",
+        "style": "danger"
+      }
     ],
     "note": "Support bis 23:00 Uhr sowie an Wochenenden und Feiertagen ist verfügbar (mit Zuschlag, Best-Effort).\nOhne aktives SLA sind Einsätze zwischen 23:00 und 08:00 Uhr ausgeschlossen."
   }
