@@ -1375,3 +1375,164 @@ export function generateCloudTelefonieVirtualSpokeSchema(
         isPartOf: { '@id': `${BASE_URL}/cloud-telefonie#service` },
     };
 }
+
+/**
+ * ========================================
+ * DIGITAL SIGNAGE HUB & SPOKE SCHEMAS
+ * ========================================
+ */
+
+/**
+ * Generiert Digital Signage Hub Service Schema
+ * Für /digital-signage Hauptseite (schweizweit)
+ */
+export function generateDigitalSignageHubSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/digital-signage#service`,
+        name: 'Digital Signage Schweiz',
+        alternateName: ['Werbebildschirme Schweiz', 'Infoscreen Schweiz', 'Digitale Beschilderung'],
+        serviceType: ['Digital Signage', 'Electronic Display', 'Digital Advertising'],
+        description: 'Professionelle Digital Signage Lösungen ohne Abo-Kosten für die ganze Schweiz. Werbebildschirme und Infoscreens mit lokalem Betrieb, Live-Daten Integration und Multi-Display Support.',
+        provider: { '@id': `${BASE_URL}/#organization` },
+        url: `${BASE_URL}/digital-signage`,
+        image: `${BASE_URL}/images/hero_digital_signage_1768423279297.png`,
+        areaServed: { '@type': 'Country', name: 'Switzerland' },
+        offers: {
+            '@type': 'AggregateOffer',
+            priceCurrency: 'CHF',
+            lowPrice: '1590',
+            highPrice: '10000',
+            offerCount: '3',
+            offers: [
+                {
+                    '@type': 'Offer',
+                    name: 'Digital Signage Starter-Paket',
+                    price: '1590',
+                    priceCurrency: 'CHF',
+                    availability: 'https://schema.org/InStock',
+                    itemOffered: {
+                        '@type': 'Product',
+                        name: 'Digital Signage Starter-Paket',
+                        description: '1 Display + Mini-Server, bis 5 Bildschirme erweiterbar, Setup & Installation, Custom Designvorlage, Schulung & Support',
+                    }
+                }
+            ]
+        },
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Digital Signage Pakete',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Starter-Paket',
+                        description: '1 Display + Mini-Server, bis 5 Bildschirme erweiterbar'
+                    }
+                },
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Multi-Display Lösung',
+                        description: 'Mehrere Displays, zentrale Verwaltung, Custom Widgets'
+                    }
+                },
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Enterprise Lösung',
+                        description: 'Filial-Netzwerke, API-Integrationen, Premium Support'
+                    }
+                }
+            ]
+        }
+    };
+}
+
+/**
+ * Generiert Product Schema für Digital Signage Starter-Paket
+ * Für bessere Shopping-Results in Google
+ */
+export function generateDigitalSignageProductSchema() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        '@id': `${BASE_URL}/digital-signage#product`,
+        name: 'Digital Signage Starter-Paket',
+        description: 'Professionelle Digital Signage Lösung ohne monatliche Abo-Kosten. Inkl. 1 Display, Mini-Server, Setup, Installation, Custom Designvorlage und Schulung. Schweizweite Installation.',
+        brand: {
+            '@type': 'Brand',
+            name: 'InfraOne IT Solutions'
+        },
+        category: 'Digital Signage',
+        image: `${BASE_URL}/images/digital-signage/products.png`,
+        offers: {
+            '@type': 'Offer',
+            price: '1590',
+            priceCurrency: 'CHF',
+            availability: 'https://schema.org/InStock',
+            priceValidUntil: '2026-12-31',
+            itemCondition: 'https://schema.org/NewCondition',
+            seller: {
+                '@type': 'Organization',
+                name: 'InfraOne IT Solutions GmbH'
+            },
+            areaServed: {
+                '@type': 'Country',
+                name: 'Switzerland'
+            }
+        },
+        aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.9',
+            reviewCount: '12',
+            bestRating: '5',
+            worstRating: '1'
+        }
+    };
+}
+
+/**
+ * Generiert Digital Signage Spoke Schema für regionale Seiten
+ * Für /digital-signage/winterthur, /digital-signage/zuerich, etc.
+ */
+export function generateDigitalSignageSpokeSchema(
+    regionSlug: string,
+    regionName: string,
+    hasPhysicalLocation: boolean = false
+) {
+    const geo = REGION_COORDINATES[regionSlug];
+
+    const baseSchema: any = {
+        '@context': 'https://schema.org',
+        '@type': hasPhysicalLocation ? 'LocalBusiness' : 'Service',
+        '@id': `${BASE_URL}/digital-signage/${regionSlug}#service`,
+        name: `Digital Signage ${regionName}`,
+        alternateName: [`Werbebildschirme ${regionName}`, `Infoscreen ${regionName}`],
+        description: `Professionelle Digital Signage Lösungen für ${regionName}. Werbebildschirme und Infoscreens ohne Abo-Kosten. Installation und Support vor Ort.`,
+        provider: { '@id': `${BASE_URL}/#organization` },
+        url: `${BASE_URL}/digital-signage/${regionSlug}`,
+        telephone: '+41522221818',
+        email: 'info@infraone.ch',
+        areaServed: {
+            '@type': 'AdministrativeArea',
+            name: regionName
+        },
+        isPartOf: { '@id': `${BASE_URL}/digital-signage#service` }
+    };
+
+    // Füge Geo-Koordinaten hinzu wenn vorhanden
+    if (geo && hasPhysicalLocation) {
+        baseSchema.geo = {
+            '@type': 'GeoCoordinates',
+            latitude: geo.latitude,
+            longitude: geo.longitude
+        };
+    }
+
+    return baseSchema;
+}
