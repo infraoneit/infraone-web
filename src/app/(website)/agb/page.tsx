@@ -4,6 +4,9 @@ import { AnimatedSection } from '@/components/ui/AnimatedSection';
 export const metadata: Metadata = {
     title: 'AGB | Allgemeine Geschäftsbedingungen',
     description: 'Allgemeine Geschäftsbedingungen der InfraOne IT Solutions GmbH.',
+    alternates: {
+        canonical: 'https://www.infraone.ch/agb',
+    },
 };
 
 export default function AGBPage() {

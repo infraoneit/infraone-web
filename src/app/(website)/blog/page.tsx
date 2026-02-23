@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { Calendar, User, ArrowRight, Clock, Tag } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { getAllBlogPosts } from '@/lib/blog';
-import { 
-    generateBlogSchema, 
+import {
+    generateBlogSchema,
     generateItemListSchema,
     generateBreadcrumbListSchema,
     generateWebPageSchema,
@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     title: 'Blog | IT-Wissen & Neuigkeiten',
     description: 'Aktuelle Artikel zu IT-Themen, Tipps für KMU und Neuigkeiten von InfraOne IT Solutions.',
     keywords: ['IT Blog', 'IT Wissen', 'IT Tipps KMU', 'InfraOne News'],
+    alternates: {
+        canonical: 'https://www.infraone.ch/blog',
+    },
 };
 
 export default async function BlogPage() {
@@ -23,20 +26,20 @@ export default async function BlogPage() {
 
     // 1. Blog Schema
     const blogSchema = generateBlogSchema();
-    
+
     // 2. ItemList Schema (alle Artikel)
     const articleTitles = sortedPosts.map(post => post.title);
     const itemListSchema = generateItemListSchema(
         articleTitles,
         'InfraOne IT Solutions Blog-Artikel'
     );
-    
+
     // 3. Breadcrumb Schema
     const breadcrumbSchema = generateBreadcrumbListSchema([
         { name: 'Home', url: BASE_URL },
         { name: 'Blog', url: `${BASE_URL}/blog` },
     ]);
-    
+
     // 4. WebPage Schema
     const webPageSchema = generateWebPageSchema(
         `${BASE_URL}/blog`,
@@ -51,25 +54,25 @@ export default async function BlogPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
             />
-            
+
             {/* 2. ItemList Schema (alle Artikel) */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
             />
-            
+
             {/* 3. Breadcrumb Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
-            
+
             {/* 4. WebPage Schema */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
             />
-            
+
             {/* Hero */}
             <section className="py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface">
                 <div className="container mx-auto px-4 text-center">
