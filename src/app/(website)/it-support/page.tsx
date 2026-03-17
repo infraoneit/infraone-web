@@ -77,9 +77,10 @@ export default async function ITSupportPage() {
         primaryButtonText: '052 222 18 18',
         primaryButtonHref: 'tel:+41522221818',
         secondaryButtonText: 'Remote-Support starten',
-        secondaryButtonAction: 'link' as const,
+        secondaryButtonAction: 'download' as const,
         secondaryButtonUrl: 'https://anydesk.com/de/downloads/thank-you?dv=win_exe',
-        secondaryButtonFile: undefined,
+        secondaryButtonFile: '/downloads/Fernwartung-Infraone.zip',
+        secondaryButtonFileName: 'Fernwartung-Infraone.zip',
     };
 
     const pricingSection = cmsData?.pricingSection ?? {
@@ -89,7 +90,7 @@ export default async function ITSupportPage() {
         priceCards: [
             { title: 'Telefon- & Remote-Support', description: 'Sofortige Problemlösung durch zertifizierte Techniker. 90% aller Probleme lösen wir innert Minuten.', price: 'CHF 130.–/h', billing: 'Mindestverrechnung: 15 Minuten', icon: 'phone' },
             { title: 'Vor-Ort-Support (Privatkunden)', description: 'Persönliche Betreuung vor Ort für Privatpersonen. Seriös, klar, effizient.', price: 'CHF 145.–/h', billing: 'Mindestverrechnung: 30 Minuten', icon: 'monitor' },
-            { title: 'Vor-Ort-Support (Firma / KMU)', description: 'Professionelle Betreuung für Unternehmen. SLA-Modelle verfügbar.', price: 'CHF 167.–/h', billing: 'Mindestverrechnung: 30 Minuten', icon: 'mappin' },
+            { title: 'Vor-Ort-Support (Firma / KMU)', description: 'Professionelle Betreuung für Unternehmen. SLA-Modelle verfügbar.', price: 'CHF 157.–/h', billing: 'Mindestverrechnung: 30 Minuten', icon: 'mappin' },
             { title: 'Schulungen / Workshops / Beratung', description: 'Individuelle Schulungen, Workshops und IT-Beratung für Ihr Team.', price: 'CHF 200.–/h', billing: 'Nach Aufwand', icon: 'users' },
         ],
         travelCosts: {

@@ -215,7 +215,7 @@ export function Footer() {
                     <div>
                         <h3 className="text-lg font-bold text-text-primary mb-4">Support</h3>
                         <a
-                            href="/downloads/heroSection/infraone-support-tool.zip"
+                            href="/downloads/Fernwartung-Infraone.zip"
                             download
                             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors text-sm font-medium mb-6"
                         >

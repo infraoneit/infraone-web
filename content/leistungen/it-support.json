@@ -9,8 +9,8 @@
     "secondaryButtonText": "Remote-Support starten",
     "secondaryButtonAction": "download",
     "secondaryButtonUrl": "https://anydesk.com/de/downloads/thank-you?dv=win_exe",
-    "secondaryButtonFile": "/downloads/heroSection/secondaryButtonFile.zip",
-    "secondaryButtonFileName": "infraone-remote-support"
+    "secondaryButtonFile": "/downloads/Fernwartung-Infraone.zip",
+    "secondaryButtonFileName": "Fernwartung-Infraone.zip"
   },
   "pricingSection": {
     "sectionTitle": "IT-Support Preise & Einsatzzeiten",
@@ -34,7 +34,7 @@
       {
         "title": "Vor-Ort-Support (Firma / KMU)",
         "description": "Professionelle Betreuung für Unternehmen. SLA-Modelle verfügbar.",
-        "price": "CHF 167.–/h",
+        "price": "CHF 157.–/h",
         "billing": "Mindestverrechnung: 30 Minuten",
         "icon": "mappin"
       },
