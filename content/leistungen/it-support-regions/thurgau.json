@@ -1,8 +1,8 @@
 {
   "slug": "thurgau",
   "name": "Thurgau",
-  "isFree": true,
-  "anfahrt": "Keine Anfahrtskosten",
+  "isFree": false,
+  "anfahrt": "CHF 50 Pauschal (bis 1 h ab Winterthur)",
   "headline": "IT-Support Thurgau",
   "subheadline": "Ihr IT-Partner am Bodensee",
   "description": "IT-Support Thurgau mit Standort in Tägerwilen. Persönlicher Service für Frauenfeld, Kreuzlingen, Weinfelden, Arbon. Spezialisiert auf Tourismus, Gastronomie & Landwirtschaft.",
@@ -10,7 +10,7 @@
   "regionalImage": "/images/regions/thurgau.png",
   "localBenefits": [
     "Büro in Tägerwilen",
-    "Keine Anfahrtskosten",
+    "Kurze Anfahrtswege",
     "Kennt lokale Betriebe",
     "Schnelle Reaktionszeit"
   ],
