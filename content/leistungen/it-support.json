@@ -99,7 +99,7 @@
         "name": "IT-Support Schaffhausen",
         "slug": "schaffhausen",
         "description": "Vor-Ort-Einsätze in der Region Schaffhausen. Anfahrt kostenlos.",
-        "isFree": true
+        "isFree": false
       },
       {
         "name": "IT-Support Thurgau",
