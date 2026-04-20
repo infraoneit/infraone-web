@@ -1,8 +1,8 @@
 {
   "slug": "andelfingen",
   "name": "Andelfingen",
-  "isFree": true,
-  "anfahrt": "Keine Anfahrtskosten",
+  "isFree": false,
+  "anfahrt": "CHF 50 Pauschal (bis 1 h ab Winterthur)",
   "headline": "IT-Support Andelfingen & Weinland",
   "subheadline": "Lokaler IT-Partner im Zürcher Weinland",
   "description": "IT-Support Andelfingen & Weinland mit Büro in Kleinandelfingen. Spezialisiert auf Landwirtschaft & Gewerbe. Keine Anfahrtskosten, persönlicher Service vor Ort.",
@@ -10,7 +10,7 @@
   "regionalImage": "/images/regions/andelfingen.png",
   "localBenefits": [
     "Büro im Weinland",
-    "Keine Anfahrtskosten",
+    "Kurze Anfahrtswege",
     "Versteht lokale Betriebe",
     "Schnelle Reaktionszeit"
   ],
