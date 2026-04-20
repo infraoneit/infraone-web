@@ -47,11 +47,11 @@
       }
     ],
     "travelCosts": {
-      "freeRegions": "Grossraum Winterthur & Andelfingen",
+      "freeRegions": "Grossraum Winterthur",
       "freeRegionsNote": "Keine Anfahrtskosten",
       "otherRegions": "Übrige Regionen",
-      "otherRegionsPrice": "CHF 2.00 / km",
-      "otherRegionsNote": "Pro gefahrenem Kilometer (Hin- und Rückweg kombiniert). Verrechnung ab Standort Winterthur."
+      "otherRegionsPrice": "CHF 50 Pauschal",
+      "otherRegionsNote": "Fahrzeit-Pauschale bis zu 1 Stunde ab Standort Winterthur (Hin- und Rückweg kombiniert)."
     },
     "supportHours": {
       "times": [
@@ -117,7 +117,7 @@
         "name": "IT-Support Andelfingen",
         "slug": "andelfingen",
         "description": "Standort Kleinandelfingen. Anfahrt kostenlos.",
-        "isFree": true
+        "isFree": false
       }
     ]
   },
