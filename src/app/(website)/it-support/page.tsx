@@ -133,7 +133,7 @@ export default async function ITSupportPage() {
         regions: [
             { name: 'IT-Support Winterthur', slug: 'winterthur', description: 'Hauptstandort. Vor Ort innert kurzer Zeit. Anfahrt kostenlos.', isFree: true },
             { name: 'IT-Support Zürich', slug: 'zuerich', description: 'Vor-Ort-Einsätze meist am selben Tag. Remote-Support jederzeit.', isFree: false },
-            { name: 'IT-Support Schaffhausen', slug: 'schaffhausen', description: 'Vor-Ort-Einsätze in der Region Schaffhausen. Anfahrt kostenlos.', isFree: true },
+            { name: 'IT-Support Schaffhausen', slug: 'schaffhausen', description: 'Vor-Ort-Einsätze in der Region Schaffhausen. Anfahrt kostenlos.', isFree: false },
             { name: 'IT-Support Thurgau', slug: 'thurgau', description: 'Betreuung für Industrie, Gewerbe und Verwaltungen im Thurgau.', isFree: false },
             { name: 'IT-Support St. Gallen', slug: 'st-gallen', description: 'Vor-Ort-Einsätze in der Ostschweiz meist am selben Tag.', isFree: false },
             { name: 'IT-Support Andelfingen', slug: 'andelfingen', description: 'Standort Kleinandelfingen. Anfahrt kostenlos.', isFree: true },
