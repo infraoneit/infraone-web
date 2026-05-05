@@ -2,15 +2,15 @@
   "slug": "aargau",
   "name": "Aargau",
   "headline": "Webdesign Aargau",
-  "subheadline": "Websites für den grössten Mittelland-Kanton",
-  "description": "Von Baden über Aarau bis Brugg: wir betreuen Aargauer KMU mit massgeschneiderten Websites, die ihre lokale Stärke überregional zeigen.",
-  "intro": "Der Kanton Aargau ist mit über 705'000 Einwohnern der drittbevölkerungsreichste Kanton der Schweiz und das wirtschaftliche Herz des Mittellandes. Seine zentrale Lage zwischen Zürich, Basel, Bern und Luzern macht ihn zu einem idealen Wirtschaftsstandort für Logistik, Industrie, Energie und Dienstleistungen. Hier finden sich grosse Player wie Axpo (Energie), Roche-Diagnostics in Rotkreuz, ABB in Baden, Hoffmann-La Roche in Sisseln, dazu Hunderte von Hidden Champions im Maschinenbau, Präzisionsmechanik und in der Cleantech-Branche. Viele Aargauer KMU exportieren ins Ausland und brauchen Websites, die diesem Anspruch gerecht werden. Daneben prägen lebendige Städte wie Baden mit seiner historischen Altstadt und Bäderquartier, Aarau mit der Argoviapassage und Neuem Stadtmuseum, Brugg mit seiner Vindonissa-Geschichte sowie kleinere Zentren wie Wettingen, Wohlen, Lenzburg, Zofingen und Rheinfelden den Kanton. Wir betreuen Unternehmen aus allen Aargauer Bezirken. Anfahrt aus Winterthur 30 bis 60 Minuten je nach Zielort. Remote-Zusammenarbeit funktioniert reibungslos, persönliche Treffen vereinbaren wir bei Bedarf.",
+  "subheadline": "Websites für Aargauer Industrie, Cleantech und KMU",
+  "description": "Eine Website, die im Aargau funktioniert: B2B-fokussiert, technisch sauber, mit dem Anspruch, den Industriebetriebe und Cleantech-Anbieter erwarten.",
+  "intro": "Aargauer Unternehmen sitzen im Schweizer Mittelland, oft als Hidden Champions in ihren Branchen. Ein Maschinenbauer in Brugg verkauft an europäische Konzerne, ein Cleantech-Anbieter in Aarau exportiert Solar-Komponenten, eine Klinik in Baden behandelt Patienten aus drei Kantonen. Diese Unternehmen brauchen Websites, die ihre lokale Stärke überregional zeigen, technisch tief sind und mehrsprachig funktionieren. Wir bauen genau das. B2B-Inhalte mit Datenblättern, Karriere-Portale für Talent-Akquise im umkämpften Markt zwischen Zürich, Basel und Bern, lokale SEO für Suchanfragen aus Baden, Aarau, Brugg, Wettingen und Zofingen. Anfahrt aus Winterthur ist je nach Zielort 30 bis 60 Minuten. Persönliche Termine vereinbaren wir bei Bedarf, Remote-Zusammenarbeit funktioniert für die meisten Mandate sehr gut. Online-Shop, KI-Integration für Chatbot oder Produktempfehlungen und klassisches Webdesign decken wir aus einer Hand ab.",
   "regionalImage": "/images/webdesign-hero.png",
   "localBenefits": [
-    "Zentrale Lage nutzen",
-    "KMU-Expertise",
-    "Kurze Wege",
-    "Flexible Betreuung"
+    "Erfahrung mit Industrie und Cleantech",
+    "B2B-Webdesign mit Datenblatt-Logik",
+    "Mehrsprachigkeit für Export-KMU",
+    "Lokale SEO Aargau-spezifisch"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Betreuen Sie auch die grösseren Städte wie Baden oder Aarau?",
-    "answer": "Ja, wir haben Kunden in Baden, Aarau, Brugg, Wettingen, Wohlen, Lenzburg, Zofingen und vielen weiteren Aargauer Gemeinden. Die Region kennen wir gut. Anfahrt aus Winterthur ist je nach Zielort 30 bis 60 Minuten. Bei dringenden Vor-Ort-Terminen sind wir oft am gleichen oder am nächsten Tag erreichbar. Bei regulären Treffen vereinbaren wir 1 bis 3 Tage im Voraus."
+    "question": "Betreuen Sie auch grössere Aargauer Städte wie Baden oder Aarau?",
+    "answer": "Ja, wir haben Kunden in Baden, Aarau, Brugg, Wettingen, Wohlen, Lenzburg, Zofingen, Schöftland und vielen weiteren Gemeinden. Anfahrt aus Winterthur ist je nach Zielort 30 bis 60 Minuten. Bei dringenden Vor-Ort-Terminen sind wir oft am gleichen oder am nächsten Tag erreichbar. Bei regulären Workshops vereinbaren wir 1 bis 3 Tage im Voraus."
   },
   "localIndustries": [
     {
-      "name": "Energie & Cleantech",
-      "description": "Der Aargau ist Energie-Kanton mit Axpo, Alpiq und vielen Energiedienstleistern. Plus Hunderte von Solarfirmen, Heizungstechnikern, Energiespeicher-Anbietern und Cleantech-Startups. Das Energy Valley rund um Brugg-Windisch wird zunehmend zum Innovations-Cluster.",
-      "websiteNeeds": "Technische Erklärungen für Endkunden, Referenzprojekte, Nachhaltigkeitsberichte, Förderprogramm-Hinweise, klare CTA für Beratungsanfragen"
+      "name": "Energie und Cleantech",
+      "description": "Im Aargau sind Axpo, Alpiq und viele Cleantech-Anbieter und Solarfirmen zuhause, oft mit europäischer Klientel. Ihre Websites müssen technische Inhalte verständlich für Endkunden vermitteln und gleichzeitig B2B-Einkäufer überzeugen.",
+      "websiteNeeds": "Technische Erklärungen für unterschiedliche Zielgruppen, Referenzprojekte mit Bildern, Förderprogramm-Hinweise, klare CTA für Beratungsanfragen, Investor-Bereich"
     },
     {
-      "name": "Logistik & Industrie",
-      "description": "Die zentrale Lage macht den Aargau zum Logistik-Hub. Speditionen, Lagerlogistiker und Distributionszentren grosser Marken sind in Wohlen, Baden, Brugg und Schöftland zuhause. Plus eine starke Maschinenbau- und Präzisionsindustrie.",
-      "websiteNeeds": "B2B-Kommunikation, Standortvorteile herausgestellt, Karriereseiten für Talent-Akquise, mehrsprachig DE/EN, Tracking-Integration für Logistik"
+      "name": "Industrie und Maschinenbau",
+      "description": "Aargauer Maschinenbauer und Anlagenbauer in Brugg, Wettingen, Schöftland exportieren oft nach Deutschland, Italien und Frankreich. Sie brauchen mehrsprachige B2B-Websites mit technischer Tiefe und Karriere-Bereich für Talente.",
+      "websiteNeeds": "B2B-Produktkataloge mit downloadbaren Datenblättern, Karriereseite mit offenen Stellen, mehrsprachig DE/EN/FR/IT, technischer Blog für Such-Sichtbarkeit"
     },
     {
-      "name": "Gesundheitswesen & Kliniken",
-      "description": "Das Kantonsspital Aarau, das Kantonsspital Baden, mehrere Reha-Kliniken (Rheinfelden, Bad Schinznach), Zahnkliniken und spezialisierte Gesundheitszentren prägen den Gesundheitssektor.",
-      "websiteNeeds": "Patienteninformationen verständlich, Online-Terminbuchung, Notfall-Infos prominent, Barrierefreiheit nach WCAG 2.1, Ärzte-Portraits"
+      "name": "Gesundheitswesen und Kliniken",
+      "description": "Kantonsspital Aarau, Kantonsspital Baden, mehrere Reha-Kliniken in Rheinfelden und Bad Schinznach plus spezialisierte Praxen brauchen Websites, die Patienten und Zuweiser gleichzeitig ansprechen.",
+      "websiteNeeds": "Patienteninformationen verständlich, Online-Terminbuchung, Notfall-Infos prominent, WCAG-Barrierefreiheit, Ärzte-Portraits mit Spezialisierung"
     },
     {
-      "name": "Handwerk & KMU",
-      "description": "Vom Schreiner in Baden über den Sanitärbetrieb in Aarau bis zum Elektriker in Wohlen: das Gewerbe prägt den Aargau. Familienbetriebe seit mehreren Generationen, oft mit klar definiertem Einzugsgebiet.",
-      "websiteNeeds": "Leistungsübersicht klar, Referenzbilder, Notfall-Hotline, Google Maps Integration, Fahrzeit-Angaben, lokale SEO für PLZ-Nähe"
+      "name": "Lokale KMU und Handwerk",
+      "description": "Vom Schreiner in Baden über den Sanitärbetrieb in Aarau bis zum Elektriker in Wohlen prägen Familienbetriebe das Aargauer Gewerbe. Sie suchen Sichtbarkeit für lokale Suchanfragen ohne Marketing-Aufwand.",
+      "websiteNeeds": "Klare Leistungsübersicht, Referenzbilder mit Standortangabe, Notfall-Hotline prominent, Google Maps Integration, lokale SEO für PLZ-Nähe und Stadtsuchen"
     }
   ],
   "additionalFaqs": [
+    {
+      "question": "Was kostet eine Website für ein Aargauer KMU oder Industriebetrieb?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein typisches Aargauer KMU mit 8 bis 15 Seiten und Karriereseite rechnen Sie mit CHF 2'490 bis CHF 4'990. Industrie-Websites mit mehrsprachigen Datenblättern und Investor-Bereich je nach Umfang CHF 4'990 plus. Hosting und Pflege ab CHF 10 pro Monat."
+    },
+    {
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, Websites mit bis zu 20 Seiten in 2 Wochen. Industrie-Websites mit mehrsprachigen Inhalten 6 bis 10 Wochen. Cleantech-Websites mit Förderprogramm-Hinweisen und Investor-Bereich 4 bis 8 Wochen. KI-Chatbot für technische Anfragen als Add-on möglich."
+    },
     {
       "question": "Haben Sie Erfahrung mit Energie- und Cleantech-Unternehmen?",
       "answer": "Ja, wir haben bereits Websites für Solarfirmen, Energiedienstleister und Cleantech-Startups entwickelt. Technische Inhalte verständlich zu vermitteln, Förderprogramme klar zu erklären und Investorenmaterialien sauber zu präsentieren ist unsere Stärke. Auf Wunsch zeigen wir Referenzprojekte aus diesem Bereich in einem persönlichen Gespräch."
     },
     {
-      "question": "Arbeiten Sie auch mit Industriebetrieben und produzierenden Unternehmen?",
-      "answer": "Absolut. B2B-Kommunikation, Produktkataloge mit technischen Daten, Karriereseiten für Talent-Akquise und Investorenmaterialien für Industrieunternehmen gehören zu unseren Kernkompetenzen. Bei sehr spezialisierten Branchen koordinieren wir mit Ihren Fachexperten direkt, um die technische Korrektheit der Inhalte sicherzustellen."
-    },
-    {
-      "question": "Wie lange brauchen Sie für eine Website mit 3 Sprachen?",
-      "answer": "Bei klar strukturierten Inhalten und vorhandener Übersetzung 4 bis 8 Wochen. Wenn die Übersetzung erst im Projekt entsteht, addieren Sie 2 bis 3 Wochen für den Übersetzungs-Workflow mit unseren Sprachpartnern. Wir sind transparent in der Aufwandsschätzung und liefern wöchentliche Status-Updates während des Projekts."
-    },
-    {
-      "question": "Können Sie auch grössere Konzernwebsites mit hunderten Seiten umsetzen?",
+      "question": "Können Sie auch grössere Konzern-Websites mit hunderten Seiten umsetzen?",
       "answer": "Ja, gerade Aargauer Industrie- und Energie-Unternehmen haben oft umfangreiche Websites mit 200+ Seiten. Wir setzen dafür auf Headless CMS (Keystatic, Sanity), bei dem Inhalte strukturiert und versioniert sind. Mehrere Editoren arbeiten parallel ohne Konflikte. Performance bleibt auch bei vielen Seiten optimal dank statischer Generierung."
     }
   ],
-  "whyChooseUs": "Der Aargau ist KMU-Land. Wir verstehen die Bedürfnisse mittelständischer Unternehmen perfekt und liefern Websites mit echtem Mehrwert. Plus: durch die Erfahrung mit Energie, Logistik, Industrie und Handwerk haben wir die wichtigsten Branchen-Sprachen drauf. Wir liefern in 4 bis 8 Wochen, halten Budgets ein und geben Ihnen ein CMS, mit dem Sie Inhalte selbst pflegen können.",
+  "whyChooseUs": "Der Aargau ist KMU-Land, mit starker Industrie und Cleantech-Szene. Wir verstehen B2B-Webdesign mit technischer Tiefe und mehrsprachigen Inhalten. Anders als generische Webagenturen liefern wir Industrie-fähige Websites, kennen die Förderprogramm-Logik und bringen 18 Aargauer Projekte als Erfahrungswert mit.",
   "metaTitle": "Webdesign Aargau | Websites ab CHF 990",
   "metaDescription": "Webdesign Aargau: Websites ab CHF 990. ☎ 052 222 18 18",
   "keywords": [

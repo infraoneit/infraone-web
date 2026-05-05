@@ -2,15 +2,15 @@
   "slug": "solothurn",
   "name": "Solothurn",
   "headline": "Webdesign Solothurn",
-  "subheadline": "Websites für die schönste Barockstadt",
-  "description": "Solothurn verbindet Geschichte mit Moderne. Ihre Website sollte das auch können: zeitlos elegant und dennoch technisch aktuell.",
-  "intro": "Der Kanton Solothurn liegt strategisch zwischen Bern, Basel und Zürich und profitiert von seiner zentralen Lage. Mit rund 280'000 Einwohnern bietet der Kanton einen aktiven KMU-Sektor mit Schwerpunkten in Uhrenindustrie, Präzisionsmechanik und Dienstleistungen. Die Stadt Solothurn wird als schönste Barockstadt der Schweiz bezeichnet und ist UNESCO-Welterbe-Kandidat. Daneben prägen Grenchen als wichtige Uhrenstadt mit weltbekannten Marken wie Breitling, ETA und Rado, Olten als Verkehrsknoten und Zentrum der Eisenbahnindustrie sowie traditionelle Industriestandorte wie Balsthal (Holzbau, Maschinenbau) und Niederbipp das Wirtschaftsbild. Wir betreuen Solothurner Kunden remote mit persönlichem Service. Anfahrt aus Winterthur ist je nach Zielort 1 Stunde 15 Minuten bis 1 Stunde 45 Minuten mit dem Auto, mit der Bahn oft schneller. Persönliche Termine bei Bedarf in Solothurn, Olten oder Grenchen, häufig kombiniert mit Workshops. Remote-Zusammenarbeit funktioniert dank Videocalls und Online-Tools sehr gut, viele Solothurner Kunden bevorzugen diesen Modus.",
+  "subheadline": "Websites für Solothurner Uhrenindustrie, Mechanik und KMU",
+  "description": "Eine Website, die zur Solothurner Mentalität passt: präzise wie ein Uhrwerk, ohne Marketing-Sprech, mit dem Anspruch, den Mechanik- und Industrie-Klientel erwartet.",
+  "intro": "Solothurner Unternehmen treffen einen besonderen Mix: Uhren- und Präzisionsindustrie in Grenchen mit Marken wie Breitling, ETA und Tissot, Eisenbahnindustrie in Olten, traditionelles Handwerk in Stadt und Region, plus Tourismus rund um die Solothurner Barockstadt. Eine Uhrenfirma in Grenchen verkauft an Distributeure in Asien und braucht eine Website mit Detailaufnahmen, Konfiguratoren und mehrsprachiger Kommunikation. Ein Solothurner Treuhänder will lokale KMU als Kunden und braucht klare Service-Positionierung. Ein Hotel in der Barockstadt zielt auf deutsche Wochenend-Gäste und Schweizer Tagestouristen. Wir bauen für alle drei. Mit Detailtreue im Design, mehrsprachiger SEO und sachlichem Schreibstil. Anfahrt aus Winterthur ist je nach Zielort 1 Stunde 15 bis 1 Stunde 45 Minuten. Mandate laufen meist remote, Workshops und Schlussabnahmen vereinbaren wir vor Ort. Online-Shop, KI-Integration und klassisches Webdesign decken wir aus einer Hand ab.",
   "regionalImage": "/images/webdesign-hero.png",
   "localBenefits": [
-    "Remote-Betreuung",
-    "Verständnis für Tradition",
-    "Moderne Technik",
-    "Persönlicher Service"
+    "Erfahrung mit Präzisionsmechanik-Sites",
+    "B2B-Konfiguratoren möglich",
+    "Mehrsprachigkeit DE/EN/FR/ZH",
+    "Sachliche Tonalität"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Wie funktioniert die Zusammenarbeit über die Distanz?",
-    "answer": "Wir arbeiten mit regelmässigen Videocalls und einem geteilten Projektboard (Trello, Jira oder Notion). Sie sind immer informiert und können jederzeit Feedback geben. Initialgespräch oft persönlich in Solothurn oder Olten, Umsetzungsphase remote, Schlussabnahme wieder vor Ort. Bei dringenden Anpassungen sind wir innert Stunden erreichbar. Alle paar Wochen vereinbaren wir oft einen persönlichen Workshop, um Fortschritt und Anpassungen abzustimmen."
+    "question": "Wie funktioniert die Zusammenarbeit mit Winterthur als Standort?",
+    "answer": "Mit klaren Tools und regelmässigen Updates. Initialgespräch oft persönlich in Solothurn, Olten oder Grenchen, Umsetzungsphase remote über Videocalls und Projektboards, Schlussabnahme wieder vor Ort. Anfahrt aus Winterthur 1 Stunde 15 bis 1 Stunde 45 Minuten je nach Zielort. Bei dringenden Fragen sind wir innert Stunden per Mail oder Videocall verfügbar."
   },
   "localIndustries": [
     {
-      "name": "Uhrenindustrie & Präzision",
-      "description": "Grenchen ist mit Breitling, ETA, Tissot und vielen Zulieferern eine der wichtigsten Uhrenstädte der Welt. Plus Hunderte von Präzisionsmechanik-Betrieben in der Region brauchen hochwertige digitale Präsenzen mit B2B-Tiefe.",
-      "websiteNeeds": "Premium-Bildpräsentation mit Detailaufnahmen, technische Datenblätter, B2B-Shop mit Konfigurator, mehrsprachig DE/EN/FR/ZH, Karriereseiten"
+      "name": "Uhrenindustrie und Präzisionsmechanik",
+      "description": "Grenchen ist mit Breitling, ETA, Tissot und vielen Zulieferern eine der wichtigsten Uhrenstädte der Welt. Plus Hunderte von Präzisionsmechanik-Betrieben in der Region. Diese Unternehmen brauchen hochwertige B2B-Websites mit Detailtreue.",
+      "websiteNeeds": "Premium-Bildpräsentation mit Detailaufnahmen, technische Datenblätter, B2B-Shop oder Konfigurator, mehrsprachig DE/EN/FR/ZH, Karriereseiten für Talente"
     },
     {
-      "name": "Gesundheit & Kliniken",
-      "description": "Bürgerspital Solothurn, Spital Olten, mehrere Reha-Kliniken und spezialisierte Praxen bilden den Gesundheitssektor. Daneben Zahnkliniken, Physiotherapie-Zentren und Spezialisten in Grenchen und Olten.",
+      "name": "Eisenbahnindustrie und Logistik",
+      "description": "Olten ist als Verkehrsknoten der Schweiz Zentrum der Eisenbahnindustrie. Stadler Rail, Bahn-Zulieferer und Logistik-Firmen sind hier zuhause. Sie brauchen B2B-fokussierte Websites mit technischer Tiefe.",
+      "websiteNeeds": "B2B-Service-Beschreibungen, Referenzprojekte mit Bildern, Karriereseiten, mehrsprachig DE/EN/IT, Investor-Bereich für börsennotierte Unternehmen"
+    },
+    {
+      "name": "Gesundheit und Kliniken",
+      "description": "Bürgerspital Solothurn, Spital Olten, mehrere Reha-Kliniken und spezialisierte Praxen bilden den Gesundheitssektor. Daneben Zahnkliniken und Physiotherapie-Zentren in Stadt, Olten und Grenchen.",
       "websiteNeeds": "Patienteninformationen verständlich, Online-Terminbuchung, Notfall-Infos prominent, Ärzte-Portraits, mehrsprachig DE/FR (Welschland-Nähe)"
     },
     {
-      "name": "Tourismus & Barockstadt",
-      "description": "Die Solothurner Altstadt mit der St.-Ursen-Kathedrale, der Krummenturm und das Schloss Waldegg ziehen jährlich Hunderttausende Besucher an. Hotels, Restaurants und Stadtführer brauchen attraktive digitale Auftritte.",
-      "websiteNeeds": "Veranstaltungskalender (z.B. Solothurner Filmtage), Online-Ticketing, Bildergalerien, mehrsprachig DE/EN/FR, mobile-first Design"
-    },
-    {
-      "name": "Gewerbe & Handwerk",
-      "description": "Schreiner, Elektriker, Sanitärbetriebe und Heizungsfachfirmen prägen das lokale Gewerbe in Stadt, Olten, Grenchen und Balsthal. Familienbetriebe seit mehreren Generationen, oft mit klar definiertem Einzugsgebiet.",
-      "websiteNeeds": "Leistungsübersicht klar strukturiert, Referenzbilder, Notdienst-Hotline, Kontaktformular, Google Maps Integration, lokale SEO"
+      "name": "Lokale KMU und Handwerk",
+      "description": "Schreiner, Elektriker, Sanitärbetriebe und Heizungsfachfirmen prägen das Solothurner Gewerbe. Familienbetriebe seit mehreren Generationen, oft mit klar definiertem Einzugsgebiet.",
+      "websiteNeeds": "Klare Leistungsübersicht, Referenzbilder, Notdienst-Hotline, Kontaktformular, Google Maps Integration, lokale SEO für PLZ-Suchen"
     }
   ],
   "additionalFaqs": [
     {
+      "question": "Was kostet eine Website für ein Solothurner KMU oder Uhrenbetrieb?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein typisches Solothurner KMU mit 8 bis 15 Seiten rechnen Sie mit CHF 2'490 bis CHF 4'990. Uhrenindustrie- oder Präzisionsmechanik-Websites mit B2B-Konfigurator und mehrsprachigen Inhalten je nach Umfang CHF 4'990 plus. Hosting und Pflege ab CHF 10 pro Monat."
+    },
+    {
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, Websites mit bis zu 20 Seiten in 2 Wochen. Uhrenindustrie- oder Mechanik-Websites mit B2B-Konfigurator und mehrsprachigen Inhalten 6 bis 10 Wochen. Eisenbahnindustrie-Websites mit Investor-Bereich 6 bis 12 Wochen. KI-Chatbot für technische Anfragen als Add-on möglich."
+    },
+    {
       "question": "Haben Sie Erfahrung mit Uhren- und Präzisionsmechanik-Unternehmen?",
-      "answer": "Ja, wir haben bereits Websites für technisch anspruchsvolle Branchen entwickelt, inklusive Uhren-bezogener Präzisionsmechanik. Produktkataloge mit Konfiguratoren, B2B-Shops und mehrsprachige Präsentationen für internationale Märkte gehören zu unseren Stärken. Bei sehr spezifischen Branchen-Begriffen koordinieren wir mit Ihren Fachexperten direkt, um die Korrektheit sicherzustellen."
+      "answer": "Ja, wir haben bereits Websites für technisch anspruchsvolle Branchen entwickelt, inklusive Uhren-bezogener Präzisionsmechanik. Produktkataloge mit Konfiguratoren, B2B-Shops und mehrsprachige Präsentationen für internationale Märkte gehören zu unseren Stärken. Bei sehr spezifischen Branchen-Begriffen koordinieren wir mit Ihren Fachexperten direkt."
     },
     {
-      "question": "Können Sie auch mehrsprachige Websites für internationale Kunden erstellen?",
-      "answer": "Selbstverständlich. Viele Solothurner Unternehmen exportieren international, vor allem die Uhren- und Präzisionsindustrie nach Asien und in die USA. Wir setzen auf Next.js mit i18n-Routing, sprechenden URLs pro Sprache, korrekten Hreflang-Tags und sprachspezifischer SEO-Optimierung. Für die Übersetzung arbeiten wir mit Schweizer Fach-Übersetzern zusammen."
-    },
-    {
-      "question": "Wie schnell können Sie ein Projekt umsetzen?",
-      "answer": "Eine Standard-Website mit 5 bis 8 Seiten ist in 3 bis 5 Wochen live. Komplexere Projekte mit B2B-Shop oder mehrsprachigen Inhalten benötigen 6 bis 10 Wochen. Wir kommunizieren wöchentlich Status-Updates und transparente Aufwandseinschätzungen. Bei dringenden Projekten (z.B. Marketing-Kampagne mit Stichtag) prüfen wir Express-Lieferungen mit klaren Bedingungen."
-    },
-    {
-      "question": "Können Sie auch B2B-Shop-Funktionen mit Konfiguratoren bauen?",
+      "question": "Können Sie B2B-Shop-Funktionen mit Konfiguratoren bauen?",
       "answer": "Ja, gerade in der Präzisionsmechanik und Uhrenbranche sind Konfiguratoren oft entscheidend. Wir setzen je nach Komplexität auf bestehende Lösungen wie Shopify Plus mit Konfigurator-App oder bauen individuelle Lösungen auf Next.js-Basis. Integration mit ERP-Systemen wie SAP oder Abacus ist möglich, koordiniert mit Ihren IT-Verantwortlichen."
     }
   ],
-  "whyChooseUs": "Solothurn verbindet Tradition mit Innovation. Genau diese Balance finden wir auch in unseren Websites: zeitlos elegant und technisch auf der Höhe der Zeit. Mit Erfahrung in der Uhren- und Präzisionsbranche, mehrsprachigen Projekten und schnellen Reaktionszeiten sind wir ein passender Partner für Solothurner KMU. Plus: faire Preise und persönlicher Kontakt.",
+  "whyChooseUs": "Solothurn verbindet Tradition mit Präzision, und genau das liefern wir auch in unseren Websites: detailliert, technisch sauber, mit dem Auge fürs Wesentliche. Mit Erfahrung in der Uhren- und Präzisionsbranche, mehrsprachigen B2B-Projekten und schneller Reaktion sind wir ein passender Partner für Solothurner KMU.",
   "metaTitle": "Webdesign Solothurn | Websites ab CHF 990",
   "metaDescription": "Webdesign Solothurn: Websites ab CHF 990. ☎ 052 222 18 18",
   "keywords": [

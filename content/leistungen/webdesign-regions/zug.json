@@ -2,15 +2,15 @@
   "slug": "zug",
   "name": "Zug",
   "headline": "Webdesign Zug",
-  "subheadline": "Premium-Websites für den Crypto-Valley-Kanton",
-  "description": "Zug ist bekannt für Innovation und internationale Unternehmen. Hier muss Ihre Website weltklasse sein: schnell, modern und makellos.",
-  "intro": "Der Kanton Zug hat sich mit nur 130'000 Einwohnern als einer der innovativsten und wohlhabendsten Wirtschaftsstandorte der Welt etabliert. Niedrige Steuern, eine extrem unternehmensfreundliche Verwaltung und der Status als Heimat des Crypto Valley machen Zug zu einem internationalen Hotspot. Über 30'000 Firmen haben hier ihren Sitz, von kleinen Family Offices über Blockchain-Startups bis zu globalen Rohstoffhändlern wie Glencore. Allein im Crypto-Sektor existieren über 1'200 Unternehmen, von DeFi-Protokollen bis zu Krypto-Banken wie Sygnum oder SEBA. Daneben sind in Zug auch klassische Branchen stark: Pharma (Roche-Diagnostics), Industrie, Finanzdienstleistungen und Konzernsitze internationaler Tech-Unternehmen wie Siemens, Bosch und Johnson & Johnson. Diese Vielfalt verlangt Websites, die den höchsten Standards entsprechen, technisch wie ästhetisch. Wir betreuen Zuger Kunden remote mit Premium-Anspruch und bringen die nötige technische Tiefe mit, von Web3-Integration bis hin zu Lighthouse-100-Performance. Anfahrt aus Winterthur dauert 1 Stunde mit dem Zug oder Auto.",
+  "subheadline": "Websites für Zuger Konzerne, FinTech und Crypto Valley",
+  "description": "Eine Website, die in Zug Weltklasse trifft: technisch makellos, international, mit dem Anspruch, den Konzern-Niederlassungen und Crypto-Startups erwarten.",
+  "intro": "Zuger Unternehmen agieren in einem der internationalsten und technologisch anspruchsvollsten Märkte der Schweiz. Eine Schweizer Niederlassung eines globalen Tech-Konzerns muss eine Website bieten, die zu der Konzern-Marke passt, gleichzeitig lokal optimiert ist. Ein Crypto-Startup im Crypto Valley will Investoren, Entwickler und Pilotkunden in mehreren Sprachen ansprechen, mit Wallet-Integration und technischem Whitepaper. Ein Family Office braucht eine extrem zurückhaltende, sichere Web-Präsenz, die kaum als Werbung wirkt. Wir bauen für alle drei. Mit Lighthouse-Scores über 95 als Standard, Web3-Integration im Repertoire (WalletConnect, Smart-Contract-Aufrufe, Token-Display) und Premium-Designsprache ohne Marketing-Aufdringlichkeit. Anfahrt aus Winterthur dauert 1 Stunde mit Auto oder Zug. Mandate laufen meist remote über Videocalls und geteilte Boards, persönliche Workshops vereinbaren wir bei Bedarf. Online-Shop, KI-Integration und klassisches Webdesign decken wir aus einer Hand ab.",
   "regionalImage": "/images/webdesign-hero.png",
   "localBenefits": [
-    "Premium-Qualität",
-    "Internationale Standards",
-    "Tech-Expertise",
-    "Höchste Performance"
+    "Web3- und Wallet-Integration",
+    "Lighthouse-Score 95+ Standard",
+    "Mehrsprachig DE/EN/RU/ZH",
+    "Premium-Design ohne Aufdringlichkeit"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Haben Sie Erfahrung mit Tech-Startups und Blockchain-Unternehmen?",
-    "answer": "Ja, wir haben bereits Websites für FinTech- und Blockchain-Unternehmen entwickelt. Moderne Technologie wie Next.js, Headless CMS, schnelle Bereitstellung über Vercel oder Netlify und erstklassiges Design sind unsere Stärke. Bei Web3-Integration (Wallet-Connect, Smart-Contract-Aufrufe, Token-Display) bringen wir Erfahrung mit. Auf Wunsch zeigen wir Referenzprojekte unter NDA in einem persönlichen Gespräch."
+    "question": "Verstehen Sie die technischen Anforderungen von Zuger Crypto-Startups?",
+    "answer": "Ja, wir haben bereits mehrere Crypto- und Blockchain-Websites entwickelt. Web3-Integration über WalletConnect oder Web3Modal, Smart-Contract-Aufrufe direkt aus der Website, Token-Balance-Anzeigen, Transaktions-Tracker und Whitepaper-Visualisierungen gehören zu unserem Portfolio. Bei DeFi-Protokollen arbeiten wir oft eng mit den Smart-Contract-Entwicklern zusammen. Auf Wunsch zeigen wir Referenzprojekte unter NDA in einem persönlichen Gespräch."
   },
   "localIndustries": [
     {
-      "name": "Blockchain & Crypto",
-      "description": "Das Crypto Valley Zug ist weltbekannt mit über 1'200 Blockchain-Unternehmen. Stiftungen, DeFi-Protokolle, Krypto-Banken und Web3-Startups haben hier ihren Sitz. Diese Firmen brauchen technisch anspruchsvolle Websites mit Web3-Integration.",
-      "websiteNeeds": "Technisches Whitepaper-Bereich, Token-Präsentation mit Live-Daten, Roadmap-Visualisierungen, Web3-Wallet-Integration, mehrsprachig DE/EN/ZH"
+      "name": "Blockchain und Crypto",
+      "description": "Im Crypto Valley Zug arbeiten über 1'200 Blockchain-Unternehmen, Stiftungen, DeFi-Protokolle und Krypto-Banken wie Sygnum oder SEBA. Diese Firmen brauchen Websites mit Web3-Funktionalität, Whitepaper-Bereichen und mehrsprachiger Präsentation für internationale Communities.",
+      "websiteNeeds": "Whitepaper-Bereich technisch fundiert, Token-Präsentation mit Live-Daten, Roadmap-Visualisierungen, Web3-Wallet-Integration, mehrsprachig DE/EN/ZH/RU"
     },
     {
-      "name": "Finanzdienstleistungen",
-      "description": "Niedrige Steuern und eine effiziente Verwaltung ziehen internationale Finanzunternehmen, Family Offices und Vermögensverwalter nach Zug. Diese Anbieter müssen Vertrauen und Diskretion vermitteln.",
-      "websiteNeeds": "Premium-Design mit Klassik-Anmutung, FINMA-Compliance, mehrsprachig DE/EN/RU/ZH, sichere Kontaktformulare, Datenschutz nach FATF-Standards"
+      "name": "Tech-Konzerne und internationale Niederlassungen",
+      "description": "Internationale Tech-Unternehmen wie Siemens, Bosch, Johnson & Johnson, Roche und viele mehr haben in Zug ihren Schweizer oder europäischen Sitz. Diese Niederlassungen brauchen länderspezifische Websites, die mit der globalen Marke kompatibel sind.",
+      "websiteNeeds": "Corporate Design konsistent mit globaler Marke, Investor Relations-Bereich, Karriereseiten für Schweizer Talente, mehrsprachig, Veranstaltungs-Kalender"
     },
     {
-      "name": "Unternehmensberatung",
+      "name": "Family Offices und Vermögensverwaltung",
+      "description": "Niedrige Steuern und unternehmensfreundliche Verwaltung ziehen Family Offices und Vermögensverwalter nach Zug. Ihre Websites müssen Vertrauen und Diskretion vermitteln, ohne wie Werbung zu wirken. Sehr zurückhaltend, mit klarer Compliance.",
+      "websiteNeeds": "Premium-Design mit Klassik-Anmutung, FINMA- und FATF-Compliance, mehrsprachig DE/EN, sichere Kontaktformulare ohne Daten-Tracking, Datenschutz-Premium"
+    },
+    {
+      "name": "Beratung und Wirtschaftsprüfung",
       "description": "Steuerberater, Wirtschaftsprüfer, Treuhänder und Consultants sind in Zug stark vertreten, oft mit internationaler Klientel. Sie konkurrieren um die gleichen Kunden wie Zürcher Wettbewerber.",
-      "websiteNeeds": "Professionelle Positionierung, Service-Portfolio, Kundenstimmen oder Case Studies (anonymisiert), Blog für Thought Leadership, mehrsprachig"
-    },
-    {
-      "name": "Tech-Konzerne & Innovation",
-      "description": "Internationale Tech-Unternehmen wie Siemens, Bosch, Johnson & Johnson, Roche und viele mehr haben in Zug ihren Schweizer oder europäischen Sitz. Diese Niederlassungen brauchen länderspezifische Websites mit lokaler Optimierung.",
-      "websiteNeeds": "Corporate Design konsistent mit globaler Marke, Investor Relations, Karriereseiten für Schweizer Talente, mehrsprachig, Veranstaltungs-Kalender"
+      "websiteNeeds": "Professionelle Positionierung, Service-Portfolio, Kundenstimmen oder anonymisierte Case Studies, Blog für Thought Leadership, mehrsprachig"
     }
   ],
   "additionalFaqs": [
     {
-      "question": "Verstehen Sie die technischen Anforderungen von Blockchain-Unternehmen?",
-      "answer": "Ja, wir haben bereits mehrere Crypto- und Blockchain-Websites entwickelt. Web3-Integration (Wallet-Connect via WalletConnect oder Web3Modal), Smart-Contract-Aufrufe direkt aus der Website, Token-Balance-Anzeigen, Transaktions-Tracker, Whitepaper- und Roadmap-Visualisierungen gehören zu unserem Portfolio. Bei DeFi-Protokollen arbeiten wir oft eng mit den Smart-Contract-Entwicklern zusammen."
+      "question": "Was kostet eine Website für ein Zuger Konzern oder Startup?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein typisches Zuger Tech-Startup mit Whitepaper-Bereich und Web3-Integration rechnen Sie mit CHF 4'990 bis CHF 15'000. Internationale Konzern-Niederlassungs-Websites mit Corporate-Design-Konsistenz und mehrsprachigen Inhalten je nach Umfang CHF 7'500 plus. Hosting und Pflege ab CHF 10 pro Monat."
     },
     {
-      "question": "Können Sie Websites für internationale Konzerne mit höchsten Ansprüchen entwickeln?",
-      "answer": "Absolut. Wir arbeiten mit modernster Technologie wie Next.js, TypeScript, Headless CMS und liefern Enterprise-Grade-Qualität. Lighthouse-Scores über 95 sind Standard. Bei sehr grossen Projekten mit Hunderten von Seiten setzen wir auf strukturierte CMS-Architekturen mit Editoren-Workflows. Pricing ist transparent und wird auf Anfrage individuell kalkuliert."
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, Websites mit bis zu 20 Seiten in 2 Wochen. Crypto- und Blockchain-Websites mit Whitepaper, Roadmap und Web3-Integration 4 bis 8 Wochen. Konzern-Niederlassungs-Websites 6 bis 12 Wochen, je nach Corporate-Design-Vorgaben. KI-Integration als Add-on möglich."
+    },
+    {
+      "question": "Können Sie Websites für internationale Konzerne mit höchsten Ansprüchen umsetzen?",
+      "answer": "Absolut. Wir arbeiten mit modernster Technologie wie Next.js, TypeScript und Headless CMS und liefern Enterprise-Grade-Qualität. Lighthouse-Scores über 95 sind Standard. Bei sehr grossen Projekten mit Hunderten von Seiten setzen wir auf strukturierte CMS-Architekturen mit Editoren-Workflows. Pricing ist transparent und wird auf Anfrage individuell kalkuliert."
     },
     {
       "question": "Können Sie Websites mit höchsten Sicherheits- und Datenschutz-Anforderungen umsetzen?",
-      "answer": "Ja. Wir bauen Websites, die Schweizer DSG, EU-DSGVO und teilweise auch FINMA-Anforderungen erfüllen. Hosting in Schweizer Rechenzentren, Verschlüsselung aller Verbindungen, sichere Cookie-Banner, Datenschutzerklärung präzise formuliert. Bei sehr sensiblen Anwendungen (Family Office, Compliance-Portale) erweitern wir um zusätzliche Massnahmen wie 2FA und Rechte-Management."
-    },
-    {
-      "question": "Können Sie auf Englisch oder Mandarin liefern?",
-      "answer": "Ja, viele unserer Zuger Kunden haben internationale Stakeholder. Englisch als Hauptsprache ist Standard. Mandarin und Russisch sind möglich, wir arbeiten mit Übersetzungspartnern in der Region zusammen. Hreflang-Tags und sprachspezifische SEO sorgen für korrekte Suchergebnis-Zuweisung in den jeweiligen Märkten."
+      "answer": "Ja. Wir bauen Websites, die Schweizer DSG, EU-DSGVO und teilweise auch FINMA-Anforderungen erfüllen. Hosting in Schweizer Rechenzentren, Verschlüsselung aller Verbindungen, sichere Cookie-Banner, Datenschutzerklärung präzise formuliert. Bei sehr sensiblen Anwendungen wie Family-Office-Portalen erweitern wir um zusätzliche Massnahmen wie 2FA und Rechte-Management."
     }
   ],
-  "whyChooseUs": "Zug steht für Innovation und Exzellenz. Genau das liefern wir: Websites auf Weltklasse-Niveau, die Ihre Marke perfekt repräsentieren. Mit Erfahrung in Web3, Blockchain, FinTech und Konzernsitzen sind wir technisch tief genug, um anspruchsvolle Projekte umzusetzen. Plus: faire Preise verglichen mit Zürcher oder internationalen Premium-Agenturen, ohne Qualitätsabstriche.",
+  "whyChooseUs": "Zug verlangt Weltklasse, ohne Schweizer Premium-Aufschläge. Mit Erfahrung in Web3, Blockchain, FinTech und Konzernsitzen sind wir technisch tief genug für anspruchsvolle Projekte. Anders als internationale Premium-Agenturen liefern wir mit Schweizer Hosting, fairer Preisgestaltung und persönlichem Kontakt.",
   "metaTitle": "Webdesign Zug | Websites ab CHF 990",
   "metaDescription": "Webdesign Zug: Premium-Websites mit Headless CMS. ☎ 052 222 18 18",
   "keywords": [

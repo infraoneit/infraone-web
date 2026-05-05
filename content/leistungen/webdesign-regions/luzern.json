@@ -2,15 +2,15 @@
   "slug": "luzern",
   "name": "Luzern",
   "headline": "Webdesign Luzern",
-  "subheadline": "Websites für die Zentralschweiz",
-  "description": "Am Vierwaldstättersee trifft Tradition auf Innovation. Wir entwickeln Websites, die beides vereinen: zeitlose Eleganz mit modernster Technik.",
-  "intro": "Luzern ist nicht nur eines der schönsten Reiseziele der Schweiz, sondern auch ein wichtiger Wirtschaftsstandort in der Zentralschweiz mit rund 83'000 Einwohnern in der Stadt und über 415'000 im Kanton. Geprägt ist die Region vom Tourismus rund um den Vierwaldstättersee, der Kapellbrücke, dem Löwendenkmal und dem Pilatus, von einer starken Hotellerie- und Gastronomie-Branche, vom Kultursektor mit dem KKL und den Luzerner Festspielen, von einem aktiven KMU-Sektor und von Pharma- und Medizintechnik-Unternehmen wie Galenica. Mit den nahen Tourismusstandorten Engelberg, Weggis, Vitznau und Brunnen ist die Region ganzjährig auf Gäste eingerichtet. Wir betreuen Luzerner Unternehmen remote und verstehen die besonderen Anforderungen der Tourismusbranche, von schnellen Ladezeiten für internationale Gäste auf Mobile-Geräten bis hin zur Buchungs-Integration mit gängigen Hotel-PMS-Systemen. Anfahrt aus Winterthur dauert mit dem Zug etwa 1 Stunde 30 Minuten oder 1 Stunde mit dem Auto. Persönliche Termine vereinbaren wir gerne in Luzern oder bei Workshops in unserem Winterthurer Büro.",
+  "subheadline": "Websites für Luzerner Hotels, Tourismus und KMU",
+  "description": "Eine Website, die in Luzern auf Anhieb gewinnt: schnell auch im Hotel-WLAN, mehrsprachig für internationale Gäste, mit Buchungs-Integration die wirklich konvertiert.",
+  "intro": "Luzerner Unternehmen leben oft vom Tourismus, und der hat seine eigenen Anforderungen ans Webdesign. Ein 4-Sterne-Hotel an der Seepromenade muss in den ersten 5 Sekunden aufzeigen: was kostet ein Zimmer mit Seeblick, wie buche ich, wie komme ich hin. Eine Schifffahrtgesellschaft am Vierwaldstättersee braucht dynamische Fahrpläne, Wetterintegration und Online-Tickets, die auch funktionieren wenn 100 Leute gleichzeitig bei Schönwetter buchen. Eine Wellness-Klinik in Bürgenstock will Kurorte und Behandlungen klar darstellen, mit Online-Buchung für deutsche Kurgäste. Wir bauen Websites genau für diese Anwendungsfälle. Schnelle Mobile-Performance ist Standard, Buchungs-Integration mit Booking.com, SiteMinder oder eigenen PMS-Systemen routinemässig, mehrsprachige SEO für deutsche, englische und asiatische Besucher inklusive. Anfahrt aus Winterthur 1 Stunde 30 Minuten mit dem Zug oder 1 Stunde mit dem Auto. Mandate laufen meist remote, Workshops und Eröffnungs-Termine vereinbaren wir vor Ort.",
   "regionalImage": "/images/webdesign-hero.png",
   "localBenefits": [
-    "Tourismus-Expertise",
-    "Remote-Betreuung",
-    "Schnelle Websites",
-    "Mehrsprachig möglich"
+    "Buchungssystem-Integration Standard",
+    "Mehrsprachig DE/EN/FR/IT/JP/ZH",
+    "Schnelle Mobile-Performance",
+    "Tourismus-Erfahrung"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Verstehen Sie die Bedürfnisse der Tourismusbranche?",
-    "answer": "Absolut. Wir haben Erfahrung mit Hotel-Websites, Buchungssystemen und mehrsprachigen Tourismusportalen. Schnelle Ladezeiten für mobile Gäste sind Standard, ebenso wie Integration mit Booking.com, Channel-Managern und PMS-Systemen wie protel oder Mews. Wir verstehen den saisonalen Rhythmus, die unterschiedlichen Zielgruppen (Schweizer Wochenend-Gäste, internationale Touristen, Geschäftsreisende) und die Notwendigkeit klarer USPs."
+    "question": "Können Sie Buchungssysteme für Luzerner Hotels integrieren?",
+    "answer": "Ja, wir integrieren gängige Buchungs-Systeme wie Booking.com, Channel-Manager wie SiteMinder oder Cultuzz und PMS-Systeme wie protel, Mews oder Apaleo via API. Bei kleineren Häusern bauen wir individuelle Anfrage-Lösungen ohne Lock-in. Bei B2B-Konferenzhotels berücksichtigen wir Anfrage-zu-Angebot-Workflows mit individueller Preisgestaltung. Initialgespräch klärt, welches Setup zu Ihrem Haus passt."
   },
   "localIndustries": [
     {
-      "name": "Hotellerie & Luxus-Tourismus",
-      "description": "Luzern ist eines der Top-Reiseziele der Schweiz. 5-Sterne-Häuser wie das Bürgenstock Resort, Park Hotel Vitznau oder das Mandarin Oriental Palace setzen Massstäbe. Aber auch viele 3- und 4-Sterne-Häuser plus Familienhotels brauchen erstklassige Websites.",
-      "websiteNeeds": "Premium-Design, Buchungssysteme, 360-Grad-Touren, Mehrsprachigkeit (DE/EN/FR/IT/ZH/JP), schnelle Ladezeiten, Concierge-Anfragen"
+      "name": "Hotellerie und Resorts",
+      "description": "Luzerner Hotels von 3-Sterne-Familienhäusern bis zu 5-Sterne-Resorts wie Bürgenstock oder Park Hotel Vitznau brauchen Websites, die internationale Gäste in mehreren Sprachen ansprechen. Schnelle Buchung, klare Preise und visuelle Eindrücke entscheiden über die Kundenkonversion.",
+      "websiteNeeds": "Buchungssystem-Integration mit komplexer Preisstruktur, 360-Grad-Touren, Wellness-Buchung als Add-on, mehrsprachig DE/EN/FR/IT/RU/ZH/JP, schnelle Mobile-Performance"
     },
     {
-      "name": "Ausflugsschifffahrt & Wassersport",
-      "description": "Die Vierwaldstättersee-Schifffahrt mit historischen Schaufelraddampfern, Segelschulen, Bootsvermietungen und Wassersport-Anbieter prägen die Region. Saisonale Spitzen verlangen Online-Ticketing.",
-      "websiteNeeds": "Online-Ticketing, dynamische Fahrpläne, Wetterdaten-Integration, mobile-first für Spontan-Besucher, Souvenir-Shop, mehrsprachig"
+      "name": "Schifffahrt und Bergbahnen",
+      "description": "Die Vierwaldstättersee-Schifffahrt mit historischen Schaufelraddampfern, plus Bergbahnen wie Pilatus, Rigi und Stanserhorn brauchen Websites mit dynamischen Fahrplänen, Wetterintegration und Online-Ticketing für saisonale Spitzen.",
+      "websiteNeeds": "Online-Ticketing mit Saisonpreisen, dynamische Fahrpläne und Wetterdaten, Live-Webcams und Pistenstatus, mobile-first für Spontan-Besucher, Souvenir-Shop"
     },
     {
-      "name": "Kultur & Event-Locations",
-      "description": "Das KKL Luzern, die Luzerner Festspiele, das Verkehrshaus, das Kunstmuseum und viele kleinere Veranstaltungsorte machen Luzern zu einem kulturellen Hotspot. Diese Akteure brauchen professionelle digitale Auftritte mit Ticket-Funktionen.",
-      "websiteNeeds": "Veranstaltungskalender mit Wiederholungen, Ticketshop-Integration (z.B. Ticketmaster, Starticket), Saalplanung, Newsletter, Pressebereich"
+      "name": "Kultur und Event-Locations",
+      "description": "KKL Luzern, Luzerner Festspiele, Verkehrshaus, Kunstmuseum und kleinere Veranstaltungsorte brauchen Websites für Programm, Tickets und Pressearbeit. Saisonale Spitzen rund um Festspiele und Sommerprogramm verlangen robuste Performance.",
+      "websiteNeeds": "Veranstaltungskalender mit Wiederholungen, Ticketshop-Integration (Starticket, Ticketmaster), Saalplanung visuell, Newsletter, Pressebereich"
     },
     {
-      "name": "Gesundheit & Wellness",
-      "description": "Kurkliniken am Vierwaldstättersee, Wellnesshotels in Bürgenstock und Weggis, Gesundheitszentren in der Stadt und Reha-Einrichtungen prägen den Gesundheitstourismus der Region.",
-      "websiteNeeds": "Online-Buchung für Behandlungen, Behandlungsangebot strukturiert, Ärzte-Portraits, Vertrauensaufbau über Bewertungen, mehrsprachig DE/EN"
+      "name": "Wellness und Kurkliniken",
+      "description": "Kurkliniken an Vierwaldstättersee und in Engelberg, Wellnesshotels in Bürgenstock und Weggis, Reha-Einrichtungen und Gesundheitszentren bilden den Gesundheits-Tourismus. Internationale Patienten suchen klare Behandlungs-Beschreibungen.",
+      "websiteNeeds": "Online-Buchung für Behandlungen, Behandlungsangebot strukturiert, Ärzte-Portraits, Vertrauensaufbau über Bewertungen, mehrsprachig DE/EN/RU/AR"
     }
   ],
   "additionalFaqs": [
     {
-      "question": "Können Sie Buchungssysteme für Hotels integrieren?",
-      "answer": "Ja, wir integrieren führende Buchungssysteme wie Booking.com, Channel-Manager wie SiteMinder oder Cultuzz, oder erstellen individuelle Buchungslösungen für kleinere Häuser. Bei mittleren Hotels integrieren wir komplette PMS-Systeme wie protel oder Mews via API. Bei B2B-Konferenzhotels berücksichtigen wir auch die Anfrage-zu-Angebot-Workflows mit individueller Preisgestaltung."
+      "question": "Was kostet eine Website für ein Luzerner Hotel oder eine Schifffahrtsgesellschaft?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein typisches Hotel mit Buchungs-Integration, Bildergalerie und 3 Sprachen rechnen Sie mit CHF 2'490 bis CHF 4'990. Schifffahrt- oder Bergbahn-Sites mit dynamischen Fahrplänen und Online-Ticketing je nach Umfang CHF 4'990 plus. Hosting und Pflege ab CHF 10 pro Monat."
     },
     {
-      "question": "Wie gehen Sie mit mehrsprachigen Inhalten für internationale Gäste um?",
-      "answer": "Wir setzen auf Next.js mit i18n-Unterstützung. Jede Sprache wird separat für SEO optimiert, die Umschaltung ist intuitiv und respektiert URL-Strukturen. Für Luzerner Hotels mit asiatischer Kundschaft können wir auch Chinesisch und Japanisch integrieren, wenn die Bilder und Texte vorhanden sind. Hreflang-Tags sorgen dafür, dass Google den richtigen Content der richtigen Region zuweist."
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, Websites mit bis zu 20 Seiten in 2 Wochen. Hotel-Websites mit Buchungs-Integration 4 bis 8 Wochen je nach gewähltem Buchungs-Anbieter. Tourismus-Websites mit dynamischen Daten (Fahrpläne, Wetter, Webcams) 6 bis 10 Wochen. KI-Chatbot für mehrsprachige Hotel-Anfragen als Add-on möglich."
     },
     {
-      "question": "Können Sie auch Saisonalität in der Website abbilden?",
-      "answer": "Ja, viele Luzerner Tourismusbetriebe haben starke Saisonen. Wir bauen das ein mit zeitgesteuerten Banner-Anzeigen (z.B. Sommer-Aktion ab Mai, Festspiel-Hinweis ab Juli), Auto-Update von Saisonpreisen, dynamischen Buchungs-Kalendern, die Saison-Muster abbilden, und Newsletter-Workflows mit saisonalen Themen."
+      "question": "Wie gehen Sie mit Saisonalität in der Website um?",
+      "answer": "Viele Luzerner Tourismusbetriebe haben starke Saisonen. Wir bauen das ein mit zeitgesteuerten Banner-Anzeigen (z.B. Sommer-Aktion ab Mai, Festspiel-Hinweis ab Juli), Auto-Update von Saisonpreisen, dynamischen Buchungs-Kalendern, die Saison-Muster abbilden, und Newsletter-Workflows mit saisonalen Themen."
     },
     {
-      "question": "Wie schnell können Sie auf dringende Änderungen reagieren?",
-      "answer": "Bei Luzerner Tourismus-Kunden ist Reaktionsschnelligkeit wichtig, etwa wenn ein Programm-Update für die Festspiele oder eine Wetter-bedingte Schifffahrt-Änderung nötig ist. Mit Keystatic CMS können Sie viele Änderungen selbst direkt im Browser durchführen, oft innert Minuten. Bei grösseren Anpassungen sind wir innert 4 bis 24 Stunden erreichbar, ggf. auch am Wochenende mit Aufschlag."
+      "question": "Wie ranke ich für 'Hotel Luzern' oder 'Wellness Vierwaldstättersee'?",
+      "answer": "Drei Hebel zählen. Technische Sauberkeit (schnelle Ladezeit, mobil, sauberes Markup) bauen wir ein. Lokale Signale (Google Business Profile mit aktiver Pflege, Eintrag bei Tourismus-Portalen wie Luzern Tourismus, Bewertungssammlung auf TripAdvisor und Google) sind Pflicht. Bei kompetitiven Tourismus-Keywords helfen Backlinks von Reise-Magazinen, Hotelportalen und Booking.com mit gepflegtem Listing."
     }
   ],
-  "whyChooseUs": "Luzern steht für Qualität und Gastfreundschaft. Genau diese Werte transportieren wir auch in Ihre Website: professionell, einladend und mit Liebe zum Detail. Mit Erfahrung in der Tourismusbranche, mehrsprachigen Projekten und schnellen Reaktionszeiten sind wir ein zuverlässiger Partner für Luzerner Hotels, Kultur-Akteure und KMU. Wir kennen die Anforderungen der internationalen Gäste-Klientel und liefern entsprechend.",
+  "whyChooseUs": "Luzern lebt vom Tourismus, und Tourismus-Websites haben eigene Anforderungen. Mit Erfahrung in Hotel-Buchungs-Integration, mehrsprachiger SEO und schneller Mobile-Performance bringen wir das Branchen-Know-how mit. Anders als generische Web-Agenturen kennen wir die Anforderungen internationaler Gäste-Klientel und liefern entsprechend.",
   "metaTitle": "Webdesign Luzern | Websites ab CHF 990",
   "metaDescription": "Webdesign Luzern: Websites für die Zentralschweiz. Ab CHF 990. ☎ 052 222 18 18",
   "keywords": [

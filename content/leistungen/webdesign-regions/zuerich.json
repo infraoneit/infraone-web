@@ -2,15 +2,15 @@
   "slug": "zuerich",
   "name": "Zürich",
   "headline": "Webdesign Zürich",
-  "subheadline": "Premium-Websites für die Wirtschaftsmetropole",
-  "description": "Zürich ist das wirtschaftliche Herz der Schweiz. Hier brauchen Sie eine Website, die Ihre Professionalität widerspiegelt: schnell, modern und überzeugend.",
-  "intro": "Als grösste Stadt der Schweiz und wirtschaftliches Zentrum des Landes ist Zürich der härteste Markt überhaupt. Über 437'000 Einwohner, mehr als 500'000 Arbeitsplätze und ein Wirtschaftsmix von Banken über Kreativagenturen bis zu Tech-Unternehmen. In keinem anderen Schweizer Markt entscheidet der erste digitale Eindruck so schnell über Geschäftsabschlüsse. Eine Zürcher Website muss in den ersten drei Sekunden überzeugen, technisch fehlerfrei laufen und auf Mobile gleich gut wirken wie auf Desktop. Wir betreuen Zürcher Unternehmen aus allen Stadtkreisen, vom Kreis 1 mit Bahnhofstrasse, Limmatquai und Paradeplatz über das Seefeld, Kreis 4 und 5 mit ihrer Kreativ- und Startup-Szene bis nach Oerlikon, Altstetten und Wiedikon. Anfahrt aus Winterthur dauert mit der S-Bahn 25 Minuten, mit dem Auto 30 bis 45 je nach Verkehr. Persönliche Termine vereinbaren wir bei Ihnen, in unserem Winterthurer Büro oder an einem zentralen Ort wie HB-Lounge oder Kaffeehäusern an der Europaallee. Remote-Zusammenarbeit funktioniert dank Videocalls und Online-Tools genauso effizient.",
+  "subheadline": "Websites für Zürcher Kanzleien, Beratungen und KMU",
+  "description": "In Zürich entscheidet die Website oft über das Erstgespräch. Wir bauen Auftritte, die in Sekunden Vertrauen vermitteln und auf jedem Gerät schnell laden, ohne Bahnhofstrasse-Aufschlag.",
+  "intro": "Zürcher Unternehmen kämpfen um die anspruchsvollste Klientel der Schweiz. Eine Anwaltskanzlei am Paradeplatz, ein Steuerberater im Seefeld, ein Tech-Startup in Kreis 5: alle wissen, dass die Website meist das erste Bewertungsgespräch ist, lange bevor jemand zum Hörer greift. Wenn die Seite langsam lädt, generisch wirkt oder auf dem Handy bricht, ist der Lead weg, bevor er entstanden ist. Wir bauen Zürcher Websites, die diese erste Sekunde gewinnen: technisch sauber mit Lighthouse-Scores über 90, klar in der Argumentation, mit konkreten Wertversprechen statt Buzzwords. Die meisten Zürcher Mandate laufen bei uns remote über Videocalls und geteilte Figma-Boards, das spart Zeit und Reisekosten. Initialgespräche oder Workshops vereinbaren wir gerne in Ihrem Büro im Kreis 1, am Seefeld, in Oerlikon oder Altstetten. Anfahrt aus Winterthur ist mit der S-Bahn 25 Minuten zum HB. Wenn Sie einen Online-Shop, eine KI-Integration für Chatbot oder Produktempfehlungen oder ein klassisches Corporate-Web brauchen, decken wir alles aus einer Hand ab.",
   "regionalImage": "/images/regions/zuerich.png",
   "localBenefits": [
-    "Erfahrung mit Zürcher KMU",
-    "Verständnis für hohe Ansprüche",
-    "Kurze Wege von Winterthur",
-    "Professionelle Umsetzung"
+    "Lokale SEO für Zürcher Suchanfragen",
+    "Schnelle Anbindung mit S-Bahn",
+    "Über 30 Zürcher Projekte umgesetzt",
+    "Faire Preise ohne Innenstadt-Aufschlag"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Bieten Sie auch Vor-Ort-Termine in Zürich an?",
-    "answer": "Selbstverständlich. Von unserem Büro in Winterthur sind wir mit der S-Bahn in 25 Minuten am Zürcher HB. Wir kommen gerne in Ihr Büro im Kreis 1, ans Seefeld, nach Oerlikon oder wo auch immer Sie sind. Alternativ treffen wir uns an einem neutralen Ort wie der Europaallee oder Sie kommen zu uns nach Winterthur. Initialgespräche dauern 45 bis 60 Minuten, danach läuft die Zusammenarbeit oft remote über Videocalls und geteilte Dokumente."
+    "question": "Können wir uns persönlich in Zürich treffen?",
+    "answer": "Ja, gerne. Wir kommen in Ihr Büro im Kreis 1, am Seefeld, in Oerlikon oder wo auch immer Sie sind. Anfahrt mit der S-Bahn ab Winterthur 25 Minuten zum HB. Alternativ treffen wir uns an einem zentralen Ort wie der Europaallee oder bei Ihnen vor Ort. Initialgespräch dauert 45 bis 60 Minuten, ist kostenlos und unverbindlich."
   },
   "localIndustries": [
     {
-      "name": "Finanzdienstleistungen",
-      "description": "Zürich ist Europas führender Finanzplatz. Banken, Vermögensverwalter, Versicherungen und FinTechs prägen die Wirtschaft. Diese Firmen brauchen Websites, die Vertrauen vermitteln und gleichzeitig technische Exzellenz zeigen.",
-      "websiteNeeds": "Vertrauenswürdiges Premium-Design, FINMA-konforme Compliance-Hinweise, mehrsprachige Inhalte (DE/EN), sichere Kontaktformulare, klare Service-Übersichten"
+      "name": "Anwaltskanzleien & Notariate",
+      "description": "Zürcher Mandanten suchen ihren Anwalt oft nach Bauchgefühl, basierend auf Website-Eindruck. Klare Spezialisierungs-Angabe, seriöse Gestaltung und schneller Terminzugang entscheiden, ob ein Mandat zustande kommt.",
+      "websiteNeeds": "Klare Spezialisierungs-Übersicht, Anwalts-Profile mit Foto und Werdegang, Kontaktformular ohne Schnickschnack, mehrsprachig DE/EN für internationale Mandate, vertrauenswürdiges Premium-Design"
     },
     {
-      "name": "Kreativagenturen & Design",
-      "description": "Vom Seefeld über Kreis 4 bis Zürich West gibt es eine vielfältige Szene aus Werbe-, Branding- und Design-Agenturen. Ihre eigenen Websites sind ihre Visitenkarte und müssen visuellen Impact sofort vermitteln.",
-      "websiteNeeds": "Portfolio-Präsentation mit Case Studies, schnelle Ladezeiten auch bei viel Bildmaterial, animierte Übergänge, mobile-first, eigenes CMS für laufende Updates"
+      "name": "Beratung & Vermögensverwaltung",
+      "description": "Family Offices, Vermögensverwalter, Wirtschaftsprüfer und Treuhänder am Zürcher Finanzplatz konkurrieren um die gleiche zahlungskräftige Klientel. Die Website muss Diskretion und Kompetenz gleichzeitig vermitteln.",
+      "websiteNeeds": "Premium-Design ohne Aufdringlichkeit, sichere Erstkontakt-Formulare, Team-Vorstellung mit Werdegang, Mandanten-Login möglich, FINMA- und DSG-konforme Compliance-Hinweise"
     },
     {
-      "name": "Tech & Startups",
-      "description": "Die Nähe zur ETH und die Präsenz von Google, Disney Research und Microsoft macht Zürich zum führenden Tech-Hub der Schweiz. Startups in den Bereichen FinTech, AI, Robotik und SaaS brauchen Websites, die Investoren und Talente überzeugen.",
-      "websiteNeeds": "Modernes minimalistisches Design, Skalierbarkeit, Integration mit SaaS-Tools wie HubSpot oder Stripe, klare Produkt-Demos, Karriere-Portal"
+      "name": "Tech-Startups & SaaS",
+      "description": "Zürcher Startups wollen Investoren, Talente und Pilotkunden parallel gewinnen. Die Website muss in 5 Sekunden klarmachen: was machen wir, für wen, warum jetzt. Plus eine Demo, die Investoren überzeugt.",
+      "websiteNeeds": "Klares Wertversprechen im Hero, Produkt-Demo per Video oder interaktiv, Investor-Bereich mit Pitch-Deck, Karriere-Sektion mit Tech-Stack und Benefits, Integration mit Stripe oder HubSpot"
     },
     {
-      "name": "Beratung & Consulting",
-      "description": "Zürich ist Schweizer Zentrum für Unternehmensberatung, Steuerberatung, Wirtschaftsprüfung und Management Consulting. Diese Anbieter konkurrieren um die gleichen Zielgruppen und müssen sich digital differenzieren.",
-      "websiteNeeds": "Professionelle Aussenwirkung, Service-Übersicht, Case Studies und Kundenstimmen, Blog für Thought Leadership, einfache Kontaktaufnahme"
+      "name": "Kreativagenturen & Architekten",
+      "description": "Vom Seefeld bis Zürich West gibt es Hunderte Kreativ- und Architektur-Studios. Die eigene Website ist ihre Visitenkarte und muss visuellen Impact in der ersten Sekunde vermitteln, sonst klickt der potenzielle Kunde weg.",
+      "websiteNeeds": "Portfolio-Präsentation mit grossformatigen Bildern, Case Studies mit Storytelling, schnelle Ladezeiten trotz vieler Bilder, eigenes CMS für laufende Updates, mobile-first"
     }
   ],
   "additionalFaqs": [
     {
-      "question": "Muss ich für Besprechungen nach Winterthur kommen?",
-      "answer": "Nein, wir arbeiten zu 100 Prozent remote, wenn Sie das wünschen. Alternativ treffen wir uns gerne in Zürich, die S-Bahn braucht nur 25 Minuten ab Winterthur HB. Manche Kunden bevorzugen einen Hybrid-Modus: Initialgespräch persönlich in Zürich, Umsetzungsphase remote über Videocalls und Online-Boards, Schlussabnahme wieder persönlich."
+      "question": "Was kostet eine Website für ein Zürcher KMU?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein typisches Zürcher KMU mit 10 bis 15 Seiten, Blog, mehrsprachigen Inhalten und solidem SEO-Setup rechnen Sie mit CHF 2'490 bis CHF 4'990. Custom-Lösungen mit Headless CMS, Online-Shop oder KI-Integration starten bei CHF 4'990. Hosting und laufende Pflege ab CHF 10 pro Monat."
     },
     {
-      "question": "Verstehen Sie die hohen Ansprüche des Zürcher Marktes?",
-      "answer": "Absolut. Wir haben für Zürcher Unternehmen aus der Finanz-, Tech-, Kreativ- und Beratungsbranche gearbeitet. Wir wissen, dass hier höchste Qualität erwartet wird, dass Lighthouse-Scores zählen und dass eine Website nicht nur funktionieren muss, sondern in jedem Detail überzeugen. Genau das liefern wir, ohne die Bahnhofstrasse-Preise einer Zürcher Agentur."
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, sofern Texte und Bilder bereit sind. Websites mit bis zu 20 Seiten in 2 Wochen. Komplexere Projekte mit Online-Shop, KI-Integration (Chatbot, Produktempfehlungen) oder Mehrsprachigkeit brauchen 3 bis 8 Wochen je nach Umfang. Wir liefern wöchentliche Status-Updates und arbeiten in klaren Phasen."
     },
     {
-      "question": "Können Sie Websites mehrsprachig in DE, EN und FR umsetzen?",
-      "answer": "Ja. Mehrsprachigkeit ist gerade in Zürich ein Standard-Anforderung, vor allem für Banken, internationale Konzerne und tourismusnahe Unternehmen. Wir setzen auf Next.js mit i18n-Unterstützung. Jede Sprachversion wird separat für SEO optimiert, die URLs sind sprechend (z.B. /en/services, /fr/services), Hreflang-Tags sind eingebaut. Für die Übersetzung arbeiten wir mit professionellen Übersetzern in Zürich zusammen."
+      "question": "Wie ranke ich für Suchanfragen wie 'Anwalt Zürich' oder 'Steuerberater Seefeld'?",
+      "answer": "Drei Hebel zählen. Erstens technische Sauberkeit (schnelle Ladezeit, mobil, sauberes Markup): das bauen wir standardmässig ein. Zweitens lokale Signale (Google Business Profile, NAP-Konsistenz auf local.ch und herold.ch, aktive Bewertungssammlung). Drittens Inhalt mit echtem Mehrwert für Ihre Zielgruppe. Bei kompetitiven Zürcher Keywords sind Backlinks von Branchenverzeichnissen und Partnern entscheidend, das ist ein eigenes mehrwöchiges Projekt."
     },
     {
-      "question": "Wie unterscheiden Sie sich von einer Zürcher Webagentur?",
-      "answer": "Drei Punkte: Erstens, faire Preise. Wir haben keine Bahnhofstrasse-Miete, also keine Aufschläge. Zweitens, persönliche Betreuung statt grosser Agentur-Hierarchie. Sie sprechen direkt mit der Person, die Ihre Website baut. Drittens, technische Tiefe. Wir bauen mit Next.js, Headless CMS und modernen Stacks, die sonst nur Premium-Agenturen anbieten."
+      "question": "Können wir die Website nach dem Launch selbst pflegen?",
+      "answer": "Ja. Bei Wix oder WordPress arbeiten Sie über deren Standard-CMS. Beim Pro-Paket mit Next.js liefern wir Keystatic CMS mit, ein modernes Inhalts-Tool direkt im Browser. Wir schulen Sie in 1 bis 2 Stunden, danach sind Sie selbständig. Wenn Sie nichts machen wollen, übernehmen wir die Pflege gegen Stundenaufwand oder einen Wartungsvertrag."
     }
   ],
-  "whyChooseUs": "Als Agentur aus der Region bieten wir Zürcher Qualität zu fairen Preisen, ohne die Überkopfkosten einer Bahnhofstrasse-Agentur. Wir verstehen die hohen Ansprüche der Zürcher Wirtschaft, arbeiten mit modernen Technologien wie Next.js und Headless CMS und bringen die Erfahrung von über 30 Zürcher Projekten mit. Vom Startup im Kreis 5 bis zum Family Office am Paradeplatz: wir liefern Websites, die in Zürich bestehen.",
+  "whyChooseUs": "Wir liefern Zürcher Qualität ohne Innenstadt-Tarife. Anders als die meisten Zürcher Agenturen rechnen wir nicht mit Bahnhofstrasse-Mieten, also auch nicht mit deren Stundensätzen. Anders als anonyme Internet-Anbieter sind wir greifbar, persönlich und in 25 Minuten bei Ihnen. Mit über 30 Zürcher Projekten kennen wir den Markt, die Wettbewerber und die Erwartungen Ihrer Klientel.",
   "metaTitle": "Webdesign Zürich | Websites ab CHF 990",
   "metaDescription": "Webdesign Zürich: Professionelle Websites für Zürcher Unternehmen. Ab CHF 990. ☎ 052 222 18 18",
   "keywords": [

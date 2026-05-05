@@ -2,15 +2,15 @@
   "slug": "basel",
   "name": "Basel",
   "headline": "Webdesign Basel",
-  "subheadline": "Moderne Websites für die Nordwestschweiz",
-  "description": "Basel ist internationaler Pharma-Standort und Kulturmetropole. Hier erwarten Kunden und Partner höchste Qualität, auch online.",
-  "intro": "Die Region Basel ist mit ihrer trinationalen Lage zwischen Schweiz, Deutschland und Frankreich einer der internationalsten Wirtschaftsstandorte der Schweiz. Über 200'000 Einwohner in der Stadt, mehr als 700'000 in der Region. Geprägt ist Basel von der Pharma- und Life-Sciences-Industrie mit Roche, Novartis, Lonza und Hunderten von spezialisierten Zulieferern, von der traditionellen Chemiebranche, einer lebendigen Kunstszene rund um Art Basel und das Beyeler-Museum sowie vom Rheinhafen als wichtigstem Schweizer Binnenhafen. Diese internationale Ausrichtung verlangt Websites, die mehrsprachig (DE/EN/FR), compliance-konform und mit höchsten Performance-Standards gebaut sind. Wir betreuen Basler Kunden remote mit der gleichen Qualität wie unsere lokalen Kunden in der Ostschweiz. Anfahrt aus Winterthur dauert mit dem Zug etwa 1 Stunde 15 Minuten oder mit dem Auto knapp 1 Stunde 30. Bei Bedarf treffen wir uns persönlich in Basel oder an einem zentralen Ort wie Aarau.",
+  "subheadline": "Websites für Basler Pharma-Zulieferer, Kreativ und KMU",
+  "description": "Eine Website, die in Basel international ankommt: mehrsprachig, technisch sauber, mit dem Anspruch, den Pharma- und Kunst-Klientel erwartet. Wir liefern remote, mit gleicher Qualität wie unsere lokalen Projekte.",
+  "intro": "Basler Unternehmen agieren in einem der internationalsten Märkte der Schweiz. Pharma-Zulieferer für Roche und Novartis brauchen Websites mit englischen und deutschen Inhalten, kompetent in Compliance und mit klaren Service-Beschreibungen. Galerien rund um Art Basel müssen visuellen Impact transportieren und Sammler in mehreren Sprachen ansprechen. Lokale KMU im Birsfelden, Riehen oder Allschwil suchen lokale Sichtbarkeit für ihre Branche. Wir bauen Websites, die diesen unterschiedlichen Anforderungen gerecht werden, mit Mehrsprachigkeit als Standard, schneller Performance auch bei viel Bildmaterial und Webdesign-Tonalität, die zur jeweiligen Branche passt. Anfahrt aus Winterthur ist mit dem Zug etwa 1 Stunde 15 Minuten, mit dem Auto knapp 1 Stunde 30. Die meisten Basler Mandate laufen remote über Videocalls und geteilte Boards. Bei Workshops oder Schlussabnahmen kommen wir gerne persönlich vorbei. Online-Shop, KI-Integration und klassisches Webdesign decken wir aus einer Hand ab.",
   "regionalImage": "/images/webdesign-hero.png",
   "localBenefits": [
-    "Mehrsprachige Websites",
-    "Internationale Erfahrung",
-    "Remote-Expertise",
-    "Hohe Qualitätsstandards"
+    "Mehrsprachige Websites Standard",
+    "Erfahrung mit Pharma-Zulieferern",
+    "Internationale Tonalität",
+    "Remote-Arbeit ohne Qualitätsverlust"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Können Sie auch mehrsprachige Websites für internationale Kunden erstellen?",
-    "answer": "Ja, mehrsprachige Websites sind in Basel praktisch immer Standard, gerade durch die Nähe zu Frankreich und Deutschland und die internationalen Mitarbeitenden in den Pharma-Konzernen. Wir setzen auf Next.js mit i18n-Unterstützung für optimale SEO in allen Sprachen. URLs sind sprechend (z.B. /en/services, /fr/services), Hreflang-Tags sind eingebaut, jede Sprachversion ist separat optimiert. Bei Übersetzungen arbeiten wir mit professionellen Sprachdienstleistern zusammen."
+    "question": "Wie funktioniert die Zusammenarbeit mit Winterthur als Standort?",
+    "answer": "Sehr gut, dank moderner Tools. Initialgespräch oft persönlich in Basel, danach läuft die Umsetzung remote über Videocalls, geteilte Figma-Boards und Trello oder Jira. Bei Workshops oder Schlussabnahmen kommen wir gerne persönlich. Anfahrt aus Winterthur 1 Stunde 30 Minuten, kein Hindernis für 1 bis 2 persönliche Termine pro Monat. Bei dringenden Fragen sind wir innert Stunden per Mail oder Videocall verfügbar."
   },
   "localIndustries": [
     {
-      "name": "Pharma & Life Sciences",
-      "description": "Basel ist mit Roche, Novartis und Lonza weltweit führend in Pharma und Life Sciences. Daneben gibt es über 700 spezialisierte Zulieferer, Biotech-Startups und Forschungsinstitute. Diese Firmen brauchen Websites mit höchsten Compliance- und Designanforderungen.",
-      "websiteNeeds": "B2B-Kommunikation, FDA- und EMA-konforme Inhaltsstrukturen, Mehrsprachigkeit DE/EN/FR, technische Dokumentation, Karriereseiten für Talent-Akquise"
+      "name": "Pharma- und Life-Sciences-Zulieferer",
+      "description": "Im Umfeld von Roche, Novartis und Lonza arbeiten über 700 spezialisierte Zulieferer, Biotech-Startups und Anlagenbauer. Ihre Websites müssen B2B-Einkäufer überzeugen, die Compliance-Hinweise prüfen und Vertrauen aufbauen wollen, ohne dass die Website wie eine Werbebroschüre wirkt.",
+      "websiteNeeds": "B2B-Service-Beschreibungen mit konkreten Use-Cases, Compliance-Hinweise FDA/EMA-konform, mehrsprachig DE/EN, Karriereseiten für Talent-Akquise, technische Dokumentation als PDF-Bibliothek"
     },
     {
-      "name": "Chemie & Industrie",
-      "description": "Die chemische Industrie hat in Basel eine über 200-jährige Tradition und ist bis heute prägend. Spezialchemie, Pigmente, Beschichtungstechnik und Anlagenbau sind im Basler Wirtschaftsmix stark vertreten.",
-      "websiteNeeds": "Produktkataloge mit technischen Datenblättern, Sicherheitsdatenblätter (REACH, GHS), Zertifizierungen (ISO), Karriereseiten, Investor-Bereich"
+      "name": "Kreativ & Architektur",
+      "description": "Die Basler Kreativ- und Architektur-Szene ist international ausgerichtet, von Vitra über Herzog & de Meuron bis zu kleineren Studios. Eine Website ist hier oft das einzige Verkaufsargument, das Visualisierung und Konzept gleichzeitig zeigen muss.",
+      "websiteNeeds": "Premium-Bildpräsentation, Portfolio mit Storytelling, schnelle Ladezeiten trotz vieler Bilder, eigenes CMS für Updates, mobile-first, mehrsprachig DE/EN/FR"
     },
     {
       "name": "Kunst & Galerien",
-      "description": "Art Basel als weltweit wichtigste Kunstmesse, das Kunstmuseum Basel, das Tinguely-Museum und die Fondation Beyeler machen die Stadt zum internationalen Kunstzentrum. Galerien, Auktionshäuser und Kunsthändler sind aktiv.",
-      "websiteNeeds": "Premium-Bildpräsentation, Online-Kataloge, Vernissage-Kalender, E-Commerce für Editionen, Mehrsprachigkeit, Newsletter für Sammler"
+      "description": "Art Basel als weltweit wichtigste Kunstmesse, Fondation Beyeler, Tinguely-Museum und Hunderte Galerien machen Basel zur Kunststadt. Galerien und Auktionshäuser brauchen Websites, die internationale Sammler in mehreren Sprachen ansprechen.",
+      "websiteNeeds": "Online-Kataloge mit grossformatigen Bildern, Vernissage-Kalender, E-Commerce für Editionen, Newsletter für Sammler, Mehrsprachigkeit DE/EN/FR"
     },
     {
-      "name": "Logistik & Rheinhafen",
-      "description": "Der Rheinhafen Basel ist wichtigster Schweizer Binnenhafen und Tor zum Welthandel via Rotterdam und Antwerpen. Speditionen, Lagerlogistik und maritime Dienstleister haben hier ihren Sitz.",
-      "websiteNeeds": "Service-Übersicht mit Tracking-Integration, Online-Anfragen mit Mengenangaben, Mehrsprachigkeit DE/EN/FR/NL, Karriereseiten, Lieferanten-Portal"
+      "name": "Lokale KMU & Handwerk",
+      "description": "Lokale Schreiner, Sanitär- und Heizungsbetriebe in Riehen, Birsfelden, Allschwil oder Münchenstein haben einen klar definierten regionalen Markt. Hier zählt lokale SEO für Suchanfragen wie 'Sanitär Allschwil' oder 'Schreiner Birsfelden'.",
+      "websiteNeeds": "Klare Leistungsübersicht, Referenzbilder mit Standortangabe, Notdienst-Hotline prominent, Kontaktformular mit Foto-Upload, Google Maps Integration, lokale SEO"
     }
   ],
   "additionalFaqs": [
     {
-      "question": "Haben Sie Erfahrung mit Pharma-Websites und strengen Compliance-Anforderungen?",
-      "answer": "Ja, wir haben bereits Websites für Life-Sciences-Unternehmen erstellt und kennen die regulatorischen Anforderungen. Disclaimer-Texte, Zugriffsbeschränkungen für Fachpersonal, FDA-konforme Verlinkungen und länderspezifische Inhalte für regulierte Märkte sind uns vertraut. Bei sehr spezifischen regulatorischen Fragen koordinieren wir mit Ihren Compliance-Verantwortlichen direkt."
+      "question": "Was kostet eine Website für ein Basler KMU oder einen Pharma-Zulieferer?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein Pharma-Zulieferer-KMU mit mehrsprachigen Inhalten, Service-Übersicht und Karriereseite rechnen Sie mit CHF 2'490 bis CHF 4'990. Galerie-Websites mit Online-Katalog und E-Commerce je nach Umfang CHF 4'990 plus. Hosting und Pflege ab CHF 10 pro Monat. Konkrete Offerte nach Erstgespräch."
     },
     {
-      "question": "Können Sie Websites in drei Sprachen (DE/FR/EN) umsetzen?",
-      "answer": "Selbstverständlich. Mehrsprachige Websites mit optimaler SEO für jede Sprache sind unsere Stärke. Wir nutzen Next.js mit i18n-Routing, sprechenden URLs pro Sprache, korrekten Hreflang-Tags und einem zentralen Übersetzungs-Workflow. Für die eigentlichen Übersetzungen arbeiten wir mit Schweizer Sprachdienstleistern zusammen, die Pharma- oder Industrie-Vokabular sicher beherrschen."
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, Websites mit bis zu 20 Seiten in 2 Wochen. Pharma-Zulieferer-Websites mit Compliance-Hinweisen und mehrsprachigen Inhalten 4 bis 8 Wochen. Galerie-Websites mit Online-Katalog und Editionen-Shop 6 bis 10 Wochen. KI-Integration für Chatbot oder Produktempfehlungen als Add-on möglich."
     },
     {
-      "question": "Wie funktioniert die Zusammenarbeit über die Distanz Winterthur-Basel?",
-      "answer": "Sehr gut, dank moderner Tools. Initialgespräch oft persönlich in Basel, danach läuft die Umsetzung remote über Videocalls, geteilte Figma-Boards und Jira- oder Trello-Boards. Bei Workshops oder Schlussabnahmen kommen wir gerne persönlich. Anfahrt aus Winterthur 1 Stunde 30 Minuten, kein Hindernis für 1- bis 2-mal pro Monat persönlichen Austausch."
+      "question": "Haben Sie Erfahrung mit Pharma-Compliance auf Websites?",
+      "answer": "Ja. Wir haben bereits Websites für Life-Sciences-Zulieferer erstellt und kennen die regulatorischen Anforderungen. Disclaimer-Texte, Zugriffsbeschränkungen für Fachpersonal, FDA-konforme Verlinkungen und länderspezifische Inhalte für regulierte Märkte sind uns vertraut. Bei sehr spezifischen regulatorischen Fragen koordinieren wir mit Ihren Compliance-Verantwortlichen direkt."
     },
     {
-      "question": "Verstehen Sie die internationale Mentalität Basler Kunden?",
-      "answer": "Ja, Basel ist internationaler als die meisten anderen Schweizer Städte. Wir sind gewohnt, in Englisch zu kommunizieren, mit internationalen Stakeholdern (HQ in den USA, Asien-Niederlassungen) zu arbeiten und kulturelle Sensitivitäten zu berücksichtigen. Pricing-Modelle sind transparent in CHF, EUR oder USD je nach Wunsch."
+      "question": "Können Sie Websites in DE, EN und FR umsetzen?",
+      "answer": "Selbstverständlich. Wir nutzen Next.js mit i18n-Routing, sprechenden URLs pro Sprache (z.B. /en/services, /fr/services), korrekten Hreflang-Tags und sprachspezifischer SEO-Optimierung. Für die Übersetzung selbst arbeiten wir mit Schweizer Sprachdienstleistern zusammen, die Pharma-, Kunst- oder Industrie-Vokabular sicher beherrschen."
     }
   ],
-  "whyChooseUs": "Als Agentur aus der Region verstehen wir die Basler Mentalität: weltoffen, qualitätsbewusst und mit hohen Ansprüchen an Professionalität. Auch wenn unser Hauptsitz in Winterthur liegt, sind wir an die internationale Arbeit gewohnt und haben für mehrere Basler Pharma- und Industrie-Kunden gearbeitet. Diese Erfahrung schlägt sich in Tempo, Präzision und der Bereitschaft nieder, mehrsprachig und compliance-konform zu liefern.",
+  "whyChooseUs": "Wir liefern Basler Internationalität ohne Premium-Aufschlag. Anders als anonyme Webagenturen kommen wir bei Workshops gerne persönlich vorbei und kennen den Pharma- und Kunst-Markt aus eigener Erfahrung. Mit Mehrsprachigkeit als Standard, FDA-konformen Workflows und schneller Performance bringen wir das technische und inhaltliche Know-how mit, das Basler Unternehmen brauchen.",
   "metaTitle": "Webdesign Basel | Websites ab CHF 990",
   "metaDescription": "Webdesign Basel: Premium-Lösung mit Headless CMS. ☎ 052 222 18 18",
   "keywords": [

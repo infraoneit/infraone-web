@@ -2,15 +2,15 @@
   "slug": "bern",
   "name": "Bern",
   "headline": "Webdesign Bern",
-  "subheadline": "Websites für die Bundesstadt",
-  "description": "Bern steht für Seriosität und Qualität. Ihre Website sollte das Gleiche ausstrahlen: professionell, vertrauenswürdig und modern.",
-  "intro": "Als Bundesstadt und viertgrösster Kanton der Schweiz ist Bern ein bedeutender Wirtschafts- und Verwaltungsstandort. Über 144'000 Einwohner in der Stadt und mehr als 1 Million im Kanton. Bern ist Sitz der Bundesverwaltung mit allen 7 Departementen, Heimat der Eidgenössischen Departementen, der Schweizerischen Nationalbank, der Post, der SBB-Hauptverwaltung und ungezählter Verbände, NGOs und internationaler Organisationen. Daneben gibt es eine vielfältige Wirtschaft von Tourismus rund um die UNESCO-Altstadt mit Zytglogge und Bundeshaus über die Pharma-Sparte (CSL Behring), die Versicherungsbranche (Mobiliar), die Universität Bern und die Kunstinstitutionen wie Zentrum Paul Klee und Kunstmuseum. Anfahrt aus Winterthur dauert mit dem Zug etwa 1 Stunde 15 Minuten oder per Auto 1 Stunde 30. Persönliche Treffen sind in Bern problemlos möglich, oft direkt im Bundeshausviertel oder im Wankdorf-Business-Park. Die meisten Berner Kunden bevorzugen aber Remote-Zusammenarbeit mit gelegentlichen persönlichen Workshops, was wir gerne so handhaben.",
+  "subheadline": "Websites für Berner Verbände, KMU und Tourismus",
+  "description": "Eine Website, die in Bern ankommt: sachlich, mehrsprachig, mit dem Auge für Diskretion und Substanz. Wir liefern remote, kommen für Workshops gerne persönlich vorbei.",
+  "intro": "Berner Unternehmen brauchen Websites, die einen anderen Tonfall treffen als Zürcher: ruhiger, sachlicher, mehrsprachig und mit dem Anspruch auf Beständigkeit statt Hype. Ein Verband im Bundeshausviertel muss in vier Sprachen kommunizieren und barrierefrei sein, ein Berner Hotel rund um die UNESCO-Altstadt braucht mehrsprachige Buchungs-Integration für deutsche, französische und englische Gäste, ein Treuhänder im Wankdorf-Business-Park will substantielles Vertrauen aufbauen, ohne aufgesetzt zu wirken. Wir bauen für alle drei. Mit Erfahrung in barrierefreien Websites nach WCAG 2.1, mehrsprachiger SEO und sachlichem Schreibstil treffen wir den Berner Ton. Anfahrt aus Winterthur dauert mit dem Zug etwa 1 Stunde 15 Minuten oder mit dem Auto 1 Stunde 30. Die meisten Berner Mandate laufen remote über Videocalls und geteilte Boards, persönliche Workshops vereinbaren wir bei Bedarf in Ihrem Büro. Online-Shop, KI-Integration und klassisches Webdesign decken wir alles aus einer Hand ab.",
   "regionalImage": "/images/webdesign-hero.png",
   "localBenefits": [
-    "Remote-Betreuung",
-    "Professionelle Kommunikation",
-    "Verständnis für Berner Ansprüche",
-    "Flexible Termine"
+    "Erfahrung mit Verbänden und NGOs",
+    "WCAG-2.1-AA-Barrierefreiheit",
+    "Mehrsprachigkeit DE/FR/IT/EN",
+    "Sachlicher Schreibstil"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Wie funktioniert die Zusammenarbeit über die Distanz?",
-    "answer": "Wir arbeiten mit Videocalls, geteilten Projektboards (Trello, Jira, Notion) und regelmässigen Updates. Sie sind immer informiert und können jederzeit Feedback geben. Bei Bedarf sind wir auch persönlich in Bern, die Anreise dauert nur 1 Stunde 15 Minuten mit dem Zug. Initialgespräch oft persönlich, Umsetzungsphase remote, Schlussabnahme wieder vor Ort, das ist das übliche Modell."
+    "question": "Wie funktioniert die Zusammenarbeit mit Winterthur als Standort?",
+    "answer": "Mit klaren Tools und regelmässigen Updates. Initialgespräch oft persönlich in Bern, Umsetzungsphase remote über Videocalls und geteilte Projektboards (Trello, Jira oder Notion), Schlussabnahme wieder vor Ort. Anfahrt aus Winterthur 1 Stunde 15 Minuten mit dem Zug. Bei dringenden Fragen sind wir innert Stunden per Mail oder Videocall verfügbar. Berner Kunden bevorzugen oft 1 bis 2 persönliche Workshops pro Projekt."
   },
   "localIndustries": [
     {
-      "name": "Bundesverwaltung & NGOs",
-      "description": "Als Bundesstadt beherbergt Bern zahlreiche Behörden, Verbände und Organisationen. Vom Bundesamt für Sozialversicherungen über das SECO bis zu NGOs wie Helvetas oder dem Roten Kreuz Schweiz. Diese Akteure haben hohe Anforderungen an Barrierefreiheit und Mehrsprachigkeit.",
-      "websiteNeeds": "WCAG-2.1-AA-Konformität, Mehrsprachigkeit (DE/FR/IT/EN, teilweise RM), sichere Formulare, Datenschutz nach DSG/EU-DSGVO, klare Service-Übersichten"
+      "name": "Verbände, NGOs und öffentliche Hand",
+      "description": "Bern beherbergt Hunderte Verbände, NGOs wie Helvetas oder das SRK und Bundesämter. Ihre Websites müssen mehrsprachig (DE/FR/IT, oft auch EN), barrierefrei nach WCAG 2.1 AA und datenschutzkonform sein. Tonalität sachlich, ohne Marketing-Aufdringlichkeit.",
+      "websiteNeeds": "WCAG-2.1-AA-Konformität, mehrsprachig DE/FR/IT/EN, sichere Spende- und Mitglieder-Formulare, klare Service-Übersichten, Datenschutz nach DSG/EU-DSGVO, redaktionelle Workflows"
     },
     {
-      "name": "Tourismus & UNESCO-Welterbe",
-      "description": "Die Berner Altstadt ist UNESCO-Welterbe seit 1983. Bärenpark, Zytglogge, Münster, Bundeshaus und Rosengarten ziehen jährlich Millionen Touristen an. Hotels, Stadtführer, Restaurants und Anbieter touristischer Erlebnisse brauchen attraktive digitale Auftritte.",
-      "websiteNeeds": "Veranstaltungskalender, Online-Ticketing für Stadtführungen, Bildergalerien, Mehrsprachigkeit DE/EN/FR/JP/KR, mobile-first für Spontan-Besucher"
+      "name": "Tourismus und Stadtführungen",
+      "description": "Die Berner UNESCO-Altstadt mit Zytglogge, Münster, Bundeshaus und Rosengarten zieht Millionen Touristen an. Hotels, Stadtführer, Restaurants und Erlebnis-Anbieter brauchen mehrsprachige Websites mit klarer Buchungs-Integration.",
+      "websiteNeeds": "Veranstaltungskalender, Online-Ticketing für Stadtführungen, Bildergalerien mobile-optimiert, Mehrsprachigkeit DE/EN/FR/JP, Wetter- und Anfahrt-Integration"
     },
     {
-      "name": "Bildung & Forschung",
-      "description": "Die Universität Bern, die Pädagogische Hochschule Bern, die Berner Fachhochschule und mehrere Forschungsinstitute machen Bern zu einem starken Bildungsstandort. Diese Institutionen brauchen umfangreiche Content-Management-Lösungen.",
-      "websiteNeeds": "Komplexe Content-Management mit hunderten Seiten, Publikationsverzeichnisse, Stundenpläne, Personensuche, Mehrsprachigkeit, modernes UX"
+      "name": "Treuhand, Beratung und Recht",
+      "description": "Berner Treuhänder, Steuerberater, Anwälte und Wirtschaftsprüfer betreuen oft Bundesangestellte, Verbände und NGOs. Ihre Website muss substantiell wirken, ohne aufdringlich oder werbe-lastig zu sein.",
+      "websiteNeeds": "Sachliches Premium-Design, klare Service-Beschreibungen, Personenprofile mit Werdegang und Spezialisierung, mehrsprachig DE/FR, sichere Kontaktformulare, Blog für Fachthemen"
     },
     {
-      "name": "Kulturinstitutionen & Museen",
-      "description": "Kunstmuseum Bern, Zentrum Paul Klee, Historisches Museum, Naturhistorisches Museum und viele kleinere Kulturorte prägen die Stadt. Plus Theater, Konzerthäuser und das Stadttheater Bern. Alle brauchen digitale Präsenz für Programm und Tickets.",
-      "websiteNeeds": "Ausstellungs- und Veranstaltungskalender, Ticketshop-Integration, Virtuelle Rundgänge, Bildungs-Materialien, mehrsprachig"
+      "name": "Kultur und Veranstaltungen",
+      "description": "Kunstmuseum Bern, Zentrum Paul Klee, Stadttheater, Tonhalle und kleinere Kulturorte brauchen Websites für Programm, Tickets und Besucher-Information. Plus jährliche Grossveranstaltungen wie das Stade-de-Suisse-Programm.",
+      "websiteNeeds": "Veranstaltungskalender mit Wiederholungen, Ticketshop-Integration (Starticket, Ticketmaster), Saalplanung, Newsletter-Verwaltung, Pressebereich mit Download-Materialien"
     }
   ],
   "additionalFaqs": [
     {
+      "question": "Was kostet eine Website für ein Berner KMU oder einen Verband?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein typisches Berner KMU mit 10 bis 15 Seiten und mehrsprachigen Inhalten rechnen Sie mit CHF 2'490 bis CHF 4'990. Verbands- und NGO-Websites mit WCAG-Barrierefreiheit und mehrsprachiger Tiefe je nach Umfang CHF 4'990 plus. Hosting und Pflege ab CHF 10 pro Monat."
+    },
+    {
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, Websites mit bis zu 20 Seiten in 2 Wochen. Verbands- oder NGO-Websites mit WCAG-Barrierefreiheit und mehrsprachigen Inhalten 6 bis 10 Wochen, je nach Umfang. Tourismus-Websites mit Buchungs-Integration 4 bis 8 Wochen. KI-Chatbot für mehrsprachige Anfragen als Add-on möglich."
+    },
+    {
       "question": "Können Sie barrierefreie Websites nach WCAG erstellen?",
-      "answer": "Ja, wir entwickeln Websites nach WCAG 2.1 AA-Standard. Für öffentliche Institutionen ist dies oft Pflicht, dank Schweizer Behindertengleichstellungsgesetz und der EAA-Richtlinie. Wir achten auf semantisches Markup, Tastatur-Navigation, ausreichenden Farbkontrast, Alt-Texte für alle Bilder und transparente Formularfehler. Auf Wunsch führen wir auch externe Accessibility-Audits durch."
+      "answer": "Ja, wir entwickeln Websites nach WCAG 2.1 AA-Standard. Für öffentliche Institutionen ist das oft Pflicht, dank Schweizer Behindertengleichstellungsgesetz. Wir achten auf semantisches Markup, Tastatur-Navigation, ausreichenden Farbkontrast, Alt-Texte für alle Bilder und transparente Formularfehler. Auf Wunsch koordinieren wir externe Accessibility-Audits."
     },
     {
-      "question": "Arbeiten Sie auch auf Französisch?",
+      "question": "Arbeiten Sie auch auf Französisch und Italienisch?",
       "answer": "Wir erstellen mehrsprachige Websites in Deutsch, Französisch, Italienisch und Englisch. Die Übersetzung selbst koordinieren wir mit professionellen Partnern, oft mit Übersetzern in Bern oder Lausanne, die Verwaltungs- und NGO-Vokabular sicher beherrschen. Wir liefern alle Inhalte als sprechende URLs, Hreflang-Tags und sprachspezifische SEO."
-    },
-    {
-      "question": "Können Sie sehr grosse Websites mit hunderten Seiten umsetzen?",
-      "answer": "Ja, gerade Bundesämter und Universitäten haben oft Websites mit 500 bis 5'000 Seiten. Wir setzen dafür auf Headless-CMS-Architektur (Keystatic oder Sanity), bei der Inhalte strukturiert und versioniert sind. Editoren arbeiten parallel ohne Konflikte. Performance bleibt auch bei vielen Seiten optimal dank statischer Generierung."
-    },
-    {
-      "question": "Verstehen Sie den Berner Kommunikationsstil?",
-      "answer": "Ja, Berner Kommunikation ist anders als Zürcher: weniger laut, weniger marketing-getrieben, dafür substantieller und genauer. Wir passen Tonalität und Argumentation entsprechend an. Bei NGOs und Bundesämtern achten wir auf neutrale, sachliche Sprache, bei Tourismus-Akteuren auf einladende, aber nicht aufdringliche Texte."
     }
   ],
-  "whyChooseUs": "100 Prozent Remote-Zusammenarbeit mit Schweizer Qualität. Wir verstehen die Bedürfnisse des öffentlichen Sektors und wissen, dass in Bern Zuverlässigkeit, Diskretion und Mehrsprachigkeit zählen. Mit Erfahrung in barrierefreien Websites, komplexen Content-Strukturen und sensiblen Compliance-Themen sind wir ein passender Partner für Berner KMU, Verbände und Institutionen.",
+  "whyChooseUs": "Wir verstehen den Berner Kommunikationsstil: weniger laut, weniger marketing-getrieben, dafür substantieller. Mit Erfahrung in barrierefreien Websites, mehrsprachigen Verbands-Auftritten und sachlicher Tonalität sind wir ein passender Partner. Anders als grosse Schweizer Agenturen liefern wir ohne Konzern-Overhead und ohne Buzzwords.",
   "metaTitle": "Webdesign Bern | Websites ab CHF 990",
   "metaDescription": "Webdesign Bern: Premium-Lösung mit Headless CMS. ☎ 052 222 18 18",
   "keywords": [

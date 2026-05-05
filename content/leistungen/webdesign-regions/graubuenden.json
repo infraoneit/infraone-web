@@ -2,15 +2,15 @@
   "slug": "graubuenden",
   "name": "Graubünden",
   "headline": "Webdesign Graubünden",
-  "subheadline": "Digitale Präsenz für den grössten Kanton",
-  "description": "Von Chur bis Davos, von St. Moritz bis Engadin: wir entwickeln Websites für Bündner Tourismus, Hotellerie und lokale KMU.",
-  "intro": "Graubünden ist mit rund 200'000 Einwohnern und einer Fläche grösser als die Niederlande der grösste Kanton der Schweiz. Weltbekannt für seine Skigebiete, Kurorte und atemberaubende Natur. Tourismus ist die wichtigste Wirtschaftssäule mit Destinationen wie St. Moritz, Davos-Klosters, Arosa, Lenzerheide, Flims-Laax und Engadin. Davon abgesehen sind aber auch Energie (Repower), Landwirtschaft mit Bündner Spezialitäten wie Engadiner Nusstorte und Bündner Fleisch, sowie spezialisierte Dienstleistungen vertreten. Eine Besonderheit: Graubünden ist dreisprachig (Deutsch, Italienisch im Misox, Romanisch im Engadin und Surselva), was bei Websites berücksichtigt werden muss. Internationale Gäste, vor allem aus Deutschland, Italien und neuerdings auch aus Asien, prägen die Tourismus-Saison stark. Für Bündner Unternehmen ist eine professionelle Online-Präsenz besonders wichtig, weil Gäste sich vor der Reise online informieren und buchen. Wir verstehen diese Anforderungen: schnelle Ladezeiten auch bei schlechtem Mobilfunk-Empfang in den Bergen, mehrsprachige Inhalte und nahtlose Buchungsintegration. Anfahrt aus Winterthur 2 bis 3 Stunden mit dem Auto, manchmal mehr in der Skisaison. Persönliche Treffen vereinbaren wir bei Bedarf in Chur oder beim Sommer-Tagesausflug.",
+  "subheadline": "Websites für Bündner Hotels, Bergbahnen und Tourismus",
+  "description": "Eine Website, die in Graubünden funktioniert: schnell auch im Berg-WLAN, mehrsprachig für internationale Gäste, mit Buchungs- und Wetter-Integration die in Spitzen-Saisonen hält.",
+  "intro": "Bündner Unternehmen leben grösstenteils vom Tourismus, und der hat in den Bergen besondere Anforderungen. Ein 4-Sterne-Hotel in Davos muss bei deutschen, italienischen und englischen Gästen gleichzeitig konvertieren, mit klaren Saison-Preisen und schneller Mobile-Performance auch bei langsamen Bergverbindungen. Eine Bergbahn in Arosa braucht dynamische Pisten- und Wetterdaten, Online-Tickets und Saisonkarten-Verkauf, der bei Saison-Eröffnung 10'000 Anfragen verkraftet. Ein Bergrestaurant in St. Moritz will saisonale Reservierungen mit Online-Speisekarte und Wetter-Hinweisen. Eine Skischule in Lenzerheide bietet Online-Buchung mit Sprach-Filter (Deutsch, Englisch, Italienisch, sogar Niederländisch und Französisch). Wir bauen für alle diese Use-Cases. Mehrsprachige SEO ist Standard, Buchungssystem-Integration mit gängigen Hotel- und Bergbahn-PMS, Live-Webcams und Wetter-APIs routinemässig. Anfahrt aus Winterthur 2 bis 3 Stunden, persönliche Termine in Chur oder bei Sommer-Workshops vor Ort. Online-Shop, KI-Integration und klassisches Webdesign decken wir aus einer Hand ab.",
   "regionalImage": "/images/webdesign-hero.png",
   "localBenefits": [
-    "Tourismus-Expertise",
-    "Mehrsprachig (DE/EN/IT)",
-    "Schnelle Mobile-Websites",
-    "Buchungssysteme"
+    "Live-Daten-Integration (Wetter, Pisten, Webcams)",
+    "Mehrsprachig DE/EN/IT/FR/NL",
+    "Schnelle Mobile-Performance",
+    "Buchungssystem-Integration"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Können Sie auch italienischsprachige Websites für das Engadin erstellen?",
-    "answer": "Ja, wir erstellen mehrsprachige Websites in Deutsch, Englisch und Italienisch. Die SEO-Optimierung erfolgt für alle Sprachen separat, mit sprechenden URLs pro Sprache und korrekten Hreflang-Tags. Auch Romanisch ist möglich, wenn Übersetzungen vorhanden sind, wir kennen die Anforderungen mehrsprachiger Bündner Tourismusdestinationen."
+    "question": "Können Sie Websites mit Live-Webcams und Wetterdaten integrieren?",
+    "answer": "Ja, wir integrieren Live-Webcams, Wetterwidgets und Pistenpläne nahtlos in Ihre Website. Alles mobile-optimiert und für die typischen Zugriffsspitzen vor und während der Skisaison ausgelegt. Pistenstatus, Lift-Status und aktuelle Schneehöhen können wir per API von Ihrem Bergbahn-System einbinden. Wetterdaten kommen von SwissMeteo oder MeteoSchweiz."
   },
   "localIndustries": [
     {
-      "name": "Luxushotellerie & Resorts",
-      "description": "St. Moritz, Davos und Arosa sind weltbekannte Destinationen mit 5-Sterne-Häusern wie Badrutt's Palace, Suvretta House oder Tschuggen Grand. Plus Hunderte von 3- und 4-Sterne-Häusern in den anderen Destinationen. Diese Betriebe brauchen Websites auf höchstem Niveau.",
-      "websiteNeeds": "Premium-Design, Buchungssystem mit komplexer Preisstruktur, 360-Grad-Touren, Wellness-Buchung, mehrsprachig (DE/EN/IT/FR/RU/ZH/JP)"
+      "name": "Luxushotellerie und Resorts",
+      "description": "St. Moritz, Davos und Arosa haben weltbekannte 5-Sterne-Häuser wie Badrutt's Palace, Suvretta House oder Tschuggen Grand. Plus Hunderte von 3- und 4-Sterne-Häusern. Diese Hotels brauchen Premium-Websites in mehreren Sprachen mit komplexen Saison-Preisen.",
+      "websiteNeeds": "Premium-Design, Buchungssystem mit komplexer Preisstruktur, 360-Grad-Touren, Wellness-Buchung, mehrsprachig DE/EN/IT/FR/RU/ZH/JP, Concierge-Anfragen"
     },
     {
-      "name": "Skischulen & Bergbahnen",
-      "description": "Skischulen, Bergbahnen wie Corviglia, Diavolezza oder Davos Klosters Mountains und Outdoor-Anbieter im grössten Kanton der Schweiz. Saisonale Spitzen erfordern robuste Buchungssysteme.",
+      "name": "Bergbahnen und Skischulen",
+      "description": "Bergbahnen wie Corviglia, Diavolezza oder Davos Klosters Mountains, plus Skischulen und Outdoor-Anbieter im grössten Kanton der Schweiz. Saisonale Spitzen erfordern robuste Buchungssysteme und schnelle Performance bei 10'000+ gleichzeitigen Zugriffen.",
       "websiteNeeds": "Online-Buchung mit Saisonpreisen, Wetterinfos und Pistenstatus live, Pistenplan-Visualisierung, Live-Webcams, Tickets und Saisonkarten"
     },
     {
-      "name": "Gastronomie & Kulinarik",
-      "description": "Von Bergrestaurants über traditionelle Bündner Stuvas bis zu Gourmet-Tempeln wie dem Mesa in St. Moritz oder dem IGNIV von Andreas Caminada in Bad Ragaz: Graubünden hat kulinarisch viel zu bieten.",
+      "name": "Gastronomie und Bergrestaurants",
+      "description": "Von Bergrestaurants über traditionelle Bündner Stuvas bis zu Gourmet-Tempeln wie dem IGNIV von Andreas Caminada in Bad Ragaz: Graubünden hat kulinarisch viel zu bieten. Reservierungs-Integration ist auch in Bergregionen Pflicht.",
       "websiteNeeds": "Speisekarten dynamisch, Reservierungssystem, Bildergalerien für Räumlichkeiten und Gerichte, Gutschein-Verkauf, mehrsprachig DE/EN/IT"
     },
     {
-      "name": "Bau & Energietechnik",
-      "description": "Bauunternehmen für anspruchsvollen Bergbau, Energietechniker und Anbieter für erneuerbare Energien (Wasserkraft mit Repower, Solar in den Hochalpen, Pelletheizungen). Diese Branchen sind stark regional verwurzelt.",
-      "websiteNeeds": "Referenzprojekte mit Bildern und Standort-Karten, technische Expertise sichtbar, Kontaktformular für Beratungsanfragen, Notdienst-Hotline"
+      "name": "Bau und Energietechnik in Bergregionen",
+      "description": "Bauunternehmen für anspruchsvollen Bergbau, Energietechniker und Anbieter für erneuerbare Energien (Wasserkraft mit Repower, Solar in den Hochalpen, Pelletheizungen). Diese Branchen sind regional verwurzelt und exportieren ihre Expertise teilweise.",
+      "websiteNeeds": "Referenzprojekte mit Bildern und Standort-Karten, technische Expertise sichtbar, Kontaktformular, Notdienst-Hotline, mehrsprachig"
     }
   ],
   "additionalFaqs": [
     {
-      "question": "Können Sie Websites mit Live-Webcams und Wetterdaten integrieren?",
-      "answer": "Ja, wir integrieren Live-Webcams, Wetterwidgets und Pistenpläne nahtlos in Ihre Website. Alles mobile-optimiert und für die typischen Zugriffsspitzen vor und während der Skisaison ausgelegt. Pistenstatus, Lift-Status und aktuelle Schneehöhen können wir per API von Ihrem Bergbahn-System einbinden. Wetterdaten kommen von SwissMeteo oder MeteoSchweiz."
+      "question": "Was kostet eine Website für ein Bündner Hotel oder Bergbahn?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein typisches Hotel mit Buchungs-Integration, mehrsprachigen Inhalten und Saison-Logik rechnen Sie mit CHF 2'490 bis CHF 4'990. Bergbahn-Websites mit Live-Daten, Pistenplan und Online-Tickets je nach Umfang CHF 4'990 plus. Hosting und Pflege ab CHF 10 pro Monat."
     },
     {
-      "question": "Wie gehen Sie mit der Dreisprachigkeit (DE/IT/EN) um?",
-      "answer": "Wir setzen auf Next.js mit i18n-Unterstützung. Jede Sprache wird separat für SEO optimiert, die Navigation ist intuitiv und respektiert URL-Strukturen (z.B. /de/hotels, /it/hotels, /en/hotels). Hreflang-Tags sorgen dafür, dass Google den richtigen Content der richtigen Region zuweist. Bei Übersetzungen arbeiten wir mit Bündner und Tessiner Sprachpartnern zusammen."
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, Websites mit bis zu 20 Seiten in 2 Wochen. Hotel-Websites mit Buchungs-Integration und mehrsprachigen Inhalten 4 bis 8 Wochen. Bergbahn-Websites mit Live-Daten, Pistenplan und Online-Ticket-Shop 6 bis 10 Wochen. KI-Chatbot für mehrsprachige Tourismus-Anfragen als Add-on möglich."
+    },
+    {
+      "question": "Wie gehen Sie mit der Mehrsprachigkeit (DE/IT/EN) um?",
+      "answer": "Wir setzen auf Next.js mit i18n-Routing. Jede Sprache wird separat für SEO optimiert, Hreflang-Tags sorgen für korrekte Suchergebnis-Zuweisung. URLs sind sprechend pro Sprache (z.B. /de/hotel, /it/hotel, /en/hotel). Bei Übersetzungen arbeiten wir mit Bündner und Tessiner Sprachpartnern zusammen, die Tourismus- und Sport-Vokabular sicher beherrschen."
     },
     {
       "question": "Funktionieren Ihre Websites auch bei schlechtem Mobilfunk-Empfang?",
-      "answer": "Ja, das ist gerade in den Bergen wichtig. Wir optimieren Bilder aggressiv (WebP, AVIF, lazy loading), reduzieren JavaScript-Bundles auf das Minimum und bauen Websites, die auch bei 3G-Verbindung schnell laden. Lighthouse-Scores über 90 auf Mobile sind unser Standard. Für Hotels in abgelegenen Tälern testen wir die Performance auf simulierten Mobile-Verbindungen."
-    },
-    {
-      "question": "Wie schnell sind Sie bei dringenden Anpassungen erreichbar?",
-      "answer": "Bei Bündner Tourismusbetrieben ist Schnelligkeit oft kritisch (z.B. wenn ein Lift ausfällt oder ein Pisten-Update nötig ist). Mit Keystatic CMS können Sie viele Inhalte selbst direkt im Browser ändern, oft innert Minuten. Bei grösseren Anpassungen sind wir innert 4 bis 24 Stunden erreichbar, in Spitzen-Saison auch am Wochenende mit Aufschlag."
+      "answer": "Ja, das ist gerade in den Bergen wichtig. Wir optimieren Bilder aggressiv (WebP, AVIF, lazy loading), reduzieren JavaScript-Bundles auf das Minimum und bauen Websites, die auch bei 3G-Verbindung schnell laden. Lighthouse-Scores über 90 auf Mobile sind unser Standard. Für Hotels in abgelegenen Tälern testen wir Performance auf simulierten Mobile-Verbindungen."
     }
   ],
-  "whyChooseUs": "Graubünden ist einzigartig. Ihre Website sollte es auch sein. Wir entwickeln digitale Auftritte, die der Schönheit und Vielfalt des Kantons gerecht werden. Mit Erfahrung in mehrsprachigen Tourismus-Websites, Live-Daten-Integration und Buchungssystemen sind wir ein passender Partner für Bündner Hotels, Bergbahnen und KMU. Plus: wir verstehen die saisonalen Rhythmen und kommunikativen Herausforderungen einer dreisprachigen Region.",
+  "whyChooseUs": "Graubünden ist tourismus-getrieben, mit eigenen technischen Anforderungen (Live-Daten, Mehrsprachigkeit, Buchungs-Spitzen). Mit Erfahrung in mehrsprachigen Tourismus-Websites, Live-Daten-Integration und Buchungssystemen sind wir ein passender Partner. Wir verstehen die saisonalen Rhythmen und kommunikativen Anforderungen einer dreisprachigen Tourismusregion.",
   "metaTitle": "Webdesign Graubünden | Websites ab CHF 990",
   "metaDescription": "Webdesign Graubünden: Websites ab CHF 990. ☎ 052 222 18 18",
   "keywords": [

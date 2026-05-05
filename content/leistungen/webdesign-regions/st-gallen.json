@@ -2,15 +2,15 @@
   "slug": "st-gallen",
   "name": "St. Gallen",
   "headline": "Webdesign St. Gallen",
-  "subheadline": "Digitale Lösungen für die Ostschweiz",
-  "description": "St. Gallen als Zentrum der Ostschweiz verdient Webdesign, das diesem Anspruch gerecht wird: innovativ, professionell und zukunftsorientiert.",
-  "intro": "Die Universitätsstadt St. Gallen ist das wirtschaftliche und kulturelle Zentrum der Ostschweiz mit rund 76'000 Einwohnern und einem Einzugsgebiet von über 500'000 Menschen. Mit der Universität St. Gallen (HSG) als renommierter Wirtschaftsuniversität, einem starken Finanzsektor mit Kantonalbank, Privatbanken und Versicherungen, einer Tradition in Textil und Stickerei sowie innovativen Industrieunternehmen ist die Region wirtschaftlich vielseitig. Das Stiftsbezirk-UNESCO-Welterbe und die Drei-Weieren prägen das touristische Bild, während die Olma jährlich Hunderttausende Besucher in die Stadt zieht. Wir betreuen St. Galler Kunden vom Stadtzentrum über Bruggen und Riethüsli bis ins Appenzellerland und an den Bodensee. Anfahrt aus Winterthur über die A1 dauert etwa 45 Minuten oder mit der S-Bahn 35 Minuten via Wil. Persönliche Termine sind flexibel möglich, viele HSG-nahe Startups und Beratungsunternehmen bevorzugen Treffen in der Stadt, Industrie- und Handwerksbetriebe oft in ihren eigenen Räumen.",
+  "subheadline": "Websites für St. Galler KMU, HSG-Umfeld und Ostschweiz",
+  "description": "Eine Website, die in St. Gallen ankommt: präzise, ohne Buzzwords, mit dem Anspruch, den HSG-Umfeld und Ostschweizer Wirtschaft erwarten. Wir liefern technisch sauber und inhaltlich auf den Punkt.",
+  "intro": "St. Galler Unternehmen treffen auf eine anspruchsvolle Klientel. Ein Beratungsbüro mit HSG-Wurzeln muss eine Website haben, die akademisch fundiert wirkt, ein Ostschweizer Maschinenbauer braucht B2B-Inhalte mit technischer Tiefe, ein Restaurant in der St. Galler Innenstadt will lokal gefunden werden. Auf alle drei Anforderungen passen wir unsere Webdesign-Arbeit an. Wir bauen Websites, die nicht nur visuell überzeugen, sondern bei Suchanfragen wie 'Beratung St. Gallen', 'Restaurant Multertor' oder 'Maschinenbau Ostschweiz' tatsächlich gefunden werden. Lokale SEO ist Standard, mehrsprachige Inhalte für exportorientierte Industrie- und Textilunternehmen ebenso. Anfahrt aus Winterthur ist mit der S-Bahn 35 Minuten via Wil oder mit dem Auto 45 Minuten über die A1. Persönliche Termine vereinbaren wir gerne in Ihrem Büro im Stadtzentrum, in Bruggen oder im Appenzellerland. Online-Shop, KI-Integration für Chatbot oder Produktempfehlungen und klassisches Webdesign decken wir alles aus einer Hand ab.",
   "regionalImage": "/images/regions/st-gallen.png",
   "localBenefits": [
-    "Nähe zu St. Gallen",
-    "Ostschweizer Mentalität",
-    "Persönliche Treffen möglich",
-    "HSG-Verständnis"
+    "Lokale SEO für Ostschweizer Suchanfragen",
+    "Erfahrung mit HSG-nahen Beratungsfirmen",
+    "Mehrsprachigkeit für exportorientierte KMU",
+    "Anfahrt 35 Minuten ab Winterthur"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Haben Sie Erfahrung mit Unternehmen aus dem HSG-Umfeld?",
-    "answer": "Ja, wir haben bereits Websites für Startups aus dem HSG-Inkubator, Beratungsunternehmen mit HSG-Background und Spin-Offs der Universität entwickelt. Wir verstehen die hohen Ansprüche dieses Umfelds: präzise Sprache, klare Argumentation, Daten-getriebene Argumente und ein Designanspruch, der weltweit konkurrenzfähig ist. Auf Wunsch zeigen wir Referenzprojekte aus diesem Bereich in einem persönlichen Gespräch."
+    "question": "Können wir uns persönlich in St. Gallen treffen?",
+    "answer": "Ja, gerne. Wir kommen in Ihr Büro im Stadtzentrum, in Bruggen, in Riethüsli oder wo auch immer Sie sind. Anfahrt mit der S-Bahn ab Winterthur 35 Minuten via Wil. Alternativ treffen wir uns an einem zentralen Ort wie der HSG-Cafeteria oder einem Café in der Multertor-Gegend. Initialgespräch dauert 45 bis 60 Minuten und ist kostenlos."
   },
   "localIndustries": [
     {
-      "name": "Textil & Mode",
-      "description": "St. Gallen hat eine über 300-jährige Textiltradition mit weltbekannter Stickerei und einer modernen Mode- und Tech-Textil-Industrie. Marken wie Akris haben hier ihren Sitz, und viele B2B-Textilunternehmen exportieren weltweit. Modegeschäfte und Stoff-Direktanbieter brauchen E-Commerce-fähige Auftritte.",
-      "websiteNeeds": "E-Commerce mit grossen Bilddarstellungen, Lookbooks für Saison-Kollektionen, Produktkonfiguratoren, Newsletter-Integration, Mehrsprachigkeit DE/EN/FR/IT"
+      "name": "Beratung & Wirtschaftsprüfung",
+      "description": "Im HSG-Umfeld arbeiten Hunderte Beratungsbüros, Wirtschaftsprüfer und Coaches mit anspruchsvoller Klientel. Die Website muss in 5 Sekunden Glaubwürdigkeit aufbauen, ohne aufgesetzt zu wirken. Klare Spezialisierung, anonymisierte Case Studies und Personenprofile sind erfolgsentscheidend.",
+      "websiteNeeds": "Klare Service-Definition, Case Studies anonymisiert, Personenprofile mit Werdegang und Publikationen, Blog für Thought Leadership, einfache Kontaktaufnahme via Anfrage-Formular"
     },
     {
-      "name": "Finanzwesen & Versicherungen",
-      "description": "Die Kantonalbank, mehrere Privatbanken (LGT, Notenstein), grosse Versicherer (Helvetia mit Sitz in St. Gallen) und Vermögensverwalter prägen die Finanzlandschaft. Diese Anbieter konkurrieren um die gleichen Zielgruppen wie Zürcher Wettbewerber.",
-      "websiteNeeds": "Vertrauenswürdiges Premium-Design, FINMA-konforme Compliance, sichere Formulare, Beratungs-Anfragen, klare Service-Übersichten, Karriereseiten"
+      "name": "Industrie & Maschinenbau",
+      "description": "Ostschweizer Industrieunternehmen exportieren oft in mehrere Länder. Ihre Websites müssen B2B-Einkäufer überzeugen, die Datenblätter mit Wettbewerbern vergleichen, plus Talente aus dem Appenzell, Toggenburg und Rheintal anziehen.",
+      "websiteNeeds": "Strukturierte Produktkataloge mit downloadbaren Datenblättern, Karriereseite mit offenen Stellen, mehrsprachig DE/EN, technischer Blog für Such-Sichtbarkeit, Investor-Bereich"
+    },
+    {
+      "name": "Textil & Mode",
+      "description": "St. Gallen hat eine über 300-jährige Textiltradition. Marken wie Akris, Forster Rohner oder Christian Fischbacher haben hier ihren Sitz. Plus Modegeschäfte, Stoff-Anbieter und Tech-Textil-Unternehmen, die international vertreiben.",
+      "websiteNeeds": "E-Commerce mit grossformatigen Bilddarstellungen, Lookbooks für Saison-Kollektionen, Produktkonfiguratoren für B2B, Newsletter-Integration, mehrsprachig DE/EN/FR/IT"
     },
     {
       "name": "Gastronomie & Veranstaltungen",
-      "description": "Von der traditionellen Beiz im Klostergeviert über das gehobene Restaurant in Bruggen bis zu modernen Bars im Linsebühl-Quartier: St. Gallen hat eine vielfältige Gastro-Szene. Die Olma, Tonhalle und das Stadtfest sorgen für Events das ganze Jahr.",
-      "websiteNeeds": "Speisekarten dynamisch, Reservierungssystem (OpenTable, lokale Lösung), Event-Kalender, Social-Media-Integration, Gastroprofile als Mini-Site"
-    },
-    {
-      "name": "Beratung & Dienstleistungen",
-      "description": "Die HSG-Nähe zieht Unternehmensberater, Coaches, Steuerberater und spezialisierte Dienstleister an. Diese Anbieter müssen sich digital differenzieren und Vertrauen aufbauen, oft B2B mit Schweizer Mittelstand und Konzernen.",
-      "websiteNeeds": "Professionelle Positionierung, Service-Beschreibungen mit Use-Cases, Kundenstimmen oder anonymisierte Case Studies, Blog für Thought Leadership"
+      "description": "Von der traditionellen Beiz im Klostergeviert über das gehobene Restaurant in Bruggen bis zur modernen Bar im Linsebühl-Quartier: St. Gallen hat eine vielfältige Gastro-Szene. Die Olma-Saison sorgt für Spitzenzeiten.",
+      "websiteNeeds": "Aktuelle Speisekarte und Öffnungszeiten prominent, Reservierungssystem, Event-Kalender für Olma und Stadtfest, Bildergalerie für Räumlichkeiten und Gerichte, Google Maps integriert"
     }
   ],
   "additionalFaqs": [
     {
-      "question": "Arbeiten Sie auch mit HSG-Startups und Alumni-Unternehmen?",
-      "answer": "Ja, wir haben bereits mehrere Projekte mit HSG-Startups umgesetzt. Wir verstehen die Anforderungen junger, dynamischer Unternehmen: schnelle Time-to-Market, Investor-Pitch-Materialien, Produkt-Demos und mehrsprachige Inhalte für internationale Märkte. Pricing ist transparent, gerade in der Frühphase achten wir auf MVP-Lösungen, die später erweiterbar sind."
+      "question": "Was kostet eine Website für ein St. Galler KMU oder eine Beratung?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein typisches Beratungsbüro mit 8 bis 12 Seiten, Blog, Personen-Profilen und SEO-Setup rechnen Sie mit CHF 2'490 bis CHF 4'990. B2B-Industrie-Websites mit mehrsprachigen Inhalten und Produktkonfigurator je nach Umfang CHF 4'990 plus. Hosting und Pflege ab CHF 10 pro Monat."
     },
     {
-      "question": "Wie schnell sind Sie vor Ort, wenn ein persönliches Treffen gewünscht ist?",
-      "answer": "Von Winterthur nach St. Gallen sind es nur 35 bis 45 Minuten je nach Verkehrslage. Wir sind flexibel und kommen gerne persönlich vorbei. Bei dringenden Terminen vereinbaren wir 1 bis 2 Tage im Voraus, bei regulären Workshops 1 Woche. Manche Kunden bevorzugen einen Treffpunkt in der HSG-Cafeteria oder im Stadtzentrum."
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, Websites mit bis zu 20 Seiten in 2 Wochen. Beratungsbüro-Websites mit Personen-Profilen und Case Studies etwa 3 bis 5 Wochen, je nach verfügbarem Material. B2B-Industrie-Websites mit mehrsprachiger Tiefe und Produktkonfigurator 6 bis 10 Wochen. KI-Chatbot oder Produktempfehlungen als Add-on möglich."
     },
     {
-      "question": "Können Sie Websites für Olma-Aussteller in kurzer Zeit umsetzen?",
-      "answer": "Ja, in den Wochen vor der Olma haben wir oft Aufträge für Aussteller, die ihre Website kurzfristig auffrischen wollen. Bei klar definiertem Scope ist eine Olma-fertige Website in 3 bis 4 Wochen möglich, vorausgesetzt Texte und Bilder sind vorhanden. Wir empfehlen aber, mindestens 6 Wochen vor der Olma anzufangen, um das Ergebnis sauber zu polieren."
+      "question": "Können Sie Websites für Olma-Aussteller kurzfristig umsetzen?",
+      "answer": "Ja, in den Wochen vor der Olma haben wir oft Aufträge für Aussteller, die ihre Website kurzfristig auffrischen wollen. Bei klar definiertem Scope ist eine Olma-fertige Website in 3 bis 4 Wochen möglich, vorausgesetzt Texte und Bilder sind vorhanden. Wir empfehlen aber, mindestens 6 Wochen vor der Olma zu starten, um das Ergebnis sauber zu polieren."
     },
     {
-      "question": "Beherrschen Sie die Mehrsprachigkeit für Ostschweizer Exporteure?",
-      "answer": "Ja. Viele St. Galler Industrie- und Textilunternehmen exportieren nach Deutschland, Italien, Frankreich und in die USA. Wir setzen auf Next.js mit i18n-Unterstützung. Jede Sprache wird separat für SEO optimiert, Hreflang-Tags sind eingebaut, URLs sind sprechend (z.B. /en/about, /it/contatto). Für Übersetzungen arbeiten wir mit Fach-Übersetzern in der Region zusammen."
+      "question": "Wie ranke ich für 'Beratung St. Gallen' oder 'Anwalt St. Gallen'?",
+      "answer": "Drei Hebel zählen. Technische Sauberkeit (schnelle Ladezeit, mobil, sauberes Markup) bauen wir ein. Lokale Signale (Google Business Profile mit aktiver Pflege, NAP-Konsistenz auf local.ch und herold.ch, Eintrag bei Branchenverzeichnissen wie KMU-Schweiz) sind Pflicht. Für stark umworbene Keywords helfen Backlinks von der HSG-Alumni-Plattform, Branchenverbänden oder thematischen Schweizer Portalen. Das ist ein eigenes mehrwöchiges Projekt."
     }
   ],
-  "whyChooseUs": "Als Agentur aus der Nachbarregion verstehen wir die Ostschweizer Mentalität perfekt: pragmatisch, qualitätsbewusst und mit Blick fürs Wesentliche. Wir kennen den HSG-Stil, die Stickerei-Tradition, die Banken-DNA und die Olma-Saison. Diese Vertrautheit hilft, schneller auf den Punkt zu kommen, ohne lange Erklärungen. Plus: keine Stadt-Aufschläge, faire Preise, persönlicher Kontakt.",
+  "whyChooseUs": "Wir verstehen die Ostschweizer Mentalität: pragmatisch, qualitätsbewusst, ohne Buzzwords. Anders als anonyme Webagenturen aus Zürich kommen wir bei Bedarf in 35 Minuten zu Ihnen, kennen das HSG-Umfeld, die Textil-Tradition und die Olma-Saison. Mit über 25 Ostschweizer Projekten bringen wir das Branchen-Know-how mit, das Sie für Suchanfragen aus St. Gallen, Appenzell und Rheintal brauchen.",
   "metaTitle": "Webdesign St. Gallen | Websites ab CHF 990",
   "metaDescription": "Webdesign St. Gallen: Premium-Lösung mit Headless CMS. ☎ 052 222 18 18",
   "keywords": [

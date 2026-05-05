@@ -2,15 +2,15 @@
   "slug": "schaffhausen",
   "name": "Schaffhausen",
   "headline": "Webdesign Schaffhausen",
-  "subheadline": "Websites für die Munot-Stadt und Region",
-  "description": "Schaffhausen verbindet Geschichte mit Innovation. Genau diesen Anspruch setzen wir auch in Ihrem Webdesign um: zeitlos modern und dennoch bodenständig.",
-  "intro": "Der Kanton Schaffhausen ist klein, aber wirtschaftlich bemerkenswert dicht. Mit rund 83'000 Einwohnern und einer Wirtschaft, die geprägt ist von globalen Industrieplayern wie Georg Fischer, SIG Combibloc und Cilag, dem Tourismusmagnet Rheinfall, dem Weinbau im Blauburgunderland und einem aktiven Handwerksgewerbe in Stadt und Klettgau. Schaffhauser Unternehmen zeichnen sich durch Qualität und Tradition aus, sind aber gleichzeitig international ausgerichtet, viele exportieren nach Deutschland und in die EU. Unser Standort an der Solenbergstrasse 35 in Schaffhausen ermöglicht persönliche Betreuung in der Region. Vom Ihrem Geschäft an der Vordergasse über den Industriebetrieb in Neuhausen am Rheinfall bis zum Weingut in Hallau oder Trasadingen sind wir in 15 bis 25 Minuten bei Ihnen. Anfahrt aus Winterthur dauert 30 Minuten mit dem Auto oder Zug. Wir kennen die Schaffhauser Eigenheiten, die Branchen und die Kunden, das schlägt sich in jedem Projekt nieder.",
+  "subheadline": "Websites für Schaffhauser Industrie, Weingüter und Gewerbe",
+  "description": "Eine Website, die in Schaffhausen funktioniert: konkret, ehrlich, ohne Marketing-Sprech. Wir kennen die regionalen Eigenheiten und bauen Websites, die Anfragen generieren statt nur schön aussehen.",
+  "intro": "Schaffhauser Unternehmen kommen oft mit einer klaren Frage zu uns: Wie wird die neue Website tatsächlich gefunden, ohne dass wir jeden Monat Hunderte Franken in Google Ads stecken? Die Antwort liegt in einer Mischung aus technischer Sauberkeit, ehrlichen Inhalten und lokaler SEO-Optimierung. Eine Schaffhauser Industrie-Website muss B2B-Einkäufer in Süddeutschland und der Schweiz gleichermassen überzeugen, ein Schaffhauser Weingut muss Touristen vom Rheinfall und Stammkunden aus dem Klettgau ansprechen, ein Schaffhauser Handwerksbetrieb muss bei lokalen Suchen wie 'Schreiner Neuhausen' oder 'Sanitär Schaffhausen' gefunden werden. Genau auf diese Anforderungen bauen wir. Unser Schaffhauser Standort an der Solenbergstrasse 35 (8207 Schaffhausen) ermöglicht persönliche Treffen ohne lange Anfahrt. Vom Stadtzentrum sind wir in 5 Minuten erreichbar, von Neuhausen am Rheinfall in 10, von Hallau im Klettgau in 25. Online-Shops für Weingüter, KI-gestützte Produktempfehlungen und klassisches B2B-Webdesign decken wir aus einer Hand ab.",
   "regionalImage": "/images/regions/schaffhausen.png",
   "localBenefits": [
-    "Standort in Schaffhausen",
-    "Lokales Netzwerk",
-    "Persönliche Betreuung",
-    "Regionale Referenzen"
+    "Standort Schaffhausen Solenbergstrasse",
+    "Erfahrung mit Industrie- und Weingut-Sites",
+    "Lokale SEO für Schaffhauser Suchanfragen",
+    "Persönliche Beratung vor Ort"
   ],
   "stats": [
     {
@@ -23,50 +23,50 @@
     }
   ],
   "localFaq": {
-    "question": "Haben Sie Erfahrung mit lokalen Branchen wie Weinbau oder Industrie?",
-    "answer": "Ja, wir haben bereits mehrere Websites für Schaffhauser Weingüter im Klettgau und für Industriebetriebe in Neuhausen und Beringen erstellt. Wir verstehen die Anforderungen dieser Branchen, von der saisonalen Kommunikation der Winzer mit Vinothek-Betrieb bis zur technischen B2B-Präsentation eines Maschinenbauers. Auf Wunsch zeigen wir Ihnen Referenzprojekte aus der Region in einem persönlichen Gespräch."
+    "question": "Wo befindet sich Ihr Schaffhauser Büro?",
+    "answer": "Wir sitzen an der Solenbergstrasse 35 in 8207 Schaffhausen. Vom Stadtzentrum sind wir in 5 Minuten mit Bus oder Auto erreichbar, von Neuhausen am Rheinfall in 10 Minuten. Parkplätze sind vorhanden. Alternativ kommen wir gerne zu Ihnen ins Büro, ins Weingut im Klettgau oder zum Industriebetrieb in Beringen. Initialgespräch dauert 45 bis 60 Minuten und ist kostenlos."
   },
   "localIndustries": [
     {
-      "name": "Industrie & Produktion",
-      "description": "Von Georg Fischer über SIG Combibloc bis zu spezialisierten Zulieferern hat Schaffhausen eine starke industrielle Basis. Diese Unternehmen exportieren weltweit, kommunizieren mehrsprachig und brauchen B2B-fokussierte digitale Auftritte mit technischer Tiefe.",
-      "websiteNeeds": "B2B-Kommunikation, technische Produktkataloge, Karriereseiten für Talent-Akquise, Mehrsprachigkeit DE/EN, Investor Relations"
+      "name": "Industrie & Maschinenbau",
+      "description": "Schaffhauser Industriebetriebe wie Georg Fischer und SIG Combibloc plus zahlreiche Zulieferer exportieren weltweit. Ihre Websites müssen B2B-Einkäufer überzeugen, die Datenblätter und Zertifikate vergleichen, plus Talente aus dem Hegau und der Ostschweiz anziehen.",
+      "websiteNeeds": "Strukturierte Produktkataloge mit downloadbaren Datenblättern, Zertifikate und Compliance-Hinweise prominent, Karriereseite mit offenen Stellen, mehrsprachig DE/EN, technischer Blog für Such-Sichtbarkeit"
     },
     {
-      "name": "Weinbau & Landwirtschaft",
-      "description": "Das Schaffhauser Blauburgunderland mit Hallau, Trasadingen und Wilchingen ist eine der bekanntesten Weinbauregionen der Deutschschweiz. Über 60 Weingüter und Selbstkelterer brauchen ansprechende Online-Auftritte mit Verkaufsfunktion.",
-      "websiteNeeds": "Emotionales Storytelling, Online-Shop mit Versandlogik, Veranstaltungskalender für Weinkeller-Anlässe, Galerien, Altersverifikation"
+      "name": "Weingüter & Direktvermarktung",
+      "description": "Über 60 Weingüter und Selbstkelterer im Schaffhauser Blauburgunderland verkaufen direkt an Endkunden in der ganzen Schweiz. Eine moderne Website mit Online-Shop ist heute Standard, ebenso ein Newsletter für saisonale Ankündigungen und Vinothek-Anlässe.",
+      "websiteNeeds": "Online-Shop mit Versand-Logik und Altersverifikation, Produktkatalog mit Jahrgängen, Veranstaltungskalender für Weinkeller-Anlässe, emotionales Storytelling, Galerie der Weinberge"
     },
     {
-      "name": "Tourismus & Rheinfall",
-      "description": "Der Rheinfall in Neuhausen, der Munot in der Stadt Schaffhausen und die Altstadt ziehen jährlich über 1 Million Besucher an. Lokale Hotels, Restaurants, Anbieter von Bootsfahrten und Erlebnis-Anbieter benötigen attraktive digitale Präsenzen.",
-      "websiteNeeds": "Mehrsprachigkeit (DE/EN/FR/IT), Buchungssysteme, mobile-first Design für Spontan-Besucher, Bildergalerien, Google Maps Integration"
+      "name": "Tourismus rund um den Rheinfall",
+      "description": "Hotels, Gastronomie und Erlebnisanbieter rund um den Rheinfall, den Munot und die Schaffhauser Altstadt brauchen mehrsprachige Websites, die deutsche Tagesbesucher und Schweizer Wochenend-Gäste gleichermassen ansprechen.",
+      "websiteNeeds": "Mehrsprachigkeit DE/EN/FR/IT, Buchungssysteme integriert, Bildergalerien mobile-optimiert, Google Maps mit Anfahrt, Wetter-Integration für saisonale Spitzen"
     },
     {
       "name": "Handwerk & Gewerbe",
-      "description": "Schreiner, Elektriker, Sanitär- und Heizungsbetriebe prägen das Gewerbe in Stadt und Region. Viele sind Familienbetriebe seit mehreren Generationen, brauchen aber moderne Sichtbarkeit für die nächste Kundengeneration.",
-      "websiteNeeds": "Leistungsübersicht klar strukturiert, Referenzbilder, Notdienst-Kontakt prominent, Kontaktformular mit Foto-Upload, lokale SEO"
+      "description": "Schreiner, Elektriker, Sanitärbetriebe und Heizungsfachfirmen in Stadt, Klettgau und Reiat sind oft Familienbetriebe mit klar definiertem Einzugsgebiet. Sie suchen Sichtbarkeit für lokale Suchanfragen ohne Marketing-Aufwand.",
+      "websiteNeeds": "Klare Leistungsübersicht, Referenzbilder mit Vor-Nachher, Notdienst-Hotline prominent, Kontaktformular mit Foto-Upload, lokale SEO und Google Maps Integration"
     }
   ],
   "additionalFaqs": [
     {
-      "question": "Können Sie Websites für Weingüter mit Online-Shop erstellen?",
-      "answer": "Ja, wir haben bereits mehrere Wein-Online-Shops umgesetzt. Dabei berücksichtigen wir die speziellen Anforderungen wie Versandbedingungen, Mengen-Rabatte, Altersverifikation, saisonale Aktionen und die Verbindung zu bestehenden Kassensystemen oder ERPs. Auf Wunsch integrieren wir auch eine Anbindung an branchenspezifische Verkaufsplattformen wie WineBid oder Schweizer Wein-Shops."
+      "question": "Was kostet eine Website für ein Schaffhauser KMU oder Weingut?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website. Für ein typisches Weingut mit Online-Shop, Produktkatalog und Veranstaltungskalender rechnen Sie mit CHF 2'490 bis CHF 4'990. Industrie-Websites mit mehrsprachigen Inhalten und technischer Tiefe je nach Umfang CHF 4'990 plus. Hosting und Pflege ab CHF 10 pro Monat. Konkrete Offerte nach 30-minütigem Erstgespräch."
+    },
+    {
+      "question": "Wie lange dauert ein Webdesign-Projekt?",
+      "answer": "Onepager innert 3 Arbeitstagen, Websites mit bis zu 20 Seiten in 2 Wochen, Online-Shop für ein Weingut etwa 4 bis 6 Wochen, je nach Anzahl Produkte und Integrationen. Bei B2B-Industrie-Websites mit mehrsprachigen Inhalten 6 bis 10 Wochen. KI-Integration für Chatbots oder Produktempfehlungen ist möglich, plant rechnen Sie mit zusätzlichen 1 bis 2 Wochen Setup."
+    },
+    {
+      "question": "Wie wird unser Weingut bei 'Wein kaufen Schaffhausen' gefunden?",
+      "answer": "Drei Hebel: Technische Sauberkeit (schnelle Ladezeit, mobil, sauberes Markup) bauen wir ein. Lokale Signale wie Google Business Profile, Eintrag bei Schweizer Wein-Verzeichnissen und NAP-Konsistenz auf local.ch sind Pflicht. Inhalte wie Jahrgangs-Berichte, Rezepte und Weinkeller-Termine bringen wiederkehrende Besucher. Backlinks von Restaurant-Listings und regionalen Tourismusportalen helfen zusätzlich."
     },
     {
       "question": "Arbeiten Sie auch mit deutschen Kunden in der Grenznähe?",
-      "answer": "Selbstverständlich. Wir betreuen auch Kunden aus dem nahen Süddeutschland, vor allem aus dem Hegau und dem Bodenseekreis. Die Währungsumrechnung CHF/EUR, DSGVO- und DSG-Konformität, mehrsprachige Inhalte und grenzüberschreitende Versandlogiken beherrschen wir. Bei rechtlichen Fragen zu Cookie-Banner, Impressum und AGB für beidseitig konforme Lösungen arbeiten wir mit spezialisierten Anwälten zusammen."
-    },
-    {
-      "question": "Wie schnell sind Sie bei Problemen vor Ort?",
-      "answer": "Dank unseres Schaffhauser Standorts an der Solenbergstrasse sind wir in 15 bis 25 Minuten in der Region vor Ort. Bei dringenden Anpassungen oder Schulungsterminen vereinbaren wir oft schon am gleichen oder am nächsten Werktag einen Termin. Remote-Support ist innert Minuten verfügbar."
-    },
-    {
-      "question": "Können Sie auch Inhalte für unsere Industriekunden in technischer Tiefe schreiben?",
-      "answer": "Wir schreiben technische B2B-Inhalte gerne, brauchen dafür aber Input von Ihnen. Das Modell ist meist: Sie liefern fachliches Briefing in 30 bis 60 Minuten, wir schreiben den Text strukturiert und SEO-optimiert. Für sehr spezialisierte Branchen arbeiten wir mit Fach-Textern aus unserem Netzwerk zusammen, um die Präzision sicherzustellen."
+      "answer": "Ja. Wir betreuen Kunden aus dem nahen Süddeutschland, vor allem aus dem Hegau und dem Bodenseekreis. DSGVO-konforme Cookie-Banner, Datenschutzerklärung nach EU-Recht, Währungsumrechnung CHF/EUR und grenzüberschreitende Versandlogiken beherrschen wir. Bei rechtlich heiklen Themen wie Online-Shop-AGB für beide Märkte arbeiten wir mit spezialisierten Anwälten zusammen."
     }
   ],
-  "whyChooseUs": "Als regionale Agentur mit echtem Schaffhauser Bezug verstehen wir die lokale Mentalität: bodenständig, qualitätsbewusst und mit Blick fürs Wesentliche. Wir sind kein anonymer Provider aus Zürich, sondern Ihre Nachbarn aus Schaffhausen. Bei einem Anruf erreichen Sie uns direkt, bei einem Auftrag aus Hallau wissen wir genau, wo das ist. Und bei einer dringenden Anpassung sind wir in 25 Minuten bei Ihnen. Plus moderne Technik und faire Preise.",
+  "whyChooseUs": "Wir sind in Schaffhausen vor Ort, mit Büro an der Solenbergstrasse 35. Anders als anonyme Webagenturen aus Zürich oder Deutschland kommen wir bei Bedarf in 15 Minuten zu Ihnen, kennen die regionalen Branchen und sprechen die gleiche Sprache. Mit Erfahrung in Industrie-, Weingut- und Tourismus-Websites bringen wir das Branchen-Know-how, das Sie für Suchanfragen aus der Region brauchen.",
   "metaTitle": "Webdesign Schaffhausen | Websites ab CHF 990",
   "metaDescription": "Webdesign Schaffhausen: Lokaler Partner für moderne Websites. Ab CHF 990. ☎ 052 222 18 18",
   "keywords": [
