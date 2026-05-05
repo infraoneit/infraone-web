@@ -2,72 +2,88 @@
   "slug": "thurgau",
   "name": "Thurgau",
   "isFree": false,
-  "anfahrt": "CHF 50 Pauschal (bis 1 h ab Winterthur)",
+  "anfahrt": "Standort Tägerwilen, kurze Wege in der Region",
   "headline": "IT-Support Thurgau",
-  "subheadline": "Ihr IT-Partner am Bodensee",
-  "description": "IT-Support Thurgau mit Standort in Tägerwilen. Persönlicher Service für Frauenfeld, Kreuzlingen, Weinfelden, Arbon. Spezialisiert auf Tourismus, Gastronomie & Landwirtschaft.",
-  "intro": "Der Thurgau – bekannt für Äpfel, den Bodensee und eine vielfältige Wirtschaft. Von unserem Standort in Tägerwilen (bei Kreuzlingen) aus betreuen wir den gesamten Kanton persönlich und kompetent. Ob Obstbaubetrieb, Arztpraxis, Handwerksbetrieb oder Hotel am Bodensee – wenn die IT streikt, sind wir schnell vor Ort. Von Frauenfeld über Kreuzlingen bis Weinfelden und Arbon: Wir kennen die Region, sprechen Thurgauer Dialekt und verstehen die Anforderungen lokaler Betriebe. Keine anonyme Hotline, sondern echte Nachbarschaftshilfe mit IT-Expertise.",
+  "subheadline": "Lokaler IT-Partner für Thurgauer Hotellerie, Industrie und Gewerbe",
+  "description": "Standort Tägerwilen Bahnhofstrasse 17. IT-Support für Thurgauer KMU, Hotels und Direktvermarkter. Vor-Ort meist innert Stunden, Remote-Support sofort.",
+  "intro": "Thurgauer Unternehmen haben pragmatische IT-Anforderungen: es muss funktionieren, einfach bedienbar sein und ohne grosse Wartung laufen. Genau das liefern wir. Mit unserem Standort an der Bahnhofstrasse 17 in 8274 Tägerwilen sind wir direkt an der Grenze zu Konstanz, mit kurzen Wegen in den ganzen Kanton: nach Kreuzlingen 15 Minuten, nach Frauenfeld 30, nach Romanshorn 30, nach Amriswil 35 und nach Weinfelden ebenfalls 35 Minuten. Wenn ein Hotel in Kreuzlingen die Booking-Anbindung verliert, eine Mosterei in Bischofszell den Online-Shop nicht aktualisieren kann oder eine Schreinerei in Frauenfeld eine neue Buchhaltungssoftware braucht, sind wir der lokale Ansprechpartner. Remote-Support starten wir während des Telefonats. Persönliche Termine vor Ort vereinbaren wir flexibel, dank kurzer Distanzen meist am gleichen oder nächsten Tag. Wir kennen die Thurgauer Branchen und liefern, was sie brauchen.",
   "regionalImage": "/images/regions/thurgau.png",
   "localBenefits": [
-    "Büro in Tägerwilen",
-    "Kurze Anfahrtswege",
-    "Kennt lokale Betriebe",
-    "Schnelle Reaktionszeit"
+    "Standort Tägerwilen am Bodensee",
+    "Vor-Ort in Kreuzlingen 15 Min",
+    "Erfahrung mit Bodensee-Hotellerie",
+    "Lokale Ansprechpartner"
   ],
   "stats": [
     {
       "label": "Thurgauer Kunden",
-      "value": "60+"
+      "value": "40+"
     },
     {
-      "label": "Ø Anfahrt",
-      "value": "< 25 Min"
+      "label": "Ø Anfahrt Region",
+      "value": "< 35 Min"
     }
   ],
   "localIndustries": [
     {
-      "name": "Landwirtschaft & Obstbau",
-      "need": "Robuste Hardware, Agrarsoftware, Wetterstation-Anbindung"
+      "name": "Hotellerie und Gastronomie",
+      "need": "PMS-Systeme (protel, Mews, Apaleo) angebunden, Booking.com-Channel-Manager wartungsfrei, sicheres Gäste-WLAN segmentiert, IT-Backup für Reservierungssystem, schnelle Hilfe in der Hauptsaison"
     },
     {
-      "name": "Gesundheitswesen",
-      "need": "Sichere Patientendaten, HIN-Mail, Praxissoftware"
+      "name": "Mosterei und Direktvermarktung",
+      "need": "Online-Shop saisonal mit Versand-Logik, Kassensystem für Hofladen, Buchhaltungs-Software einfach bedienbar, regelmässige Backups, Marketing-Tools für Newsletter und saisonale Aktionen"
     },
     {
-      "name": "Tourismus & Gastronomie",
-      "need": "Kassensysteme, Buchungssoftware, WLAN für Gäste"
+      "name": "Industrie und Mittelstand",
+      "need": "ERP-Stabilität (SAP, Abacus, Comarch), Server-Wartung mit Monitoring, VPN für Aussendienst und Homeoffice, IT-Sicherheits-Konzept, Notfall-Wiederherstellung in unter 4 Stunden"
+    },
+    {
+      "name": "Handwerk und Bau",
+      "need": "Robuste Hardware für Werkstätten, einfaches Backup, mobiles Arbeiten auf Baustellen mit Tablet, Cloud-Speicher für Pläne und Offerten, Anbindung von Branchen-Software wie Auer Lohn und Bau"
     }
   ],
-  "localFaqQuestion": "Betreuen Sie den ganzen Kanton Thurgau?",
-  "localFaqAnswer": "Ja, von Tägerwilen aus sind wir in Frauenfeld, Kreuzlingen, Weinfelden und der gesamten Region schnell vor Ort. Remote-Support ist sofort verfügbar.",
+  "localFaqQuestion": "Wie schnell sind Sie im Thurgau vor Ort?",
+  "localFaqAnswer": "Vom Tägerwiler Standort sind wir in Kreuzlingen in 15 Minuten, in Frauenfeld in 30, in Romanshorn in 30, in Amriswil in 35 und in Weinfelden in 35 Minuten. Bei dringenden Notfällen sind wir oft am gleichen Tag bei Ihnen. Remote-Support starten wir innert Minuten direkt vom Telefonat.",
   "additionalFaqs": [
     {
-      "question": "Verstehen Sie die Bedürfnisse von Obstbaubetrieben?",
-      "answer": "Ja, wir betreuen mehrere Obstbau- und Landwirtschaftsbetriebe im Thurgau. Von der Anbindung von Wetterstationen bis zur Buchhaltungssoftware."
+      "question": "Was kostet IT-Support für ein Thurgauer KMU oder Hotel?",
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Im Bodenseeraum dank lokalem Standort meist ohne Anfahrtsaufschlag. Wartungsverträge mit garantierter Reaktionszeit für Hotels und Industriebetriebe ab CHF 200 pro Monat. Notfall-Hotline bis 23:00 Uhr unter 076 587 50 55."
     },
     {
-      "question": "Können Sie auch am Bodensee-Ufer vor Ort sein?",
-      "answer": "Ja, von Romanshorn über Kreuzlingen bis Gottlieben – wir betreuen Kunden entlang des gesamten Thurgauer Bodenseeufers."
+      "question": "Können Sie Hotel-PMS-Systeme wie protel oder Mews betreuen?",
+      "answer": "Ja. Wir haben Erfahrung mit den gängigen PMS-Systemen für die Bodensee-Hotellerie. Bei Migration auf ein neues PMS koordinieren wir mit dem Anbieter, sichern bestehende Daten, richten Channel-Manager-Anbindungen ein und schulen das Team. Bei laufender Betreuung sind wir Ansprechpartner für alle IT-bezogenen Themen rund um Reservierung, Backup und Integration."
+    },
+    {
+      "question": "Bieten Sie auch Support für deutsche Tochterfirmen am Bodensee?",
+      "answer": "Ja. Viele Thurgauer Unternehmen haben deutsche Niederlassungen am Bodensee. Wir betreuen Cross-Border-IT-Setups: VPN zwischen Schweiz und Deutschland, DSGVO- und DSG-konforme Datenstrukturen, MwSt.-Schnittstellen zu beiden Ländern, mehrsprachige IT-Workflows. Bei rechtlich heiklen Themen koordinieren wir mit spezialisierten Anwälten in Konstanz oder Zürich."
+    },
+    {
+      "question": "Was machen Sie bei einem Server-Ausfall mitten in der Saison?",
+      "answer": "Bei kritischen Notfällen wie Server-Ausfall, Ransomware oder Datenverlust ist die Notfall-Hotline 076 587 50 55 bis 23:00 Uhr erreichbar. Erste Schritte: Geräte vom Netz, Backup prüfen, Schadens-Eingrenzung. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten. Im Hotel-Geschäft koordinieren wir parallele Notfall-Lösungen wie temporäre Reservierungs-Aufnahme via Excel oder Papier."
+    },
+    {
+      "question": "Können Sie auch saisonale IT-Spitzen für Mostereien oder Hotellerie managen?",
+      "answer": "Ja. In Spitzen-Monaten der Mosterei (August bis November) oder der Hotel-Saison (Sommer am Bodensee, Skisaison) garantieren wir bevorzugte Reaktionszeiten und stehen für Notfall-Hilfe bereit. Bei Wartungsverträgen mit Saison-Klausel halten wir auch Reserve-Hardware bereit, um Ausfälle in Spitzenzeiten zu minimieren. Vor jeder Saison machen wir gerne einen Health-Check der Systeme als Vorbereitung."
     }
   ],
-  "metaTitle": "IT-Support Thurgau | IT-Hilfe Frauenfeld, Kreuzlingen",
-  "metaDescription": "IT-Support Thurgau: Schneller Service in Frauenfeld, Kreuzlingen, Weinfelden. Remote innert Minuten, Vor-Ort mit kurzer Anfahrt. ☎ 052 222 18 18",
+  "metaTitle": "IT-Support Thurgau | Lokaler Partner für KMU am Bodensee",
+  "metaDescription": "IT-Support Thurgau: Standort Tägerwilen, schnelle Hilfe für Hotellerie und KMU. Remote-Support innert Minuten. ☎ 052 222 18 18",
   "keywords": [
     "IT Support Thurgau",
-    "Computerhilfe Frauenfeld",
-    "PC Support Kreuzlingen",
-    "IT Service Weinfelden"
+    "Computer Support Thurgau",
+    "PC Hilfe Frauenfeld",
+    "Informatiker Bodensee"
   ],
   "schemaType": "LocalBusiness",
   "includeFaqSchema": true,
   "canonicalUrl": "https://infraone.ch/it-support/thurgau",
   "areaServed": [
     "Thurgau",
-    "Frauenfeld",
     "Kreuzlingen",
-    "Weinfelden",
-    "Arbon",
-    "Romanshorn"
+    "Frauenfeld",
+    "Romanshorn",
+    "Amriswil",
+    "Weinfelden"
   ],
   "addressLocality": "Tägerwilen",
   "postalCode": "8274",

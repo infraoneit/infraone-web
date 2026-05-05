@@ -2,61 +2,77 @@
   "slug": "schaffhausen",
   "name": "Schaffhausen",
   "isFree": false,
-  "anfahrt": "CHF 50 Pauschal (bis 1 h ab Winterthur)",
+  "anfahrt": "Standort Solenbergstrasse, kurze Wege in der Region",
   "headline": "IT-Support Schaffhausen",
-  "subheadline": "IT-Hilfe an der Grenze zu Deutschland",
-  "description": "IT-Support Schaffhausen: Schnelle Hilfe für KMU und Privatpersonen. Remote innert Minuten, Vor-Ort-Einsätze mit kurzer Anfahrt. Faire Preise, kompetente Beratung.",
-  "intro": "Schaffhausen – die Stadt am Rheinfall, geprägt von Industrie, Handel und Tourismus. Hier ticken die Uhren anders, und die IT muss mithalten. Ob im Industriebetrieb in Neuhausen, der Arztpraxis in der Altstadt oder im Gastronomiebetrieb am Rheinufer: Wenn die Technik streikt, brauchen Sie schnelle Hilfe. Von Winterthur aus sind wir in etwa 30 Minuten bei Ihnen. Remote-Support starten wir meist schon während des Telefonats. Wir kennen die Schaffhauser Wirtschaft und ihre Anforderungen – von der Uhrenindustrie bis zum Rheinfall-Tourismus.",
+  "subheadline": "Lokaler IT-Partner für Schaffhauser Industrie, Praxen und Gewerbe",
+  "description": "Standort Schaffhausen Solenbergstrasse 35. Vor-Ort-Einsätze meist innert Stunden, Remote-Support sofort. Erfahrung mit Industrie, Arztpraxen und Handwerk in Stadt und Klettgau.",
+  "intro": "Schaffhauser KMU haben oft die gleichen IT-Probleme wie Zürcher, aber selten das gleiche Budget für Lösungen. Genau dort setzen wir an. Mit unserem Standort an der Solenbergstrasse 35 in 8207 Schaffhausen sind wir vor Ort, ohne Anfahrtsstunden zu verrechnen. Vom Stadtzentrum erreichen wir Sie in 5 Minuten, von Neuhausen am Rheinfall in 10, von Beringen oder Hallau im Klettgau in 20 bis 25 Minuten. Wenn ein Industriebetrieb in der Region eine ERP-Anbindung braucht, eine Schaffhauser Arztpraxis HIN-Mail einrichten will oder ein Weingut den Online-Shop in den Verkaufsablauf integrieren muss, sind wir der lokale Ansprechpartner. Remote-Support starten wir innert Minuten direkt vom Telefonat. Vor-Ort-Einsätze planen wir flexibel, oft am gleichen oder am nächsten Werktag. Klartext statt IT-Latein, faire Preise statt Mond-Tarife.",
   "regionalImage": "/images/regions/schaffhausen.png",
   "localBenefits": [
-    "30 Min ab Winterthur",
-    "Remote-Support sofort",
-    "Industrie-Know-how",
-    "Faire Anfahrtskosten"
+    "Standort Schaffhausen Solenbergstrasse",
+    "Vor-Ort innert 30 Minuten in der Region",
+    "Erfahrung mit Schaffhauser Branchen",
+    "Remote-Support innert Minuten"
   ],
   "stats": [
     {
       "label": "Schaffhauser Kunden",
-      "value": "35+"
+      "value": "30+"
     },
     {
-      "label": "Ø Anfahrt",
-      "value": "30 Min"
+      "label": "Ø Reaktionszeit Remote",
+      "value": "< 15 Min"
     }
   ],
   "localIndustries": [
     {
-      "name": "Industrie",
-      "need": "Produktionsanbindung, Netzwerke, Backup-Strategien"
+      "name": "Industrie und Maschinenbau",
+      "need": "ERP-Anbindung stabil (SAP, Abacus, Microsoft Dynamics), B2B-Portal angebunden, Mehrsprachige IT-Workflows DE/EN, VPN für Aussendienst, Backup-Strategie für Produktionsdaten"
     },
     {
-      "name": "Gesundheitswesen",
-      "need": "Sichere Patientendaten, HIN-Mail, Praxissoftware"
+      "name": "Arztpraxen und Therapie",
+      "need": "KIS-Anbindung mit Hin-Mail, Sichere Patientendaten nach DSG, schnelle Hilfe bei Outlook-Ausfall, regelmässige verschlüsselte Backups, IT-Sicherheits-Konzept gegen Ransomware"
     },
     {
-      "name": "Gastronomie & Tourismus",
-      "need": "Kassensysteme, Buchungssoftware, WLAN für Gäste"
+      "name": "Weingüter und Gastronomie",
+      "need": "Kassensystem (e.g. ALL.IN, GastroCloud) angebunden, Online-Shop mit Versand-Logik, Reservierungssystem, WLAN für Gäste sicher segmentiert, Marketing-Tools (Mailchimp, CRM)"
+    },
+    {
+      "name": "Handwerk und Gewerbe",
+      "need": "Robuste Hardware für Werkstätten, Backup-Lösungen ohne IT-Wissen bedienbar, mobiles Arbeiten auf Baustellen, Cloud-Speicher für Pläne, schnelle Hardware-Hilfe bei Ausfällen"
     }
   ],
-  "localFaqQuestion": "Wie schnell können Sie in Schaffhausen vor Ort sein?",
-  "localFaqAnswer": "Von Winterthur aus sind wir in etwa 30 Minuten bei Ihnen. Bei dringenden Notfällen starten wir oft schon während des Telefonats mit Remote-Support.",
+  "localFaqQuestion": "Wie schnell sind Sie in Schaffhausen vor Ort?",
+  "localFaqAnswer": "Vom Schaffhauser Standort an der Solenbergstrasse erreichen wir das Stadtzentrum in 5 Minuten, Neuhausen am Rheinfall in 10 Minuten, Beringen und Hallau im Klettgau in 20 bis 25 Minuten. Bei dringenden Notfällen sind wir oft am gleichen Tag bei Ihnen. Remote-Support starten wir innert Minuten während des Telefonats.",
   "additionalFaqs": [
     {
-      "question": "Betreuen Sie auch Industriebetriebe?",
-      "answer": "Ja, wir haben Erfahrung mit Produktionsumgebungen und industriellen Netzwerken. Von der Anbindung von Maschinen bis zur Datensicherung."
+      "question": "Was kostet IT-Support in Schaffhausen?",
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Im Schaffhauser Stadtgebiet und Klettgau fallen keine zusätzlichen Anfahrtskosten an, dank lokalem Standort an der Solenbergstrasse. Wartungsverträge mit garantierter Reaktionszeit ab CHF 200 pro Monat. Bei Privatkunden Vor-Ort-Support ab CHF 145 pro Stunde, oft sind Probleme aber bereits per Remote-Support innert 30 Minuten gelöst."
     },
     {
-      "question": "Können Sie bei der Digitalisierung helfen?",
-      "answer": "Gerne. Wir begleiten Sie von der Planung über die Umsetzung bis zum laufenden Betrieb – ob Cloud-Migration, Dokumentenmanagement oder neue Software."
+      "question": "Können Sie auch deutsche Grenzgänger-Betriebe unterstützen?",
+      "answer": "Ja. Viele Schaffhauser Unternehmen haben deutsche Tochterfirmen oder bedienen den Hegau und Bodenseekreis. Wir kennen die unterschiedlichen Anforderungen: DSGVO-Konformität, Cross-Border-VPN zwischen Schweiz und Deutschland, Schweizer DSG mit deutschem Ableger, MwSt.-Schnittstellen zu beiden Ländern. Bei rechtlich heiklen Themen koordinieren wir mit spezialisierten Anwälten in der Region. Mehrsprachige IT-Workflows DE und EN sind Standard."
+    },
+    {
+      "question": "Bieten Sie auch IT-Sicherheits-Audits für Schaffhauser KMU?",
+      "answer": "Ja. Ein IT-Sicherheits-Audit prüft Firewall-Regeln, Server-Konfiguration, Backup-Strategie, Mitarbeiter-Berechtigungen und Endpoint-Security. Aufwand für ein typisches KMU mit 10 bis 30 Mitarbeitenden 8 bis 16 Stunden, Resultat ist ein Bericht mit Massnahmenliste priorisiert nach Risiko. Stundensatz CHF 200, weil Audit Spezialwissen erfordert. Auf Wunsch begleiten wir die Umsetzung der priorisierten Massnahmen direkt im Anschluss."
+    },
+    {
+      "question": "Können Sie Ransomware-Vorfälle behandeln?",
+      "answer": "Ja, leider mit zunehmender Häufigkeit auch in der Region Schaffhausen. Bei Verdacht auf Ransomware: Geräte sofort vom Netz, niemand soll sich einloggen, anrufen unter 076 587 50 55. Wir prüfen Schaden, isolieren Systeme, prüfen Backup-Integrität und leiten Wiederherstellung ein. Vorbeugung mit verschlüsselten Backups und Endpoint-Security ist günstiger als Notfall-Behandlung."
+    },
+    {
+      "question": "Bieten Sie auch IT-Support für Schaffhauser Vereine, Stiftungen und Genossenschaften?",
+      "answer": "Ja. Vereine, Stiftungen und Genossenschaften in der Region haben oft begrenzte Budgets, brauchen aber sichere und konforme IT-Lösungen. Wir helfen bei der Migration auf Microsoft-365-Non-Profit-Lizenzen, richten einfache Backup- und Buchhaltungs-Lösungen ein und beraten zur DSG-Konformität bei Mitglieder- und Spenderdaten. Initialberatung ist kostenlos und unverbindlich."
     }
   ],
-  "metaTitle": "IT-Support Schaffhausen | Schnelle IT-Hilfe",
-  "metaDescription": "IT-Support Schaffhausen: Schnelle Hilfe für KMU und Privatpersonen. Remote innert Minuten, Vor-Ort in 30 Min. ab CHF 130/h Remote, ab CHF 145/h Vor-Ort. ☎ 052 222 18 18",
+  "metaTitle": "IT-Support Schaffhausen | Lokaler Partner für KMU",
+  "metaDescription": "IT-Support Schaffhausen: Standort Solenbergstrasse, schnelle Vor-Ort-Hilfe. Remote-Support innert Minuten. ☎ 052 222 18 18",
   "keywords": [
     "IT Support Schaffhausen",
-    "Computerhilfe Schaffhausen",
-    "PC Support Schaffhausen",
-    "IT Service Schaffhausen"
+    "Computer Support Schaffhausen",
+    "PC Hilfe Schaffhausen",
+    "Informatiker Schaffhausen"
   ],
   "schemaType": "LocalBusiness",
   "includeFaqSchema": true,
@@ -64,10 +80,12 @@
   "areaServed": [
     "Schaffhausen",
     "Neuhausen am Rheinfall",
-    "Stein am Rhein"
+    "Beringen",
+    "Hallau",
+    "Klettgau"
   ],
   "addressLocality": "Schaffhausen",
-  "postalCode": "8200",
+  "postalCode": "8207",
   "openingHours": [
     {
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],

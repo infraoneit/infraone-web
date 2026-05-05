@@ -4,70 +4,85 @@
   "isFree": false,
   "anfahrt": "CHF 50 Pauschal (bis 1 h ab Winterthur)",
   "headline": "IT-Support St. Gallen",
-  "subheadline": "IT-Expertise für die Ostschweizer Metropole",
-  "description": "IT-Support für St. Gallen: Remote-Hilfe sofort, Vor-Ort in 30 Min. Spezialisiert auf Bildung, Startups, Textil & Design. Kompetenter Service für die Ostschweizer Wirtschaft.",
-  "intro": "St. Gallen – das wirtschaftliche und akademische Zentrum der Ostschweiz. Von Stickerei-Unternehmen mit digitaler Produktion über HSG-Startups bis zu Bildungseinrichtungen: Die IT-Anforderungen sind vielfältig und anspruchsvoll. Wenn der Computer an der Uni streikt, das Netzwerk im Textilbetrieb ausfällt oder die Cloud-Lösung beim Startup nicht funktioniert – helfen wir schnell und kompetent. Remote-Support starten wir meist während des Telefonats. Für Vor-Ort-Einsätze sind wir von Tägerwilen aus in etwa 30 Minuten bei Ihnen. Wir verstehen die Ostschweizer Mentalität: gradlinig, qualitätsbewusst, ohne Schnörkel.",
+  "subheadline": "Schnelle IT-Hilfe für Ostschweizer KMU, Beratungen und HSG-Umfeld",
+  "description": "Remote-Support innert Minuten, Vor-Ort-Einsätze in St. Gallen meist am selben Tag. Erfahrung mit Beratungsbüros, HSG-Startups, Industriebetrieben und Praxen.",
+  "intro": "St. Galler Unternehmen ticken anders als Zürcher: pragmatischer, präziser, weniger marketing-getrieben. Die IT-Anforderungen sind aber genauso anspruchsvoll. Eine HSG-nahe Beratung verlangt verschlüsselte Mandantenkommunikation, ein Textilunternehmen in Bruggen braucht ERP-Anbindung mit asiatischen Partnern, eine Gastronomie im Klostergeviert verlangt Reservierungs-Integration mit POS-System. Wir sind dann der Ansprechpartner, der per Remote-Tool in Minuten dabei ist und bei Bedarf vor Ort. Anfahrt aus unserem Winterthurer Hauptsitz mit der S-Bahn 35 Minuten via Wil oder mit dem Auto 45 Minuten über die A1. Vom Stadtzentrum erreichen wir alle wichtigen St. Galler Stadtteile wie Bruggen, Riethüsli oder Linsebühl in 10 bis 15 Minuten. Bei dringenden Notfällen sind wir oft am gleichen Tag bei Ihnen, dank Remote-Support meistens schon innert Minuten unterwegs zum Problem.",
   "regionalImage": "/images/regions/st-gallen.png",
   "localBenefits": [
-    "30 Min ab Tägerwilen",
+    "Anfahrt 35 Min ab Winterthur",
     "Remote-Support sofort",
-    "Uni & Bildungs-Know-how",
-    "Faire Anfahrtskosten"
+    "Erfahrung mit HSG-Umfeld",
+    "Ostschweizer Mentalität"
   ],
   "stats": [
     {
-      "label": "St. Galler Kunden",
-      "value": "45+"
+      "label": "Ostschweizer Kunden",
+      "value": "50+"
     },
     {
-      "label": "Ø Anfahrt",
-      "value": "30 Min"
+      "label": "Anfahrt ab Winterthur",
+      "value": "35 Min"
     }
   ],
   "localIndustries": [
     {
-      "name": "Bildungseinrichtungen",
-      "need": "Schul-IT, iPad-Klassen, sicheres WLAN für Studenten"
+      "name": "Beratung und Wirtschaftsprüfung",
+      "need": "Sichere Mandantendaten verschlüsselt, mehrsprachige IT-Workflows DE/EN, 2-Faktor-Authentifizierung, E-Mail-Archivierung gesetzeskonform, sicheres Cloud-Hosting in der Schweiz"
     },
     {
-      "name": "Textil & Design",
-      "need": "Grosse Datenmengen, Backups, Adobe Creative Cloud Support"
+      "name": "Industrie und Textil",
+      "need": "ERP-Anbindung weltweit (SAP, Microsoft Dynamics), B2B-Portal mit Bestellsystemen, mehrsprachige Workflows, VPN für Aussendienst, Backup-Strategie für Produktionsdaten und Designs"
     },
     {
-      "name": "Startups",
-      "need": "MacBook-Support, Cloud-Only, Microsoft 365, Teams"
+      "name": "Gastronomie und Hotellerie",
+      "need": "Kassensystem (Lightspeed, Toast, GastroSoft) angebunden, Reservierungssystem mit Online-Anbindung, sicheres Gäste-WLAN, Newsletter-Tools für Stammkunden-Pflege"
+    },
+    {
+      "name": "Arztpraxen und Therapie",
+      "need": "KIS-Anbindung wartungsfrei, HIN-Mail eingerichtet, sichere Patientendaten nach DSG, regelmässige verschlüsselte Backups, IT-Sicherheits-Schulung für Praxispersonal"
     }
   ],
-  "localFaqQuestion": "Können Sie uns beim Umzug helfen?",
-  "localFaqAnswer": "Gerne. Wir übernehmen den Abbau der IT am alten Standort und den fachgerechten Aufbau und Test am neuen Ort in St. Gallen.",
+  "localFaqQuestion": "Wie schnell sind Sie in St. Gallen vor Ort?",
+  "localFaqAnswer": "Anfahrt aus Winterthur 35 Minuten mit der S-Bahn oder 45 Minuten mit dem Auto. Vom St. Galler Stadtzentrum erreichen wir alle wichtigen Stadtteile in 10 bis 15 Minuten. Bei dringenden Notfällen oft am gleichen Tag bei Ihnen, Remote-Support starten wir innert Minuten direkt vom Telefonat.",
   "additionalFaqs": [
     {
-      "question": "Bieten Sie auch regelmässige Wartung an?",
-      "answer": "Ja, mit unseren Managed Services überwachen wir Ihre Systeme proaktiv. Wir beheben Probleme oft, bevor Sie sie bemerken."
+      "question": "Was kostet IT-Support in St. Gallen?",
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Anfahrt nach St. Gallen CHF 50 Pauschal für bis zu 1 Stunde Fahrtzeit ab Winterthur. Wartungsverträge mit garantierter Reaktionszeit ab CHF 200 pro Monat. Privatkunden zahlen Vor-Ort CHF 145 pro Stunde, oft löst aber bereits Remote-Support das Problem ohne zusätzliche Anfahrt."
     },
     {
-      "question": "Betreuen Sie auch Bildungseinrichtungen?",
-      "answer": "Ja, wir haben Erfahrung mit Schul-IT, iPad-Verwaltung und sicheren WLAN-Lösungen für Bildungseinrichtungen."
+      "question": "Bieten Sie auch HSG-Spin-Off-Startups Support?",
+      "answer": "Ja. Wir haben mehrere HSG-Alumni-Startups als Kunden, oft mit kleinen Teams (5 bis 15 Mitarbeitende), schneller Wachstumsphase und Bedarf an SaaS-Tools, AWS- oder Azure-Integration. Wir richten Microsoft 365 oder Google Workspace ein, koordinieren Endpoint-Security, helfen beim IT-Onboarding neuer Mitarbeitender und übernehmen Server- oder Cloud-Themen, damit das Gründerteam fokussiert bleibt."
+    },
+    {
+      "question": "Können Sie auch das Ostschweizer Appenzellerland und Rheintal betreuen?",
+      "answer": "Ja, wir betreuen Kunden in Appenzell, Heiden, Trogen, im Rheintal von Altstätten bis Buchs und auch im Toggenburg. Anfahrt entsprechend länger, je nach Zielort 1 bis 2 Stunden ab Winterthur. Remote-Support funktioniert dort genauso gut wie in der Stadt. Bei kritischen Anwendungen mit garantierter Reaktionszeit empfehlen wir Wartungsverträge mit SLA. Bei wenigen Vor-Ort-Einsätzen pro Jahr lohnt sich oft die einzelne Bedarfsabrechnung mehr als ein Vertrag."
+    },
+    {
+      "question": "Was passiert bei einem IT-Notfall ausserhalb der Bürozeiten?",
+      "answer": "Notfall-Hotline 076 587 50 55 ist Mo bis So bis 23:00 Uhr erreichbar (mit Zuschlag). Bei kritischen Notfällen wie Server-Ausfall, Ransomware oder kompletter Stillstand reagieren wir schnell. Ohne aktives SLA sind Einsätze zwischen 23:00 und 08:00 Uhr ausgeschlossen. Für Firmen mit kritischen Systemen empfehlen wir SLA-Verträge mit 24/7-Reaktion."
+    },
+    {
+      "question": "Können Sie auch internationale Unternehmen mit Schweizer Niederlassung in der Ostschweiz unterstützen?",
+      "answer": "Ja. Viele Ostschweizer Unternehmen haben internationale Mutter- oder Tochtergesellschaften. Wir koordinieren mit globalen IT-Abteilungen, überbrücken Zeitzonen, halten uns an Konzern-Standards für IT-Sicherheit und Compliance, und liefern den lokalen Schweizer Kontakt für tägliche Anfragen. Sprachen DE und EN sind Standard, FR und IT bei Bedarf koordiniert."
     }
   ],
-  "metaTitle": "IT-Support St. Gallen | Schnelle IT-Hilfe",
-  "metaDescription": "IT-Support St. Gallen: Schnelle Hilfe für KMU und Privatpersonen. Remote innert Minuten, Vor-Ort in 30 Min. ab CHF 130/h Remote, ab CHF 145/h Vor-Ort. ☎ 052 222 18 18",
+  "metaTitle": "IT-Support St. Gallen | Schnelle IT-Hilfe für KMU",
+  "metaDescription": "IT-Support St. Gallen: Schnelle Hilfe für Ostschweizer KMU. Remote-Support innert Minuten, Vor-Ort am selben Tag. ☎ 052 222 18 18",
   "keywords": [
     "IT Support St. Gallen",
-    "Computerhilfe St. Gallen",
-    "PC Support St. Gallen",
-    "IT Service St. Gallen"
+    "Computer Support St. Gallen",
+    "PC Hilfe Ostschweiz",
+    "Informatiker St. Gallen"
   ],
   "schemaType": "ProfessionalService",
   "includeFaqSchema": true,
   "canonicalUrl": "https://infraone.ch/it-support/st-gallen",
   "areaServed": [
     "St. Gallen",
-    "Gossau",
-    "Wil"
+    "Bruggen",
+    "Riethüsli",
+    "Linsebühl"
   ],
-  "addressLocality": "",
-  "postalCode": "",
   "openingHours": [],
   "specialOpeningHours": [],
   "supportHours": {

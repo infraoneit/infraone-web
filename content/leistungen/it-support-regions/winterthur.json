@@ -4,54 +4,74 @@
   "isFree": true,
   "anfahrt": "Keine Anfahrtskosten",
   "headline": "IT-Support Winterthur",
-  "subheadline": "Ihr lokaler IT-Partner in der Eulachstadt",
-  "description": "Hauptstandort Winterthur: Keine Anfahrtskosten, schnelle Vor-Ort-Einsätze, Remote-Support innert Minuten. Für Geschäft und Privat.",
-  "intro": "Als Winterthurer IT-Dienstleister sind wir dort, wo Sie uns brauchen – schnell und unkompliziert. Vom Technopark über die Altstadt bis nach Töss: Winterthur ist unser Zuhause. Wenn Ihr Computer in der Marktgasse streikt oder das Netzwerk im Industriequartier Grüze ausfällt, sind wir in kurzer Zeit bei Ihnen. Kein langes Warten, keine überrissenen Anfahrtskosten. Von der Arztpraxis in Seen bis zum Handwerksbetrieb in Wülflingen – wir kennen die lokale Wirtschaft und ihre IT-Anforderungen. Viele unserer Kunden betreuen wir seit Jahren, weil sie wissen: Wenn es brennt, sind wir da.",
+  "subheadline": "Schnelle Computerhilfe für Winterthurer KMU und Privatkunden",
+  "description": "Hauptstandort Winterthur an der Rudolf-Diesel-Strasse 25. Keine Anfahrtskosten im Stadtgebiet, Vor-Ort-Einsätze meist innert 30 Minuten, Remote-Support innert Minuten. Für KMU und Privatpersonen.",
+  "intro": "Wenn die IT in Winterthur streikt, kostet jede Stunde Stillstand bares Geld. Eine Arztpraxis in Seen kann ohne KIS-System keine Patienten aufnehmen, ein Industriebetrieb im Sulzer-Areal verliert ohne ERP die Fertigungssteuerung, eine Anwaltskanzlei in der Altstadt steht ohne Outlook und Aktenverwaltung still. Genau dann sind wir da. Als InfraOne IT Solutions sitzen wir an der Rudolf-Diesel-Strasse 25 in Winterthur Grüze, im Industriequartier. Vom Hauptbahnhof sind wir in 10 Minuten mit Bus oder Auto erreichbar, in den meisten Winterthurer Stadtteilen wie Töss, Seen, Wülflingen, Veltheim oder Oberwinterthur sind wir innert 20 bis 30 Minuten vor Ort. Remote-Support starten wir oft schon während des Telefonats. Und das Wichtigste: Wir sprechen Klartext, nicht IT-Latein. Wenn Sie nicht verstehen, was wir machen, läuft etwas falsch.",
   "regionalImage": "/images/regions/winterthur.png",
   "localBenefits": [
-    "Hauptstandort – keine Anfahrt",
-    "Vor-Ort in 30 Minuten möglich",
-    "Lokale Ansprechpartner",
-    "Über 200 Winterthurer Kunden"
+    "Hauptsitz im Industriequartier Grüze",
+    "Vor-Ort innert 30 Minuten möglich",
+    "Keine Anfahrtskosten in Winterthur",
+    "Über 200 Schweizer KMU als Kunden"
   ],
   "stats": [
     {
-      "label": "Winterthurer Kunden",
+      "label": "Schweizer Kunden",
       "value": "200+"
     },
     {
-      "label": "Ø Anfahrt",
+      "label": "Ø Anfahrt Winterthur",
       "value": "< 30 Min"
     }
   ],
   "localIndustries": [
     {
-      "name": "Arztpraxen",
-      "need": "Sichere Patientendaten, schnelle Hilfe bei Ausfällen, HIN-Mail"
+      "name": "Arztpraxen und Therapie",
+      "need": "Sichere Patientendaten nach DSG, HIN-Mail eingerichtet, KIS-Anbindung wartungsfrei, schnelle Hilfe bei Outlook- oder Drucker-Ausfall, regelmässige Backups verschlüsselt"
     },
     {
-      "name": "Handwerk & Gewerbe",
-      "need": "Robuste Hardware, einfache Bedienung, Backup-Lösungen"
+      "name": "Industrie und Maschinenbau",
+      "need": "ERP-Anbindung stabil (SAP, Abacus, Microsoft Dynamics), VPN für Aussendienst, Fileserver mit Versionierung, Monitoring der Produktionsserver, IT-Sicherheits-Konzept gegen Ransomware"
     },
     {
-      "name": "Dienstleister",
-      "need": "Microsoft 365, Cloud-Speicher, Remote-Work-Setup"
+      "name": "Anwaltskanzleien und Treuhand",
+      "need": "Diskrete Mandantendaten, E-Mail-Archivierung gesetzeskonform, sichere Cloud für Aktenverwaltung, 2-Faktor-Authentifizierung Standard, regelmässige Sicherheits-Schulung der Mitarbeitenden"
+    },
+    {
+      "name": "Handwerk und Gewerbe",
+      "need": "Robuste Hardware, einfache Bedienung, Backup-Lösungen ohne IT-Wissen, Cloud-Speicher für Pläne und Offerten, mobiles Arbeiten auf Baustellen, schnelle Reaktion bei Hardware-Defekten"
     }
   ],
-  "localFaqQuestion": "Wie schnell können Sie in Winterthur vor Ort sein?",
-  "localFaqAnswer": "Als Hauptstandort sind wir meist innerhalb von 30 Minuten bei Ihnen. Bei dringenden Notfällen oft noch schneller.",
+  "localFaqQuestion": "Wie schnell sind Sie in Winterthur vor Ort?",
+  "localFaqAnswer": "Im Stadtgebiet Winterthur und in Andelfingen sind wir meist innert 30 Minuten bei Ihnen, oft schneller bei dringenden Notfällen. Bei IT-Notfällen bis 23:00 Uhr erreichen Sie uns unter 076 587 50 55. Remote-Support starten wir während des Telefonats, das löst die meisten Probleme innert 15 Minuten.",
   "additionalFaqs": [
     {
-      "question": "Können Sie auch defekte Hardware reparieren?",
-      "answer": "Ja, wir reparieren defekte PCs, Laptops und Server. Bei irreparablen Geräten beraten wir Sie zu Ersatz-Hardware."
+      "question": "Was kostet IT-Support für ein Winterthurer KMU?",
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Im Stadtgebiet Winterthur fallen keine Anfahrtskosten an. Für Firmen mit kritischen Systemen bieten wir Wartungsverträge mit garantierter Reaktionszeit ab CHF 200 pro Monat."
     },
     {
-      "question": "Bieten Sie auch Support für Apple/Mac?",
-      "answer": "Ja, wir unterstützen sowohl Windows- als auch macOS-Systeme."
+      "question": "Können Sie auch defekte Hardware reparieren oder ersetzen?",
+      "answer": "Ja. Wir reparieren defekte PCs, Laptops, Server und Peripherie. Bei irreparablen Geräten beschaffen wir Ersatz mit Schweizer Garantie und transferieren Ihre Daten. Wir sind herstellerneutral und beraten ehrlich, wann sich Reparatur lohnt und wann ein Neugerät sinnvoller ist."
+    },
+    {
+      "question": "Bieten Sie auch Support für Apple und Mac in Winterthur?",
+      "answer": "Ja, wir unterstützen sowohl Windows als auch macOS, plus iOS und Android für mobile Geräte. Apple-spezifische Themen wie Time Machine, iCloud, Apple Business Manager oder MDM mit Jamf gehören zu unserem Repertoire. Mischumgebungen mit Windows-Servern und Mac-Clients setzen wir routinemässig um."
+    },
+    {
+      "question": "Übernehmen Sie die komplette IT-Betreuung für unsere Firma?",
+      "answer": "Ja. Bei der Vollbetreuung sind wir Ihre IT-Abteilung: Sie rufen an oder schreiben uns, wir lösen das Problem oder organisieren die Lösung. Das umfasst Server-Wartung, Netzwerk-Monitoring, Backup-Überwachung, Mitarbeiter-Onboarding mit IT-Setup, Microsoft-365-Verwaltung und Sicherheits-Updates. Modelle reichen von Bedarfsabrechnung bis zu monatlichen Pauschalen mit SLA."
+    },
+    {
+      "question": "Können Sie auch Ferienvertretung für unsere interne IT übernehmen?",
+      "answer": "Ja, gerne. Wenn Ihre interne IT-Person in den Ferien ist oder krank wird, übernehmen wir die Bereitschaft übergangsweise. Wir richten einen direkten Notfall-Kanal ein, briefen uns vorab über Ihre Systeme und sind während der Vertretungsphase Ihr erster Ansprechpartner. Pricing als Tagespauschale oder als Wartungsvertrag mit definiertem Ferien-Cover."
+    },
+    {
+      "question": "Helfen Sie auch beim Onboarding neuer Mitarbeitenden?",
+      "answer": "Ja. Wir richten neue Arbeitsplätze komplett ein: Hardware bestellt und konfiguriert, Microsoft 365 mit den richtigen Rechten, VPN-Zugang, Drucker, Backup, IT-Sicherheits-Schulung. Pro Mitarbeitender rechnen Sie mit 2 bis 4 Stunden Setup. Bei mehreren Onboardings pro Monat lohnt sich ein Wartungsvertrag mit Onboarding-Pauschale."
     }
   ],
   "metaTitle": "IT-Support Winterthur | Schnelle Hilfe vor Ort",
-  "metaDescription": "IT-Support in Winterthur: Hauptstandort, keine Anfahrtskosten, Vor-Ort in 30 Min. Remote-Support innert Minuten. ☎ 052 222 18 18",
+  "metaDescription": "IT-Support in Winterthur: Hauptstandort Grüze, keine Anfahrtskosten, Vor-Ort in 30 Min. Remote-Support innert Minuten. ☎ 052 222 18 18",
   "keywords": [
     "IT Support Winterthur",
     "Informatik Support Winterthur",

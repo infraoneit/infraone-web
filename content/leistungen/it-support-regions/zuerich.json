@@ -3,14 +3,15 @@
   "isFree": false,
   "anfahrt": "CHF 50 Pauschal (bis 1 h ab Winterthur)",
   "headline": "IT-Support Zürich",
-  "subheadline": "Schnelle IT-Hilfe für die Wirtschaftsmetropole",
-  "description": "IT-Support für Zürich: Remote-Hilfe, Vor-Ort-Service am selben Tag. Für Startups, KMU, Kanzleien. Spezialisiert auf schnelle Problemlösung im Business-Kontext.",
-  "intro": "Zürich – das wirtschaftliche Herz der Schweiz, wo IT-Ausfälle besonders teuer sind. Von Startups an der Europaallee über Kanzleien am Paradeplatz bis zu Arztpraxen in Oerlikon: Wir verstehen, dass hier jede Minute zählt. Wenn Excel vor dem wichtigen Report abstürzt, das VPN nicht funktioniert oder der Server mitten im Geschäft ausfällt – helfen wir schnell und kompetent. Remote-Support starten wir oft noch während des Telefonats. Für Vor-Ort-Einsätze sind wir von Winterthur aus in weniger als einer Stunde in der Zürcher Innenstadt. Kompetente IT-Hilfe ohne die Preise einer Zürcher Agentur.",
+  "subheadline": "Schnelle IT-Hilfe für Zürcher Kanzleien, Beratungen und KMU",
+  "description": "Remote-Support innert Minuten, Vor-Ort-Einsätze in Zürich meist am selben Tag. Spezialisiert auf KMU, Anwaltskanzleien, Steuerberater und Tech-Startups. Anfahrt aus Winterthur 25 Minuten.",
+  "intro": "In Zürich kostet IT-Stillstand mehr als anderswo in der Schweiz. Eine Anwaltskanzlei am Paradeplatz ohne Aktenverwaltung verliert Stunde für Stunde an Mandantenstunden, ein Vermögensverwalter ohne Bloomberg-Zugang trifft keine Investmententscheidungen, ein Tech-Startup an der Europaallee ohne Git-Server stagniert bei der Entwicklung. Wir sind dann der Ansprechpartner, der per Remote-Tool in Minuten dabei ist und bei Bedarf in unter einer Stunde im Büro steht. Vom Kreis 1 mit Bahnhofstrasse und Limmatquai über das Seefeld, Kreis 4 und 5, bis nach Oerlikon, Altstetten oder Wiedikon: Wir betreuen Zürcher Mandate aus allen Stadtkreisen. Anfahrt aus unserem Winterthurer Hauptsitz 25 Minuten mit S-Bahn oder 30 bis 45 Minuten mit dem Auto. Remote-Support starten wir während des Telefonats. Wer den Service einer Zürcher IT-Firma will ohne deren Bahnhofstrasse-Tarife, ist bei uns richtig.",
+  "regionalImage": "/images/regions/zuerich.png",
   "localBenefits": [
     "25 Min ab Winterthur",
     "Remote-Support sofort",
-    "Versteht Zürcher Tempo",
-    "Startup & KMU-Erfahrung"
+    "Erfahrung mit Zürcher Tempo",
+    "Kanzlei- und Startup-Know-how"
   ],
   "stats": [
     {
@@ -24,32 +25,48 @@
   ],
   "localIndustries": [
     {
-      "name": "Finanzdienstleister",
-      "need": "Höchste Sicherheit, Compliance, verschlüsselte Kommunikation"
+      "name": "Anwaltskanzleien und Notariate",
+      "need": "Aktenverwaltung mit verschlüsseltem Cloud-Speicher, E-Mail-Archivierung gesetzeskonform, sichere Kommunikation mit Mandanten, 2-Faktor-Authentifizierung Pflicht, regelmässige Sicherheits-Schulungen"
     },
     {
-      "name": "Startups",
-      "need": "MacBook-Support, Cloud-Only, Microsoft 365, Teams"
+      "name": "Steuerberater und Treuhand",
+      "need": "Buchhaltungs-Software (Abacus, Sage, Microsoft Dynamics), DTA-Schnittstellen zu Banken, Mandantendaten-Verschlüsselung, Saisonale IT-Lasten zur Steuersaison berücksichtigt"
     },
     {
-      "name": "Kanzleien",
-      "need": "Sichere Mandantendaten, E-Mail-Archivierung, Backup"
+      "name": "Tech-Startups und SaaS",
+      "need": "Microsoft 365 oder Google Workspace, Git-Server (GitHub, GitLab) eingerichtet, AWS- oder Azure-Konten verwaltet, Onboarding neuer Mitarbeiter standardisiert, Endpoint-Security mit Intune oder Jamf"
+    },
+    {
+      "name": "Arztpraxen und Kliniken",
+      "need": "KIS-Anbindung (Vitomed, Triamed, Aekvalent), HIN-Mail eingerichtet, sichere Patientendaten nach DSG, Backup verschlüsselt mit Notfall-Wiederherstellung in Stunden"
     }
   ],
-  "localFaqQuestion": "Arbeiten Sie auch im Zentrum (Kreis 1)?",
-  "localFaqAnswer": "Ja, wir betreuen mehrere Kunden in der Innenstadt. Dank guter ÖV-Anbindung sind wir auch ohne Parkplatzsuche schnell vor Ort.",
+  "localFaqQuestion": "Sind Sie auch im Zürcher Zentrum oder Kreis 1 vor Ort?",
+  "localFaqAnswer": "Ja, wir betreuen mehrere Kunden in der Innenstadt, am Paradeplatz und am Hauptbahnhof. Dank guter ÖV-Anbindung sind wir auch ohne Parkplatzsuche schnell vor Ort. Anfahrt aus Winterthur 25 Minuten, dann je nach Stadtkreis weitere 5 bis 15 Minuten. Bei dringenden Notfällen in der Innenstadt sind wir oft noch am gleichen Tag bei Ihnen.",
   "additionalFaqs": [
     {
-      "question": "Können Sie unser Büro komplett vernetzen?",
-      "answer": "Ja, wir übernehmen die komplette Netzwerkplanung: WLAN, Firewall, Server und Arbeitsplätze. Alles aus einer Hand."
+      "question": "Was kostet IT-Support in Zürich?",
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Anfahrt nach Zürich CHF 50 Pauschal für bis zu 1 Stunde Fahrtzeit ab Winterthur, danach pro Stunde weiter. Für Firmen mit kritischen Systemen bieten wir Wartungsverträge mit garantierter Reaktionszeit ab CHF 200 pro Monat. Vergleich Zürcher IT-Anbieter: deutlich günstiger als Innenstadt-Tarife mit Bahnhofstrasse-Aufschlag, ohne Qualitätskompromisse."
     },
     {
-      "question": "Bieten Sie auch regelmässige Wartung an?",
-      "answer": "Ja, mit unseren Managed Services überwachen wir Ihre Systeme proaktiv. Wir beheben Probleme oft, bevor Sie sie bemerken."
+      "question": "Können Sie unser Zürcher Büro komplett vernetzen?",
+      "answer": "Ja, wir übernehmen die komplette Netzwerkplanung: WLAN für mehrere Etagen, Firewall mit Fortinet oder Sophos, VPN für Homeoffice-Mitarbeiter, Server-Infrastruktur lokal oder in Schweizer Rechenzentren, Arbeitsplätze mit Standardisiertem Image. Bei grösseren Projekten arbeiten wir mit Schweizer Partnern aus dem Cisco-, Ubiquiti- und HPE-Aruba-Netzwerk zusammen."
+    },
+    {
+      "question": "Bieten Sie auch Managed Services für Zürcher KMU?",
+      "answer": "Ja. Mit Managed Services überwachen wir Ihre Systeme proaktiv: 24/7-Monitoring der Server, automatische Patches, Backup-Verifikation täglich, Security-Updates in 24 Stunden. Wir beheben Probleme oft, bevor Sie sie bemerken. Pricing basiert auf Anzahl Mitarbeiter und SLA-Stufe, ab CHF 50 pro Mitarbeiter pro Monat."
+    },
+    {
+      "question": "Wie schnell sind Sie im Notfall vor Ort?",
+      "answer": "Bei dringenden Notfällen wie Server-Ausfall, Ransomware oder Komplett-Stillstand sind wir oft innert 1 bis 2 Stunden in Zürich. Remote-Support starten wir während des Telefonats, das löst meist 90 Prozent der Probleme innert Minuten. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten von 1 bis 4 Stunden, je nach Stufe."
+    },
+    {
+      "question": "Können Sie kurzfristige Migrationen wie Microsoft 365 oder Server-Wechsel übernehmen?",
+      "answer": "Ja. Bei dringenden Migrationen ohne langen Vorlauf koordinieren wir innert 1 bis 2 Wochen einen Migrations-Plan. Microsoft-365-Migration für 20 Mitarbeitende über ein Wochenende, Server-Wechsel mit minimalem Ausfall, Ransomware-Wiederherstellung. Aufwand transparent vorab kalkuliert, Notfall-Aufschlag entfällt bei Buchung im Voraus. Migrationen oft am Wochenende, damit der Werktagbetrieb nicht gestört wird."
     }
   ],
   "metaTitle": "IT-Support Zürich | Schnelle IT-Hilfe für KMU",
-  "metaDescription": "IT-Support Zürich: Schnelle Hilfe für KMU und Privatpersonen. ab CHF 130/h Remote, ab CHF 145/h Vor-Ort. ☎ 052 222 18 18",
+  "metaDescription": "IT-Support Zürich: Schnelle Hilfe für KMU und Privatpersonen. ab CHF 130/h Remote, ab CHF 157/h Vor-Ort. ☎ 052 222 18 18",
   "keywords": [
     "IT Support Zürich",
     "Computerhilfe Zürich",
