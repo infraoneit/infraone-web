@@ -849,8 +849,8 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                         <p className="text-xl text-text-secondary">Projekte, auf die wir stolz sind</p>
                     </AnimatedSection>
 
-                    <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.1}>
-                        {references.map((ref, index) => (
+                    <StaggerContainer className={`grid grid-cols-1 ${isHubPage ? 'md:grid-cols-2 lg:grid-cols-3' : 'max-w-2xl mx-auto'} gap-6`} staggerDelay={0.1}>
+                        {(isHubPage ? references : references.slice(0, 1)).map((ref, index) => (
                             <StaggerItem key={index}>
                                 <div className="h-full rounded-2xl bg-card border border-border hover:border-primary transition-colors overflow-hidden">
                                     {ref.image && (
@@ -987,19 +987,23 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                                 <p className="text-primary font-medium text-sm mb-3">{platform.description}</p>
                                 <p className="text-sm text-text-secondary mb-4">{platform.forWhom}</p>
 
-                                <div className="space-y-2 mb-4">
-                                    {platform.pros.map((pro, i) => (
-                                        <div key={i} className="flex items-center gap-2 text-sm">
-                                            <Check className="w-4 h-4 text-primary" />
-                                            <span className="text-text-secondary">{pro}</span>
+                                {isHubPage && (
+                                    <>
+                                        <div className="space-y-2 mb-4">
+                                            {platform.pros.map((pro, i) => (
+                                                <div key={i} className="flex items-center gap-2 text-sm">
+                                                    <Check className="w-4 h-4 text-primary" />
+                                                    <span className="text-text-secondary">{pro}</span>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
 
-                                {platform.cons && (
-                                    <div className="text-xs text-text-secondary opacity-70">
-                                        Zu beachten: {platform.cons.join(', ')}
-                                    </div>
+                                        {platform.cons && (
+                                            <div className="text-xs text-text-secondary opacity-70">
+                                                Zu beachten: {platform.cons.join(', ')}
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                             </motion.div>
                         ))}
@@ -1008,8 +1012,8 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                     {/* Keystatic Highlight */}
                     <div className="mt-12 max-w-5xl mx-auto">
                         <div className="p-8 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary">
-                            {!regionSlug ? (
-                                /* Main Webdesign Page - Enhanced Version */
+                            {isHubPage && (
+                                /* Main Webdesign Page - Enhanced Version (Hub-only) */
                                 <div className="space-y-8">
                                     <div className="text-center">
                                         <h3 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
@@ -1133,52 +1137,6 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                                         ))}
                                     </div>
                                 </div>
-                            ) : (
-                                /* Regional Pages - Compact Version */
-                                <div className="grid md:grid-cols-2 gap-8 items-center">
-                                    <div>
-                                        <h3 className="text-2xl font-bold text-text-primary mb-4">
-                                            Keystatic CMS – Einfach. Schnell. Modern.
-                                        </h3>
-                                        <p className="text-text-secondary mb-4">
-                                            Mit Keystatic bearbeiten Sie Ihre Website direkt im Browser. Keine Installation,
-                                            keine technischen Kenntnisse nötig. Texte und Bilder ändern – so einfach wie Word.
-                                        </p>
-                                        <ul className="space-y-2">
-                                            <li className="flex items-center gap-2 text-sm text-text-secondary">
-                                                <Check className="w-4 h-4 text-primary" />
-                                                Live-Vorschau beim Bearbeiten
-                                            </li>
-                                            <li className="flex items-center gap-2 text-sm text-text-secondary">
-                                                <Check className="w-4 h-4 text-primary" />
-                                                Direkt im Browser – keine Software
-                                            </li>
-                                            <li className="flex items-center gap-2 text-sm text-text-secondary">
-                                                <Check className="w-4 h-4 text-primary" />
-                                                Schweizer Hosting inklusive
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <a
-                                        href="/images/keyststic_dashboard.jpg"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="hidden md:block group"
-                                    >
-                                        <div className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all border border-border hover:border-primary">
-                                            <Image
-                                                src="/images/keyststic_dashboard.jpg"
-                                                alt="Keystatic CMS Dashboard – Intuitive Content-Verwaltung für Ihre Website"
-                                                width={450}
-                                                height={280}
-                                                className="group-hover:scale-105 transition-transform duration-200"
-                                            />
-                                            <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors flex items-center justify-center">
-                                                <ExternalLink className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg" />
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
                             )}
                         </div>
                     </div>
@@ -1195,7 +1153,7 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                     </AnimatedSection>
 
                     <div className="max-w-3xl mx-auto space-y-4">
-                        {faqs.map((faq, index) => (
+                        {isHubPage && faqs.map((faq, index) => (
                             <div
                                 key={index}
                                 className="rounded-xl border border-border bg-card overflow-hidden"
