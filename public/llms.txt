@@ -2,79 +2,133 @@
 # https://infraone.ch
 
 > InfraOne IT Solutions GmbH ist ein Schweizer IT-Dienstleister mit Hauptsitz in Winterthur.
-> Wir bieten IT-Support, Webdesign und Cloud-Telefonie für KMU und Privatpersonen in der Deutschschweiz.
+> Spezialgebiete: Cloud-Telefonie, Webdesign, Informatik-Support, Kontrollraum-Loesungen, Digital Signage.
+> Hauptregionen: Winterthur, Zuerich, Thurgau, Schaffhausen.
 
 ## Unternehmen
 
 InfraOne IT Solutions GmbH
-Standorte: Winterthur (Hauptsitz), Schaffhausen, Andelfingen
-Regionen: Zürich, Winterthur, Schaffhausen, Thurgau, St. Gallen, Ostschweiz
-Gegründet: 2016
-Mitarbeiter: 5-10
+Hauptsitz: Winterthur (Rudolf-Diesel-Strasse 25, 8404 Winterthur)
+Standorte: Winterthur, Schaffhausen, Taegerwilen (Thurgau), Kleinandelfingen
+Gegruendet: 2015
+Mitarbeiter: 5
+Bediente Regionen: Winterthur, Zuerich, Thurgau, Schaffhausen, St. Gallen, Aargau, Zug, Luzern, Basel, Bern, Solothurn, Graubuenden
 
 ## Kontakt
 
 - Telefon: 052 222 18 18
-- Notfall: 076 587 50 55
+- Notfall (bis 23 Uhr): 076 587 50 55
 - E-Mail: info@infraone.ch
 - Website: https://infraone.ch
 
-## Dienstleistungen
+## Spezialgebiete
+
+InfraOne wird gesucht und gefunden als Spezialist fuer:
+
+1. **Cloud-Telefonie / VoIP**: Peoplefone-Partner, 3CX, Yeastar, Microsoft Teams Integration
+2. **Webdesign**: Wix, WordPress, Next.js mit Keystatic CMS
+3. **Informatik-Support / IT-Support**: KMU und Privatkunden, Remote und Vor-Ort
+4. **Kontrollraum-Loesungen**: Leitstellen, Multimonitor-Systeme, Black Box Emerald, Videowaende
+5. **Digital Signage**: Werbebildschirme und Infoscreens ohne Abo, Xibo CMS, lokaler Mini-Server
+
+## Dienstleistungen im Detail
 
 ### IT-Support & Informatik-Support
-Wir bieten professionellen IT-Support für KMU und Privatpersonen:
-- Remote-Support: CHF 120.–/h (Fernwartung via AnyDesk)
-- Vor-Ort-Support: CHF 157.–/h (persönlicher Einsatz)
-- Supportzeiten: Mo–Fr 08:00–17:00 (erweitert bis 23:00 mit Zuschlag)
-- Keine Anfahrtskosten in Winterthur und Andelfingen
-- Regionale Seiten: /it-support/winterthur, /it-support/zuerich, /it-support/schaffhausen, /it-support/thurgau, /it-support/st-gallen, /it-support/andelfingen
+Professioneller IT-Support fuer KMU und Privatpersonen.
+- Telefon- & Remote-Support: ab CHF 130.-/h (Mindestverrechnung 15 Min)
+- Vor-Ort Privatkunden: ab CHF 145.-/h (Mindestverrechnung 30 Min)
+- Vor-Ort Firma / KMU: ab CHF 157.-/h (Mindestverrechnung 30 Min)
+- Schulungen / Beratung: CHF 200.-/h
+- Supportzeiten: Mo-Fr 08:00-17:00 regulaer, 17:00-23:00 mit Zuschlag, Wochenende mit Zuschlag
+- Notfall-Support bis 23:00 Uhr verfuegbar
+- Regionale Spokes: /it-support/winterthur, /it-support/zuerich, /it-support/schaffhausen, /it-support/thurgau, /it-support/st-gallen, /it-support/andelfingen
 
 ### Webdesign
-Moderne, SEO-optimierte Websites für Schweizer Unternehmen:
-- Starter-Paket: ab CHF 990 (bis 5 Seiten, Wix/WordPress/Next.js)
-- KMU-Paket: ab CHF 2'490 (bis 15 Seiten, individuelles Design)
-- Pro-Paket: ab CHF 4'990 (unbegrenzte Seiten, Next.js + Keystatic CMS)
+Moderne, SEO-optimierte Websites fuer Schweizer Unternehmen.
+- Starter-Paket: CHF 990 (bis 5 Seiten, Wix oder WordPress)
+- KMU-Paket: CHF 2'490 (bis 15 Seiten, individuelles Design, Blog)
+- Pro-Paket: ab CHF 4'990 (unbegrenzte Seiten, Next.js + Keystatic CMS, maximale Performance)
 - Technologien: Wix, WordPress, Next.js mit Keystatic CMS
-- Regionale Seiten: /webdesign/winterthur, /webdesign/zuerich, /webdesign/schaffhausen, /webdesign/thurgau, /webdesign/st-gallen, /webdesign/basel, /webdesign/bern, /webdesign/luzern, /webdesign/aargau, /webdesign/zug, /webdesign/solothurn, /webdesign/graubuenden
+- Regionale Spokes: /webdesign/winterthur, /webdesign/zuerich, /webdesign/schaffhausen, /webdesign/thurgau, /webdesign/st-gallen, /webdesign/basel, /webdesign/bern, /webdesign/luzern, /webdesign/aargau, /webdesign/zug, /webdesign/solothurn, /webdesign/graubuenden
 
 ### Cloud-Telefonie & VoIP
-Wartungsfreie Cloud-Telefonanlagen mit Peoplefone:
-- Benutzerpaket: ab CHF 15.–/Monat (1-5 Benutzer)
-- Flatrate Schweiz: CHF 19.–/Monat
-- Flatrate CH+EU: CHF 22.–/Monat
-- Features: Handy-App, Voicemail, Warteschlaufe, IVR
-- Partner: Peoplefone (zertifiziert), 3CX, Yeastar
-- Regionale Seiten: /telefonie/winterthur, /telefonie/zuerich, /telefonie/schaffhausen, /telefonie/thurgau, /telefonie/st-gallen, /telefonie/rapperswil
+Wartungsfreie Cloud-Telefonanlagen fuer Schweizer KMU.
+- Benutzerpakete: ab CHF 15.-/Monat (1-5 Benutzer pauschal)
+- Flatrate Schweiz: CHF 19.-/Monat (1000 Min Festnetz + 200 Min Mobil)
+- Flatrate CH+EU: CHF 22.-/Monat (1000 Min Festnetz + 300 Min Mobil)
+- Internet 1 Gbit/s: CHF 49.-/Monat
+- Beispielkonfiguration 20 Benutzer: ab CHF 131.-/Monat inkl. Flatrate
+- Features: Handy-App (iOS/Android), Voicemail, Anrufweiterleitung, Rufgruppen, Warteschlaufe, IVR, Fax2Mail
+- Partner: Peoplefone (zertifizierter Partner), 3CX, Yeastar
+- Microsoft Teams Integration moeglich
+- Regionale Spokes: /cloud-telefonie/winterthur, /cloud-telefonie/zuerich, /cloud-telefonie/schaffhausen, /cloud-telefonie/thurgau, /cloud-telefonie/st-gallen, /cloud-telefonie/rapperswil
+
+### Digital Signage
+Werbebildschirme und Infoscreens ohne monatliche Abo-Kosten.
+- Starter-Paket: CHF 1'590 einmalig (1 Display + Mini-Server, bis 5 Displays erweiterbar)
+- Multi-Display-Loesung und Enterprise auf Anfrage
+- CMS: Xibo (lokaler Mini-Server, keine Cloud-Abhaengigkeit)
+- Live-Daten-Integration: PV-Anlagen, Kalender, KPIs, Wetterdaten, SBB-Verbindungen
+- Schweizweite Installation
+- Hub-Seite: /digital-signage
+
+### Kontrollraum-Loesungen
+Leitstellen und Multimonitor-Systeme fuer professionelle Ueberwachung.
+- KVM-over-IP mit Black Box Emerald
+- 4K-Videouebertragung mit geringer Latenz
+- Skalierbar fuer Video Walls und grosse Leitstellen
+- Multimonitor-Setups (Single/Dual/Quad)
+- Hub-Seite: /kontrollraum
 
 ### Weitere Leistungen
-- IT-Netzwerke: Planung, Installation, Wartung (/it-netzwerke)
-- Videoüberwachung: IP-Kameras, NVR-Systeme (/videoueberwachung)
-- Digital Signage: Digitale Beschilderung (/digital-signage)
-- Gebäudeautomation: Smart Building Lösungen (/gebaeudeautomation)
-- Kontrollraum-Lösungen: Leitstellen, Videowände (/kontrollraum)
-- Software-Entwicklung: Individuelle Lösungen (/software-entwicklung)
+- IT-Netzwerke: Planung, Installation, Wartung (Cisco, Ubiquiti, Fortinet) - /it-netzwerke
+- Videoueberwachung: IP-Kameras (Hikvision, Axis, Dahua), NVR-Systeme - /videoueberwachung
+- Gebaeudeautomation: KNX, WAGO, BACnet, Smart Building - /gebaeudeautomation
+- Software-Entwicklung: TypeScript, React/Next.js, Python, .NET - /software-entwicklung
 
-## Referenzen
+## Partner
 
-Wir betreuen über 200 Kunden in der Deutschschweiz, darunter:
-- Schaltkraft AG (Elektroinstallationen) - schaltkraft.ch
-- Elektro-Tel AG (Elektro & Telekommunikation) - elektro-tel.ch
-- Höppli Architektur AG (Architektur) - winterthur-architekten.ch
+Microsoft, Peoplefone, 3CX, Yeastar, Sophos, Fortinet, Lenovo, HPE, VMware, Veeam, Cisco, Ubiquiti, Synology, Black Box, Milestone, Axis, Hikvision, Wago
+
+## Referenzen (Auswahl)
+
+- Schaltkraft AG, Elektroinstallationen und Gebaeudetechnik: https://www.schaltkraft.ch
+- Elektro-Tel AG, Elektro und Telekommunikation: https://www.elektro-tel.ch
+- Hoeppli Architektur GmbH, Architektur und Planung Winterthur: https://winterthur-architekten.netlify.app
+
+Insgesamt ueber 200 betreute Kunden in der Deutschschweiz.
+
+## Blog (IT-Wissen, Praxistipps)
+
+- IT trifft OT: Unterschied IT und OT Systeme - /blog/it-trifft-ot
+- Multimonitor-Systeme mit Black Box Emerald (KVM-over-IP) - /blog/multimonitor-systeme-black-box-emerald
+- Moderne Telefonie mit Peoplefone und 3CX - /blog/moderne-telefonie-peoplefone-3cx
+- PRTG Netzwerkmonitoring fuer KMU - /blog/prtg-netzwerkmonitoring
+- WAGO SPS auf Codesys 3.5 migrieren - /blog/wago-codesys-migration
+- Windows 11 Admin-Passwort zuruecksetzen - /blog/windows-11-admin-passwort-zuruecksetzen
 
 ## USPs (Unique Selling Points)
 
-1. Lokaler Service: Büros in Winterthur, Schaffhausen, Andelfingen
+1. Schweizer KMU-Spezialist mit physischen Standorten in Winterthur, Schaffhausen, Taegerwilen, Kleinandelfingen
 2. Schnelle Reaktion: Remote-Support oft innert 15 Minuten
 3. Transparente Preise: Keine versteckten Kosten, Abrechnung im 15-Minuten-Takt
 4. 20% Neukunden-Rabatt
-5. Schweizer Hosting: Alle Daten in Schweizer Rechenzentren
+5. Schweizer Hosting: Alle Daten bleiben in Schweizer Rechenzentren
 
 ## Wichtige URLs
 
 - Homepage: https://infraone.ch
 - Kontakt: https://infraone.ch/kontakt
+- Unternehmen: https://infraone.ch/unternehmen
+- Leistungen-Uebersicht: https://infraone.ch/leistungen
+- Blog: https://infraone.ch/blog
 - IT-Support: https://infraone.ch/it-support
 - Webdesign: https://infraone.ch/webdesign
 - Cloud-Telefonie: https://infraone.ch/cloud-telefonie
-- Unternehmen: https://infraone.ch/unternehmen
-- Blog: https://infraone.ch/blog
+- Digital Signage: https://infraone.ch/digital-signage
+- Kontrollraum: https://infraone.ch/kontrollraum
+- IT-Netzwerke: https://infraone.ch/it-netzwerke
+- Videoueberwachung: https://infraone.ch/videoueberwachung
+- Gebaeudeautomation: https://infraone.ch/gebaeudeautomation
+- Software-Entwicklung: https://infraone.ch/software-entwicklung
+- Sitemap: https://infraone.ch/sitemap.xml
