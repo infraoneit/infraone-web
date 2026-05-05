@@ -191,18 +191,3 @@ export const gebaeudeautomationFaqs = [
     },
 ];
 
-// Telefonie (Legacy)
-export const telefonieFaqs = [
-    {
-        question: 'Betreuen Sie auch klassische Telefonanlagen?',
-        answer: 'Ja, wir betreuen und warten auch bestehende ISDN- und analoge Anlagen. Allerdings empfehlen wir langfristig den Umstieg auf Cloud-Telefonie – flexibler, wartungsärmer und zukunftssicher.',
-    },
-    {
-        question: 'Wann sollte ich auf Cloud-Telefonie umsteigen?',
-        answer: 'Spätestens wenn Ihre alte Anlage defekt ist oder Sie neue Funktionen benötigen (Homeoffice, Mobile Apps, Integration mit CRM). Auch wenn Sie Standorte zusammenführen oder flexibel skalieren möchten, ist Cloud-Telefonie die bessere Wahl.',
-    },
-    {
-        question: 'Können Sie meine alte Anlage migrieren?',
-        answer: 'Ja, wir übernehmen die komplette Migration – inklusive Rufnummernportierung, Einrichtung und Schulung. Der Umstieg erfolgt ohne Unterbruch Ihrer Erreichbarkeit.',
-    },
-];

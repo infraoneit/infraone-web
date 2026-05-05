@@ -1,5 +1,3 @@
-import { Cloud, Building, Headphones, Settings, Users, Building2 } from 'lucide-react';
-
 export const globalFaqs = [
     {
         question: 'Was kostet Cloud-Telefonie für mein Unternehmen?',
@@ -46,22 +44,3 @@ export const pricingModules = {
         { range: 'Nummernblock 6–10', price: 'CHF 15.–' },
     ],
 };
-
-export const processSteps = [
-    {
-        title: 'Analyse Ihrer aktuellen Telefonie',
-        description: 'Wir schauen uns Ihre bestehende Lösung an, verstehen Ihre Anforderungen und identifizieren Verbesserungspotenzial.',
-    },
-    {
-        title: 'Massgeschneidertes Konzept',
-        description: 'Ob Cloud oder On-Premise, peoplefone, 3CX oder Yeastar – wir empfehlen die Lösung, die zu Ihrem Unternehmen passt.',
-    },
-    {
-        title: 'Professionelle Installation',
-        description: 'Wir konfigurieren Ihre Telefonanlage, portieren Ihre Nummern und schulen Ihr Team im Umgang mit dem neuen System.',
-    },
-    {
-        title: 'Laufender Support',
-        description: 'Bei Fragen oder Problemen sind wir für Sie da. Mit Wartungsverträgen sichern Sie sich schnelle Hilfe und regelmässige Updates.',
-    },
-];

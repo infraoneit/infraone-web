@@ -74,22 +74,27 @@ const extensions = [
     { name: 'Gesprächsaufzeichnung', price: 'Auf Anfrage' },
 ];
 
-// Alternative Lösungen
+// Alternative Lösungen mit Anker-Links zu den Detailsektionen weiter unten.
+// Vorbereitet für künftige eigenständige Spokes /cloud-telefonie/3cx,
+// /cloud-telefonie/yeastar, /cloud-telefonie/ms-teams.
 const alternativeSolutions = [
     {
         icon: <Settings className="w-6 h-6" />,
         name: '3CX',
-        description: 'Flexible IP-Telefonanlage für grössere Umgebungen',
+        description: 'Cloud, Hosted oder lokal mit KI- und Collaboration-Integration',
+        href: '#3cx',
     },
     {
         icon: <Users className="w-6 h-6" />,
         name: 'MS Teams Telefonie',
-        description: 'Telefonie direkt in Microsoft Teams integriert',
+        description: 'Anrufe direkt aus Teams, mit Schweizer SIP-Trunk',
+        href: '#ms-teams',
     },
     {
         icon: <Building2 className="w-6 h-6" />,
-        name: 'On-Premise Anlagen',
-        description: 'Betreuung bestehender lokaler Telefonanlagen',
+        name: 'Yeastar',
+        description: 'Cloud oder On-Premise, ideal für Mitel-Migrationen',
+        href: '#yeastar',
     },
 ];
 
@@ -385,17 +390,201 @@ export default function CloudTelefoniePage() {
 
                     <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                         {alternativeSolutions.map((solution, index) => (
-                            <div
+                            <a
                                 key={index}
-                                className="p-6 rounded-2xl bg-card border border-border text-center transition-all duration-150 hover:-translate-y-1 hover:shadow-lg"
+                                href={solution.href}
+                                className="block p-6 rounded-2xl bg-card border border-border text-center transition-all duration-150 hover:-translate-y-1 hover:shadow-lg hover:border-primary/50 group"
                             >
-                                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
+                                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
                                     {solution.icon}
                                 </div>
                                 <h3 className="font-bold text-text-primary mb-2">{solution.name}</h3>
-                                <p className="text-sm text-text-secondary">{solution.description}</p>
-                            </div>
+                                <p className="text-sm text-text-secondary mb-3">{solution.description}</p>
+                                <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+                                    Mehr erfahren
+                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </span>
+                            </a>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* 3CX Detail-Sektion - Anker fuer kuenftigen Spoke /cloud-telefonie/3cx */}
+            <section id="3cx" className="py-16 lg:py-24 bg-background">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto">
+                        <AnimatedSection animation="slideUp">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                                    <Settings className="w-7 h-7" />
+                                </div>
+                                <h2 className="text-2xl md:text-3xl font-bold text-text-primary">
+                                    3CX: Cloud, Hosted oder lokal mit KI-Integration
+                                </h2>
+                            </div>
+                            <p className="text-lg text-text-secondary mb-8 leading-relaxed">
+                                3CX ist eine flexible IP-Telefonanlage, die in drei Varianten betrieben werden kann: als günstigste Hosted-Variante in europäischen Rechenzentren direkt von 3CX, als Cloud-Hosting bei einem Schweizer Provider oder als On-Premise-Installation auf eigenem Server. So lässt sich für jede Grösse und jedes Datenschutz-Bedürfnis die passende Variante wählen.
+                            </p>
+                            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-6">
+                                <h3 className="font-bold text-text-primary mb-4">Stärken von 3CX im Überblick</h3>
+                                <div className="grid sm:grid-cols-2 gap-3">
+                                    {[
+                                        'Native Integration mit Microsoft Teams, Google Workspace und gängigen CRM-Systemen',
+                                        'KI-gestützte Funktionen wie Live-Transkription, Gesprächs-Zusammenfassungen und Voicebots modular einbindbar',
+                                        'Web- und Desktop-Client, mobile Apps für iOS und Android, Browser-Telefonie ohne Plugin',
+                                        'Lizenzkosten benutzerunabhängig: ab etwa 30 Mitarbeitern besonders wirtschaftlich',
+                                        'Callcenter-Funktionen mit Warteschlangen, IVR, Reporting und Skill-based Routing',
+                                    ].map((feature, i) => (
+                                        <div key={i} className="flex items-start gap-2">
+                                            <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                                            <span className="text-sm text-text-secondary">{feature}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <p className="text-text-secondary leading-relaxed">
+                                Wir setzen 3CX für KMU mit 20 bis 200 Benutzern ein, für Multi-Standort-Setups und für Unternehmen, die ihre Telefonie eng mit Teams, einem CRM oder KI-Tools verzahnen wollen.
+                            </p>
+                        </AnimatedSection>
+                    </div>
+                </div>
+            </section>
+
+            {/* Yeastar Detail-Sektion - Anker fuer kuenftigen Spoke /cloud-telefonie/yeastar */}
+            <section id="yeastar" className="py-16 lg:py-24 bg-surface">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto">
+                        <AnimatedSection animation="slideUp">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                                    <Building2 className="w-7 h-7" />
+                                </div>
+                                <h2 className="text-2xl md:text-3xl font-bold text-text-primary">
+                                    Yeastar: Cloud oder On-Premise, ideal für Mitel-Migrationen
+                                </h2>
+                            </div>
+                            <p className="text-lg text-text-secondary mb-8 leading-relaxed">
+                                Yeastar ist eine vielseitige Telefonanlage, die wahlweise lokal als Hardware-Box, in der Cloud oder als hybride Lösung betrieben werden kann. Sie gilt als besonders einfach in der Bedienung und ist breit kompatibel mit gängigen SIP-Trunks und Endgeräten.
+                            </p>
+                            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-6">
+                                <h3 className="font-bold text-text-primary mb-4">Wann sich Yeastar besonders lohnt</h3>
+                                <div className="grid sm:grid-cols-2 gap-3">
+                                    {[
+                                        'Migration von alten Mitel-Anlagen: Yeastar ist die einzige aktuelle Anlage, die Mitels proprietäre Protokolle unterstützt. Bestehende Mitel-Endgeräte bleiben nutzbar.',
+                                        'Branchen mit strengen Compliance-Vorgaben, wo Sprachdaten das eigene Netzwerk nicht verlassen dürfen',
+                                        'Standorte mit instabiler Internetanbindung, wo eine reine Cloud-Lösung Risiken birgt',
+                                        'Unternehmen, die ihre bestehenden ISDN- oder Analog-Anschlüsse weiter mitnutzen möchten',
+                                        'KMU, die einmal investieren wollen statt monatlich zu bezahlen',
+                                    ].map((feature, i) => (
+                                        <div key={i} className="flex items-start gap-2">
+                                            <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                                            <span className="text-sm text-text-secondary">{feature}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <p className="text-text-secondary leading-relaxed">
+                                Die S-Serie von Yeastar ist für 5 bis 500 Nebenstellen ausgelegt und unterstützt sowohl SIP-Trunks als auch klassische Anschlüsse. Wir übernehmen Planung, Installation, Konfiguration und laufenden Support. Hybride Setups sind möglich, bei denen ein Teil der Mitarbeiter über Yeastar und ein anderer über Cloud-Telefonie kommuniziert.
+                            </p>
+                        </AnimatedSection>
+                    </div>
+                </div>
+            </section>
+
+            {/* Microsoft Teams Detail-Sektion - Anker fuer kuenftigen Spoke /cloud-telefonie/ms-teams */}
+            <section id="ms-teams" className="py-16 lg:py-24 bg-background">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto">
+                        <AnimatedSection animation="slideUp">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                                    <Users className="w-7 h-7" />
+                                </div>
+                                <h2 className="text-2xl md:text-3xl font-bold text-text-primary">
+                                    Microsoft Teams als Telefonanlage
+                                </h2>
+                            </div>
+                            <p className="text-lg text-text-secondary mb-8 leading-relaxed">
+                                Wer mit Microsoft 365 arbeitet, kann Teams als vollwertige Telefonanlage einsetzen. Anrufe gehen direkt aus dem Teams-Client heraus, eingehend wie ausgehend, mit der Geschäftsnummer.
+                            </p>
+                            <div className="grid md:grid-cols-2 gap-6 mb-6">
+                                <div className="bg-card border border-border rounded-2xl p-6">
+                                    <h3 className="font-bold text-text-primary mb-3">Direct Routing über Peoplefone</h3>
+                                    <p className="text-sm text-text-secondary leading-relaxed">
+                                        Sie behalten Ihren Schweizer Anbieter, telefonieren aber durch Teams. Diese Variante ist meist günstiger als ein Microsoft Calling Plan und lässt mehr Flexibilität bei den Tarifen.
+                                    </p>
+                                </div>
+                                <div className="bg-card border border-border rounded-2xl p-6">
+                                    <h3 className="font-bold text-text-primary mb-3">3CX als Teams-Gateway</h3>
+                                    <p className="text-sm text-text-secondary leading-relaxed">
+                                        Wenn bereits eine 3CX-Anlage vorhanden ist, kann Teams als zusätzlicher Endpunkt eingebunden werden. Mitarbeiter können wahlweise das Tischtelefon, die 3CX-App oder Teams nutzen.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 mb-6">
+                                <h3 className="font-bold text-text-primary mb-3">Ihr Vorteil</h3>
+                                <p className="text-text-secondary leading-relaxed">
+                                    Chat, Videocall und Telefonie laufen über dieselbe Anwendung. Mitarbeiter im Homeoffice brauchen kein separates Softphone, IT-Verantwortliche pflegen nur eine Plattform statt zwei.
+                                </p>
+                            </div>
+                            <p className="text-text-secondary leading-relaxed">
+                                Voraussetzungen sind eine geeignete Microsoft-365-Lizenz (Business Premium oder E3 mit Phone-Add-On) und eine SIP-Anbindung. Wir übernehmen die komplette Einrichtung inklusive Rufnummern-Portierung und Schulung.
+                            </p>
+                        </AnimatedSection>
+                    </div>
+                </div>
+            </section>
+
+            {/* Process-Sektion: 4 Schritte zur neuen Telefonanlage */}
+            <section className="py-16 lg:py-24 bg-surface">
+                <div className="container mx-auto px-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                            So läuft Ihre Telefonie-Umstellung ab
+                        </h2>
+                        <p className="text-text-secondary max-w-2xl mx-auto">
+                            Vier Schritte von der Bestandsaufnahme bis zum laufenden Support
+                        </p>
+                    </AnimatedSection>
+
+                    <div className="max-w-3xl mx-auto">
+                        <StaggerContainer className="space-y-6" staggerDelay={0.1}>
+                            {[
+                                {
+                                    title: 'Bestandsaufnahme',
+                                    description: 'Wir prüfen Ihre aktuelle Telefonie: wie viele Nebenstellen, welche Tarifkosten, welche Anlage, welche Engpässe. Daraus ergibt sich, ob Cloud, On-Premise oder eine hybride Lösung am besten passt.',
+                                },
+                                {
+                                    title: 'Massgeschneidertes Konzept',
+                                    description: 'Auf Basis der Analyse erstellen wir einen konkreten Vorschlag mit Hardware, Tarif, Migrationsplan und Kosten. Sie wissen vorab, was die Umstellung kostet und was sie spart.',
+                                },
+                                {
+                                    title: 'Installation und Portierung',
+                                    description: 'Wir richten die neue Anlage ein, portieren bestehende Rufnummern unterbruchfrei und konfigurieren alle Nebenstellen. Bei On-Premise-Anlagen kommen wir vor Ort, bei Cloud-Lösungen läuft die meiste Konfiguration remote.',
+                                },
+                                {
+                                    title: 'Schulung und laufender Support',
+                                    description: 'Ihre Mitarbeiter werden im Umgang mit dem System geschult, schriftlich oder vor Ort. Bei Fragen oder Problemen sind wir Ihr direkter Ansprechpartner. Wartungsverträge mit garantierter Reaktionszeit sind möglich.',
+                                },
+                            ].map((step, index) => (
+                                <StaggerItem key={index}>
+                                    <div className="flex gap-6 p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all">
+                                        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                                            {index + 1}
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-text-primary mb-2">
+                                                {step.title}
+                                            </h3>
+                                            <p className="text-text-secondary">
+                                                {step.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </StaggerItem>
+                            ))}
+                        </StaggerContainer>
                     </div>
                 </div>
             </section>
