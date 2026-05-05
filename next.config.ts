@@ -32,6 +32,45 @@ const nextConfig: NextConfig = {
   
   // Strikte Mode fuer bessere Fehlerkennung
   reactStrictMode: true,
+
+  // 301-Redirects fuer alte URLs:
+  // - /telefonie wird auf /cloud-telefonie konsolidiert (Kannibalisierung beheben)
+  // - 5 historische Blog-Slugs (in alter Sitemap, aber nie als Page existiert)
+  //   werden auf /blog oder den jeweiligen Nachfolge-Post gemappt
+  async redirects() {
+    return [
+      {
+        source: '/telefonie',
+        destination: '/cloud-telefonie',
+        permanent: true,
+      },
+      {
+        source: '/blog/ki-kmu-digitalisierung',
+        destination: '/blog',
+        permanent: true,
+      },
+      {
+        source: '/blog/cloud-telefonie-kmu-vorteile',
+        destination: '/blog/moderne-telefonie-peoplefone-3cx',
+        permanent: true,
+      },
+      {
+        source: '/blog/webagentur-freelancer-vergleich',
+        destination: '/blog',
+        permanent: true,
+      },
+      {
+        source: '/blog/black-box-emerald',
+        destination: '/blog/multimonitor-systeme-black-box-emerald',
+        permanent: true,
+      },
+      {
+        source: '/blog/10-seo-fehler-kmu',
+        destination: '/blog',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
