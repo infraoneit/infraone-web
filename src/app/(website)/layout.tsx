@@ -55,11 +55,11 @@ export const metadata: Metadata = {
     telephone: true,
     address: true,
   },
-  metadataBase: new URL("https://www.infraone.ch"),
+  metadataBase: new URL("https://infraone.ch"),
   openGraph: {
     type: "website",
     locale: "de_CH",
-    url: "https://www.infraone.ch",
+    url: "https://infraone.ch",
     siteName: "InfraOne IT Solutions",
     title: "InfraOne IT Solutions | IT-Support, Webdesign & Telefonie",
     description: "Digitale Loesungen fuer KMU & Privatpersonen - IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur.",
@@ -90,9 +90,9 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://www.infraone.ch',
+    canonical: 'https://infraone.ch',
     languages: {
-      'de-CH': 'https://www.infraone.ch',
+      'de-CH': 'https://infraone.ch',
     },
   },
   icons: {
