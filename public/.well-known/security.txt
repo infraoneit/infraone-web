@@ -1,0 +1,10 @@
+# Security contact for InfraOne IT Solutions GmbH
+# Format follows RFC 9116 (https://www.rfc-editor.org/rfc/rfc9116)
+# If you discover a security vulnerability on infraone.ch or related
+# services, please contact us at the address below. We respond in
+# German or English.
+
+Contact: mailto:info@infraone.ch
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: de, en
+Canonical: https://infraone.ch/.well-known/security.txt
