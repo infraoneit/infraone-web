@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Zürich | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign Zürich | Websites ab CHF 990',
     description: 'Webdesign Zürich: Professionelle Websites für Zürcher Unternehmen. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Zürich', 'Website erstellen Zürich', 'Webagentur Zürich'],
     alternates: {

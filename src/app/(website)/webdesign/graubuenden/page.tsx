@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Graubünden | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign Graubünden | Websites ab CHF 990',
     description: 'Webdesign Graubünden: Websites für Tourismus und lokale KMU. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Graubünden', 'Website erstellen Chur'],
     alternates: {

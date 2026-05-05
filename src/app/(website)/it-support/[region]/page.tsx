@@ -49,9 +49,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ region: string }> }): Promise<Metadata> {
     const { region } = await params;
     const data = await getITSupportRegion(region);
-    if (!data) return { title: 'IT-Support | InfraOne' };
+    if (!data) return { title: 'IT-Support' };
     return {
-        title: data.metaTitle || `IT-Support ${data.name} | InfraOne`,
+        title: data.metaTitle || `IT-Support ${data.name}`,
         description: data.metaDescription,
         keywords: data.keywords,
         alternates: { canonical: data.canonicalUrl || `https://infraone.ch/it-support/${data.slug}` },

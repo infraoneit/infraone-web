@@ -6,7 +6,7 @@ import { softwareEntwicklungFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Software-Entwicklung & App-Entwicklung | InfraOne',
+    title: 'Software-Entwicklung & App-Entwicklung',
     description: 'Individuelle Software-Lösungen, Web-Apps und mobile Apps. Von der Konzeption bis zur Umsetzung. Agile Entwicklung aus Winterthur.',
     keywords: ['Software Entwicklung', 'App Entwicklung', 'Web Applikation', 'Individualsoftware'],
     alternates: {

@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Luzern | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign Luzern | Websites ab CHF 990',
     description: 'Webdesign Luzern: Websites für die Zentralschweiz. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Luzern', 'Website erstellen Luzern'],
     alternates: {

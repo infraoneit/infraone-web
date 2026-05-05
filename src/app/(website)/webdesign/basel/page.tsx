@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Basel | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign Basel | Websites ab CHF 990',
     description: 'Webdesign Basel: Professionelle Websites für die Nordwestschweiz. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Basel', 'Website erstellen Basel'],
     alternates: {

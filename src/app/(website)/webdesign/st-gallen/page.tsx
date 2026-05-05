@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign St. Gallen | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign St. Gallen | Websites ab CHF 990',
     description: 'Webdesign St. Gallen: Professionelle Websites für die Ostschweiz. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign St. Gallen', 'Website erstellen St. Gallen'],
     alternates: {

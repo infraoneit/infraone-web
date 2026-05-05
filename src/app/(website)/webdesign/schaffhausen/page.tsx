@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Schaffhausen | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign Schaffhausen | Websites ab CHF 990',
     description: 'Webdesign Schaffhausen: Lokaler Partner für moderne Websites. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Schaffhausen', 'Website erstellen Schaffhausen'],
     alternates: {

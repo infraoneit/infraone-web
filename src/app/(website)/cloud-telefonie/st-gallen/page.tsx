@@ -5,7 +5,7 @@ import { generateCloudTelefonieSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Cloud-Telefonie St. Gallen | VoIP Ostschweiz | InfraOne',
+    title: 'Cloud-Telefonie St. Gallen | VoIP Ostschweiz',
     description: 'Cloud-Telefonie St. Gallen: Startup- & Industrie-Erfahrung. Professionelle VoIP-Lösungen für die Ostschweiz. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie St. Gallen', 'VoIP St. Gallen', 'Telefonanlage Ostschweiz', 'Peoplefone St. Gallen'],
     alternates: {

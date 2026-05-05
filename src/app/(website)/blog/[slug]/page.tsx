@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 
     return {
-        title: `${post.title} | InfraOne Blog`,
+        title: post.title,
         description: post.excerpt,
         keywords: post.keywords,
         alternates: {

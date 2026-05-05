@@ -5,7 +5,7 @@ import { generateCloudTelefonieSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Cloud-Telefonie Winterthur | Ihr lokaler VoIP-Partner | InfraOne',
+    title: 'Cloud-Telefonie Winterthur | Ihr lokaler VoIP-Partner',
     description: 'Cloud-Telefonie Winterthur: Hauptstandort – persönliche Betreuung & schnelle Reaktionszeit. Peoplefone-Experten vor Ort. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie Winterthur', 'VoIP Winterthur', 'Telefonanlage Winterthur', 'Peoplefone Winterthur'],
     alternates: {

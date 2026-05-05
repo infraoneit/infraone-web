@@ -5,7 +5,7 @@ import { generateCloudTelefonieSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Cloud-Telefonie Thurgau | VoIP am Bodensee | InfraOne',
+    title: 'Cloud-Telefonie Thurgau | VoIP am Bodensee',
     description: 'Cloud-Telefonie Thurgau: Spezielle Lösungen für Hotels & Gastro. VoIP für Frauenfeld, Kreuzlingen, Weinfelden. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie Thurgau', 'VoIP Thurgau', 'Telefonanlage Frauenfeld', 'Hotel Telefonie Bodensee'],
     alternates: {

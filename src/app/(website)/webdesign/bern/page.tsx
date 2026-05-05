@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Bern | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign Bern | Websites ab CHF 990',
     description: 'Webdesign Bern: Remote-Betreuung mit persönlicher Beratung. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Bern', 'Website erstellen Bern'],
     alternates: {

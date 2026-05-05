@@ -5,7 +5,7 @@ import { generateCloudTelefonieSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Cloud-Telefonie Schaffhausen | Moderne VoIP-Telefonie | InfraOne',
+    title: 'Cloud-Telefonie Schaffhausen | Moderne VoIP-Telefonie',
     description: 'Cloud-Telefonie Schaffhausen: Industrie-Erfahrung, persönliche Beratung. Peoplefone für Schaffhauser Unternehmen. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie Schaffhausen', 'VoIP Schaffhausen', 'Telefonanlage Schaffhausen', 'Peoplefone Schaffhausen'],
     alternates: {

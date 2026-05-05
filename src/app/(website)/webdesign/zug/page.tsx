@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Zug | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign Zug | Websites ab CHF 990',
     description: 'Webdesign Zug: Premium Websites für Zuger Unternehmen. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Zug', 'Website erstellen Zug'],
     alternates: {

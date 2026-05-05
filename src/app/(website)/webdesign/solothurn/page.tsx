@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Solothurn | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign Solothurn | Websites ab CHF 990',
     description: 'Webdesign Solothurn: Remote-Betreuung mit persönlichem Support. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Solothurn', 'Website erstellen Solothurn'],
     alternates: {

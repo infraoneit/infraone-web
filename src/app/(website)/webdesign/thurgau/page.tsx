@@ -5,7 +5,7 @@ import { generateWebdesignSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Thurgau | Websites ab CHF 990 | InfraOne',
+    title: 'Webdesign Thurgau | Websites ab CHF 990',
     description: 'Webdesign Thurgau: Websites für KMU in Frauenfeld und Region. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Thurgau', 'Website erstellen Frauenfeld'],
     alternates: {

@@ -5,7 +5,7 @@ import { generateCloudTelefonieSpokeFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Cloud-Telefonie Rapperswil | VoIP Zürichsee | InfraOne',
+    title: 'Cloud-Telefonie Rapperswil | VoIP Zürichsee',
     description: 'Cloud-Telefonie Rapperswil-Jona: Persönlicher Ansprechpartner, lokale Betreuung. VoIP für Unternehmen am Zürichsee. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie Rapperswil', 'VoIP Rapperswil', 'Telefonanlage Zürichsee', 'Peoplefone Rapperswil'],
     alternates: {
