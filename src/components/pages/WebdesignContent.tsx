@@ -584,7 +584,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
             )}
 
             {/* References Section */}
-            <section className="py-16 lg:py-24 bg-background">
+            <section id="referenzen" className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
@@ -593,8 +593,8 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         <p className="text-xl text-text-secondary">Projekte, auf die wir stolz sind</p>
                     </AnimatedSection>
 
-                    <StaggerContainer className={`grid grid-cols-1 ${isHubPage ? 'md:grid-cols-2 lg:grid-cols-3' : 'max-w-2xl mx-auto'} gap-6`} staggerDelay={0.1}>
-                        {(isHubPage ? references : references.slice(0, 1)).map((ref, index) => (
+                    <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.1}>
+                        {references.map((ref, index) => (
                             <StaggerItem key={index}>
                                 <div className="h-full rounded-2xl bg-card border border-border hover:border-primary transition-colors overflow-hidden">
                                     {ref.image && (
@@ -638,6 +638,18 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                             </StaggerItem>
                         ))}
                     </StaggerContainer>
+
+                    {!isHubPage && (
+                        <div className="text-center mt-12">
+                            <Link
+                                href="/webdesign#referenzen"
+                                className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
+                            >
+                                Alle Referenzen auf der Webdesign-Hauptseite ansehen
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -753,11 +765,10 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         ))}
                     </div>
 
-                    {/* Keystatic Highlight */}
-                    <div className="mt-12 max-w-5xl mx-auto">
-                        <div className="p-8 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary">
-                            {isHubPage && (
-                                /* Main Webdesign Page - Enhanced Version (Hub-only) */
+                    {/* Keystatic Highlight - Hub-only */}
+                    {isHubPage && (
+                        <div className="mt-12 max-w-5xl mx-auto">
+                            <div className="p-8 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary">
                                 <div className="space-y-8">
                                     <div className="text-center">
                                         <h3 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
@@ -881,9 +892,9 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                         ))}
                                     </div>
                                 </div>
-                            )}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </section>
 
