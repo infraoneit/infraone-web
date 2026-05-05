@@ -1,0 +1,184 @@
+## Microsoft 365 Migration für KMU: Schritt-für-Schritt-Guide
+
+Microsoft 365 ist im Schweizer KMU-Markt heute der De-facto-Standard für Geschäfts-E-Mail, Office-Anwendungen, Dateiablage und Zusammenarbeit. Wer noch auf einem lokalen Exchange-Server, einem alten Hosted-Exchange-Anbieter oder gar auf POP3-Mail bei einem Internetprovider sitzt, denkt früher oder später über die Migration nach. Dieser Guide zeigt, wie eine ordentliche Migration für ein KMU mit 5 bis 50 Mitarbeitenden abläuft, was sie kostet und welche typischen Fehler man vermeidet.
+
+## Was eine Microsoft-365-Migration umfasst
+
+"Migration" klingt nach einem einzelnen Vorgang, ist aber meist ein Bündel aus mehreren Teilprojekten:
+
+- E-Mail-Umzug von der bestehenden Plattform auf Exchange Online
+- Domain-Setup und DNS-Einträge (MX, SPF, DKIM, DMARC)
+- Microsoft 365 Tenant erstellen, Benutzer und Lizenzen anlegen
+- SharePoint Online oder OneDrive für gemeinsame Dateien einrichten
+- Microsoft Teams als Kommunikations-Plattform aktivieren
+- Endgeräte (PCs, Laptops, Smartphones) anbinden
+- Backup-Lösung extern dazukaufen
+- Optional: Telefonie über Teams einbinden
+
+Eine ordentliche Migration für ein 20-Personen-KMU dauert in der Regel 2 bis 4 Wochen vom Kick-off bis zum Abschluss. Davon sind etwa 15 bis 25 Stunden reine IT-Arbeit, der Rest sind Wartezeiten (DNS-Propagation, Mailbox-Sync) und Vorbereitung mit den Mitarbeitenden.
+
+## Welche Microsoft-365-Lizenz für welches KMU
+
+Microsoft 365 hat einen Lizenz-Wirrwarr, der KMU oft überfordert. Die wichtigsten Pakete:
+
+| Lizenz | Preis pro User pro Monat | Wann sinnvoll |
+|---|---|---|
+| Business Basic | CHF 6.10 | Nur Web-Apps, 1 TB OneDrive, 50 GB Mailbox. Geeignet für reine Web-Nutzer |
+| Business Standard | CHF 12.70 | Wie Basic plus Desktop-Office (Word, Excel, Outlook). Standard für die meisten KMU |
+| Business Premium | CHF 22.30 | Wie Standard plus Intune (Geräteverwaltung), Defender (Endpoint-Security), erweiterte Compliance-Funktionen |
+| Apps for Business | CHF 8.80 | Nur Office-Apps, kein Exchange. Selten sinnvoll |
+| E3 (Enterprise) | CHF 36 | Für Unternehmen über 300 Benutzer oder mit speziellen Compliance-Anforderungen |
+| Phone System (Add-On) | CHF 8 | Telefonie über Teams (zusätzlich nötig für Direct Routing) |
+
+Für die meisten Schweizer KMU mit 5 bis 50 Mitarbeitenden ist Business Standard der Standard. Wer Geräte zentral verwalten will (Intune) oder Endpoint-Security braucht, wählt Business Premium.
+
+Beachten: Microsoft hat zum 1. Mai 2024 die Preise für Annual Commitment-Lizenzen mit Monthly Billing um 5 Prozent angehoben. Wer flexibel bleiben will, akzeptiert diesen Aufschlag. Wer fest plant, schliesst Annual mit Annual Billing ab.
+
+## Pre-Migration-Checkliste
+
+Bevor die eigentliche Migration startet, klären Sie diese Punkte:
+
+1. **Wie viele Mitarbeitende und Mailboxen gibt es?** Genaue Zahl, nicht "etwa 25". Lizenzen werden pro Benutzer abgerechnet.
+2. **Wie gross sind die bestehenden Mailboxen?** Mailboxen über 50 GB brauchen Sonderbehandlung (Archive, Stuffing).
+3. **Welche Domains sind im Einsatz?** Eine Hauptdomain oder mehrere? Aliases?
+4. **Welcher E-Mail-Anbieter wird abgelöst?** Lokaler Exchange, Hosted-Exchange, Google Workspace, IMAP beim Hoster?
+5. **Welche gemeinsamen Postfächer (Shared Mailboxes) gibt es?** info@, kontakt@, buchhaltung@?
+6. **Welche Verteiler (Mailing-Listen)?** Diese müssen in Exchange Online neu angelegt werden.
+7. **Sind Tablets und Smartphones im Einsatz, die später mailen sollen?** ActiveSync oder native Apps?
+8. **Welche Branchen-Software hängt an der E-Mail?** ERP-Systeme, CRM, Praxis-Software senden oft direkt über SMTP. Diese Konfigurationen müssen angepasst werden.
+9. **Wer hat Admin-Rechte auf der bestehenden Plattform?** Diese Person muss während der Migration verfügbar sein.
+10. **Backup-Konzept?** Microsoft 365 hat KEIN Backup im Standard. Externes Backup (Veeam, Synology, Acronis) ist Pflicht.
+
+## Drei Migrationswege
+
+Microsoft bietet drei Standardwege für die Mailbox-Migration. Die Wahl hängt von Grösse und bestehender Plattform ab.
+
+### Cutover-Migration (für KMU bis 150 Mailboxen)
+
+Alle Mailboxen werden in einem Schritt migriert, oft über ein Wochenende. Vor der Migration laufen alle E-Mails noch auf der alten Plattform, danach alle auf Exchange Online.
+
+Vorteile: Einfach, schnell, keine längeren Hybrid-Phasen.
+Nachteile: Wenn etwas schiefgeht, ist es schwer zurückzurollen. Funktioniert nur, wenn alle Postfächer gleichzeitig umziehen.
+
+Die meisten Schweizer KMU machen Cutover.
+
+### Staged-Migration (für mittlere Unternehmen)
+
+Mailboxen werden in Wellen migriert (z.B. 50 pro Woche). In der Zwischenzeit existiert ein Hybrid-Setup, in dem alte und neue Plattform parallel laufen.
+
+Vorteile: Geringeres Risiko, Probleme werden früh sichtbar.
+Nachteile: Aufwendiger, längere Migrations-Phase, Hybrid-Setup ist komplex.
+
+### Hybrid-Migration (für grosse Unternehmen oder Sonderfälle)
+
+Die alte Plattform und Exchange Online werden dauerhaft verbunden. Mailboxen können einzeln verschoben werden, ohne dass Benutzer Unterbrechung merken.
+
+Vorteile: Maximale Flexibilität, kein Cutover-Stichtag.
+Nachteile: Hoher Setup-Aufwand, lange Hybrid-Phase, oft nicht nötig für KMU.
+
+## Schritt-für-Schritt-Plan für ein 20-Personen-KMU
+
+So läuft eine typische Cutover-Migration ab. Zeiten beziehen sich auf reine IT-Arbeit, die Gesamtdauer (inkl. Wartezeiten) liegt bei 2 bis 3 Wochen.
+
+### Tag 0: Vorbereitung (4 bis 6 Stunden)
+
+- Microsoft 365 Tenant aufsetzen (Domain-Verifizierung über DNS)
+- Lizenzen kaufen (Business Standard für 20 Benutzer)
+- Benutzer manuell anlegen oder per CSV importieren
+- E-Mail-Aliases und Shared Mailboxes anlegen
+- Verteiler (Distribution Lists) erstellen
+
+### Tag 1: SPF, DKIM, DMARC vorbereiten (2 bis 3 Stunden)
+
+- SPF-Record so anpassen, dass Microsoft 365 berechtigt ist
+- DKIM für die Domain aktivieren
+- DMARC-Policy auf "p=none" setzen (Beobachtung), später auf "p=quarantine" oder "p=reject"
+- Diese Records vor dem Cutover anlegen, aber MX noch nicht ändern
+
+### Tag 2 bis 3: SharePoint und Teams einrichten (3 bis 5 Stunden)
+
+- SharePoint Online: Hauptseite einrichten, Berechtigungen definieren
+- OneDrive für jeden Benutzer aktivieren
+- Microsoft Teams: Teams und Kanäle anlegen
+- Naming-Convention dokumentieren
+
+### Tag 4: Test-Migration (2 bis 3 Stunden)
+
+- Eine oder zwei Test-Mailboxen migrieren
+- Prüfen: Posteingang vollständig, Kalender, Kontakte, Regeln
+- Outlook am Test-PC neu konfigurieren und prüfen
+- Mobile-App testen
+
+### Tag 7 bis 10: Cutover (Migrations-Wochenende, 6 bis 10 Stunden)
+
+- Freitag Abend: alle Benutzer aus Outlook abmelden
+- Mailbox-Migration starten (kann je nach Grösse 4 bis 24 Stunden dauern)
+- MX-Record auf Microsoft 365 umstellen (DNS-Propagation 1 bis 24 Stunden)
+- Nach Mailbox-Sync: Outlook auf allen PCs neu einrichten
+- Mobile-Geräte neu anbinden
+- Branchen-Software-SMTP-Configs anpassen
+
+### Tag 14: Nachsorge (3 bis 5 Stunden)
+
+- Backup-Lösung scharf schalten
+- Fehlende Regeln, Signaturen, Abwesenheits-Notizen prüfen
+- Endbenutzer-Schulung (1 bis 2 Stunden)
+- DMARC-Policy schrittweise verschärfen
+
+## Häufige Fehler und Pitfalls
+
+Aus der Praxis: Diese Fehler kosten Zeit und Nerven.
+
+**SPF überschreiben statt erweitern.** Wer einen bestehenden SPF-Record für seinen Hoster hat und Microsoft 365 dazu konfiguriert, muss BEIDE in einem einzigen TXT-Record kombinieren. Zwei separate SPF-Records funktionieren nicht und führen zu Spam-Klassifizierung.
+
+**MX-Record zu früh umstellen.** Wenn die MX-Records auf Microsoft 365 zeigen, bevor die Postfächer dort migriert sind, gehen E-Mails ins Leere. Reihenfolge: erst Migration, dann MX.
+
+**Backup vergessen.** Microsoft 365 hat keine Versionierung über 30 Tage hinaus, kein Schutz gegen versehentliches Löschen nach 90+ Tagen, kein Schutz vor Ransomware-Verschlüsselung der OneDrive-Daten. Eine externe Backup-Lösung (Veeam Cloud Connect, Synology Active Backup, Acronis Cloud Backup) ist Pflicht. Kosten: CHF 3 bis 8 pro User pro Monat.
+
+**Endgeräte unterschätzen.** Bei 20 Mitarbeitenden mit je 1 PC und 1 Smartphone sind das 40 Geräte, die neu konfiguriert werden müssen. Plus eventuelle Drucker (SMTP-Mail), MFP-Scanner mit Scan-to-Mail, Branchen-Software. Plant für jedes Gerät 15 bis 30 Minuten ein.
+
+**Microsoft Teams ohne Konzept einführen.** Wer Teams einfach öffnet und alle Mitarbeitenden reinwirft, hat nach 6 Monaten ein Chaos aus 50 Teams und 200 Kanälen. Vorab Naming-Convention, Berechtigungs-Konzept und Lifecycle (Archivierung) definieren.
+
+**Branchen-Software vergessen.** ERP, CRM, Praxis-Software, Hotel-System: alles, was E-Mails sendet oder empfängt, muss neu konfiguriert werden. Liste vorher erstellen.
+
+## Zeitaufwand und Kosten
+
+Eine ordentliche Migration für ein 20-Personen-KMU kostet typischerweise:
+
+| Position | Aufwand | Kosten bei CHF 150/h |
+|---|---|---|
+| Vorbereitung und Konzept | 4 bis 6 h | CHF 600 bis 900 |
+| Tenant-Setup, Domain, Lizenzen | 2 bis 3 h | CHF 300 bis 450 |
+| SharePoint, OneDrive, Teams | 3 bis 5 h | CHF 450 bis 750 |
+| Test-Migration | 2 bis 3 h | CHF 300 bis 450 |
+| Cutover-Wochenende | 6 bis 10 h | CHF 900 bis 1'500 |
+| Endgeräte-Konfiguration (20 Stück) | 5 bis 10 h | CHF 750 bis 1'500 |
+| Nachsorge und Schulung | 3 bis 5 h | CHF 450 bis 750 |
+| **Total Migration** | **25 bis 42 h** | **CHF 3'750 bis 6'300** |
+
+Plus laufende Lizenzkosten bei Business Standard: 20 Benutzer × CHF 12.70 = CHF 254 pro Monat (CHF 3'050 pro Jahr).
+
+Plus Backup: 20 Benutzer × CHF 5 = CHF 100 pro Monat (CHF 1'200 pro Jahr).
+
+5-Jahres-Gesamtkosten für die Microsoft-365-Umgebung: CHF 25'000 bis 30'000 (alles inklusive Lizenzen, Backup, Wartung, gelegentliche IT-Support-Stunden).
+
+## Backup ist Pflicht: was viele KMU nicht wissen
+
+Microsoft hält Ihre Daten in seinen Rechenzentren mit hoher Verfügbarkeit. Microsoft schützt Sie aber NICHT vor:
+
+- Versehentliches Löschen, das nach 30 oder 90 Tagen nicht mehr rückgängig gemacht werden kann
+- Ransomware, die OneDrive-Dateien lokal verschlüsselt und in die Cloud synct
+- Compliance-Anforderungen, die einen separaten Backup-Standort verlangen
+- Mitarbeitende, die kurz vor dem Ausscheiden bewusst Daten löschen
+
+Externe Backup-Lösungen (Veeam, Synology, Acronis) sichern Ihre M365-Daten in einen separaten Speicher, oft in einem Schweizer Rechenzentrum. Wiederherstellung dauert Minuten bis Stunden, statt verloren oder kostspielig durch Microsoft-Support.
+
+InfraOne empfiehlt für die meisten Schweizer KMU Veeam Backup for Microsoft 365 mit einem Schweizer Cloud-Speicher. Kosten: CHF 3 bis 5 pro Benutzer pro Monat.
+
+## Fazit
+
+Eine Microsoft-365-Migration für ein KMU mit 20 Mitarbeitenden ist ein Projekt von 25 bis 40 Stunden IT-Arbeit über 2 bis 4 Wochen, mit einer einmaligen Investition von CHF 4'000 bis 6'000 plus laufenden Lizenz- und Backup-Kosten von CHF 350 bis 400 pro Monat.
+
+Wer die Migration sauber plant, erspart sich Wochen von Folgekosten durch falsche Konfigurationen, fehlendes Backup und chaotische Teams-Strukturen. Wer es als reines E-Mail-Umzug-Projekt sieht, übersieht 80 Prozent der Arbeit.
+
+Brauchen Sie Unterstützung bei einer geplanten Migration? Wir machen Microsoft-365-Migrationen seit Jahren für KMU in der Region Winterthur, Zürich, Schaffhausen und Thurgau. Mehr Details auf [IT-Support](/it-support) oder direkt für die Region Winterthur unter [IT-Support Winterthur](/it-support/winterthur). Falls Sie Telefonie über Teams einbinden wollen, lesen Sie zusätzlich auf [Cloud-Telefonie](/cloud-telefonie). Erstgespräch unter [Kontakt](/kontakt) oder telefonisch unter 052 222 18 18.
