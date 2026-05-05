@@ -3,8 +3,8 @@
   "name": "Bern",
   "headline": "Webdesign Bern",
   "subheadline": "Websites für die Bundesstadt",
-  "description": "Bern steht für Seriosität und Qualität. Ihre Website sollte das Gleiche ausstrahlen – professionell, vertrauenswürdig und modern.",
-  "intro": "Als Bundesstadt und viertgrösster Kanton der Schweiz ist Bern ein bedeutender Wirtschaftsstandort. Mit über 1 Million Einwohner im Kanton und einer diversifizierten Wirtschaft von Verwaltung über Tourismus bis hin zu Industrie, brauchen Berner Unternehmen professionelle digitale Auftritte. Obwohl wir unseren Hauptsitz in Winterthur haben, betreuen wir zahlreiche Berner Kunden remote. Dank moderner Kommunikationsmittel funktioniert die Zusammenarbeit reibungslos – persönliche Treffen vereinbaren wir bei Bedarf gerne in Bern.",
+  "description": "Bern steht für Seriosität und Qualität. Ihre Website sollte das Gleiche ausstrahlen: professionell, vertrauenswürdig und modern.",
+  "intro": "Als Bundesstadt und viertgrösster Kanton der Schweiz ist Bern ein bedeutender Wirtschafts- und Verwaltungsstandort. Über 144'000 Einwohner in der Stadt und mehr als 1 Million im Kanton. Bern ist Sitz der Bundesverwaltung mit allen 7 Departementen, Heimat der Eidgenössischen Departementen, der Schweizerischen Nationalbank, der Post, der SBB-Hauptverwaltung und ungezählter Verbände, NGOs und internationaler Organisationen. Daneben gibt es eine vielfältige Wirtschaft von Tourismus rund um die UNESCO-Altstadt mit Zytglogge und Bundeshaus über die Pharma-Sparte (CSL Behring), die Versicherungsbranche (Mobiliar), die Universität Bern und die Kunstinstitutionen wie Zentrum Paul Klee und Kunstmuseum. Anfahrt aus Winterthur dauert mit dem Zug etwa 1 Stunde 15 Minuten oder per Auto 1 Stunde 30. Persönliche Treffen sind in Bern problemlos möglich, oft direkt im Bundeshausviertel oder im Wankdorf-Business-Park. Die meisten Berner Kunden bevorzugen aber Remote-Zusammenarbeit mit gelegentlichen persönlichen Workshops, was wir gerne so handhaben.",
   "regionalImage": "/images/webdesign-hero.png",
   "localBenefits": [
     "Remote-Betreuung",
@@ -24,43 +24,51 @@
   ],
   "localFaq": {
     "question": "Wie funktioniert die Zusammenarbeit über die Distanz?",
-    "answer": "Wir arbeiten mit Videocalls, geteilten Projektboards und regelmässigen Updates. Bei Bedarf sind wir auch persönlich in Bern – die Anreise dauert nur 1 Stunde."
+    "answer": "Wir arbeiten mit Videocalls, geteilten Projektboards (Trello, Jira, Notion) und regelmässigen Updates. Sie sind immer informiert und können jederzeit Feedback geben. Bei Bedarf sind wir auch persönlich in Bern, die Anreise dauert nur 1 Stunde 15 Minuten mit dem Zug. Initialgespräch oft persönlich, Umsetzungsphase remote, Schlussabnahme wieder vor Ort, das ist das übliche Modell."
   },
   "localIndustries": [
     {
       "name": "Bundesverwaltung & NGOs",
-      "description": "Als Bundesstadt beherbergt Bern zahlreiche Behörden, Verbände und Organisationen mit hohen Anforderungen.",
-      "websiteNeeds": "WCAG-Konformität, Mehrsprachigkeit (DE/FR/IT/EN), sichere Formulare"
+      "description": "Als Bundesstadt beherbergt Bern zahlreiche Behörden, Verbände und Organisationen. Vom Bundesamt für Sozialversicherungen über das SECO bis zu NGOs wie Helvetas oder dem Roten Kreuz Schweiz. Diese Akteure haben hohe Anforderungen an Barrierefreiheit und Mehrsprachigkeit.",
+      "websiteNeeds": "WCAG-2.1-AA-Konformität, Mehrsprachigkeit (DE/FR/IT/EN, teilweise RM), sichere Formulare, Datenschutz nach DSG/EU-DSGVO, klare Service-Übersichten"
     },
     {
       "name": "Tourismus & UNESCO-Welterbe",
-      "description": "Die Berner Altstadt, Bärenpark und Bundeshaus ziehen internationale Gäste an.",
-      "websiteNeeds": "Veranstaltungskalender, Ticketing, Bildergalerien, mehrsprachig"
+      "description": "Die Berner Altstadt ist UNESCO-Welterbe seit 1983. Bärenpark, Zytglogge, Münster, Bundeshaus und Rosengarten ziehen jährlich Millionen Touristen an. Hotels, Stadtführer, Restaurants und Anbieter touristischer Erlebnisse brauchen attraktive digitale Auftritte.",
+      "websiteNeeds": "Veranstaltungskalender, Online-Ticketing für Stadtführungen, Bildergalerien, Mehrsprachigkeit DE/EN/FR/JP/KR, mobile-first für Spontan-Besucher"
     },
     {
       "name": "Bildung & Forschung",
-      "description": "Universität Bern, PH Bern und Forschungsinstitute prägen den Standort.",
-      "websiteNeeds": "Content Management, Publikationsverzeichnisse, moderne UX"
+      "description": "Die Universität Bern, die Pädagogische Hochschule Bern, die Berner Fachhochschule und mehrere Forschungsinstitute machen Bern zu einem starken Bildungsstandort. Diese Institutionen brauchen umfangreiche Content-Management-Lösungen.",
+      "websiteNeeds": "Komplexe Content-Management mit hunderten Seiten, Publikationsverzeichnisse, Stundenpläne, Personensuche, Mehrsprachigkeit, modernes UX"
     },
     {
       "name": "Kulturinstitutionen & Museen",
-      "description": "Kunstmuseum, Zentrum Paul Klee und viele kleinere Kulturorte brauchen digitale Auftritte.",
-      "websiteNeeds": "Ausstellungskalender, Ticketshop, Virtueller Rundgang, mehrsprachig"
+      "description": "Kunstmuseum Bern, Zentrum Paul Klee, Historisches Museum, Naturhistorisches Museum und viele kleinere Kulturorte prägen die Stadt. Plus Theater, Konzerthäuser und das Stadttheater Bern. Alle brauchen digitale Präsenz für Programm und Tickets.",
+      "websiteNeeds": "Ausstellungs- und Veranstaltungskalender, Ticketshop-Integration, Virtuelle Rundgänge, Bildungs-Materialien, mehrsprachig"
     }
   ],
   "additionalFaqs": [
     {
       "question": "Können Sie barrierefreie Websites nach WCAG erstellen?",
-      "answer": "Ja, wir entwickeln Websites nach WCAG 2.1 AA-Standard. Für öffentliche Institutionen ist dies oft Pflicht – wir kennen die Anforderungen."
+      "answer": "Ja, wir entwickeln Websites nach WCAG 2.1 AA-Standard. Für öffentliche Institutionen ist dies oft Pflicht, dank Schweizer Behindertengleichstellungsgesetz und der EAA-Richtlinie. Wir achten auf semantisches Markup, Tastatur-Navigation, ausreichenden Farbkontrast, Alt-Texte für alle Bilder und transparente Formularfehler. Auf Wunsch führen wir auch externe Accessibility-Audits durch."
     },
     {
       "question": "Arbeiten Sie auch auf Französisch?",
-      "answer": "Wir erstellen mehrsprachige Websites in Deutsch, Französisch, Italienisch und Englisch. Die Übersetzung koordinieren wir mit professionellen Partnern."
+      "answer": "Wir erstellen mehrsprachige Websites in Deutsch, Französisch, Italienisch und Englisch. Die Übersetzung selbst koordinieren wir mit professionellen Partnern, oft mit Übersetzern in Bern oder Lausanne, die Verwaltungs- und NGO-Vokabular sicher beherrschen. Wir liefern alle Inhalte als sprechende URLs, Hreflang-Tags und sprachspezifische SEO."
+    },
+    {
+      "question": "Können Sie sehr grosse Websites mit hunderten Seiten umsetzen?",
+      "answer": "Ja, gerade Bundesämter und Universitäten haben oft Websites mit 500 bis 5'000 Seiten. Wir setzen dafür auf Headless-CMS-Architektur (Keystatic oder Sanity), bei der Inhalte strukturiert und versioniert sind. Editoren arbeiten parallel ohne Konflikte. Performance bleibt auch bei vielen Seiten optimal dank statischer Generierung."
+    },
+    {
+      "question": "Verstehen Sie den Berner Kommunikationsstil?",
+      "answer": "Ja, Berner Kommunikation ist anders als Zürcher: weniger laut, weniger marketing-getrieben, dafür substantieller und genauer. Wir passen Tonalität und Argumentation entsprechend an. Bei NGOs und Bundesämtern achten wir auf neutrale, sachliche Sprache, bei Tourismus-Akteuren auf einladende, aber nicht aufdringliche Texte."
     }
   ],
-  "whyChooseUs": "100% Remote-Zusammenarbeit mit Schweizer Qualität. Wir verstehen die Bedürfnisse des öffentlichen Sektors und wissen, dass in Bern Zuverlässigkeit zählt.",
+  "whyChooseUs": "100 Prozent Remote-Zusammenarbeit mit Schweizer Qualität. Wir verstehen die Bedürfnisse des öffentlichen Sektors und wissen, dass in Bern Zuverlässigkeit, Diskretion und Mehrsprachigkeit zählen. Mit Erfahrung in barrierefreien Websites, komplexen Content-Strukturen und sensiblen Compliance-Themen sind wir ein passender Partner für Berner KMU, Verbände und Institutionen.",
   "metaTitle": "Webdesign Bern | Websites ab CHF 990",
-  "metaDescription": "Webdesign Bern: Remote-Betreuung mit persönlicher Beratung. Ab CHF 990. ☎ 052 222 18 18",
+  "metaDescription": "Webdesign Bern: Premium-Lösung mit Headless CMS. ☎ 052 222 18 18",
   "keywords": [
     "Webdesign Bern",
     "Website erstellen Bern"

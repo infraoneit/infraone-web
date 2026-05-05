@@ -3,11 +3,11 @@
   "name": "Thurgau",
   "headline": "Webdesign Thurgau",
   "subheadline": "Digitale Präsenz für den Apfelkanton",
-  "description": "Vom Bodensee bis zu den Voralpenhängen – wir betreuen Thurgauer Unternehmen in Frauenfeld, Kreuzlingen, Weinfelden und der gesamten Region.",
-  "intro": "Der Thurgau ist bekannt für seine Landwirtschaft, aber auch für innovative Unternehmen und einen starken Tourismus am Bodensee. Mit über 280'000 Einwohnern und einer vielfältigen Wirtschaftsstruktur bietet der Kanton zahlreiche Chancen für digitale Präsenz. Ob Landgasthof in Münchwilen, IT-Unternehmen in Amriswil oder Handwerksbetrieb in Sirnach – wir verstehen die Bedürfnisse der Thurgauer Wirtschaft. Von unserem Standort in der Region sind wir schnell bei Ihnen vor Ort.",
+  "description": "Vom Bodensee bis zu den Voralpenhängen: wir betreuen Thurgauer Unternehmen in Frauenfeld, Kreuzlingen, Weinfelden und der gesamten Region.",
+  "intro": "Der Thurgau ist mit über 282'000 Einwohnern der zwölftbevölkerungsreichste Kanton der Schweiz und prägt sich durch eine bemerkenswert vielfältige Wirtschaft. Bekannt als Apfelkanton oder Mostindien für seinen Obstbau, ist der Thurgau gleichzeitig Heimat von hochmodernen Industriebetrieben wie Stadler Rail in Bussnang, vielen Maschinenbauern, einer starken Tourismusbranche am Bodensee und einem dichten Handwerksgewerbe. Vom Landgasthof in Münchwilen über die IT-Firma in Amriswil bis zum Bootsbauer in Kreuzlingen oder Romanshorn: Thurgauer Unternehmen brauchen Websites, die ihre regionale Bodenständigkeit und gleichzeitig die Internationalität der Bodenseeregion vermitteln. Unser Thurgauer Standort liegt an der Bahnhofstrasse 17 in Tägerwilen, direkt an der Grenze zu Deutschland. Von dort sind wir in 15 Minuten in Kreuzlingen, in 30 Minuten in Frauenfeld und in 25 Minuten in Konstanz. Auch Romanshorn und Amriswil erreichen wir innert 30 bis 45 Minuten. Für persönliche Termine sind wir flexibel, ob in Ihrem Büro, an unserem Tägerwiler Standort oder an einem Treffpunkt am Bodensee.",
   "regionalImage": "/images/regions/thurgau.png",
   "localBenefits": [
-    "Regionale Präsenz",
+    "Standort in Tägerwilen",
     "Kenntnis der lokalen Wirtschaft",
     "Tourismus-Erfahrung",
     "Kurze Anfahrt"
@@ -24,50 +24,59 @@
   ],
   "localFaq": {
     "question": "Haben Sie Erfahrung mit Tourismus-Websites am Bodensee?",
-    "answer": "Ja, wir haben bereits mehrere Hotel- und Gastro-Websites in der Bodenseeregion umgesetzt. Mobile-Optimierung und Buchungssysteme sind unsere Stärke."
+    "answer": "Ja, wir haben bereits mehrere Hotel- und Gastro-Websites in der Bodenseeregion umgesetzt. Mobile-Optimierung und Buchungssysteme sind unsere Stärke, ebenso die Mehrsprachigkeit für deutsche und österreichische Gäste. Wir kennen die Anforderungen der saisonalen Kommunikation, von Frühjahrs-Aktionen am Untersee bis zur Adventszeit in der Konstanzer Innenstadt-Erweiterung."
   },
   "localIndustries": [
     {
       "name": "Hotellerie & Gastronomie",
-      "description": "Die Bodenseeregion lebt vom Tourismus. Hotels, Restaurants und Freizeitanbieter brauchen ansprechende digitale Auftritte.",
-      "websiteNeeds": "Buchungssysteme, Bildergalerien, Speisekarten, mehrsprachig (DE/EN)"
+      "description": "Die Bodenseeregion lebt vom Tourismus. Hotels von Romanshorn über Kreuzlingen bis Steckborn, Restaurants, Strandbäder und Freizeitanbieter brauchen ansprechende digitale Auftritte, die deutsche und Schweizer Gäste gleichermassen ansprechen.",
+      "websiteNeeds": "Buchungssysteme integriert (Booking.com, eigene Lösungen), Bildergalerien, Speisekarten als PDF und Web, mehrsprachig DE/EN, Wetter- und See-Informationen"
     },
     {
       "name": "Obstbau & Direktvermarktung",
-      "description": "Mostereien, Hofläden und Obstbauern im \"Mostindien\" verkaufen direkt an Endkunden. E-Commerce wird immer wichtiger.",
-      "websiteNeeds": "Online-Shop, Produktkatalog, Liefergebiete, saisonale Angebote"
+      "description": "Mostereien, Hofläden, Brennereien und Obstbauern im Mostindien verkaufen direkt an Endkunden in der ganzen Schweiz. Der Trend zu lokalen Lebensmitteln macht E-Commerce für viele zu einem zentralen Vertriebskanal.",
+      "websiteNeeds": "Online-Shop mit Versand-Logik, Produktkatalog mit saisonaler Verfügbarkeit, Hofladen-Öffnungszeiten, Erntefest-Ankündigungen, Newsletter"
     },
     {
       "name": "Handwerk & Bau",
-      "description": "Vom Schreiner in Frauenfeld bis zum Elektriker in Kreuzlingen – lokales Gewerbe braucht Sichtbarkeit.",
-      "websiteNeeds": "Leistungsübersicht, Referenzen, Kontaktformular, Google Maps"
+      "description": "Vom Schreiner in Frauenfeld über den Elektriker in Kreuzlingen bis zum Sanitärbetrieb in Bischofszell: das lokale Gewerbe braucht digitale Sichtbarkeit. Viele Betriebe sind Familienunternehmen mit klar definiertem Einzugsgebiet.",
+      "websiteNeeds": "Leistungsübersicht, Referenzbilder, Notdienst-Hotline, Kontaktformular mit Foto-Upload, Google Maps Integration, lokale SEO für Postleitzahlen-Nähe"
     },
     {
       "name": "Bootsbau & Wassersport",
-      "description": "Am Bodensee sind Bootsbauer, Segelschulen und Wassersportanbieter zu Hause.",
-      "websiteNeeds": "Bildergalerien, Kursanmeldung, Preislisten, Online-Buchung"
+      "description": "Am Bodensee sind Bootsbauer, Werften, Segelschulen, Bootsvermietungen und Wassersportanbieter aktiv. Diese Branchen sind saisonal stark, brauchen aber ganzjährige digitale Präsenz für Buchungen, Wartung und Verkäufe.",
+      "websiteNeeds": "Bildergalerien für Boote und Anlagen, Online-Buchung von Kursen, Preislisten als PDF, Wartungsanfragen, mehrsprachig für deutsche Gäste"
     }
   ],
   "additionalFaqs": [
     {
       "question": "Können Sie Buchungssysteme für Hotels integrieren?",
-      "answer": "Ja, wir integrieren gängige Buchungssysteme wie Booking.com, oder setzen auf individuelle Lösungen für kleinere Betriebe."
+      "answer": "Ja, wir integrieren gängige Buchungssysteme wie Booking.com, Channel-Manager wie Cultuzz oder eigene Buchungslösungen für kleinere Häuser. Bei Familienpensionen ohne Buchungs-Engine bauen wir oft ein einfaches Anfrage-Formular plus Verfügbarkeits-Kalender. Bei mittleren Hotels integrieren wir komplette PMS-Systeme wie protel oder Mews."
     },
     {
       "question": "Bieten Sie Schulungen für die Website-Pflege an?",
-      "answer": "Ja, nach Projektabschluss schulen wir Sie remote oder vor Ort in der Pflege Ihrer Website. Mit Keystatic CMS ist die Bedienung kinderleicht."
+      "answer": "Ja, nach Projektabschluss schulen wir Sie remote oder vor Ort in der Pflege Ihrer Website. Mit Keystatic CMS ist die Bedienung kinderleicht, Sie bearbeiten Inhalte direkt im Browser. Eine Schulung dauert 1 bis 2 Stunden. Auf Wunsch erstellen wir auch ein kurzes Video-Tutorial, das Sie bei Personalwechsel oder neuen Mitarbeitern erneut nutzen können."
+    },
+    {
+      "question": "Wie kommen Sie aus Tägerwilen zu uns nach Frauenfeld oder Romanshorn?",
+      "answer": "Tägerwilen ist verkehrstechnisch günstig gelegen. Nach Kreuzlingen 15 Minuten, nach Frauenfeld 30 Minuten, nach Romanshorn 30 Minuten, nach Amriswil 35 Minuten und auch Weinfelden in 35 Minuten. Bei dringenden Vor-Ort-Terminen sind wir oft am gleichen Tag bei Ihnen. Für reguläre Termine vereinbaren wir 1 bis 3 Tage im Voraus."
+    },
+    {
+      "question": "Ist Ihre Website auch für deutsche Gäste optimiert?",
+      "answer": "Ja, viele unserer Thurgauer Kunden haben einen deutschen Anteil im Geschäft. Wir achten auf DSGVO-konforme Cookie-Banner und Datenschutzerklärungen, korrekte Preisangaben in CHF und EUR wenn relevant, eine englische oder deutsche Version je nach Zielgruppe und auf Hreflang-Tags für korrekte Suchergebnis-Zuweisung."
     }
   ],
-  "whyChooseUs": "Wir kennen den Thurgau – von Frauenfeld bis Romanshorn. Diese Regionalkenntnis fliesst in jedes Projekt ein.",
+  "whyChooseUs": "Wir kennen den Thurgau, von Frauenfeld bis Romanshorn, von Münchwilen bis Steckborn. Diese Regionalkenntnis fliesst in jedes Projekt ein, von der Wahl der Bildmotive über die richtigen Branchen-Begriffe bis hin zu lokalen SEO-Anpassungen. Mit unserem Tägerwiler Standort sind wir nah dran, und mit dem Hauptsitz in Winterthur haben wir die Ressourcen einer professionellen Agentur. Diese Kombination unterscheidet uns von rein lokalen Freelancern und von anonymen Grossagenturen.",
   "metaTitle": "Webdesign Thurgau | Websites ab CHF 990",
-  "metaDescription": "Webdesign Thurgau: Websites für KMU in Frauenfeld und Region. Ab CHF 990. ☎ 052 222 18 18",
+  "metaDescription": "Webdesign Thurgau: Premium-Lösung. Headless CMS. ☎ 052 222 18 18",
   "keywords": [
     "Webdesign Thurgau",
-    "Website erstellen Frauenfeld"
+    "Website erstellen Thurgau"
   ],
   "canonicalUrl": "https://infraone.ch/webdesign/thurgau",
   "hasPhysicalLocation": true,
   "areaServed": [
-    "Thurgau"
+    "Thurgau",
+    "Bodenseeregion"
   ]
 }

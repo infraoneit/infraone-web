@@ -4,7 +4,7 @@
   "headline": "Webdesign Winterthur",
   "subheadline": "Ihr lokaler Webdesign-Partner in der Eulachstadt",
   "description": "Als Winterthurer Agentur mit Büro in der Altstadt kennen wir den lokalen Markt wie unsere eigene Tasche. Von der Marktgasse bis zum Sulzer-Areal.",
-  "intro": "Winterthur ist nicht nur die sechstgrösste Stadt der Schweiz, sondern auch ein dynamischer Wirtschaftsstandort mit über 45'000 Arbeitsplätzen. Vom Tech-Startup im Technopark bis zum traditionsreichen Handwerksbetrieb in Töss – wir verstehen die Bedürfnisse der lokalen Wirtschaft. Unser Büro liegt zentral in Winterthur, was persönliche Treffen jederzeit möglich macht. Ob Sie einen neuen Online-Shop für Ihr Geschäft an der Stadthausstrasse benötigen oder eine moderne Präsenz für Ihre Praxis in Seen – wir sind Ihr Partner vor Ort.",
+  "intro": "Winterthur ist nach Zürich die sechstgrösste Stadt der Schweiz und das wirtschaftliche Zentrum des Zürcher Weinlandes. Über 116'000 Einwohner, mehr als 45'000 Arbeitsplätze und eine Wirtschaftsstruktur, die von Maschinenbau, Life Sciences, Finanzdienstleistungen und einem dichten Handwerksgewerbe geprägt ist. Vom Tech-Startup im Technopark Winterthur über die Industriebetriebe auf dem Sulzer-Areal bis zum Familienunternehmen in Wülflingen oder Töss: Winterthur lebt vom Mix aus traditionellen Branchen und neuen digitalen Geschäftsmodellen. Genau dafür entwickeln wir Websites. Unser Büro liegt zentral in der Altstadt, wir sind in 10 Minuten zu Fuss am Bahnhof oder im Industriequartier Grüze. Persönliche Treffen sind jederzeit möglich, ob Sie einen neuen Online-Shop für Ihr Geschäft an der Stadthausstrasse benötigen, eine moderne Praxis-Website für Seen oder Veltheim, oder eine B2B-Präsenz für Ihren Maschinenbaubetrieb im Sulzer-Areal. Als Hauptsitz von InfraOne sind wir in Winterthur zuhause und kennen die Stadt, die Branchen und die Menschen.",
   "regionalImage": "/images/regions/winterthur.png",
   "localBenefits": [
     "Büro in Winterthur",
@@ -24,41 +24,49 @@
   ],
   "localFaq": {
     "question": "Kann ich bei Ihnen im Büro vorbeikommen?",
-    "answer": "Ja, sehr gerne! Unser Büro befindet sich in der Winterthurer Altstadt. Vereinbaren Sie einfach einen Termin für ein kostenloses Erstgespräch bei einem Kaffee."
+    "answer": "Ja, sehr gerne. Unser Büro befindet sich in der Winterthurer Altstadt, wenige Gehminuten vom Hauptbahnhof entfernt. Vereinbaren Sie einfach einen Termin für ein kostenloses Erstgespräch bei einem Kaffee. Erste Briefings dauern in der Regel 45 bis 60 Minuten. Sie kommen mit Ihren Anforderungen, wir kommen mit Vorschlägen, und am Ende wissen Sie, was eine Umsetzung kosten und dauern würde."
   },
   "localIndustries": [
     {
       "name": "Maschinenbau & Industrie",
-      "description": "Winterthur hat eine stolze Industriegeschichte. Vom Sulzer-Areal bis zum Technopark sind hier innovative Unternehmen zu Hause.",
-      "websiteNeeds": "Technische Produktpräsentationen, B2B-Fokus, Mehrsprachigkeit"
+      "description": "Winterthur hat eine stolze Industriegeschichte mit Sulzer, Rieter und SIG-Bühler im Zentrum. Vom historischen Sulzer-Areal bis zum modernen Technopark sind hier Industrieunternehmen mit hohem Digitalisierungsbedarf zu Hause. Viele exportieren weltweit und brauchen mehrsprachige B2B-Präsenzen.",
+      "websiteNeeds": "Technische Produktpräsentationen, Datenblätter, B2B-Funnel mit Lead-Formularen, Mehrsprachigkeit (DE/EN), Karriereseiten"
     },
     {
       "name": "Gesundheit & Medizintechnik",
-      "description": "Zahlreiche Arztpraxen, Therapiezentren und Gesundheitsdienstleister in Winterthur benötigen professionelle Online-Präsenzen.",
-      "websiteNeeds": "Online-Terminbuchung, vertrauenswürdiges Design, DSGVO-konform"
+      "description": "Mit dem Kantonsspital Winterthur, mehreren Reha-Kliniken und über 250 niedergelassenen Ärzten ist Gesundheit ein zentraler Wirtschaftsfaktor. Arztpraxen, Therapiezentren und Medtech-Zulieferer verlangen vertrauenswürdige Online-Präsenzen.",
+      "websiteNeeds": "Online-Terminbuchung, datenschutzkonforme Patientenformulare, Team-Vorstellungen, klare Behandlungsbeschreibungen, mobile Optimierung"
     },
     {
       "name": "Einzelhandel & Gastronomie",
-      "description": "Die lebendige Altstadt und das Einkaufszentrum Rosenberg bieten vielfältige Retail- und Gastro-Angebote.",
-      "websiteNeeds": "Online-Shop, Speisekarten, Öffnungszeiten, Google Maps Integration"
+      "description": "Die lebendige Altstadt zwischen Marktgasse und Stadthaus, das Einkaufszentrum Rosenberg und die Quartierzentren in Töss, Seen und Wülflingen bieten Hunderten von Retail- und Gastro-Anbietern eine Bühne. Wer hier sichtbar werden will, braucht klar strukturierte Websites.",
+      "websiteNeeds": "Online-Shop, digitale Speisekarten, Reservierungssystem, Öffnungszeiten, Google Maps Integration, lokale SEO"
     },
     {
       "name": "Tech-Startups & Innovation",
-      "description": "Der Technopark Winterthur beherbergt junge Tech-Unternehmen, die digitale Lösungen entwickeln.",
-      "websiteNeeds": "Modernes Design, Investor Relations, Team-Vorstellung, Portfolio"
+      "description": "Der Technopark Winterthur und der ZHAW-Campus beherbergen über 200 junge Tech-Unternehmen, viele in den Bereichen IoT, Cleantech, FinTech und MedTech. Diese Firmen brauchen schnelle, moderne Websites für Kunden, Investoren und Mitarbeitende.",
+      "websiteNeeds": "Modernes Design, Investor Relations Bereich, Team-Vorstellung, Produkt-Demo, Karriere-Portal, technische Blog-Funktion"
     }
   ],
   "additionalFaqs": [
     {
       "question": "Muss ich für die Website-Erstellung persönlich vorbeikommen?",
-      "answer": "Nein, der gesamte Prozess kann 100% remote ablaufen. Wir arbeiten mit Videocalls, geteilten Dokumenten und Online-Feedback-Tools. Persönliche Treffen sind natürlich jederzeit möglich – unser Büro ist nur wenige Gehminuten von der Altstadt entfernt."
+      "answer": "Nein, der gesamte Prozess kann zu 100 Prozent remote ablaufen. Wir arbeiten mit Videocalls, geteilten Dokumenten und Online-Feedback-Tools. Persönliche Treffen sind natürlich jederzeit möglich, unser Büro ist nur wenige Gehminuten von der Altstadt entfernt. Viele unserer Winterthurer Kunden mischen die zwei Modi: Initialgespräch persönlich, Zwischenphasen remote, Schlussabnahme wieder vor Ort."
     },
     {
       "question": "Wie lange dauert ein Website-Projekt in Winterthur?",
-      "answer": "Eine Standard-Website ist in 2-4 Wochen live. Für komplexere Projekte mit Online-Shop oder individueller Entwicklung planen wir 6-8 Wochen ein. Dank unserer lokalen Präsenz können wir bei dringenden Anpassungen schnell reagieren."
+      "answer": "Eine Standard-Website mit 5 bis 8 Seiten ist in 2 bis 4 Wochen live. Für komplexere Projekte mit Online-Shop oder individueller Entwicklung planen wir 6 bis 8 Wochen ein. Dank unserer lokalen Präsenz können wir bei dringenden Anpassungen oder Schulungsterminen schnell reagieren, oft am gleichen oder nächsten Tag."
+    },
+    {
+      "question": "Arbeiten Sie auch mit Winterthurer Druckereien und Werbeagenturen zusammen?",
+      "answer": "Ja, wir kennen die wichtigsten Winterthurer Werbeagenturen und Druckereien persönlich. Bei Projekten, in denen Print und Web Hand in Hand gehen, koordinieren wir das gerne direkt. Genauso arbeiten wir mit Fotografen und Textern zusammen, die in Winterthur ansässig sind. So bleibt das ganze Projekt-Ökosystem in der Region."
+    },
+    {
+      "question": "Was kostet eine professionelle Website für ein KMU in Winterthur?",
+      "answer": "Unsere Pakete starten bei CHF 990 für eine Visitenkarten-Website und gehen bis CHF 4'990 plus für komplexe Lösungen mit Headless CMS. Für ein typisches KMU mit 8 bis 15 Seiten, individuellem Design, Blog und Mehrsprachigkeit liegt der Preis bei CHF 2'490. Hinzu kommen ein einmaliger Aufwand für Texterstellung, falls Sie das nicht selbst machen wollen, und laufende Hostingkosten von 10 bis 30 CHF pro Monat."
     }
   ],
-  "whyChooseUs": "Als echte Winterthurer Agentur verstehen wir die lokalen Bedürfnisse besser als eine anonyme Grossagentur aus Zürich. Wir kennen die Stadt, die Branchen und die Menschen. Das macht den Unterschied.",
+  "whyChooseUs": "Als echte Winterthurer Agentur verstehen wir die lokalen Bedürfnisse besser als eine anonyme Grossagentur aus Zürich. Wir kennen die Stadt, die Branchen und die Menschen. Wenn Sie aus Töss anrufen oder uns einen Auftrag aus dem Sulzer-Areal geben, wissen wir genau, wovon Sie sprechen. Diese Nähe spiegelt sich in der Zusammenarbeit: kürzere Wege, schnellere Entscheidungen, persönlichere Betreuung. Plus: faire Preise, keine Bahnhofstrasse-Aufschläge.",
   "metaTitle": "Webdesign Winterthur | Websites ab CHF 990",
   "metaDescription": "Webdesign Winterthur: Ihr lokaler Partner für moderne Websites. Ab CHF 990. Persönliche Beratung. ☎ 052 222 18 18",
   "keywords": [
