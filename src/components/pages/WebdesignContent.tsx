@@ -166,295 +166,38 @@ const faqs = [
     },
 ];
 
-// Regional content with unique SEO text
-interface LocalIndustry {
-    name: string;
-    description: string;
-    websiteNeeds: string;
-}
+// Hub-Daten (verwendet wenn data prop nicht gesetzt = Hub-Modus).
+// Spoke-Daten kommen aus JSON-Files in content/leistungen/webdesign-regions/.
+import type { WebdesignRegionData } from '@/lib/leistungen';
 
-interface RegionalData {
-    headline: string;
-    subheadline: string;
-    description: string;
-    intro: string;
-    localBenefits: string[];
-    stats: { label: string; value: string }[];
-    localFaq: { question: string; answer: string };
-    regionalImage: string;
-    // New fields for unique content
-    localIndustries?: LocalIndustry[];
-    additionalFaqs?: { question: string; answer: string }[];
-    whyChooseUs?: string;
-}
-
-const regionalContent: Record<string, RegionalData> = {
-    default: {
-        headline: 'Webdesign Schweiz',
-        subheadline: 'Moderne Websites für Schweizer Unternehmen',
-        description: 'Von der einfachen Visitenkarte bis zur komplexen Web-Applikation – wir designen und entwickeln Websites, die überzeugen und verkaufen.',
-        intro: 'Die Schweiz ist ein Land der KMU. Über 99% aller Unternehmen sind kleine und mittlere Betriebe, die das Rückgrat unserer Wirtschaft bilden. Genau für diese Unternehmen entwickeln wir Websites: pragmatisch, bezahlbar und mit echtem Mehrwert. Unser Team in Winterthur betreut Kunden in der gesamten Deutschschweiz – persönlich und auf Augenhöhe.',
-        localBenefits: ['Schweizer Qualität', 'Persönliche Betreuung', 'Faire Preise', 'Schnelle Umsetzung'],
-        stats: [{ label: 'Projekte', value: '150+' }, { label: 'Zufriedene Kunden', value: '98%' }],
-        localFaq: { question: 'Betreuen Sie auch Kunden ausserhalb der Deutschschweiz?', answer: 'Ja, wir arbeiten remote mit Kunden in der ganzen Schweiz zusammen. Persönliche Treffen sind in den meisten Fällen nicht nötig.' },
-        regionalImage: '/images/webdesign-hero.png',
-    },
-    winterthur: {
-        headline: 'Webdesign Winterthur',
-        subheadline: 'Ihr lokaler Webdesign-Partner in der Eulachstadt',
-        description: 'Als Winterthurer Agentur mit Büro in der Altstadt kennen wir den lokalen Markt wie unsere eigene Tasche. Von der Marktgasse bis zum Sulzer-Areal.',
-        intro: 'Winterthur ist nicht nur die sechstgrösste Stadt der Schweiz, sondern auch ein dynamischer Wirtschaftsstandort mit über 45\'000 Arbeitsplätzen. Vom Tech-Startup im Technopark bis zum traditionsreichen Handwerksbetrieb in Töss – wir verstehen die Bedürfnisse der lokalen Wirtschaft. Unser Büro liegt zentral in Winterthur, was persönliche Treffen jederzeit möglich macht. Ob Sie einen neuen Online-Shop für Ihr Geschäft an der Stadthausstrasse benötigen oder eine moderne Präsenz für Ihre Praxis in Seen – wir sind Ihr Partner vor Ort.',
-        localBenefits: ['Büro in Winterthur', 'Persönliche Treffen möglich', 'Kennen den lokalen Markt', 'Schneller Support'],
-        stats: [{ label: 'Winterthurer Kunden', value: '45+' }, { label: 'Jahre Erfahrung', value: '8+' }],
-        localFaq: { question: 'Kann ich bei Ihnen im Büro vorbeikommen?', answer: 'Ja, sehr gerne! Unser Büro befindet sich in der Winterthurer Altstadt. Vereinbaren Sie einfach einen Termin für ein kostenloses Erstgespräch bei einem Kaffee.' },
-        regionalImage: '/images/regions/winterthur.png',
-        localIndustries: [
-            { name: 'Maschinenbau & Industrie', description: 'Winterthur hat eine stolze Industriegeschichte. Vom Sulzer-Areal bis zum Technopark sind hier innovative Unternehmen zu Hause.', websiteNeeds: 'Technische Produktpräsentationen, B2B-Fokus, Mehrsprachigkeit' },
-            { name: 'Gesundheit & Medizintechnik', description: 'Zahlreiche Arztpraxen, Therapiezentren und Gesundheitsdienstleister in Winterthur benötigen professionelle Online-Präsenzen.', websiteNeeds: 'Online-Terminbuchung, vertrauenswürdiges Design, DSGVO-konform' },
-            { name: 'Einzelhandel & Gastronomie', description: 'Die lebendige Altstadt und das Einkaufszentrum Rosenberg bieten vielfältige Retail- und Gastro-Angebote.', websiteNeeds: 'Online-Shop, Speisekarten, Öffnungszeiten, Google Maps Integration' },
-            { name: 'Tech-Startups & Innovation', description: 'Der Technopark Winterthur beherbergt junge Tech-Unternehmen, die digitale Lösungen entwickeln.', websiteNeeds: 'Modernes Design, Investor Relations, Team-Vorstellung, Portfolio' },
-        ],
-        additionalFaqs: [
-            { question: 'Muss ich für die Website-Erstellung persönlich vorbeikommen?', answer: 'Nein, der gesamte Prozess kann 100% remote ablaufen. Wir arbeiten mit Videocalls, geteilten Dokumenten und Online-Feedback-Tools. Persönliche Treffen sind natürlich jederzeit möglich – unser Büro ist nur wenige Gehminuten von der Altstadt entfernt.' },
-            { question: 'Wie lange dauert ein Website-Projekt in Winterthur?', answer: 'Eine Standard-Website ist in 2-4 Wochen live. Für komplexere Projekte mit Online-Shop oder individueller Entwicklung planen wir 6-8 Wochen ein. Dank unserer lokalen Präsenz können wir bei dringenden Anpassungen schnell reagieren.' },
-        ],
-        whyChooseUs: 'Als echte Winterthurer Agentur verstehen wir die lokalen Bedürfnisse besser als eine anonyme Grossagentur aus Zürich. Wir kennen die Stadt, die Branchen und die Menschen. Das macht den Unterschied.',
-    },
-    zuerich: {
-        headline: 'Webdesign Zürich',
-        subheadline: 'Premium-Websites für die Wirtschaftsmetropole',
-        description: 'Zürich ist das wirtschaftliche Herz der Schweiz. Hier brauchen Sie eine Website, die Ihre Professionalität widerspiegelt – schnell, modern und überzeugend.',
-        intro: 'Als grösste Stadt der Schweiz ist Zürich der wichtigste Wirtschaftsstandort des Landes. Über 400\'000 Einwohner und mehr als 500\'000 Arbeitsplätze machen die Limmatstadt zu einem hochkompetitiven Markt. Hier zählt der erste Eindruck besonders. Ihre Website muss auf Anhieb überzeugen – technisch einwandfrei, optisch ansprechend und inhaltlich auf den Punkt. Wir betreuen Zürcher Unternehmen vom Kreis 1 bis Oerlikon, von Startups an der Europaallee bis zu etablierten KMU in den Aussenbezirken.',
-        localBenefits: ['Erfahrung mit Zürcher KMU', 'Verständnis für hohe Ansprüche', 'Kurze Wege von Winterthur', 'Professionelle Umsetzung'],
-        stats: [{ label: 'Zürcher Projekte', value: '30+' }, { label: 'Durchschn. Lighthouse Score', value: '95+' }],
-        localFaq: { question: 'Bieten Sie auch Vor-Ort-Termine in Zürich an?', answer: 'Selbstverständlich. Von unserem Büro in Winterthur sind wir in 20 Minuten bei Ihnen in Zürich – oder wir treffen uns an einem neutralen Ort.' },
-        regionalImage: '/images/regions/zuerich.png',
-        localIndustries: [
-            { name: 'Finanzdienstleistungen', description: 'Zürich ist Europas führender Finanzplatz. Banken, Vermögensverwalter und FinTechs prägen die Wirtschaft.', websiteNeeds: 'Vertrauenswürdiges Design, Compliance-konform, mehrsprachig, sichere Formulare' },
-            { name: 'Kreativagenturen & Design', description: 'Vom Seefeld bis Kreis 5 – Zürich beherbergt eine lebendige Kreativszene mit Agenturen und Freelancern.', websiteNeeds: 'Portfolio-Präsentation, visueller Impact, schnelle Ladezeiten' },
-            { name: 'Tech & Startups', description: 'Die ETH-Nähe und Googles Präsenz machen Zürich zum Tech-Hub. Startups brauchen agile digitale Lösungen.', websiteNeeds: 'Modernes Design, Skalierbarkeit, Integration mit SaaS-Tools' },
-            { name: 'Beratung & Consulting', description: 'Zürich ist Schweizer Zentrum für Unternehmensberatung, Steuerberatung und Management Consulting.', websiteNeeds: 'Professionelle Außenwirkung, Leistungsübersicht, Case Studies, Kontaktformulare' },
-        ],
-        additionalFaqs: [
-            { question: 'Muss ich für Besprechungen nach Winterthur kommen?', answer: 'Nein, wir arbeiten zu 100% remote wenn gewünscht. Alternativ treffen wir uns gerne in Zürich – die S-Bahn braucht nur 20 Minuten.' },
-            { question: 'Verstehen Sie die hohen Ansprüche des Zürcher Marktes?', answer: 'Absolut. Wir haben für Zürcher Unternehmen aus der Finanz-, Tech- und Kreativbranche gearbeitet. Wir wissen, dass hier höchste Qualität erwartet wird.' },
-        ],
-        whyChooseUs: 'Als Agentur aus der Region bieten wir Zürcher Qualität zu faireren Preisen – ohne die Überkopfkosten einer Bahnhofstrasse-Agentur.',
-    },
-    schaffhausen: {
-        headline: 'Webdesign Schaffhausen',
-        subheadline: 'Websites für die Munot-Stadt und Region',
-        description: 'Schaffhausen verbindet Geschichte mit Innovation. Genau diesen Anspruch setzen wir auch in Ihrem Webdesign um – zeitlos modern und dennoch bodenständig.',
-        intro: 'Der Kanton Schaffhausen ist klein, aber fein. Mit rund 83\'000 Einwohnern bietet die Region einen übersichtlichen, aber aktiven Wirtschaftsraum. Von industriellen Grossbetrieben über den Weinbau bis hin zu spezialisierten Dienstleistern – Schaffhauser Unternehmen zeichnen sich durch Qualität und Tradition aus. Unser Standort in Schaffhausen ermöglicht uns, lokale Kunden persönlich zu betreuen. Wir kennen die Besonderheiten der Region und wissen, was Schaffhauser Kunden von einer Website erwarten.',
-        localBenefits: ['Standort in Schaffhausen', 'Lokales Netzwerk', 'Persönliche Betreuung', 'Regionale Referenzen'],
-        stats: [{ label: 'Schaffhauser Kunden', value: '15+' }, { label: 'Weiterempfehlungsrate', value: '100%' }],
-        localFaq: { question: 'Haben Sie Erfahrung mit lokalen Branchen wie Weinbau oder Industrie?', answer: 'Ja, wir haben bereits mehrere Websites für Schaffhauser Weingüter und Industriebetriebe erstellt. Wir verstehen die Anforderungen dieser Branchen.' },
-        regionalImage: '/images/regions/schaffhausen.png',
-        localIndustries: [
-            { name: 'Industrie & Produktion', description: 'Von SIG über Georg Fischer bis zu spezialisierten Zulieferern – Schaffhausen hat eine starke industrielle Basis.', websiteNeeds: 'B2B-Kommunikation, technische Produktkataloge, Karriereseiten' },
-            { name: 'Weinbau & Landwirtschaft', description: 'Das Schaffhauser Blauburgunderland ist bekannt für exzellente Weine. Weingüter brauchen ansprechende Online-Auftritte.', websiteNeeds: 'Emotionales Storytelling, Online-Shop, Veranstaltungskalender' },
-            { name: 'Tourismus & Rheinfall', description: 'Rheinfall, Munot und Altstadt ziehen Besucher an. Lokale Anbieter brauchen attraktive digitale Präsenzen.', websiteNeeds: 'Mehrsprachigkeit, Buchungssysteme, Mobile-first Design' },
-            { name: 'Handwerk & Gewerbe', description: 'Schreiner, Elektriker und Sanitärbetriebe prägen das lokale Gewerbe in Stadt und Region Schaffhausen.', websiteNeeds: 'Leistungsübersicht, Referenzbilder, Kontaktformular, Notfall-Hotline' },
-        ],
-        additionalFaqs: [
-            { question: 'Können Sie Websites für Weingüter mit Online-Shop erstellen?', answer: 'Ja, wir haben bereits mehrere Wein-Online-Shops umgesetzt. Dabei berücksichtigen wir die speziellen Anforderungen wie Versandbedingungen und Altersverifikation.' },
-            { question: 'Arbeiten Sie auch mit deutschen Kunden in der Grenznähe?', answer: 'Selbstverständlich. Wir betreuen auch Kunden aus dem nahen Süddeutschland. Die Währungsumrechnung und DSGVO-Konformität beherrschen wir.' },
-        ],
-        whyChooseUs: 'Als regionale Agentur mit echtem Schaffhauser Bezug verstehen wir die lokale Mentalität: bodenständig, qualitätsbewusst und mit Blick fürs Wesentliche.',
-    },
-    thurgau: {
-        headline: 'Webdesign Thurgau',
-        subheadline: 'Digitale Präsenz für den Apfelkanton',
-        description: 'Vom Bodensee bis zu den Voralpenhängen – wir betreuen Thurgauer Unternehmen in Frauenfeld, Kreuzlingen, Weinfelden und der gesamten Region.',
-        intro: 'Der Thurgau ist bekannt für seine Landwirtschaft, aber auch für innovative Unternehmen und einen starken Tourismus am Bodensee. Mit über 280\'000 Einwohnern und einer vielfältigen Wirtschaftsstruktur bietet der Kanton zahlreiche Chancen für digitale Präsenz. Ob Landgasthof in Münchwilen, IT-Unternehmen in Amriswil oder Handwerksbetrieb in Sirnach – wir verstehen die Bedürfnisse der Thurgauer Wirtschaft. Von unserem Standort in der Region sind wir schnell bei Ihnen vor Ort.',
-        localBenefits: ['Regionale Präsenz', 'Kenntnis der lokalen Wirtschaft', 'Tourismus-Erfahrung', 'Kurze Anfahrt'],
-        stats: [{ label: 'Thurgauer Projekte', value: '20+' }, { label: 'Ø Reaktionszeit', value: '< 4h' }],
-        localFaq: { question: 'Haben Sie Erfahrung mit Tourismus-Websites am Bodensee?', answer: 'Ja, wir haben bereits mehrere Hotel- und Gastro-Websites in der Bodenseeregion umgesetzt. Mobile-Optimierung und Buchungssysteme sind unsere Stärke.' },
-        regionalImage: '/images/regions/thurgau.png',
-        localIndustries: [
-            { name: 'Hotellerie & Gastronomie', description: 'Die Bodenseeregion lebt vom Tourismus. Hotels, Restaurants und Freizeitanbieter brauchen ansprechende digitale Auftritte.', websiteNeeds: 'Buchungssysteme, Bildergalerien, Speisekarten, mehrsprachig (DE/EN)' },
-            { name: 'Obstbau & Direktvermarktung', description: 'Mostereien, Hofläden und Obstbauern im "Mostindien" verkaufen direkt an Endkunden. E-Commerce wird immer wichtiger.', websiteNeeds: 'Online-Shop, Produktkatalog, Liefergebiete, saisonale Angebote' },
-            { name: 'Handwerk & Bau', description: 'Vom Schreiner in Frauenfeld bis zum Elektriker in Kreuzlingen – lokales Gewerbe braucht Sichtbarkeit.', websiteNeeds: 'Leistungsübersicht, Referenzen, Kontaktformular, Google Maps' },
-            { name: 'Bootsbau & Wassersport', description: 'Am Bodensee sind Bootsbauer, Segelschulen und Wassersportanbieter zu Hause.', websiteNeeds: 'Bildergalerien, Kursanmeldung, Preislisten, Online-Buchung' },
-        ],
-        additionalFaqs: [
-            { question: 'Können Sie Buchungssysteme für Hotels integrieren?', answer: 'Ja, wir integrieren gängige Buchungssysteme wie Booking.com, oder setzen auf individuelle Lösungen für kleinere Betriebe.' },
-            { question: 'Bieten Sie Schulungen für die Website-Pflege an?', answer: 'Ja, nach Projektabschluss schulen wir Sie remote oder vor Ort in der Pflege Ihrer Website. Mit Keystatic CMS ist die Bedienung kinderleicht.' },
-        ],
-        whyChooseUs: 'Wir kennen den Thurgau – von Frauenfeld bis Romanshorn. Diese Regionalkenntnis fliesst in jedes Projekt ein.',
-    },
-    bern: {
-        headline: 'Webdesign Bern',
-        subheadline: 'Websites für die Bundesstadt',
-        description: 'Bern steht für Seriosität und Qualität. Ihre Website sollte das Gleiche ausstrahlen – professionell, vertrauenswürdig und modern.',
-        intro: 'Als Bundesstadt und viertgrösster Kanton der Schweiz ist Bern ein bedeutender Wirtschaftsstandort. Mit über 1 Million Einwohner im Kanton und einer diversifizierten Wirtschaft von Verwaltung über Tourismus bis hin zu Industrie, brauchen Berner Unternehmen professionelle digitale Auftritte. Obwohl wir unseren Hauptsitz in Winterthur haben, betreuen wir zahlreiche Berner Kunden remote. Dank moderner Kommunikationsmittel funktioniert die Zusammenarbeit reibungslos – persönliche Treffen vereinbaren wir bei Bedarf gerne in Bern.',
-        localBenefits: ['Remote-Betreuung', 'Professionelle Kommunikation', 'Verständnis für Berner Ansprüche', 'Flexible Termine'],
-        stats: [{ label: 'Berner Kunden', value: '10+' }, { label: 'Projekterfolgsrate', value: '100%' }],
-        localFaq: { question: 'Wie funktioniert die Zusammenarbeit über die Distanz?', answer: 'Wir arbeiten mit Videocalls, geteilten Projektboards und regelmässigen Updates. Bei Bedarf sind wir auch persönlich in Bern – die Anreise dauert nur 1 Stunde.' },
-        regionalImage: '/images/webdesign-hero.png',
-        localIndustries: [
-            { name: 'Bundesverwaltung & NGOs', description: 'Als Bundesstadt beherbergt Bern zahlreiche Behörden, Verbände und Organisationen mit hohen Anforderungen.', websiteNeeds: 'WCAG-Konformität, Mehrsprachigkeit (DE/FR/IT/EN), sichere Formulare' },
-            { name: 'Tourismus & UNESCO-Welterbe', description: 'Die Berner Altstadt, Bärenpark und Bundeshaus ziehen internationale Gäste an.', websiteNeeds: 'Veranstaltungskalender, Ticketing, Bildergalerien, mehrsprachig' },
-            { name: 'Bildung & Forschung', description: 'Universität Bern, PH Bern und Forschungsinstitute prägen den Standort.', websiteNeeds: 'Content Management, Publikationsverzeichnisse, moderne UX' },
-            { name: 'Kulturinstitutionen & Museen', description: 'Kunstmuseum, Zentrum Paul Klee und viele kleinere Kulturorte brauchen digitale Auftritte.', websiteNeeds: 'Ausstellungskalender, Ticketshop, Virtueller Rundgang, mehrsprachig' },
-        ],
-        additionalFaqs: [
-            { question: 'Können Sie barrierefreie Websites nach WCAG erstellen?', answer: 'Ja, wir entwickeln Websites nach WCAG 2.1 AA-Standard. Für öffentliche Institutionen ist dies oft Pflicht – wir kennen die Anforderungen.' },
-            { question: 'Arbeiten Sie auch auf Französisch?', answer: 'Wir erstellen mehrsprachige Websites in Deutsch, Französisch, Italienisch und Englisch. Die Übersetzung koordinieren wir mit professionellen Partnern.' },
-        ],
-        whyChooseUs: '100% Remote-Zusammenarbeit mit Schweizer Qualität. Wir verstehen die Bedürfnisse des öffentlichen Sektors und wissen, dass in Bern Zuverlässigkeit zählt.',
-    },
-    basel: {
-        headline: 'Webdesign Basel',
-        subheadline: 'Moderne Websites für die Nordwestschweiz',
-        description: 'Basel ist internationaler Pharma-Standort und Kulturmetropole. Hier erwarten Kunden und Partner höchste Qualität – auch online.',
-        intro: 'Die Region Basel ist geprägt von der Pharma- und Life-Sciences-Industrie, aber auch von einem vielfältigen KMU-Sektor. Mit seiner internationalen Ausrichtung und der Nähe zu Deutschland und Frankreich ist Basel ein besonderer Markt. Unternehmen brauchen hier oft mehrsprachige Websites und höchste Professionalität. Wir betreuen Basler Kunden remote mit der gleichen Qualität wie unsere lokalen Kunden in Winterthur. Die internationale Ausrichtung vieler Basler Unternehmen kommt uns entgegen – wir sind Experten für mehrsprachige Websites.',
-        localBenefits: ['Mehrsprachige Websites', 'Internationale Erfahrung', 'Remote-Expertise', 'Hohe Qualitätsstandards'],
-        stats: [{ label: 'Basler Projekte', value: '8+' }, { label: 'Sprachversionen', value: 'DE/EN/FR' }],
-        localFaq: { question: 'Können Sie auch mehrsprachige Websites für internationale Kunden erstellen?', answer: 'Ja, mehrsprachige Websites sind unsere Spezialität. Wir setzen auf Next.js mit i18n-Unterstützung für optimale SEO in allen Sprachen.' },
-        regionalImage: '/images/webdesign-hero.png',
-        localIndustries: [
-            { name: 'Pharma & Life Sciences', description: 'Basel ist weltweit führend in Pharma und Life Sciences. Roche, Novartis und viele Zulieferer haben hier ihren Sitz.', websiteNeeds: 'B2B-Kommunikation, Compliance, mehrsprachig, technische Dokumentation' },
-            { name: 'Chemie & Industrie', description: 'Die chemische Industrie hat in Basel eine lange Tradition und ist bis heute prägend.', websiteNeeds: 'Produktkataloge, Sicherheitsdatenblätter, Zertifizierungen, Karriereseiten' },
-            { name: 'Kunst & Galerien', description: 'Art Basel und zahlreiche Galerien machen die Stadt zum internationalen Kunstzentrum.', websiteNeeds: 'Portfolio-Präsentation, Online-Kataloge, Vernissage-Kalender, E-Commerce' },
-            { name: 'Logistik & Rheinhafen', description: 'Der Rheinhafen Basel ist wichtigster Schweizer Binnenhafen. Logistikunternehmen brauchen digitale Präsenz.', websiteNeeds: 'Service-Übersicht, Online-Anfragen, Tracking-Systeme, mehrsprachig' },
-        ],
-        additionalFaqs: [
-            { question: 'Haben Sie Erfahrung mit Pharma-Websites und strengen Compliance-Anforderungen?', answer: 'Ja, wir haben bereits Websites für Life-Sciences-Unternehmen erstellt und kennen die regulatorischen Anforderungen.' },
-            { question: 'Können Sie Websites in drei Sprachen (DE/FR/EN) umsetzen?', answer: 'Selbstverständlich. Mehrsprachige Websites mit optimaler SEO für jede Sprache sind unsere Stärke.' },
-        ],
-        whyChooseUs: 'Als Agentur aus der Region verstehen wir die Basler Mentalität: weltoffen, qualitätsbewusst und mit hohen Ansprüchen an Professionalität.',
-    },
-    luzern: {
-        headline: 'Webdesign Luzern',
-        subheadline: 'Websites für die Zentralschweiz',
-        description: 'Am Vierwaldstättersee trifft Tradition auf Innovation. Wir entwickeln Websites, die beides vereinen – zeitlose Eleganz mit modernster Technik.',
-        intro: 'Luzern ist nicht nur eines der schönsten Reiseziele der Schweiz, sondern auch ein wichtiger Wirtschaftsstandort in der Zentralschweiz. Tourismus, Hotellerie und ein aktiver KMU-Sektor prägen die Region. Mit rund 400\'000 Einwohnern im Grossraum Luzern bietet die Region viel Potenzial. Wir betreuen Luzerner Unternehmen remote und verstehen die besonderen Anforderungen der Tourismusbranche – von schnellen Ladezeiten für internationale Gäste bis hin zu Buchungsintegration.',
-        localBenefits: ['Tourismus-Expertise', 'Remote-Betreuung', 'Schnelle Websites', 'Mehrsprachig möglich'],
-        stats: [{ label: 'Zentralschweizer Kunden', value: '12+' }, { label: 'Tourismus-Projekte', value: '5+' }],
-        localFaq: { question: 'Verstehen Sie die Bedürfnisse der Tourismusbranche?', answer: 'Absolut. Wir haben Erfahrung mit Hotel-Websites, Buchungssystemen und mehrsprachigen Tourismusportalen. Schnelle Ladezeiten für mobile Gäste sind Standard.' },
-        regionalImage: '/images/webdesign-hero.png',
-        localIndustries: [
-            { name: 'Hotellerie & Luxus-Tourismus', description: 'Luzern ist eines der Top-Reiseziele der Schweiz. Hotels und Resorts brauchen erstklassige Websites.', websiteNeeds: 'Buchungssysteme, 360°-Rundgänge, mehrsprachig, Premium-Design' },
-            { name: 'Ausflugsschifffahrt & Wassersport', description: 'Vierwaldstättersee-Schifffahrt, Segelschulen und Bootsvermietungen prägen die Region.', websiteNeeds: 'Online-Ticketing, Fahrpläne, Wetterdaten, mobile Optimierung' },
-            { name: 'Kultur & Event-Locations', description: 'KKL, Luzerner Festspiele und viele Event-Locations brauchen professionelle digitale Auftritte.', websiteNeeds: 'Veranstaltungskalender, Ticketshop, Saalplanung, Newsletter' },
-            { name: 'Gesundheit & Wellness', description: 'Kurkliniken, Wellnesshotels und Gesundheitszentren in der Zentralschweiz setzen auf digitale Präsenz.', websiteNeeds: 'Online-Buchung, Behandlungsangebot, Ärzteverzeichnis, Vertrauensaufbau' },
-        ],
-        additionalFaqs: [
-            { question: 'Können Sie Buchungssysteme für Hotels integrieren?', answer: 'Ja, wir integrieren führende Buchungssysteme oder erstellen individuelle Lösungen. Die Integration ist nahtlos und benutzerfreundlich.' },
-            { question: 'Wie gehen Sie mit mehrsprachigen Inhalten für internationale Gäste um?', answer: 'Wir setzen auf Next.js mit i18n-Unterstützung. Jede Sprache wird separat für SEO optimiert, die Umschaltung ist intuitiv.' },
-        ],
-        whyChooseUs: 'Luzern steht für Qualität und Gastfreundschaft. Genau diese Werte transportieren wir auch in Ihre Website – professionell, einladend und mit Liebe zum Detail.',
-    },
-    'st-gallen': {
-        headline: 'Webdesign St. Gallen',
-        subheadline: 'Digitale Lösungen für die Ostschweiz',
-        description: 'St. Gallen als Zentrum der Ostschweiz verdient Webdesign, das diesen Anspruch widerspiegelt – innovativ, professionell und zukunftsorientiert.',
-        intro: 'Die Universitätsstadt St. Gallen ist das wirtschaftliche und kulturelle Zentrum der Ostschweiz. Mit ihrer Elite-Hochschule HSG, einem starken Finanzsektor und innovativen Industrieunternehmen braucht die Region erstklassige digitale Lösungen. Von unserem Standort in Winterthur sind wir in unter 40 Minuten in St. Gallen – ideal für persönliche Treffen. Wir verstehen die Ostschweizer Mentalität: pragmatisch, qualitätsbewusst und mit Blick auf das Wesentliche. Genau so bauen wir auch Websites.',
-        localBenefits: ['Nähe zu St. Gallen', 'Ostschweizer Mentalität', 'Persönliche Treffen möglich', 'HSG-Verständnis'],
-        stats: [{ label: 'Ostschweizer Kunden', value: '25+' }, { label: 'Anfahrt ab Winterthur', value: '35 Min' }],
-        localFaq: { question: 'Haben Sie Erfahrung mit Unternehmen aus dem HSG-Umfeld?', answer: 'Ja, wir haben bereits Websites für Startups aus dem HSG-Inkubator und Beratungsunternehmen in St. Gallen entwickelt. Wir verstehen die hohen Ansprüche der Region.' },
-        regionalImage: '/images/regions/st-gallen.png',
-        localIndustries: [
-            { name: 'Textil & Mode', description: 'St. Gallen hat eine lange Textiltradition. Moderne Textilunternehmen und Modegeschäfte setzen auf digitale Präsenz.', websiteNeeds: 'E-Commerce, Lookbooks, Produktkonfiguratoren, Newsletter' },
-            { name: 'Finanzwesen & Versicherungen', description: 'St. Gallen ist ein wichtiger Finanzplatz der Ostschweiz mit Kantonalbank, Privatbanken und Versicherungen.', websiteNeeds: 'Vertrauenswürdiges Design, sichere Formulare, Compliance-konform' },
-            { name: 'Gastronomie & Veranstaltungen', description: 'Von der Weggiser Altstadtbeiz bis zu Event-Locations – St. Gallen hat eine vielfältige Gastro-Szene.', websiteNeeds: 'Speisekarten, Event-Kalender, Reservierungssystem, Social Media' },
-            { name: 'Beratung & Dienstleistungen', description: 'Die HSG-Nähe zieht Unternehmensberater, Coaches und spezialisierte Dienstleister an.', websiteNeeds: 'Professionelle Positionierung, Service-Beschreibungen, Kundenstimmen' },
-        ],
-        additionalFaqs: [
-            { question: 'Arbeiten Sie auch mit HSG-Startups und Alumni-Unternehmen?', answer: 'Ja, wir haben bereits mehrere Projekte mit HSG-Startups umgesetzt. Wir verstehen die Anforderungen junger, dynamischer Unternehmen.' },
-            { question: 'Wie schnell sind Sie vor Ort, wenn ein persönliches Treffen gewünscht ist?', answer: 'Von Winterthur nach St. Gallen sind es nur 35 Minuten mit der S-Bahn. Wir sind flexibel und kommen gerne persönlich vorbei.' },
-        ],
-        whyChooseUs: 'Als Agentur aus der Nachbarregion verstehen wir die Ostschweizer Mentalität perfekt: pragmatisch, qualitätsbewusst und mit Blick fürs Wesentliche.',
-    },
-    aargau: {
-        headline: 'Webdesign Aargau',
-        subheadline: 'Websites für den grössten Mittelland-Kanton',
-        description: 'Von Baden über Aarau bis Brugg – wir betreuen Aargauer KMU mit massgeschneiderten Websites, die ihre lokale Stärke überregional zeigen.',
-        intro: 'Der Kanton Aargau ist mit über 700\'000 Einwohnern der drittbevölkerungsreichste Kanton der Schweiz. Seine zentrale Lage zwischen Zürich, Basel und Bern macht ihn zu einem idealen Wirtschaftsstandort für Logistik, Produktion und Dienstleistungen. Viele Aargauer KMU sind hidden Champions in ihren Branchen – und brauchen Websites, die diesem Anspruch gerecht werden. Wir betreuen Unternehmen in Baden, Aarau, Brugg, Wettingen und der gesamten Region. Remote-Zusammenarbeit funktioniert perfekt, persönliche Treffen sind dank kurzer Distanz jederzeit möglich.',
-        localBenefits: ['Zentrale Lage nutzen', 'KMU-Expertise', 'Kurze Wege', 'Flexible Betreuung'],
-        stats: [{ label: 'Aargauer Kunden', value: '18+' }, { label: 'Branchen betreut', value: '12+' }],
-        localFaq: { question: 'Betreuen Sie auch die grösseren Städte wie Baden oder Aarau?', answer: 'Ja, wir haben Kunden in Baden, Aarau, Brugg, Wettingen, Wohlen und vielen weiteren Aargauer Gemeinden. Die Region kennen wir gut.' },
-        regionalImage: '/images/webdesign-hero.png',
-        localIndustries: [
-            { name: 'Energie & Cleantech', description: 'Der Aargau ist Energie-Kanton. Von Axpo bis zu Solarfirmen – viele Unternehmen brauchen digitale Präsenz.', websiteNeeds: 'Technische Erklärungen, Referenzprojekte, Nachhaltigkeitsberichte, Kontaktformulare' },
-            { name: 'Logistik & Industrie', description: 'Die zentrale Lage macht den Aargau zum Logistik-Hub. Industrie und Produktion sind stark vertreten.', websiteNeeds: 'B2B-Kommunikation, Standortvorteile, Karriereseiten, mehrsprachig' },
-            { name: 'Gesundheitswesen & Kliniken', description: 'Kantonsspital, Reha-Kliniken und spezialisierte Gesundheitszentren im Aargau.', websiteNeeds: 'Patienteninformationen, Online-Terminbuchung, Notfall-Infos, Barrierefreiheit' },
-            { name: 'Handwerk & KMU', description: 'Vom Schreiner in Baden bis zum Sanitärbetrieb in Aarau – das Gewerbe prägt den Aargau.', websiteNeeds: 'Leistungsübersicht, Referenzbilder, Notfall-Hotline, Google Maps' },
-        ],
-        additionalFaqs: [
-            { question: 'Haben Sie Erfahrung mit Energie- und Cleantech-Unternehmen?', answer: 'Ja, wir haben bereits Websites für Solarfirmen und Energiedienstleister entwickelt. Technische Inhalte verständlich zu vermitteln ist unsere Stärke.' },
-            { question: 'Arbeiten Sie auch mit Industriebetrieben und produzierenden Unternehmen?', answer: 'Absolut. B2B-Kommunikation, Produktkataloge und Karriereseiten für Industrieunternehmen gehören zu unseren Kernkompetenzen.' },
-        ],
-        whyChooseUs: 'Der Aargau ist KMU-Land. Wir verstehen die Bedürfnisse mittelständischer Unternehmen perfekt und liefern Websites mit echtem Mehrwert.',
-    },
-    zug: {
-        headline: 'Webdesign Zug',
-        subheadline: 'Premium-Websites für den Crypto-Valley-Kanton',
-        description: 'Zug ist bekannt für Innovation und internationale Unternehmen. Hier muss Ihre Website weltklasse sein – schnell, modern und makellos.',
-        intro: 'Der Kanton Zug hat sich als einer der innovativsten Wirtschaftsstandorte der Welt etabliert. Als Heimat des "Crypto Valley" und zahlreicher internationaler Konzerne sind die Ansprüche in Zug besonders hoch. Hier konkurrieren Sie nicht nur lokal, sondern global. Ihre Website muss diesem Anspruch gerecht werden – technisch auf dem neuesten Stand, blitzschnell und mit perfektem Design. Wir verstehen die Zuger Mentalität: Premium-Qualität, keine Kompromisse. Genau das liefern wir.',
-        localBenefits: ['Premium-Qualität', 'Internationale Standards', 'Tech-Expertise', 'Höchste Performance'],
-        stats: [{ label: 'Zuger Projekte', value: '6+' }, { label: 'Performance Score', value: '98+' }],
-        localFaq: { question: 'Haben Sie Erfahrung mit Tech-Startups und Blockchain-Unternehmen?', answer: 'Ja, wir haben bereits Websites für FinTech- und Blockchain-Unternehmen entwickelt. Moderne Technologie und erstklassiges Design sind unsere Stärke.' },
-        regionalImage: '/images/webdesign-hero.png',
-        localIndustries: [
-            { name: 'Blockchain & Crypto', description: 'Das Crypto Valley Zug ist weltbekannt. Blockchain-Startups und Krypto-Unternehmen brauchen moderne Websites.', websiteNeeds: 'Technisches Whitepaper, Token-Präsentation, Roadmap, mehrsprachig' },
-            { name: 'Finanzdienstleistungen', description: 'Niedrige Steuern ziehen internationale Finanzunternehmen nach Zug.', websiteNeeds: 'Premium-Design, Compliance, mehrsprachig, sichere Kontaktformulare' },
-            { name: 'Unternehmensberatung', description: 'Steuerberater, Wirtschaftsprüfer und Consultants sind in Zug stark vertreten.', websiteNeeds: 'Professionelle Positionierung, Service-Portfolio, Kundenstimmen, Blog' },
-            { name: 'Tech-Konzerne & Innovation', description: 'Internationale Tech-Unternehmen haben in Zug ihren Schweizer Sitz.', websiteNeeds: 'Corporate Design, Investor Relations, Karriereseiten, mehrsprachig' },
-        ],
-        additionalFaqs: [
-            { question: 'Verstehen Sie die technischen Anforderungen von Blockchain-Unternehmen?', answer: 'Ja, wir haben bereits mehrere Crypto- und Blockchain-Websites entwickelt. Web3-Integration und technische Whitepapers gehören zu unserem Portfolio.' },
-            { question: 'Können Sie Websites für internationale Konzerne mit höchsten Ansprüchen entwickeln?', answer: 'Absolut. Wir arbeiten mit modernster Technologie (Next.js, TypeScript) und liefern Enterprise-Grade-Qualität.' },
-        ],
-        whyChooseUs: 'Zug steht für Innovation und Exzellenz. Genau das liefern wir auch: Websites auf Weltklasse-Niveau, die Ihre Marke perfekt repräsentieren.',
-    },
-    solothurn: {
-        headline: 'Webdesign Solothurn',
-        subheadline: 'Websites für die schönste Barockstadt',
-        description: 'Solothurn verbindet Geschichte mit Moderne. Ihre Website sollte das auch können – zeitlos elegant und dennoch technisch aktuell.',
-        intro: 'Der Kanton Solothurn liegt strategisch zwischen Bern, Basel und Zürich und profitiert von seiner zentralen Lage. Mit rund 275\'000 Einwohnern bietet der Kanton einen aktiven KMU-Sektor mit Schwerpunkten in Uhrenindustrie, Präzisionsmechanik und Dienstleistungen. Die berühmte Uhrenstadt Grenchen und die historische Kantonshauptstadt prägen das Bild einer Region, die Tradition und Innovation verbindet. Wir betreuen Solothurner Unternehmen remote mit persönlichem Service.',
-        localBenefits: ['Remote-Betreuung', 'Verständnis für Tradition', 'Moderne Technik', 'Persönlicher Service'],
-        stats: [{ label: 'Solothurner Kunden', value: '5+' }, { label: 'Kundenzufriedenheit', value: '100%' }],
-        localFaq: { question: 'Wie funktioniert die Zusammenarbeit über die Distanz?', answer: 'Wir arbeiten mit regelmässigen Videocalls und einem geteilten Projektboard. Sie sind immer informiert und können jederzeit Feedback geben.' },
-        regionalImage: '/images/webdesign-hero.png',
-        localIndustries: [
-            { name: 'Uhrenindustrie & Präzision', description: 'Grenchen ist Uhrenstadt. Präzisionsmechanik und Zulieferer brauchen hochwertige digitale Präsenz.', websiteNeeds: 'Produktkataloge, technische Details, B2B-Shop, mehrsprachig' },
-            { name: 'Gesundheit & Kliniken', description: 'Bürgerspital Solothurn und spezialisierte Praxen benötigen professionelle Websites.', websiteNeeds: 'Patienteninformationen, Online-Terminbuchung, Ärzteporträts, Notfall-Infos' },
-            { name: 'Tourismus & Barockstadt', description: 'Die schöne Altstadt und kulturelle Angebote ziehen Besucher an.', websiteNeeds: 'Veranstaltungskalender, Gastronomie-Guide, Übernachtungssuche, mehrsprachig' },
-            { name: 'Gewerbe & Handwerk', description: 'Schreiner, Elektriker und Sanitärbetriebe im Kanton Solothurn brauchen Sichtbarkeit.', websiteNeeds: 'Leistungsübersicht, Referenzen, Kontaktformular, Notdienst-Hotline' },
-        ],
-        additionalFaqs: [
-            { question: 'Haben Sie Erfahrung mit Uhren- und Präzisionsmechanik-Unternehmen?', answer: 'Ja, wir haben bereits Websites für technisch anspruchsvolle Branchen entwickelt. Produktkataloge und B2B-Shops sind unsere Stärke.' },
-            { question: 'Können Sie auch mehrsprachige Websites für internationale Kunden erstellen?', answer: 'Selbstverständlich. Viele Solothurner Unternehmen exportieren international – mehrsprachige Websites mit SEO-Optimierung sind Standard.' },
-        ],
-        whyChooseUs: 'Solothurn verbindet Tradition mit Innovation. Genau diese Balance finden wir auch in unseren Websites – zeitlos elegant und technisch auf der Höhe der Zeit.',
-    },
-    graubuenden: {
-        headline: 'Webdesign Graubünden',
-        subheadline: 'Digitale Präsenz für den grössten Kanton',
-        description: 'Von Chur bis Davos, von St. Moritz bis Engadin – wir entwickeln Websites für Bündner Tourismus, Hotellerie und lokale KMU.',
-        intro: 'Graubünden ist der grösste Kanton der Schweiz und weltbekannt für seine Skigebiete, Kurorte und atemberaubende Natur. Der Tourismus ist die wichtigste Wirtschaftssäule, aber auch Landwirtschaft, Energie und spezialisierte Dienstleistungen spielen eine wichtige Rolle. Für Bündner Unternehmen ist eine professionelle Online-Präsenz besonders wichtig – internationale Gäste informieren sich online, bevor sie buchen. Wir verstehen diese Anforderungen: schnelle Ladezeiten auch bei schlechtem Handy-Empfang, mehrsprachige Inhalte und nahtlose Buchungsintegration.',
-        localBenefits: ['Tourismus-Expertise', 'Mehrsprachig (DE/EN/IT)', 'Schnelle Mobile-Websites', 'Buchungssysteme'],
-        stats: [{ label: 'Bündner Projekte', value: '8+' }, { label: 'Sprachen', value: 'DE/EN/IT' }],
-        localFaq: { question: 'Können Sie auch italienischsprachige Websites für das Engadin erstellen?', answer: 'Ja, wir erstellen mehrsprachige Websites in Deutsch, Englisch und Italienisch. Die SEO-Optimierung erfolgt für alle Sprachen separat.' },
-        regionalImage: '/images/webdesign-hero.png',
-        localIndustries: [
-            { name: 'Luxushotellerie & Resorts', description: 'St. Moritz, Davos und Arosa sind weltbekannte Destinationen. Hotels brauchen erstklassige Websites.', websiteNeeds: 'Premium-Design, Buchungssystem, 360°-Touren, mehrsprachig (DE/EN/IT)' },
-            { name: 'Skischulen & Bergbahnen', description: 'Skischulen, Bergbahnen und Outdoor-Anbieter im größten Kanton der Schweiz.', websiteNeeds: 'Online-Buchung, Wetterinfos, Pistenplan, Live-Webcams' },
-            { name: 'Gastronomie & Kulinarik', description: 'Von Bergrestaurants bis zu Gourmet-Tempeln – Graubünden hat kulinarisch viel zu bieten.', websiteNeeds: 'Speisekarten, Reservierungssystem, Bildergalerien, mehrsprachig' },
-            { name: 'Bau & Energietechnik', description: 'Bauunternehmen und Energietechniker für den anspruchsvollen Bergbau und erneuerbare Energien.', websiteNeeds: 'Referenzprojekte, technische Expertise, Kontaktformular, Notdienst' },
-        ],
-        additionalFaqs: [
-            { question: 'Können Sie Websites mit Live-Webcams und Wetterdaten integrieren?', answer: 'Ja, wir integrieren Live-Webcams, Wetterwidgets und Pistenpläne nahtlos in Ihre Website. Alles mobile-optimiert.' },
-            { question: 'Wie gehen Sie mit der Dreisprachigkeit (DE/IT/EN) um?', answer: 'Wir setzen auf Next.js mit i18n-Unterstützung. Jede Sprache wird separat für SEO optimiert, die Navigation ist intuitiv.' },
-        ],
-        whyChooseUs: 'Graubünden ist einzigartig – Ihre Website sollte es auch sein. Wir entwickeln digitale Auftritte, die der Schönheit und Vielfalt des Kantons gerecht werden.',
-    },
+const hubDefaultData: WebdesignRegionData = {
+    slug: 'default',
+    name: 'Schweiz',
+    headline: 'Webdesign Schweiz',
+    subheadline: 'Moderne Websites für Schweizer Unternehmen',
+    description: 'Von der einfachen Visitenkarte bis zur komplexen Web-Applikation, wir designen und entwickeln Websites, die überzeugen und verkaufen.',
+    intro: 'Die Schweiz ist ein Land der KMU. Über 99% aller Unternehmen sind kleine und mittlere Betriebe, die das Rückgrat unserer Wirtschaft bilden. Genau für diese Unternehmen entwickeln wir Websites: pragmatisch, bezahlbar und mit echtem Mehrwert. Unser Team in Winterthur betreut Kunden in der gesamten Deutschschweiz, persönlich und auf Augenhöhe.',
+    regionalImage: '/images/webdesign-hero.png',
+    localBenefits: ['Schweizer Qualität', 'Persönliche Betreuung', 'Faire Preise', 'Schnelle Umsetzung'],
+    stats: [{ label: 'Projekte', value: '150+' }, { label: 'Zufriedene Kunden', value: '98%' }],
+    localFaq: { question: 'Betreuen Sie auch Kunden ausserhalb der Deutschschweiz?', answer: 'Ja, wir arbeiten remote mit Kunden in der ganzen Schweiz zusammen. Persönliche Treffen sind in den meisten Fällen nicht nötig.' },
+    localIndustries: [],
+    additionalFaqs: [],
+    whyChooseUs: '',
+    metaTitle: '',
+    metaDescription: '',
+    keywords: [],
+    hasPhysicalLocation: false,
+    areaServed: [],
 };
 
+
 interface WebdesignContentProps {
-    regionSlug?: string;
+    /**
+     * Region-Daten aus content/leistungen/webdesign-regions/<slug>.json.
+     * Wenn nicht gesetzt, rendert die Komponente den Hub-Modus mit hubDefaultData.
+     */
+    data?: WebdesignRegionData;
     showRegionalLinks?: boolean;
 }
 
@@ -512,10 +255,11 @@ const getIndustryIcon = (industryName: string) => {
     return iconMap[industryName] || Factory;
 };
 
-export function WebdesignContent({ regionSlug, showRegionalLinks = true }: WebdesignContentProps) {
+export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignContentProps) {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
-    const content = regionalContent[regionSlug || 'default'] || regionalContent.default;
-    const isHubPage = !regionSlug; // Hub page has no regionSlug
+    const isHubPage = !data;
+    const content = data ?? hubDefaultData;
+    const regionSlug = data?.slug;
 
     const regions = [
         { name: 'Winterthur', href: '/webdesign/winterthur' },
@@ -575,7 +319,7 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                         <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
                             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
                                 <Image
-                                    src={content.regionalImage}
+                                    src={content.regionalImage || '/images/webdesign-hero.png'}
                                     alt={content.headline}
                                     fill
                                     className="object-cover"

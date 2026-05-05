@@ -1,0 +1,74 @@
+{
+  "slug": "basel",
+  "name": "Basel",
+  "headline": "Webdesign Basel",
+  "subheadline": "Moderne Websites für die Nordwestschweiz",
+  "description": "Basel ist internationaler Pharma-Standort und Kulturmetropole. Hier erwarten Kunden und Partner höchste Qualität – auch online.",
+  "intro": "Die Region Basel ist geprägt von der Pharma- und Life-Sciences-Industrie, aber auch von einem vielfältigen KMU-Sektor. Mit seiner internationalen Ausrichtung und der Nähe zu Deutschland und Frankreich ist Basel ein besonderer Markt. Unternehmen brauchen hier oft mehrsprachige Websites und höchste Professionalität. Wir betreuen Basler Kunden remote mit der gleichen Qualität wie unsere lokalen Kunden in Winterthur. Die internationale Ausrichtung vieler Basler Unternehmen kommt uns entgegen – wir sind Experten für mehrsprachige Websites.",
+  "regionalImage": "/images/webdesign-hero.png",
+  "localBenefits": [
+    "Mehrsprachige Websites",
+    "Internationale Erfahrung",
+    "Remote-Expertise",
+    "Hohe Qualitätsstandards"
+  ],
+  "stats": [
+    {
+      "label": "Basler Projekte",
+      "value": "8+"
+    },
+    {
+      "label": "Sprachversionen",
+      "value": "DE/EN/FR"
+    }
+  ],
+  "localFaq": {
+    "question": "Können Sie auch mehrsprachige Websites für internationale Kunden erstellen?",
+    "answer": "Ja, mehrsprachige Websites sind unsere Spezialität. Wir setzen auf Next.js mit i18n-Unterstützung für optimale SEO in allen Sprachen."
+  },
+  "localIndustries": [
+    {
+      "name": "Pharma & Life Sciences",
+      "description": "Basel ist weltweit führend in Pharma und Life Sciences. Roche, Novartis und viele Zulieferer haben hier ihren Sitz.",
+      "websiteNeeds": "B2B-Kommunikation, Compliance, mehrsprachig, technische Dokumentation"
+    },
+    {
+      "name": "Chemie & Industrie",
+      "description": "Die chemische Industrie hat in Basel eine lange Tradition und ist bis heute prägend.",
+      "websiteNeeds": "Produktkataloge, Sicherheitsdatenblätter, Zertifizierungen, Karriereseiten"
+    },
+    {
+      "name": "Kunst & Galerien",
+      "description": "Art Basel und zahlreiche Galerien machen die Stadt zum internationalen Kunstzentrum.",
+      "websiteNeeds": "Portfolio-Präsentation, Online-Kataloge, Vernissage-Kalender, E-Commerce"
+    },
+    {
+      "name": "Logistik & Rheinhafen",
+      "description": "Der Rheinhafen Basel ist wichtigster Schweizer Binnenhafen. Logistikunternehmen brauchen digitale Präsenz.",
+      "websiteNeeds": "Service-Übersicht, Online-Anfragen, Tracking-Systeme, mehrsprachig"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Haben Sie Erfahrung mit Pharma-Websites und strengen Compliance-Anforderungen?",
+      "answer": "Ja, wir haben bereits Websites für Life-Sciences-Unternehmen erstellt und kennen die regulatorischen Anforderungen."
+    },
+    {
+      "question": "Können Sie Websites in drei Sprachen (DE/FR/EN) umsetzen?",
+      "answer": "Selbstverständlich. Mehrsprachige Websites mit optimaler SEO für jede Sprache sind unsere Stärke."
+    }
+  ],
+  "whyChooseUs": "Als Agentur aus der Region verstehen wir die Basler Mentalität: weltoffen, qualitätsbewusst und mit hohen Ansprüchen an Professionalität.",
+  "metaTitle": "Webdesign Basel | Websites ab CHF 990",
+  "metaDescription": "Webdesign Basel: Professionelle Websites für die Nordwestschweiz. Ab CHF 990. ☎ 052 222 18 18",
+  "keywords": [
+    "Webdesign Basel",
+    "Website erstellen Basel"
+  ],
+  "canonicalUrl": "https://infraone.ch/webdesign/basel",
+  "hasPhysicalLocation": false,
+  "areaServed": [
+    "Basel",
+    "Nordwestschweiz"
+  ]
+}

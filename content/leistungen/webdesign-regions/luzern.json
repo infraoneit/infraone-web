@@ -1,0 +1,74 @@
+{
+  "slug": "luzern",
+  "name": "Luzern",
+  "headline": "Webdesign Luzern",
+  "subheadline": "Websites für die Zentralschweiz",
+  "description": "Am Vierwaldstättersee trifft Tradition auf Innovation. Wir entwickeln Websites, die beides vereinen – zeitlose Eleganz mit modernster Technik.",
+  "intro": "Luzern ist nicht nur eines der schönsten Reiseziele der Schweiz, sondern auch ein wichtiger Wirtschaftsstandort in der Zentralschweiz. Tourismus, Hotellerie und ein aktiver KMU-Sektor prägen die Region. Mit rund 400'000 Einwohnern im Grossraum Luzern bietet die Region viel Potenzial. Wir betreuen Luzerner Unternehmen remote und verstehen die besonderen Anforderungen der Tourismusbranche – von schnellen Ladezeiten für internationale Gäste bis hin zu Buchungsintegration.",
+  "regionalImage": "/images/webdesign-hero.png",
+  "localBenefits": [
+    "Tourismus-Expertise",
+    "Remote-Betreuung",
+    "Schnelle Websites",
+    "Mehrsprachig möglich"
+  ],
+  "stats": [
+    {
+      "label": "Zentralschweizer Kunden",
+      "value": "12+"
+    },
+    {
+      "label": "Tourismus-Projekte",
+      "value": "5+"
+    }
+  ],
+  "localFaq": {
+    "question": "Verstehen Sie die Bedürfnisse der Tourismusbranche?",
+    "answer": "Absolut. Wir haben Erfahrung mit Hotel-Websites, Buchungssystemen und mehrsprachigen Tourismusportalen. Schnelle Ladezeiten für mobile Gäste sind Standard."
+  },
+  "localIndustries": [
+    {
+      "name": "Hotellerie & Luxus-Tourismus",
+      "description": "Luzern ist eines der Top-Reiseziele der Schweiz. Hotels und Resorts brauchen erstklassige Websites.",
+      "websiteNeeds": "Buchungssysteme, 360°-Rundgänge, mehrsprachig, Premium-Design"
+    },
+    {
+      "name": "Ausflugsschifffahrt & Wassersport",
+      "description": "Vierwaldstättersee-Schifffahrt, Segelschulen und Bootsvermietungen prägen die Region.",
+      "websiteNeeds": "Online-Ticketing, Fahrpläne, Wetterdaten, mobile Optimierung"
+    },
+    {
+      "name": "Kultur & Event-Locations",
+      "description": "KKL, Luzerner Festspiele und viele Event-Locations brauchen professionelle digitale Auftritte.",
+      "websiteNeeds": "Veranstaltungskalender, Ticketshop, Saalplanung, Newsletter"
+    },
+    {
+      "name": "Gesundheit & Wellness",
+      "description": "Kurkliniken, Wellnesshotels und Gesundheitszentren in der Zentralschweiz setzen auf digitale Präsenz.",
+      "websiteNeeds": "Online-Buchung, Behandlungsangebot, Ärzteverzeichnis, Vertrauensaufbau"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Können Sie Buchungssysteme für Hotels integrieren?",
+      "answer": "Ja, wir integrieren führende Buchungssysteme oder erstellen individuelle Lösungen. Die Integration ist nahtlos und benutzerfreundlich."
+    },
+    {
+      "question": "Wie gehen Sie mit mehrsprachigen Inhalten für internationale Gäste um?",
+      "answer": "Wir setzen auf Next.js mit i18n-Unterstützung. Jede Sprache wird separat für SEO optimiert, die Umschaltung ist intuitiv."
+    }
+  ],
+  "whyChooseUs": "Luzern steht für Qualität und Gastfreundschaft. Genau diese Werte transportieren wir auch in Ihre Website – professionell, einladend und mit Liebe zum Detail.",
+  "metaTitle": "Webdesign Luzern | Websites ab CHF 990",
+  "metaDescription": "Webdesign Luzern: Websites für die Zentralschweiz. Ab CHF 990. ☎ 052 222 18 18",
+  "keywords": [
+    "Webdesign Luzern",
+    "Website erstellen Luzern"
+  ],
+  "canonicalUrl": "https://infraone.ch/webdesign/luzern",
+  "hasPhysicalLocation": false,
+  "areaServed": [
+    "Luzern",
+    "Zentralschweiz"
+  ]
+}

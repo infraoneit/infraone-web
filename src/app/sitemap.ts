@@ -26,6 +26,17 @@ function readITSupportRegionSlugs(): string[] {
         .map(d => d.name.replace('.json', ''));
 }
 
+/**
+ * Liest alle Webdesign-Region-Slugs aus content/leistungen/webdesign-regions/
+ */
+function readWebdesignRegionSlugs(): string[] {
+    const dir = path.join(process.cwd(), 'content', 'leistungen', 'webdesign-regions');
+    if (!fs.existsSync(dir)) return [];
+    return fs.readdirSync(dir, { withFileTypes: true })
+        .filter(d => d.isFile() && d.name.endsWith('.json'))
+        .map(d => d.name.replace('.json', ''));
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
     const currentDate = new Date();
 
@@ -51,11 +62,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: '/software-entwicklung', priority: 0.8 },
     ];
 
-    // Webdesign-Regionen (12, hartcodiert bis Welle 5 Migration)
-    const webdesignRegions = [
-        'winterthur', 'zuerich', 'schaffhausen', 'thurgau', 'st-gallen',
-        'basel', 'bern', 'luzern', 'aargau', 'zug', 'solothurn', 'graubuenden'
-    ];
+    // Webdesign-Regionen (dynamisch aus content/)
+    const webdesignRegions = readWebdesignRegionSlugs();
 
     // IT-Support-Regionen (dynamisch aus content/)
     const itSupportRegions = readITSupportRegionSlugs();

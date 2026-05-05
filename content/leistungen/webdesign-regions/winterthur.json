@@ -1,0 +1,75 @@
+{
+  "slug": "winterthur",
+  "name": "Winterthur",
+  "headline": "Webdesign Winterthur",
+  "subheadline": "Ihr lokaler Webdesign-Partner in der Eulachstadt",
+  "description": "Als Winterthurer Agentur mit Büro in der Altstadt kennen wir den lokalen Markt wie unsere eigene Tasche. Von der Marktgasse bis zum Sulzer-Areal.",
+  "intro": "Winterthur ist nicht nur die sechstgrösste Stadt der Schweiz, sondern auch ein dynamischer Wirtschaftsstandort mit über 45'000 Arbeitsplätzen. Vom Tech-Startup im Technopark bis zum traditionsreichen Handwerksbetrieb in Töss – wir verstehen die Bedürfnisse der lokalen Wirtschaft. Unser Büro liegt zentral in Winterthur, was persönliche Treffen jederzeit möglich macht. Ob Sie einen neuen Online-Shop für Ihr Geschäft an der Stadthausstrasse benötigen oder eine moderne Präsenz für Ihre Praxis in Seen – wir sind Ihr Partner vor Ort.",
+  "regionalImage": "/images/regions/winterthur.png",
+  "localBenefits": [
+    "Büro in Winterthur",
+    "Persönliche Treffen möglich",
+    "Kennen den lokalen Markt",
+    "Schneller Support"
+  ],
+  "stats": [
+    {
+      "label": "Winterthurer Kunden",
+      "value": "45+"
+    },
+    {
+      "label": "Jahre Erfahrung",
+      "value": "8+"
+    }
+  ],
+  "localFaq": {
+    "question": "Kann ich bei Ihnen im Büro vorbeikommen?",
+    "answer": "Ja, sehr gerne! Unser Büro befindet sich in der Winterthurer Altstadt. Vereinbaren Sie einfach einen Termin für ein kostenloses Erstgespräch bei einem Kaffee."
+  },
+  "localIndustries": [
+    {
+      "name": "Maschinenbau & Industrie",
+      "description": "Winterthur hat eine stolze Industriegeschichte. Vom Sulzer-Areal bis zum Technopark sind hier innovative Unternehmen zu Hause.",
+      "websiteNeeds": "Technische Produktpräsentationen, B2B-Fokus, Mehrsprachigkeit"
+    },
+    {
+      "name": "Gesundheit & Medizintechnik",
+      "description": "Zahlreiche Arztpraxen, Therapiezentren und Gesundheitsdienstleister in Winterthur benötigen professionelle Online-Präsenzen.",
+      "websiteNeeds": "Online-Terminbuchung, vertrauenswürdiges Design, DSGVO-konform"
+    },
+    {
+      "name": "Einzelhandel & Gastronomie",
+      "description": "Die lebendige Altstadt und das Einkaufszentrum Rosenberg bieten vielfältige Retail- und Gastro-Angebote.",
+      "websiteNeeds": "Online-Shop, Speisekarten, Öffnungszeiten, Google Maps Integration"
+    },
+    {
+      "name": "Tech-Startups & Innovation",
+      "description": "Der Technopark Winterthur beherbergt junge Tech-Unternehmen, die digitale Lösungen entwickeln.",
+      "websiteNeeds": "Modernes Design, Investor Relations, Team-Vorstellung, Portfolio"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Muss ich für die Website-Erstellung persönlich vorbeikommen?",
+      "answer": "Nein, der gesamte Prozess kann 100% remote ablaufen. Wir arbeiten mit Videocalls, geteilten Dokumenten und Online-Feedback-Tools. Persönliche Treffen sind natürlich jederzeit möglich – unser Büro ist nur wenige Gehminuten von der Altstadt entfernt."
+    },
+    {
+      "question": "Wie lange dauert ein Website-Projekt in Winterthur?",
+      "answer": "Eine Standard-Website ist in 2-4 Wochen live. Für komplexere Projekte mit Online-Shop oder individueller Entwicklung planen wir 6-8 Wochen ein. Dank unserer lokalen Präsenz können wir bei dringenden Anpassungen schnell reagieren."
+    }
+  ],
+  "whyChooseUs": "Als echte Winterthurer Agentur verstehen wir die lokalen Bedürfnisse besser als eine anonyme Grossagentur aus Zürich. Wir kennen die Stadt, die Branchen und die Menschen. Das macht den Unterschied.",
+  "metaTitle": "Webdesign Winterthur | Websites ab CHF 990",
+  "metaDescription": "Webdesign Winterthur: Ihr lokaler Partner für moderne Websites. Ab CHF 990. Persönliche Beratung. ☎ 052 222 18 18",
+  "keywords": [
+    "Webdesign Winterthur",
+    "Website erstellen Winterthur",
+    "Webagentur Winterthur"
+  ],
+  "canonicalUrl": "https://infraone.ch/webdesign/winterthur",
+  "hasPhysicalLocation": true,
+  "areaServed": [
+    "Winterthur",
+    "Ostschweiz"
+  ]
+}

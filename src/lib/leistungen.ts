@@ -162,3 +162,67 @@ export async function getAllITSupportRegionSlugs(): Promise<string[]> {
     }
     return [];
 }
+
+/**
+ * Webdesign Region CMS Daten-Struktur
+ * Wird verwendet von dynamic [region] Route und WebdesignContent-Komponente
+ */
+export interface WebdesignRegionData {
+    slug: string;
+    name: string;
+    // Hero
+    headline: string;
+    subheadline: string;
+    description: string;
+    intro: string;
+    regionalImage?: string;
+    // Content-Bloecke
+    localBenefits: string[];
+    stats: { label: string; value: string }[];
+    localFaq: { question: string; answer: string };
+    localIndustries: { name: string; description: string; websiteNeeds: string }[];
+    additionalFaqs: { question: string; answer: string }[];
+    whyChooseUs: string;
+    // SEO
+    metaTitle: string;
+    metaDescription: string;
+    keywords: string[];
+    canonicalUrl?: string;
+    // Schema-Typ: physisch (mit Buero) oder virtuell
+    hasPhysicalLocation: boolean;
+    areaServed?: string[];
+}
+
+/**
+ * Lädt die Webdesign-Region-Daten aus dem CMS (JSON-Datei)
+ */
+export async function getWebdesignRegion(slug: string): Promise<WebdesignRegionData | null> {
+    try {
+        const filePath = path.join(process.cwd(), 'content', 'leistungen', 'webdesign-regions', `${slug}.json`);
+        if (fs.existsSync(filePath)) {
+            const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+            return data as WebdesignRegionData;
+        }
+    } catch (error) {
+        return null;
+    }
+    return null;
+}
+
+/**
+ * Lädt alle Webdesign-Region-Slugs (für generateStaticParams und Sitemap)
+ */
+export async function getAllWebdesignRegionSlugs(): Promise<string[]> {
+    try {
+        const dirPath = path.join(process.cwd(), 'content', 'leistungen', 'webdesign-regions');
+        if (fs.existsSync(dirPath)) {
+            const files = fs.readdirSync(dirPath);
+            return files
+                .filter(f => f.endsWith('.json'))
+                .map(f => f.replace('.json', ''));
+        }
+    } catch (error) {
+        return [];
+    }
+    return [];
+}

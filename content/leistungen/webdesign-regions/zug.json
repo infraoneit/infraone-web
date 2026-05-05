@@ -1,0 +1,74 @@
+{
+  "slug": "zug",
+  "name": "Zug",
+  "headline": "Webdesign Zug",
+  "subheadline": "Premium-Websites für den Crypto-Valley-Kanton",
+  "description": "Zug ist bekannt für Innovation und internationale Unternehmen. Hier muss Ihre Website weltklasse sein – schnell, modern und makellos.",
+  "intro": "Der Kanton Zug hat sich als einer der innovativsten Wirtschaftsstandorte der Welt etabliert. Als Heimat des \"Crypto Valley\" und zahlreicher internationaler Konzerne sind die Ansprüche in Zug besonders hoch. Hier konkurrieren Sie nicht nur lokal, sondern global. Ihre Website muss diesem Anspruch gerecht werden – technisch auf dem neuesten Stand, blitzschnell und mit perfektem Design. Wir verstehen die Zuger Mentalität: Premium-Qualität, keine Kompromisse. Genau das liefern wir.",
+  "regionalImage": "/images/webdesign-hero.png",
+  "localBenefits": [
+    "Premium-Qualität",
+    "Internationale Standards",
+    "Tech-Expertise",
+    "Höchste Performance"
+  ],
+  "stats": [
+    {
+      "label": "Zuger Projekte",
+      "value": "6+"
+    },
+    {
+      "label": "Performance Score",
+      "value": "98+"
+    }
+  ],
+  "localFaq": {
+    "question": "Haben Sie Erfahrung mit Tech-Startups und Blockchain-Unternehmen?",
+    "answer": "Ja, wir haben bereits Websites für FinTech- und Blockchain-Unternehmen entwickelt. Moderne Technologie und erstklassiges Design sind unsere Stärke."
+  },
+  "localIndustries": [
+    {
+      "name": "Blockchain & Crypto",
+      "description": "Das Crypto Valley Zug ist weltbekannt. Blockchain-Startups und Krypto-Unternehmen brauchen moderne Websites.",
+      "websiteNeeds": "Technisches Whitepaper, Token-Präsentation, Roadmap, mehrsprachig"
+    },
+    {
+      "name": "Finanzdienstleistungen",
+      "description": "Niedrige Steuern ziehen internationale Finanzunternehmen nach Zug.",
+      "websiteNeeds": "Premium-Design, Compliance, mehrsprachig, sichere Kontaktformulare"
+    },
+    {
+      "name": "Unternehmensberatung",
+      "description": "Steuerberater, Wirtschaftsprüfer und Consultants sind in Zug stark vertreten.",
+      "websiteNeeds": "Professionelle Positionierung, Service-Portfolio, Kundenstimmen, Blog"
+    },
+    {
+      "name": "Tech-Konzerne & Innovation",
+      "description": "Internationale Tech-Unternehmen haben in Zug ihren Schweizer Sitz.",
+      "websiteNeeds": "Corporate Design, Investor Relations, Karriereseiten, mehrsprachig"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Verstehen Sie die technischen Anforderungen von Blockchain-Unternehmen?",
+      "answer": "Ja, wir haben bereits mehrere Crypto- und Blockchain-Websites entwickelt. Web3-Integration und technische Whitepapers gehören zu unserem Portfolio."
+    },
+    {
+      "question": "Können Sie Websites für internationale Konzerne mit höchsten Ansprüchen entwickeln?",
+      "answer": "Absolut. Wir arbeiten mit modernster Technologie (Next.js, TypeScript) und liefern Enterprise-Grade-Qualität."
+    }
+  ],
+  "whyChooseUs": "Zug steht für Innovation und Exzellenz. Genau das liefern wir auch: Websites auf Weltklasse-Niveau, die Ihre Marke perfekt repräsentieren.",
+  "metaTitle": "Webdesign Zug | Websites ab CHF 990",
+  "metaDescription": "Webdesign Zug: Premium Websites für Zuger Unternehmen. Ab CHF 990. ☎ 052 222 18 18",
+  "keywords": [
+    "Webdesign Zug",
+    "Website erstellen Zug"
+  ],
+  "canonicalUrl": "https://infraone.ch/webdesign/zug",
+  "hasPhysicalLocation": false,
+  "areaServed": [
+    "Zug",
+    "Kanton Zug"
+  ]
+}

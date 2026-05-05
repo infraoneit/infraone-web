@@ -1,0 +1,75 @@
+{
+  "slug": "zuerich",
+  "name": "Zürich",
+  "headline": "Webdesign Zürich",
+  "subheadline": "Premium-Websites für die Wirtschaftsmetropole",
+  "description": "Zürich ist das wirtschaftliche Herz der Schweiz. Hier brauchen Sie eine Website, die Ihre Professionalität widerspiegelt – schnell, modern und überzeugend.",
+  "intro": "Als grösste Stadt der Schweiz ist Zürich der wichtigste Wirtschaftsstandort des Landes. Über 400'000 Einwohner und mehr als 500'000 Arbeitsplätze machen die Limmatstadt zu einem hochkompetitiven Markt. Hier zählt der erste Eindruck besonders. Ihre Website muss auf Anhieb überzeugen – technisch einwandfrei, optisch ansprechend und inhaltlich auf den Punkt. Wir betreuen Zürcher Unternehmen vom Kreis 1 bis Oerlikon, von Startups an der Europaallee bis zu etablierten KMU in den Aussenbezirken.",
+  "regionalImage": "/images/regions/zuerich.png",
+  "localBenefits": [
+    "Erfahrung mit Zürcher KMU",
+    "Verständnis für hohe Ansprüche",
+    "Kurze Wege von Winterthur",
+    "Professionelle Umsetzung"
+  ],
+  "stats": [
+    {
+      "label": "Zürcher Projekte",
+      "value": "30+"
+    },
+    {
+      "label": "Durchschn. Lighthouse Score",
+      "value": "95+"
+    }
+  ],
+  "localFaq": {
+    "question": "Bieten Sie auch Vor-Ort-Termine in Zürich an?",
+    "answer": "Selbstverständlich. Von unserem Büro in Winterthur sind wir in 20 Minuten bei Ihnen in Zürich – oder wir treffen uns an einem neutralen Ort."
+  },
+  "localIndustries": [
+    {
+      "name": "Finanzdienstleistungen",
+      "description": "Zürich ist Europas führender Finanzplatz. Banken, Vermögensverwalter und FinTechs prägen die Wirtschaft.",
+      "websiteNeeds": "Vertrauenswürdiges Design, Compliance-konform, mehrsprachig, sichere Formulare"
+    },
+    {
+      "name": "Kreativagenturen & Design",
+      "description": "Vom Seefeld bis Kreis 5 – Zürich beherbergt eine lebendige Kreativszene mit Agenturen und Freelancern.",
+      "websiteNeeds": "Portfolio-Präsentation, visueller Impact, schnelle Ladezeiten"
+    },
+    {
+      "name": "Tech & Startups",
+      "description": "Die ETH-Nähe und Googles Präsenz machen Zürich zum Tech-Hub. Startups brauchen agile digitale Lösungen.",
+      "websiteNeeds": "Modernes Design, Skalierbarkeit, Integration mit SaaS-Tools"
+    },
+    {
+      "name": "Beratung & Consulting",
+      "description": "Zürich ist Schweizer Zentrum für Unternehmensberatung, Steuerberatung und Management Consulting.",
+      "websiteNeeds": "Professionelle Außenwirkung, Leistungsübersicht, Case Studies, Kontaktformulare"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Muss ich für Besprechungen nach Winterthur kommen?",
+      "answer": "Nein, wir arbeiten zu 100% remote wenn gewünscht. Alternativ treffen wir uns gerne in Zürich – die S-Bahn braucht nur 20 Minuten."
+    },
+    {
+      "question": "Verstehen Sie die hohen Ansprüche des Zürcher Marktes?",
+      "answer": "Absolut. Wir haben für Zürcher Unternehmen aus der Finanz-, Tech- und Kreativbranche gearbeitet. Wir wissen, dass hier höchste Qualität erwartet wird."
+    }
+  ],
+  "whyChooseUs": "Als Agentur aus der Region bieten wir Zürcher Qualität zu faireren Preisen – ohne die Überkopfkosten einer Bahnhofstrasse-Agentur.",
+  "metaTitle": "Webdesign Zürich | Websites ab CHF 990",
+  "metaDescription": "Webdesign Zürich: Professionelle Websites für Zürcher Unternehmen. Ab CHF 990. ☎ 052 222 18 18",
+  "keywords": [
+    "Webdesign Zürich",
+    "Website erstellen Zürich",
+    "Webagentur Zürich"
+  ],
+  "canonicalUrl": "https://infraone.ch/webdesign/zuerich",
+  "hasPhysicalLocation": false,
+  "areaServed": [
+    "Zürich",
+    "Grossraum Zürich"
+  ]
+}

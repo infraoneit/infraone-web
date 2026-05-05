@@ -1,0 +1,74 @@
+{
+  "slug": "st-gallen",
+  "name": "St. Gallen",
+  "headline": "Webdesign St. Gallen",
+  "subheadline": "Digitale Lösungen für die Ostschweiz",
+  "description": "St. Gallen als Zentrum der Ostschweiz verdient Webdesign, das diesen Anspruch widerspiegelt – innovativ, professionell und zukunftsorientiert.",
+  "intro": "Die Universitätsstadt St. Gallen ist das wirtschaftliche und kulturelle Zentrum der Ostschweiz. Mit ihrer Elite-Hochschule HSG, einem starken Finanzsektor und innovativen Industrieunternehmen braucht die Region erstklassige digitale Lösungen. Von unserem Standort in Winterthur sind wir in unter 40 Minuten in St. Gallen – ideal für persönliche Treffen. Wir verstehen die Ostschweizer Mentalität: pragmatisch, qualitätsbewusst und mit Blick auf das Wesentliche. Genau so bauen wir auch Websites.",
+  "regionalImage": "/images/regions/st-gallen.png",
+  "localBenefits": [
+    "Nähe zu St. Gallen",
+    "Ostschweizer Mentalität",
+    "Persönliche Treffen möglich",
+    "HSG-Verständnis"
+  ],
+  "stats": [
+    {
+      "label": "Ostschweizer Kunden",
+      "value": "25+"
+    },
+    {
+      "label": "Anfahrt ab Winterthur",
+      "value": "35 Min"
+    }
+  ],
+  "localFaq": {
+    "question": "Haben Sie Erfahrung mit Unternehmen aus dem HSG-Umfeld?",
+    "answer": "Ja, wir haben bereits Websites für Startups aus dem HSG-Inkubator und Beratungsunternehmen in St. Gallen entwickelt. Wir verstehen die hohen Ansprüche der Region."
+  },
+  "localIndustries": [
+    {
+      "name": "Textil & Mode",
+      "description": "St. Gallen hat eine lange Textiltradition. Moderne Textilunternehmen und Modegeschäfte setzen auf digitale Präsenz.",
+      "websiteNeeds": "E-Commerce, Lookbooks, Produktkonfiguratoren, Newsletter"
+    },
+    {
+      "name": "Finanzwesen & Versicherungen",
+      "description": "St. Gallen ist ein wichtiger Finanzplatz der Ostschweiz mit Kantonalbank, Privatbanken und Versicherungen.",
+      "websiteNeeds": "Vertrauenswürdiges Design, sichere Formulare, Compliance-konform"
+    },
+    {
+      "name": "Gastronomie & Veranstaltungen",
+      "description": "Von der Weggiser Altstadtbeiz bis zu Event-Locations – St. Gallen hat eine vielfältige Gastro-Szene.",
+      "websiteNeeds": "Speisekarten, Event-Kalender, Reservierungssystem, Social Media"
+    },
+    {
+      "name": "Beratung & Dienstleistungen",
+      "description": "Die HSG-Nähe zieht Unternehmensberater, Coaches und spezialisierte Dienstleister an.",
+      "websiteNeeds": "Professionelle Positionierung, Service-Beschreibungen, Kundenstimmen"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Arbeiten Sie auch mit HSG-Startups und Alumni-Unternehmen?",
+      "answer": "Ja, wir haben bereits mehrere Projekte mit HSG-Startups umgesetzt. Wir verstehen die Anforderungen junger, dynamischer Unternehmen."
+    },
+    {
+      "question": "Wie schnell sind Sie vor Ort, wenn ein persönliches Treffen gewünscht ist?",
+      "answer": "Von Winterthur nach St. Gallen sind es nur 35 Minuten mit der S-Bahn. Wir sind flexibel und kommen gerne persönlich vorbei."
+    }
+  ],
+  "whyChooseUs": "Als Agentur aus der Nachbarregion verstehen wir die Ostschweizer Mentalität perfekt: pragmatisch, qualitätsbewusst und mit Blick fürs Wesentliche.",
+  "metaTitle": "Webdesign St. Gallen | Websites ab CHF 990",
+  "metaDescription": "Webdesign St. Gallen: Professionelle Websites für die Ostschweiz. Ab CHF 990. ☎ 052 222 18 18",
+  "keywords": [
+    "Webdesign St. Gallen",
+    "Website erstellen St. Gallen"
+  ],
+  "canonicalUrl": "https://infraone.ch/webdesign/st-gallen",
+  "hasPhysicalLocation": false,
+  "areaServed": [
+    "St. Gallen",
+    "Ostschweiz"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "slug": "aargau",
+  "name": "Aargau",
+  "headline": "Webdesign Aargau",
+  "subheadline": "Websites für den grössten Mittelland-Kanton",
+  "description": "Von Baden über Aarau bis Brugg – wir betreuen Aargauer KMU mit massgeschneiderten Websites, die ihre lokale Stärke überregional zeigen.",
+  "intro": "Der Kanton Aargau ist mit über 700'000 Einwohnern der drittbevölkerungsreichste Kanton der Schweiz. Seine zentrale Lage zwischen Zürich, Basel und Bern macht ihn zu einem idealen Wirtschaftsstandort für Logistik, Produktion und Dienstleistungen. Viele Aargauer KMU sind hidden Champions in ihren Branchen – und brauchen Websites, die diesem Anspruch gerecht werden. Wir betreuen Unternehmen in Baden, Aarau, Brugg, Wettingen und der gesamten Region. Remote-Zusammenarbeit funktioniert perfekt, persönliche Treffen sind dank kurzer Distanz jederzeit möglich.",
+  "regionalImage": "/images/webdesign-hero.png",
+  "localBenefits": [
+    "Zentrale Lage nutzen",
+    "KMU-Expertise",
+    "Kurze Wege",
+    "Flexible Betreuung"
+  ],
+  "stats": [
+    {
+      "label": "Aargauer Kunden",
+      "value": "18+"
+    },
+    {
+      "label": "Branchen betreut",
+      "value": "12+"
+    }
+  ],
+  "localFaq": {
+    "question": "Betreuen Sie auch die grösseren Städte wie Baden oder Aarau?",
+    "answer": "Ja, wir haben Kunden in Baden, Aarau, Brugg, Wettingen, Wohlen und vielen weiteren Aargauer Gemeinden. Die Region kennen wir gut."
+  },
+  "localIndustries": [
+    {
+      "name": "Energie & Cleantech",
+      "description": "Der Aargau ist Energie-Kanton. Von Axpo bis zu Solarfirmen – viele Unternehmen brauchen digitale Präsenz.",
+      "websiteNeeds": "Technische Erklärungen, Referenzprojekte, Nachhaltigkeitsberichte, Kontaktformulare"
+    },
+    {
+      "name": "Logistik & Industrie",
+      "description": "Die zentrale Lage macht den Aargau zum Logistik-Hub. Industrie und Produktion sind stark vertreten.",
+      "websiteNeeds": "B2B-Kommunikation, Standortvorteile, Karriereseiten, mehrsprachig"
+    },
+    {
+      "name": "Gesundheitswesen & Kliniken",
+      "description": "Kantonsspital, Reha-Kliniken und spezialisierte Gesundheitszentren im Aargau.",
+      "websiteNeeds": "Patienteninformationen, Online-Terminbuchung, Notfall-Infos, Barrierefreiheit"
+    },
+    {
+      "name": "Handwerk & KMU",
+      "description": "Vom Schreiner in Baden bis zum Sanitärbetrieb in Aarau – das Gewerbe prägt den Aargau.",
+      "websiteNeeds": "Leistungsübersicht, Referenzbilder, Notfall-Hotline, Google Maps"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Haben Sie Erfahrung mit Energie- und Cleantech-Unternehmen?",
+      "answer": "Ja, wir haben bereits Websites für Solarfirmen und Energiedienstleister entwickelt. Technische Inhalte verständlich zu vermitteln ist unsere Stärke."
+    },
+    {
+      "question": "Arbeiten Sie auch mit Industriebetrieben und produzierenden Unternehmen?",
+      "answer": "Absolut. B2B-Kommunikation, Produktkataloge und Karriereseiten für Industrieunternehmen gehören zu unseren Kernkompetenzen."
+    }
+  ],
+  "whyChooseUs": "Der Aargau ist KMU-Land. Wir verstehen die Bedürfnisse mittelständischer Unternehmen perfekt und liefern Websites mit echtem Mehrwert.",
+  "metaTitle": "Webdesign Aargau | Websites ab CHF 990",
+  "metaDescription": "Webdesign Aargau: Websites für KMU in Aarau, Baden und Region. Ab CHF 990. ☎ 052 222 18 18",
+  "keywords": [
+    "Webdesign Aargau",
+    "Website erstellen Aarau"
+  ],
+  "canonicalUrl": "https://infraone.ch/webdesign/aargau",
+  "hasPhysicalLocation": false,
+  "areaServed": [
+    "Aargau"
+  ]
+}

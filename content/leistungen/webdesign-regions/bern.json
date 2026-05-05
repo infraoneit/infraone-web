@@ -1,0 +1,74 @@
+{
+  "slug": "bern",
+  "name": "Bern",
+  "headline": "Webdesign Bern",
+  "subheadline": "Websites für die Bundesstadt",
+  "description": "Bern steht für Seriosität und Qualität. Ihre Website sollte das Gleiche ausstrahlen – professionell, vertrauenswürdig und modern.",
+  "intro": "Als Bundesstadt und viertgrösster Kanton der Schweiz ist Bern ein bedeutender Wirtschaftsstandort. Mit über 1 Million Einwohner im Kanton und einer diversifizierten Wirtschaft von Verwaltung über Tourismus bis hin zu Industrie, brauchen Berner Unternehmen professionelle digitale Auftritte. Obwohl wir unseren Hauptsitz in Winterthur haben, betreuen wir zahlreiche Berner Kunden remote. Dank moderner Kommunikationsmittel funktioniert die Zusammenarbeit reibungslos – persönliche Treffen vereinbaren wir bei Bedarf gerne in Bern.",
+  "regionalImage": "/images/webdesign-hero.png",
+  "localBenefits": [
+    "Remote-Betreuung",
+    "Professionelle Kommunikation",
+    "Verständnis für Berner Ansprüche",
+    "Flexible Termine"
+  ],
+  "stats": [
+    {
+      "label": "Berner Kunden",
+      "value": "10+"
+    },
+    {
+      "label": "Projekterfolgsrate",
+      "value": "100%"
+    }
+  ],
+  "localFaq": {
+    "question": "Wie funktioniert die Zusammenarbeit über die Distanz?",
+    "answer": "Wir arbeiten mit Videocalls, geteilten Projektboards und regelmässigen Updates. Bei Bedarf sind wir auch persönlich in Bern – die Anreise dauert nur 1 Stunde."
+  },
+  "localIndustries": [
+    {
+      "name": "Bundesverwaltung & NGOs",
+      "description": "Als Bundesstadt beherbergt Bern zahlreiche Behörden, Verbände und Organisationen mit hohen Anforderungen.",
+      "websiteNeeds": "WCAG-Konformität, Mehrsprachigkeit (DE/FR/IT/EN), sichere Formulare"
+    },
+    {
+      "name": "Tourismus & UNESCO-Welterbe",
+      "description": "Die Berner Altstadt, Bärenpark und Bundeshaus ziehen internationale Gäste an.",
+      "websiteNeeds": "Veranstaltungskalender, Ticketing, Bildergalerien, mehrsprachig"
+    },
+    {
+      "name": "Bildung & Forschung",
+      "description": "Universität Bern, PH Bern und Forschungsinstitute prägen den Standort.",
+      "websiteNeeds": "Content Management, Publikationsverzeichnisse, moderne UX"
+    },
+    {
+      "name": "Kulturinstitutionen & Museen",
+      "description": "Kunstmuseum, Zentrum Paul Klee und viele kleinere Kulturorte brauchen digitale Auftritte.",
+      "websiteNeeds": "Ausstellungskalender, Ticketshop, Virtueller Rundgang, mehrsprachig"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Können Sie barrierefreie Websites nach WCAG erstellen?",
+      "answer": "Ja, wir entwickeln Websites nach WCAG 2.1 AA-Standard. Für öffentliche Institutionen ist dies oft Pflicht – wir kennen die Anforderungen."
+    },
+    {
+      "question": "Arbeiten Sie auch auf Französisch?",
+      "answer": "Wir erstellen mehrsprachige Websites in Deutsch, Französisch, Italienisch und Englisch. Die Übersetzung koordinieren wir mit professionellen Partnern."
+    }
+  ],
+  "whyChooseUs": "100% Remote-Zusammenarbeit mit Schweizer Qualität. Wir verstehen die Bedürfnisse des öffentlichen Sektors und wissen, dass in Bern Zuverlässigkeit zählt.",
+  "metaTitle": "Webdesign Bern | Websites ab CHF 990",
+  "metaDescription": "Webdesign Bern: Remote-Betreuung mit persönlicher Beratung. Ab CHF 990. ☎ 052 222 18 18",
+  "keywords": [
+    "Webdesign Bern",
+    "Website erstellen Bern"
+  ],
+  "canonicalUrl": "https://infraone.ch/webdesign/bern",
+  "hasPhysicalLocation": false,
+  "areaServed": [
+    "Bern",
+    "Region Bern"
+  ]
+}

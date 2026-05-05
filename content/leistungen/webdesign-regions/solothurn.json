@@ -1,0 +1,74 @@
+{
+  "slug": "solothurn",
+  "name": "Solothurn",
+  "headline": "Webdesign Solothurn",
+  "subheadline": "Websites für die schönste Barockstadt",
+  "description": "Solothurn verbindet Geschichte mit Moderne. Ihre Website sollte das auch können – zeitlos elegant und dennoch technisch aktuell.",
+  "intro": "Der Kanton Solothurn liegt strategisch zwischen Bern, Basel und Zürich und profitiert von seiner zentralen Lage. Mit rund 275'000 Einwohnern bietet der Kanton einen aktiven KMU-Sektor mit Schwerpunkten in Uhrenindustrie, Präzisionsmechanik und Dienstleistungen. Die berühmte Uhrenstadt Grenchen und die historische Kantonshauptstadt prägen das Bild einer Region, die Tradition und Innovation verbindet. Wir betreuen Solothurner Unternehmen remote mit persönlichem Service.",
+  "regionalImage": "/images/webdesign-hero.png",
+  "localBenefits": [
+    "Remote-Betreuung",
+    "Verständnis für Tradition",
+    "Moderne Technik",
+    "Persönlicher Service"
+  ],
+  "stats": [
+    {
+      "label": "Solothurner Kunden",
+      "value": "5+"
+    },
+    {
+      "label": "Kundenzufriedenheit",
+      "value": "100%"
+    }
+  ],
+  "localFaq": {
+    "question": "Wie funktioniert die Zusammenarbeit über die Distanz?",
+    "answer": "Wir arbeiten mit regelmässigen Videocalls und einem geteilten Projektboard. Sie sind immer informiert und können jederzeit Feedback geben."
+  },
+  "localIndustries": [
+    {
+      "name": "Uhrenindustrie & Präzision",
+      "description": "Grenchen ist Uhrenstadt. Präzisionsmechanik und Zulieferer brauchen hochwertige digitale Präsenz.",
+      "websiteNeeds": "Produktkataloge, technische Details, B2B-Shop, mehrsprachig"
+    },
+    {
+      "name": "Gesundheit & Kliniken",
+      "description": "Bürgerspital Solothurn und spezialisierte Praxen benötigen professionelle Websites.",
+      "websiteNeeds": "Patienteninformationen, Online-Terminbuchung, Ärzteporträts, Notfall-Infos"
+    },
+    {
+      "name": "Tourismus & Barockstadt",
+      "description": "Die schöne Altstadt und kulturelle Angebote ziehen Besucher an.",
+      "websiteNeeds": "Veranstaltungskalender, Gastronomie-Guide, Übernachtungssuche, mehrsprachig"
+    },
+    {
+      "name": "Gewerbe & Handwerk",
+      "description": "Schreiner, Elektriker und Sanitärbetriebe im Kanton Solothurn brauchen Sichtbarkeit.",
+      "websiteNeeds": "Leistungsübersicht, Referenzen, Kontaktformular, Notdienst-Hotline"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Haben Sie Erfahrung mit Uhren- und Präzisionsmechanik-Unternehmen?",
+      "answer": "Ja, wir haben bereits Websites für technisch anspruchsvolle Branchen entwickelt. Produktkataloge und B2B-Shops sind unsere Stärke."
+    },
+    {
+      "question": "Können Sie auch mehrsprachige Websites für internationale Kunden erstellen?",
+      "answer": "Selbstverständlich. Viele Solothurner Unternehmen exportieren international – mehrsprachige Websites mit SEO-Optimierung sind Standard."
+    }
+  ],
+  "whyChooseUs": "Solothurn verbindet Tradition mit Innovation. Genau diese Balance finden wir auch in unseren Websites – zeitlos elegant und technisch auf der Höhe der Zeit.",
+  "metaTitle": "Webdesign Solothurn | Websites ab CHF 990",
+  "metaDescription": "Webdesign Solothurn: Remote-Betreuung mit persönlichem Support. Ab CHF 990. ☎ 052 222 18 18",
+  "keywords": [
+    "Webdesign Solothurn",
+    "Website erstellen Solothurn"
+  ],
+  "canonicalUrl": "https://infraone.ch/webdesign/solothurn",
+  "hasPhysicalLocation": false,
+  "areaServed": [
+    "Solothurn",
+    "Region Solothurn"
+  ]
+}

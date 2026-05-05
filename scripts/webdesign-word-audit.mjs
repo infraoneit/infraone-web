@@ -2,9 +2,13 @@
 /**
  * Webdesign Spoke Wortzahl-Audit
  *
- * Liest src/components/pages/WebdesignContent.tsx, extrahiert das
- * regionalContent-Object und zaehlt die Unique-Wortanzahl pro Spoke
- * (alle textfuehrenden Felder zusammen, ohne Boilerplate).
+ * Liest alle JSON-Files unter content/leistungen/webdesign-regions/
+ * und zaehlt die Unique-Wortanzahl pro Spoke (alle textfuehrenden Felder
+ * zusammen, ohne Boilerplate aus der Komponente).
+ *
+ * Hinweis: Die Boilerplate-Sektionen (Pakete, Plattformen, Hub-FAQs,
+ * Referenzen) sind nicht hier gezaehlt; sie sind in der Komponente fix
+ * und auf Spokes durch die isHubPage-Differenzierung reduziert.
  *
  * Nutzung: node scripts/webdesign-word-audit.mjs
  */
@@ -15,55 +19,10 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const filePath = path.resolve(__dirname, '../src/components/pages/WebdesignContent.tsx');
-const content = fs.readFileSync(filePath, 'utf-8');
+const regionsDir = path.resolve(__dirname, '../content/leistungen/webdesign-regions');
 
-// regionalContent block extrahieren
-const startMarker = 'const regionalContent: Record<string, RegionalData> = {';
-const startIdx = content.indexOf(startMarker);
-if (startIdx === -1) {
-    console.error('regionalContent block nicht gefunden');
-    process.exit(1);
-}
-// Body beginnt nach dem '{' am Ende des startMarker
-const bodyStart = startIdx + startMarker.length;
-
-// Klammern matchen, um Body-Ende zu finden
-let depth = 1;
-let endIdx = bodyStart;
-let inSingle = false, inDouble = false, inBacktick = false;
-let prev = '';
-for (let i = bodyStart; i < content.length; i++) {
-    const ch = content[i];
-    const isEscaped = prev === '\\';
-    if (!isEscaped) {
-        if (ch === "'" && !inDouble && !inBacktick) inSingle = !inSingle;
-        else if (ch === '"' && !inSingle && !inBacktick) inDouble = !inDouble;
-        else if (ch === '`' && !inSingle && !inDouble) inBacktick = !inBacktick;
-        else if (!inSingle && !inDouble && !inBacktick) {
-            if (ch === '{') depth++;
-            else if (ch === '}') {
-                depth--;
-                if (depth === 0) {
-                    endIdx = i;
-                    break;
-                }
-            }
-        }
-    }
-    prev = ch === '\\' && prev === '\\' ? '' : ch;
-}
-
-const body = content.substring(bodyStart, endIdx);
-
-// Body als JS-Object via Function eval
-const objectLiteral = '{' + body + '}';
-let regionalContent;
-try {
-    // eslint-disable-next-line no-new-func
-    regionalContent = new Function('return ' + objectLiteral)();
-} catch (e) {
-    console.error('Eval fehlgeschlagen:', e.message);
+if (!fs.existsSync(regionsDir)) {
+    console.error(`Verzeichnis nicht gefunden: ${regionsDir}`);
     process.exit(1);
 }
 
@@ -95,16 +54,19 @@ const auditRegion = (slug, data) => {
     return fields;
 };
 
-const slugs = Object.keys(regionalContent).filter(s => s !== 'default');
-const results = slugs.map(slug => ({ slug, ...auditRegion(slug, regionalContent[slug]) }));
+const files = fs.readdirSync(regionsDir).filter(f => f.endsWith('.json'));
+const results = files.map(file => {
+    const slug = file.replace('.json', '');
+    const data = JSON.parse(fs.readFileSync(path.join(regionsDir, file), 'utf-8'));
+    return { slug, ...auditRegion(slug, data) };
+});
 
-// Sortiert nach Total absteigend
 results.sort((a, b) => b.total - a.total);
 
 const threshold = 600;
 
-console.log('Webdesign Spoke Wortzahl-Audit');
-console.log('Schwellenwert: ' + threshold + ' Woerter unique pro Spoke');
+console.log('Webdesign Spoke Wortzahl-Audit (JSON-basiert)');
+console.log(`Schwellenwert: ${threshold} Woerter unique pro Spoke`);
 console.log('');
 console.log('Slug          | Total | Intro | WhyUs | Industries | FAQs | LocalFaq | Status');
 console.log('--------------|-------|-------|-------|------------|------|----------|--------');
