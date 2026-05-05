@@ -109,7 +109,7 @@ export default function KontaktPage() {
             {/* Hero Section */}
             <section className="relative py-12 lg:py-16 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_homepage_1768423161913.png" alt="" fill className="object-cover" priority />
+                    <Image src="/images/hero_homepage_1768423161913.png" alt="InfraOne IT Solutions Kontakt und Standorte in der Ostschweiz" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 text-center relative z-10">
                     <AnimatedSection animation="slideUp">

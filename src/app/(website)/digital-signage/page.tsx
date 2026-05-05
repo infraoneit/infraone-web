@@ -167,12 +167,13 @@ export default function DigitalSignagePage() {
                 <div className="absolute inset-0 opacity-10">
                     <Image
                         src="/images/hero_digital_signage_1768423279297.png"
-                        alt=""
+                        alt="Digital Signage Werbebildschirm und Infoscreen in einem Schweizer Unternehmen"
                         fill
                         className="object-cover"
                         priority
                         quality={85}
                         sizes="100vw"
+                        aria-hidden="true"
                     />
                 </div>
 

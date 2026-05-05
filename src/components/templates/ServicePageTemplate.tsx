@@ -83,12 +83,13 @@ export function ServicePageTemplate({
                     <div className="absolute inset-0 opacity-10">
                         <Image
                             src={heroImage}
-                            alt=""
+                            alt={headline}
                             fill
                             className="object-cover"
                             priority
                             quality={85}
                             sizes="100vw"
+                            aria-hidden="true"
                         />
                     </div>
                 )}

@@ -22,7 +22,7 @@ export function HeroSection() {
         <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-background via-background to-surface">
             {/* Background Image */}
             <div className="absolute inset-0 opacity-10">
-                <Image src="/images/hero_homepage_1768423161913.png" alt="" fill className="object-cover" priority sizes="100vw" quality={75} />
+                <Image src="/images/hero_homepage_1768423161913.png" alt="Moderne IT-Infrastruktur und Server-Technik fuer Schweizer KMU" fill className="object-cover" priority sizes="100vw" quality={75} aria-hidden="true" />
             </div>
 
             {/* Background Pattern */}

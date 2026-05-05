@@ -253,7 +253,7 @@ export function CloudTelefonieContent({
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 {/* Background Image - dezent wie bei IT-Support SEO Seiten */}
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_telefonie_1768423192251.png" alt="" fill className="object-cover" priority />
+                    <Image src="/images/hero_telefonie_1768423192251.png" alt="Cloud-Telefonie und VoIP-Arbeitsplatz in einem Schweizer Buero" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">

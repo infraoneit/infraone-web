@@ -246,7 +246,7 @@ export default async function ITSupportPage() {
             {/* Hero */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_it_network_1768423176860.png" alt="" fill className="object-cover" priority />
+                    <Image src="/images/hero_it_network_1768423176860.png" alt="IT-Support und Netzwerk-Infrastruktur fuer Schweizer KMU" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">

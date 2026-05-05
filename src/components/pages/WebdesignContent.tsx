@@ -70,7 +70,7 @@ const packages = [
 const references = [
     {
         name: 'Schaltkraft AG',
-        url: 'https://schaltkraft-admin.netlify.app',
+        url: 'https://www.schaltkraft.ch',
         description: 'Elektroinstallationen & Gebäudetechnik',
         quote: 'Unsere neue Website fühlt sich endlich so professionell an wie unsere Arbeit. Die Seite ist klar aufgebaut, schnell und auf das Wesentliche reduziert. Wir wurden von Anfang an verstanden und konnten unsere Inhalte Schritt für Schritt gemeinsam sauber aufbauen. Änderungen sind heute unkompliziert möglich, genau so wie wir es wollten.',
         author: 'Albert Sulejmani',
@@ -79,7 +79,7 @@ const references = [
     },
     {
         name: 'Elektro-Tel AG',
-        url: 'https://elektro-tel.netlify.app',
+        url: 'https://www.elektro-tel.ch',
         description: 'Elektro & Telekommunikation',
         quote: 'Von der ersten Idee bis zur fertigen Website lief alles strukturiert und transparent. Die neue Seite ist modern, übersichtlich und leicht zu pflegen. Besonders schätzen wir, dass wir Inhalte selbst anpassen können, ohne jedes Mal extern Hilfe zu brauchen.',
         author: 'Salvatore Irrera',
@@ -539,10 +539,11 @@ export function WebdesignContent({ regionSlug, showRegionalLinks = true }: Webde
                 <div className="absolute inset-0 opacity-20">
                     <Image
                         src="/images/webdesign-hero.png"
-                        alt=""
+                        alt="Webdesign und moderne Website-Entwicklung am Arbeitsplatz"
                         fill
                         className="object-cover"
                         priority
+                        aria-hidden="true"
                     />
                 </div>
                 <div className="container mx-auto px-4 relative z-10">

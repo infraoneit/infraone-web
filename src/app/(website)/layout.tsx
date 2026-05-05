@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   title: {
     default: "InfraOne IT Solutions | IT-Support, Webdesign & Telefonie in Winterthur",
-    template: "%s | InfraOne IT Solutions"
+    template: "%s | InfraOne"
   },
   description: "IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur, Schaffhausen & Zuerich. Ihr Informatiker fuer KMU & Privatkunden. 20% Neukunden-Rabatt!",
   keywords: [
