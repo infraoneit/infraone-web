@@ -72,7 +72,7 @@ export default function LeistungenPage() {
         'IT-Dienstleistungen',
         'ProfessionalService',
         'Alle IT-Dienstleistungen von InfraOne aus einer Hand: Netzwerke, Telefonie, Sicherheit, Webdesign, Software und Gebäudeautomation.',
-        'https://www.infraone.ch/leistungen'
+        'https://infraone.ch/leistungen'
     );
 
     return (

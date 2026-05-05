@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     description: 'Aktuelle Artikel zu IT-Themen, Tipps für KMU und Neuigkeiten von InfraOne IT Solutions.',
     keywords: ['IT Blog', 'IT Wissen', 'IT Tipps KMU', 'InfraOne News'],
     alternates: {
-        canonical: 'https://www.infraone.ch/blog',
+        canonical: 'https://infraone.ch/blog',
     },
 };
 

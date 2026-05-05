@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign Basel: Professionelle Websites für die Nordwestschweiz. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Basel', 'Website erstellen Basel'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/basel',
+        canonical: 'https://infraone.ch/webdesign/basel',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/basel',
+            'de-CH': 'https://infraone.ch/webdesign/basel',
         },
     },
 };

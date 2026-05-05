@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign Luzern: Websites für die Zentralschweiz. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Luzern', 'Website erstellen Luzern'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/luzern',
+        canonical: 'https://infraone.ch/webdesign/luzern',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/luzern',
+            'de-CH': 'https://infraone.ch/webdesign/luzern',
         },
     },
 };

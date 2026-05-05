@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign St. Gallen: Professionelle Websites für die Ostschweiz. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign St. Gallen', 'Website erstellen St. Gallen'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/st-gallen',
+        canonical: 'https://infraone.ch/webdesign/st-gallen',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/st-gallen',
+            'de-CH': 'https://infraone.ch/webdesign/st-gallen',
         },
     },
 };

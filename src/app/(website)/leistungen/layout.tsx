@@ -4,7 +4,7 @@ export const metadata: Metadata = {
     title: 'Leistungen | Übersicht unserer IT-Services',
     description: 'Alle IT-Dienstleistungen von InfraOne aus einer Hand: Netzwerke, Telefonie, Sicherheit, Webdesign, Software und Gebäudeautomation.',
     alternates: {
-        canonical: 'https://www.infraone.ch/leistungen',
+        canonical: 'https://infraone.ch/leistungen',
     },
 };
 

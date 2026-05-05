@@ -1,5 +1,5 @@
 # InfraOne IT Solutions
-# https://www.infraone.ch
+# https://infraone.ch
 
 > InfraOne IT Solutions GmbH ist ein Schweizer IT-Dienstleister mit Hauptsitz in Winterthur.
 > Wir bieten IT-Support, Webdesign und Cloud-Telefonie für KMU und Privatpersonen in der Deutschschweiz.
@@ -17,7 +17,7 @@ Mitarbeiter: 5-10
 - Telefon: 052 222 18 18
 - Notfall: 076 587 50 55
 - E-Mail: info@infraone.ch
-- Website: https://www.infraone.ch
+- Website: https://infraone.ch
 
 ## Dienstleistungen
 
@@ -71,10 +71,10 @@ Wir betreuen über 200 Kunden in der Deutschschweiz, darunter:
 
 ## Wichtige URLs
 
-- Homepage: https://www.infraone.ch
-- Kontakt: https://www.infraone.ch/kontakt
-- IT-Support: https://www.infraone.ch/it-support
-- Webdesign: https://www.infraone.ch/webdesign
-- Cloud-Telefonie: https://www.infraone.ch/cloud-telefonie
-- Unternehmen: https://www.infraone.ch/unternehmen
-- Blog: https://www.infraone.ch/blog
+- Homepage: https://infraone.ch
+- Kontakt: https://infraone.ch/kontakt
+- IT-Support: https://infraone.ch/it-support
+- Webdesign: https://infraone.ch/webdesign
+- Cloud-Telefonie: https://infraone.ch/cloud-telefonie
+- Unternehmen: https://infraone.ch/unternehmen
+- Blog: https://infraone.ch/blog

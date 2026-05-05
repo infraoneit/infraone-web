@@ -17,9 +17,9 @@ export const metadata: Metadata = {
     description: 'InfraOne IT Solutions – Ihr IT-Partner in Winterthur. Erfahren Sie mehr über unser Team, unsere Geschichte und unsere Philosophie.',
     keywords: ['Über InfraOne', 'IT Unternehmen Winterthur', 'IT Team', 'Geschichte InfraOne'],
     alternates: {
-        canonical: 'https://www.infraone.ch/unternehmen',
+        canonical: 'https://infraone.ch/unternehmen',
         languages: {
-            'de-CH': 'https://www.infraone.ch/unternehmen',
+            'de-CH': 'https://infraone.ch/unternehmen',
         },
     },
 };

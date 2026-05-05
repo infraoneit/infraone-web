@@ -11,9 +11,9 @@ export const metadata: Metadata = {
     description: 'Moderne Business-Telefonie für Ihr Unternehmen. Cloud-Lösungen und On-Premise Anlagen von Peoplefone, 3CX und Yeastar. Kostenloses Erstgespräch.',
     keywords: ['Telefonie Schweiz', 'Business Telefonie', 'Cloud Telefonie', 'On-Premise', '3CX', 'Peoplefone', 'Yeastar'],
     alternates: {
-        canonical: 'https://www.infraone.ch/telefonie',
+        canonical: 'https://infraone.ch/telefonie',
         languages: {
-            'de-CH': 'https://www.infraone.ch/telefonie',
+            'de-CH': 'https://infraone.ch/telefonie',
         },
     },
 };

@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign Schaffhausen: Lokaler Partner für moderne Websites. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Schaffhausen', 'Website erstellen Schaffhausen'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/schaffhausen',
+        canonical: 'https://infraone.ch/webdesign/schaffhausen',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/schaffhausen',
+            'de-CH': 'https://infraone.ch/webdesign/schaffhausen',
         },
     },
 };

@@ -11,9 +11,9 @@ export const metadata: Metadata = {
     description: 'Intelligente Gebäudesteuerung für Gewerbe und Eigenheim. Loxone Partner für Beleuchtung, Beschattung, Klima und Zutritt.',
     keywords: ['Gebäudeautomation', 'Smart Building', 'Loxone', 'Smart Home', 'Zutrittskontrolle'],
     alternates: {
-        canonical: 'https://www.infraone.ch/gebaeudeautomation',
+        canonical: 'https://infraone.ch/gebaeudeautomation',
         languages: {
-            'de-CH': 'https://www.infraone.ch/gebaeudeautomation',
+            'de-CH': 'https://infraone.ch/gebaeudeautomation',
         },
     },
 };

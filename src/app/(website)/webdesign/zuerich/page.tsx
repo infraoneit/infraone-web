@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign Zürich: Professionelle Websites für Zürcher Unternehmen. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Zürich', 'Website erstellen Zürich', 'Webagentur Zürich'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/zuerich',
+        canonical: 'https://infraone.ch/webdesign/zuerich',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/zuerich',
+            'de-CH': 'https://infraone.ch/webdesign/zuerich',
         },
     },
 };

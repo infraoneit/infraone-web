@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Cloud-Telefonie Winterthur: Hauptstandort – persönliche Betreuung & schnelle Reaktionszeit. Peoplefone-Experten vor Ort. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie Winterthur', 'VoIP Winterthur', 'Telefonanlage Winterthur', 'Peoplefone Winterthur'],
     alternates: {
-        canonical: 'https://www.infraone.ch/cloud-telefonie/winterthur',
+        canonical: 'https://infraone.ch/cloud-telefonie/winterthur',
         languages: {
-            'de-CH': 'https://www.infraone.ch/cloud-telefonie/winterthur',
+            'de-CH': 'https://infraone.ch/cloud-telefonie/winterthur',
         },
     },
 };

@@ -26,9 +26,9 @@ export const metadata: Metadata = {
     description: 'IT-Support für KMU & Private: Remote-Support CHF 120/h, Vor-Ort CHF 157/h. Sofortige Computerhilfe in Winterthur, Zürich, Schaffhausen, Thurgau.',
     keywords: ['IT Support Schweiz', 'Informatik Support', 'Computerhilfe', 'PC Support'],
     alternates: {
-        canonical: 'https://www.infraone.ch/it-support',
+        canonical: 'https://infraone.ch/it-support',
         languages: {
-            'de-CH': 'https://www.infraone.ch/it-support',
+            'de-CH': 'https://infraone.ch/it-support',
         },
     },
 };

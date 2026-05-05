@@ -15,9 +15,9 @@ export const metadata: Metadata = {
     description: 'Professionelle CCTV-Lösungen mit Milestone VMS, UniFi Protect und Aluha für KMU und Privatkunden. Videoüberwachung Winterthur.',
     keywords: ['Videoüberwachung Winterthur', 'Milestone VMS', 'UniFi Protect', 'CCTV Kamera', 'Überwachungskamera'],
     alternates: {
-        canonical: 'https://www.infraone.ch/videoueberwachung',
+        canonical: 'https://infraone.ch/videoueberwachung',
         languages: {
-            'de-CH': 'https://www.infraone.ch/videoueberwachung',
+            'de-CH': 'https://infraone.ch/videoueberwachung',
         },
     },
 };

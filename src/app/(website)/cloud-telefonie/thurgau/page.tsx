@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Cloud-Telefonie Thurgau: Spezielle Lösungen für Hotels & Gastro. VoIP für Frauenfeld, Kreuzlingen, Weinfelden. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie Thurgau', 'VoIP Thurgau', 'Telefonanlage Frauenfeld', 'Hotel Telefonie Bodensee'],
     alternates: {
-        canonical: 'https://www.infraone.ch/cloud-telefonie/thurgau',
+        canonical: 'https://infraone.ch/cloud-telefonie/thurgau',
         languages: {
-            'de-CH': 'https://www.infraone.ch/cloud-telefonie/thurgau',
+            'de-CH': 'https://infraone.ch/cloud-telefonie/thurgau',
         },
     },
 };

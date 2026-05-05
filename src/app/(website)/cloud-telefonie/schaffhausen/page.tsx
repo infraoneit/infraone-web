@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Cloud-Telefonie Schaffhausen: Industrie-Erfahrung, persönliche Beratung. Peoplefone für Schaffhauser Unternehmen. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie Schaffhausen', 'VoIP Schaffhausen', 'Telefonanlage Schaffhausen', 'Peoplefone Schaffhausen'],
     alternates: {
-        canonical: 'https://www.infraone.ch/cloud-telefonie/schaffhausen',
+        canonical: 'https://infraone.ch/cloud-telefonie/schaffhausen',
         languages: {
-            'de-CH': 'https://www.infraone.ch/cloud-telefonie/schaffhausen',
+            'de-CH': 'https://infraone.ch/cloud-telefonie/schaffhausen',
         },
     },
 };

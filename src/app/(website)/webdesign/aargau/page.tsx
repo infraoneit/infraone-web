@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign Aargau: Websites für KMU in Aarau, Baden und Region. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Aargau', 'Website erstellen Aarau'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/aargau',
+        canonical: 'https://infraone.ch/webdesign/aargau',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/aargau',
+            'de-CH': 'https://infraone.ch/webdesign/aargau',
         },
     },
 };

@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign Zug: Premium Websites für Zuger Unternehmen. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Zug', 'Website erstellen Zug'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/zug',
+        canonical: 'https://infraone.ch/webdesign/zug',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/zug',
+            'de-CH': 'https://infraone.ch/webdesign/zug',
         },
     },
 };

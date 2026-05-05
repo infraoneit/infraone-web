@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign Bern: Remote-Betreuung mit persönlicher Beratung. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Bern', 'Website erstellen Bern'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/bern',
+        canonical: 'https://infraone.ch/webdesign/bern',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/bern',
+            'de-CH': 'https://infraone.ch/webdesign/bern',
         },
     },
 };

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     description: 'Kontaktieren Sie InfraOne IT Solutions an 4 Standorten: Winterthur, Schaffhausen, Tägerwilen und Kleinandelfingen. Telefon 052 222 18 18.',
     keywords: ['Kontakt InfraOne', 'IT Support Winterthur', 'IT Beratung'],
     alternates: {
-        canonical: 'https://www.infraone.ch/kontakt',
+        canonical: 'https://infraone.ch/kontakt',
     },
 };
 

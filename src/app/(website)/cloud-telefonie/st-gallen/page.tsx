@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Cloud-Telefonie St. Gallen: Startup- & Industrie-Erfahrung. Professionelle VoIP-Lösungen für die Ostschweiz. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie St. Gallen', 'VoIP St. Gallen', 'Telefonanlage Ostschweiz', 'Peoplefone St. Gallen'],
     alternates: {
-        canonical: 'https://www.infraone.ch/cloud-telefonie/st-gallen',
+        canonical: 'https://infraone.ch/cloud-telefonie/st-gallen',
         languages: {
-            'de-CH': 'https://www.infraone.ch/cloud-telefonie/st-gallen',
+            'de-CH': 'https://infraone.ch/cloud-telefonie/st-gallen',
         },
     },
 };

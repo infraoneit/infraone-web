@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     title: 'AGB | Allgemeine Geschäftsbedingungen',
     description: 'Allgemeine Geschäftsbedingungen der InfraOne IT Solutions GmbH.',
     alternates: {
-        canonical: 'https://www.infraone.ch/agb',
+        canonical: 'https://infraone.ch/agb',
     },
 };
 

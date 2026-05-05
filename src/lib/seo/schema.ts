@@ -44,8 +44,8 @@ export function generateOrganizationSchema(): WithContext<Organization> {
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: 'InfraOne IT Solutions GmbH',
-        url: 'https://www.infraone.ch',
-        logo: 'https://www.infraone.ch/infraone-logo-schwarz.svg',
+        url: 'https://infraone.ch',
+        logo: 'https://infraone.ch/infraone-logo-schwarz.svg',
         description: 'IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur, Schaffhausen & Zürich. Ihr Informatiker für KMU & Privatkunden.',
         telephone: '+41522221818',
         email: 'info@infraone.ch',
@@ -178,12 +178,12 @@ export function generateWebSiteSchema(): WithContext<WebSite> {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: 'InfraOne IT Solutions',
-        url: 'https://www.infraone.ch',
+        url: 'https://infraone.ch',
         potentialAction: {
             '@type': 'SearchAction',
             target: {
                 '@type': 'EntryPoint',
-                urlTemplate: 'https://www.infraone.ch/search?q={search_term_string}',
+                urlTemplate: 'https://infraone.ch/search?q={search_term_string}',
             },
             'query-input': 'required name=search_term_string',
         } as any,
@@ -198,8 +198,8 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService', // Spezifischer als LocalBusiness
         name: 'InfraOne IT Solutions GmbH',
-        image: 'https://www.infraone.ch/infraone-logo-schwarz.svg',
-        url: 'https://www.infraone.ch',
+        image: 'https://infraone.ch/infraone-logo-schwarz.svg',
+        url: 'https://infraone.ch',
         telephone: '+41522221818',
         email: 'info@infraone.ch',
         priceRange: '$$',
@@ -268,7 +268,7 @@ export function generateServiceSchema(
         provider: {
             '@type': 'Organization',
             name: 'InfraOne IT Solutions GmbH',
-            url: 'https://www.infraone.ch',
+            url: 'https://infraone.ch',
         },
         areaServed: areaServed.map((area) => ({
             '@type': 'Place',
@@ -358,12 +358,12 @@ export function generateAboutPageSchema(): WithContext<AboutPage> {
         '@type': 'AboutPage',
         name: 'Über InfraOne IT Solutions',
         description: 'Erfahren Sie mehr über InfraOne IT Solutions GmbH, unser Team, unsere Werte und unsere Geschichte.',
-        url: 'https://www.infraone.ch/unternehmen',
+        url: 'https://infraone.ch/unternehmen',
         mainEntity: {
             '@type': 'Organization',
             name: 'InfraOne IT Solutions GmbH',
-            url: 'https://www.infraone.ch',
-            logo: 'https://www.infraone.ch/infraone-logo-schwarz.svg',
+            url: 'https://infraone.ch',
+            logo: 'https://infraone.ch/infraone-logo-schwarz.svg',
         },
     };
 }

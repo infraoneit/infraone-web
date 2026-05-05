@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ region: s
         title: data.metaTitle || `IT-Support ${data.name} | InfraOne`,
         description: data.metaDescription,
         keywords: data.keywords,
-        alternates: { canonical: data.canonicalUrl || `https://www.infraone.ch/it-support/${data.slug}` },
+        alternates: { canonical: data.canonicalUrl || `https://infraone.ch/it-support/${data.slug}` },
     };
 }
 

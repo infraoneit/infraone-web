@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign Solothurn: Remote-Betreuung mit persönlichem Support. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Solothurn', 'Website erstellen Solothurn'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/solothurn',
+        canonical: 'https://infraone.ch/webdesign/solothurn',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/solothurn',
+            'de-CH': 'https://infraone.ch/webdesign/solothurn',
         },
     },
 };

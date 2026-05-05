@@ -324,9 +324,9 @@ export function generateBlogMetadata(post: BlogPost): Metadata {
             authors: [post.author],
         },
         alternates: {
-            canonical: `https://www.infraone.ch/blog/${post.slug}`,
+            canonical: `https://infraone.ch/blog/${post.slug}`,
             languages: {
-                'de-CH': `https://www.infraone.ch/blog/${post.slug}`,
+                'de-CH': `https://infraone.ch/blog/${post.slug}`,
             },
         },
     };

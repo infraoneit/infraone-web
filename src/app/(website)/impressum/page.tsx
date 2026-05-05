@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     title: 'Impressum | Rechtliche Informationen',
     description: 'Impressum und rechtliche Informationen der InfraOne IT Solutions GmbH.',
     alternates: {
-        canonical: 'https://www.infraone.ch/impressum',
+        canonical: 'https://infraone.ch/impressum',
     },
 };
 

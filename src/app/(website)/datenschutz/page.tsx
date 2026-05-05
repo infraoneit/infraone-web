@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     title: 'Datenschutz | Datenschutzerklärung',
     description: 'Datenschutzerklärung der InfraOne IT Solutions GmbH gemäss Schweizer Datenschutzgesetz.',
     alternates: {
-        canonical: 'https://www.infraone.ch/datenschutz',
+        canonical: 'https://infraone.ch/datenschutz',
     },
 };
 

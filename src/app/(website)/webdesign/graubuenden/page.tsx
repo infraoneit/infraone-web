@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Webdesign Graubünden: Websites für Tourismus und lokale KMU. Ab CHF 990. ☎ 052 222 18 18',
     keywords: ['Webdesign Graubünden', 'Website erstellen Chur'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign/graubuenden',
+        canonical: 'https://infraone.ch/webdesign/graubuenden',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign/graubuenden',
+            'de-CH': 'https://infraone.ch/webdesign/graubuenden',
         },
     },
 };

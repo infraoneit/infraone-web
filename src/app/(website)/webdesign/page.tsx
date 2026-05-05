@@ -16,9 +16,9 @@ export const metadata: Metadata = {
     description: 'Professionelles Webdesign in der Schweiz. Moderne, SEO-optimierte Websites ab CHF 990. Wix, WordPress oder Next.js – wir finden die passende Lösung.',
     keywords: ['Webdesign Schweiz', 'Webagentur', 'Website erstellen', 'Homepage', 'SEO Webdesign'],
     alternates: {
-        canonical: 'https://www.infraone.ch/webdesign',
+        canonical: 'https://infraone.ch/webdesign',
         languages: {
-            'de-CH': 'https://www.infraone.ch/webdesign',
+            'de-CH': 'https://infraone.ch/webdesign',
         },
     },
 };

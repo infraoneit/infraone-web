@@ -20,9 +20,9 @@ export const metadata: Metadata = {
     description: 'Cloud-Telefonanlagen für Schweizer KMU: VoIP mit Peoplefone & 3CX. Komplettpaket ab CHF 131/Monat inkl. Internet & Flatrate. Kostenrechner & Support aus Winterthur.',
     keywords: ['Cloud Telefonanlage Schweiz', 'VoIP KMU', 'Peoplefone', '3CX', 'Business Telefonie'],
     alternates: {
-        canonical: 'https://www.infraone.ch/cloud-telefonie',
+        canonical: 'https://infraone.ch/cloud-telefonie',
         languages: {
-            'de-CH': 'https://www.infraone.ch/cloud-telefonie',
+            'de-CH': 'https://infraone.ch/cloud-telefonie',
         },
     },
 };

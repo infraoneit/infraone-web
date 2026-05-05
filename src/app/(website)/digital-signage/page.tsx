@@ -15,9 +15,9 @@ export const metadata: Metadata = {
     description: 'Digital Signage Schweiz ohne Abo-Kosten. Werbebildschirme & Infoscreens mit lokalem Betrieb und Live-Daten Integration. Einmalige Investition, schweizweite Installation.',
     keywords: ['Digital Signage Schweiz', 'Werbebildschirme Schweiz', 'Infoscreen Schweiz', 'Digital Signage', 'Werbedisplay', 'Digitale Beschilderung', 'Infoscreen', 'Digital Signage Winterthur', 'Digital Signage Zürich', 'Digital Signage Ostschweiz'],
     alternates: {
-        canonical: 'https://www.infraone.ch/digital-signage',
+        canonical: 'https://infraone.ch/digital-signage',
         languages: {
-            'de-CH': 'https://www.infraone.ch/digital-signage',
+            'de-CH': 'https://infraone.ch/digital-signage',
         },
     },
 };

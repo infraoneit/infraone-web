@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Cloud-Telefonie Zürich: Peoplefone & 3CX für Zürcher Unternehmen. Professionelle Anrufbehandlung, kurze Wege von Winterthur. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie Zürich', 'VoIP Zürich', 'Telefonanlage Zürich', '3CX Zürich'],
     alternates: {
-        canonical: 'https://www.infraone.ch/cloud-telefonie/zuerich',
+        canonical: 'https://infraone.ch/cloud-telefonie/zuerich',
         languages: {
-            'de-CH': 'https://www.infraone.ch/cloud-telefonie/zuerich',
+            'de-CH': 'https://infraone.ch/cloud-telefonie/zuerich',
         },
     },
 };

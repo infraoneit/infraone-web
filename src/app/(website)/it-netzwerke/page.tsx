@@ -15,9 +15,9 @@ export const metadata: Metadata = {
     description: 'Planung, Aufbau & Betreuung moderner IT-Netzwerke für KMU. Stabile IT-Infrastruktur, Cloud-Lösungen, Server & Virtualisierung in Winterthur.',
     keywords: ['IT Netzwerke Winterthur', 'IT Dienstleister', 'Netzwerk Infrastruktur', 'Cloud Lösungen', 'Microsoft 365'],
     alternates: {
-        canonical: 'https://www.infraone.ch/it-netzwerke',
+        canonical: 'https://infraone.ch/it-netzwerke',
         languages: {
-            'de-CH': 'https://www.infraone.ch/it-netzwerke',
+            'de-CH': 'https://infraone.ch/it-netzwerke',
         },
     },
 };

@@ -10,9 +10,9 @@ export const metadata: Metadata = {
     description: 'Individuelle Software-Lösungen, Web-Apps und mobile Apps. Von der Konzeption bis zur Umsetzung. Agile Entwicklung aus Winterthur.',
     keywords: ['Software Entwicklung', 'App Entwicklung', 'Web Applikation', 'Individualsoftware'],
     alternates: {
-        canonical: 'https://www.infraone.ch/software-entwicklung',
+        canonical: 'https://infraone.ch/software-entwicklung',
         languages: {
-            'de-CH': 'https://www.infraone.ch/software-entwicklung',
+            'de-CH': 'https://infraone.ch/software-entwicklung',
         },
     },
 };

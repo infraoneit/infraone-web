@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://www.infraone.ch';
+    const baseUrl = 'https://infraone.ch';
     const currentDate = new Date();
 
     // Main pages

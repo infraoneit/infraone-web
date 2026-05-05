@@ -10,9 +10,9 @@ export const metadata: Metadata = {
     description: 'Planung und Ausstattung professioneller Kontrollräume und Leitstellen. KVM-Lösungen, Videowalls und 24/7-Arbeitsplätze.',
     keywords: ['Kontrollraum', 'Leitstelle', 'KVM Matrix', 'Videowall', 'Operator Workspace'],
     alternates: {
-        canonical: 'https://www.infraone.ch/kontrollraum',
+        canonical: 'https://infraone.ch/kontrollraum',
         languages: {
-            'de-CH': 'https://www.infraone.ch/kontrollraum',
+            'de-CH': 'https://infraone.ch/kontrollraum',
         },
     },
 };

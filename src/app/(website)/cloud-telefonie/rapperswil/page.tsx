@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     description: 'Cloud-Telefonie Rapperswil-Jona: Persönlicher Ansprechpartner, lokale Betreuung. VoIP für Unternehmen am Zürichsee. ☎ 052 222 18 18',
     keywords: ['Cloud Telefonie Rapperswil', 'VoIP Rapperswil', 'Telefonanlage Zürichsee', 'Peoplefone Rapperswil'],
     alternates: {
-        canonical: 'https://www.infraone.ch/cloud-telefonie/rapperswil',
+        canonical: 'https://infraone.ch/cloud-telefonie/rapperswil',
         languages: {
-            'de-CH': 'https://www.infraone.ch/cloud-telefonie/rapperswil',
+            'de-CH': 'https://infraone.ch/cloud-telefonie/rapperswil',
         },
     },
 };
