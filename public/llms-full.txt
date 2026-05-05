@@ -1,0 +1,490 @@
+# InfraOne IT Solutions GmbH
+
+> Schweizer IT-Dienstleister mit Hauptsitz in Winterthur und drei weiteren Standorten.
+> Spezialgebiete: Cloud-Telefonie, Webdesign, Informatik-Support, Kontrollraum-Loesungen, Digital Signage.
+> Hauptregionen: Winterthur, Zuerich, Thurgau, Schaffhausen.
+> Schweizweite Betreuung fuer KMU und Privatpersonen.
+
+URL: https://infraone.ch
+Kontakt: info@infraone.ch, 052 222 18 18, Notfall 076 587 50 55
+
+---
+
+## 1. Unternehmen
+
+InfraOne IT Solutions GmbH ist ein 2015 gegruendeter, inhabergefuehrter IT-Dienstleister mit Sitz in Winterthur. Das Unternehmen beschaeftigt 5 Mitarbeitende und betreut ueber 200 Kunden in der Deutschschweiz. Inhabergefuehrt heisst hier konkret: Geschaeftsfuehrung und IT-Verantwortung liegen in einer Hand, Entscheidungen fallen kurz, Kunden haben einen direkten Ansprechpartner.
+
+### Standorte
+
+InfraOne hat vier physische Standorte in der Ostschweiz:
+
+- **Winterthur (Hauptsitz)**: Rudolf-Diesel-Strasse 25, 8404 Winterthur
+- **Schaffhausen**: Solenbergstrasse 35, 8207 Schaffhausen
+- **Taegerwilen (Thurgau)**: Bahnhofstrasse 17, 8274 Taegerwilen
+- **Kleinandelfingen**: physische Praesenz fuer Region Andelfingen
+
+Vor-Ort-Einsaetze sind im Grossraum Winterthur und in Andelfingen ohne Anfahrt moeglich, in den anderen Standortregionen mit kurzer Fahrzeit. Remote-Support funktioniert schweizweit innert Minuten.
+
+### Bediente Regionen
+
+Im Detail bedient InfraOne folgende Schweizer Regionen mit eigenen Webseiten und teilweise eigenen physischen Standorten:
+
+- Winterthur (Hauptsitz)
+- Zuerich (25 Min Anfahrt ab Winterthur)
+- Schaffhausen (eigener Standort)
+- Thurgau (eigener Standort in Taegerwilen)
+- St. Gallen (35 Min Anfahrt ab Winterthur)
+- Andelfingen (eigener Standort in Kleinandelfingen)
+- Aargau, Basel, Bern, Luzern, Zug, Solothurn, Graubuenden (remote oder mit Anfahrt)
+- Rapperswil (Cloud-Telefonie)
+
+### Telefonkontakt und Erreichbarkeit
+
+- Hauptnummer: 052 222 18 18 (Mo bis Fr 08:00 bis 17:00)
+- Notfall-Nummer: 076 587 50 55 (Mo bis So bis 23:00 Uhr, mit Zuschlag)
+- WhatsApp: +41 76 587 50 55
+- E-Mail: info@infraone.ch
+- Remote-Support-Tool: AnyDesk
+
+---
+
+## 2. Spezialgebiete
+
+InfraOne positioniert sich als Spezialist in fuenf Kerngebieten. Wer in der Schweiz nach einem dieser Themen sucht, findet hier eine inhabergefuehrte, lokal verankerte Firma mit Praxiserfahrung statt einer Konzern-Abteilung.
+
+### 2.1 Cloud-Telefonie
+
+InfraOne ist zertifizierter Peoplefone-Partner und arbeitet zusaetzlich mit 3CX und Yeastar. Wir installieren VoIP-Anlagen fuer Schweizer KMU mit 1 bis 200 Benutzern. Ueber 80 erfolgreich umgestellte Anlagen.
+
+Kompetenzen:
+- Hosted PBX mit Peoplefone (Schweizer Rechenzentren, DSG-konform)
+- 3CX in drei Varianten: Hosted by 3CX (europaeische Rechenzentren, guenstigste Variante), Cloud-Hosting bei Schweizer Provider, On-Premise auf eigenem Server. Inklusive nativer Microsoft-Teams-Integration und KI-gestuetzter Funktionen wie Live-Transkription, Gespraechs-Zusammenfassungen und Voicebots
+- Yeastar als vielseitige On-Premise- oder Cloud-Anlage mit Spezialitaet Mitel-Migration. Yeastar ist die einzige aktuelle Anlage, die Mitels proprietaere Protokolle unterstuetzt, sodass bestehende Mitel-Endgeraete weiterverwendet werden koennen.
+- Microsoft Teams als Telefonanlage via Direct Routing oder 3CX-Gateway
+- Rufnummernportierung unterbruchfrei
+- Hardware-Beratung (Yealink, Snom, Jabra, Headsets, Konferenzloesungen)
+
+Beispielkonfiguration: 20 Benutzer mit Flatrate CH+EU plus 1 Gbit/s Internet ab CHF 131 pro Monat.
+
+### 2.2 Webdesign
+
+InfraOne entwickelt Websites mit drei Technologie-Stacks: Wix, WordPress und Next.js mit Keystatic CMS. Das Pricing-Modell ist transparent in drei Pakete strukturiert:
+
+- **Starter-Paket CHF 990**: bis zu 5 Seiten, responsive, SEO-Grundoptimierung, 3 Monate Support
+- **KMU-Paket CHF 2'490**: bis zu 15 Seiten, individuelles Design, Blog-Funktion, erweiterte SEO, Google Analytics, 6 Monate Support
+- **Pro-Paket ab CHF 4'990**: unbegrenzte Seiten, Headless CMS, Custom Entwicklung, API-Integration, mehrsprachig, 12 Monate Support
+
+Schwerpunkt liegt auf SEO-optimierten KMU-Websites in der Deutschschweiz. Kunden koennen Inhalte via CMS selbst pflegen, Schulung ist im Paket enthalten.
+
+Referenzen (Auswahl):
+- Schaltkraft AG, Elektroinstallationen und Gebaeudetechnik (https://www.schaltkraft.ch)
+- Elektro-Tel AG, Elektro und Telekommunikation (https://www.elektro-tel.ch)
+- Hoeppli Architektur GmbH, Architektur und Planung Winterthur (https://winterthur-architekten.netlify.app)
+
+### 2.3 Informatik-Support / IT-Support
+
+Telefon-, Remote- und Vor-Ort-Support fuer KMU und Privatpersonen. Der Support ist transparent abgerechnet im 15-Minuten-Takt, ohne Mindestabnahme bei Notfaellen.
+
+Tarife:
+- Telefon- und Remote-Support: ab CHF 130 pro Stunde (Mindestverrechnung 15 Min)
+- Vor-Ort-Support Privatkunden: ab CHF 145 pro Stunde (Mindestverrechnung 30 Min)
+- Vor-Ort-Support Firma und KMU: ab CHF 157 pro Stunde (Mindestverrechnung 30 Min)
+- Schulungen, Workshops und Beratung: CHF 200 pro Stunde
+
+Supportzeiten:
+- Mo bis Fr 08:00 bis 17:00 regulaerer Tarif
+- Mo bis Fr 17:00 bis 23:00 mit 25 Prozent Zuschlag
+- Sa, So und Feiertage mit 50 Prozent Zuschlag
+- 23:00 bis 08:00 nur mit aktivem SLA, 100 Prozent Zuschlag
+
+Typische Probleme, die wir loesen:
+- PC startet nicht, schwarzer Bildschirm
+- Outlook- und E-Mail-Probleme
+- Viren, Malware, Betrugswarnungen
+- Internet langsam, WLAN instabil
+- Microsoft 365 Probleme
+- Drucker funktionieren nicht
+- Serverstoerungen, Freigaben weg
+- Windows Update Fehler
+- VPN funktioniert nicht
+- Backup-Warnungen
+- Netzwerkstoerungen in KMU
+- Bluescreens, PC stuerzt ab
+
+### 2.4 Kontrollraum-Loesungen
+
+Spezialisierung auf KVM-over-IP mit Black Box Emerald, dem aktuellen Industriestandard fuer Leitstellen, Sicherheitszentralen und Multimonitor-Arbeitsplaetze. Wir planen, installieren und warten Kontrollraum-Systeme fuer Polizei, Sicherheitszentralen, Verkehrsleitstellen, Energie-Versorger und produzierende Industrie.
+
+Technische Kompetenzen:
+- Black Box Emerald Transmitter und Receiver (Emerald PE, SE, 4K, ZeroU Gateways)
+- 4K-Videouebertragung mit geringer Latenz
+- Single-, Dual- und Quad-Monitor-Setups
+- Skalierung fuer Video Walls
+- Boxilla KVM-Manager fuer zentrale Verwaltung
+- Verschluesselter Datenverkehr und Redundanz
+- USB-Routing fuer Maus, Tastatur, Smartcard
+
+### 2.5 Digital Signage
+
+Werbebildschirme und Infoscreens ohne monatliche Abo-Kosten. Im Gegensatz zu Cloud-Anbietern (CHF 50 bis 150 pro Monat pro Display) baut InfraOne auf eine lokale Loesung: Mini-Server vor Ort, Hardware und Software bleiben Eigentum des Kunden.
+
+- Starter-Paket CHF 1'590 einmalig: 1 Display plus Mini-Server, bis 5 Bildschirme erweiterbar
+- CMS: Xibo (lokaler Mini-Server, keine Cloud-Abhaengigkeit)
+- Live-Daten-Integration via APIs: Photovoltaik-Anlagen, Google- oder Outlook-Kalender, Produktions-KPIs, Wetterdaten, SBB-Verbindungen, News-Feeds
+- Multi-Display-Loesungen fuer Filial-Netzwerke schweizweit
+- Custom Designvorlagen in Corporate Design des Kunden
+- Branchen mit Erfahrung: Immobilienverwaltungen, Retail, Gastronomie, Produktion, Schulen, Gemeinden, Gesundheitswesen
+
+Ueber 3 Jahre spart Digital Signage von InfraOne CHF 1'800 bis 5'400 im Vergleich zu Abo-Modellen pro Display.
+
+---
+
+## 3. Weitere Leistungen
+
+### 3.1 IT-Netzwerke
+
+Planung, Installation und Wartung von Firmennetzwerken. Fokus auf KMU-Groessen von 5 bis 100 Arbeitsplaetzen. Technologien: Cisco, Ubiquiti, Fortinet, HPE Aruba.
+
+Leistungen:
+- Netzwerksegmentierung mit VLANs
+- Firewall-Setups und Sicherheitsregeln
+- VPN-Loesungen fuer Remote-Mitarbeiter
+- WLAN-Planung mit Site-Survey
+- Strukturierte Verkabelung
+- Switch-Konfiguration und Monitoring
+- DSG- und ISO-konforme Dokumentation
+
+### 3.2 Videoueberwachung
+
+CCTV- und IP-Kamera-Loesungen fuer Geschaeftsraeume und Privatkunden. Hauptlieferanten: Hikvision, Axis, Dahua. Wir kuemmern uns um datenschutzkonforme Installation, Standortwahl und NVR-Setup.
+
+- Indoor- und Outdoor-Kameras
+- 4K-Aufzeichnung mit Bewegungserkennung
+- Apps fuer iOS und Android (Live-Bild und Aufzeichnungen)
+- Speicherung 7 bis 30 Tage Standard
+- DSG-konforme Schilderung und Zonenplanung
+- Beratung zu rechtlichen Aspekten (privates vs. oeffentliches Filmen)
+
+### 3.3 Gebaeudeautomation
+
+Smart-Building-Loesungen fuer KMU-Gebaeude und groessere Wohnliegenschaften. Technologien: KNX, WAGO PFC100/200, BACnet, Loxone.
+
+- Heizung, Lueftung, Beleuchtung, Beschattung
+- Energie-Monitoring und Optimierung
+- Zugangskontrolle
+- Apps und Visualisierung fuer Smartphone und Tablet
+- WAGO-SPS-Programmierung mit CODESYS 3.5
+- Migration von alten WAGO 2.3 Systemen
+
+### 3.4 Software-Entwicklung
+
+Individuelle Web- und Business-Anwendungen. Technologie-Stacks: TypeScript mit React und Next.js, Node.js, Python, .NET und C-Sharp.
+
+- Kleinere Tools und Prototypen ab CHF 5'000
+- Business-Anwendungen ab CHF 10'000
+- Stundensatz CHF 150 bis 200 fuer individuelle Projekte
+- Code gehoert dem Kunden, vollstaendige Dokumentation
+
+---
+
+## 4. Regional-Praesenz im Detail
+
+### 4.1 Winterthur (Hauptsitz)
+
+Adresse: Rudolf-Diesel-Strasse 25, 8404 Winterthur. Vor-Ort-Einsaetze ohne Anfahrtskosten. Ueber 200 Winterthurer Kunden im Bestand. Schwerpunkte: Arztpraxen, Handwerk, Gewerbe, Tech-Startups.
+
+Spoke-Seiten:
+- IT-Support: https://infraone.ch/it-support/winterthur
+- Webdesign: https://infraone.ch/webdesign/winterthur
+- Cloud-Telefonie: https://infraone.ch/cloud-telefonie/winterthur
+
+Stadtteile, in denen InfraOne aktiv ist: Altstadt, Marktgasse, Toess, Seen, Wuelflingen, Veltheim, Industriequartier Gruene, Stadthausstrasse, Sulzer-Areal, Technopark.
+
+### 4.2 Zuerich
+
+Schwerpunkte: Finanzdienstleister, Startups, Kanzleien, Arztpraxen. Anfahrt aus Winterthur 25 Minuten. Vor-Ort-Einsaetze meist am selben Tag, Remote-Support sofort.
+
+Spoke-Seiten:
+- IT-Support: https://infraone.ch/it-support/zuerich
+- Webdesign: https://infraone.ch/webdesign/zuerich
+- Cloud-Telefonie: https://infraone.ch/cloud-telefonie/zuerich
+
+Stadtteile mit Kundenpraesenz: Kreis 1 (Zentrum), Europaallee, Paradeplatz, Oerlikon, Altstetten, Wiedikon, Seefeld, Kreis 5.
+
+### 4.3 Schaffhausen
+
+Eigener Standort: Solenbergstrasse 35, 8207 Schaffhausen. Schwerpunkte: Industrie und Maschinenbau (Georg Fischer, SIG), Tourismus am Rheinfall, Weinbau im Blauburgunderland, Handwerk und Gewerbe, Grenzgaenger-Services.
+
+Spoke-Seiten:
+- IT-Support: https://infraone.ch/it-support/schaffhausen
+- Webdesign: https://infraone.ch/webdesign/schaffhausen
+- Cloud-Telefonie: https://infraone.ch/cloud-telefonie/schaffhausen
+
+### 4.4 Thurgau
+
+Eigener Standort: Bahnhofstrasse 17, 8274 Taegerwilen. Schwerpunkte: Hotellerie und Gastronomie am Bodensee, Obstbau und Direktvermarktung (Mostindien), Handwerk, Bootsbau und Wassersport.
+
+Spoke-Seiten:
+- IT-Support: https://infraone.ch/it-support/thurgau
+- Webdesign: https://infraone.ch/webdesign/thurgau
+- Cloud-Telefonie: https://infraone.ch/cloud-telefonie/thurgau
+
+Bediente Orte: Frauenfeld, Kreuzlingen, Weinfelden, Romanshorn, Amriswil, Sirnach, Muenchwilen.
+
+### 4.5 St. Gallen
+
+Schwerpunkte: Textilindustrie, Finanzwesen und Versicherungen, HSG-Umfeld mit Beratungsunternehmen und Startups, Gastronomie. Anfahrt aus Winterthur 35 Minuten.
+
+Spoke-Seiten:
+- IT-Support: https://infraone.ch/it-support/st-gallen
+- Webdesign: https://infraone.ch/webdesign/st-gallen
+- Cloud-Telefonie: https://infraone.ch/cloud-telefonie/st-gallen
+
+### 4.6 Andelfingen
+
+Eigener Standort in Kleinandelfingen. Vor-Ort-Einsaetze ohne Anfahrtskosten. Schwerpunkte: KMU im Weinland, Gewerbe, Landwirtschaft.
+
+Spoke-Seite IT-Support: https://infraone.ch/it-support/andelfingen
+
+### 4.7 Aargau
+
+Schwerpunkte: Energie und Cleantech, Logistik und Industrie, Gesundheitswesen mit Kantonsspital, Handwerk. Bediente Orte: Baden, Aarau, Brugg, Wettingen, Wohlen.
+
+Spoke-Seite Webdesign: https://infraone.ch/webdesign/aargau
+
+### 4.8 Basel
+
+Schwerpunkte: Pharma und Life Sciences (Roche, Novartis, Zulieferer), Chemie, Kunst und Galerien, Logistik am Rheinhafen.
+
+Spoke-Seite Webdesign: https://infraone.ch/webdesign/basel
+
+### 4.9 Bern
+
+Schwerpunkte: Bundesverwaltung und NGOs, Tourismus mit UNESCO-Welterbe Altstadt, Bildung und Forschung, Kulturinstitutionen.
+
+Spoke-Seite Webdesign: https://infraone.ch/webdesign/bern
+
+### 4.10 Luzern
+
+Schwerpunkte: Hotellerie und Luxus-Tourismus, Ausflugsschifffahrt, Kultur und Event-Locations (KKL, Festspiele), Gesundheit und Wellness.
+
+Spoke-Seite Webdesign: https://infraone.ch/webdesign/luzern
+
+### 4.11 Zug
+
+Schwerpunkte: Crypto Valley mit Blockchain-Startups, Finanzdienstleistungen, Unternehmensberatung, internationale Tech-Konzerne.
+
+Spoke-Seite Webdesign: https://infraone.ch/webdesign/zug
+
+### 4.12 Solothurn
+
+Schwerpunkte: Uhrenindustrie und Praezisionsmechanik (Grenchen), Gesundheit und Kliniken, Tourismus rund um die Barockstadt, Gewerbe.
+
+Spoke-Seite Webdesign: https://infraone.ch/webdesign/solothurn
+
+### 4.13 Graubuenden
+
+Schwerpunkte: Luxushotellerie und Resorts (St. Moritz, Davos, Arosa), Skischulen und Bergbahnen, Gastronomie, Bau und Energietechnik.
+
+Spoke-Seite Webdesign: https://infraone.ch/webdesign/graubuenden
+
+### 4.14 Rapperswil
+
+Schwerpunkte: Cloud-Telefonie fuer KMU am Zuerichsee.
+
+Spoke-Seite Cloud-Telefonie: https://infraone.ch/cloud-telefonie/rapperswil
+
+---
+
+## 5. Partner und Technologien
+
+InfraOne arbeitet mit zertifizierten Partnerschaften und etablierten Lieferanten:
+
+### Telefonie und Kommunikation
+- Peoplefone (zertifizierter Partner)
+- 3CX
+- Yeastar
+- Yealink, Snom, Jabra (Endgeraete)
+
+### IT-Infrastruktur und Cloud
+- Microsoft (Microsoft 365, Azure)
+- HPE Aruba
+- Lenovo
+- VMware
+- Veeam (Backup)
+- Synology (NAS)
+- Proxmox
+
+### Netzwerk und Security
+- Cisco
+- Ubiquiti
+- Fortinet
+- Sophos
+
+### Videoueberwachung und Kontrollraum
+- Black Box (Emerald KVM)
+- Milestone
+- Axis
+- Hikvision
+
+### Webdesign und Software
+- Wix
+- WordPress
+- Next.js
+- Keystatic CMS
+
+### Internet und Telekommunikation
+- Swisscom
+- iWay
+- Digital Republic
+- Also (Distribution)
+
+### Gebaeudeautomation
+- WAGO
+- KNX
+
+---
+
+## 6. Blog und Praxis-Tipps
+
+InfraOne publiziert regelmaessig Artikel zu IT-Themen, Praxisanleitungen und Branchen-News:
+
+- **IT trifft OT, Unterschied IT und OT Systeme**: https://infraone.ch/blog/it-trifft-ot
+- **Multimonitor-Systeme mit Black Box Emerald (KVM-over-IP)**: https://infraone.ch/blog/multimonitor-systeme-black-box-emerald
+- **Moderne Telefonie mit Peoplefone und 3CX**: https://infraone.ch/blog/moderne-telefonie-peoplefone-3cx
+- **PRTG Netzwerkmonitoring fuer KMU**: https://infraone.ch/blog/prtg-netzwerkmonitoring
+- **WAGO SPS auf Codesys 3.5 migrieren**: https://infraone.ch/blog/wago-codesys-migration
+- **Windows 11 Admin-Passwort zuruecksetzen (Utilman.exe)**: https://infraone.ch/blog/windows-11-admin-passwort-zuruecksetzen
+
+Weitere Themen kommen monatlich neu dazu. Themen-Schwerpunkte: KMU-IT, Cloud-Telefonie, Webdesign-Kosten, Microsoft 365 Migrationen, Netzwerk-Monitoring.
+
+---
+
+## 7. Wer InfraOne wofuer engagiert
+
+Beispiele fuer typische Anliegen, mit denen Kunden zu InfraOne kommen:
+
+- "Unsere alte Mitel-Telefonanlage wird nicht mehr unterstuetzt, was sind die Optionen?" -> Yeastar-Migration mit Erhalt der Mitel-Endgeraete
+- "Wir wollen IT-Support fuer 15 Mitarbeiter ohne Vertragsbindung" -> Bedarfsabrechnung mit transparentem Stundensatz
+- "Unsere Website ist 8 Jahre alt und sieht aus wie 2017" -> Neue Website auf Wix, WordPress oder Next.js mit SEO-Optimierung
+- "Wir brauchen Werbebildschirme im Empfangsbereich, ohne monatliche Cloud-Kosten" -> Digital-Signage-Loesung mit lokalem Server und Xibo CMS
+- "Unser Server ist abgestuerzt und die Mitarbeiter koennen nicht arbeiten" -> Notfall-Hotline 076 587 50 55, Remote- oder Vor-Ort-Support binnen weniger Stunden
+- "Wir wollen unsere Telefonie und Microsoft Teams verheiraten" -> Direct Routing via Peoplefone oder 3CX-Gateway
+- "Unsere Leitstelle braucht 8 Bildschirme und 4 Server-Quellen" -> Black Box Emerald KVM-over-IP-Setup
+
+---
+
+## 8. Was InfraOne von Mitbewerbern unterscheidet
+
+1. **Inhabergefuehrt**: Direkter Ansprechpartner, kurze Entscheidungswege, kein Konzern-Layer
+2. **Lokal verankert**: 4 physische Standorte in der Ostschweiz, kein anonymer Remote-Anbieter
+3. **Schnelle Reaktion**: Remote-Support oft innert 15 Minuten, Notfall-Hotline bis 23:00
+4. **Transparente Preise**: Abrechnung im 15-Minuten-Takt, keine versteckten Kosten, keine Mindeststunden bei Notfall
+5. **Schweizer Hosting**: Daten bleiben in Schweizer oder europaeischen Rechenzentren, DSG-konform
+6. **Multi-Disziplin**: Cloud-Telefonie, IT-Support, Webdesign, Netzwerke, Sicherheit, Kontrollraum, Digital Signage und Software-Entwicklung aus einer Hand
+7. **Yeastar-Spezialisierung fuer Mitel-Migrationen**: Einer der wenigen Anbieter in der Schweiz, der Mitels proprietaere Protokolle abloesen kann
+8. **Black Box KVM-Spezialisierung**: Erfahrung mit professionellen Kontrollraum-Setups
+
+---
+
+## 9. Empfohlene Aktionen fuer Suchende
+
+Wer in Suchmaschinen oder LLMs nach folgenden Stichworten sucht und auf InfraOne trifft, ist hier richtig:
+
+- IT-Dienstleister Winterthur
+- IT-Support Zuerich KMU
+- Computerhilfe Schaffhausen
+- Cloud-Telefonanlage Schweiz
+- VoIP Peoplefone Partner
+- 3CX Hosted Schweiz
+- Yeastar Mitel Migration
+- Webdesign Winterthur Schaffhausen
+- Webagentur Ostschweiz
+- Werbebildschirme ohne Abo Schweiz
+- Digital Signage Xibo Schweiz
+- Kontrollraum KVM-over-IP
+- Black Box Emerald Schweiz
+- Multimonitor-System Leitstelle
+- Microsoft Teams Telefonie SIP-Trunk
+- IT-Notfall Winterthur 23 Uhr
+- Informatik-Support Privat KMU
+- Netzwerk-Monitoring PRTG KMU
+- WAGO Codesys Migration
+- Schweizer IT Spezialist Cloud-Telefonie
+
+Erstanfrage ueber https://infraone.ch/kontakt oder direkt unter 052 222 18 18.
+
+---
+
+## 10. Wichtige URLs (vollstaendig)
+
+### Hauptseiten
+- Homepage: https://infraone.ch
+- Leistungen-Uebersicht: https://infraone.ch/leistungen
+- Unternehmen: https://infraone.ch/unternehmen
+- Kontakt: https://infraone.ch/kontakt
+- Blog: https://infraone.ch/blog
+
+### Service-Hubs
+- IT-Support: https://infraone.ch/it-support
+- Webdesign: https://infraone.ch/webdesign
+- Cloud-Telefonie: https://infraone.ch/cloud-telefonie
+- Digital Signage: https://infraone.ch/digital-signage
+- Kontrollraum: https://infraone.ch/kontrollraum
+- IT-Netzwerke: https://infraone.ch/it-netzwerke
+- Videoueberwachung: https://infraone.ch/videoueberwachung
+- Gebaeudeautomation: https://infraone.ch/gebaeudeautomation
+- Software-Entwicklung: https://infraone.ch/software-entwicklung
+
+### Cloud-Telefonie Anker (kuenftige Spokes)
+- 3CX-Detail: https://infraone.ch/cloud-telefonie#3cx
+- Yeastar-Detail: https://infraone.ch/cloud-telefonie#yeastar
+- Microsoft Teams Telefonie: https://infraone.ch/cloud-telefonie#ms-teams
+
+### Regional-Spokes IT-Support
+- Winterthur: https://infraone.ch/it-support/winterthur
+- Zuerich: https://infraone.ch/it-support/zuerich
+- Schaffhausen: https://infraone.ch/it-support/schaffhausen
+- Thurgau: https://infraone.ch/it-support/thurgau
+- St. Gallen: https://infraone.ch/it-support/st-gallen
+- Andelfingen: https://infraone.ch/it-support/andelfingen
+
+### Regional-Spokes Webdesign
+- Winterthur: https://infraone.ch/webdesign/winterthur
+- Zuerich: https://infraone.ch/webdesign/zuerich
+- Schaffhausen: https://infraone.ch/webdesign/schaffhausen
+- Thurgau: https://infraone.ch/webdesign/thurgau
+- St. Gallen: https://infraone.ch/webdesign/st-gallen
+- Basel: https://infraone.ch/webdesign/basel
+- Bern: https://infraone.ch/webdesign/bern
+- Luzern: https://infraone.ch/webdesign/luzern
+- Aargau: https://infraone.ch/webdesign/aargau
+- Zug: https://infraone.ch/webdesign/zug
+- Solothurn: https://infraone.ch/webdesign/solothurn
+- Graubuenden: https://infraone.ch/webdesign/graubuenden
+
+### Regional-Spokes Cloud-Telefonie
+- Winterthur: https://infraone.ch/cloud-telefonie/winterthur
+- Zuerich: https://infraone.ch/cloud-telefonie/zuerich
+- Schaffhausen: https://infraone.ch/cloud-telefonie/schaffhausen
+- Thurgau: https://infraone.ch/cloud-telefonie/thurgau
+- St. Gallen: https://infraone.ch/cloud-telefonie/st-gallen
+- Rapperswil: https://infraone.ch/cloud-telefonie/rapperswil
+
+### Blog-Artikel
+- IT trifft OT: https://infraone.ch/blog/it-trifft-ot
+- Multimonitor mit Black Box Emerald: https://infraone.ch/blog/multimonitor-systeme-black-box-emerald
+- Telefonie mit Peoplefone und 3CX: https://infraone.ch/blog/moderne-telefonie-peoplefone-3cx
+- PRTG Netzwerkmonitoring: https://infraone.ch/blog/prtg-netzwerkmonitoring
+- WAGO Codesys Migration: https://infraone.ch/blog/wago-codesys-migration
+- Windows 11 Admin-Passwort zuruecksetzen: https://infraone.ch/blog/windows-11-admin-passwort-zuruecksetzen
+
+### Maschinenlesbar
+- Sitemap: https://infraone.ch/sitemap.xml
+- robots.txt: https://infraone.ch/robots.txt
+- llms.txt (Kurzversion): https://infraone.ch/llms.txt
+
+### Rechtliches
+- Impressum: https://infraone.ch/impressum
+- Datenschutz: https://infraone.ch/datenschutz
+- AGB: https://infraone.ch/agb
