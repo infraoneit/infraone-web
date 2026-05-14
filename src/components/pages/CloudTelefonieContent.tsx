@@ -77,168 +77,53 @@ const alternativeSolutions = [
     },
 ];
 
-// Regional content interface
-interface LocalizedBenefit {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-}
+// Cloud-Telefonie Region-Daten kommen jetzt aus JSON-Files in
+// content/leistungen/cloud-telefonie-regions/. Hub-Modus nutzt hubDefaultData unten.
+import type { CloudTelefonieRegionData } from '@/lib/leistungen';
 
-interface RegionalData {
-    headline: string;
-    subheadline: string;
-    intro: string;
-    localBenefits: string[];
-    stats: { label: string; value: string }[];
-    localFaq: { question: string; answer: string };
-    regionalImage: string;
-    // Enhanced regional content
-    localizedBenefits?: LocalizedBenefit[];
-    additionalFaqs?: { question: string; answer: string }[];
-    localIndustries?: { name: string; need: string }[];
-}
-
-// Unique regional content for Cloud-Telefonie
-const regionalContent: Record<string, RegionalData> = {
-    default: {
-        headline: 'Cloud-Telefonanlagen',
-        subheadline: 'VoIP-Telefonie für Schweizer KMU',
-        intro: 'In der Schweiz setzen immer mehr Unternehmen auf Cloud-Telefonie. Die Vorteile liegen auf der Hand: Keine wartungsintensive Hardware vor Ort, flexible Arbeitsplätze im Homeoffice, und professionelle Telefonielösungen zu planbaren Kosten. Als zertifizierter Peoplefone-Partner beraten wir Sie unabhängig und finden die optimale Lösung für Ihr Unternehmen. Von der Einmann-Firma bis zum 50-Personen-Betrieb – wir kennen die Anforderungen von Schweizer KMU.',
-        localBenefits: ['Keine Hardware', 'Wartungsfrei', 'Flexibles Homeoffice', 'Schweizer Rechenzentren'],
-        stats: [{ label: 'Umgestellte Anlagen', value: '80+' }, { label: 'Zufriedene Kunden', value: '98%' }],
-        localFaq: { question: 'Kann ich meine bestehende Nummer behalten?', answer: 'Ja! Wir portieren Ihre bestehenden Festnetz- und Mobilnummern zu Peoplefone. Der Prozess dauert meist 5-10 Arbeitstage und läuft unterbrechungsfrei.' },
-        regionalImage: '/images/hero_telefonie_1768423192251.png',
-    },
-    zuerich: {
-        headline: 'Cloud-Telefonie Zürich',
-        subheadline: 'Professionelle VoIP-Lösungen für Zürcher Unternehmen',
-        intro: 'In Zürich ist Zeit Geld. Wenn die Telefonanlage ausfällt oder der Support stundenlang auf sich warten lässt, kostet das bares Geld. Mit unserer Cloud-Telefonie-Lösung gehört das der Vergangenheit an: Keine Hardware, die kaputt gehen kann. Kein IT-Team, das sich um Updates kümmern muss. Einfach telefonieren – vom Büro am Paradeplatz, aus dem Homeoffice in Oerlikon oder unterwegs. Viele Zürcher Anwaltskanzleien, Beratungsunternehmen und Arztpraxen vertrauen bereits auf unsere Peoplefone-Lösungen.',
-        localBenefits: ['20 Min. Anfahrt von Winterthur', 'Erfahrung mit Zürcher Finanz- & Rechtsbranche', 'Professionelle Anrufbehandlung', 'Schneller Remote-Support'],
-        stats: [{ label: 'Zürcher Kunden', value: '25+' }, { label: 'Ø Setup-Zeit', value: '5 Tage' }],
-        localFaq: { question: 'Bieten Sie Vor-Ort-Einrichtung in Zürich an?', answer: 'Ja! Obwohl Cloud-Telefonie oft remote eingerichtet werden kann, kommen wir bei Bedarf gerne nach Zürich für die Ersteinrichtung und Schulung Ihrer Mitarbeiter.' },
-        regionalImage: '/images/regions/zuerich.png',
-        localIndustries: [
-            { name: 'Anwaltskanzleien & Treuhand', need: 'Vertrauliche Gespräche, Anrufaufzeichnung, professionelle Warteschlaufe' },
-            { name: 'Arztpraxen & Gesundheit', need: 'Notfall-Weiterleitung, Sprachmenü für Terminvergabe, DSGVO-konform' },
-            { name: 'Startups & Tech', need: 'Schnelle Skalierung, Microsoft Teams Integration, flexible Kosten' },
-        ],
-        additionalFaqs: [
-            { question: 'Können Sie auch Kanzleien mit besonderen Datenschutz-Anforderungen betreuen?', answer: 'Ja, Peoplefone erfüllt alle Schweizer Datenschutzanforderungen. Die Daten werden in Schweizer Rechenzentren gespeichert. Gesprächsaufzeichnungen können verschlüsselt abgelegt werden.' },
-            { question: 'Wie schnell sind Sie bei Problemen in Zürich?', answer: 'Die meisten Probleme lösen wir per Fernwartung innert Minuten. Für Vor-Ort-Einsätze sind wir in 20-25 Minuten bei Ihnen im Kreis 1 bis Oerlikon.' },
-        ],
-    },
-    winterthur: {
-        headline: 'Cloud-Telefonie Winterthur',
-        subheadline: 'Ihr lokaler VoIP-Partner in der Eulachstadt',
-        intro: 'Von unserem Hauptsitz in Winterthur aus betreuen wir Unternehmen in der ganzen Region. Ob Handwerksbetrieb in Töss, Arztpraxis in Seen oder IT-Startup im Technopark – wir verstehen die Anforderungen unterschiedlichster Branchen. Die Umstellung auf Cloud-Telefonie ist einfacher als gedacht: Wir analysieren Ihre Bedürfnisse, planen die Migration und schulen Ihr Team. In den meisten Fällen ist die neue Anlage innert einer Woche betriebsbereit. Und sollte doch mal etwas nicht funktionieren: Wir sind in 15 Minuten bei Ihnen.',
-        localBenefits: ['Persönlicher Service vor Ort', 'Keine Anfahrtskosten im Stadtgebiet', 'Showroom im Technopark Winterthur', 'Support durch lokale Experten'],
-        stats: [{ label: 'Winterthurer Kunden', value: '40+' }, { label: 'Jahre Erfahrung', value: '8+' }],
-        localFaq: { question: 'Können Sie auch unsere bestehende Telefonanlage warten?', answer: 'Ja, wir betreuen auch klassische On-Premise-Anlagen. Allerdings empfehlen wir bei anstehenden Investitionen meist den Umstieg auf Cloud – langfristig günstiger und flexibler.' },
-        regionalImage: '/images/regions/winterthur.png',
-        localIndustries: [
-            { name: 'KMU & Gewerbe', need: 'Robuste Endgeräte, einfache Bedienung, zuverlässiger Support' },
-            { name: 'Immobilien & Verwaltung', need: 'Homeoffice-Anbindung, mobile Erreichbarkeit bei Besichtigungen' },
-            { name: 'Bildung & Schulen', need: 'Kosteneffiziente Lösungen, Integration in bestehende Netzwerke' },
-        ],
-        additionalFaqs: [
-            { question: 'Kann ich meine Winterthurer 052-Nummer behalten?', answer: 'Selbstverständlich. Wir portieren Ihre 052-Nummern zu Peoplefone. Sie bleiben unter den bekannten Nummern erreichbar.' },
-            { question: 'Bieten Sie Schulungen für Mitarbeiter in Winterthur an?', answer: 'Ja, wir kommen gerne in Ihren Betrieb und schulen Ihre Mitarbeiter im Umgang mit den neuen Telefonen und der Software.' },
-        ],
-    },
-    schaffhausen: {
-        headline: 'Cloud-Telefonie Schaffhausen',
-        subheadline: 'Moderne Telefonie für Schaffhauser Unternehmen',
-        intro: 'Der Kanton Schaffhausen ist geprägt von traditionsreichen Industrieunternehmen und einem aktiven Gewerbe. Viele dieser Betriebe arbeiten noch mit veralteten Telefonanlagen, die teuer im Unterhalt sind und keine modernen Features bieten. Zeit für einen Wechsel! Mit unserer Cloud-Telefonielösung telefonieren Ihre Mitarbeiter vom Werk, vom Homeoffice oder von unterwegs – alles mit derselben Geschäftsnummer. Die Handy-App von Peoplefone macht\'s möglich. Wir haben bereits mehrere Schaffhauser Betriebe erfolgreich umgestellt.',
-        localBenefits: ['Erfahrung mit Industrie-Anforderungen', 'DECT-Ausleuchtung für Werkhallen', 'Anbindung von Türsprechstellen', '30 Min. Anfahrt ab Winterthur'],
-        stats: [{ label: 'Schaffhauser Kunden', value: '15+' }, { label: 'Umstellungen/Jahr', value: '10+' }],
-        localFaq: { question: 'Funktioniert Cloud-Telefonie auch in Industriegebäuden?', answer: 'Ja, sofern eine stabile Internetverbindung besteht. Bei schlechtem WLAN-Empfang empfehlen wir professionelle DECT-Lösungen für eine flächendeckende Abdeckung in Hallen.' },
-        regionalImage: '/images/regions/schaffhausen.png',
-        localIndustries: [
-            { name: 'Industrie & Produktion', need: 'Robuste DECT-Telefone, laute Klingeltöne, Notfall-Features' },
-            { name: 'Logistik & Transport', need: 'Mobile App für Fahrer, einfache Erreichbarkeit der Disposition' },
-            { name: 'Dienstleistung', need: 'Professioneller Auftritt, Warteschlange, Anrufbeantworter' },
-        ],
-        additionalFaqs: [
-            { question: 'Können wir unsere Türsprechanlage weiter nutzen?', answer: 'In den meisten Fällen ja. Mit einem Analog-Wandler (ATA) können bestehende Türsprechstellen in die Cloud-Anlage integriert werden.' },
-            { question: 'Wie ist die Sprachqualität im Vergleich zu ISDN?', answer: 'Mindestens gleichwertig, meist sogar besser (HD Voice). Voraussetzung ist eine stabile Internetleitung, die wir vorab prüfen.' },
-        ],
-    },
-    thurgau: {
-        headline: 'Cloud-Telefonie Thurgau',
-        subheadline: 'VoIP-Lösungen für den Bodensee-Kanton',
-        intro: 'Vom Bodensee bis Frauenfeld, von Kreuzlingen bis Weinfelden – der Thurgau ist vielfältig. Hotels am See brauchen andere Telefonielösungen als Handwerksbetriebe im Hinterland. Genau deshalb beraten wir Sie persönlich und finden die passende Lösung. Für ein Hotel konfigurieren wir Zimmeranschlüsse und Rezeption, für den Handwerker die mobile App für den Aussendienst. Cloud-Telefonie ist flexibel genug für beides. Und mit unserem Standort sind wir schnell bei Ihnen vor Ort, wenn es nötig ist.',
-        localBenefits: ['Hotel-Speziallösungen (PMS)', 'Mobile App für Aussendienst', 'Erreichbarkeit bei Kundenbesuchen', 'Rasche Vor-Ort-Hilfe'],
-        stats: [{ label: 'Thurgauer Kunden', value: '20+' }, { label: 'Hotel-Installationen', value: '5+' }],
-        localFaq: { question: 'Bieten Sie spezielle Lösungen für Hotels an?', answer: 'Ja! Wir kennen die Anforderungen der Hotellerie: Zimmeranschlüsse, Rezeptionslogik, Wake-up-Calls und Integration in Hotel-Software (PMS).' },
-        regionalImage: '/images/regions/thurgau.png',
-        localIndustries: [
-            { name: 'Hotellerie & Gastronomie', need: 'Check-in/out Integration, Weckrufe, einfache Zimmertelefone' },
-            { name: 'Bau & Handwerk', need: 'Robuste Baustellen-Handys, Erreichbarkeit unterwegs' },
-            { name: 'Tourismus', need: 'Saisonale Anpassung der Benutzerzahlen, flexible Rufumleitungen' },
-        ],
-        additionalFaqs: [
-            { question: 'Funktioniert die Telefonie auch bei Saisonbetrieben flexibel?', answer: 'Ja, Sie zahlen nur für die aktiven Benutzer. In der Nebensaison können Sie Lizenzen reduzieren und so Kosten sparen.' },
-            { question: 'Wie schnell sind Sie in Kreuzlingen oder Romanshorn?', answer: 'Wir sind regelmässig im Thurgau unterwegs. Für geplante Einsätze sind wir flexibel, bei Notfällen in ca. 30-45 Minuten vor Ort.' },
-        ],
-    },
-    'st-gallen': {
-        headline: 'Cloud-Telefonie St. Gallen',
-        subheadline: 'Professionelle VoIP-Lösungen für die Ostschweiz',
-        intro: 'St. Gallen ist das wirtschaftliche Zentrum der Ostschweiz. Hier treffen sich innovative Startups und traditionsreiche Industrieunternehmen. Beide brauchen professionelle Kommunikation. Mit Cloud-Telefonie sind Sie für beides gerüstet: Das Startup hat von Tag 1 eine professionelle Geschäftsnummer mit Sprachmenü, das Industrieunternehmen spart Wartungskosten und gewinnt Flexibilität. Von Winterthur aus sind wir in gut 30 Minuten bei Ihnen – für Beratung, Installation oder Support.',
-        localBenefits: ['Skalierbare Lösungen für Startups', 'Standortvernetzung für KMU', 'Microsoft Teams Telefonie', 'Persönliche Betreuung ab Winterthur'],
-        stats: [{ label: 'Ostschweizer Kunden', value: '18+' }, { label: 'Anfahrt', value: '35 Min' }],
-        localFaq: { question: 'Haben Sie Erfahrung mit schnell wachsenden Startups?', answer: 'Ja! Cloud-Telefonie skaliert perfekt mit: Heute 3 Mitarbeiter, nächstes Jahr 20. Keine neue Hardware nötig, einfach neue Benutzer im Portal hinzufügen.' },
-        regionalImage: '/images/regions/st-gallen.png',
-        localIndustries: [
-            { name: 'Startups & Innovation', need: 'Softphone am Laptop, keine Hardware-Investition, Teams-Integration' },
-            { name: 'Beratung & Consulting', need: 'Hohe Mobilität, professionelle Konferenzen, One-Number-Concept' },
-            { name: 'Handel & E-Commerce', need: 'Support-Lines, Warteschleifen, CRM-Integration' },
-        ],
-        additionalFaqs: [
-            { question: 'Können wir Microsoft Teams als Telefon nutzen?', answer: 'Ja, wir sind spezialisiert auf "Teams Direct Routing". Sie telefonieren direkt aus der Teams-App ins Festnetz – ideal für moderne Arbeitsplätze.' },
-            { question: 'Bieten Sie auch Support in der Stadt St. Gallen?', answer: 'Ja, wir haben viele Kunden in der Stadt und Agglomeration. Wir sind schnell vor Ort und lösen Probleme sonst via Fernwartung.' },
-        ],
-    },
-    rapperswil: {
-        headline: 'Cloud-Telefonie Rapperswil',
-        subheadline: 'VoIP-Lösungen für die Rosenstadt',
-        intro: 'Rapperswil-Jona und die umliegende Region am oberen Zürichsee verbinden Lebensqualität mit wirtschaftlicher Dynamik. Viele Unternehmen hier schätzen kurze Wege und persönlichen Service – genau das bieten wir. Cloud-Telefonie bedeutet nicht anonymen Support aus einem Callcenter. Bei uns haben Sie einen persönlichen Ansprechpartner, der Ihr Setup kennt. Von der Erstberatung über die Einrichtung bis zum laufenden Support – alles aus einer Hand. Und wenn es brennt, sind wir schnell vor Ort.',
-        localBenefits: ['Persönlicher Ansprechpartner', 'Integration Homeoffice & Büro', 'Faire KMU-Preise', 'Support auch am Wochenende (Option)'],
-        stats: [{ label: 'Kunden Region Rapperswil', value: '12+' }, { label: 'Kundentreue', value: '100%' }],
-        localFaq: { question: 'Wie schnell können Sie bei Problemen helfen?', answer: 'Die meisten Probleme lösen wir per Fernwartung innert Minuten. Für Vor-Ort-Einsätze sind wir in etwa 40 Minuten bei Ihnen in Rapperswil.' },
-        regionalImage: '/images/regions/rapperswil.png',
-        localIndustries: [
-            { name: 'Kreativwirtschaft', need: 'Mac-Kompatibilität, hohe Bandbreite, schickes Design' },
-            { name: 'Dienstleister', need: 'Erreichbarkeit, Anrufbeantworter-Steuerung per App' },
-            { name: 'Sport & Freizeit', need: 'Mobile Lösungen, wetterfeste Geräte (falls nötig)' },
-        ],
-        additionalFaqs: [
-            { question: 'Funktioniert die Lösung auch mit Macs?', answer: 'Ja, die Softphone-Clients gibt es für Windows und macOS. Auch die Web-App funktioniert in jedem Browser einwandfrei.' },
-            { question: 'Können wir den Anrufbeantworter selbst besprechen?', answer: 'Ja, Sie können Ansagen jederzeit selbst aufnehmen und hochladen oder direkt über das Telefon einsprechen.' },
-        ],
-    },
+const hubDefaultData: CloudTelefonieRegionData = {
+    slug: 'default',
+    name: 'Schweiz',
+    headline: 'Cloud-Telefonanlagen',
+    subheadline: 'VoIP-Telefonie für Schweizer KMU',
+    description: 'Wartungsfreie Cloud-Telefonanlagen mit Peoplefone für Schweizer KMU.',
+    intro: 'In der Schweiz setzen immer mehr Unternehmen auf Cloud-Telefonie. Die Vorteile liegen auf der Hand: Keine wartungsintensive Hardware vor Ort, flexible Arbeitsplätze im Homeoffice, und professionelle Telefonielösungen zu planbaren Kosten. Als zertifizierter Peoplefone-Partner beraten wir Sie unabhängig und finden die optimale Lösung für Ihr Unternehmen. Von der Einmann-Firma bis zum 50-Personen-Betrieb, wir kennen die Anforderungen von Schweizer KMU.',
+    regionalImage: '/images/hero_telefonie_1768423192251.png',
+    localBenefits: ['Keine Hardware', 'Wartungsfrei', 'Flexibles Homeoffice', 'Schweizer Rechenzentren'],
+    stats: [{ label: 'Umgestellte Anlagen', value: '80+' }, { label: 'Zufriedene Kunden', value: '98%' }],
+    localFaq: { question: 'Kann ich meine bestehende Nummer behalten?', answer: 'Ja. Wir portieren Ihre bestehenden Festnetz- und Mobilnummern zu Peoplefone. Der Prozess dauert meist 5 bis 10 Arbeitstage und läuft unterbrechungsfrei.' },
+    localIndustries: [],
+    additionalFaqs: [],
+    whyChooseUs: '',
+    metaTitle: '',
+    metaDescription: '',
+    keywords: [],
 };
 
+
 interface CloudTelefonieContentProps {
+    /**
+     * Region-Daten aus content/leistungen/cloud-telefonie-regions/<slug>.json.
+     * Wenn nicht gesetzt, rendert die Komponente den Hub-Modus mit hubDefaultData.
+     */
+    data?: CloudTelefonieRegionData;
     showRegionalLinks?: boolean;
-    regionSlug?: string;
-    regions?: { name: string; href: string }[];
 }
 
-export function CloudTelefonieContent({
-    showRegionalLinks = true,
-    regionSlug,
-    regions = [
+export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudTelefonieContentProps) {
+    const isHubPage = !data;
+    const content = data ?? hubDefaultData;
+    const regionSlug = data?.slug;
+    const title = content.headline;
+
+    const regions = [
         { name: 'Zürich', href: '/cloud-telefonie/zuerich' },
         { name: 'Winterthur', href: '/cloud-telefonie/winterthur' },
         { name: 'Schaffhausen', href: '/cloud-telefonie/schaffhausen' },
         { name: 'Thurgau', href: '/cloud-telefonie/thurgau' },
         { name: 'St. Gallen', href: '/cloud-telefonie/st-gallen' },
         { name: 'Rapperswil', href: '/cloud-telefonie/rapperswil' },
-    ].filter(r => !regionSlug || !r.href.includes(regionSlug))
-}: CloudTelefonieContentProps) {
-    const content = regionalContent[regionSlug || 'default'] || regionalContent.default;
-    const title = content.headline;
+    ].filter(r => !regionSlug || !r.href.includes(regionSlug));
 
     // Combine Global (Hub) FAQs + Local FAQ + Additional FAQs
     const combinedFaqs = [
@@ -291,7 +176,7 @@ export function CloudTelefonieContent({
                         <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
                             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
                                 <Image
-                                    src={content.regionalImage}
+                                    src={content.regionalImage || '/images/hero_telefonie_1768423192251.png'}
                                     alt={content.headline}
                                     fill
                                     className="object-cover"

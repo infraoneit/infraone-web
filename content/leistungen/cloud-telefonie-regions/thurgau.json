@@ -1,0 +1,75 @@
+{
+  "slug": "thurgau",
+  "name": "Thurgau",
+  "headline": "Cloud-Telefonie Thurgau",
+  "subheadline": "Peoplefone-Cloud-Telefonanlagen für Thurgauer Hotellerie und KMU",
+  "description": "Cloud-Telefonie mit Peoplefone für Thurgauer Unternehmen: Standort Tägerwilen, Hotel-spezifische Lösungen, Schweizer Rechenzentren. Migration alter Anlagen aus einer Hand.",
+  "intro": "Thurgauer Hotels, Mostereien und Handwerksbetriebe haben jeweils eigene Anforderungen an ihre Telefonanlage. Ein Hotel in Kreuzlingen braucht Zimmeranschlüsse mit Wake-up-Call-Funktion und Integration ins Hotel-PMS, eine Mosterei in Bischofszell will saisonale Lizenz-Anpassung, ein Schreinerbetrieb in Frauenfeld benötigt mobile Erreichbarkeit für die Bauleiter. Mit Peoplefone-Cloud-Telefonie konfigurieren wir genau das, jeweils passend zur Branche. Unser Thurgauer Standort an der Bahnhofstrasse 17 in 8274 Tägerwilen liegt direkt an der Grenze zu Konstanz. Von dort erreichen wir Kreuzlingen in 15 Minuten, Frauenfeld in 30, Romanshorn in 30 und Amriswil in 35 Minuten. Als zertifizierter Peoplefone-Partner kennen wir die Anlage in- und auswendig und können sie auf Ihre Branchenanforderungen anpassen. Bei Migrationen alter Anlagen prüfen wir, ob bestehende Endgeräte weitergenutzt werden können oder ein kompletter Hardware-Wechsel sinnvoller ist.",
+  "regionalImage": "/images/regions/thurgau.png",
+  "localBenefits": [
+    "Zertifizierter Peoplefone-Partner",
+    "Standort Tägerwilen am Bodensee",
+    "Hotel-PMS-Integration",
+    "Saisonale Lizenz-Anpassung"
+  ],
+  "stats": [
+    {
+      "label": "Thurgauer Cloud-Telefonie-Kunden",
+      "value": "20+"
+    },
+    {
+      "label": "Hotel-Installationen",
+      "value": "5+"
+    }
+  ],
+  "localFaq": {
+    "question": "Bieten Sie spezielle Cloud-Telefonie-Lösungen für Hotels am Bodensee an?",
+    "answer": "Ja. Wir kennen die Anforderungen der Hotellerie: Zimmeranschlüsse mit Direktwahl, Wake-up-Call-Logik, Anbindung an Hotel-PMS-Systeme wie protel oder Mews via API, Mehrsprachigkeit für deutsche und englische Gäste. Plus Saisonale Anpassung der Lizenzen, damit Sie in der Nebensaison weniger zahlen. Bei Bedarf konfigurieren wir auch Faktura-Schnittstellen, damit Telefonkosten automatisch auf die Gästezimmer verrechnet werden."
+  },
+  "localIndustries": [
+    {
+      "name": "Hotellerie und Gastronomie",
+      "need": "Zimmeranschlüsse mit Direktwahl, Wake-up-Calls, PMS-Anbindung (protel, Mews, Apaleo), mehrsprachige Sprachmenüs DE/EN, saisonale Lizenz-Anpassung"
+    },
+    {
+      "name": "Mosterei und Hofläden",
+      "need": "Saisonale Sprachmenüs mit Erntefest- und Öffnungszeiten-Ansagen, Anrufweiterleitung an Mobil während Vor-Ort-Terminen, Newsletter-Hotline für Stammkunden"
+    },
+    {
+      "name": "Handwerk und Bau",
+      "need": "Mobile App für Aussendienst, robuste Baustellen-Handys, Anrufweiterleitung an Bauleiter, einheitliche Geschäftsnummer auch unterwegs"
+    },
+    {
+      "name": "Bootsbau und Wassersport",
+      "need": "Saisonale Anpassung der Benutzer-Lizenzen, Sprachmenü mit Öffnungszeiten in der Saison, Buchungs-Hotline für Kurse und Vermietung, mehrsprachig für deutsche Gäste"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Was kostet Cloud-Telefonie für ein Thurgauer KMU oder Hotel?",
+      "answer": "Ein typisches Setup für 10 Mitarbeitende mit Peoplefone Hosted, Flatrate CH plus EU und 5 Rufnummern kostet etwa CHF 70 bis 90 pro Monat. Hotel-Setups mit 20 Zimmeranschlüssen plus PMS-Integration rechnen Sie mit CHF 200 bis 400 pro Monat. Plus einmalige Einrichtung und Schulung CHF 1000 bis 3000 je nach Komplexität. Konkrete Offerte nach 30-minütigem Erstgespräch oder Vor-Ort-Termin."
+    },
+    {
+      "question": "Funktioniert die Cloud-Telefonie auch bei saisonalen Betrieben mit Schwankungen?",
+      "answer": "Ja, das ist ein Hauptvorteil. Sie zahlen nur für aktive Benutzer. In der Nebensaison können Sie Lizenzen pausieren oder reduzieren, in der Hauptsaison erweitern. Bei Hotels mit Sommer- und Winter-Personal lohnt sich das deutlich. Wir richten den Workflow so ein, dass Sie selbst über das Peoplefone-Portal Lizenzen anpassen können, ohne uns jedes Mal kontaktieren zu müssen."
+    },
+    {
+      "question": "Können Sie auch Bodensee-Hotels in Konstanz unterstützen?",
+      "answer": "Ja, wenn das Hotel eine Schweizer Geschäftsadresse hat oder einen Schweizer Anschluss wünscht. Peoplefone unterstützt grundsätzlich nur Schweizer Rufnummern, für deutsche Niederlassungen empfehlen wir parallele Lösungen mit einem deutschen VoIP-Provider plus zentraler Konfiguration. Bei Cross-Border-Anrufen optimieren wir die Tarife transparent."
+    },
+    {
+      "question": "Wie schnell sind Sie aus Tägerwilen bei Notfällen in Frauenfeld?",
+      "answer": "Vom Tägerwiler Standort sind wir in Frauenfeld in 30 Minuten. Bei dringenden Notfällen am gleichen Tag bei Ihnen, Remote-Support starten wir innert Minuten vom Telefonat. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten von 2 bis 4 Stunden je nach Stufe. In der Hotelsaison priorisieren wir Hotel-Kunden mit Saison-SLA besonders schnell, weil ein Ausfall der Reservierungs-Hotline am Wochenende für ein Bodensee-Hotel teuer wird."
+    }
+  ],
+  "whyChooseUs": "Als zertifizierter Peoplefone-Partner mit Thurgauer Standort an der Bahnhofstrasse 17 in Tägerwilen kennen wir Hotellerie, Mosterei und Bodensee-Tourismus aus erster Hand. Mit Erfahrung in PMS-Integrationen, saisonalen Workflows und mehrsprachigen Konfigurationen liefern wir das Branchen-Know-how, das Ihre Anlage wirklich nutzbar macht. Anders als anonyme Telekom-Anbieter haben Sie direkten Kontakt vor Ort, mit Anfahrtszeiten unter 35 Minuten in den ganzen Kanton.",
+  "metaTitle": "Cloud-Telefonie Thurgau | Peoplefone-Partner",
+  "metaDescription": "Cloud-Telefonie Thurgau mit Peoplefone: Hotellerie, Bodensee, Tägerwiler Standort. ☎ 052 222 18 18",
+  "keywords": [
+    "Cloud Telefonie Thurgau",
+    "VoIP Thurgau",
+    "Hotel Telefonanlage",
+    "Peoplefone Thurgau"
+  ],
+  "canonicalUrl": "https://infraone.ch/cloud-telefonie/thurgau"
+}

@@ -1,0 +1,75 @@
+{
+  "slug": "st-gallen",
+  "name": "St. Gallen",
+  "headline": "Cloud-Telefonie St. Gallen",
+  "subheadline": "Peoplefone-Cloud-Telefonanlagen für Ostschweizer KMU und HSG-Startups",
+  "description": "Cloud-Telefonie mit Peoplefone für Ostschweizer Unternehmen: Anfahrt 35 Minuten ab Winterthur, Erfahrung mit Mittelstand und Startups, Schweizer Rechenzentren.",
+  "intro": "St. Galler Unternehmen bewegen sich zwischen Tradition und Tech-Aufbruch. Etablierte Industrie-Mittelständler im Rheintal arbeiten mit Telefonanlagen aus den 90ern, während frisch gegründete HSG-Startups direkt mit Microsoft Teams und Cloud-Telefonie starten. Wir bedienen beide Welten als zertifizierter Peoplefone-Partner. Für Industriebetriebe migrieren wir alte Mitel- oder Tenovis-Anlagen schrittweise auf Cloud, oft mit hybrider Phase über Yeastar als Brücke, damit bestehende Endgeräte weiter genutzt werden können. Für Startups konfigurieren wir die Cloud-Anlage von Tag eins, mit Microsoft-Teams-Integration via Direct Routing, flexibler Skalierung von 3 auf 30 Benutzer und Softphone-Apps für mobile Teams. Anfahrt aus Winterthur ist mit der S-Bahn 35 Minuten via Wil oder 45 Minuten mit dem Auto über die A1. Wir kommen für persönliche Beratung gerne in Ihr Büro im Stadtzentrum, in Bruggen oder ins Appenzellerland. Auch das Rheintal von Altstätten bis Buchs und das Toggenburg betreuen wir.",
+  "regionalImage": "/images/regions/st-gallen.png",
+  "localBenefits": [
+    "Zertifizierter Peoplefone-Partner",
+    "Anfahrt 35 Min ab Winterthur",
+    "Erfahrung mit HSG-Startups und Mittelstand",
+    "Microsoft-Teams-Integration"
+  ],
+  "stats": [
+    {
+      "label": "Ostschweizer Cloud-Telefonie-Kunden",
+      "value": "18+"
+    },
+    {
+      "label": "Ø Setup-Zeit",
+      "value": "5-7 Tage"
+    }
+  ],
+  "localFaq": {
+    "question": "Haben Sie Erfahrung mit schnell wachsenden Ostschweizer Startups?",
+    "answer": "Ja, mehrere HSG-Alumni-Startups und Spin-Offs gehören zu unseren Cloud-Telefonie-Kunden. Cloud-Telefonie skaliert mit Ihrem Wachstum: Sie starten mit 3 Mitarbeitenden, kommen ein Jahr später auf 30, vier Jahre später vielleicht auf 100. Keine neue Hardware nötig, einfach Benutzer im Peoplefone-Portal hinzufügen. Plus: Microsoft-Teams-Integration ist Standard, alle Mitarbeitenden telefonieren direkt aus Teams mit Geschäftsnummer."
+  },
+  "localIndustries": [
+    {
+      "name": "Startups und SaaS-Unternehmen",
+      "need": "Flexible Lizenz-Skalierung, Softphone-Apps statt Hardware, Microsoft-Teams-Integration, CRM- und HubSpot-Anbindung, professionelle Anrufannahme von Tag eins"
+    },
+    {
+      "name": "Beratung und Wirtschaftsprüfung",
+      "need": "Diskrete Mandanten-Anrufe, professionelle Anrufbeantworter pro Berater, mehrsprachige Sprachmenüs DE/EN/FR, Mobile App für Aussentermine"
+    },
+    {
+      "name": "Industrie und Maschinenbau (Rheintal)",
+      "need": "DECT-Telefone für Werkhallen, ERP-Anbindung an SAP oder Microsoft Dynamics, Notruf-Funktion, robuste Hardware, mehrsprachige Konfiguration für Auslands-Niederlassungen"
+    },
+    {
+      "name": "Textil und Mode",
+      "need": "B2B-Showroom-Hotlines mit Sprachmenüs, internationale Anrufer-Erkennung, Anbindung an Mode-PMS-Systeme, mehrsprachig DE/EN/FR/IT"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Was kostet Cloud-Telefonie für ein Ostschweizer KMU?",
+      "answer": "Ein typisches Setup für 10 Mitarbeitende mit Peoplefone Hosted, Flatrate CH plus EU und 5 Rufnummern kostet etwa CHF 70 bis 90 pro Monat. Plus einmalige Einrichtung CHF 500 bis 2000 je nach Komplexität. Bei Startup-Setups mit Teams-Integration und 5 Mitarbeitenden sind Sie mit CHF 50 bis 70 pro Monat dabei. Industrie-Setups mit DECT in Werkhallen rechnen Sie zusätzlich mit Hardware-Kosten."
+    },
+    {
+      "question": "Können Sie Microsoft Teams als Telefon nutzen?",
+      "answer": "Ja, das ist eine Spezialität von uns. Mit Peoplefone Direct Routing telefonieren Ihre Mitarbeitenden direkt aus dem Teams-Client, mit der Geschäftsnummer, ein- und ausgehend. Die Lösung ist deutlich günstiger als ein Microsoft Calling Plan und lässt mehr Flexibilität bei den Tarifen. Wir richten Direct Routing in 1 bis 2 Wochen ein, voraussetzung ist M365 Business Premium oder E3 plus Phone-Add-on."
+    },
+    {
+      "question": "Bieten Sie auch Support im Rheintal und Appenzellerland?",
+      "answer": "Ja, wir betreuen Kunden in Appenzell, Heiden, Trogen, im Rheintal von Altstätten bis Buchs und auch im Toggenburg. Anfahrt entsprechend länger, je nach Zielort 1 bis 2 Stunden ab Winterthur. Remote-Support funktioniert dort genauso gut. Bei kritischen Anwendungen empfehlen wir Wartungsverträge mit garantierter Reaktionszeit."
+    },
+    {
+      "question": "Wie funktioniert die Telefonie für Mitarbeitende im Homeoffice oder Aussendienst?",
+      "answer": "Mit Peoplefone telefonieren Ihre Mitarbeitenden über drei Wege: IP-Tischtelefon im Büro, Softphone-App auf PC oder Mac im Homeoffice, oder Handy-App für iOS und Android unterwegs. Alle drei Wege nutzen die gleiche Geschäftsnummer. Anrufer sehen immer die Hauptnummer, Mitarbeitende sind erreichbar wo auch immer sie sind, sofern Internet- oder Mobilfunk-Verbindung besteht."
+    }
+  ],
+  "whyChooseUs": "Als zertifizierter Peoplefone-Partner liefern wir Ostschweizer Cloud-Telefonie mit Tempo und Pragmatismus. Über 18 Ostschweizer Kunden, Erfahrung mit HSG-Startups, Industrie-Migrationen und Mittelstand-Setups. Anders als grosse Telekom-Anbieter haben Sie direkten Kontakt, Vor-Ort-Termine sind möglich, und wir denken in Kunden-Anforderungen statt in Standard-Paketen. Anfahrt aus Winterthur in 35 Minuten, dazu Erfahrung mit Rheintal und Appenzellerland.",
+  "metaTitle": "Cloud-Telefonie St. Gallen | Peoplefone-Partner",
+  "metaDescription": "Cloud-Telefonie St. Gallen mit Peoplefone: VoIP für Startups, Mittelstand und Industrie. ☎ 052 222 18 18",
+  "keywords": [
+    "Cloud Telefonie St. Gallen",
+    "VoIP Ostschweiz",
+    "Telefonanlage St. Gallen",
+    "Peoplefone Ostschweiz"
+  ],
+  "canonicalUrl": "https://infraone.ch/cloud-telefonie/st-gallen"
+}

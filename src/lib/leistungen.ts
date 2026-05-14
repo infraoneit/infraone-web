@@ -226,3 +226,64 @@ export async function getAllWebdesignRegionSlugs(): Promise<string[]> {
     }
     return [];
 }
+
+/**
+ * Cloud-Telefonie Region CMS Daten-Struktur
+ * Alle Cloud-Telefonie-Spokes sind Virtual Spokes (VoIP-Service, kein physischer Standort nötig)
+ */
+export interface CloudTelefonieRegionData {
+    slug: string;
+    name: string;
+    // Hero
+    headline: string;
+    subheadline: string;
+    description: string;
+    intro: string;
+    regionalImage?: string;
+    // Content-Bloecke
+    localBenefits: string[];
+    stats: { label: string; value: string }[];
+    localFaq: { question: string; answer: string };
+    localIndustries: { name: string; need: string }[];
+    additionalFaqs: { question: string; answer: string }[];
+    whyChooseUs: string;
+    // SEO
+    metaTitle: string;
+    metaDescription: string;
+    keywords: string[];
+    canonicalUrl?: string;
+}
+
+/**
+ * Lädt die Cloud-Telefonie-Region-Daten aus dem CMS (JSON-Datei)
+ */
+export async function getCloudTelefonieRegion(slug: string): Promise<CloudTelefonieRegionData | null> {
+    try {
+        const filePath = path.join(process.cwd(), 'content', 'leistungen', 'cloud-telefonie-regions', `${slug}.json`);
+        if (fs.existsSync(filePath)) {
+            const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+            return data as CloudTelefonieRegionData;
+        }
+    } catch (error) {
+        return null;
+    }
+    return null;
+}
+
+/**
+ * Lädt alle Cloud-Telefonie-Region-Slugs (für generateStaticParams und Sitemap)
+ */
+export async function getAllCloudTelefonieRegionSlugs(): Promise<string[]> {
+    try {
+        const dirPath = path.join(process.cwd(), 'content', 'leistungen', 'cloud-telefonie-regions');
+        if (fs.existsSync(dirPath)) {
+            const files = fs.readdirSync(dirPath);
+            return files
+                .filter(f => f.endsWith('.json'))
+                .map(f => f.replace('.json', ''));
+        }
+    } catch (error) {
+        return [];
+    }
+    return [];
+}

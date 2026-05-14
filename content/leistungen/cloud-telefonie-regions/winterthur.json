@@ -1,0 +1,75 @@
+{
+  "slug": "winterthur",
+  "name": "Winterthur",
+  "headline": "Cloud-Telefonie Winterthur",
+  "subheadline": "Peoplefone-Cloud-Telefonanlagen für Winterthurer KMU",
+  "description": "Cloud-Telefonie mit Peoplefone für Winterthurer Unternehmen: Persönliche Betreuung am Hauptsitz Grüze, schnelle Umstellung, Schweizer Rechenzentren. Keine Hardware, keine Wartung, planbare monatliche Kosten.",
+  "intro": "Wenn die Telefonanlage in Ihrem Winterthurer Unternehmen 10 Jahre alt ist, kostet sie meist nicht nur in Wartung Geld, sondern auch im Geschäft. Mitarbeitende im Homeoffice telefonieren über die private Handynummer, weil die alte ISDN-Anlage keine Apps unterstützt. Wenn das Festnetzkabel im Industriequartier mal beschädigt wird, sind alle Geschäftsnummern weg. Ausfälle der alten Anlage bedeuten Mehrstunden für die IT und entgangene Anrufe. Mit einer Cloud-Telefonanlage von Peoplefone gehört das der Vergangenheit an. Wir sind als zertifizierter Peoplefone-Partner in Winterthur Ihre Anlaufstelle für die Umstellung. Unser Hauptsitz an der Rudolf-Diesel-Strasse 25 in Winterthur Grüze ist 10 Minuten vom Hauptbahnhof entfernt. Wir analysieren Ihre aktuelle Situation, planen die Migration und schulen Ihr Team. In den meisten Fällen ist die neue Cloud-Anlage innert einer Woche betriebsbereit, ohne Unterbruch Ihrer Erreichbarkeit dank Nummernportierung.",
+  "regionalImage": "/images/regions/winterthur.png",
+  "localBenefits": [
+    "Zertifizierter Peoplefone-Partner",
+    "Hauptsitz in Winterthur Grüze",
+    "Persönliche Beratung und Schulung vor Ort",
+    "Keine Anfahrtskosten im Stadtgebiet"
+  ],
+  "stats": [
+    {
+      "label": "Umgestellte Anlagen",
+      "value": "80+"
+    },
+    {
+      "label": "Jahre Peoplefone-Partner",
+      "value": "8+"
+    }
+  ],
+  "localFaq": {
+    "question": "Kann ich meine Winterthurer 052-Nummer behalten?",
+    "answer": "Selbstverständlich. Wir portieren Ihre 052-Nummern zu Peoplefone. Der Prozess dauert 5 bis 10 Arbeitstage und läuft komplett unterbruchfrei: Ihre Kunden merken nichts vom Wechsel. Auch Durchwahlen, Sammelanschlüsse und mehrere Festnetznummern werden mitportiert. Bei Bedarf richten wir vor der Portierung eine Test-Konfiguration ein, damit Sie die neuen Telefone bereits einrichten und Mitarbeitende schulen können."
+  },
+  "localIndustries": [
+    {
+      "name": "Industrie und Maschinenbau",
+      "need": "DECT-Telefone für Werkhallen, robuste Hardware mit Schutzklasse, Anbindung an ERP-Systeme wie SAP oder Abacus, Notruf-Funktion für Sicherheitsbereiche, klare Erreichbarkeit der Zentrale"
+    },
+    {
+      "name": "Arztpraxen und Therapie",
+      "need": "Sprachmenü für Terminanfragen, Notfall-Weiterleitung am Abend und Wochenende, Warteschlaufe für Empfang, DSG-konforme Anrufaufzeichnung wenn nötig, Integration mit Praxis-Software"
+    },
+    {
+      "name": "Anwaltskanzleien und Treuhand",
+      "need": "Vertrauliche Anrufe mit Verschlüsselung, professionelle Anrufbeantworter pro Anwalt, Microsoft-Teams-Integration für interne Calls, klare Trennung von Privat und Geschäft"
+    },
+    {
+      "name": "Handwerksbetriebe und Gewerbe",
+      "need": "Mobile App für Aussendienst-Mitarbeitende, Anrufweiterleitung an Bauleiter, Erreichbarkeit ohne private Handynummer, Festnetz-Look-and-Feel auch unterwegs"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Was kostet Cloud-Telefonie für ein Winterthurer KMU?",
+      "answer": "Ein typisches Setup für 10 Mitarbeitende mit Peoplefone Hosted, Flatrate Schweiz und EU sowie 5 Rufnummern kostet etwa CHF 70 bis 90 pro Monat. Plus einmalige Einrichtung und Schulung, je nach Komplexität CHF 500 bis 2000. Mit Internet 1 Gbit/s und fixer IP zusammen als Kombi etwa CHF 130 pro Monat. Wir rechnen Ihnen Ihre Konfiguration vorab transparent durch."
+    },
+    {
+      "question": "Wie lange dauert die Umstellung von ISDN auf Cloud-Telefonie?",
+      "answer": "Eine typische Migration für ein KMU mit 5 bis 20 Mitarbeitenden ist innerhalb von 1 bis 2 Wochen abgeschlossen: Bedarfsanalyse, Hardware-Beschaffung, Setup, Nummernportierung und Schulung. Bei grösseren Unternehmen mit mehreren Standorten oder spezieller Branchen-Software planen wir 3 bis 6 Wochen. Während der Portierung läuft die alte Anlage parallel weiter, damit Sie immer erreichbar bleiben."
+    },
+    {
+      "question": "Was passiert bei einem Internet-Ausfall in Winterthur?",
+      "answer": "Bei Peoplefone können Sie für jede Nebenstelle automatische Weiterleitungen auf Mobilnummern einrichten, die bei Internet-Ausfall greifen. Die Handy-App funktioniert über Mobilfunk weiter, Ihre Erreichbarkeit ist also gewährleistet. Für kritische Umgebungen empfehlen wir eine Backup-Internetleitung, oft als 4G-Router von Swisscom oder Sunrise. Bei Kombi-Buchung mit Internet richten wir das gleich mit ein."
+    },
+    {
+      "question": "Können Sie auch Microsoft Teams als Telefonanlage einrichten?",
+      "answer": "Ja. Mit Direct Routing über Peoplefone als SIP-Trunk telefonieren Ihre Mitarbeiter direkt aus Teams, mit der Geschäftsnummer, ein- und ausgehend. Die Lösung ist meist günstiger als ein Microsoft Calling Plan und lässt mehr Flexibilität bei den Tarifen. Wir richten Direct Routing in 1 bis 2 Wochen ein, je nach M365-Lizenzstand. Voraussetzung ist Business Premium oder E3 plus Phone-Add-on."
+    }
+  ],
+  "whyChooseUs": "Als zertifizierter Peoplefone-Partner mit Hauptsitz in Winterthur kennen wir die Cloud-Telefonanlage in- und auswendig. Über 80 erfolgreich umgestellte Anlagen, 8 Jahre Partnerschaft mit Peoplefone, persönliche Betreuung vom Erstgespräch bis zum laufenden Support. Anders als anonyme Provider sind wir vor Ort erreichbar, kennen Ihre Branche und sprechen mit Ihnen ohne Telekom-Jargon.",
+  "metaTitle": "Cloud-Telefonie Winterthur | Peoplefone-Partner",
+  "metaDescription": "Cloud-Telefonie Winterthur mit Peoplefone: Persönliche Betreuung, Hauptsitz Grüze, keine Anfahrtskosten. ☎ 052 222 18 18",
+  "keywords": [
+    "Cloud Telefonie Winterthur",
+    "VoIP Winterthur",
+    "Telefonanlage Winterthur",
+    "Peoplefone Winterthur"
+  ],
+  "canonicalUrl": "https://infraone.ch/cloud-telefonie/winterthur"
+}

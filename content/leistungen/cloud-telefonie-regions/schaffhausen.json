@@ -1,0 +1,75 @@
+{
+  "slug": "schaffhausen",
+  "name": "Schaffhausen",
+  "headline": "Cloud-Telefonie Schaffhausen",
+  "subheadline": "Peoplefone-Cloud-Telefonanlagen für Schaffhauser Industrie und KMU",
+  "description": "Cloud-Telefonie mit Peoplefone für Schaffhauser Unternehmen: Standort Solenbergstrasse, persönliche Betreuung, Schweizer Rechenzentren. Migration alter ISDN- oder Mitel-Anlagen aus einer Hand.",
+  "intro": "Viele Schaffhauser Industriebetriebe arbeiten noch mit Telefonanlagen aus den 90ern oder frühen 2000ern. ISDN-Linien, Mitel- oder klassische Tenovis-Anlagen, die teuer im Unterhalt sind, kaum noch Ersatzteile haben und keine modernen Features bieten. Wir sind als zertifizierter Peoplefone-Partner Ihre Anlaufstelle für die Migration auf Cloud-Telefonie, mit Standort an der Solenbergstrasse 35 in 8207 Schaffhausen. Von dort sind wir im Stadtzentrum in 5 Minuten, in Neuhausen am Rheinfall in 10 Minuten und im Klettgau zwischen Beringen und Hallau in 20 bis 25 Minuten. Wir analysieren Ihre bestehende Infrastruktur, planen die Migration und schulen Ihre Mitarbeitenden. Bei Mitel-Migrationen prüfen wir auch, ob Ihre bestehenden Endgeräte mit Yeastar weitergenutzt werden können, falls Sie noch nicht ganz auf Cloud umsteigen wollen. Hybride Lösungen mit Cloud-Anteil und Vor-Ort-Restanlage sind möglich.",
+  "regionalImage": "/images/regions/schaffhausen.png",
+  "localBenefits": [
+    "Zertifizierter Peoplefone-Partner",
+    "Standort Schaffhausen Solenbergstrasse",
+    "Erfahrung mit Industrie-Migrationen",
+    "Mitel- und ISDN-Ablösung aus einer Hand"
+  ],
+  "stats": [
+    {
+      "label": "Schaffhauser Migrationen",
+      "value": "15+"
+    },
+    {
+      "label": "Ø Setup-Zeit",
+      "value": "5-7 Tage"
+    }
+  ],
+  "localFaq": {
+    "question": "Können wir unsere alte Mitel-Anlage durch Peoplefone ablösen?",
+    "answer": "Ja. Die Migration von Mitel auf Peoplefone-Cloud läuft typisch in zwei Varianten: komplett neu mit modernen IP-Telefonen oder hybrid, wo Yeastar als Brücke fungiert und bestehende Mitel-Endgeräte weiterverwendet werden. Wir analysieren Ihre aktuelle Anlage und empfehlen die Variante, die den geringsten Investitions- und Schulungsaufwand bedeutet. Bei reiner Cloud-Migration ist die Umstellung in 1 bis 2 Wochen abgeschlossen."
+  },
+  "localIndustries": [
+    {
+      "name": "Industrie und Maschinenbau",
+      "need": "DECT-Telefone für Werkhallen mit hoher Lautstärke, robuste Hardware mit Schutzklasse, ERP-Anbindung an SAP oder Microsoft Dynamics, Notruf-Funktionen für Sicherheitsbereiche"
+    },
+    {
+      "name": "Weingüter und Direktvermarktung",
+      "need": "Saisonale Anpassung der Benutzer-Lizenzen, Sprachmenü für Vinothek-Öffnungszeiten, Anrufweiterleitung an Mobil bei Vor-Ort-Terminen, integriertes Telefonbuch mit Stammkunden"
+    },
+    {
+      "name": "Gastronomie am Rheinfall",
+      "need": "Reservierungs-Hotline, Sprachmenü mit Öffnungszeiten, Saisonale Anpassung der Lizenzen (Sommer vs Winter), mehrsprachig DE/EN für Touristen"
+    },
+    {
+      "name": "Handwerksbetriebe",
+      "need": "Mobile App für Aussendienst-Mitarbeitende, einheitliche Erreichbarkeit ohne private Handynummern, Anrufweiterleitung an Bauleiter, einfache Bedienung"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Was kostet Cloud-Telefonie für ein Schaffhauser KMU?",
+      "answer": "Ein typisches Setup für 10 Mitarbeitende mit Peoplefone Hosted, Flatrate CH plus EU und 5 Rufnummern kostet etwa CHF 70 bis 90 pro Monat. Plus einmalige Einrichtung CHF 500 bis 2000. Industrie-Setups mit DECT-Hardware für Werkhallen rechnen Sie zusätzlich mit CHF 200 bis 400 pro DECT-Telefon. Mit Internet 1 Gbit als Kombi etwa CHF 130 pro Monat plus Hardware."
+    },
+    {
+      "question": "Können wir bei Cloud-Telefonie unsere Türsprechanlage weiternutzen?",
+      "answer": "In den meisten Fällen ja. Mit einem analogen Wandler (ATA-Adapter) können bestehende analoge Türsprechstellen in die Cloud-Anlage integriert werden. Bei IP-fähigen Türsprechanlagen ist die Anbindung direkt möglich. Wir prüfen Ihre aktuelle Türsprechanlage vor der Umstellung und empfehlen die passende Integration, oft mit weniger Investition als befürchtet."
+    },
+    {
+      "question": "Funktioniert Cloud-Telefonie auch in Industriegebäuden mit dickem Mauerwerk?",
+      "answer": "Ja, sofern eine stabile Internetverbindung vorhanden ist. Bei schlechtem WLAN-Empfang in Hallen empfehlen wir professionelle DECT-Lösungen mit mehreren Basisstationen für eine flächendeckende Abdeckung. DECT-Telefone von Snom oder Yealink halten auch in Industrieumgebungen mit Staub, Hitze oder Lärm zuverlässig durch. Wir messen die Empfangsqualität vor der Installation."
+    },
+    {
+      "question": "Bieten Sie auch grenznahen Support für deutsche Tochterfirmen?",
+      "answer": "Ja. Viele Schaffhauser Unternehmen haben Niederlassungen in Deutschland (Hegau, Bodenseekreis). Peoplefone kann auch deutsche Rufnummern verwalten, die Anlage einheitlich für Schweiz und Deutschland konfigurieren und Cross-Border-Anrufe optimieren. Bei DSGVO- und DSG-Konformität koordinieren wir mit spezialisierten Anwälten in der Region. Zusätzlich richten wir auf Wunsch separate Voicemail-Boxen pro Standort ein, damit deutsche und Schweizer Anrufer jeweils die passende Begrüssung hören."
+    }
+  ],
+  "whyChooseUs": "Als zertifizierter Peoplefone-Partner mit Standort in Schaffhausen (Solenbergstrasse 35) sind wir vor Ort, wenn Sie persönliche Beratung oder schnelle Vor-Ort-Hilfe brauchen. Mit Erfahrung in Industrie-Migrationen und Mitel-Ablösungen bringen wir das Know-how für Ihre besondere Situation. Anders als anonyme Telekom-Anbieter haben Sie direkten Kontakt und kennen die Person, die Ihre Anlage betreut, vom Erstgespräch bis zum laufenden Support nach Go-Live.",
+  "metaTitle": "Cloud-Telefonie Schaffhausen | Peoplefone-Partner",
+  "metaDescription": "Cloud-Telefonie Schaffhausen mit Peoplefone: Lokaler Standort, Mitel- und ISDN-Migration, Industrie-Erfahrung. ☎ 052 222 18 18",
+  "keywords": [
+    "Cloud Telefonie Schaffhausen",
+    "VoIP Schaffhausen",
+    "Telefonanlage Schaffhausen",
+    "Peoplefone Schaffhausen"
+  ],
+  "canonicalUrl": "https://infraone.ch/cloud-telefonie/schaffhausen"
+}

@@ -1,0 +1,75 @@
+{
+  "slug": "zuerich",
+  "name": "Zürich",
+  "headline": "Cloud-Telefonie Zürich",
+  "subheadline": "Peoplefone-Cloud-Telefonanlagen für Zürcher KMU und Kanzleien",
+  "description": "Cloud-Telefonie mit Peoplefone für Zürcher Unternehmen: Schweizer Rechenzentren, Anfahrt aus Winterthur 25 Minuten, persönliche Betreuung ohne Bahnhofstrasse-Tarife. Keine Hardware, planbare Kosten.",
+  "intro": "Zürcher Unternehmen erwarten von ihrer Telefonanlage drei Dinge: Sie muss zuverlässig laufen, sie muss professionell wirken, und sie darf nicht zu Konzern-Preisen abgerechnet werden. Genau diese Mischung liefern wir als zertifizierter Peoplefone-Partner. Eine Anwaltskanzlei am Paradeplatz braucht vertrauenswürdige Anrufannahme und Warteschlaufen, die kein billiges Hotline-Feeling vermitteln. Eine Beratungsfirma im Seefeld will Microsoft-Teams-Telefonie für globale Mandanten. Ein Tech-Startup an der Europaallee braucht eine flexible Lösung, die heute für 5 Mitarbeitende passt und nächstes Jahr für 30. Wir konfigurieren alle drei Setups auf Peoplefone-Basis, mit Schweizer Rechenzentren und DSG-konformen Datenflüssen. Anfahrt aus unserem Winterthurer Hauptsitz mit der S-Bahn 25 Minuten zum HB, von dort je nach Stadtkreis weitere 5 bis 15 Minuten. Persönliche Beratung und Schulung kommen wir gerne in Ihr Büro im Kreis 1 bis Oerlikon.",
+  "regionalImage": "/images/regions/zuerich.png",
+  "localBenefits": [
+    "Zertifizierter Peoplefone-Partner",
+    "Anfahrt 25 Min mit S-Bahn ab Winterthur",
+    "Erfahrung mit Zürcher Kanzleien und Startups",
+    "Faire Preise ohne Innenstadt-Aufschlag"
+  ],
+  "stats": [
+    {
+      "label": "Zürcher Cloud-Telefonie-Kunden",
+      "value": "25+"
+    },
+    {
+      "label": "Ø Setup-Zeit",
+      "value": "5 Tage"
+    }
+  ],
+  "localFaq": {
+    "question": "Wie schnell sind Sie bei Problemen in Zürich vor Ort?",
+    "answer": "Die meisten Probleme lösen wir per Fernwartung innert Minuten direkt vom Telefongespräch. Für Vor-Ort-Einsätze sind wir aus Winterthur in 25 Minuten am Zürcher HB, plus 5 bis 15 Minuten je nach Stadtkreis. Bei dringenden Notfällen erreichen Sie uns bis 23:00 Uhr unter 076 587 50 55. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten von 1 bis 4 Stunden, je nach Stufe."
+  },
+  "localIndustries": [
+    {
+      "name": "Anwaltskanzleien und Notariate",
+      "need": "Vertrauliche Mandantenanrufe, professionelle Anrufbeantworter pro Anwalt, klare Bürozeiten-Logik mit Umleitung am Abend, optionale Anrufaufzeichnung gesetzeskonform"
+    },
+    {
+      "name": "Beratung und Vermögensverwaltung",
+      "need": "Diskrete Erstkontakt-Annahme, mehrsprachige Sprachmenüs DE/EN, Microsoft-Teams-Integration für internationale Klienten, FINMA-konforme Compliance"
+    },
+    {
+      "name": "Tech-Startups und SaaS",
+      "need": "Flexible Skalierung von 3 auf 30 Benutzer in Wochen, Softphone-Apps für mobile Teams, Stripe- oder CRM-Anbindung, Teams als Telefonanlage statt klassische Hardware"
+    },
+    {
+      "name": "Arztpraxen und Gesundheit",
+      "need": "Sprachmenü für Terminanfragen, Notfall-Weiterleitung am Wochenende, Warteschlaufe für Empfang, DSG-konforme Datenflüsse, Integration mit Vitomed oder Triamed"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Was kostet Cloud-Telefonie für ein Zürcher KMU?",
+      "answer": "Ein typisches Setup für 10 Mitarbeitende mit Peoplefone Hosted, Flatrate CH plus EU und 5 Rufnummern kostet etwa CHF 70 bis 90 pro Monat. Plus einmalige Einrichtung und Schulung CHF 500 bis 2000, je nach Komplexität. Bei grösseren Setups mit komplexen Sprachmenüs oder Microsoft-Teams-Integration rechnen Sie mit CHF 130 bis 180 pro Monat. Konkrete Offerte nach 30-minütigem Erstgespräch."
+    },
+    {
+      "question": "Können Sie Microsoft Teams als vollwertige Telefonanlage einrichten?",
+      "answer": "Ja. Mit Peoplefone Direct Routing telefonieren Ihre Mitarbeitenden direkt aus dem Teams-Client, mit der Geschäftsnummer, ein- und ausgehend. Die Lösung ist meist deutlich günstiger als ein Microsoft Calling Plan, lässt aber mehr Flexibilität bei den Tarifen. Wir richten Direct Routing in 1 bis 2 Wochen ein, voraussetzung ist M365 Business Premium oder E3 plus Phone-Add-on."
+    },
+    {
+      "question": "Bieten Sie auch Wartungsverträge für Zürcher Cloud-Telefonie an?",
+      "answer": "Ja. Bei kritischen Anwendungen wie Notariaten oder Kliniken empfehlen wir einen Wartungsvertrag mit SLA: garantierte Reaktionszeit (1, 2 oder 4 Stunden je nach Stufe), proaktives Monitoring der Anlage, regelmässige Updates der Software und Schulung neuer Mitarbeitender. Pricing ab CHF 200 pro Monat, je nach Benutzerzahl und SLA-Stufe."
+    },
+    {
+      "question": "Kann ich meine bestehende Zürcher 044-Nummer behalten?",
+      "answer": "Selbstverständlich. Wir portieren Ihre 044-Nummern zu Peoplefone. Der Prozess dauert 5 bis 10 Arbeitstage und läuft komplett unterbruchfrei. Auch Durchwahlen, Sammelanschlüsse und Mobilnummern werden bei Bedarf portiert. Während der Portierung läuft Ihre alte Anlage parallel weiter, damit Sie immer erreichbar bleiben."
+    }
+  ],
+  "whyChooseUs": "Als zertifizierter Peoplefone-Partner liefern wir Zürcher Qualität ohne Bahnhofstrasse-Tarife. Über 25 Zürcher Cloud-Telefonie-Setups, Erfahrung mit Kanzleien, Beratungen, Tech-Startups und Arztpraxen. Anders als anonyme Telekom-Anbieter haben Sie direkten Kontakt zur Person, die Ihre Anlage einrichtet, und keinen 1st-Level-Callcenter dazwischen. Pricing transparent vor Vertragsabschluss, Wartungsverträge optional mit SLA-Garantie.",
+  "metaTitle": "Cloud-Telefonie Zürich | Peoplefone-Partner",
+  "metaDescription": "Cloud-Telefonie Zürich mit Peoplefone: VoIP für KMU, Kanzleien, Startups. Anfahrt 25 Min ab Winterthur. ☎ 052 222 18 18",
+  "keywords": [
+    "Cloud Telefonie Zürich",
+    "VoIP Zürich",
+    "Telefonanlage Zürich",
+    "Peoplefone Zürich"
+  ],
+  "canonicalUrl": "https://infraone.ch/cloud-telefonie/zuerich"
+}

@@ -37,6 +37,17 @@ function readWebdesignRegionSlugs(): string[] {
         .map(d => d.name.replace('.json', ''));
 }
 
+/**
+ * Liest alle Cloud-Telefonie-Region-Slugs aus content/leistungen/cloud-telefonie-regions/
+ */
+function readCloudTelefonieRegionSlugs(): string[] {
+    const dir = path.join(process.cwd(), 'content', 'leistungen', 'cloud-telefonie-regions');
+    if (!fs.existsSync(dir)) return [];
+    return fs.readdirSync(dir, { withFileTypes: true })
+        .filter(d => d.isFile() && d.name.endsWith('.json'))
+        .map(d => d.name.replace('.json', ''));
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
     const currentDate = new Date();
 
@@ -68,10 +79,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // IT-Support-Regionen (dynamisch aus content/)
     const itSupportRegions = readITSupportRegionSlugs();
 
-    // Cloud-Telefonie-Regionen (6, hartcodiert)
-    const cloudTelefonieRegions = [
-        'winterthur', 'zuerich', 'schaffhausen', 'thurgau', 'st-gallen', 'rapperswil'
-    ];
+    // Cloud-Telefonie-Regionen (dynamisch aus content/)
+    const cloudTelefonieRegions = readCloudTelefonieRegionSlugs();
 
     // Blog-Posts (dynamisch aus content/blog/)
     const blogSlugs = readBlogSlugs();

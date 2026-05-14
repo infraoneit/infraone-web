@@ -1,0 +1,75 @@
+{
+  "slug": "rapperswil",
+  "name": "Rapperswil",
+  "headline": "Cloud-Telefonie Rapperswil",
+  "subheadline": "Peoplefone-Cloud-Telefonanlagen für Rapperswiler KMU und Tourismus",
+  "description": "Cloud-Telefonie mit Peoplefone für Rapperswil-Jona und obere Zürichsee-Region: persönliche Betreuung, Schweizer Rechenzentren, faire KMU-Preise.",
+  "intro": "Rapperswil-Jona und die Region am oberen Zürichsee verbinden Lebensqualität mit unternehmerischer Dynamik. Viele Unternehmen hier sind kleinere KMU, Tourismus- und Freizeitbetriebe oder Kreativfirmen mit klar definiertem regionalem Markt. Eine Cloud-Telefonanlage muss in dieser Region drei Dinge tun: zuverlässig laufen, ohne IT-Abteilung pflegbar sein, und faire Preise haben. Als zertifizierter Peoplefone-Partner liefern wir genau das. Wir konfigurieren Ihre Anlage so, dass Sie die meisten Anpassungen selbst im Browser machen können: neue Nebenstelle hinzufügen, Anrufbeantworter besprechen, Weiterleitungen einrichten, Öffnungszeiten ändern. Bei der Erstinstallation und Schulung sind wir bei Ihnen, danach läuft die Anlage von selbst. Anfahrt aus Winterthur 40 Minuten je nach Verkehrslage. Bei dringenden Notfällen sind wir auch im Rapperswiler Raum schnell erreichbar, oft per Remote-Support direkt vom Telefongespräch. Persönliche Workshops oder Schulungen vereinbaren wir flexibel vor Ort.",
+  "regionalImage": "/images/regions/rapperswil.png",
+  "localBenefits": [
+    "Zertifizierter Peoplefone-Partner",
+    "Persönlicher Ansprechpartner",
+    "Faire KMU-Preise",
+    "Selbst-Verwaltung im Browser möglich"
+  ],
+  "stats": [
+    {
+      "label": "Region Rapperswil-Kunden",
+      "value": "12+"
+    },
+    {
+      "label": "Kundentreue",
+      "value": "100%"
+    }
+  ],
+  "localFaq": {
+    "question": "Wie schnell sind Sie aus Winterthur in Rapperswil vor Ort?",
+    "answer": "Die meisten Probleme lösen wir per Fernwartung innert Minuten direkt vom Telefongespräch. Für Vor-Ort-Einsätze sind wir in etwa 40 Minuten aus Winterthur in Rapperswil. Bei dringenden Notfällen am gleichen Tag bei Ihnen, sofern die Buchung vor 14 Uhr erfolgt. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten von 2 bis 4 Stunden je nach Stufe. Die Notfall-Hotline 076 587 50 55 ist bis 23:00 Uhr erreichbar."
+  },
+  "localIndustries": [
+    {
+      "name": "Kreativwirtschaft und Agenturen",
+      "need": "Mac-Kompatibilität für Softphone-Apps, professionelle Anrufannahme für Kunden, einfache Bedienung ohne IT-Schulung, Integration mit gängigen CRM-Tools"
+    },
+    {
+      "name": "Tourismus und Freizeit",
+      "need": "Saisonale Lizenz-Anpassung, mehrsprachige Sprachmenüs DE/EN, Reservierungs-Hotline, Erreichbarkeit auch am Wochenende, einfaches Anrufbeantworter-Setup"
+    },
+    {
+      "name": "Dienstleister und Beratung",
+      "need": "Anrufweiterleitung an Mobil bei Kundenterminen, professionelle Warteschlaufe, einheitliche Geschäftsnummer auch unterwegs, App-Steuerung des Anrufbeantworters"
+    },
+    {
+      "name": "Sport und Wassersport",
+      "need": "Mobile Lösungen für Trainer und Kursleiter, Buchungs-Hotline für Sport-Kurse, Anrufbeantworter mit Online-Buchungs-Hinweisen, saisonale Anpassung der Lizenzen"
+    }
+  ],
+  "additionalFaqs": [
+    {
+      "question": "Was kostet Cloud-Telefonie für ein Rapperswiler KMU?",
+      "answer": "Ein typisches Setup für 5 Mitarbeitende mit Peoplefone Hosted, Flatrate CH plus EU und 3 Rufnummern kostet etwa CHF 50 bis 70 pro Monat. Bei 10 Mitarbeitenden rechnen Sie mit CHF 70 bis 90 pro Monat. Plus einmalige Einrichtung CHF 500 bis 1500 je nach Komplexität. Kleine Setups für Einzelunternehmen oder 2- bis 3-Personen-Firmen starten bei CHF 25 pro Monat plus Rufnummer."
+    },
+    {
+      "question": "Funktioniert die Cloud-Telefonie auch mit Macs?",
+      "answer": "Ja, alle Peoplefone-Softphone-Clients gibt es für Windows und macOS, plus iOS- und Android-Apps für Smartphone und Tablet. Die Web-App funktioniert in jedem Browser ohne Installation. Bei Mac-only-Setups (häufig in Kreativagenturen) ist die Konfiguration identisch zur Windows-Welt, alle Features stehen zur Verfügung."
+    },
+    {
+      "question": "Können wir den Anrufbeantworter selbst besprechen und ändern?",
+      "answer": "Ja. Sie können Ansagen jederzeit selbst aufnehmen, hochladen oder direkt über das Telefon einsprechen. Im Peoplefone-Portal ist das in 5 Minuten erledigt. Bei mehreren Anrufbeantwortern pro Mitarbeiter oder unterschiedlichen Sprach-Ansagen für Bürozeiten und Wochenende konfigurieren wir die Logik einmal mit Ihnen zusammen, danach sind Sie selbständig."
+    },
+    {
+      "question": "Bieten Sie auch Support am Wochenende?",
+      "answer": "Bei Wartungsverträgen mit SLA ist Wochenend-Support optional buchbar. Die Notfall-Hotline 076 587 50 55 ist standardmässig Mo bis So bis 23:00 Uhr erreichbar (mit Zuschlag). Bei saisonalen Spitzen in Tourismus-Betrieben können wir vorab spezielle Saison-SLAs vereinbaren, damit Sie auch am Samstag oder Sonntag schnelle Hilfe bekommen. Für reguläre Betriebsstörungen unter der Woche reagieren wir typischerweise innert weniger Stunden, dank Remote-Tools oft direkt vom Anruf weg."
+    }
+  ],
+  "whyChooseUs": "Als zertifizierter Peoplefone-Partner bringen wir das Know-how für Cloud-Telefonie und den persönlichen Service einer regionalen Agentur zusammen. Anders als grosse Telekom-Anbieter haben Sie direkten Kontakt, anders als reine Online-Anbieter kommen wir bei Bedarf vor Ort. Mit über 12 Kunden in der Region Rapperswil und 100 Prozent Kundentreue beweisen wir, dass das Modell funktioniert. Persönlicher Ansprechpartner statt Ticket-Nummer, faire Preise statt Konzern-Tarife.",
+  "metaTitle": "Cloud-Telefonie Rapperswil | Peoplefone-Partner",
+  "metaDescription": "Cloud-Telefonie Rapperswil mit Peoplefone: Faire KMU-Preise, persönlicher Service, Selbst-Verwaltung. ☎ 052 222 18 18",
+  "keywords": [
+    "Cloud Telefonie Rapperswil",
+    "VoIP Rapperswil",
+    "Telefonanlage Rapperswil",
+    "Peoplefone Rapperswil"
+  ],
+  "canonicalUrl": "https://infraone.ch/cloud-telefonie/rapperswil"
+}
