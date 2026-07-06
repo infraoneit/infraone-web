@@ -73,6 +73,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: '/software-entwicklung', priority: 0.8 },
     ];
 
+    // Cloud-Telefonie Technologie-Varianten (eigene SEO-Landings)
+    const cloudTelefonieVariants = [
+        { url: '/cloud-telefonie/3cx', priority: 0.8 },
+        { url: '/cloud-telefonie/ms-teams', priority: 0.8 },
+        { url: '/cloud-telefonie/yeastar', priority: 0.8 },
+    ];
+
     // Webdesign-Regionen (dynamisch aus content/)
     const webdesignRegions = readWebdesignRegionSlugs();
 
@@ -96,6 +103,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const allPages = [
         ...mainPages,
         ...servicePages.map(p => ({ ...p, changeFrequency: 'weekly' as const })),
+        ...cloudTelefonieVariants.map(p => ({ ...p, changeFrequency: 'monthly' as const })),
         ...webdesignRegions.map(r => ({
             url: `/webdesign/${r}`,
             priority: 0.6,

@@ -254,11 +254,11 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                             </div>
                         </div>
                         <div className="bg-white/20 rounded-2xl p-6 inline-block">
-                            <p className="text-4xl md:text-5xl font-bold">CHF 131.–</p>
+                            <p className="text-4xl md:text-5xl font-bold">CHF 151.–</p>
                             <p className="text-sm opacity-80">pro Monat, Flatrate inklusive</p>
                         </div>
                         <p className="mt-4 text-sm opacity-70">
-                            Zzgl. einmaliger Installation & Portierung. Softphone-Lizenzen optional CHF 2.–/User.
+                            Mit vPBX Plus für volle Funktionalität. Zzgl. einmaliger Installation & Portierung.
                         </p>
                     </div>
                 </div>

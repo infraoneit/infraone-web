@@ -34,7 +34,16 @@ const navigation: NavItem[] = [
         ],
     },
     { label: 'IT-Support', href: '/it-support' },
-    { label: 'Cloud-Telefonie', href: '/cloud-telefonie' },
+    {
+        label: 'Cloud-Telefonie',
+        href: '/cloud-telefonie',
+        submenu: [
+            { label: 'Peoplefone vPBX', href: '/cloud-telefonie#peoplefone' },
+            { label: '3CX', href: '/cloud-telefonie/3cx' },
+            { label: 'Microsoft Teams', href: '/cloud-telefonie/ms-teams' },
+            { label: 'Yeastar', href: '/cloud-telefonie/yeastar' },
+        ],
+    },
     { label: 'Unternehmen', href: '/unternehmen' },
     { label: 'Blog', href: '/blog' },
     { label: 'Kontakt', href: '/kontakt' },

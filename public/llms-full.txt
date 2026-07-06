@@ -64,7 +64,9 @@ Kompetenzen:
 - Rufnummernportierung unterbruchfrei
 - Hardware-Beratung (Yealink, Snom, Jabra, Headsets, Konferenzloesungen)
 
-Beispielkonfiguration: 20 Benutzer mit Flatrate CH+EU plus 1 Gbit/s Internet ab CHF 131 pro Monat.
+Peoplefone bietet zwei vPBX-Modelle: vPBX Basic (1-10 User, Standardfunktionen) und vPBX Plus (1-150 User, alle Funktionen wie Softphones, Visual Callflow, Multi-Provisioning, Analytics inklusive). vPBX Basic startet bei CHF 15 pro Monat fuer 1-5 User. vPBX Plus startet bei CHF 25 pro Monat (1-5 User) und skaliert bis CHF 135 pro Monat (51-60 User), ab 61 Benutzer auf Anfrage.
+
+Beispielkonfiguration: 20 Benutzer mit vPBX Plus plus Flatrate CH+EU plus 1 Gbit/s Internet plus fixe IP plus Nummernblock 6-10 ab CHF 151 pro Monat.
 
 ### 2.2 Webdesign
 
@@ -436,10 +438,10 @@ Erstanfrage ueber https://infraone.ch/kontakt oder direkt unter 052 222 18 18.
 - Gebaeudeautomation: https://infraone.ch/gebaeudeautomation
 - Software-Entwicklung: https://infraone.ch/software-entwicklung
 
-### Cloud-Telefonie Anker (kuenftige Spokes)
-- 3CX-Detail: https://infraone.ch/cloud-telefonie#3cx
-- Yeastar-Detail: https://infraone.ch/cloud-telefonie#yeastar
-- Microsoft Teams Telefonie: https://infraone.ch/cloud-telefonie#ms-teams
+### Cloud-Telefonie Varianten (eigene Seiten)
+- 3CX: https://infraone.ch/cloud-telefonie/3cx
+- Yeastar: https://infraone.ch/cloud-telefonie/yeastar
+- Microsoft Teams Telefonie: https://infraone.ch/cloud-telefonie/ms-teams
 
 ### Regional-Spokes IT-Support
 - Winterthur: https://infraone.ch/it-support/winterthur

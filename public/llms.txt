@@ -53,12 +53,13 @@ Moderne, SEO-optimierte Websites fuer Schweizer Unternehmen.
 
 ### Cloud-Telefonie & VoIP
 Wartungsfreie Cloud-Telefonanlagen fuer Schweizer KMU.
-- Benutzerpakete: ab CHF 15.-/Monat (1-5 Benutzer pauschal)
+- vPBX Basic (1-10 User): CHF 15.-/Monat (1-5 Benutzer), CHF 25.-/Monat (6-10 Benutzer)
+- vPBX Plus (1-150 User, alle Funktionen inkl.): CHF 25.- bis CHF 135.-/Monat je nach Tier, ab 61 Benutzer auf Anfrage
 - Flatrate Schweiz: CHF 19.-/Monat (1000 Min Festnetz + 200 Min Mobil)
 - Flatrate CH+EU: CHF 22.-/Monat (1000 Min Festnetz + 300 Min Mobil)
 - Internet 1 Gbit/s: CHF 49.-/Monat
-- Beispielkonfiguration 20 Benutzer: ab CHF 131.-/Monat inkl. Flatrate
-- Features: Handy-App (iOS/Android), Voicemail, Anrufweiterleitung, Rufgruppen, Warteschlaufe, IVR, Fax2Mail
+- Beispielkonfiguration 20 Benutzer mit vPBX Plus: ab CHF 151.-/Monat inkl. Flatrate
+- Features: Handy-App (iOS/Android), Voicemail, Anrufweiterleitung, Rufgruppen, Warteschlaufe, IVR, Fax2Mail. Mit vPBX Plus zusaetzlich: Softphones, Visual Callflow, Multi-Provisioning, Analytics
 - Partner: Peoplefone (zertifizierter Partner), 3CX, Yeastar
 - Microsoft Teams Integration moeglich
 - Regionale Spokes: /cloud-telefonie/winterthur, /cloud-telefonie/zuerich, /cloud-telefonie/schaffhausen, /cloud-telefonie/thurgau, /cloud-telefonie/st-gallen, /cloud-telefonie/rapperswil

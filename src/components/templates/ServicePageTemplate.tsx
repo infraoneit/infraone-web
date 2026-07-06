@@ -46,7 +46,18 @@ interface ServicePageProps {
     // CTA
     // Pricing (Optional)
     pricingModules?: {
-        userPackages: { range: string; price: string; per: string }[];
+        vpbxBasic: {
+            title: string;
+            subtitle: string;
+            tiers: { range: string; price: string }[];
+            features: string[];
+        };
+        vpbxPlus: {
+            title: string;
+            subtitle: string;
+            tiers: { range: string; price: string }[];
+            features: string[];
+        };
         tariffs: { name: string; price: string; description: string }[];
         internetTV: { name: string; price: string }[];
         phoneNumbers: { range: string; price: string }[];
@@ -255,77 +266,123 @@ export function ServicePageTemplate({
                             </p>
                         </AnimatedSection>
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                            {/* Benutzerpakete */}
-                            <div className="p-5 rounded-2xl bg-card border border-border">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <Users className="w-5 h-5 text-primary" />
-                                    <h3 className="font-bold text-text-primary">Benutzerpakete</h3>
-                                </div>
-                                <div className="space-y-2">
-                                    {pricingModules.userPackages.map((pkg, index) => (
-                                        <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
-                                            <span className="text-xs text-text-secondary">{pkg.range}</span>
-                                            <span className="font-bold text-primary text-sm">{pkg.price}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Tarifmodelle */}
-                            <div className="p-5 rounded-2xl bg-card border border-border">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <Phone className="w-5 h-5 text-primary" />
-                                    <h3 className="font-bold text-text-primary">Tarifmodelle</h3>
-                                </div>
-                                <div className="space-y-2">
-                                    {pricingModules.tariffs.map((tariff, index) => (
-                                        <div key={index} className="py-1.5 border-b border-border last:border-0">
-                                            <div className="flex justify-between">
-                                                <span className="font-medium text-text-primary text-xs">{tariff.name}</span>
-                                                <span className="font-bold text-primary text-sm">{tariff.price}</span>
+                        <div className="max-w-6xl mx-auto space-y-6">
+                            {/* vPBX Basic + Plus */}
+                            <div className="grid md:grid-cols-2 gap-6">
+                                {/* vPBX Basic */}
+                                <div className="p-5 rounded-2xl bg-card border border-border">
+                                    <div className="flex items-center gap-3 mb-1">
+                                        <Phone className="w-5 h-5 text-primary" />
+                                        <h3 className="font-bold text-text-primary">{pricingModules.vpbxBasic.title}</h3>
+                                    </div>
+                                    <p className="text-xs text-text-secondary mb-4">{pricingModules.vpbxBasic.subtitle}</p>
+                                    <div className="space-y-2 mb-4">
+                                        {pricingModules.vpbxBasic.tiers.map((tier, index) => (
+                                            <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
+                                                <span className="text-xs text-text-secondary">{tier.range}</span>
+                                                <span className="font-bold text-primary text-sm">{tier.price}</span>
                                             </div>
-                                            <p className="text-xs text-text-secondary mt-0.5">{tariff.description}</p>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
+                                    <div className="pt-3 border-t border-border">
+                                        <p className="text-xs font-medium text-text-primary mb-2">Funktionen</p>
+                                        <ul className="space-y-1">
+                                            {pricingModules.vpbxBasic.features.map((feature, i) => (
+                                                <li key={i} className="text-xs text-text-secondary flex items-start gap-1.5">
+                                                    <span className="text-primary mt-0.5">·</span>
+                                                    <span>{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                {/* vPBX Plus */}
+                                <div className="p-5 rounded-2xl bg-primary/5 border border-primary">
+                                    <div className="flex items-center gap-3 mb-1">
+                                        <Users className="w-5 h-5 text-primary" />
+                                        <h3 className="font-bold text-text-primary">{pricingModules.vpbxPlus.title}</h3>
+                                    </div>
+                                    <p className="text-xs text-text-secondary mb-4">{pricingModules.vpbxPlus.subtitle}</p>
+                                    <div className="space-y-2 mb-4">
+                                        {pricingModules.vpbxPlus.tiers.map((tier, index) => (
+                                            <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
+                                                <span className="text-xs text-text-secondary">{tier.range}</span>
+                                                <span className="font-bold text-primary text-sm">{tier.price}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="pt-3 border-t border-border">
+                                        <p className="text-xs font-medium text-text-primary mb-2">Funktionen</p>
+                                        <ul className="space-y-1">
+                                            {pricingModules.vpbxPlus.features.map((feature, i) => (
+                                                <li key={i} className="text-xs text-text-secondary flex items-start gap-1.5">
+                                                    <span className="text-primary mt-0.5">·</span>
+                                                    <span>{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Telefonnummern */}
-                            <div className="p-5 rounded-2xl bg-card border border-border">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <Hash className="w-5 h-5 text-primary" />
-                                    <h3 className="font-bold text-text-primary">Telefonnummern</h3>
+                            {/* Tarife / Nummern / Internet */}
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {/* Tarifmodelle */}
+                                <div className="p-5 rounded-2xl bg-card border border-border">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <Phone className="w-5 h-5 text-primary" />
+                                        <h3 className="font-bold text-text-primary">Tarifmodelle</h3>
+                                    </div>
+                                    <div className="space-y-2">
+                                        {pricingModules.tariffs.map((tariff, index) => (
+                                            <div key={index} className="py-1.5 border-b border-border last:border-0">
+                                                <div className="flex justify-between">
+                                                    <span className="font-medium text-text-primary text-xs">{tariff.name}</span>
+                                                    <span className="font-bold text-primary text-sm">{tariff.price}</span>
+                                                </div>
+                                                <p className="text-xs text-text-secondary mt-0.5">{tariff.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                                <div className="space-y-2">
-                                    {pricingModules.phoneNumbers.map((num, index) => (
-                                        <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
-                                            <span className="text-xs text-text-secondary">{num.range}</span>
-                                            <span className="font-bold text-primary text-sm">{num.price}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                                <p className="text-xs text-text-secondary mt-3">pro Monat</p>
-                            </div>
 
-                            {/* Internet & TV */}
-                            <div className="p-5 rounded-2xl bg-primary/5 border border-primary">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <Tv className="w-5 h-5 text-primary" />
-                                    <h3 className="font-bold text-text-primary">Internet & TV</h3>
+                                {/* Telefonnummern */}
+                                <div className="p-5 rounded-2xl bg-card border border-border">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <Hash className="w-5 h-5 text-primary" />
+                                        <h3 className="font-bold text-text-primary">Telefonnummern</h3>
+                                    </div>
+                                    <div className="space-y-2">
+                                        {pricingModules.phoneNumbers.map((num, index) => (
+                                            <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
+                                                <span className="text-xs text-text-secondary">{num.range}</span>
+                                                <span className="font-bold text-primary text-sm">{num.price}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <p className="text-xs text-text-secondary mt-3">pro Monat</p>
                                 </div>
-                                <div className="space-y-2">
-                                    {pricingModules.internetTV.map((item, index) => (
-                                        <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
-                                            <span className="text-xs text-text-primary">{item.name}</span>
-                                            <span className="font-bold text-primary text-sm">{item.price}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="mt-3 p-2 rounded-lg bg-primary/10">
-                                    <p className="text-xs font-medium text-primary">
-                                        Kombi: Internet + IP = CHF 59.–/Mo
-                                    </p>
+
+                                {/* Internet & TV */}
+                                <div className="p-5 rounded-2xl bg-card border border-border">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <Tv className="w-5 h-5 text-primary" />
+                                        <h3 className="font-bold text-text-primary">Internet & TV</h3>
+                                    </div>
+                                    <div className="space-y-2">
+                                        {pricingModules.internetTV.map((item, index) => (
+                                            <div key={index} className="flex justify-between items-center py-1.5 border-b border-border last:border-0">
+                                                <span className="text-xs text-text-primary">{item.name}</span>
+                                                <span className="font-bold text-primary text-sm">{item.price}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="mt-3 p-2 rounded-lg bg-primary/10">
+                                        <p className="text-xs font-medium text-primary">
+                                            Kombi: Internet + IP = CHF 59.–/Mo
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
