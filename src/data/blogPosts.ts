@@ -11,6 +11,8 @@ export interface BlogPost {
     keywords: string[];
     readingTime: string;
     featuredImage?: string; // Optionales Titelbild (Pfad zum Bild)
+    featuredImageWidth?: number;  // Natürliche Bildbreite (für CLS-freies Rendering, wird im Loader gesetzt)
+    featuredImageHeight?: number; // Natürliche Bildhöhe
 }
 
 export const blogPosts: BlogPost[] = [
@@ -23,6 +25,7 @@ export const blogPosts: BlogPost[] = [
         category: 'IT-Wissen',
         keywords: ['IT OT Unterschied', 'IT OT Konvergenz', 'Industrie 4.0', 'OT Security'],
         readingTime: '6 Min.',
+        featuredImage: '/images/blog-cover-it-trifft-ot.webp',
         content: `
 ## IT trifft OT – Warum die Verbindung zur Schlüsselkompetenz wird
 
@@ -83,12 +86,15 @@ Die Konvergenz von IT und OT ist keine Option, sondern Notwendigkeit. Wer beide 
         category: 'Kontrollraum',
         keywords: ['KVM over IP', 'Black Box Emerald', 'Kontrollraum', 'Multimonitor', 'Leitstand'],
         readingTime: '7 Min.',
+        featuredImage: '/images/hero-videowall-kvm-system-blackbox-emerald.webp',
         content: `
 ## Multimonitor-Systeme mit Black Box Emerald – die smarte Lösung für Kontrollräume
 
 Die Anforderungen an Kontrollräume, Leitstände und sicherheitskritische Umgebungen steigen stetig. Systeme müssen heute nicht nur hochverfügbar und skalierbar sein, sondern auch flexibel, bedienerfreundlich und IP-basiert.
 
 Mit **Black Box Emerald** steht eine moderne KVM-over-IP-Lösung zur Verfügung, die genau diese Anforderungen erfüllt – für Multiuser-Zugriff, 4K-Videoübertragung, USB-Routing und zentralisierte Steuerung.
+
+![Übersicht eines Black Box KVM-over-IP Multimonitor-Setups mit Transmittern, Receivern und Videowall im Kontrollraum](/images/blackbox-kvm-system-multimonitor-videowall-uebersicht.webp)
 
 ### Vorteile von Black Box Emerald
 
@@ -144,6 +150,7 @@ Black Box Emerald ist ideal für professionelle Anwendungen, bei denen es auf St
         category: 'Telefonie',
         keywords: ['3CX peoplefone', 'VoIP Telefonanlage', 'SIP Trunk Schweiz', 'Cloud Telefonie KMU'],
         readingTime: '5 Min.',
+        featuredImage: '/images/hero-3cx-phone-system.webp',
         content: `
 ## Vorteile der Kombination 3CX und Peoplefone
 
@@ -194,6 +201,7 @@ Die Kombination aus 3CX und Peoplefone ist ideal für KMU, die eine moderne, sic
         category: 'Netzwerke',
         keywords: ['PRTG Netzwerk Monitoring', 'IT Überwachung KMU', 'Netzwerk Monitoring Schweiz', 'Paessler PRTG'],
         readingTime: '6 Min.',
+        featuredImage: '/images/hero-prtg.webp',
         content: `
 ## PRTG Netzwerkmonitoring – So behältst du deine IT im Griff
 
@@ -249,6 +257,7 @@ Mit PRTG behältst du jederzeit die Kontrolle über deine IT – zuverlässig, s
         category: 'Automation',
         keywords: ['WAGO SPS', 'CODESYS 3.5 Migration', 'Gebäudeautomation', 'SPS Programmierung'],
         readingTime: '8 Min.',
+        featuredImage: '/images/wago-sps-750-8101.webp',
         content: `
 ## WAGO SPS auf Codesys 3.5 Migrieren – So gelingt der Umstieg
 

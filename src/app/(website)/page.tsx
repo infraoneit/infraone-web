@@ -51,6 +51,11 @@ const HomepageFAQSection = dynamic(
   { ssr: true }
 );
 
+const BlogPreviewSection = dynamic(
+  () => import('@/components/sections/BlogPreviewSection').then(mod => ({ default: mod.BlogPreviewSection })),
+  { ssr: true }
+);
+
 // 4 physische Standorte
 const locations = [
   { city: 'Winterthur', street: 'Rudolf-Diesel-Strasse 25', zip: '8404', isMain: true, mapUrl: 'https://maps.app.goo.gl/KZcGeudRfoJSirLA9' },
@@ -206,6 +211,7 @@ export default function HomePage() {
       <ServicesSection />
       <PromoSection />
       <TestimonialsSection />
+      <BlogPreviewSection />
       <HomepageFAQSection />
       <ContactSection />
     </>

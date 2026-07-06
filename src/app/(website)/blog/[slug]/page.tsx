@@ -98,9 +98,20 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
             />
 
-            {/* Hero Section */}
+            {/* Hero Section — 2-Spalten Layout (Bild rechts) wenn featuredImage vorhanden, sonst 1-Spalter.
+                Background-Overlay ist immer das generische Tech-Background-Bild. */}
             <section className="relative py-12 lg:py-16 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
-                <div className="container mx-auto px-4">
+                <div className="absolute inset-0 opacity-10">
+                    <Image
+                        src="/images/blog-hero-background.webp"
+                        alt=""
+                        fill
+                        className="object-cover"
+                        priority
+                        aria-hidden="true"
+                    />
+                </div>
+                <div className="container mx-auto px-4 relative z-10">
                     <AnimatedSection animation="slideUp">
                         <Link
                             href="/blog"
@@ -110,56 +121,53 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                             Zurück zum Blog
                         </Link>
 
-                        <div className="max-w-4xl">
-                            <div className="flex items-center gap-3 mb-4">
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
-                                    <Tag className="w-3 h-3" />
-                                    {post.category}
-                                </span>
+                        <div className={post.featuredImage ? 'grid lg:grid-cols-2 gap-12 items-center' : ''}>
+                            <div className={post.featuredImage ? 'max-w-xl' : 'max-w-4xl'}>
+                                <div className="flex items-center gap-3 mb-4">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
+                                        <Tag className="w-3 h-3" />
+                                        {post.category}
+                                    </span>
+                                </div>
+
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary mb-4">
+                                    {post.title}
+                                </h1>
+
+                                <p className="text-xl text-text-secondary mb-6">{post.excerpt}</p>
+
+                                <div className="flex items-center gap-6 text-sm text-text-secondary">
+                                    <span className="flex items-center gap-2">
+                                        <Calendar className="w-4 h-4" />
+                                        {new Date(post.date).toLocaleDateString('de-CH', {
+                                            day: '2-digit',
+                                            month: 'long',
+                                            year: 'numeric',
+                                        })}
+                                    </span>
+                                    <span className="flex items-center gap-2">
+                                        <Clock className="w-4 h-4" />
+                                        {post.readingTime}
+                                    </span>
+                                </div>
                             </div>
 
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary mb-4">
-                                {post.title}
-                            </h1>
-
-                            <p className="text-xl text-text-secondary mb-6">{post.excerpt}</p>
-
-                            <div className="flex items-center gap-6 text-sm text-text-secondary">
-                                <span className="flex items-center gap-2">
-                                    <Calendar className="w-4 h-4" />
-                                    {new Date(post.date).toLocaleDateString('de-CH', {
-                                        day: '2-digit',
-                                        month: 'long',
-                                        year: 'numeric',
-                                    })}
-                                </span>
-                                <span className="flex items-center gap-2">
-                                    <Clock className="w-4 h-4" />
-                                    {post.readingTime}
-                                </span>
-                            </div>
+                            {post.featuredImage && (
+                                <div className="hidden lg:block">
+                                    <Image
+                                        src={post.featuredImage}
+                                        alt={post.title}
+                                        width={post.featuredImageWidth ?? 1200}
+                                        height={post.featuredImageHeight ?? 675}
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
+                                        className="w-full h-auto rounded-2xl shadow-2xl border border-border"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </AnimatedSection>
                 </div>
             </section>
-
-            {/* Featured Image */}
-            {post.featuredImage && (
-                <section className="py-8 bg-surface">
-                    <div className="container mx-auto px-4">
-                        <AnimatedSection animation="slideUp" delay={0.1}>
-                            <div className="max-w-4xl mx-auto relative aspect-video rounded-2xl overflow-hidden shadow-xl border border-border">
-                                <Image
-                                    src={post.featuredImage}
-                                    alt={post.title}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                        </AnimatedSection>
-                    </div>
-                </section>
-            )}
 
             {/* Article Content */}
             <section className="py-12 lg:py-16 bg-background">
