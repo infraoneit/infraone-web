@@ -46,11 +46,11 @@ const baseFunctions = [
     'Telefonbuch & Kurzwahlen',
 ];
 
-// Optionale Erweiterungen
+// Optionale Erweiterungen (Zusatzoptionen zu vPBX Basic; bei vPBX Plus bereits inklusive)
 const extensions = [
-    { name: 'Softphone-Lizenzen (PC/Mac-App)', price: 'CHF 5.–/User/Monat' },
-    { name: 'Warteschlaufe (Queue)', price: 'CHF 5.–/Monat' },
-    { name: 'IVR (Sprachmenü)', price: 'CHF 5.–/Monat' },
+    { name: 'Softphone-Lizenzen (PC/Mac-App)', price: 'CHF 5.–/User/Monat (bei vPBX Plus inklusive)' },
+    { name: 'Zusätzliche Warteschlaufe (Queue)', price: 'CHF 5.–/Monat' },
+    { name: 'Zusätzliches IVR (Sprachmenü)', price: 'CHF 5.–/Monat' },
     { name: 'CRM-Integration', price: 'Auf Anfrage' },
     { name: 'Callcenter-Funktionen', price: 'Auf Anfrage' },
     { name: 'Gesprächsaufzeichnung', price: 'Auf Anfrage' },
@@ -378,7 +378,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                     <div className="max-w-4xl mx-auto bg-card rounded-3xl border border-border p-8 lg:p-12 text-center shadow-lg">
                         <h3 className="text-2xl font-bold text-text-primary mb-4">Flatrate-Modelle für KMU</h3>
                         <p className="text-text-secondary mb-8 max-w-xl mx-auto">
-                            Starten Sie ab <strong>CHF 15.– pro Benutzer/Monat</strong>. Wählen Sie zwischen Pay-as-you-go oder attraktiven Flatrates für die Schweiz und EU.
+                            Starten Sie ab <strong>CHF 15.– pro Monat</strong> (vPBX Basic, 1 bis 5 Benutzer pauschal). Wählen Sie zwischen Pay-as-you-go oder attraktiven Flatrates für die Schweiz und EU.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">

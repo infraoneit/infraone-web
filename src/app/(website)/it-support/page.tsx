@@ -23,7 +23,7 @@ import { getITSupportData } from '@/lib/leistungen';
 
 export const metadata: Metadata = {
     title: 'IT-Support & Informatik-Support Schweiz | Preise & Leistungen',
-    description: 'IT-Support für KMU & Private: Remote-Support CHF 120/h, Vor-Ort CHF 157/h. Sofortige Computerhilfe in Winterthur, Zürich, Schaffhausen, Thurgau.',
+    description: 'IT-Support für KMU & Private: Remote-Support CHF 130/h, Vor-Ort CHF 157/h. Sofortige Computerhilfe in Winterthur, Zürich, Schaffhausen, Thurgau.',
     keywords: ['IT Support Schweiz', 'Informatik Support', 'Computerhilfe', 'PC Support'],
     alternates: {
         canonical: 'https://infraone.ch/it-support',
@@ -94,11 +94,11 @@ export default async function ITSupportPage() {
             { title: 'Schulungen / Workshops / Beratung', description: 'Individuelle Schulungen, Workshops und IT-Beratung für Ihr Team.', price: 'CHF 200.–/h', billing: 'Nach Aufwand', icon: 'users' },
         ],
         travelCosts: {
-            freeRegions: 'Grossraum Winterthur & Andelfingen',
+            freeRegions: 'Grossraum Winterthur',
             freeRegionsNote: 'Keine Anfahrtskosten',
             otherRegions: 'Übrige Regionen',
-            otherRegionsPrice: 'CHF 2.00 / km',
-            otherRegionsNote: 'Pro gefahrenem Kilometer (Hin- und Rückweg kombiniert). Verrechnung ab Standort Winterthur.',
+            otherRegionsPrice: 'CHF 50 Pauschal',
+            otherRegionsNote: 'Fahrzeit-Pauschale bis zu 1 Stunde ab Standort Winterthur (Hin- und Rückweg kombiniert).',
         },
         supportHours: {
             times: [
@@ -151,7 +151,7 @@ export default async function ITSupportPage() {
             { question: 'Was mache ich, wenn mein Computer nicht startet?', answer: 'Rufen Sie an. Oft können wir per Telefon erste Tipps geben oder kommen vorbei, um die Hardware zu prüfen.' },
             { question: 'Wie läuft Remote-Support ab?', answer: 'Sie laden eine kleine Software herunter (AnyDesk), teilen uns den Code mit, und wir können Ihren Bildschirm sehen und Probleme direkt beheben.' },
             { question: 'Lösen Sie Server- und Netzwerkprobleme für KMU?', answer: 'Absolut. Das ist unser Kerngeschäft. Wir betreuen ganze Server-Infrastrukturen und Firmennetzwerke.' },
-            { question: 'Wie wird die Fahrzeit verrechnet?', answer: 'Nur Kilometer, keine separate Fahrzeitpauschale. CHF 2.00/km ab Standort Winterthur.' },
+            { question: 'Wie wird die Fahrzeit verrechnet?', answer: 'Im Grossraum Winterthur fallen keine Anfahrtskosten an. Für übrige Regionen verrechnen wir eine Fahrzeit-Pauschale von CHF 50 für bis zu 1 Stunde ab Standort Winterthur (Hin- und Rückweg kombiniert).' },
             { question: 'Gibt es eine Mindestdauer bei Notfalleinsätzen?', answer: 'Nein. Es gilt ausschliesslich die jeweilige Mindestverrechnung gemäss Einsatzart (Remote 15 Minuten, Vor Ort 30 Minuten).' },
             { question: 'Muss ich einen Vertrag abschliessen?', answer: 'Nein. Wir arbeiten für die meisten Kunden auf Abruf. Wartungsverträge (SLA) bieten wir für Firmen an, die garantierte Reaktionszeiten benötigen.' },
         ],

@@ -23,7 +23,7 @@ InfraOne hat vier physische Standorte in der Ostschweiz:
 - **Taegerwilen (Thurgau)**: Bahnhofstrasse 17, 8274 Taegerwilen
 - **Kleinandelfingen**: physische Praesenz fuer Region Andelfingen
 
-Vor-Ort-Einsaetze sind im Grossraum Winterthur und in Andelfingen ohne Anfahrt moeglich, in den anderen Standortregionen mit kurzer Fahrzeit. Remote-Support funktioniert schweizweit innert Minuten.
+Vor-Ort-Einsaetze sind im Grossraum Winterthur ohne Anfahrtskosten moeglich, in den uebrigen Regionen gilt eine Fahrzeit-Pauschale von CHF 50 (bis zu 1 Stunde ab Standort Winterthur, Hin- und Rueckweg kombiniert). Remote-Support funktioniert schweizweit innert Minuten.
 
 ### Bediente Regionen
 
@@ -244,7 +244,7 @@ Spoke-Seiten:
 
 ### 4.6 Andelfingen
 
-Eigener Standort in Kleinandelfingen. Vor-Ort-Einsaetze ohne Anfahrtskosten. Schwerpunkte: KMU im Weinland, Gewerbe, Landwirtschaft.
+Eigener Standort in Kleinandelfingen, im Weinland meist in unter 15 Minuten vor Ort. Schwerpunkte: KMU im Weinland, Gewerbe, Landwirtschaft.
 
 Spoke-Seite IT-Support: https://infraone.ch/it-support/andelfingen
 

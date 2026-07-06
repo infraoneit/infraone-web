@@ -47,7 +47,7 @@
   "additionalFaqs": [
     {
       "question": "Was kostet IT-Support für ein Thurgauer KMU oder Hotel?",
-      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Im Bodenseeraum dank lokalem Standort meist ohne Anfahrtsaufschlag. Wartungsverträge mit garantierter Reaktionszeit für Hotels und Industriebetriebe ab CHF 200 pro Monat. Notfall-Hotline bis 23:00 Uhr unter 076 587 50 55."
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Für die Anfahrt gilt eine Pauschale von CHF 50 (Hin- und Rückweg kombiniert). Wartungsverträge mit garantierter Reaktionszeit für Hotels und Industriebetriebe ab CHF 200 pro Monat. Notfall-Hotline bis 23:00 Uhr unter 076 587 50 55."
     },
     {
       "question": "Können Sie Hotel-PMS-Systeme wie protel oder Mews betreuen?",
@@ -89,7 +89,13 @@
   "postalCode": "8274",
   "openingHours": [
     {
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
       "opens": "08:00",
       "closes": "17:00"
     }
@@ -104,10 +110,26 @@
   ],
   "supportHours": {
     "times": [
-      { "time": "Mo–Fr 08:00–17:00", "text": "regulärer Tarif", "style": "neutral" },
-      { "time": "Mo–Fr 17:00–23:00", "text": "+25% Zuschlag", "style": "warning" },
-      { "time": "Sa / So / Feiertage", "text": "+50% Zuschlag", "style": "warning" },
-      { "time": "23:00–08:00", "text": "nur mit SLA, +100%", "style": "danger" }
+      {
+        "time": "Mo–Fr 08:00–17:00",
+        "text": "regulärer Tarif",
+        "style": "neutral"
+      },
+      {
+        "time": "Mo–Fr 17:00–23:00",
+        "text": "+25% Zuschlag",
+        "style": "warning"
+      },
+      {
+        "time": "Sa / So / Feiertage",
+        "text": "+50% Zuschlag",
+        "style": "warning"
+      },
+      {
+        "time": "23:00–08:00",
+        "text": "nur mit SLA, +100%",
+        "style": "danger"
+      }
     ],
     "note": "Support bis 23:00 Uhr sowie an Wochenenden und Feiertagen ist verfügbar (mit Zuschlag, Best-Effort).\nOhne aktives SLA sind Einsätze zwischen 23:00 und 08:00 Uhr ausgeschlossen."
   }

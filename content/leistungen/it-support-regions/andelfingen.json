@@ -1,16 +1,16 @@
 {
   "slug": "andelfingen",
   "name": "Andelfingen",
-  "isFree": true,
-  "anfahrt": "Keine Anfahrtskosten",
+  "isFree": false,
+  "anfahrt": "CHF 50 Pauschal (bis 1 h ab Winterthur)",
   "headline": "IT-Support Andelfingen und Weinland",
   "subheadline": "Lokaler IT-Partner für Landwirtschaft, Weinbau und Gewerbe im Zürcher Weinland",
-  "description": "Standort Kleinandelfingen. IT-Support für Weinland-Betriebe ohne Anfahrtskosten. Vor-Ort-Einsätze schnell, Remote-Support sofort. Erfahrung mit Landwirtschaft, Weinbau und KMU.",
-  "intro": "Das Zürcher Weinland rund um Andelfingen ist geprägt von Landwirtschaft, Weinbau und einem aktiven KMU-Gewerbe. Die IT-Bedürfnisse hier sind oft anders als in Zürich oder Winterthur: Hofläden brauchen Kassensysteme die auch ohne ständigen IT-Support laufen, Weingüter Online-Shops mit saisonaler Logik, Bauernhöfe Buchhaltungs-Software für Direktzahlungen und EU-Kontingente, Schreinereien Backup-Lösungen die bei einer Sense im Verteiler nicht den ganzen Betrieb lahmlegen. Von unserem Standort in Kleinandelfingen aus betreuen wir die Region persönlich und ohne Anfahrtsaufschlag. Vom Hauptort Andelfingen sind wir in 5 Minuten bei Ihnen, von Marthalen oder Henggart in 10, von Trüllikon oder Truttikon in 15, vom Eulachtal in Sevelen oder vom Stamheim ebenfalls in 15 bis 20 Minuten. Remote-Support starten wir innert Minuten direkt vom Telefonat. Wir sprechen Klartext und kennen die Realität ländlicher Betriebe.",
+  "description": "Standort Kleinandelfingen. IT-Support für Weinland-Betriebe mit kurzen Wegen. Vor-Ort-Einsätze schnell, Remote-Support sofort. Erfahrung mit Landwirtschaft, Weinbau und KMU.",
+  "intro": "Das Zürcher Weinland rund um Andelfingen ist geprägt von Landwirtschaft, Weinbau und einem aktiven KMU-Gewerbe. Die IT-Bedürfnisse hier sind oft anders als in Zürich oder Winterthur: Hofläden brauchen Kassensysteme die auch ohne ständigen IT-Support laufen, Weingüter Online-Shops mit saisonaler Logik, Bauernhöfe Buchhaltungs-Software für Direktzahlungen und EU-Kontingente, Schreinereien Backup-Lösungen die bei einer Sense im Verteiler nicht den ganzen Betrieb lahmlegen. Von unserem Standort in Kleinandelfingen aus betreuen wir die Region persönlich und mit kurzen Wegen. Vom Hauptort Andelfingen sind wir in 5 Minuten bei Ihnen, von Marthalen oder Henggart in 10, von Trüllikon oder Truttikon in 15, vom Eulachtal in Sevelen oder vom Stamheim ebenfalls in 15 bis 20 Minuten. Remote-Support starten wir innert Minuten direkt vom Telefonat. Wir sprechen Klartext und kennen die Realität ländlicher Betriebe.",
   "regionalImage": "/images/regions/andelfingen.png",
   "localBenefits": [
     "Standort Kleinandelfingen",
-    "Keine Anfahrtskosten im Weinland",
+    "Im Weinland in unter 15 Minuten vor Ort",
     "Erfahrung mit Landwirtschaft",
     "Persönliche Betreuung"
   ],
@@ -43,11 +43,11 @@
     }
   ],
   "localFaqQuestion": "Wie schnell sind Sie im Weinland vor Ort?",
-  "localFaqAnswer": "Vom Kleinandelfinger Standort sind wir im Hauptort Andelfingen in 5 Minuten, in Marthalen oder Henggart in 10 Minuten, in Trüllikon, Truttikon oder Stamheim in 15 bis 20 Minuten. Im gesamten Weinland keine Anfahrtskosten. Bei dringenden Notfällen sind wir oft am gleichen Tag bei Ihnen, Remote-Support starten wir innert Minuten direkt vom Telefonat.",
+  "localFaqAnswer": "Vom Kleinandelfinger Standort sind wir im Hauptort Andelfingen in 5 Minuten, in Marthalen oder Henggart in 10 Minuten, in Trüllikon, Truttikon oder Stamheim in 15 bis 20 Minuten. Für die Anfahrt gilt unsere Pauschale von CHF 50 (Hin- und Rückweg kombiniert). Bei dringenden Notfällen sind wir oft am gleichen Tag bei Ihnen, Remote-Support starten wir innert Minuten direkt vom Telefonat.",
   "additionalFaqs": [
     {
       "question": "Was kostet IT-Support im Weinland?",
-      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Im Weinland und Grossraum Andelfingen fallen keine Anfahrtskosten an, dank lokalem Standort in Kleinandelfingen. Wartungsverträge ab CHF 200 pro Monat. Bei Privatkunden, Bauernhöfen und kleinen Familienbetrieben rechnen wir Vor-Ort mit CHF 145 pro Stunde, oft genügt aber Remote-Support für die meisten Probleme."
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Für die Anfahrt verrechnen wir eine Pauschale von CHF 50 (Hin- und Rückweg kombiniert). Wartungsverträge ab CHF 200 pro Monat. Bei Privatkunden, Bauernhöfen und kleinen Familienbetrieben rechnen wir Vor-Ort mit CHF 145 pro Stunde, oft genügt aber Remote-Support für die meisten Probleme."
     },
     {
       "question": "Können Sie auch Hofladen-Kassensysteme einrichten und betreuen?",
@@ -67,7 +67,7 @@
     }
   ],
   "metaTitle": "IT-Support Andelfingen und Weinland | Lokaler Partner",
-  "metaDescription": "IT-Support Andelfingen: Standort Kleinandelfingen, keine Anfahrtskosten im Weinland. ☎ 052 222 18 18",
+  "metaDescription": "IT-Support Andelfingen: lokaler Standort Kleinandelfingen, im Weinland schnell vor Ort. ☎ 052 222 18 18",
   "keywords": [
     "IT Support Andelfingen",
     "IT Support Weinland",
