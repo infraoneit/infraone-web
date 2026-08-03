@@ -4,22 +4,22 @@
   "headline": "Webdesign Zug",
   "subheadline": "Websites für Zuger Konzerne, FinTech und Crypto Valley",
   "description": "Eine Website, die in Zug Weltklasse trifft: technisch makellos, international, mit dem Anspruch, den Konzern-Niederlassungen und Crypto-Startups erwarten.",
-  "intro": "Zuger Unternehmen agieren in einem der internationalsten und technologisch anspruchsvollsten Märkte der Schweiz. Eine Schweizer Niederlassung eines globalen Tech-Konzerns muss eine Website bieten, die zu der Konzern-Marke passt, gleichzeitig lokal optimiert ist. Ein Crypto-Startup im Crypto Valley will Investoren, Entwickler und Pilotkunden in mehreren Sprachen ansprechen, mit Wallet-Integration und technischem Whitepaper. Ein Family Office braucht eine extrem zurückhaltende, sichere Web-Präsenz, die kaum als Werbung wirkt. Wir bauen für alle drei. Mit Lighthouse-Scores über 95 als Standard, Web3-Integration im Repertoire (WalletConnect, Smart-Contract-Aufrufe, Token-Display) und Premium-Designsprache ohne Marketing-Aufdringlichkeit. Anfahrt aus Winterthur dauert 1 Stunde mit Auto oder Zug. Mandate laufen meist remote über Videocalls und geteilte Boards, persönliche Workshops vereinbaren wir bei Bedarf. Online-Shop, KI-Integration und klassisches Webdesign decken wir aus einer Hand ab.",
+  "intro": "Zuger Unternehmen agieren in einem der internationalsten und technologisch anspruchsvollsten Märkte der Schweiz. Eine Schweizer Niederlassung eines globalen Tech-Konzerns muss eine Website bieten, die zu der Konzern-Marke passt, gleichzeitig lokal optimiert ist. Ein Crypto-Startup im Crypto Valley will Investoren, Entwickler und Pilotkunden in mehreren Sprachen ansprechen, mit Wallet-Integration und technischem Whitepaper. Ein Family Office braucht eine extrem zurückhaltende, sichere Web-Präsenz, die kaum als Werbung wirkt. Wir bauen für alle drei. Mit konsequenter Performance-Optimierung, Web3-Integration im Repertoire (WalletConnect, Smart-Contract-Aufrufe, Token-Display) und Premium-Designsprache ohne Marketing-Aufdringlichkeit. Anfahrt aus Winterthur dauert 1 Stunde mit Auto oder Zug. Mandate laufen meist remote über Videocalls und geteilte Boards, persönliche Workshops vereinbaren wir bei Bedarf. Online-Shop, KI-Integration und klassisches Webdesign decken wir aus einer Hand ab.",
   "regionalImage": "/images/webdesign-hero.png",
   "localBenefits": [
     "Web3- und Wallet-Integration",
-    "Lighthouse-Score 95+ Standard",
+    "Performance-optimiert mit Next.js",
     "Mehrsprachig DE/EN/RU/ZH",
     "Premium-Design ohne Aufdringlichkeit"
   ],
   "stats": [
     {
-      "label": "Zuger Projekte",
-      "value": "6+"
+      "label": "Referenzen (Auszug)",
+      "value": "elektro-tel.ch"
     },
     {
-      "label": "Performance Score",
-      "value": "98+"
+      "label": "Technologie",
+      "value": "Next.js"
     }
   ],
   "localFaq": {
@@ -59,7 +59,7 @@
     },
     {
       "question": "Können Sie Websites für internationale Konzerne mit höchsten Ansprüchen umsetzen?",
-      "answer": "Absolut. Wir arbeiten mit modernster Technologie wie Next.js, TypeScript und Headless CMS und liefern Enterprise-Grade-Qualität. Lighthouse-Scores über 95 sind Standard. Bei sehr grossen Projekten mit Hunderten von Seiten setzen wir auf strukturierte CMS-Architekturen mit Editoren-Workflows. Pricing ist transparent und wird auf Anfrage individuell kalkuliert."
+      "answer": "Absolut. Wir arbeiten mit modernster Technologie wie Next.js, TypeScript und Headless CMS und liefern Enterprise-Grade-Qualität. Wir liefern durchgehend performance-optimierte Websites. Bei sehr grossen Projekten mit Hunderten von Seiten setzen wir auf strukturierte CMS-Architekturen mit Editoren-Workflows. Pricing ist transparent und wird auf Anfrage individuell kalkuliert."
     },
     {
       "question": "Können Sie Websites mit höchsten Sicherheits- und Datenschutz-Anforderungen umsetzen?",

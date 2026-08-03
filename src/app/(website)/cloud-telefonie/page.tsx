@@ -299,12 +299,12 @@ export default function CloudTelefoniePage() {
                                     <h3 className="font-bold text-text-primary mb-4">In Zahlen</h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="text-center">
-                                            <div className="text-2xl font-bold text-primary">80+</div>
-                                            <div className="text-xs text-text-secondary">Umgestellte Anlagen</div>
+                                            <div className="text-2xl font-bold text-primary">5–7 Tage</div>
+                                            <div className="text-xs text-text-secondary">Ø Setup-Zeit</div>
                                         </div>
                                         <div className="text-center">
-                                            <div className="text-2xl font-bold text-primary">98%</div>
-                                            <div className="text-xs text-text-secondary">Zufriedene Kunden</div>
+                                            <div className="text-2xl font-bold text-primary">CH</div>
+                                            <div className="text-xs text-text-secondary">Schweizer Rechenzentren</div>
                                         </div>
                                     </div>
                                 </div>

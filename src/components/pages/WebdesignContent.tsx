@@ -179,7 +179,7 @@ const hubDefaultData: WebdesignRegionData = {
     intro: 'Die Schweiz ist ein Land der KMU. Über 99% aller Unternehmen sind kleine und mittlere Betriebe, die das Rückgrat unserer Wirtschaft bilden. Genau für diese Unternehmen entwickeln wir Websites: pragmatisch, bezahlbar und mit echtem Mehrwert. Unser Team in Winterthur betreut Kunden in der gesamten Deutschschweiz, persönlich und auf Augenhöhe.',
     regionalImage: '/images/webdesign-hero.png',
     localBenefits: ['Schweizer Qualität', 'Persönliche Betreuung', 'Faire Preise', 'Schnelle Umsetzung'],
-    stats: [{ label: 'Projekte', value: '150+' }, { label: 'Zufriedene Kunden', value: '98%' }],
+    stats: [{ label: 'Referenzen (Auszug)', value: 'elektro-tel.ch' }, { label: 'Referenzprojekte', value: 'auf Anfrage' }],
     localFaq: { question: 'Betreuen Sie auch Kunden ausserhalb der Deutschschweiz?', answer: 'Ja, wir arbeiten remote mit Kunden in der ganzen Schweiz zusammen. Persönliche Treffen sind in den meisten Fällen nicht nötig.' },
     localIndustries: [],
     additionalFaqs: [],

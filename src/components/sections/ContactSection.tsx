@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Phone, Mail, MapPin, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -13,11 +13,39 @@ interface ContactSectionProps {
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
+// Gueltige Werte des Betreff-Dropdowns (fuer Query-Param-Vorbefuellung, z. B. von
+// cloud-telefonanlagen.ch: /kontakt?subject=Telefonie%20und%20Kommunikation&message=...)
+const VALID_SUBJECTS = [
+    'IT-Support und Netzwerke',
+    'Telefonie und Kommunikation',
+    'Videoueberwachung',
+    'Webdesign',
+    'Software-Entwicklung',
+    'Gebaeudeautomation',
+    'Andere Anfrage',
+];
+
 export function ContactSection({
     headline = 'Hinterlasse uns eine Nachricht',
-    subheadline = 'Wir melden uns in den naechsten 48h',
+    subheadline = 'Wir melden uns innert einem Arbeitstag – bei Notfällen: 052 222 18 18.',
 }: ContactSectionProps) {
     const [status, setStatus] = useState<FormStatus>('idle');
+    const [subject, setSubject] = useState('');
+    const [message, setMessage] = useState('');
+
+    // Vorbefuellung per Query-Parameter (z. B. Uebergabe einer Rechner-Konfiguration):
+    // /kontakt?subject=Telefonie%20und%20Kommunikation&message=Konfiguration%20...
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const paramSubject = params.get('subject');
+        const paramMessage = params.get('message');
+        if (paramSubject && VALID_SUBJECTS.includes(paramSubject)) {
+            setSubject(paramSubject);
+        }
+        if (paramMessage) {
+            setMessage(paramMessage);
+        }
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -45,6 +73,8 @@ export function ContactSection({
 
             setStatus('success');
             form.reset();
+            setSubject('');
+            setMessage('');
         } catch (error) {
             // Error handling: set error status
             setStatus('error');
@@ -143,7 +173,7 @@ export function ContactSection({
                                         Nachricht gesendet!
                                     </h3>
                                     <p className="text-text-secondary mb-6">
-                                        Wir melden uns in Kuerze bei Ihnen.
+                                        Wir melden uns innert einem Arbeitstag bei Ihnen.
                                     </p>
                                     <Button type="button" variant="outline" onClick={resetForm}>
                                         Neue Nachricht senden
@@ -243,6 +273,8 @@ export function ContactSection({
                                             id="subject"
                                             name="subject"
                                             required
+                                            value={subject}
+                                            onChange={(e) => setSubject(e.target.value)}
                                             className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-text-primary"
                                         >
                                             <option value="">Bitte waehlen...</option>
@@ -265,6 +297,8 @@ export function ContactSection({
                                             name="message"
                                             required
                                             rows={4}
+                                            value={message}
+                                            onChange={(e) => setMessage(e.target.value)}
                                             className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-text-primary resize-none"
                                             placeholder="Wie koennen wir Ihnen helfen?"
                                         />

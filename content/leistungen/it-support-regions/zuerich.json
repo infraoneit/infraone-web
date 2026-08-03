@@ -15,8 +15,8 @@
   ],
   "stats": [
     {
-      "label": "Zürcher Kunden",
-      "value": "80+"
+      "label": "Remote-Support",
+      "value": "schweizweit"
     },
     {
       "label": "Ø Anfahrt",
@@ -58,7 +58,7 @@
     },
     {
       "question": "Wie schnell sind Sie im Notfall vor Ort?",
-      "answer": "Bei dringenden Notfällen wie Server-Ausfall, Ransomware oder Komplett-Stillstand sind wir oft innert 1 bis 2 Stunden in Zürich. Remote-Support starten wir während des Telefonats, das löst meist 90 Prozent der Probleme innert Minuten. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten von 1 bis 4 Stunden, je nach Stufe."
+      "answer": "Bei dringenden Notfällen wie Server-Ausfall, Ransomware oder Komplett-Stillstand sind wir in der Regel innerhalb von 2 bis 4 Stunden in Zürich. Remote-Support starten wir während des Telefonats, das löst den Grossteil der Probleme innert Minuten. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten von 1 bis 4 Stunden, je nach Stufe."
     },
     {
       "question": "Können Sie kurzfristige Migrationen wie Microsoft 365 oder Server-Wechsel übernehmen?",

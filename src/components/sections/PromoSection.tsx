@@ -13,8 +13,8 @@ interface PromoSectionProps {
 }
 
 export function PromoSection({
-    headline = 'Neukunden willkommen: 20% Projektstart-Bonus',
-    description = 'Als Einstieg erhalten Neukunden 20% Rabatt auf unsere Erstleistungen. So lernen Sie unsere Arbeitsweise risikofrei kennen.',
+    headline = 'Neukunden willkommen',
+    description = 'Lernen Sie unsere Arbeitsweise kennen: persönlich, transparent und ohne Warteschleife. Das Erstgespräch ist unverbindlich.',
     ctaLabel = 'Unsere Lösungen',
     ctaHref = '/leistungen',
 }: PromoSectionProps) {

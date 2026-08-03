@@ -14,12 +14,12 @@
   ],
   "stats": [
     {
-      "label": "Umgestellte Anlagen",
-      "value": "80+"
+      "label": "Ø Setup-Zeit",
+      "value": "5–7 Tage"
     },
     {
-      "label": "Jahre Peoplefone-Partner",
-      "value": "8+"
+      "label": "Rechenzentren",
+      "value": "Schweiz"
     }
   ],
   "localFaq": {
@@ -62,7 +62,7 @@
       "answer": "Ja. Mit Direct Routing über Peoplefone als SIP-Trunk telefonieren Ihre Mitarbeiter direkt aus Teams, mit der Geschäftsnummer, ein- und ausgehend. Die Lösung ist meist günstiger als ein Microsoft Calling Plan und lässt mehr Flexibilität bei den Tarifen. Wir richten Direct Routing in 1 bis 2 Wochen ein, je nach M365-Lizenzstand. Voraussetzung ist Business Premium oder E3 plus Phone-Add-on."
     }
   ],
-  "whyChooseUs": "Als zertifizierter Peoplefone-Partner mit Hauptsitz in Winterthur kennen wir die Cloud-Telefonanlage in- und auswendig. Über 80 erfolgreich umgestellte Anlagen, 8 Jahre Partnerschaft mit Peoplefone, persönliche Betreuung vom Erstgespräch bis zum laufenden Support. Anders als anonyme Provider sind wir vor Ort erreichbar, kennen Ihre Branche und sprechen mit Ihnen ohne Telekom-Jargon.",
+  "whyChooseUs": "Als zertifizierter Peoplefone-Partner mit Hauptsitz in Winterthur kennen wir die Cloud-Telefonanlage in- und auswendig. Erfahrung aus zahlreichen Telefonie-Umstellungen, enge Partnerschaft mit Peoplefone, persönliche Betreuung vom Erstgespräch bis zum laufenden Support. Anders als anonyme Provider sind wir vor Ort erreichbar, kennen Ihre Branche und sprechen mit Ihnen ohne Telekom-Jargon.",
   "metaTitle": "Cloud-Telefonie Winterthur | Peoplefone-Partner",
   "metaDescription": "Cloud-Telefonie Winterthur mit Peoplefone: Persönliche Betreuung, Hauptsitz Grüze, keine Anfahrtskosten. ☎ 052 222 18 18",
   "keywords": [

@@ -225,10 +225,10 @@ export function Footer() {
 
                         <div className="bg-card p-4 rounded-xl border border-border mb-6">
                             <p className="text-sm font-semibold text-primary mb-2">
-                                20% Neukunden-Rabatt
+                                Antwort innert einem Arbeitstag
                             </p>
                             <p className="text-xs text-text-secondary">
-                                Als Einstieg erhalten Neukunden 20% Rabatt auf unsere Erstleistungen.
+                                Bei Notfällen erreichen Sie uns direkt: <a href="tel:+41522221818" className="text-primary hover:underline">052 222 18 18</a>.
                             </p>
                         </div>
 

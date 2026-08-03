@@ -19,7 +19,7 @@
     "priceCards": [
       {
         "title": "Telefon- & Remote-Support",
-        "description": "Sofortige Problemlösung durch zertifizierte Techniker. 90% aller Probleme lösen wir innert Minuten.",
+        "description": "Sofortige Problemlösung durch zertifizierte Techniker. Der Grossteil der Standardprobleme wird remote gelöst – ohne Wartezeit auf einen Techniker.",
         "price": "CHF 130.–/h",
         "billing": "Mindestverrechnung: 15 Minuten",
         "icon": "phone"
@@ -135,7 +135,7 @@
       },
       {
         "question": "Können Sie Outlook- und E-Mail-Probleme sofort lösen?",
-        "answer": "Ja. 90% dieser Probleme lösen wir direkt per Fernwartung, ohne dass jemand vorbeikommen muss."
+        "answer": "Ja. Den Grossteil dieser Probleme lösen wir direkt per Fernwartung, ohne dass jemand vorbeikommen muss."
       },
       {
         "question": "Was kostet Remote-Support?",

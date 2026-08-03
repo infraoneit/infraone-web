@@ -76,7 +76,7 @@ const homepageFaqs = [
   },
   {
     question: 'Wie schnell können Sie bei IT-Problemen helfen?',
-    answer: 'Bei dringenden IT-Problemen sind wir schnell vor Ort oder remote erreichbar. Unser Support-Team reagiert in der Regel innerhalb von 2-4 Stunden. Für kritische Systeme bieten wir auch 24/7-Notfall-Support an.'
+    answer: 'Bei dringenden IT-Problemen sind wir schnell vor Ort oder remote erreichbar. Unser Support-Team reagiert in der Regel innerhalb von 2–4 Stunden. Für kritische Systeme bieten wir auch 24/7-Notfall-Support an.'
   },
   {
     question: 'Was kostet eine Beratung oder ein Erstgespräch?',

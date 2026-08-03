@@ -42,7 +42,7 @@ export function HeroSection() {
                     >
                         {/* Overline */}
                         <p className="text-sm font-medium text-primary mb-4 uppercase tracking-wider">
-                            IT-Dienstleister Winterthur • Seit über 10 Jahren
+                            IT-Dienstleister Winterthur
                         </p>
 
                         {/* H1 - SEO Optimized with Keywords */}

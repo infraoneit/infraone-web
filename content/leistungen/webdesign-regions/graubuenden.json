@@ -14,8 +14,8 @@
   ],
   "stats": [
     {
-      "label": "Bündner Projekte",
-      "value": "8+"
+      "label": "Referenzen (Auszug)",
+      "value": "elektro-tel.ch"
     },
     {
       "label": "Sprachen",
@@ -63,7 +63,7 @@
     },
     {
       "question": "Funktionieren Ihre Websites auch bei schlechtem Mobilfunk-Empfang?",
-      "answer": "Ja, das ist gerade in den Bergen wichtig. Wir optimieren Bilder aggressiv (WebP, AVIF, lazy loading), reduzieren JavaScript-Bundles auf das Minimum und bauen Websites, die auch bei 3G-Verbindung schnell laden. Lighthouse-Scores über 90 auf Mobile sind unser Standard. Für Hotels in abgelegenen Tälern testen wir Performance auf simulierten Mobile-Verbindungen."
+      "answer": "Ja, das ist gerade in den Bergen wichtig. Wir optimieren Bilder aggressiv (WebP, AVIF, lazy loading), reduzieren JavaScript-Bundles auf das Minimum und bauen Websites, die auch bei 3G-Verbindung schnell laden. Hohe Lighthouse-Scores auf Mobile sind unser Standard. Für Hotels in abgelegenen Tälern testen wir Performance auf simulierten Mobile-Verbindungen."
     }
   ],
   "whyChooseUs": "Graubünden ist tourismus-getrieben, mit eigenen technischen Anforderungen (Live-Daten, Mehrsprachigkeit, Buchungs-Spitzen). Mit Erfahrung in mehrsprachigen Tourismus-Websites, Live-Daten-Integration und Buchungssystemen sind wir ein passender Partner. Wir verstehen die saisonalen Rhythmen und kommunikativen Anforderungen einer dreisprachigen Tourismusregion.",

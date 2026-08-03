@@ -4,22 +4,22 @@
   "headline": "Webdesign Zürich",
   "subheadline": "Websites für Zürcher Kanzleien, Beratungen und KMU",
   "description": "In Zürich entscheidet die Website oft über das Erstgespräch. Wir bauen Auftritte, die in Sekunden Vertrauen vermitteln und auf jedem Gerät schnell laden, ohne Bahnhofstrasse-Aufschlag.",
-  "intro": "Zürcher Unternehmen kämpfen um die anspruchsvollste Klientel der Schweiz. Eine Anwaltskanzlei am Paradeplatz, ein Steuerberater im Seefeld, ein Tech-Startup in Kreis 5: alle wissen, dass die Website meist das erste Bewertungsgespräch ist, lange bevor jemand zum Hörer greift. Wenn die Seite langsam lädt, generisch wirkt oder auf dem Handy bricht, ist der Lead weg, bevor er entstanden ist. Wir bauen Zürcher Websites, die diese erste Sekunde gewinnen: technisch sauber mit Lighthouse-Scores über 90, klar in der Argumentation, mit konkreten Wertversprechen statt Buzzwords. Die meisten Zürcher Mandate laufen bei uns remote über Videocalls und geteilte Figma-Boards, das spart Zeit und Reisekosten. Initialgespräche oder Workshops vereinbaren wir gerne in Ihrem Büro im Kreis 1, am Seefeld, in Oerlikon oder Altstetten. Anfahrt aus Winterthur ist mit der S-Bahn 25 Minuten zum HB. Wenn Sie einen Online-Shop, eine KI-Integration für Chatbot oder Produktempfehlungen oder ein klassisches Corporate-Web brauchen, decken wir alles aus einer Hand ab.",
+  "intro": "Zürcher Unternehmen kämpfen um die anspruchsvollste Klientel der Schweiz. Eine Anwaltskanzlei am Paradeplatz, ein Steuerberater im Seefeld, ein Tech-Startup in Kreis 5: alle wissen, dass die Website meist das erste Bewertungsgespräch ist, lange bevor jemand zum Hörer greift. Wenn die Seite langsam lädt, generisch wirkt oder auf dem Handy bricht, ist der Lead weg, bevor er entstanden ist. Wir bauen Zürcher Websites, die diese erste Sekunde gewinnen: technisch sauber mit starken Lighthouse-Scores, klar in der Argumentation, mit konkreten Wertversprechen statt Buzzwords. Die meisten Zürcher Mandate laufen bei uns remote über Videocalls und geteilte Figma-Boards, das spart Zeit und Reisekosten. Initialgespräche oder Workshops vereinbaren wir gerne in Ihrem Büro im Kreis 1, am Seefeld, in Oerlikon oder Altstetten. Anfahrt aus Winterthur ist mit der S-Bahn 25 Minuten zum HB. Wenn Sie einen Online-Shop, eine KI-Integration für Chatbot oder Produktempfehlungen oder ein klassisches Corporate-Web brauchen, decken wir alles aus einer Hand ab.",
   "regionalImage": "/images/regions/zuerich.png",
   "localBenefits": [
     "Lokale SEO für Zürcher Suchanfragen",
     "Schnelle Anbindung mit S-Bahn",
-    "Über 30 Zürcher Projekte umgesetzt",
+    "Referenzen aus der Region auf Anfrage",
     "Faire Preise ohne Innenstadt-Aufschlag"
   ],
   "stats": [
     {
-      "label": "Zürcher Projekte",
-      "value": "30+"
+      "label": "Referenzen (Auszug)",
+      "value": "elektro-tel.ch"
     },
     {
-      "label": "Durchschn. Lighthouse Score",
-      "value": "95+"
+      "label": "Technologie",
+      "value": "Next.js"
     }
   ],
   "localFaq": {

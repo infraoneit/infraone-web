@@ -90,7 +90,7 @@ const hubDefaultData: CloudTelefonieRegionData = {
     intro: 'In der Schweiz setzen immer mehr Unternehmen auf Cloud-Telefonie. Die Vorteile liegen auf der Hand: Keine wartungsintensive Hardware vor Ort, flexible Arbeitsplätze im Homeoffice, und professionelle Telefonielösungen zu planbaren Kosten. Als zertifizierter Peoplefone-Partner beraten wir Sie unabhängig und finden die optimale Lösung für Ihr Unternehmen. Von der Einmann-Firma bis zum 50-Personen-Betrieb, wir kennen die Anforderungen von Schweizer KMU.',
     regionalImage: '/images/hero_telefonie_1768423192251.png',
     localBenefits: ['Keine Hardware', 'Wartungsfrei', 'Flexibles Homeoffice', 'Schweizer Rechenzentren'],
-    stats: [{ label: 'Umgestellte Anlagen', value: '80+' }, { label: 'Zufriedene Kunden', value: '98%' }],
+    stats: [{ label: 'Ø Setup-Zeit', value: '5–7 Tage' }, { label: 'Rechenzentren', value: 'Schweiz' }],
     localFaq: { question: 'Kann ich meine bestehende Nummer behalten?', answer: 'Ja. Wir portieren Ihre bestehenden Festnetz- und Mobilnummern zu Peoplefone. Der Prozess dauert meist 5 bis 10 Arbeitstage und läuft unterbrechungsfrei.' },
     localIndustries: [],
     additionalFaqs: [],

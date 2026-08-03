@@ -122,7 +122,7 @@ export function Header() {
                     <div className="flex items-center gap-4">
                         <span>Mo-Fr 8:00-17:00</span>
                         <span className="text-primary-light">|</span>
-                        <span className="font-semibold">20% Neukunden-Rabatt</span>
+                        <span className="font-semibold">Antwort innert einem Arbeitstag</span>
                     </div>
                 </div>
             </div>
