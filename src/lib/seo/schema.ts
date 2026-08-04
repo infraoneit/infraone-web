@@ -173,20 +173,24 @@ export function generateLocalBusinessSchema(
 /**
  * Generiert WebSite Schema für die Homepage (Sitelinks Search Box Support)
  */
+/**
+ * WebSite-Schema.
+ *
+ * Ohne SearchAction: Die frueher deklarierte Suche zeigte auf /search?q=...,
+ * diese Route existiert auf der Seite gar nicht. Eine Suchfunktion zu
+ * behaupten, die es nicht gibt, ist eine Falschangabe gegenueber Google.
+ * Kommt zurueck, sobald es eine echte Suche gibt.
+ *
+ * Gleiche @id wie generateSitewideWebSiteSchema, damit beide Vorkommen von
+ * Google als dieselbe Entitaet erkannt und zusammengefuehrt werden.
+ */
 export function generateWebSiteSchema(): WithContext<WebSite> {
     return {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
+        '@id': `${BASE_URL}/#website`,
         name: 'InfraOne IT Solutions',
-        url: 'https://infraone.ch',
-        potentialAction: {
-            '@type': 'SearchAction',
-            target: {
-                '@type': 'EntryPoint',
-                urlTemplate: 'https://infraone.ch/search?q={search_term_string}',
-            },
-            'query-input': 'required name=search_term_string',
-        } as any,
+        url: BASE_URL,
     };
 }
 
@@ -197,6 +201,9 @@ export function generateMainBusinessSchema(): WithContext<LocalBusiness> {
     return {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService', // Spezifischer als LocalBusiness
+        // Gleiche @id wie die Hauptorganisation: Ohne sie sieht Google hier eine
+        // zweite, unabhaengige Firma statt derselben Entitaet.
+        '@id': `${BASE_URL}/#organization`,
         name: 'InfraOne IT Solutions GmbH',
         image: 'https://infraone.ch/infraone-logo-schwarz.svg',
         url: 'https://infraone.ch',
@@ -315,9 +322,10 @@ export function generateProfessionalServiceSchema(
         // Echter Firmenstandort (nicht Region)
         address: {
             '@type': 'PostalAddress',
+            streetAddress: 'Rudolf-Diesel-Strasse 25',
             addressLocality: 'Winterthur',
             addressRegion: 'Zürich',
-            postalCode: '8400',
+            postalCode: '8404',
             addressCountry: 'CH',
         },
         // Bediente Region (aus Parameter oder Standard)
@@ -398,11 +406,26 @@ export function generateSitewideLocalBusinessSchema() {
         email: 'info@infraone.ch',
         address: {
             '@type': 'PostalAddress',
+            // Ohne streetAddress ist der Eintrag fuer die lokale Suche unvollstaendig.
+            streetAddress: 'Rudolf-Diesel-Strasse 25',
             addressLocality: 'Winterthur',
             addressRegion: 'Zürich',
-            postalCode: '8400',
+            postalCode: '8404',
             addressCountry: 'CH',
         },
+        geo: {
+            '@type': 'GeoCoordinates',
+            latitude: 47.4996,
+            longitude: 8.7243,
+        },
+        openingHoursSpecification: [
+            {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                opens: '08:00',
+                closes: '17:00',
+            },
+        ],
         priceRange: '$$',
     };
 }
@@ -821,6 +844,15 @@ export function generateContactPageLocalBusinessSchema(
     },
     businessId: string
 ) {
+    // Umlaute vereinheitlichen: Der Aufrufer uebergibt city.toLowerCase(), woraus
+    // bei "Tägerwilen" die @id "#business-tägerwilen" wurde - die Service-Schemas
+    // verweisen aber auf "#business-taegerwilen". Damit lief die Referenz ins Leere.
+    const normalisiert = businessId
+        .toLowerCase()
+        .replace(/ä/g, 'ae')
+        .replace(/ö/g, 'oe')
+        .replace(/ü/g, 'ue')
+        .replace(/ß/g, 'ss');
     const geo = REGION_COORDINATES[location.city.toLowerCase()];
 
     // Image-Mapping für Standorte
@@ -836,8 +868,13 @@ export function generateContactPageLocalBusinessSchema(
     return {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
-        '@id': `${BASE_URL}/#business-${businessId}`,
-        name: `InfraOne IT Solutions ${location.isMain ? 'GmbH - Hauptsitz' : ''}`,
+        '@id': `${BASE_URL}/#business-${normalisiert}`,
+        // Filialen brauchen unterscheidbare Namen. Vorher hiessen alle drei
+        // "InfraOne IT Solutions " (mit Leerzeichen am Ende) - fuer Google
+        // waren sie damit nicht auseinanderzuhalten.
+        name: location.isMain
+            ? 'InfraOne IT Solutions GmbH - Hauptsitz'
+            : `InfraOne IT Solutions - ${location.city}`,
         url: BASE_URL,
         telephone: '+41522221818',
         email: 'info@infraone.ch',

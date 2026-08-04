@@ -78,7 +78,8 @@ export default async function ITSupportRegionPage({ params }: { params: Promise<
     
     // Adress-Daten für Standort-Spokes
     const addressData: Record<string, { postalCode: string; addressLocality: string; street?: string }> = {
-        'winterthur': { postalCode: '8400', addressLocality: 'Winterthur' },
+        // Winterthur ist der echte Firmensitz - hier gehoert die vollstaendige Adresse hin
+        'winterthur': { postalCode: '8404', addressLocality: 'Winterthur', street: 'Rudolf-Diesel-Strasse 25' },
         'andelfingen': { postalCode: '8451', addressLocality: 'Kleinandelfingen' },
         'schaffhausen': { postalCode: '8200', addressLocality: 'Schaffhausen' },
         'thurgau': { postalCode: '8274', addressLocality: 'Tägerwilen' },
