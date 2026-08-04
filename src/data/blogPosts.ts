@@ -221,7 +221,7 @@ Ob Server, Firewalls, Switches, Cloud-Dienste oder Internetverbindungen – mit 
 
 ### Erste Schritte – PRTG einrichten
 
-![PRTG-Architektur mit Remote Probes: Core Server im Corporate LAN, Probe 0 und 1 lokal, Probe 2 am Remote-Standort, Probe 3 und 4 beim Hosting-Provider fuer Mail- und Webserver, verbunden ueber verschluesselte Internetverbindungen](/images/blog-inline-prtg-netzwerkmonitoring.webp)
+![PRTG-Architektur mit Remote Probes: Core Server im Corporate LAN, Probe 0 und 1 lokal, Probe 2 am Remote-Standort, Probe 3 und 4 beim Hosting-Provider fuer Mail- und Webserver, verbunden ueber verschluesselte Internetverbindungen](/images/blog-inline-prtg-remote-probes.webp)
 
 #### 1. Installation starten
 Lade PRTG von [paessler.com](https://www.paessler.com) herunter und installiere es auf einem Windows-Server oder einer virtuellen Maschine.
