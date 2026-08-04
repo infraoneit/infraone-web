@@ -66,7 +66,6 @@ Die Verschmelzung bringt erhebliche Cybersecurity-Herausforderungen:
 
 Für eine sichere IT/OT-Integration empfehlen wir:
 
-![Fünf nummerierte Massnahmen für eine sichere IT/OT-Integration: Netzwerk-Segmentierung, Firewall-Regeln, Monitoring, Notfallplan und Schulung](/images/blog-inline-it-trifft-ot.webp)
 
 - **Netzwerksegmentierung**: OT-Systeme in eigene VLANs isolieren
 - **Firewall-Regeln**: Nur notwendige Verbindungen erlauben
@@ -96,7 +95,6 @@ Die Anforderungen an Kontrollräume, Leitstände und sicherheitskritische Umgebu
 
 Mit **Black Box Emerald** steht eine moderne KVM-over-IP-Lösung zur Verfügung, die genau diese Anforderungen erfüllt – für Multiuser-Zugriff, 4K-Videoübertragung, USB-Routing und zentralisierte Steuerung.
 
-![Übersicht eines Black Box KVM-over-IP Multimonitor-Setups mit Transmittern, Receivern und Videowall im Kontrollraum](/images/blog-inline-multimonitor-systeme-black-box-emerald.webp)
 
 ### Vorteile von Black Box Emerald
 
@@ -164,7 +162,6 @@ Die Verbindung von 3CX mit Peoplefone bietet Unternehmen eine zuverlässige und 
 
 Die Kombination von 3CX und Peoplefone ist eine beliebte Lösung für Unternehmen, die auf moderne VoIP-Telefonie, Flexibilität und Kosteneffizienz setzen.
 
-![Fünf nummerierte Einrichtungsschritte für 3CX mit peoplefone: SIP-Trunk anlegen, Zugangsdaten eintragen, Rufnummern einrichten, ausgehende Regeln konfigurieren, Funktionstest](/images/blog-inline-moderne-telefonie-peoplefone-3cx.webp)
 
 ### 1. SIP-Trunk in 3CX anlegen
 Melde dich in der 3CX Management Console an. Unter dem Menüpunkt „SIP-Trunks" wählst du Peoplefone als Anbieter und gibst deine Hauptnummer ein.
@@ -224,7 +221,7 @@ Ob Server, Firewalls, Switches, Cloud-Dienste oder Internetverbindungen – mit 
 
 ### Erste Schritte – PRTG einrichten
 
-![Fünf nummerierte Einrichtungsschritte für PRTG: Installation, Auto-Discovery, Sensoren aktivieren, Dashboards anpassen, Alarme definieren](/images/blog-inline-prtg-netzwerkmonitoring.webp)
+![PRTG-Architektur mit Remote Probes: Core Server im Corporate LAN, Probe 0 und 1 lokal, Probe 2 am Remote-Standort, Probe 3 und 4 beim Hosting-Provider fuer Mail- und Webserver, verbunden ueber verschluesselte Internetverbindungen](/images/blog-inline-prtg-netzwerkmonitoring.webp)
 
 #### 1. Installation starten
 Lade PRTG von [paessler.com](https://www.paessler.com) herunter und installiere es auf einem Windows-Server oder einer virtuellen Maschine.
@@ -282,7 +279,6 @@ Wenn du noch ältere WAGO-Projekte (z.B. CODESYS 2.3 oder ältere Bibliotheken) 
 
 ### Schritt-für-Schritt-Anleitung: Migration auf CODESYS 3.5
 
-![Sieben nummerierte Migrationsschritte von Codesys 2.3 auf 3.5: Projektanalyse, Projektstruktur, Bibliotheken aktualisieren, Code übertragen, Visualisierung neu aufbauen, Testen, Dokumentation](/images/blog-inline-wago-codesys-migration.webp)
 
 #### 1. Projektanalyse
 Überprüfe deine bestehende CODESYS 2.3 Anwendung: Welche Bibliotheken werden verwendet? Gibt es veraltete Befehle, Visualisierungselemente oder proprietäre Erweiterungen?
