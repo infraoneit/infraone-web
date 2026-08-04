@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // Hinweis: TP-Link fehlt hier, weil der Hersteller kein offizielles
@@ -30,12 +32,23 @@ export function PartnerSlider() {
     return (
         <section className="py-12 lg:py-16 bg-surface border-y border-border overflow-hidden">
             <div className="container mx-auto px-4">
-                <h2 className="text-center text-sm font-medium text-text-secondary mb-10 uppercase tracking-wider">
-                    Unsere Partner & Technologien
-                </h2>
+                <Link
+                    href="/partner"
+                    className="block text-center mb-10 group"
+                    aria-label="Zur Partnerseite"
+                >
+                    <h2 className="text-sm font-medium text-text-secondary uppercase tracking-wider group-hover:text-primary transition-colors">
+                        Unsere Partner &amp; Technologien
+                    </h2>
+                    <span className="inline-flex items-center gap-1 mt-2 text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                        Alle Partner ansehen
+                        <ArrowRight className="w-4 h-4" />
+                    </span>
+                </Link>
             </div>
 
-            <div className="relative">
+            {/* Der ganze Logo-Streifen fuehrt ebenfalls zur Partnerseite */}
+            <Link href="/partner" className="relative block" aria-label="Zur Partnerseite">
                 {/* Gradient Overlays */}
                 <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-surface to-transparent z-10" />
                 <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-surface to-transparent z-10" />
@@ -65,7 +78,7 @@ export function PartnerSlider() {
                         </div>
                     ))}
                 </div>
-            </div>
+            </Link>
         </section>
     );
 }

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Gift } from 'lucide-react';
+import { ArrowRight, Gift, type LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 
@@ -8,6 +8,8 @@ interface PromoSectionProps {
     description?: string;
     ctaLabel?: string;
     ctaHref?: string;
+    /** Symbol im Kreis. Standard: Geschenk (Neukunden-Leiste auf der Startseite). */
+    icon?: LucideIcon;
 }
 
 export function PromoSection({
@@ -15,6 +17,7 @@ export function PromoSection({
     description = 'Lernen Sie unsere Arbeitsweise kennen: persönlich, transparent und ohne Warteschleife. Das Erstgespräch ist unverbindlich.',
     ctaLabel = 'Unsere Lösungen',
     ctaHref = '/leistungen',
+    icon: Icon = Gift,
 }: PromoSectionProps) {
     return (
         <section className="py-16 lg:py-20 relative overflow-hidden">
@@ -37,7 +40,7 @@ export function PromoSection({
                 <AnimatedSection animation="slideUp" className="max-w-3xl mx-auto text-center text-white">
                     {/* Icon */}
                     <AnimatedSection animation="scale" delay={0.2} className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-6">
-                        <Gift className="w-8 h-8" />
+                        <Icon className="w-8 h-8" />
                     </AnimatedSection>
 
                     {/* Content */}

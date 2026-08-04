@@ -1,9 +1,8 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { ExternalLink, Handshake, Cpu } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
-import { Button } from '@/components/ui/Button';
+import { PromoSection } from '@/components/sections/PromoSection';
 import { gewerbepartner, technologiepartner } from '@/data/partners';
 import { BASE_URL } from '@/lib/constants';
 
@@ -134,27 +133,14 @@ export default function PartnerPage() {
                 </div>
             </section>
 
-            {/* Abschluss */}
-            <section className="py-16 lg:py-24 bg-surface">
-                <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp">
-                        <div className="max-w-2xl">
-                            <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
-                                Sie sind Elektrofachbetrieb?
-                            </h2>
-                            <p className="text-text-secondary leading-relaxed mb-6">
-                                Wenn bei Ihren Projekten regelmässig IT-Fragen auftauchen, die Sie nicht selbst
-                                abdecken wollen: Wir übernehmen den IT-Teil und lassen die Kundenbeziehung dort,
-                                wo sie hingehört — bei Ihnen. Melden Sie sich, dann besprechen wir, wie das
-                                aussehen kann.
-                            </p>
-                            <Button variant="primary" size="lg" asChild>
-                                <Link href="/kontakt">Gespräch vereinbaren</Link>
-                            </Button>
-                        </div>
-                    </AnimatedSection>
-                </div>
-            </section>
+            {/* Abschluss - dieselbe gruene Leiste wie die Neukunden-Sektion auf der Startseite */}
+            <PromoSection
+                icon={Handshake}
+                headline="Sie sind Elektrofachbetrieb?"
+                description="Wenn bei Ihren Projekten regelmässig IT-Fragen auftauchen, die Sie nicht selbst abdecken wollen: Wir übernehmen den IT-Teil und lassen die Kundenbeziehung dort, wo sie hingehört — bei Ihnen."
+                ctaLabel="Gespräch vereinbaren"
+                ctaHref="/kontakt"
+            />
         </>
     );
 }
