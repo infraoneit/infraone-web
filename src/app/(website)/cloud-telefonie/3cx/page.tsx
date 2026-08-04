@@ -148,7 +148,7 @@ export default function CloudTelefonie3CXPage() {
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
                     <Image
-                        src="/images/hero_telefonie_1768423192251.png"
+                        src="/images/hero_telefonie_1768423192251.webp"
                         alt="3CX Cloud-Telefonie Hintergrund"
                         fill
                         className="object-cover"

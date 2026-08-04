@@ -137,7 +137,7 @@ export default function ITNetzwerkePage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
             />
             <ServicePageTemplate
-                heroImage="/images/hero_it_network_1768423176860.png"
+                heroImage="/images/hero_it_network_1768423176860.webp"
                 headline="IT-Systeme & Netzwerke"
                 subheadline="Stabile IT‑Infrastrukturen für Unternehmen"
                 description="Du willst eine IT-Infrastruktur, die einfach läuft? Wir planen, installieren und betreuen sichere Netzwerke, leistungsstarke Clouds, Server und Sicherheitssysteme – alles aus einer Hand."

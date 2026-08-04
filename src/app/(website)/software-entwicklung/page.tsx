@@ -98,7 +98,7 @@ export default function SoftwareEntwicklungPage() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
             <ServicePageTemplate
-                heroImage="/images/hero_software_1768423249576.png"
+                heroImage="/images/hero_software_1768423249576.webp"
                 headline="Software-Entwicklung"
                 subheadline="Massgeschneiderte Lösungen für Ihr Unternehmen"
                 description="Von der Prozessautomatisierung bis zur komplexen Webanwendung – wir entwickeln Software, die Ihre Arbeit einfacher und effizienter macht."

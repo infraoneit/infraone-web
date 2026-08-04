@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, MapPin, Clock, CheckCircle, ArrowRight, Monitor, Headphones, Shield, Zap, ChevronDown, Users, Wrench } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
 import { useState } from 'react';
@@ -51,7 +50,7 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Remote-Support ab', value: 'CHF 130/h' }, { label: 'Mindestverrechnung', value: '15 Min' }],
         localFaq: { question: 'In welchen Regionen bieten Sie Vor-Ort-Support an?', answer: 'Wir betreuen primär die Regionen Zürich, Winterthur, Schaffhausen, Thurgau und St. Gallen. Remote-Support ist schweizweit verfügbar.' },
         anfahrt: 'Je nach Region',
-        regionalImage: '/images/hero_it_network_1768423176860.png',
+        regionalImage: '/images/hero_it_network_1768423176860.webp',
     },
     winterthur: {
         headline: 'IT-Support Winterthur',
@@ -62,7 +61,7 @@ const regionalContent: Record<string, RegionalData> = {
         stats: [{ label: 'Hauptstandort Winterthur', value: 'Keine Anfahrtskosten' }, { label: 'Ø Anfahrt', value: '< 30 Min' }],
         localFaq: { question: 'Wie schnell können Sie in Winterthur vor Ort sein?', answer: 'Da unser Büro in der Winterthurer Altstadt liegt, sind wir bei dringenden Fällen oft in unter 30 Minuten bei Ihnen. Keine Anfahrtskosten im gesamten Stadtgebiet.' },
         anfahrt: 'Keine Anfahrtskosten',
-        regionalImage: '/images/regions/winterthur.png',
+        regionalImage: '/images/regions/winterthur.webp',
         localIndustries: [
             { name: 'Arztpraxen', need: 'Sichere Patientendaten, schnelle Hilfe bei Ausfällen, HIN-Mail' },
             { name: 'Handwerk & Gewerbe', need: 'Robuste Hardware, einfache Bedienung, Backup-Lösungen' },
@@ -97,7 +96,7 @@ export function ITSupportContent({ regionSlug }: ITSupportContentProps) {
             {/* Hero */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_it_network_1768423176860.png" alt="IT-Support und Netzwerk-Infrastruktur fuer Schweizer KMU" fill className="object-cover" priority aria-hidden="true" />
+                    <Image src="/images/hero_it_network_1768423176860.webp" alt="IT-Support und Netzwerk-Infrastruktur fuer Schweizer KMU" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -225,14 +224,14 @@ export function ITSupportContent({ regionSlug }: ITSupportContentProps) {
                     <div>
                         {/* Preis-Karten */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                            <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-card border border-border text-center">
+                            <div className="p-6 rounded-2xl bg-card border border-border text-center hover:-translate-y-[5px] transition-transform duration-300">
                                 <Monitor className="w-8 h-8 text-primary mx-auto mb-4" />
                                 <h3 className="font-bold text-text-primary mb-2">Remote-Support</h3>
                                 <p className="text-3xl font-bold text-primary mb-2">ab CHF 130.–/h</p>
                                 <p className="text-sm text-text-secondary">Schnellste Lösung – meist innert 15 Minuten</p>
                                 <p className="text-xs text-text-secondary mt-2">Mindestverrechnung: 15 Minuten</p>
-                            </motion.div>
-                            <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-primary/5 border border-primary text-center">
+                            </div>
+                            <div className="p-6 rounded-2xl bg-primary/5 border border-primary text-center hover:-translate-y-[5px] transition-transform duration-300">
                                 <MapPin className="w-8 h-8 text-primary mx-auto mb-4" />
                                 <h3 className="font-bold text-text-primary mb-2">
                                     {regionSlug ? `Vor-Ort in ${content.headline.replace('IT-Support ', '')}` : 'Vor-Ort-Support'}
@@ -241,7 +240,7 @@ export function ITSupportContent({ regionSlug }: ITSupportContentProps) {
                                 <p className="text-sm text-primary">Persönlich bei Ihnen</p>
                                 {regionSlug && <p className="text-xs text-primary mt-2">{content.anfahrt}</p>}
                                 <p className="text-xs text-text-secondary mt-1">Mindestverrechnung: 30 Minuten</p>
-                            </motion.div>
+                            </div>
                         </div>
 
                         {/* Supportzeiten */}

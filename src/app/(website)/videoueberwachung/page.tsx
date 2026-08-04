@@ -112,7 +112,7 @@ export default function VideoueberwachungPage() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
             <ServicePageTemplate
-                heroImage="/images/hero_video_1768423206506.png"
+                heroImage="/images/hero_video_1768423206506.webp"
                 headline="Videoüberwachung"
                 subheadline="Professionelle Sicherheitslösungen für Ihr Unternehmen"
                 description="Von der einzelnen Kamera bis zum komplexen Überwachungssystem – wir installieren und betreuen Videoüberwachung mit Milestone VMS, UniFi Protect und Aluha."

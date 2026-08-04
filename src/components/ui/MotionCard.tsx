@@ -1,7 +1,5 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { type CSSProperties, type ReactNode } from 'react';
+import { AnimatedSection } from '@/components/ui/AnimatedSection';
 
 interface MotionCardProps {
     children: ReactNode;
@@ -12,12 +10,15 @@ interface MotionCardProps {
 
 export function MotionCard({ children, className = '', hoverY = -5, hoverX = 0 }: MotionCardProps) {
     return (
-        <motion.div
-            whileHover={{ y: hoverY, x: hoverX }}
-            className={className}
+        <div
+            className={`hover-lift${className ? ` ${className}` : ''}`}
+            style={{
+                '--hover-x': `${hoverX}px`,
+                '--hover-y': `${hoverY}px`,
+            } as CSSProperties}
         >
             {children}
-        </motion.div>
+        </div>
     );
 }
 
@@ -28,13 +29,8 @@ interface MotionCTAProps {
 
 export function MotionCTA({ children, className = '' }: MotionCTAProps) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={className}
-        >
+        <AnimatedSection animation="slideUp" className={className}>
             {children}
-        </motion.div>
+        </AnimatedSection>
     );
 }

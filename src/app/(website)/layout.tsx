@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/app/globals.css";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
@@ -23,13 +23,16 @@ const geistMono = Geist_Mono({
   fallback: ['Courier New', 'monospace'],
 });
 
+// Next.js verlangt den Viewport als eigenen Export - in "metadata" wird er
+// ignoriert (Warnung im Serverlog) und wirkte auf Mobilgeraeten nicht.
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
+
 export const metadata: Metadata = {
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-  },
   title: {
     default: "InfraOne IT Solutions | IT-Support, Webdesign & Telefonie in Winterthur",
     template: "%s | InfraOne"
@@ -143,6 +146,10 @@ export default function RootLayout({
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col overflow-x-hidden`}
+        // Geist direkt setzen: Tailwinds Preflight ueberschreibt sonst die
+        // font-family aus globals.css, dadurch lief die Seite in der
+        // System-Standardschrift statt in Geist.
+        style={{ fontFamily: 'var(--font-geist-sans), system-ui, sans-serif' }}
         suppressHydrationWarning
       >
         <ThemeProvider>

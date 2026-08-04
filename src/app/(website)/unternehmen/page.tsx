@@ -146,7 +146,7 @@ export default function UnternehmenPage() {
             {/* Hero */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_homepage_1768423161913.png" alt="InfraOne IT Solutions Hauptsitz Winterthur und Team" fill className="object-cover" priority aria-hidden="true" />
+                    <Image src="/images/hero_homepage_1768423161913.webp" alt="InfraOne IT Solutions Hauptsitz Winterthur und Team" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
@@ -178,7 +178,7 @@ export default function UnternehmenPage() {
                                 <div className="relative">
                                     <div className="aspect-[4/5] relative rounded-2xl overflow-hidden border border-border">
                                         <Image
-                                            src="/images/team/profilbild-ceo.png"
+                                            src="/images/team/profilbild-ceo.webp"
                                             alt="Aladdin Avci - Geschäftsführer InfraOne IT Solutions"
                                             fill
                                             className="object-cover grayscale hover:grayscale-0 transition-all duration-300"

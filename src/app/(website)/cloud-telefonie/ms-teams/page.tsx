@@ -148,7 +148,7 @@ export default function CloudTelefonieMsTeamsPage() {
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
                     <Image
-                        src="/images/hero_telefonie_1768423192251.png"
+                        src="/images/hero_telefonie_1768423192251.webp"
                         alt="Microsoft Teams Telefonie Schweiz Hintergrund"
                         fill
                         className="object-cover"
@@ -199,7 +199,7 @@ export default function CloudTelefonieMsTeamsPage() {
                         <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
                             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
                                 <Image
-                                    src="/images/hero_telefonie_1768423192251.png"
+                                    src="/images/hero_telefonie_1768423192251.webp"
                                     alt="Microsoft Teams Telefonie Schweiz"
                                     fill
                                     className="object-cover"

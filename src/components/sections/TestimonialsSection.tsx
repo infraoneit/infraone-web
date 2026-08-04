@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 import { StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { useState } from 'react';
@@ -51,10 +50,8 @@ export function TestimonialsSection({
                                     rel="noopener noreferrer"
                                     className="block"
                                 >
-                                    <motion.div
-                                        whileHover={{ y: -5 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-150 cursor-pointer flex flex-col"
+                                    <div
+                                        className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:-translate-y-[5px] transition-all duration-150 cursor-pointer flex flex-col"
                                     >
                                         {/* Quote Icon */}
                                         <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-4">
@@ -101,7 +98,7 @@ export function TestimonialsSection({
                                                 {testimonial.service}
                                             </span>
                                         </div>
-                                    </motion.div>
+                                    </div>
                                 </a>
                             </StaggerItem>
                         );

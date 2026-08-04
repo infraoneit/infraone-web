@@ -46,3 +46,7 @@ next-env.d.ts
 # Interne Planungsdokumente (nicht fuer oeffentliches Repo)
 IMPLEMENTIERUNGS_FINALPLAN.md
 INFRAONE_SEO_BULLETPROOF_PLAN.md
+
+# Generierte Fontconfig + Cache des Grafik-Skripts
+scripts/.fontcache/
+scripts/fonts/fonts.conf

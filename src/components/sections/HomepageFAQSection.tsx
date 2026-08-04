@@ -6,7 +6,7 @@ import { FAQList } from '@/components/ui/FAQList';
 const homepageFaqs = [
     {
         question: 'Welche Leistungen bietet InfraOne an?',
-        answer: 'Wir sind Ihr Full-Service-IT-Partner: IT-Support & Managed Services, Cloud-Telefonie (3CX, peoplefone), Netzwerke & Server, Videoüberwachung, Webdesign, Software-Entwicklung, Digital Signage, Gebäudeautomation und Kontrollraum-Lösungen. Alles aus einer Hand.'
+        answer: 'Wir sind Ihr Full-Service-IT-Partner: IT-Support & Managed Services, Cloud-Telefonie (3CX, peoplefone), Netzwerke & Server, Videoüberwachung, Webdesign, Software-Entwicklung und Digital Signage. Alles aus einer Hand.'
     },
     {
         question: 'Für wen sind die Dienstleistungen geeignet?',

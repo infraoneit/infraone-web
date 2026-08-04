@@ -35,6 +35,8 @@ const nextConfig: NextConfig = {
 
   // 301-Redirects fuer alte URLs:
   // - /telefonie wird auf /cloud-telefonie konsolidiert (Kannibalisierung beheben)
+  // - /kontrollraum und /gebaeudeautomation wurden als Leistungen eingestellt
+  //   und leiten auf /leistungen um (keine 404, Bewertung bleibt erhalten)
   // - 5 historische Blog-Slugs (in alter Sitemap, aber nie als Page existiert)
   //   werden auf /blog oder den jeweiligen Nachfolge-Post gemappt
   async redirects() {
@@ -42,6 +44,16 @@ const nextConfig: NextConfig = {
       {
         source: '/telefonie',
         destination: '/cloud-telefonie',
+        permanent: true,
+      },
+      {
+        source: '/kontrollraum',
+        destination: '/leistungen',
+        permanent: true,
+      },
+      {
+        source: '/gebaeudeautomation',
+        destination: '/leistungen',
         permanent: true,
       },
       {

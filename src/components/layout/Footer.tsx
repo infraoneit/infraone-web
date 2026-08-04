@@ -10,9 +10,7 @@ const footerLinks = {
         { label: 'Videoüberwachung', href: '/videoueberwachung' },
         { label: 'Webdesign', href: '/webdesign' },
         { label: 'Software-Entwicklung', href: '/software-entwicklung' },
-        { label: 'Kontrollraum-Lösungen', href: '/kontrollraum' },
         { label: 'Digital Signage', href: '/digital-signage' },
-        { label: 'Gebäudeautomation', href: '/gebaeudeautomation' },
     ],
     company: [
         { label: 'Über uns', href: '/unternehmen' },

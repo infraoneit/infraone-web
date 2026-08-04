@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { 
     Check, ArrowRight, Code, Rocket, Palette, Star, ExternalLink, ChevronDown, Blocks, FileCode, Zap, Target, Sparkles, Wrench,
     Factory, Stethoscope, ShoppingBag, Landmark, Palette as PaletteIcon, Lightbulb, Cpu,
@@ -177,7 +176,7 @@ const hubDefaultData: WebdesignRegionData = {
     subheadline: 'Moderne Websites für Schweizer Unternehmen',
     description: 'Von der einfachen Visitenkarte bis zur komplexen Web-Applikation, wir designen und entwickeln Websites, die überzeugen und verkaufen.',
     intro: 'Die Schweiz ist ein Land der KMU. Über 99% aller Unternehmen sind kleine und mittlere Betriebe, die das Rückgrat unserer Wirtschaft bilden. Genau für diese Unternehmen entwickeln wir Websites: pragmatisch, bezahlbar und mit echtem Mehrwert. Unser Team in Winterthur betreut Kunden in der gesamten Deutschschweiz, persönlich und auf Augenhöhe.',
-    regionalImage: '/images/webdesign-hero.png',
+    regionalImage: '/images/webdesign-hero.webp',
     localBenefits: ['Schweizer Qualität', 'Persönliche Betreuung', 'Faire Preise', 'Schnelle Umsetzung'],
     stats: [{ label: 'Referenzen (Auszug)', value: 'elektro-tel.ch' }, { label: 'Referenzprojekte', value: 'auf Anfrage' }],
     localFaq: { question: 'Betreuen Sie auch Kunden ausserhalb der Deutschschweiz?', answer: 'Ja, wir arbeiten remote mit Kunden in der ganzen Schweiz zusammen. Persönliche Treffen sind in den meisten Fällen nicht nötig.' },
@@ -282,7 +281,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-20">
                     <Image
-                        src="/images/webdesign-hero.png"
+                        src="/images/webdesign-hero.webp"
                         alt="Webdesign und moderne Website-Entwicklung am Arbeitsplatz"
                         fill
                         className="object-cover"
@@ -319,7 +318,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
                             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
                                 <Image
-                                    src={content.regionalImage || '/images/webdesign-hero.png'}
+                                    src={content.regionalImage || '/images/webdesign-hero.webp'}
                                     alt={content.headline}
                                     fill
                                     className="object-cover"
@@ -391,16 +390,13 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         /* Hub: Full detailed packages */
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                             {packages.map((pkg, index) => (
-                                <motion.div
+                                <AnimatedSection
                                     key={index}
-                                    initial={{ opacity: 0, y: 40 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.15, duration: 0.3 }}
-                                    whileHover={{ y: -12, scale: 1.02, transition: { duration: 0.15 } }}
-                                    className={`relative p-10 rounded-3xl border-2 ${pkg.popular
-                                        ? 'bg-gradient-to-br from-primary via-primary to-primary/90 text-white border-primary shadow-2xl shadow-primary/30 scale-105'
-                                        : 'bg-gradient-to-br from-card to-surface border-border hover:border-primary hover:shadow-2xl'
+                                    animation="slideUp"
+                                    delay={index * 0.15}
+                                    className={`relative p-10 rounded-3xl border-2 hover:-translate-y-3 ${pkg.popular
+                                        ? 'bg-gradient-to-br from-primary via-primary to-primary/90 text-white border-primary shadow-2xl shadow-primary/30 scale-105 hover:scale-[1.07]'
+                                        : 'bg-gradient-to-br from-card to-surface border-border hover:border-primary hover:shadow-2xl hover:scale-[1.02]'
                                         } transition-all duration-200`}
                                 >
                     {pkg.popular && (
@@ -446,7 +442,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                             <ArrowRight className="w-5 h-5" />
                                         </Link>
                                     </Button>
-                                </motion.div>
+                                </AnimatedSection>
                             ))}
                         </div>
                     ) : (
@@ -454,14 +450,11 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         <div className="max-w-5xl mx-auto">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                                 {packages.map((pkg, index) => (
-                                    <motion.div
+                                    <AnimatedSection
                                         key={index}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: index * 0.1 }}
-                                        whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                                        className={`p-8 rounded-2xl border-2 text-center ${pkg.popular
+                                        animation="slideUp"
+                                        delay={index * 0.1}
+                                        className={`p-8 rounded-2xl border-2 text-center hover:-translate-y-1.5 ${pkg.popular
                                             ? 'bg-gradient-to-br from-primary to-primary/90 text-white border-primary shadow-xl scale-105'
                                             : 'bg-card border-border hover:border-primary hover:shadow-lg'
                                             } transition-all duration-200`}
@@ -475,7 +468,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                         <p className={`text-sm leading-relaxed ${pkg.popular ? 'text-white/80' : 'text-text-secondary'}`}>
                                             {pkg.features.slice(0, 3).join(' • ')}
                                         </p>
-                                    </motion.div>
+                                    </AnimatedSection>
                                 ))}
                             </div>
                             <div className="text-center">
@@ -515,18 +508,11 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                 const IconComponent = getIndustryIcon(industry.name);
                                 
                                 return (
-                                    <motion.div
+                                    <AnimatedSection
                                         key={index}
-                                        initial={{ opacity: 0, y: 30 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: index * 0.12, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                                        whileHover={{ 
-                                            y: -6, 
-                                            scale: 1.01,
-                                            transition: { duration: 0.2, ease: 'easeOut' }
-                                        }}
-                                        className={`${colSpan} group relative p-10 rounded-3xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-200 shadow-sm hover:shadow-[0_0_40px_rgba(61,150,70,0.12)]`}
+                                        animation="slideUp"
+                                        delay={index * 0.12}
+                                        className={`${colSpan} group relative p-10 rounded-3xl bg-card border border-border/50 hover:border-primary/30 hover:-translate-y-1.5 hover:scale-[1.01] transition-all duration-200 shadow-sm hover:shadow-[0_0_40px_rgba(61,150,70,0.12)]`}
                                     >
                                         {/* Subtiler Glow-Effekt mit Primary-Farbe */}
                                         <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" 
@@ -556,7 +542,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                                 </p>
                                             </div>
                                         </div>
-                                    </motion.div>
+                                    </AnimatedSection>
                                 );
                             })}
                         </div>
@@ -675,18 +661,11 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                             ].map((phase, index) => {
                                 const IconComponent = phase.icon;
                                 return (
-                                    <motion.div
+                                    <AnimatedSection
                                         key={index}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: index * 0.1, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                                        whileHover={{ 
-                                            y: -6, 
-                                            scale: 1.01,
-                                            transition: { duration: 0.3, ease: 'easeOut' }
-                                        }}
-                                        className="group relative p-10 rounded-3xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-200 shadow-sm hover:shadow-[0_0_40px_rgba(61,150,70,0.12)]"
+                                        animation="slideUp"
+                                        delay={index * 0.1}
+                                        className="group relative p-10 rounded-3xl bg-card border border-border/50 hover:border-primary/30 hover:-translate-y-1.5 hover:scale-[1.01] transition-all duration-200 shadow-sm hover:shadow-[0_0_40px_rgba(61,150,70,0.12)]"
                                     >
                                         {/* Subtiler Glow-Effekt mit Primary-Farbe */}
                                         <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" 
@@ -703,7 +682,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                             <h3 className="text-xl font-bold text-text-primary mb-3 group-hover:text-primary transition-colors duration-200">{phase.title}</h3>
                                             <p className="text-base text-text-secondary leading-relaxed">{phase.desc}</p>
                                         </div>
-                                    </motion.div>
+                                    </AnimatedSection>
                                 );
                             })}
                         </div>
@@ -723,10 +702,9 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {platforms.map((platform, index) => (
-                            <motion.div
+                            <div
                                 key={index}
-                                whileHover={{ y: -5 }}
-                                className={`p-6 rounded-2xl border ${platform.highlight
+                                className={`p-6 rounded-2xl border hover:-translate-y-[5px] transition-transform duration-300 ${platform.highlight
                                     ? 'bg-primary/5 border-primary'
                                     : 'bg-card border-border'
                                     }`}
@@ -761,7 +739,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                         )}
                                     </>
                                 )}
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
 

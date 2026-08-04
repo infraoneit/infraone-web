@@ -22,7 +22,7 @@ export function HeroSection() {
         <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-background via-background to-surface">
             {/* Background Image */}
             <div className="absolute inset-0 opacity-10">
-                <Image src="/images/hero_homepage_1768423161913.png" alt="Moderne IT-Infrastruktur und Server-Technik fuer Schweizer KMU" fill className="object-cover" priority sizes="100vw" quality={75} aria-hidden="true" />
+                <Image src="/images/hero_homepage_1768423161913.webp" alt="Moderne IT-Infrastruktur und Server-Technik fuer Schweizer KMU" fill className="object-cover" priority sizes="100vw" quality={75} aria-hidden="true" />
             </div>
 
             {/* Background Pattern */}
@@ -33,13 +33,11 @@ export function HeroSection() {
 
             <div className="container mx-auto px-4 relative z-10">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                    {/* Left Side - Text Content */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4 }}
-                        className="relative"
-                    >
+                    {/* Left Side - Text Content
+                        Bewusst OHNE Einblend-Animation: Dieser Block enthaelt die H1 und ist
+                        damit das LCP-Element. Jede Opacity-Animation verzoegert den LCP-Wert
+                        und laesst die Seite beim Laden leer wirken. */}
+                    <div className="relative">
                         {/* Overline */}
                         <p className="text-sm font-medium text-primary mb-4 uppercase tracking-wider">
                             IT-Dienstleister Winterthur
@@ -88,15 +86,12 @@ export function HeroSection() {
                                 <span>Schnelle Reaktionszeit</span>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    {/* Right Side - Hero Image */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: 0.2 }}
-                        className="relative hidden lg:block"
-                    >
+                    {/* Right Side - Hero Image
+                        Ebenfalls ohne Einblenden: Das Bild ist priority-geladen und ein
+                        LCP-Kandidat. */}
+                    <div className="relative hidden lg:block">
                         {/* Main Image Container */}
                         <div className="relative">
                             {/* Glowing Border Effect */}
@@ -105,7 +100,7 @@ export function HeroSection() {
                             {/* Image */}
                             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border-2 border-primary/20 shadow-2xl">
                                 <Image
-                                    src="/images/hero_it_network_1768423176860.png" alt="IT-Infrastruktur und Serverraum" fill className="object-cover" priority sizes="(max-width: 1024px) 100vw, 50vw" quality={80}
+                                    src="/images/hero_it_network_1768423176860.webp" alt="IT-Infrastruktur und Serverraum" fill className="object-cover" priority sizes="(max-width: 1024px) 100vw, 50vw" quality={80}
                                 />
                                 {/* Overlay Gradient */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
@@ -161,7 +156,7 @@ export function HeroSection() {
                                 </div>
                             </motion.div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
 

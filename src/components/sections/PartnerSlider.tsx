@@ -1,10 +1,8 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
+// Hinweis: TP-Link fehlt hier, weil der Hersteller kein offizielles
+// SVG-Logo bereitstellt (nur PNG). Nicht selbst nachzeichnen.
 const partners = [
     { name: 'Microsoft', logo: '/images/partners/partner-microsoft.svg' },
     { name: '3CX', logo: '/images/partners/partner-3cx.svg' },
@@ -16,25 +14,16 @@ const partners = [
     { name: 'Synology', logo: '/images/partners/partner-synology.svg' },
     { name: 'Ubiquiti', logo: '/images/partners/partner-ubiquiti.svg' },
     { name: 'VMware', logo: '/images/partners/partner-vmware.svg' },
-    { name: 'BlackBox', logo: '/images/partners/partner-blackbox.svg' },
     { name: 'iWay', logo: '/images/partners/partner-iway.svg' },
     { name: 'peoplefone', logo: '/images/partners/partner-peoplefone.svg' },
 ];
 
+// Dauer des Marquee-Umlaufs: 20 s, definiert in globals.css (.animate-marquee).
+// Die Liste wird verdoppelt und die Animation endet exakt bei -50 %,
+// dadurch ist die Schleife auf allen Viewport-Breiten nahtlos und
+// die Laufgeschwindigkeit pro Logo ist auf Mobile und Desktop gleich.
+
 export function PartnerSlider() {
-    // Mobile detection for responsive animation speed
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const checkMobile = () => {
-            const mobile = window.innerWidth < 768;
-            setIsMobile(mobile);
-        };
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
     // Duplicate the partners array for seamless infinite scroll
     const extendedPartners = [...partners, ...partners];
 
@@ -51,20 +40,10 @@ export function PartnerSlider() {
                 <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-surface to-transparent z-10" />
                 <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-surface to-transparent z-10" />
 
-                {/* Scrolling Container */}
-                <motion.div
-                    key={isMobile ? 'mobile-anim' : 'desktop-anim'}
-                    className="flex gap-8 items-center"
-                    animate={{
-                        x: ['0%', '-50%'],
-                    }}
-                    transition={{
-                        x: {
-                            duration: isMobile ? 4 : 40,
-                            repeat: Infinity,
-                            ease: 'linear',
-                        },
-                    }}
+                {/* Scrolling Container — w-max: Breite = Inhalt, damit -50 % exakt der
+                    halben (verdoppelten) Liste entspricht und die Schleife nahtlos ist */}
+                <div
+                    className="flex gap-8 items-center w-max animate-marquee"
                 >
                     {extendedPartners.map((partner, index) => (
                         <div
@@ -85,7 +64,7 @@ export function PartnerSlider() {
                             />
                         </div>
                     ))}
-                </motion.div>
+                </div>
             </div>
         </section>
     );

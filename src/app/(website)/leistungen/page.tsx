@@ -1,9 +1,6 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { ArrowRight, Server, Phone, Video, Code, Palette, Monitor, Tv, Building2, Plus } from 'lucide-react';
+import { ArrowRight, Server, Phone, Video, Code, Palette, Tv, Plus } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 
 import { generateServiceSchema } from '@/lib/seo/schema';
@@ -45,25 +42,11 @@ const services = [
         href: '/webdesign',
     },
     {
-        icon: Monitor,
-        title: 'Kontrollraum-Lösungen',
-        subtitle: 'BlackBox KVM-Systeme',
-        description: 'KVM-over-IP für Leitstellen und Überwachungszentralen – bis zu 16 Monitore pro Arbeitsplatz.',
-        href: '/kontrollraum',
-    },
-    {
         icon: Tv,
         title: 'Digital Signage',
         subtitle: 'Xibo CMS • Custom Widgets',
         description: 'Display-Netzwerke für dynamische Inhalte – lokal betrieben, ohne Cloud-Abhängigkeit.',
         href: '/digital-signage',
-    },
-    {
-        icon: Building2,
-        title: 'Gebäudeautomation & IoT',
-        subtitle: 'SmartPlace • WAGO • Loxone',
-        description: 'Intelligente Steuerung für Beleuchtung, Heizung, Beschattung und Energiemonitoring.',
-        href: '/gebaeudeautomation',
     },
 ];
 
@@ -71,7 +54,7 @@ export default function LeistungenPage() {
     const serviceSchema = generateServiceSchema(
         'IT-Dienstleistungen',
         'ProfessionalService',
-        'Alle IT-Dienstleistungen von InfraOne aus einer Hand: Netzwerke, Telefonie, Sicherheit, Webdesign, Software und Gebäudeautomation.',
+        'Alle IT-Dienstleistungen von InfraOne aus einer Hand: Netzwerke, Telefonie, Sicherheit, Webdesign und Software.',
         'https://infraone.ch/leistungen'
     );
 
@@ -84,7 +67,7 @@ export default function LeistungenPage() {
             {/* Hero */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_homepage_1768423161913.png" alt="Uebersicht der IT-Dienstleistungen von InfraOne IT Solutions" fill className="object-cover" priority aria-hidden="true" />
+                    <Image src="/images/hero_homepage_1768423161913.webp" alt="Uebersicht der IT-Dienstleistungen von InfraOne IT Solutions" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 text-center relative z-10">
                     <AnimatedSection animation="slideUp">
@@ -92,7 +75,7 @@ export default function LeistungenPage() {
                             <span className="gradient-text">Unsere Leistungen</span>
                         </h1>
                         <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-                            Von der IT-Infrastruktur über Webdesign bis zur Gebäudeautomation – alles aus einer Hand.
+                            Von der IT-Infrastruktur über Webdesign bis zur Videoüberwachung – alles aus einer Hand.
                         </p>
                     </AnimatedSection>
                 </div>
@@ -101,14 +84,12 @@ export default function LeistungenPage() {
             {/* Services Grid */}
             <section className="py-16 lg:py-24 bg-surface">
                 <div className="container mx-auto px-4">
-                    <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={0.08}>
+                    <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
                         {services.map((service, index) => (
                             <StaggerItem key={index}>
                                 <Link href={service.href} className="block h-full group">
-                                    <motion.div
-                                        whileHover={{ y: -8, scale: 1.02 }}
-                                        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                                        className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-150 relative overflow-hidden"
+                                    <div
+                                        className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 hover:scale-[1.02] transition-all duration-150 relative overflow-hidden"
                                     >
                                         {/* Accent Line at Top */}
                                         <div className="absolute top-0 left-0 right-0 h-1 bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -138,7 +119,7 @@ export default function LeistungenPage() {
                                             <span>Mehr erfahren</span>
                                             <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-150" />
                                         </div>
-                                    </motion.div>
+                                    </div>
                                 </Link>
                             </StaggerItem>
                         ))}

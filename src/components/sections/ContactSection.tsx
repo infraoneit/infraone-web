@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { Send, Phone, Mail, MapPin, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
@@ -21,7 +20,6 @@ const VALID_SUBJECTS = [
     'Videoueberwachung',
     'Webdesign',
     'Software-Entwicklung',
-    'Gebaeudeautomation',
     'Andere Anfrage',
 ];
 
@@ -161,10 +159,8 @@ export function ContactSection({
                     <AnimatedSection animation="slideLeft">
                         <div className="bg-card rounded-2xl border border-border p-6 md:p-8">
                             {status === 'success' ? (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    className="text-center py-12"
+                                <div
+                                    className="text-center py-12 animate-scale-in"
                                 >
                                     <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
                                         <CheckCircle className="w-8 h-8" />
@@ -178,12 +174,10 @@ export function ContactSection({
                                     <Button type="button" variant="outline" onClick={resetForm}>
                                         Neue Nachricht senden
                                     </Button>
-                                </motion.div>
+                                </div>
                             ) : status === 'error' ? (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    className="text-center py-12"
+                                <div
+                                    className="text-center py-12 animate-scale-in"
                                 >
                                     <div className="w-16 h-16 rounded-full bg-destructive/10 text-destructive flex items-center justify-center mx-auto mb-4">
                                         <AlertCircle className="w-8 h-8" />
@@ -197,7 +191,7 @@ export function ContactSection({
                                     <Button type="button" variant="outline" onClick={resetForm}>
                                         Erneut versuchen
                                     </Button>
-                                </motion.div>
+                                </div>
                             ) : (
                                 <form
                                     name="contact"
@@ -283,7 +277,6 @@ export function ContactSection({
                                             <option value="Videoueberwachung">Videoueberwachung</option>
                                             <option value="Webdesign">Webdesign</option>
                                             <option value="Software-Entwicklung">Software-Entwicklung</option>
-                                            <option value="Gebaeudeautomation">Gebaeudeautomation</option>
                                             <option value="Andere Anfrage">Andere Anfrage</option>
                                         </select>
                                     </div>

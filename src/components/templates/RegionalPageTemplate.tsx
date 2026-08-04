@@ -1,9 +1,6 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, MapPin, Clock, CheckCircle, ArrowRight, Monitor } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
 
@@ -184,10 +181,9 @@ export function RegionalPageTemplate({
 
                         <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6">
                             {servicePricing['webdesign'].packages.map((pkg, index) => (
-                                <motion.div
+                                <div
                                     key={index}
-                                    whileHover={{ y: -5 }}
-                                    className={`p-6 rounded-2xl border ${index === 1 ? 'bg-primary/5 border-primary' : 'bg-card border-border'}`}
+                                    className={`p-6 rounded-2xl border hover:-translate-y-[5px] transition-transform duration-300 ${index === 1 ? 'bg-primary/5 border-primary' : 'bg-card border-border'}`}
                                 >
                                     <h3 className="font-bold text-text-primary mb-2">{pkg.name}</h3>
                                     <p className="text-2xl font-bold text-primary mb-4">{pkg.price}</p>
@@ -199,7 +195,7 @@ export function RegionalPageTemplate({
                                             </li>
                                         ))}
                                     </ul>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
                     </div>

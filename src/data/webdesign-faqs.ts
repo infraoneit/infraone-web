@@ -139,22 +139,6 @@ export const softwareEntwicklungFaqs = [
     },
 ];
 
-// Kontrollraum
-export const kontrollraumFaqs = [
-    {
-        question: 'Was ist ein Kontrollraum-System?',
-        answer: 'Ein Kontrollraum (Control Room) ist eine zentrale Überwachungszentrale mit Videowall, mehreren Bildschirmen und Steuerungssystemen. Damit behalten Sie kritische Prozesse, Gebäudetechnik oder Produktionsanlagen im Blick – alles auf einen Blick.',
-    },
-    {
-        question: 'Für welche Branchen eignet sich ein Kontrollraum?',
-        answer: 'Kontrollräume werden eingesetzt in Industrie, Produktion, Rechenzentren, Verkehrsbetrieben, Sicherheitszentralen und Leitstellen. Überall dort, wo viele Informationsquellen zentral überwacht werden müssen.',
-    },
-    {
-        question: 'Welche Systeme können integriert werden?',
-        answer: 'Wir integrieren Videoüberwachung, Gebäudeautomation (KNX, BACnet), SCADA-Systeme, Netzwerk-Monitoring, Alarmsysteme und Maschinendaten. Alles wird auf einer zentralen Oberfläche zusammengeführt.',
-    },
-];
-
 // Digital Signage
 export const digitalSignageFaqs = [
     {
@@ -168,26 +152,6 @@ export const digitalSignageFaqs = [
     {
         question: 'Was kostet Digital Signage?',
         answer: 'Ein Basis-Setup (1-2 Displays mit Player und Software) startet bei CHF 2\'000-3\'000. Grössere Installationen mit mehreren Standorten und zentraler Verwaltung sind individuell kalkuliert. Wir erstellen Ihnen ein massgeschneidertes Angebot.',
-    },
-];
-
-// Gebäudeautomation
-export const gebaeudeautomationFaqs = [
-    {
-        question: 'Was bringt mir Gebäudeautomation?',
-        answer: 'Gebäudeautomation spart Energie, erhöht Komfort und senkt Betriebskosten. Heizung, Lüftung, Beleuchtung und Beschattung werden automatisch gesteuert – angepasst an Nutzung, Tageszeit und Wetter. Das spart bis zu 30% Energiekosten.',
-    },
-    {
-        question: 'Welche Systeme nutzen Sie?',
-        answer: 'Wir arbeiten mit KNX (Standard für Gebäudeautomation), WAGO, BACnet und modernen IoT-Lösungen. Die Wahl hängt vom Projekt ab – wir beraten herstellerunabhängig und setzen auf offene Standards.',
-    },
-    {
-        question: 'Kann ich meine Gebäudeautomation per App steuern?',
-        answer: 'Ja, moderne Systeme bieten Visualisierungen und Apps für Smartphone und Tablet. Sie können Heizung, Licht und Jalousien von überall steuern und den Energieverbrauch überwachen.',
-    },
-    {
-        question: 'Lohnt sich Gebäudeautomation auch für kleinere Gebäude?',
-        answer: 'Ja, auch für KMU-Gebäude und Einfamilienhäuser gibt es skalierbare Lösungen. Wir planen Systeme, die sich Schritt für Schritt erweitern lassen – Sie starten mit den wichtigsten Funktionen und bauen bei Bedarf aus.',
     },
 ];
 

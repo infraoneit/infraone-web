@@ -246,7 +246,7 @@ export default async function ITSupportPage() {
             {/* Hero */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_it_network_1768423176860.png" alt="IT-Support und Netzwerk-Infrastruktur fuer Schweizer KMU" fill className="object-cover" priority aria-hidden="true" />
+                    <Image src="/images/hero_it_network_1768423176860.webp" alt="IT-Support und Netzwerk-Infrastruktur fuer Schweizer KMU" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -291,7 +291,7 @@ export default async function ITSupportPage() {
                         <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
                             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
                                 <Image
-                                    src={heroSection.heroImage || "/images/hero_it_network_1768423176860.png"}
+                                    src={heroSection.heroImage || "/images/hero_it_network_1768423176860.webp"}
                                     alt="IT-Support und Informatik-Hilfe"
                                     fill
                                     className="object-cover"

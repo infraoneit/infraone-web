@@ -2,7 +2,7 @@
 # https://infraone.ch
 
 > InfraOne IT Solutions GmbH ist ein Schweizer IT-Dienstleister mit Hauptsitz in Winterthur.
-> Spezialgebiete: Cloud-Telefonie, Webdesign, Informatik-Support, Kontrollraum-Loesungen, Digital Signage.
+> Spezialgebiete: Cloud-Telefonie, Webdesign, Informatik-Support, Digital Signage.
 > Hauptregionen: Winterthur, Zuerich, Thurgau, Schaffhausen.
 
 ## Unternehmen
@@ -28,8 +28,7 @@ InfraOne wird gesucht und gefunden als Spezialist fuer:
 1. **Cloud-Telefonie / VoIP**: Peoplefone-Partner, 3CX, Yeastar, Microsoft Teams Integration
 2. **Webdesign**: Wix, WordPress, Next.js mit Keystatic CMS
 3. **Informatik-Support / IT-Support**: KMU und Privatkunden, Remote und Vor-Ort
-4. **Kontrollraum-Loesungen**: Leitstellen, Multimonitor-Systeme, Black Box Emerald, Videowaende
-5. **Digital Signage**: Werbebildschirme und Infoscreens ohne Abo, Xibo CMS, lokaler Mini-Server
+4. **Digital Signage**: Werbebildschirme und Infoscreens ohne Abo, Xibo CMS, lokaler Mini-Server
 
 ## Dienstleistungen im Detail
 
@@ -73,23 +72,14 @@ Werbebildschirme und Infoscreens ohne monatliche Abo-Kosten.
 - Schweizweite Installation
 - Hub-Seite: /digital-signage
 
-### Kontrollraum-Loesungen
-Leitstellen und Multimonitor-Systeme fuer professionelle Ueberwachung.
-- KVM-over-IP mit Black Box Emerald
-- 4K-Videouebertragung mit geringer Latenz
-- Skalierbar fuer Video Walls und grosse Leitstellen
-- Multimonitor-Setups (Single/Dual/Quad)
-- Hub-Seite: /kontrollraum
-
 ### Weitere Leistungen
 - IT-Netzwerke: Planung, Installation, Wartung (Cisco, Ubiquiti, Fortinet) - /it-netzwerke
 - Videoueberwachung: IP-Kameras (Hikvision, Axis, Dahua), NVR-Systeme - /videoueberwachung
-- Gebaeudeautomation: KNX, WAGO, BACnet, Smart Building - /gebaeudeautomation
 - Software-Entwicklung: TypeScript, React/Next.js, Python, .NET - /software-entwicklung
 
 ## Partner
 
-Microsoft, Peoplefone, 3CX, Yeastar, Sophos, Fortinet, Lenovo, HPE, VMware, Veeam, Cisco, Ubiquiti, Synology, Black Box, Milestone, Axis, Hikvision, Wago
+Microsoft, Peoplefone, 3CX, Yeastar, Sophos, Fortinet, Lenovo, HPE, VMware, Veeam, Cisco, Ubiquiti, Synology, Milestone, Axis, Hikvision, Wago
 
 ## Referenzen (Auswahl)
 
@@ -127,9 +117,7 @@ Insgesamt ueber 200 betreute Kunden in der Deutschschweiz.
 - Webdesign: https://infraone.ch/webdesign
 - Cloud-Telefonie: https://infraone.ch/cloud-telefonie
 - Digital Signage: https://infraone.ch/digital-signage
-- Kontrollraum: https://infraone.ch/kontrollraum
 - IT-Netzwerke: https://infraone.ch/it-netzwerke
 - Videoueberwachung: https://infraone.ch/videoueberwachung
-- Gebaeudeautomation: https://infraone.ch/gebaeudeautomation
 - Software-Entwicklung: https://infraone.ch/software-entwicklung
 - Sitemap: https://infraone.ch/sitemap.xml

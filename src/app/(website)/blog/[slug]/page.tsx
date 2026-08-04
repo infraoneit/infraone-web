@@ -98,7 +98,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
             />
 
-            {/* Hero Section — 2-Spalten Layout (Bild rechts) wenn featuredImage vorhanden, sonst 1-Spalter.
+            {/* Hero Section — Coverbild oben über die volle Containerbreite, darunter Titel/Lead.
                 Background-Overlay ist immer das generische Tech-Background-Bild. */}
             <section className="relative py-12 lg:py-16 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
@@ -121,8 +121,15 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                             Zurück zum Blog
                         </Link>
 
-                        <div className={post.featuredImage ? 'grid lg:grid-cols-2 gap-12 items-center' : ''}>
-                            <div className={post.featuredImage ? 'max-w-xl' : 'max-w-4xl'}>
+                        <div
+                            className={
+                                post.featuredImage
+                                    ? 'grid lg:grid-cols-2 gap-8 lg:gap-12 items-center'
+                                    : ''
+                            }
+                        >
+                            {/* Links: Text */}
+                            <div>
                                 <div className="flex items-center gap-3 mb-4">
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
                                         <Tag className="w-3 h-3" />
@@ -152,15 +159,16 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                                 </div>
                             </div>
 
+                            {/* Rechts: Hero-Bild - wie auf allen anderen Unterseiten */}
                             {post.featuredImage && (
-                                <div className="hidden lg:block">
+                                <div className="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl border border-border">
                                     <Image
                                         src={post.featuredImage}
                                         alt={post.title}
-                                        width={post.featuredImageWidth ?? 1200}
-                                        height={post.featuredImageHeight ?? 675}
+                                        fill
+                                        className="object-cover"
                                         sizes="(max-width: 1024px) 100vw, 50vw"
-                                        className="w-full h-auto rounded-2xl shadow-2xl border border-border"
+                                        priority
                                     />
                                 </div>
                             )}
@@ -173,7 +181,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
             <section className="py-12 lg:py-16 bg-background">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" delay={0.2}>
-                        <article className="article-content max-w-4xl mx-auto prose prose-lg prose-slate dark:prose-invert prose-headings:text-text-primary prose-p:text-text-secondary prose-a:text-primary prose-strong:text-text-primary prose-code:text-primary prose-pre:bg-surface prose-pre:border prose-pre:border-border">
+                        <article className="article-content prose prose-lg prose-slate dark:prose-invert prose-headings:text-text-primary prose-p:text-text-secondary prose-a:text-primary prose-strong:text-text-primary prose-code:text-primary prose-pre:bg-surface prose-pre:border prose-pre:border-border">
                             <MarkdownRenderer content={post.content} />
                         </article>
                     </AnimatedSection>

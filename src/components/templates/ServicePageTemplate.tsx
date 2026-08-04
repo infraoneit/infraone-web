@@ -1,8 +1,5 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Phone, Users, Hash, Tv, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
@@ -162,9 +159,8 @@ export function ServicePageTemplate({
                     <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8" staggerDelay={0.15}>
                         {features.map((feature, index) => (
                             <StaggerItem key={index}>
-                                <motion.div
-                                    whileHover={{ y: -5 }}
-                                    className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-150"
+                                <div
+                                    className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl hover:-translate-y-[5px] transition-all duration-150"
                                 >
                                     <div className="flex items-start gap-6">
                                         <span className="text-5xl font-bold text-primary/20 group-hover:text-primary/40 transition-colors">
@@ -183,7 +179,7 @@ export function ServicePageTemplate({
                                             </span>
                                         </div>
                                     </div>
-                                </motion.div>
+                                </div>
                             </StaggerItem>
                         ))}
                     </StaggerContainer>
@@ -204,9 +200,8 @@ export function ServicePageTemplate({
                             <StaggerContainer className="space-y-6" staggerDelay={0.1}>
                                 {processSteps.map((step, index) => (
                                     <StaggerItem key={index}>
-                                        <motion.div
-                                            whileHover={{ x: 10 }}
-                                            className="flex gap-6 p-6 rounded-xl bg-surface border border-border hover:border-primary/50 transition-all"
+                                        <div
+                                            className="flex gap-6 p-6 rounded-xl bg-surface border border-border hover:border-primary/50 hover:translate-x-[10px] transition-all duration-300"
                                         >
                                             <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                                                 {index + 1}
@@ -219,7 +214,7 @@ export function ServicePageTemplate({
                                                     {step.description}
                                                 </p>
                                             </div>
-                                        </motion.div>
+                                        </div>
                                     </StaggerItem>
                                 ))}
                             </StaggerContainer>
@@ -432,12 +427,7 @@ export function ServicePageTemplate({
                 </div>
 
                 <div className="container mx-auto px-4 relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="max-w-2xl mx-auto text-center text-white"
-                    >
+                    <AnimatedSection animation="slideUp" className="max-w-2xl mx-auto text-center text-white">
                         <h2 className="text-3xl md:text-4xl font-bold mb-6">
                             {ctaHeadline}
                         </h2>
@@ -465,7 +455,7 @@ export function ServicePageTemplate({
                                 </a>
                             </Button>
                         </div>
-                    </motion.div>
+                    </AnimatedSection>
                 </div>
             </section>
         </>

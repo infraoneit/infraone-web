@@ -1,9 +1,7 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ArrowRight, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { AnimatedSection } from '@/components/ui/AnimatedSection';
 
 interface PromoSectionProps {
     headline?: string;
@@ -36,23 +34,11 @@ export function PromoSection({
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3 }}
-                    className="max-w-3xl mx-auto text-center text-white"
-                >
+                <AnimatedSection animation="slideUp" className="max-w-3xl mx-auto text-center text-white">
                     {/* Icon */}
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        whileInView={{ scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                        className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-6"
-                    >
+                    <AnimatedSection animation="scale" delay={0.2} className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-6">
                         <Gift className="w-8 h-8" />
-                    </motion.div>
+                    </AnimatedSection>
 
                     {/* Content */}
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -74,7 +60,7 @@ export function PromoSection({
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </Button>
-                </motion.div>
+                </AnimatedSection>
             </div>
         </section>
     );

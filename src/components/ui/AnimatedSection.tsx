@@ -1,9 +1,34 @@
-'use client';
+import {
+    Children,
+    cloneElement,
+    isValidElement,
+    type CSSProperties,
+    type ReactElement,
+    type ReactNode,
+} from 'react';
 
-import { motion, useInView, Variants } from 'framer-motion';
-import { useRef, ReactNode } from 'react';
+/**
+ * Reveal-System - reine Server-Komponente, kein Client-JavaScript.
+ *
+ * Frueher: 'use client' + IntersectionObserver + useState. Der Inhalt startete
+ * mit opacity:0 und wurde erst nach der Hydration sichtbar - die Seite war bis
+ * dahin inhaltlich leer und wirkte defekt.
+ *
+ * Jetzt: Der Inhalt ist sofort sichtbar. Die Einblend-Animation uebernimmt CSS
+ * (animation-timeline: view() in globals.css), wo der Browser sie beherrscht.
+ */
 
 type AnimationType = 'fadeIn' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight' | 'scale' | 'none';
+
+const animationClasses: Record<AnimationType, string> = {
+    fadeIn: 'reveal-fade-in',
+    slideUp: 'reveal-slide-up',
+    slideDown: 'reveal-slide-down',
+    slideLeft: 'reveal-slide-left',
+    slideRight: 'reveal-slide-right',
+    scale: 'reveal-scale',
+    none: 'reveal-none',
+};
 
 interface AnimatedSectionProps {
     children: ReactNode;
@@ -11,68 +36,24 @@ interface AnimatedSectionProps {
     delay?: number;
     duration?: number;
     className?: string;
+    /** Nur noch zur API-Kompatibilitaet - ohne Wirkung. */
     once?: boolean;
     threshold?: number;
 }
-
-const animations: Record<AnimationType, Variants> = {
-    fadeIn: {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-    },
-    slideUp: {
-        hidden: { opacity: 0, y: 40 },
-        visible: { opacity: 1, y: 0 },
-    },
-    slideDown: {
-        hidden: { opacity: 0, y: -40 },
-        visible: { opacity: 1, y: 0 },
-    },
-    slideLeft: {
-        hidden: { opacity: 0, x: 40 },
-        visible: { opacity: 1, x: 0 },
-    },
-    slideRight: {
-        hidden: { opacity: 0, x: -40 },
-        visible: { opacity: 1, x: 0 },
-    },
-    scale: {
-        hidden: { opacity: 0, scale: 0.8 },
-        visible: { opacity: 1, scale: 1 },
-    },
-    none: {
-        hidden: {},
-        visible: {},
-    },
-};
 
 export function AnimatedSection({
     children,
     animation = 'slideUp',
     delay = 0,
-    duration = 0.3,
     className = '',
-    once = true,
-    threshold = 0.1,
 }: AnimatedSectionProps) {
-    const ref = useRef<HTMLDivElement>(null);
-    const isInView = useInView(ref, { once, amount: threshold });
-
     return (
-        <motion.div
-            ref={ref}
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            variants={animations[animation]}
-            transition={{
-                duration,
-                delay,
-                ease: [0.25, 0.4, 0.25, 1],
-            }}
-            className={className}
+        <div
+            className={`reveal ${animationClasses[animation]}${className ? ` ${className}` : ''}`}
+            style={delay ? { animationDelay: `${delay}s` } : undefined}
         >
             {children}
-        </motion.div>
+        </div>
     );
 }
 
@@ -87,51 +68,34 @@ export function StaggerContainer({
     children,
     className = '',
     staggerDelay = 0.1,
-    once = true,
 }: StaggerContainerProps) {
-    const ref = useRef<HTMLDivElement>(null);
-    const isInView = useInView(ref, { once, amount: 0.1 });
+    const items = Children.map(children, (child, index) => {
+        if (!isValidElement(child)) return child;
+        const childStyle = (child.props as { style?: CSSProperties }).style ?? {};
+        return cloneElement(child as ReactElement<{ style?: CSSProperties }>, {
+            style: { ...childStyle, animationDelay: `${index * staggerDelay}s` },
+        });
+    });
 
     return (
-        <motion.div
-            ref={ref}
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            variants={{
-                hidden: {},
-                visible: {
-                    transition: {
-                        staggerChildren: staggerDelay,
-                    },
-                },
-            }}
-            className={className}
-        >
-            {children}
-        </motion.div>
+        <div className={`reveal-stagger-container${className ? ` ${className}` : ''}`}>
+            {items}
+        </div>
     );
 }
 
 export function StaggerItem({
     children,
     className = '',
+    style,
 }: {
     children: ReactNode;
     className?: string;
+    style?: CSSProperties;
 }) {
     return (
-        <motion.div
-            variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 },
-            }}
-            transition={{
-                duration: 0.3,
-                ease: [0.25, 0.4, 0.25, 1],
-            }}
-            className={className}
-        >
+        <div className={`reveal-stagger-item${className ? ` ${className}` : ''}`} style={style}>
             {children}
-        </motion.div>
+        </div>
     );
 }

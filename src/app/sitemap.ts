@@ -68,8 +68,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: '/digital-signage', priority: 0.9 },
         { url: '/it-netzwerke', priority: 0.8 },
         { url: '/videoueberwachung', priority: 0.8 },
-        { url: '/gebaeudeautomation', priority: 0.8 },
-        { url: '/kontrollraum', priority: 0.8 },
         { url: '/software-entwicklung', priority: 0.8 },
     ];
 

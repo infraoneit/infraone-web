@@ -1034,22 +1034,6 @@ export function generateHomepageOfferCatalogSchema() {
                     description: 'Digitale Beschilderung und Content-Management für Bildschirme und Displays',
                 },
             },
-            {
-                '@type': 'Offer',
-                itemOffered: {
-                    '@type': 'Service',
-                    name: 'Kontrollraum-Lösungen',
-                    description: 'Multimonitor-Systeme und Kontrollraum-Technologie für professionelle Überwachung',
-                },
-            },
-            {
-                '@type': 'Offer',
-                itemOffered: {
-                    '@type': 'Service',
-                    name: 'Gebäudeautomation & Smart Building',
-                    description: 'Intelligente Gebäudesteuerung für Klima, Licht, Zugang und Energie',
-                },
-            },
         ],
     };
 }
@@ -1397,7 +1381,7 @@ export function generateDigitalSignageHubSchema() {
         description: 'Professionelle Digital Signage Lösungen ohne Abo-Kosten für die ganze Schweiz. Werbebildschirme und Infoscreens mit lokalem Betrieb, Live-Daten Integration und Multi-Display Support.',
         provider: { '@id': `${BASE_URL}/#organization` },
         url: `${BASE_URL}/digital-signage`,
-        image: `${BASE_URL}/images/hero_digital_signage_1768423279297.png`,
+        image: `${BASE_URL}/images/hero_digital_signage_1768423279297.webp`,
         areaServed: { '@type': 'Country', name: 'Switzerland' },
         offers: {
             '@type': 'AggregateOffer',
@@ -1469,7 +1453,7 @@ export function generateDigitalSignageProductSchema() {
             name: 'InfraOne IT Solutions'
         },
         category: 'Digital Signage',
-        image: `${BASE_URL}/images/digital-signage/products.png`,
+        image: `${BASE_URL}/images/digital-signage/products.webp`,
         offers: {
             '@type': 'Offer',
             price: '1590',

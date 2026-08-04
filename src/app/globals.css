@@ -111,7 +111,10 @@ html:has(body.mobile-menu-open) {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Direkt auf die next/font-Variable zeigen: --font-sans stammt aus
+     "@theme inline" und wird zur Build-Zeit aufgeloest, wo --font-geist-sans
+     noch gar nicht existiert. Dadurch lief die Schrift bisher ins Leere. */
+  font-family: var(--font-geist-sans), var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -206,6 +209,145 @@ body {
 
 .animate-slide-down {
   animation: slide-down 0.3s ease-out forwards;
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s cubic-bezier(0.25, 0.4, 0.25, 1) forwards;
+}
+
+/* ========================================
+   Reveal-System (CSS-Ersatz fuer framer-motion)
+   Basis: Element startet unsichtbar, .reveal-visible
+   (via IntersectionObserver gesetzt) blendet es ein.
+   ======================================== */
+/* GRUNDREGEL: Inhalt ist IMMER sichtbar.
+   Frueher startete jede Sektion mit opacity:0 und wurde erst durch JavaScript
+   eingeblendet - dadurch war die Seite bis zur Hydration inhaltlich leer.
+   Jetzt braucht der Inhalt kein JavaScript mehr, um sichtbar zu sein. */
+.reveal,
+.reveal-none,
+.reveal-visible,
+.reveal-stagger-container > .reveal-stagger-item {
+  opacity: 1;
+  transform: none;
+}
+
+/* Die Einblend-Animation laeuft nur noch dort, wo der Browser
+   scroll-gesteuerte CSS-Animationen beherrscht - komplett ohne JavaScript.
+   Kann der Browser es nicht, bleibt der Inhalt einfach sofort sichtbar. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-fade-in,
+    .reveal-slide-up,
+    .reveal-slide-down,
+    .reveal-slide-left,
+    .reveal-slide-right,
+    .reveal-scale,
+    .reveal-stagger-container > .reveal-stagger-item {
+      animation: reveal-in 0.4s linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 20%;
+    }
+
+    .reveal-slide-up {
+      animation-name: reveal-in-up;
+    }
+    .reveal-slide-down {
+      animation-name: reveal-in-down;
+    }
+    .reveal-slide-left {
+      animation-name: reveal-in-left;
+    }
+    .reveal-slide-right {
+      animation-name: reveal-in-right;
+    }
+    .reveal-scale {
+      animation-name: reveal-in-scale;
+    }
+    .reveal-stagger-container > .reveal-stagger-item {
+      animation-name: reveal-in-up;
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes reveal-in-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-in-down {
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-in-left {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-in-right {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-in-scale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Hover-Lift (Ersatz fuer whileHover { y, x }) */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.hover-lift:hover {
+  transform: translate(var(--hover-x, 0px), var(--hover-y, -5px));
+}
+
+/* Endlos-Marquee (Partner-Slider) */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* Reduced Motion: Reveal-/Marquee-Animationen deaktivieren */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-stagger-container > .reveal-stagger-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .hover-lift {
+    transition: none !important;
+  }
+
+  .hover-lift:hover {
+    transform: none !important;
+  }
+
+  /* Marquee NICHT anhalten - ein stehender Slider wirkt defekt.
+     Stattdessen ruhiger laufen lassen: Bewegung bleibt klar erkennbar. */
+  .animate-marquee {
+    animation-duration: 30s !important;
+  }
 }
 
 /* ========================================

@@ -1,7 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { Check, ArrowRight, Code, Rocket, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
@@ -101,14 +98,11 @@ export function WebdesignPageContent() {
 
                     <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                         {packages.map((pkg, index) => (
-                            <motion.div
+                            <AnimatedSection
                                 key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                whileHover={{ y: -10 }}
-                                className={`relative p-8 rounded-2xl border ${pkg.popular
+                                animation="slideUp"
+                                delay={index * 0.1}
+                                className={`relative p-8 rounded-2xl border hover:-translate-y-[10px] ${pkg.popular
                                     ? 'bg-primary text-white border-primary shadow-2xl shadow-primary/20'
                                     : 'bg-card border-border hover:border-primary/50'
                                     } transition-all duration-150`}
@@ -157,7 +151,7 @@ export function WebdesignPageContent() {
                                         <ArrowRight className="w-4 h-4" />
                                     </Link>
                                 </Button>
-                            </motion.div>
+                            </AnimatedSection>
                         ))}
                     </div>
                 </div>

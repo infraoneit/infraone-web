@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { Puzzle, Settings, Shield, Zap } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 
@@ -55,10 +52,8 @@ export function AdvantagesSection({
                 <StaggerContainer className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
                     {advantages.map((advantage, index) => (
                         <StaggerItem key={index}>
-                            <motion.div
-                                whileHover={{ y: -5, scale: 1.02 }}
-                                transition={{ duration: 0.2 }}
-                                className="group relative h-full p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-150"
+                            <div
+                                className="group relative h-full p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-[5px] hover:scale-[1.02] transition-all duration-150"
                             >
                                 {/* Icon */}
                                 <div className="w-16 h-16 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-150">
@@ -77,7 +72,7 @@ export function AdvantagesSection({
                                 <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden rounded-tr-2xl">
                                     <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-primary/5 to-transparent" />
                                 </div>
-                            </motion.div>
+                            </div>
                         </StaggerItem>
                     ))}
                 </StaggerContainer>

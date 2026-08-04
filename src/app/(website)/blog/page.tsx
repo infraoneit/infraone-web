@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Calendar, User, ArrowRight, Clock, Tag } from 'lucide-react';
+import Image from 'next/image';
+import { Calendar, ArrowRight, Clock, Tag } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { getAllBlogPosts } from '@/lib/blog';
 import {
@@ -94,7 +95,19 @@ export default async function BlogPage() {
                         {sortedPosts.map((post) => (
                             <StaggerItem key={post.slug}>
                                 <Link href={`/blog/${post.slug}`} className="block h-full">
-                                    <article className="group h-full flex flex-col p-6 rounded-2xl bg-card border border-border hover:border-primary hover:shadow-xl transition-all duration-150">
+                                    <article className="group h-full flex flex-col rounded-2xl bg-card border border-border overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-150">
+                                        {post.featuredImage && (
+                                            <div className="relative aspect-[16/9] overflow-hidden">
+                                                <Image
+                                                    src={post.featuredImage}
+                                                    alt={post.title}
+                                                    fill
+                                                    className="object-cover"
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                                />
+                                            </div>
+                                        )}
+                                        <div className="flex flex-col flex-grow p-6">
                                         <div className="mb-4">
                                             <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
                                                 <Tag className="w-3 h-3" />
@@ -126,6 +139,7 @@ export default async function BlogPage() {
                                                 Lesen
                                                 <ArrowRight className="w-3.5 h-3.5" />
                                             </span>
+                                        </div>
                                         </div>
                                     </article>
                                 </Link>

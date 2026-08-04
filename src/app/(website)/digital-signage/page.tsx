@@ -166,7 +166,7 @@ export default function DigitalSignagePage() {
             <section className="relative py-12 md:py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
                     <Image
-                        src="/images/hero_digital_signage_1768423279297.png"
+                        src="/images/hero_digital_signage_1768423279297.webp"
                         alt="Digital Signage Werbebildschirm und Infoscreen in einem Schweizer Unternehmen"
                         fill
                         className="object-cover"
@@ -210,7 +210,7 @@ export default function DigitalSignagePage() {
                         <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
                             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
                                 <Image
-                                    src="/images/hero_digital_signage_1768423279297.png"
+                                    src="/images/hero_digital_signage_1768423279297.webp"
                                     alt="Professionelle Digital Signage Installation mit Werbebildschirmen und Infoscreens in modernem Schweizer Unternehmen"
                                     fill
                                     className="object-cover"
@@ -347,7 +347,7 @@ export default function DigitalSignagePage() {
                     <AnimatedSection animation="slideUp" delay={0.2}>
                         <div className="max-w-5xl mx-auto">
                             <Image
-                                src="/images/digital-signage/products.png"
+                                src="/images/digital-signage/products.webp"
                                 alt="InfraOne Digital Signage Produktpalette: Mini-Server, 4K-Displays und Cloud-Verwaltungssoftware für Werbebildschirme und Infoscreens in der Schweiz"
                                 width={1920}
                                 height={1080}

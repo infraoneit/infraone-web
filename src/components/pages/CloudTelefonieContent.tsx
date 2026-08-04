@@ -1,9 +1,6 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Cloud, Globe, Wifi, Users, Calculator, CheckCircle, ArrowRight, ExternalLink, Shield, Zap, Smartphone, Building2, Headphones, Settings, Tv, Hash } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
 import { FAQList } from '@/components/ui/FAQList';
@@ -88,7 +85,7 @@ const hubDefaultData: CloudTelefonieRegionData = {
     subheadline: 'VoIP-Telefonie für Schweizer KMU',
     description: 'Wartungsfreie Cloud-Telefonanlagen mit Peoplefone für Schweizer KMU.',
     intro: 'In der Schweiz setzen immer mehr Unternehmen auf Cloud-Telefonie. Die Vorteile liegen auf der Hand: Keine wartungsintensive Hardware vor Ort, flexible Arbeitsplätze im Homeoffice, und professionelle Telefonielösungen zu planbaren Kosten. Als zertifizierter Peoplefone-Partner beraten wir Sie unabhängig und finden die optimale Lösung für Ihr Unternehmen. Von der Einmann-Firma bis zum 50-Personen-Betrieb, wir kennen die Anforderungen von Schweizer KMU.',
-    regionalImage: '/images/hero_telefonie_1768423192251.png',
+    regionalImage: '/images/hero_telefonie_1768423192251.webp',
     localBenefits: ['Keine Hardware', 'Wartungsfrei', 'Flexibles Homeoffice', 'Schweizer Rechenzentren'],
     stats: [{ label: 'Ø Setup-Zeit', value: '5–7 Tage' }, { label: 'Rechenzentren', value: 'Schweiz' }],
     localFaq: { question: 'Kann ich meine bestehende Nummer behalten?', answer: 'Ja. Wir portieren Ihre bestehenden Festnetz- und Mobilnummern zu Peoplefone. Der Prozess dauert meist 5 bis 10 Arbeitstage und läuft unterbrechungsfrei.' },
@@ -138,7 +135,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 {/* Background Image - dezent wie bei IT-Support SEO Seiten */}
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_telefonie_1768423192251.png" alt="Cloud-Telefonie und VoIP-Arbeitsplatz in einem Schweizer Buero" fill className="object-cover" priority aria-hidden="true" />
+                    <Image src="/images/hero_telefonie_1768423192251.webp" alt="Cloud-Telefonie und VoIP-Arbeitsplatz in einem Schweizer Buero" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -176,7 +173,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                         <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
                             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
                                 <Image
-                                    src={content.regionalImage || '/images/hero_telefonie_1768423192251.png'}
+                                    src={content.regionalImage || '/images/hero_telefonie_1768423192251.webp'}
                                     alt={content.headline}
                                     fill
                                     className="object-cover"
@@ -347,17 +344,16 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
 
                     <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                         {alternativeSolutions.map((solution, index) => (
-                            <motion.div
+                            <div
                                 key={index}
-                                whileHover={{ y: -5 }}
-                                className="p-6 rounded-2xl bg-card border border-border text-center"
+                                className="p-6 rounded-2xl bg-card border border-border text-center hover:-translate-y-[5px] transition-transform duration-300"
                             >
                                 <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
                                     {solution.icon}
                                 </div>
                                 <h3 className="font-bold text-text-primary mb-2">{solution.name}</h3>
                                 <p className="text-sm text-text-secondary">{solution.description}</p>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 </div>

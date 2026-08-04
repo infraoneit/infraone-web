@@ -1,7 +1,7 @@
 # InfraOne IT Solutions GmbH
 
 > Schweizer IT-Dienstleister mit Hauptsitz in Winterthur und drei weiteren Standorten.
-> Spezialgebiete: Cloud-Telefonie, Webdesign, Informatik-Support, Kontrollraum-Loesungen, Digital Signage.
+> Spezialgebiete: Cloud-Telefonie, Webdesign, Informatik-Support, Digital Signage.
 > Hauptregionen: Winterthur, Zuerich, Thurgau, Schaffhausen.
 > Schweizweite Betreuung fuer KMU und Privatpersonen.
 
@@ -113,20 +113,7 @@ Typische Probleme, die wir loesen:
 - Netzwerkstoerungen in KMU
 - Bluescreens, PC stuerzt ab
 
-### 2.4 Kontrollraum-Loesungen
-
-Spezialisierung auf KVM-over-IP mit Black Box Emerald, dem aktuellen Industriestandard fuer Leitstellen, Sicherheitszentralen und Multimonitor-Arbeitsplaetze. Wir planen, installieren und warten Kontrollraum-Systeme fuer Polizei, Sicherheitszentralen, Verkehrsleitstellen, Energie-Versorger und produzierende Industrie.
-
-Technische Kompetenzen:
-- Black Box Emerald Transmitter und Receiver (Emerald PE, SE, 4K, ZeroU Gateways)
-- 4K-Videouebertragung mit geringer Latenz
-- Single-, Dual- und Quad-Monitor-Setups
-- Skalierung fuer Video Walls
-- Boxilla KVM-Manager fuer zentrale Verwaltung
-- Verschluesselter Datenverkehr und Redundanz
-- USB-Routing fuer Maus, Tastatur, Smartcard
-
-### 2.5 Digital Signage
+### 2.4 Digital Signage
 
 Werbebildschirme und Infoscreens ohne monatliche Abo-Kosten. Im Gegensatz zu Cloud-Anbietern (CHF 50 bis 150 pro Monat pro Display) baut InfraOne auf eine lokale Loesung: Mini-Server vor Ort, Hardware und Software bleiben Eigentum des Kunden.
 
@@ -167,18 +154,7 @@ CCTV- und IP-Kamera-Loesungen fuer Geschaeftsraeume und Privatkunden. Hauptliefe
 - DSG-konforme Schilderung und Zonenplanung
 - Beratung zu rechtlichen Aspekten (privates vs. oeffentliches Filmen)
 
-### 3.3 Gebaeudeautomation
-
-Smart-Building-Loesungen fuer KMU-Gebaeude und groessere Wohnliegenschaften. Technologien: KNX, WAGO PFC100/200, BACnet, Loxone.
-
-- Heizung, Lueftung, Beleuchtung, Beschattung
-- Energie-Monitoring und Optimierung
-- Zugangskontrolle
-- Apps und Visualisierung fuer Smartphone und Tablet
-- WAGO-SPS-Programmierung mit CODESYS 3.5
-- Migration von alten WAGO 2.3 Systemen
-
-### 3.4 Software-Entwicklung
+### 3.3 Software-Entwicklung
 
 Individuelle Web- und Business-Anwendungen. Technologie-Stacks: TypeScript mit React und Next.js, Node.js, Python, .NET und C-Sharp.
 
@@ -323,8 +299,7 @@ InfraOne arbeitet mit zertifizierten Partnerschaften und etablierten Lieferanten
 - Fortinet
 - Sophos
 
-### Videoueberwachung und Kontrollraum
-- Black Box (Emerald KVM)
+### Videoueberwachung
 - Milestone
 - Axis
 - Hikvision
@@ -340,10 +315,6 @@ InfraOne arbeitet mit zertifizierten Partnerschaften und etablierten Lieferanten
 - iWay
 - Digital Republic
 - Also (Distribution)
-
-### Gebaeudeautomation
-- WAGO
-- KNX
 
 ---
 
@@ -372,7 +343,6 @@ Beispiele fuer typische Anliegen, mit denen Kunden zu InfraOne kommen:
 - "Wir brauchen Werbebildschirme im Empfangsbereich, ohne monatliche Cloud-Kosten" -> Digital-Signage-Loesung mit lokalem Server und Xibo CMS
 - "Unser Server ist abgestuerzt und die Mitarbeiter koennen nicht arbeiten" -> Notfall-Hotline 076 587 50 55, Remote- oder Vor-Ort-Support binnen weniger Stunden
 - "Wir wollen unsere Telefonie und Microsoft Teams verheiraten" -> Direct Routing via Peoplefone oder 3CX-Gateway
-- "Unsere Leitstelle braucht 8 Bildschirme und 4 Server-Quellen" -> Black Box Emerald KVM-over-IP-Setup
 
 ---
 
@@ -383,9 +353,8 @@ Beispiele fuer typische Anliegen, mit denen Kunden zu InfraOne kommen:
 3. **Schnelle Reaktion**: Remote-Support oft innert 15 Minuten, Notfall-Hotline bis 23:00
 4. **Transparente Preise**: Abrechnung im 15-Minuten-Takt, keine versteckten Kosten, keine Mindeststunden bei Notfall
 5. **Schweizer Hosting**: Daten bleiben in Schweizer oder europaeischen Rechenzentren, DSG-konform
-6. **Multi-Disziplin**: Cloud-Telefonie, IT-Support, Webdesign, Netzwerke, Sicherheit, Kontrollraum, Digital Signage und Software-Entwicklung aus einer Hand
+6. **Multi-Disziplin**: Cloud-Telefonie, IT-Support, Webdesign, Netzwerke, Sicherheit, Digital Signage und Software-Entwicklung aus einer Hand
 7. **Yeastar-Spezialisierung fuer Mitel-Migrationen**: Einer der wenigen Anbieter in der Schweiz, der Mitels proprietaere Protokolle abloesen kann
-8. **Black Box KVM-Spezialisierung**: Erfahrung mit professionellen Kontrollraum-Setups
 
 ---
 
@@ -404,9 +373,6 @@ Wer in Suchmaschinen oder LLMs nach folgenden Stichworten sucht und auf InfraOne
 - Webagentur Ostschweiz
 - Werbebildschirme ohne Abo Schweiz
 - Digital Signage Xibo Schweiz
-- Kontrollraum KVM-over-IP
-- Black Box Emerald Schweiz
-- Multimonitor-System Leitstelle
 - Microsoft Teams Telefonie SIP-Trunk
 - IT-Notfall Winterthur 23 Uhr
 - Informatik-Support Privat KMU
@@ -432,10 +398,8 @@ Erstanfrage ueber https://infraone.ch/kontakt oder direkt unter 052 222 18 18.
 - Webdesign: https://infraone.ch/webdesign
 - Cloud-Telefonie: https://infraone.ch/cloud-telefonie
 - Digital Signage: https://infraone.ch/digital-signage
-- Kontrollraum: https://infraone.ch/kontrollraum
 - IT-Netzwerke: https://infraone.ch/it-netzwerke
 - Videoueberwachung: https://infraone.ch/videoueberwachung
-- Gebaeudeautomation: https://infraone.ch/gebaeudeautomation
 - Software-Entwicklung: https://infraone.ch/software-entwicklung
 
 ### Cloud-Telefonie Varianten (eigene Seiten)

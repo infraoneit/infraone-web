@@ -1,16 +1,11 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import {
     Server,
     Phone,
     Video,
     Code,
     Palette,
-    Monitor,
     Tv,
-    Building2,
     ArrowRight,
     Plus
 } from 'lucide-react';
@@ -53,25 +48,11 @@ const services = [
         href: '/software-entwicklung',
     },
     {
-        icon: Monitor,
-        title: 'Kontrollraum-Lösungen',
-        subtitle: 'BlackBox KVM-Systeme',
-        description: 'KVM-over-IP für Leitstellen und Überwachungszentralen – bis zu 16 Monitore pro Arbeitsplatz.',
-        href: '/kontrollraum',
-    },
-    {
         icon: Tv,
         title: 'Digital Signage',
         subtitle: 'Xibo CMS • Custom Widgets',
         description: 'Display-Netzwerke für dynamische Inhalte – lokal betrieben, ohne Cloud-Abhängigkeit.',
         href: '/digital-signage',
-    },
-    {
-        icon: Building2,
-        title: 'Gebäudeautomation',
-        subtitle: 'SmartPlace • WAGO • Loxone',
-        description: 'Intelligente Steuerung für Beleuchtung, Heizung, Beschattung und Energiemonitoring.',
-        href: '/gebaeudeautomation',
     },
 ];
 
@@ -94,20 +75,18 @@ export function ServicesSection() {
                         Unsere IT-Kompetenzen für Ihr Projekt
                     </h2>
                     <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-                        Von der IT-Infrastruktur über Telefonie bis zur Gebäudeautomation –
+                        Von der IT-Infrastruktur über Telefonie bis zur Videoüberwachung –
                         massgeschneiderte Lösungen aus einer Hand.
                     </p>
                 </AnimatedSection>
 
                 {/* Services Grid - 4 columns like Jungmann */}
-                <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={0.08}>
+                <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
                     {services.map((service, index) => (
                         <StaggerItem key={index}>
                             <Link href={service.href} className="block h-full group">
-                                <motion.div
-                                    whileHover={{ y: -8, scale: 1.02 }}
-                                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                                    className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-150 relative overflow-hidden"
+                                <div
+                                    className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 hover:scale-[1.02] transition-all duration-150 relative overflow-hidden"
                                 >
                                     {/* Accent Line at Top */}
                                     <div className="absolute top-0 left-0 right-0 h-1 bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -137,7 +116,7 @@ export function ServicesSection() {
                                         <span>Mehr erfahren</span>
                                         <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-150" />
                                     </div>
-                                </motion.div>
+                                </div>
                             </Link>
                         </StaggerItem>
                     ))}

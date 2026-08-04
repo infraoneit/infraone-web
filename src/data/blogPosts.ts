@@ -66,6 +66,8 @@ Die Verschmelzung bringt erhebliche Cybersecurity-Herausforderungen:
 
 Für eine sichere IT/OT-Integration empfehlen wir:
 
+![Fünf nummerierte Massnahmen für eine sichere IT/OT-Integration: Netzwerk-Segmentierung, Firewall-Regeln, Monitoring, Notfallplan und Schulung](/images/blog-inline-it-trifft-ot.webp)
+
 - **Netzwerksegmentierung**: OT-Systeme in eigene VLANs isolieren
 - **Firewall-Regeln**: Nur notwendige Verbindungen erlauben
 - **Monitoring**: [PRTG oder ähnliche Tools](/blog/prtg-netzwerkmonitoring) auch für OT-Protokolle nutzen
@@ -86,7 +88,7 @@ Die Konvergenz von IT und OT ist keine Option, sondern Notwendigkeit. Wer beide 
         category: 'Kontrollraum',
         keywords: ['KVM over IP', 'Black Box Emerald', 'Kontrollraum', 'Multimonitor', 'Leitstand'],
         readingTime: '7 Min.',
-        featuredImage: '/images/hero-videowall-kvm-system-blackbox-emerald.webp',
+        featuredImage: '/images/blog-cover-multimonitor-systeme-black-box-emerald.webp',
         content: `
 ## Multimonitor-Systeme mit Black Box Emerald – die smarte Lösung für Kontrollräume
 
@@ -94,7 +96,7 @@ Die Anforderungen an Kontrollräume, Leitstände und sicherheitskritische Umgebu
 
 Mit **Black Box Emerald** steht eine moderne KVM-over-IP-Lösung zur Verfügung, die genau diese Anforderungen erfüllt – für Multiuser-Zugriff, 4K-Videoübertragung, USB-Routing und zentralisierte Steuerung.
 
-![Übersicht eines Black Box KVM-over-IP Multimonitor-Setups mit Transmittern, Receivern und Videowall im Kontrollraum](/images/blackbox-kvm-system-multimonitor-videowall-uebersicht.webp)
+![Übersicht eines Black Box KVM-over-IP Multimonitor-Setups mit Transmittern, Receivern und Videowall im Kontrollraum](/images/blog-inline-multimonitor-systeme-black-box-emerald.webp)
 
 ### Vorteile von Black Box Emerald
 
@@ -138,7 +140,7 @@ Stelle sicher, dass alle Umschaltungen verzögerungsfrei funktionieren und die V
 
 Black Box Emerald ist ideal für professionelle Anwendungen, bei denen es auf Stabilität, Bedienkomfort und Flexibilität ankommt. Die Multimonitor-Funktionalität und IP-basierte Architektur machen das System zukunftssicher – und bestens geeignet für zentrale IT-Infrastrukturen und moderne Leitstellen.
 
-**Wenn du Unterstützung bei der Planung oder Umsetzung brauchst:** InfraOne IT Solutions bietet Beratung, Installation und Support für Black Box KVM-Systeme in der Schweiz. Erfahren Sie mehr über unsere [Kontrollraum-Lösungen](/kontrollraum).
+**Wenn du Unterstützung bei der Planung oder Umsetzung brauchst:** InfraOne IT Solutions bietet Beratung, Installation und Support für Black Box KVM-Systeme in der Schweiz. Erfahren Sie mehr über [unsere Leistungen](/leistungen).
         `.trim(),
     },
     {
@@ -150,7 +152,7 @@ Black Box Emerald ist ideal für professionelle Anwendungen, bei denen es auf St
         category: 'Telefonie',
         keywords: ['3CX peoplefone', 'VoIP Telefonanlage', 'SIP Trunk Schweiz', 'Cloud Telefonie KMU'],
         readingTime: '5 Min.',
-        featuredImage: '/images/hero-3cx-phone-system.webp',
+        featuredImage: '/images/blog-cover-moderne-telefonie-peoplefone-3cx.webp',
         content: `
 ## Vorteile der Kombination 3CX und Peoplefone
 
@@ -161,6 +163,8 @@ Die Verbindung von 3CX mit Peoplefone bietet Unternehmen eine zuverlässige und 
 ## 3CX mit Peoplefone verbinden – Schritt-für-Schritt
 
 Die Kombination von 3CX und Peoplefone ist eine beliebte Lösung für Unternehmen, die auf moderne VoIP-Telefonie, Flexibilität und Kosteneffizienz setzen.
+
+![Fünf nummerierte Einrichtungsschritte für 3CX mit peoplefone: SIP-Trunk anlegen, Zugangsdaten eintragen, Rufnummern einrichten, ausgehende Regeln konfigurieren, Funktionstest](/images/blog-inline-moderne-telefonie-peoplefone-3cx.webp)
 
 ### 1. SIP-Trunk in 3CX anlegen
 Melde dich in der 3CX Management Console an. Unter dem Menüpunkt „SIP-Trunks" wählst du Peoplefone als Anbieter und gibst deine Hauptnummer ein.
@@ -201,7 +205,7 @@ Die Kombination aus 3CX und Peoplefone ist ideal für KMU, die eine moderne, sic
         category: 'Netzwerke',
         keywords: ['PRTG Netzwerk Monitoring', 'IT Überwachung KMU', 'Netzwerk Monitoring Schweiz', 'Paessler PRTG'],
         readingTime: '6 Min.',
-        featuredImage: '/images/hero-prtg.webp',
+        featuredImage: '/images/blog-cover-prtg-netzwerkmonitoring.webp',
         content: `
 ## PRTG Netzwerkmonitoring – So behältst du deine IT im Griff
 
@@ -219,6 +223,8 @@ Ob Server, Firewalls, Switches, Cloud-Dienste oder Internetverbindungen – mit 
 - **DSGVO-konform**: Lokale oder private Cloud-Installation möglich – volle Kontrolle über deine Daten
 
 ### Erste Schritte – PRTG einrichten
+
+![Fünf nummerierte Einrichtungsschritte für PRTG: Installation, Auto-Discovery, Sensoren aktivieren, Dashboards anpassen, Alarme definieren](/images/blog-inline-prtg-netzwerkmonitoring.webp)
 
 #### 1. Installation starten
 Lade PRTG von [paessler.com](https://www.paessler.com) herunter und installiere es auf einem Windows-Server oder einer virtuellen Maschine.
@@ -257,7 +263,7 @@ Mit PRTG behältst du jederzeit die Kontrolle über deine IT – zuverlässig, s
         category: 'Automation',
         keywords: ['WAGO SPS', 'CODESYS 3.5 Migration', 'Gebäudeautomation', 'SPS Programmierung'],
         readingTime: '8 Min.',
-        featuredImage: '/images/wago-sps-750-8101.webp',
+        featuredImage: '/images/blog-cover-wago-codesys-migration.webp',
         content: `
 ## WAGO SPS auf Codesys 3.5 Migrieren – So gelingt der Umstieg
 
@@ -275,6 +281,8 @@ Wenn du noch ältere WAGO-Projekte (z.B. CODESYS 2.3 oder ältere Bibliotheken) 
 - **Kompatibel** mit WAGO PFC100 / PFC200 und anderen CODESYS-kompatiblen Steuerungen
 
 ### Schritt-für-Schritt-Anleitung: Migration auf CODESYS 3.5
+
+![Sieben nummerierte Migrationsschritte von Codesys 2.3 auf 3.5: Projektanalyse, Projektstruktur, Bibliotheken aktualisieren, Code übertragen, Visualisierung neu aufbauen, Testen, Dokumentation](/images/blog-inline-wago-codesys-migration.webp)
 
 #### 1. Projektanalyse
 Überprüfe deine bestehende CODESYS 2.3 Anwendung: Welche Bibliotheken werden verwendet? Gibt es veraltete Befehle, Visualisierungselemente oder proprietäre Erweiterungen?
@@ -308,7 +316,7 @@ Passe Projektdokumentation, Netzwerktopologie, IP-Adressen und Benutzerhandbuch 
 
 Die Migration auf CODESYS 3.5 ist der Schlüssel für eine zukunftssichere, moderne Steuerungslösung. Sie eröffnet neue Möglichkeiten für Visualisierung, Modularisierung und professionelle Projektstrukturen – besonders im Bereich Smart Building und Industrieautomation.
 
-**Bei InfraOne IT Solutions unterstützen wir dich gerne bei der Analyse, Planung und Umsetzung deiner Migration.** Kontaktiere unsere [Gebäudeautomations-Experten](/gebaeudeautomation) für ein unverbindliches Gespräch.
+**Bei InfraOne IT Solutions unterstützen wir dich gerne bei der Analyse, Planung und Umsetzung deiner Migration.** Kontaktiere uns für ein unverbindliches Gespräch über [unsere Leistungen](/leistungen).
         `.trim(),
     },
 ];
