@@ -57,6 +57,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: '/leistungen', priority: 0.9, changeFrequency: 'weekly' as const },
         { url: '/kontakt', priority: 0.9, changeFrequency: 'monthly' as const },
         { url: '/unternehmen', priority: 0.8, changeFrequency: 'monthly' as const },
+        { url: '/partner', priority: 0.7, changeFrequency: 'monthly' as const },
         { url: '/blog', priority: 0.8, changeFrequency: 'weekly' as const },
     ];
 

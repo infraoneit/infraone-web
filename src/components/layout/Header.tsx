@@ -42,7 +42,14 @@ const navigation: NavItem[] = [
             { label: 'Yeastar', href: '/cloud-telefonie/yeastar' },
         ],
     },
-    { label: 'Unternehmen', href: '/unternehmen' },
+    {
+        label: 'Unternehmen',
+        href: '/unternehmen',
+        submenu: [
+            { label: 'Über uns', href: '/unternehmen' },
+            { label: 'Partner', href: '/partner' },
+        ],
+    },
     { label: 'Blog', href: '/blog' },
     { label: 'Kontakt', href: '/kontakt' },
 ];
