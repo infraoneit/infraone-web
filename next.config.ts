@@ -52,8 +52,34 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        // Nicht auf /leistungen: Die Uebersichtsseite hat laut Search Console
+        // null Impressionen. /gebaeudeautomation hatte 472 - diese Sichtbarkeit
+        // gehoert auf eine Seite, die Google kennt.
         source: '/gebaeudeautomation',
+        destination: '/it-netzwerke',
+        permanent: true,
+      },
+      // Altlasten der frueheren Wix-Seite. Diese Adressen stehen noch im
+      // Google-Index und liefern heute 404 - damit verfaellt alles, was sie
+      // ueber Jahre an Bewertung gesammelt haben.
+      {
+        source: '/it-dienstleistungen',
         destination: '/leistungen',
+        permanent: true,
+      },
+      {
+        source: '/services',
+        destination: '/leistungen',
+        permanent: true,
+      },
+      {
+        source: '/kontakt-1',
+        destination: '/kontakt',
+        permanent: true,
+      },
+      {
+        source: '/post/:slug',
+        destination: '/blog',
         permanent: true,
       },
       {

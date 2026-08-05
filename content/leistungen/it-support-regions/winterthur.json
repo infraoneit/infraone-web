@@ -4,7 +4,7 @@
   "isFree": true,
   "anfahrt": "Keine Anfahrtskosten",
   "headline": "IT-Support Winterthur",
-  "subheadline": "Schnelle Computerhilfe für Winterthurer KMU und Privatkunden",
+  "subheadline": "Meist in 30 Minuten bei Ihnen. Oder sofort per Fernzugriff, noch während wir telefonieren.",
   "description": "Hauptstandort Winterthur an der Rudolf-Diesel-Strasse 25. Keine Anfahrtskosten im Stadtgebiet, Vor-Ort-Einsätze meist innert 30 Minuten, Remote-Support innert Minuten. Für KMU und Privatpersonen.",
   "intro": "Wenn die IT in Winterthur streikt, kostet jede Stunde Stillstand bares Geld. Eine Arztpraxis in Seen kann ohne KIS-System keine Patienten aufnehmen, ein Industriebetrieb im Sulzer-Areal verliert ohne ERP die Fertigungssteuerung, eine Anwaltskanzlei in der Altstadt steht ohne Outlook und Aktenverwaltung still. Genau dann sind wir da. Als InfraOne IT Solutions sitzen wir an der Rudolf-Diesel-Strasse 25 in Winterthur Grüze, im Industriequartier mit guter Anbindung an die Autobahn A1. In den meisten Winterthurer Stadtteilen wie Töss, Seen, Wülflingen, Veltheim oder Oberwinterthur sind wir innert 20 bis 30 Minuten vor Ort. Remote-Support starten wir oft schon während des Telefonats. Und das Wichtigste: Wir sprechen Klartext, nicht IT-Latein. Wenn Sie nicht verstehen, was wir machen, läuft etwas falsch.",
   "regionalImage": "/images/regions/winterthur.webp",
@@ -90,7 +90,7 @@
     "Veltheim"
   ],
   "addressLocality": "Winterthur",
-  "postalCode": "8400",
+  "postalCode": "8404",
   "openingHours": [
     {
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
@@ -98,14 +98,7 @@
       "closes": "17:00"
     }
   ],
-  "specialOpeningHours": [
-    {
-      "opens": "08:00",
-      "closes": "23:00",
-      "validFrom": "2024-01-01",
-      "validThrough": "2024-12-31"
-    }
-  ],
+  "specialOpeningHours": [],
   "supportHours": {
     "times": [
       { "time": "Mo–Fr 08:00–17:00", "text": "regulärer Tarif", "style": "neutral" },

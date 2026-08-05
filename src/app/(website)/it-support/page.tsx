@@ -111,6 +111,9 @@ export default async function ITSupportPage() {
         },
     };
 
+    // Wartungsvertrag-Block (optional, kommt aus dem CMS)
+    const maintenanceSection = (cmsData as Record<string, any>)?.maintenanceSection;
+
     // Grid-Klasse für Preis-Kacheln
     const gridColumns = pricingSection.gridColumns || '4';
     const gridClass = gridColumnsMap[gridColumns] || gridColumnsMap['4'];
@@ -314,6 +317,52 @@ export default async function ITSupportPage() {
                             {pricingSection.sectionSubtitle}
                         </p>
                     </AnimatedSection>
+
+                    {/* Wartungsvertrag - steht bewusst VOR den Stundensaetzen.
+                        Laut Search Console suchen 2'111 Anfragen nach laufender Betreuung
+                        ("it betreuung", "managed services", "it outsourcing") - bisher hatte
+                        die Seite dafuer kein Angebot. */}
+                    {maintenanceSection && (
+                        <AnimatedSection animation="slideUp" className="mb-12">
+                            <div className="rounded-2xl border-2 border-primary/30 bg-card overflow-hidden">
+                                <div className="grid lg:grid-cols-5 gap-0">
+                                    <div className="lg:col-span-3 p-6 lg:p-10">
+                                        <p className="text-sm font-medium text-primary uppercase tracking-wider mb-3">
+                                            {maintenanceSection.eyebrow}
+                                        </p>
+                                        <h3 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+                                            {maintenanceSection.headline}
+                                        </h3>
+                                        <p className="text-text-secondary leading-relaxed mb-6">
+                                            {maintenanceSection.intro}
+                                        </p>
+                                        <ul className="space-y-3 mb-6">
+                                            {maintenanceSection.included?.map((punkt: string, i: number) => (
+                                                <li key={i} className="flex gap-3 text-text-secondary">
+                                                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                                                    <span>{punkt}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <p className="text-sm text-text-secondary border-l-2 border-border pl-4 italic">
+                                            {maintenanceSection.limitation}
+                                        </p>
+                                    </div>
+                                    <div className="lg:col-span-2 bg-surface p-6 lg:p-10 flex flex-col justify-center items-start lg:items-center lg:text-center">
+                                        <p className="text-4xl md:text-5xl font-bold text-primary">
+                                            {maintenanceSection.price}
+                                        </p>
+                                        <p className="text-text-secondary mb-6">{maintenanceSection.priceUnit}</p>
+                                        <Button variant="primary" size="lg" asChild>
+                                            <Link href={maintenanceSection.ctaHref}>
+                                                {maintenanceSection.ctaLabel}
+                                            </Link>
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </AnimatedSection>
+                    )}
 
                     <StaggerContainer className={`grid ${gridClass} gap-6`} staggerDelay={0.1}>
                         {pricingSection.priceCards.map((card, index) => (

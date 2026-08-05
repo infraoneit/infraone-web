@@ -100,14 +100,7 @@
       "closes": "17:00"
     }
   ],
-  "specialOpeningHours": [
-    {
-      "opens": "08:00",
-      "closes": "23:00",
-      "validFrom": "2024-01-01",
-      "validThrough": "2024-12-31"
-    }
-  ],
+  "specialOpeningHours": [],
   "supportHours": {
     "times": [
       {

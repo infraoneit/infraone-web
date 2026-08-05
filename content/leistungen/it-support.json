@@ -2,8 +2,8 @@
   "heroSection": {
     "categoryLabel": "IT-SUPPORT & COMPUTERHILFE",
     "headline": "Informatik-Support",
-    "subheadline": "Schnelle IT-Hilfe schweizweit",
-    "description": "Schnelle IT-Hilfe für KMU & Private – per Telefon, Remote oder vor Ort. Transparente Preise, persönlicher Kontakt, keine Warteschleifen.",
+    "subheadline": "Remote sind wir in Minuten dabei. Vor Ort meist am selben Tag.",
+    "description": "Alle Preise stehen auf dieser Seite – Sie brauchen keine Offerte, um zu wissen, woran Sie sind. Für KMU und Private in der Deutschschweiz.",
     "primaryButtonText": "052 222 18 18",
     "primaryButtonHref": "tel:+41522221818",
     "secondaryButtonText": "Remote-Support starten",
@@ -190,5 +190,22 @@
       "St. Gallen"
     ],
     "includeFaqSchema": true
+  },
+  "maintenanceSection": {
+    "eyebrow": "Laufende Betreuung",
+    "headline": "Lieber gar nicht erst anrufen müssen",
+    "price": "ab CHF 200",
+    "priceUnit": "pro Monat",
+    "intro": "Beim Stundensatz zahlen Sie, wenn etwas kaputt ist. Beim Wartungsvertrag sorgen wir dafür, dass es seltener kaputtgeht. Updates, Backups und Überwachung laufen im Hintergrund – meist merken Sie erst davon, wenn wir uns melden, weil sich etwas anbahnt.",
+    "included": [
+      "Server und Netzwerk werden überwacht. Störungen sehen wir in der Regel vor Ihnen.",
+      "Backups laufen – und werden regelmässig testweise zurückgespielt. Ein Backup, das nie geprüft wurde, ist keines.",
+      "Sicherheitsupdates werden eingespielt, bevor eine Lücke zum Problem wird.",
+      "Garantierte Reaktionszeit statt Warteschlange.",
+      "Ein fester Ansprechpartner, der Ihre Umgebung kennt und nicht jedes Mal neu fragt."
+    ],
+    "limitation": "Was es nicht ist: eine Pauschale für alles. Grössere Projekte – Serverwechsel, Umzüge, Neuaufbauten – rechnen wir separat ab. Das sagen wir vorher, nicht auf der Rechnung.",
+    "ctaLabel": "Unverbindlich durchrechnen",
+    "ctaHref": "/kontakt"
   }
 }
