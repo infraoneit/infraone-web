@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { MotionCard, MotionCTA } from '@/components/ui/MotionCard';
 import { FAQList } from '@/components/ui/FAQList';
+import KINewsSection from '@/components/sections/KINewsSection';
 import { generateServiceWithMultipleProvidersSchema, generateFAQSchema, generateBreadcrumbListSchema, generateWebPageSchema } from '@/lib/seo/schema';
 import { softwareEntwicklungFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
@@ -177,6 +178,9 @@ export default function SoftwareEntwicklungPage() {
                     </div>
                 </section>
             )}
+
+            {/* KI-News - server-seitig, ISR taeglich (AUFTRAG-007) */}
+            <KINewsSection />
 
             {/* CTA Section */}
             <section className="py-16 lg:py-20 bg-primary relative overflow-hidden">

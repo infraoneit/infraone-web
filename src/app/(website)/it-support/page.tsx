@@ -19,6 +19,7 @@ import {
 } from '@/lib/seo/schema';
 import { BASE_URL } from '@/lib/constants';
 import { FAQList } from '@/components/ui/FAQList';
+import { SupportKostenRechner } from '@/components/tools/SupportKostenRechner';
 import { getITSupportData } from '@/lib/leistungen';
 
 export const metadata: Metadata = {
@@ -310,7 +311,7 @@ export default async function ITSupportPage() {
             </section>
 
             {/* Support Types & Pricing */}
-            <section className="py-16 lg:py-24 bg-surface">
+            <section id="preise" className="py-16 lg:py-24 bg-surface">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
@@ -469,6 +470,9 @@ export default async function ITSupportPage() {
                     </div>
                 </div>
             </section>
+
+            {/* Kostenrechner - zwischen Preiskarten und Regionen-Sektion (AUFTRAG-007) */}
+            <SupportKostenRechner />
 
             {/* So läuft ein Einsatz ab - direkt nach den Preiskarten.
                 Position gewählt: Der Block schliesst den Preis-/Einsatz-Teil ab
