@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { MotionCard, MotionCTA } from '@/components/ui/MotionCard';
 import { FAQList } from '@/components/ui/FAQList';
+import { SignageDemoGalerie } from '@/components/sections/SignageDemoGalerie';
 import { generateDigitalSignageHubSchema, generateDigitalSignageProductSchema, generateFAQSchema, generateBreadcrumbListSchema, generateWebPageSchema } from '@/lib/seo/schema';
 import { digitalSignageFaqs } from '@/data/digital-signage-faqs';
 import { BASE_URL } from '@/lib/constants';
@@ -345,6 +346,23 @@ export default function DigitalSignagePage() {
                             </ul>
                         </AnimatedSection>
                     </div>
+                </div>
+            </section>
+
+            {/* Demo-Galerie: Echte Ansichten aus infraone-signage */}
+            <section className="py-16 lg:py-24 bg-surface">
+                <div className="container mx-auto px-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                            So sieht es im Betrieb aus
+                        </h2>
+                        <p className="text-text-secondary max-w-2xl mx-auto">
+                            Echte Ansichten aus infraone-signage – keine Mockups. Klicken Sie sich durch.
+                        </p>
+                    </AnimatedSection>
+                    <AnimatedSection animation="slideUp" delay={0.1}>
+                        <SignageDemoGalerie />
+                    </AnimatedSection>
                 </div>
             </section>
 

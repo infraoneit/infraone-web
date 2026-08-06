@@ -203,6 +203,13 @@ body {
   animation: fade-in 0.3s ease-out forwards;
 }
 
+/* Fade nur bei erlaubter Bewegung (respektiert prefers-reduced-motion) */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-in-motion-safe {
+    animation: fade-in 0.3s ease-out;
+  }
+}
+
 .animate-slide-up {
   animation: slide-up 0.3s ease-out forwards;
 }
