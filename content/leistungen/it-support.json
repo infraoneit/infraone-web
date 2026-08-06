@@ -121,6 +121,28 @@
       }
     ]
   },
+  "processSection": {
+    "sectionTitle": "So läuft ein Einsatz ab",
+    "sectionSubtitle": "Damit Sie wissen, was passiert, bevor Sie anrufen.",
+    "steps": [
+      {
+        "title": "Sie melden sich",
+        "text": "Anruf oder E-Mail genügt. Sie schildern kurz, was nicht geht – in Ihren Worten, nicht in IT-Begriffen. Wir melden uns innert eines Arbeitstages, bei Notfällen sofort."
+      },
+      {
+        "title": "Ferndiagnose am Telefon",
+        "text": "Meist schauen wir noch während des Gesprächs per Fernzugriff auf Ihr System. Der Grossteil der Fälle ist damit erledigt – Sie zahlen ab der ersten Viertelstunde, nicht ab der ersten Stunde."
+      },
+      {
+        "title": "Wenn nötig: vor Ort",
+        "text": "Lässt sich das Problem nicht aus der Ferne lösen, kommen wir vorbei – in Winterthur meist innert 30 Minuten, in der Region meist am selben Tag. Den Termin machen wir direkt am Telefon ab."
+      },
+      {
+        "title": "Kurzbericht statt Fachchinesisch",
+        "text": "Nach dem Einsatz wissen Sie: was kaputt war, was wir gemacht haben, was es kostet – und was Sie tun können, damit es nicht wieder passiert."
+      }
+    ]
+  },
   "faqsSection": {
     "sectionTitle": "Häufige Fragen",
     "sectionSubtitle": "Antworten auf die wichtigsten Fragen zu unserem Support.",
@@ -164,6 +186,22 @@
       {
         "question": "Muss ich einen Vertrag abschliessen?",
         "answer": "Nein. Wir arbeiten für die meisten Kunden auf Abruf. Wartungsverträge (SLA) bieten wir für Firmen an, die garantierte Reaktionszeiten benötigen."
+      },
+      {
+        "question": "Was ist der Unterschied zwischen Stundensatz und IT-Dienstleistungsvertrag?",
+        "answer": "Beim Stundensatz rufen Sie an, wenn etwas kaputt ist, und zahlen den Einsatz. Beim IT-Dienstleistungsvertrag ab CHF 200 pro Monat übernehmen wir Support und IT-Verwaltung zum Pauschalpreis: Wir überwachen Ihre Systeme, spielen Updates ein und prüfen die Backups – vieles beheben wir, bevor Sie es merken. Dazu kommt eine garantierte Reaktionszeit. Faustregel: Ab zwei bis drei Störungen pro Jahr mit Arbeitsausfall rechnet sich der Vertrag. Daneben gibt es den klassischen Wartungsvertrag: Er läuft pro Jahr, mit einer oder mehreren fest eingeplanten Wartungen."
+      },
+      {
+        "question": "Übernehmen Sie eine bestehende IT-Umgebung von einem anderen Dienstleister?",
+        "answer": "Ja, das ist Alltag für uns. Wir dokumentieren zuerst, was vorhanden ist – Server, Lizenzen, Zugänge, Verträge – und übernehmen dann geordnet. Sie brauchen dafür kein technisches Wissen; die Übergabe klären wir direkt mit Ihrem bisherigen Anbieter, wenn Sie das möchten. Wichtig: Kündigen Sie Ihren alten Vertrag erst, wenn die Übernahme steht."
+      },
+      {
+        "question": "Wie lange bin ich gebunden?",
+        "answer": "Der IT-Dienstleistungsvertrag ist monatlich kündbar – ohne Mindestlaufzeit. Wenn wir schlechte Arbeit leisten, sollen Sie gehen können; das hält uns ehrlich. Wartungsverträge laufen jeweils für ein Jahr, weil die Wartungstermine fest eingeplant werden."
+      },
+      {
+        "question": "Betreuen Sie auch Firmen ohne eigene IT-Verantwortliche?",
+        "answer": "Das ist unser häufigster Fall. Die meisten unserer rund 100 KMU-Kunden haben niemanden, der sich hauptamtlich um IT kümmert. Wir sind dann die IT-Abteilung: ein Anruf, eine E-Mail, und es ist unser Problem. Sie bekommen einen festen Ansprechpartner, der Ihre Umgebung kennt."
       }
     ]
   },
@@ -192,11 +230,11 @@
     "includeFaqSchema": true
   },
   "maintenanceSection": {
-    "eyebrow": "Laufende Betreuung",
+    "eyebrow": "IT-Dienstleistungsvertrag",
     "headline": "Lieber gar nicht erst anrufen müssen",
     "price": "ab CHF 200",
-    "priceUnit": "pro Monat",
-    "intro": "Beim Stundensatz zahlen Sie, wenn etwas kaputt ist. Beim Wartungsvertrag sorgen wir dafür, dass es seltener kaputtgeht. Updates, Backups und Überwachung laufen im Hintergrund – meist merken Sie erst davon, wenn wir uns melden, weil sich etwas anbahnt.",
+    "priceUnit": "pro Monat · monatlich kündbar, keine Mindestlaufzeit",
+    "intro": "Beim Stundensatz zahlen Sie, wenn etwas kaputt ist. Beim IT-Dienstleistungsvertrag sorgen wir dafür, dass es seltener kaputtgeht. Updates, Backups und Überwachung laufen im Hintergrund – meist merken Sie erst davon, wenn wir uns melden, weil sich etwas anbahnt.",
     "included": [
       "Server und Netzwerk werden überwacht. Störungen sehen wir in der Regel vor Ihnen.",
       "Backups laufen – und werden regelmässig testweise zurückgespielt. Ein Backup, das nie geprüft wurde, ist keines.",

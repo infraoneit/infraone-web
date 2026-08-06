@@ -6,7 +6,7 @@
 export const digitalSignageFaqs = [
     {
         question: 'Was ist Digital Signage und wie funktioniert es?',
-        answer: 'Digital Signage (auch Werbebildschirme oder Infoscreens genannt) sind digitale Bildschirme zur Informations- und Werbeanzeige. Inhalte wie Videos, Bilder, Text und Live-Daten werden zentral über ein Web-CMS verwaltet und auf beliebig viele Displays in der ganzen Schweiz verteilt. Unsere Lösung nutzt das bewährte Xibo CMS und läuft auf einem lokalen Mini-Server – ohne Cloud-Abhängigkeit und monatliche Abo-Kosten.'
+        answer: 'Digital Signage (auch Werbebildschirme oder Infoscreens genannt) sind digitale Bildschirme zur Informations- und Werbeanzeige. Inhalte wie Videos, Bilder, Text und Live-Daten werden zentral über ein Web-CMS verwaltet und auf beliebig viele Displays in der ganzen Schweiz verteilt. Unsere Lösung nutzt unsere eigene Software infraone-signage und läuft auf einem lokalen Mini-Server – ohne Cloud-Abhängigkeit und monatliche Abo-Kosten.'
     },
     {
         question: 'Warum keine monatlichen Abo-Kosten wie bei anderen Digital Signage Anbietern?',
@@ -30,7 +30,7 @@ export const digitalSignageFaqs = [
     },
     {
         question: 'Kann ich die Inhalte meiner Werbebildschirme selbst verwalten?',
-        answer: 'Ja, Sie können alles selbst verwalten! Das Xibo CMS ist webbasiert und intuitiv: Inhalte hochladen, Playlists erstellen, Zeitpläne definieren. Wir schulen Sie vor Ort (ca. 1-2 Stunden) und stellen Video-Anleitungen bereit. Auf Wunsch übernehmen wir die Content-Pflege auch für Sie (ab CHF 80/Monat).'
+        answer: 'Ja – das ist der Punkt der Lösung. infraone-signage bedienen Sie im Browser, von jedem Rechner im Netzwerk: Inhalte hochladen, Playlisten zusammenstellen, Zeitpläne setzen. Wer eine Präsentation erstellen kann, kann das auch. Bei der Einrichtung schulen wir Sie, danach brauchen Sie uns nur noch, wenn Sie etwas Neues wollen.'
     },
     {
         question: 'Funktioniert Digital Signage auch ohne Internet?',

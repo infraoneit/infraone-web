@@ -19,7 +19,7 @@ const VALID_SUBJECTS = [
     'Telefonie und Kommunikation',
     'Videoueberwachung',
     'Webdesign',
-    'Software-Entwicklung',
+    'KI & Software-Entwicklung',
     'Andere Anfrage',
 ];
 
@@ -276,7 +276,7 @@ export function ContactSection({
                                             <option value="Telefonie und Kommunikation">Telefonie und Kommunikation</option>
                                             <option value="Videoueberwachung">Videoueberwachung</option>
                                             <option value="Webdesign">Webdesign</option>
-                                            <option value="Software-Entwicklung">Software-Entwicklung</option>
+                                            <option value="KI & Software-Entwicklung">KI &amp; Software-Entwicklung</option>
                                             <option value="Andere Anfrage">Andere Anfrage</option>
                                         </select>
                                     </div>

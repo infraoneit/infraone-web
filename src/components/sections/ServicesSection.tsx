@@ -42,15 +42,15 @@ const services = [
     },
     {
         icon: Code,
-        title: 'Software-Entwicklung',
-        subtitle: 'Individuelle Lösungen',
+        title: 'KI & Software-Entwicklung',
+        subtitle: 'KI-Integration • Automatisierung • Software auf Mass',
         description: 'Massgeschneiderte Software, API-Entwicklung und Prozessautomatisierung für Ihr Unternehmen.',
         href: '/software-entwicklung',
     },
     {
         icon: Tv,
         title: 'Digital Signage',
-        subtitle: 'Xibo CMS • Custom Widgets',
+        subtitle: 'Eigene Software • Custom Widgets',
         description: 'Display-Netzwerke für dynamische Inhalte – lokal betrieben, ohne Cloud-Abhängigkeit.',
         href: '/digital-signage',
     },

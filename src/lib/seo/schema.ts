@@ -1059,7 +1059,7 @@ export function generateHomepageOfferCatalogSchema() {
                 '@type': 'Offer',
                 itemOffered: {
                     '@type': 'Service',
-                    name: 'Software-Entwicklung',
+                    name: 'KI & Software-Entwicklung',
                     description: 'Individuelle Softwarelösungen und Web-Applikationen für Ihr Unternehmen',
                 },
             },

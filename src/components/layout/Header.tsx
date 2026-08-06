@@ -26,7 +26,7 @@ const navigation: NavItem[] = [
             { label: 'IT-Systeme & Netzwerke', href: '/it-netzwerke' },
             { label: 'Telefonie & Kommunikation', href: '/telefonie' },
             { label: 'Videoüberwachung', href: '/videoueberwachung' },
-            { label: 'Software-Entwicklung', href: '/software-entwicklung' },
+            { label: 'KI & Software-Entwicklung', href: '/software-entwicklung' },
             { label: 'Webdesign', href: '/webdesign' },
             { label: 'Digital Signage', href: '/digital-signage' },
         ],

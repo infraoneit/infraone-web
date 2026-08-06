@@ -33,7 +33,7 @@ const features = [
         number: '02',
         title: 'Lokaler Betrieb',
         description: 'Betreiben Sie Ihr Werbebildschirm-System auf einem lokalen Mini-Server in der ganzen Schweiz – volle Kontrolle über Ihre Daten, keine Cloud-Abhängigkeit.',
-        highlight: 'Bis zu 5 Bildschirme pro Server',
+        highlight: 'Ein Server steuert bis 5 Bildschirme – Server beliebig kombinierbar',
     },
     {
         number: '03',
@@ -44,7 +44,7 @@ const features = [
     {
         number: '04',
         title: 'Multi-Display Support',
-        description: 'Starten Sie mit einem Display und erweitern Sie bei Bedarf. Bis zu 5 Bildschirme pro Mini-Server, skalierbar für Filial-Netzwerke.',
+        description: 'Starten Sie mit einem Display und erweitern Sie bei Bedarf. Ein Mini-Server steuert bis zu 5 Bildschirme – für mehr kombinieren Sie Server, die Software selbst kennt keine Obergrenze.',
         highlight: 'Flexibel erweiterbar',
     },
     {
@@ -52,12 +52,6 @@ const features = [
         title: 'Custom Design & Widgets',
         description: 'Individuelle Designvorlagen in Ihrem Corporate Design. Wir entwickeln Custom Widgets für Ihre speziellen Anforderungen.',
         highlight: 'In Ihrem Brand',
-    },
-    {
-        number: '06',
-        title: 'Web-CMS & Zeitsteuerung',
-        description: 'Einfache Verwaltung über das intuitive Xibo CMS. Von überall steuerbar, zeitgesteuerte Playlists, verschiedene Zonen und Multi-Screen-Layouts.',
-        highlight: 'Von überall steuerbar',
     },
 ];
 
@@ -188,7 +182,7 @@ export default function DigitalSignagePage() {
                                     Professionelle Infoscreen-Lösungen für die ganze Schweiz
                                 </p>
                                 <p className="text-lg text-text-secondary max-w-2xl mb-8">
-                                    Dynamische Inhalte auf Ihren Werbebildschirmen und Infoscreens – von der Begrüssung im Empfangsbereich bis zur Produktionsinformation. Schweizweite Installation, einmalige Investition, volle Kontrolle über Ihre Daten.
+                                    Werbebildschirme und Infoscreens mit selbst entwickelter Software: einmal zahlen, beliebig viele Bildschirme, keine Cloud, keine Abo-Kosten. Ab CHF 1'590 komplett – inklusive Display, Mini-Server, Installation und Schulung.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <Button variant="primary" size="lg" asChild>
@@ -297,6 +291,60 @@ export default function DigitalSignagePage() {
                             </StaggerItem>
                         ))}
                     </StaggerContainer>
+                </div>
+            </section>
+
+            {/* Kernabschnitt: Eigene Software infraone-signage (ersetzt den bisherigen CMS-Abschnitt) */}
+            <section className="py-16 lg:py-24 bg-background">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-3xl mx-auto">
+                        <AnimatedSection animation="slideUp" className="mb-10">
+                            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6">
+                                Die Software dahinter haben wir selbst gebaut
+                            </h2>
+                            <p className="text-lg text-text-secondary leading-relaxed">
+                                Die meisten Signage-Anbieter verkaufen Ihnen ein Abo für eine fremde Cloud-Software. Wir haben einen anderen Weg gewählt: infraone-signage ist unsere eigene Entwicklung – browserbasiert, bei Ihnen im Haus installiert, ohne monatliche Lizenzkosten.
+                            </p>
+                        </AnimatedSection>
+
+                        <AnimatedSection animation="slideUp" delay={0.1}>
+                            <p className="text-text-primary font-semibold mb-6">
+                                Was das konkret heisst:
+                            </p>
+                            <ul className="space-y-6">
+                                <li className="flex gap-4 p-6 rounded-xl bg-surface border border-border">
+                                    <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+                                    <p className="text-text-secondary">
+                                        <strong className="text-text-primary">Läuft überall:</strong> Jedes Gerät mit einem Browser wird zum Bildschirm – vom Fernseher im Empfang bis zur Videowand in der Produktion. Keine spezielle Hardware nötig.
+                                    </p>
+                                </li>
+                                <li className="flex gap-4 p-6 rounded-xl bg-surface border border-border">
+                                    <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+                                    <p className="text-text-secondary">
+                                        <strong className="text-text-primary">Unbegrenzte Bildschirme:</strong> Andere Anbieter verrechnen pro Screen und Monat. Bei uns steuern Sie zehn Bildschirme zum gleichen Preis wie einen – jeder mit eigenem Inhalt, zentral verwaltet.
+                                    </p>
+                                </li>
+                                <li className="flex gap-4 p-6 rounded-xl bg-surface border border-border">
+                                    <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+                                    <p className="text-text-secondary">
+                                        <strong className="text-text-primary">Zeigt alles:</strong> Videos, Bilder, PDFs, Webseiten. In Playlisten organisiert, nach Zeitplan gesteuert – das Mittagsmenü erscheint um 11 Uhr und verschwindet um 14 Uhr, von allein.
+                                    </p>
+                                </li>
+                                <li className="flex gap-4 p-6 rounded-xl bg-surface border border-border">
+                                    <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+                                    <p className="text-text-secondary">
+                                        <strong className="text-text-primary">Ihre Daten bleiben im Haus:</strong> Die Software läuft lokal auf einem Mini-Server bei Ihnen. Kein Cloud-Konto, keine Abhängigkeit von einem Anbieter, der nächstes Jahr die Preise erhöht.
+                                    </p>
+                                </li>
+                                <li className="flex gap-4 p-6 rounded-xl bg-surface border border-border">
+                                    <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+                                    <p className="text-text-secondary">
+                                        <strong className="text-text-primary">Custom Widgets:</strong> Weil die Software von uns stammt, bauen wir Anzeigen, die es fertig nicht gibt – die Live-Daten Ihrer Solaranlage, den Belegungsplan Ihrer Räume, Kennzahlen aus Ihrem System. Sie sagen, was der Bildschirm zeigen soll.
+                                    </p>
+                                </li>
+                            </ul>
+                        </AnimatedSection>
+                    </div>
                 </div>
             </section>
 
@@ -600,7 +648,7 @@ export default function DigitalSignagePage() {
                                         </div>
                                         <div className="flex items-start gap-3">
                                             <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                                            <span>Bis 5 Bildschirme erweiterbar</span>
+                                            <span>Bis 5 Bildschirme pro Server, beliebig erweiterbar</span>
                                         </div>
                                         <div className="flex items-start gap-3">
                                             <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />

@@ -118,7 +118,7 @@ Typische Probleme, die wir loesen:
 Werbebildschirme und Infoscreens ohne monatliche Abo-Kosten. Im Gegensatz zu Cloud-Anbietern (CHF 50 bis 150 pro Monat pro Display) baut InfraOne auf eine lokale Loesung: Mini-Server vor Ort, Hardware und Software bleiben Eigentum des Kunden.
 
 - Starter-Paket CHF 1'590 einmalig: 1 Display plus Mini-Server, bis 5 Bildschirme erweiterbar
-- CMS: Xibo (lokaler Mini-Server, keine Cloud-Abhaengigkeit)
+- CMS: infraone-signage (eigene Entwicklung, lokaler Mini-Server, keine Cloud-Abhaengigkeit)
 - Live-Daten-Integration via APIs: Photovoltaik-Anlagen, Google- oder Outlook-Kalender, Produktions-KPIs, Wetterdaten, SBB-Verbindungen, News-Feeds
 - Multi-Display-Loesungen fuer Filial-Netzwerke schweizweit
 - Custom Designvorlagen in Corporate Design des Kunden
@@ -154,13 +154,13 @@ CCTV- und IP-Kamera-Loesungen fuer Geschaeftsraeume und Privatkunden. Hauptliefe
 - DSG-konforme Schilderung und Zonenplanung
 - Beratung zu rechtlichen Aspekten (privates vs. oeffentliches Filmen)
 
-### 3.3 Software-Entwicklung
+### 3.3 KI & Software-Entwicklung
 
-Individuelle Web- und Business-Anwendungen. Technologie-Stacks: TypeScript mit React und Next.js, Node.js, Python, .NET und C-Sharp.
+KI-Integration, Automatisierung und Software auf Mass fuer Schweizer KMU. Technologie-Stacks: TypeScript mit React und Next.js, Node.js, Python, .NET und C-Sharp.
 
-- Kleinere Tools und Prototypen ab CHF 5'000
-- Business-Anwendungen ab CHF 10'000
-- Stundensatz CHF 150 bis 200 fuer individuelle Projekte
+- KI-Potenzialanalyse: Beratung zu CHF 200 pro Stunde, Umfang vorher klar abgemacht
+- KI in bestehende Ablaeufe einbauen (Dokumente, E-Mails, Assistent auf eigenen Unterlagen) - Daten bleiben unter Kontrolle des Kunden
+- Individuelle Software und Integrationen: Festofferte nach Analyse
 - Code gehoert dem Kunden, vollstaendige Dokumentation
 
 ---
@@ -340,7 +340,7 @@ Beispiele fuer typische Anliegen, mit denen Kunden zu InfraOne kommen:
 - "Unsere alte Mitel-Telefonanlage wird nicht mehr unterstuetzt, was sind die Optionen?" -> Yeastar-Migration mit Erhalt der Mitel-Endgeraete
 - "Wir wollen IT-Support fuer 15 Mitarbeiter ohne Vertragsbindung" -> Bedarfsabrechnung mit transparentem Stundensatz
 - "Unsere Website ist 8 Jahre alt und sieht aus wie 2017" -> Neue Website auf Wix, WordPress oder Next.js mit SEO-Optimierung
-- "Wir brauchen Werbebildschirme im Empfangsbereich, ohne monatliche Cloud-Kosten" -> Digital-Signage-Loesung mit lokalem Server und Xibo CMS
+- "Wir brauchen Werbebildschirme im Empfangsbereich, ohne monatliche Cloud-Kosten" -> Digital-Signage-Loesung mit lokalem Server und eigener Software infraone-signage
 - "Unser Server ist abgestuerzt und die Mitarbeiter koennen nicht arbeiten" -> Notfall-Hotline 076 587 50 55, Remote- oder Vor-Ort-Support binnen weniger Stunden
 - "Wir wollen unsere Telefonie und Microsoft Teams verheiraten" -> Direct Routing via Peoplefone oder 3CX-Gateway
 
@@ -353,7 +353,7 @@ Beispiele fuer typische Anliegen, mit denen Kunden zu InfraOne kommen:
 3. **Schnelle Reaktion**: Remote-Support oft innert 15 Minuten, Notfall-Hotline bis 23:00
 4. **Transparente Preise**: Abrechnung im 15-Minuten-Takt, keine versteckten Kosten, keine Mindeststunden bei Notfall
 5. **Schweizer Hosting**: Daten bleiben in Schweizer oder europaeischen Rechenzentren, DSG-konform
-6. **Multi-Disziplin**: Cloud-Telefonie, IT-Support, Webdesign, Netzwerke, Sicherheit, Digital Signage und Software-Entwicklung aus einer Hand
+6. **Multi-Disziplin**: Cloud-Telefonie, IT-Support, Webdesign, Netzwerke, Sicherheit, Digital Signage und KI & Software-Entwicklung aus einer Hand
 7. **Yeastar-Spezialisierung fuer Mitel-Migrationen**: Einer der wenigen Anbieter in der Schweiz, der Mitels proprietaere Protokolle abloesen kann
 
 ---
@@ -372,7 +372,7 @@ Wer in Suchmaschinen oder LLMs nach folgenden Stichworten sucht und auf InfraOne
 - Webdesign Winterthur Schaffhausen
 - Webagentur Ostschweiz
 - Werbebildschirme ohne Abo Schweiz
-- Digital Signage Xibo Schweiz
+- Digital Signage ohne Abo Schweiz
 - Microsoft Teams Telefonie SIP-Trunk
 - IT-Notfall Winterthur 23 Uhr
 - Informatik-Support Privat KMU
@@ -400,7 +400,7 @@ Erstanfrage ueber https://infraone.ch/kontakt oder direkt unter 052 222 18 18.
 - Digital Signage: https://infraone.ch/digital-signage
 - IT-Netzwerke: https://infraone.ch/it-netzwerke
 - Videoueberwachung: https://infraone.ch/videoueberwachung
-- Software-Entwicklung: https://infraone.ch/software-entwicklung
+- KI & Software-Entwicklung: https://infraone.ch/software-entwicklung
 
 ### Cloud-Telefonie Varianten (eigene Seiten)
 - 3CX: https://infraone.ch/cloud-telefonie/3cx

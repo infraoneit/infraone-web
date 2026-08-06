@@ -47,7 +47,7 @@
   "additionalFaqs": [
     {
       "question": "Was kostet IT-Support für ein Thurgauer KMU oder Hotel?",
-      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Für die Anfahrt gilt eine Pauschale von CHF 50 (Hin- und Rückweg kombiniert). Wartungsverträge mit garantierter Reaktionszeit für Hotels und Industriebetriebe ab CHF 200 pro Monat. Notfall-Hotline bis 23:00 Uhr unter 076 587 50 55."
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Für die Anfahrt gilt eine Pauschale von CHF 50 (Hin- und Rückweg kombiniert). IT-Dienstleistungsverträge mit garantierter Reaktionszeit für Hotels und Industriebetriebe ab CHF 200 pro Monat. Notfall-Hotline bis 23:00 Uhr unter 076 587 50 55."
     },
     {
       "question": "Können Sie Hotel-PMS-Systeme wie protel oder Mews betreuen?",
@@ -59,11 +59,11 @@
     },
     {
       "question": "Was machen Sie bei einem Server-Ausfall mitten in der Saison?",
-      "answer": "Bei kritischen Notfällen wie Server-Ausfall, Ransomware oder Datenverlust ist die Notfall-Hotline 076 587 50 55 bis 23:00 Uhr erreichbar. Erste Schritte: Geräte vom Netz, Backup prüfen, Schadens-Eingrenzung. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten. Im Hotel-Geschäft koordinieren wir parallele Notfall-Lösungen wie temporäre Reservierungs-Aufnahme via Excel oder Papier."
+      "answer": "Bei kritischen Notfällen wie Server-Ausfall, Ransomware oder Datenverlust ist die Notfall-Hotline 076 587 50 55 bis 23:00 Uhr erreichbar. Erste Schritte: Geräte vom Netz, Backup prüfen, Schadens-Eingrenzung. Bei IT-Dienstleistungsverträgen mit SLA garantieren wir Reaktionszeiten. Im Hotel-Geschäft koordinieren wir parallele Notfall-Lösungen wie temporäre Reservierungs-Aufnahme via Excel oder Papier."
     },
     {
       "question": "Können Sie auch saisonale IT-Spitzen für Mostereien oder Hotellerie managen?",
-      "answer": "Ja. In Spitzen-Monaten der Mosterei (August bis November) oder der Hotel-Saison (Sommer am Bodensee, Skisaison) garantieren wir bevorzugte Reaktionszeiten und stehen für Notfall-Hilfe bereit. Bei Wartungsverträgen mit Saison-Klausel halten wir auch Reserve-Hardware bereit, um Ausfälle in Spitzenzeiten zu minimieren. Vor jeder Saison machen wir gerne einen Health-Check der Systeme als Vorbereitung."
+      "answer": "Ja. In Spitzen-Monaten der Mosterei (August bis November) oder der Hotel-Saison (Sommer am Bodensee, Skisaison) garantieren wir bevorzugte Reaktionszeiten und stehen für Notfall-Hilfe bereit. Bei IT-Dienstleistungsverträgen mit Saison-Klausel halten wir auch Reserve-Hardware bereit, um Ausfälle in Spitzenzeiten zu minimieren. Vor jeder Saison machen wir gerne einen Health-Check der Systeme als Vorbereitung."
     }
   ],
   "metaTitle": "IT-Support Thurgau | Lokaler Partner für KMU am Bodensee",

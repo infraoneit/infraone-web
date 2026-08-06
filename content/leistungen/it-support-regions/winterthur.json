@@ -47,7 +47,7 @@
   "additionalFaqs": [
     {
       "question": "Was kostet IT-Support für ein Winterthurer KMU?",
-      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Im Stadtgebiet Winterthur fallen keine Anfahrtskosten an. Für Firmen mit kritischen Systemen bieten wir Wartungsverträge mit garantierter Reaktionszeit ab CHF 200 pro Monat."
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Im Stadtgebiet Winterthur fallen keine Anfahrtskosten an. Für Firmen mit kritischen Systemen bieten wir IT-Dienstleistungsverträge mit garantierter Reaktionszeit ab CHF 200 pro Monat."
     },
     {
       "question": "Können Sie auch defekte Hardware reparieren oder ersetzen?",
@@ -63,11 +63,11 @@
     },
     {
       "question": "Können Sie auch Ferienvertretung für unsere interne IT übernehmen?",
-      "answer": "Ja, gerne. Wenn Ihre interne IT-Person in den Ferien ist oder krank wird, übernehmen wir die Bereitschaft übergangsweise. Wir richten einen direkten Notfall-Kanal ein, briefen uns vorab über Ihre Systeme und sind während der Vertretungsphase Ihr erster Ansprechpartner. Pricing als Tagespauschale oder als Wartungsvertrag mit definiertem Ferien-Cover."
+      "answer": "Ja, gerne. Wenn Ihre interne IT-Person in den Ferien ist oder krank wird, übernehmen wir die Bereitschaft übergangsweise. Wir richten einen direkten Notfall-Kanal ein, briefen uns vorab über Ihre Systeme und sind während der Vertretungsphase Ihr erster Ansprechpartner. Pricing als Tagespauschale oder als IT-Dienstleistungsvertrag mit definiertem Ferien-Cover."
     },
     {
       "question": "Helfen Sie auch beim Onboarding neuer Mitarbeitenden?",
-      "answer": "Ja. Wir richten neue Arbeitsplätze komplett ein: Hardware bestellt und konfiguriert, Microsoft 365 mit den richtigen Rechten, VPN-Zugang, Drucker, Backup, IT-Sicherheits-Schulung. Pro Mitarbeitender rechnen Sie mit 2 bis 4 Stunden Setup. Bei mehreren Onboardings pro Monat lohnt sich ein Wartungsvertrag mit Onboarding-Pauschale."
+      "answer": "Ja. Wir richten neue Arbeitsplätze komplett ein: Hardware bestellt und konfiguriert, Microsoft 365 mit den richtigen Rechten, VPN-Zugang, Drucker, Backup, IT-Sicherheits-Schulung. Pro Mitarbeitender rechnen Sie mit 2 bis 4 Stunden Setup. Bei mehreren Onboardings pro Monat lohnt sich ein IT-Dienstleistungsvertrag mit Onboarding-Pauschale."
     }
   ],
   "metaTitle": "IT-Support Winterthur | Schnelle Hilfe vor Ort",

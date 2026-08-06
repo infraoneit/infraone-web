@@ -9,7 +9,7 @@ const footerLinks = {
         { label: 'Telefonie & Kommunikation', href: '/telefonie' },
         { label: 'Videoüberwachung', href: '/videoueberwachung' },
         { label: 'Webdesign', href: '/webdesign' },
-        { label: 'Software-Entwicklung', href: '/software-entwicklung' },
+        { label: 'KI & Software-Entwicklung', href: '/software-entwicklung' },
         { label: 'Digital Signage', href: '/digital-signage' },
     ],
     company: [

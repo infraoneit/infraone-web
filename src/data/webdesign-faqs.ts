@@ -119,23 +119,23 @@ export const videoueberwachungFaqs = [
     },
 ];
 
-// Software-Entwicklung
+// KI & Software-Entwicklung
 export const softwareEntwicklungFaqs = [
     {
-        question: 'Welche Technologien nutzen Sie für Software-Entwicklung?',
-        answer: 'Wir entwickeln mit modernen Technologien: TypeScript/JavaScript (React, Next.js, Node.js), Python, .NET/C#. Die Wahl hängt vom Projekt ab – wir empfehlen immer das passende Werkzeug für Ihre Anforderungen.',
+        question: 'Was kostet der Einstieg?',
+        answer: 'Die Potenzialanalyse rechnen wir nach Aufwand zu CHF 200 pro Stunde ab – für die meisten KMU sind das wenige Stunden, den Umfang legen wir vorher fest. Für Integrationen und individuelle Software machen wir nach der Analyse eine Festofferte. Keine Lizenzmodelle, keine versteckten Folgekosten.',
     },
     {
-        question: 'Wie lange dauert die Entwicklung einer individuellen Software?',
-        answer: 'Das hängt stark vom Umfang ab. Kleinere Tools und Prototypen entstehen in 2-4 Wochen. Umfangreichere Business-Anwendungen benötigen 2-6 Monate. Wir arbeiten agil und liefern regelmässig nutzbare Zwischenstände.',
+        question: 'Was passiert mit unseren Daten?',
+        answer: 'Das klären wir vor jedem Projekt, nicht danach. Wo immer möglich, laufen KI-Funktionen so, dass Ihre Daten unter Ihrer Kontrolle bleiben – lokal oder in Schweizer Rechenzentren. Was das im Einzelfall bedeutet, steht schriftlich in der Offerte, inklusive dessen, was wir nicht garantieren können.',
     },
     {
-        question: 'Was kostet individuelle Software-Entwicklung?',
-        answer: 'Individuelle Software wird nach Aufwand berechnet (CHF 150-200/h). Kleinere Projekte starten bei CHF 5\'000-10\'000. Für umfangreiche Anwendungen erstellen wir nach Analyse ein Festpreis-Angebot. Erstgespräch und Grobkonzept sind kostenlos.',
+        question: 'Ersetzt KI unsere Mitarbeitenden?',
+        answer: 'In KMU praktisch nie – sie nimmt ihnen die Arbeit ab, für die niemand eingestellt wurde: Ablegen, Abtippen, Suchen, Weiterleiten. Die Erfahrung Ihrer Leute wird dadurch wertvoller, nicht überflüssig. Projekte, deren einziges Ziel Stellenabbau ist, sind bei uns falsch.',
     },
     {
-        question: 'Wer besitzt den Code nach Projektabschluss?',
-        answer: 'Sie erhalten die vollen Rechte am entwickelten Code. Wir dokumentieren sauber und übergeben alles vollständig – Sie sind nicht an uns gebunden (auch wenn wir uns über langfristige Zusammenarbeit freuen).',
+        question: 'Wir haben noch gar keine KI-Erfahrung – ist das ein Problem?',
+        answer: 'Nein, das ist der Normalfall. Wir starten dort, wo der Nutzen am schnellsten sichtbar wird, meist mit einem einzelnen Ablauf. Ihr Team lernt am echten Beispiel, nicht im Schulungsraum.',
     },
 ];
 

@@ -114,6 +114,9 @@ export default async function ITSupportPage() {
     // Wartungsvertrag-Block (optional, kommt aus dem CMS)
     const maintenanceSection = (cmsData as Record<string, any>)?.maintenanceSection;
 
+    // Ablauf-Block "So läuft ein Einsatz ab" (optional, kommt aus dem CMS)
+    const processSection = (cmsData as Record<string, any>)?.processSection;
+
     // Grid-Klasse für Preis-Kacheln
     const gridColumns = pricingSection.gridColumns || '4';
     const gridClass = gridColumnsMap[gridColumns] || gridColumnsMap['4'];
@@ -466,6 +469,46 @@ export default async function ITSupportPage() {
                     </div>
                 </div>
             </section>
+
+            {/* So läuft ein Einsatz ab - direkt nach den Preiskarten.
+                Position gewählt: Der Block schliesst den Preis-/Einsatz-Teil ab
+                ("was passiert, wenn ich anrufe"), bevor die Problem-Liste folgt. */}
+            {processSection && (
+                <section className="py-16 lg:py-24 bg-background border-t border-border">
+                    <div className="container mx-auto px-4">
+                        <AnimatedSection animation="slideUp" className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                                {processSection.sectionTitle}
+                            </h2>
+                            <p className="text-text-secondary max-w-2xl mx-auto">
+                                {processSection.sectionSubtitle}
+                            </p>
+                        </AnimatedSection>
+
+                        <div className="max-w-3xl mx-auto">
+                            <StaggerContainer className="space-y-6" staggerDelay={0.1}>
+                                {processSection.steps.map((step: { title: string; text: string }, index: number) => (
+                                    <StaggerItem key={index}>
+                                        <div className="flex gap-6 p-6 rounded-xl bg-surface border border-border hover:border-primary/50 transition-all">
+                                            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                                                {index + 1}
+                                            </div>
+                                            <div>
+                                                <h3 className="text-lg font-bold text-text-primary mb-2">
+                                                    {step.title}
+                                                </h3>
+                                                <p className="text-text-secondary">
+                                                    {step.text}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </StaggerItem>
+                                ))}
+                            </StaggerContainer>
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Häufige Probleme */}
             <section className="py-16 lg:py-24 bg-background">

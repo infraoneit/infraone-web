@@ -47,7 +47,7 @@
   "additionalFaqs": [
     {
       "question": "Was kostet IT-Support in St. Gallen?",
-      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Anfahrt nach St. Gallen CHF 50 Pauschal für bis zu 1 Stunde Fahrtzeit ab Winterthur. Wartungsverträge mit garantierter Reaktionszeit ab CHF 200 pro Monat. Privatkunden zahlen Vor-Ort CHF 145 pro Stunde, oft löst aber bereits Remote-Support das Problem ohne zusätzliche Anfahrt."
+      "answer": "Telefon- und Remote-Support ab CHF 130 pro Stunde mit 15 Minuten Mindestverrechnung. Vor-Ort-Support für KMU ab CHF 157 pro Stunde mit 30 Minuten Mindestverrechnung. Anfahrt nach St. Gallen CHF 50 Pauschal für bis zu 1 Stunde Fahrtzeit ab Winterthur. IT-Dienstleistungsverträge mit garantierter Reaktionszeit ab CHF 200 pro Monat. Privatkunden zahlen Vor-Ort CHF 145 pro Stunde, oft löst aber bereits Remote-Support das Problem ohne zusätzliche Anfahrt."
     },
     {
       "question": "Bieten Sie auch HSG-Spin-Off-Startups Support?",
@@ -55,7 +55,7 @@
     },
     {
       "question": "Können Sie auch das Ostschweizer Appenzellerland und Rheintal betreuen?",
-      "answer": "Ja, wir betreuen Kunden in Appenzell, Heiden, Trogen, im Rheintal von Altstätten bis Buchs und auch im Toggenburg. Anfahrt entsprechend länger, je nach Zielort 1 bis 2 Stunden ab Winterthur. Remote-Support funktioniert dort genauso gut wie in der Stadt. Bei kritischen Anwendungen mit garantierter Reaktionszeit empfehlen wir Wartungsverträge mit SLA. Bei wenigen Vor-Ort-Einsätzen pro Jahr lohnt sich oft die einzelne Bedarfsabrechnung mehr als ein Vertrag."
+      "answer": "Ja, wir betreuen Kunden in Appenzell, Heiden, Trogen, im Rheintal von Altstätten bis Buchs und auch im Toggenburg. Anfahrt entsprechend länger, je nach Zielort 1 bis 2 Stunden ab Winterthur. Remote-Support funktioniert dort genauso gut wie in der Stadt. Bei kritischen Anwendungen mit garantierter Reaktionszeit empfehlen wir IT-Dienstleistungsverträge mit SLA. Bei wenigen Vor-Ort-Einsätzen pro Jahr lohnt sich oft die einzelne Bedarfsabrechnung mehr als ein Vertrag."
     },
     {
       "question": "Was passiert bei einem IT-Notfall ausserhalb der Bürozeiten?",
