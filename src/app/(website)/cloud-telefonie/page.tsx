@@ -13,6 +13,7 @@ import {
     generateItemListSchema,
 } from '@/lib/seo/schema';
 import { globalFaqs, pricingModules } from '@/data/telefonie';
+import { SupportKostenRechner } from '@/components/tools/SupportKostenRechner';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
@@ -269,6 +270,10 @@ export default function CloudTelefoniePage() {
                     </div>
                 </div>
             </section>
+
+            {/* Kostenrechner mit Modus «Fixkosten senken» vorausgewählt (AUFTRAG-009):
+                direkt nach dem Hero, vor den Produktbereichen */}
+            <SupportKostenRechner />
 
             {/* Intro Content */}
             <section className="py-12 lg:py-16 bg-background">
