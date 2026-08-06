@@ -52,3 +52,73 @@ export function formatCHF(betrag: number): string {
     const mitTausender = franken.replace(/\B(?=(\d{3})+(?!\d))/g, "'");
     return `CHF ${mitTausender}.${rappen}`;
 }
+
+// ---------------------------------------------------------------------------
+// RICHTPREISE - vom Inhaber freigegeben am 06.08.2026 (Werte gemäss AUFTRAG-010,
+// KEINE eigenen Annahmen). Modus «Regelmässige Betreuung» im Kostenrechner.
+// ---------------------------------------------------------------------------
+// CHF 252 pro Arbeitsplatz/Monat — inbegriffen: Betrieb & Support der
+// Arbeitsplätze, bis 3 Server, Netzwerk-Management, Security-Grundschutz, 1 Standort
+export const BETREUUNG_PREIS_PRO_ARBEITSPLATZ = 252;
+export const BETREUUNG_SERVER_INBEGRIFFEN = 3; // bis 3 Server im Arbeitsplatzpreis enthalten
+export const BETREUUNG_PREIS_ZUSATZSERVER = 150; // je Server ab dem 4., pro Monat
+export const BETREUUNG_PREIS_ZUSATZSTANDORT = 50; // je Standort ab dem 2., pro Monat
+export const BETREUUNG_PREIS_ERWEITERTE_SECURITY_PRO_PLATZ = 15; // pro Arbeitsplatz/Monat
+export const BETREUUNG_MINIMUM = 200; // Untergrenze: nie unter CHF 200/Mt.
+// Vor-Ort-Support-Wunsch und Microsoft 365 ändern den Richtpreis NICHT
+// (fliessen nur als Info in die Anfrage-Mail).
+
+export interface BetreuungKonfiguration {
+    arbeitsplaetze: number; // 1–100
+    standorte: number; // 1–10
+    server: number; // 0–10
+    erweiterteSecurity: boolean;
+}
+
+export interface BetreuungPosition {
+    label: string;
+    preis: number;
+}
+
+export interface BetreuungRichtpreis {
+    positionen: BetreuungPosition[];
+    summe: number; // monatlich, Untergrenze CHF 200 angewendet
+}
+
+export function berechneBetreuungRichtpreis(konfig: BetreuungKonfiguration): BetreuungRichtpreis {
+    const positionen: BetreuungPosition[] = [
+        {
+            label: `${konfig.arbeitsplaetze} Arbeitsplätze × CHF ${BETREUUNG_PREIS_PRO_ARBEITSPLATZ} (Betrieb, Support, Verwaltung)`,
+            preis: konfig.arbeitsplaetze * BETREUUNG_PREIS_PRO_ARBEITSPLATZ,
+        },
+    ];
+
+    const zusatzServer = Math.max(0, konfig.server - BETREUUNG_SERVER_INBEGRIFFEN);
+    if (zusatzServer > 0) {
+        positionen.push({
+            label: `${zusatzServer} Zusatzserver (ab dem 4.) × CHF ${BETREUUNG_PREIS_ZUSATZSERVER}`,
+            preis: zusatzServer * BETREUUNG_PREIS_ZUSATZSERVER,
+        });
+    }
+
+    const zusatzStandorte = Math.max(0, konfig.standorte - 1);
+    if (zusatzStandorte > 0) {
+        positionen.push({
+            label: `${zusatzStandorte} Zusatzstandorte (ab dem 2.) × CHF ${BETREUUNG_PREIS_ZUSATZSTANDORT}`,
+            preis: zusatzStandorte * BETREUUNG_PREIS_ZUSATZSTANDORT,
+        });
+    }
+
+    if (konfig.erweiterteSecurity) {
+        positionen.push({
+            label: `Erweiterte Security (Überwachung & Alarmierung): ${konfig.arbeitsplaetze} × CHF ${BETREUUNG_PREIS_ERWEITERTE_SECURITY_PRO_PLATZ}`,
+            preis: konfig.arbeitsplaetze * BETREUUNG_PREIS_ERWEITERTE_SECURITY_PRO_PLATZ,
+        });
+    }
+
+    const summe = Math.max(
+        positionen.reduce((s, p) => s + p.preis, 0),
+        BETREUUNG_MINIMUM
+    );
+    return { positionen, summe };
+}

@@ -6,13 +6,17 @@
 
 export type FlatrateOption = 'keine' | 'ch' | 'cheu';
 
+// Anzahl Rufnummern (DIDs): wählbar in 5er-Blöcken (AUFTRAG-010)
+export type RufnummernOption = 5 | 10 | 15 | 20;
+export const RUFNUMMERN_OPTIONEN: RufnummernOption[] = [5, 10, 15, 20];
+
 export const PREIS_INTERNET_1GBIT = 49;
 export const PREIS_FESTE_IP = 10;
 export const PREIS_VPBX_BASIC = 15; // bis 10 Benutzer, Grundgebühr pro Monat
 export const PREIS_VPBX_PLUS = 25; // ab 11 Benutzer (bis 150), Grundgebühr pro Monat
 export const PREIS_FLATRATE_CH = 19; // 1000 Min Festnetz / 200 Min Mobil
 export const PREIS_FLATRATE_CH_EU = 22; // 1000 Min Festnetz / 300 Min Mobil
-export const PREIS_DIDS = 10; // 5 Hauptnummern
+export const PREIS_DID_BLOCK = 10; // CHF 10.– pro 5er-Block Rufnummern (DIDs) pro Monat
 
 export const MAX_BENUTZER = 150;
 export const OFFERTE_AB_BENUTZER = 30; // darüber: individuelle Offerte, keine Summe
@@ -44,11 +48,17 @@ export interface InfraOnePaket {
     summe: number;
 }
 
+// DIDs kommen in 5er-Blöcken: CHF 10.– pro 5er-Block/Monat (5/10/15/20 → 10/20/30/40)
+export function didBlockPreis(rufnummern: number): number {
+    return Math.ceil(rufnummern / 5) * PREIS_DID_BLOCK;
+}
+
 // null = über 30 Benutzer → keine Summe anzeigen, Offerten-Pfad.
 export function berechneInfraOnePaket(
     benutzer: number,
     flatrate: FlatrateOption,
-    internetDazu: boolean
+    internetDazu: boolean,
+    rufnummern: RufnummernOption = 5
 ): InfraOnePaket | null {
     const paketPreis = benutzerPaketPreis(benutzer);
     if (paketPreis === null) return null;
@@ -65,7 +75,7 @@ export function berechneInfraOnePaket(
     } else if (flatrate === 'cheu') {
         positionen.push({ label: 'Flatrate CH & EU (1000 Min Festnetz / 300 Min Mobil)', preis: PREIS_FLATRATE_CH_EU });
     }
-    positionen.push({ label: '5 Hauptnummern (DIDs)', preis: PREIS_DIDS });
+    positionen.push({ label: `${rufnummern} Rufnummern (DIDs)`, preis: didBlockPreis(rufnummern) });
     if (internetDazu) {
         positionen.push({ label: 'Internet 1 Gbit/s Glasfaser (iway)', preis: PREIS_INTERNET_1GBIT });
         positionen.push({ label: 'Feste IP-Adresse (iway)', preis: PREIS_FESTE_IP });
