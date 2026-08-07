@@ -188,9 +188,9 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
             {/* Regional Intro - Unique per Region */}
             <section className="py-12 lg:py-16 bg-background">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
+                    <div>
                         <AnimatedSection animation="slideUp">
-                            <p className="text-lg text-text-secondary leading-relaxed mb-8">{content.intro}</p>
+                            <p className="text-lg text-text-secondary leading-relaxed mb-8 max-w-3xl">{content.intro}</p>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Benefits */}
@@ -227,7 +227,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
             {/* Beispiel-Paket Highlight */}
             <section className="py-12 bg-primary">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto text-center text-white">
+                    <div className="text-center text-white">
                         <p className="text-sm uppercase tracking-wider opacity-80 mb-2">Beispielkonfiguration</p>
                         <h2 className="text-2xl md:text-3xl font-bold mb-4">
                             Komplettpaket für 20 Benutzer
@@ -342,7 +342,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                         </p>
                     </AnimatedSection>
 
-                    <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div className="grid md:grid-cols-3 gap-6">
                         {alternativeSolutions.map((solution, index) => (
                             <div
                                 key={index}
@@ -371,7 +371,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                         </p>
                     </AnimatedSection>
 
-                    <div className="max-w-4xl mx-auto bg-card rounded-3xl border border-border p-8 lg:p-12 text-center shadow-lg">
+                    <div className="bg-card rounded-3xl border border-border p-8 lg:p-12 text-center shadow-lg">
                         <h3 className="text-2xl font-bold text-text-primary mb-4">Flatrate-Modelle für KMU</h3>
                         <p className="text-text-secondary mb-8 max-w-xl mx-auto">
                             Starten Sie ab <strong>CHF 15.– pro Monat</strong> (vPBX Basic, 1 bis 5 Benutzer pauschal). Wählen Sie zwischen Pay-as-you-go oder attraktiven Flatrates für die Schweiz und EU.
@@ -411,7 +411,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                                 Wir kennen die spezifischen Anforderungen lokaler Branchen.
                             </p>
                         </AnimatedSection>
-                        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                        <div className="grid md:grid-cols-3 gap-6">
                             {content.localIndustries.map((industry, index) => (
                                 <div key={index} className="p-6 rounded-2xl bg-surface border border-border">
                                     <h3 className="font-bold text-text-primary mb-2">{industry.name}</h3>
@@ -431,8 +431,8 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                             Häufige Fragen zu Cloud-Telefonie in {content.headline.replace('Cloud-Telefonie ', '')}
                         </h2>
                     </AnimatedSection>
-                    <div className="max-w-3xl mx-auto">
-                        <FAQList items={combinedFaqs} />
+                    <div>
+                        <FAQList items={combinedFaqs} twoColumns />
                     </div>
                 </div>
             </section>

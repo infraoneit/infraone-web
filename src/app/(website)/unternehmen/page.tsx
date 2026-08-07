@@ -165,7 +165,7 @@ export default function UnternehmenPage() {
             {/* CEO Section */}
             <section className="py-16 lg:py-24 bg-surface">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-6xl mx-auto">
+                    <div>
                         <AnimatedSection animation="slideUp" className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
                                 Führung mit Vision

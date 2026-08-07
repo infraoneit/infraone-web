@@ -287,8 +287,8 @@ export default function DigitalSignagePage() {
             {/* Kernabschnitt: Eigene Software infraone-signage (ersetzt den bisherigen CMS-Abschnitt) */}
             <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-3xl mx-auto">
-                        <AnimatedSection animation="slideUp" className="mb-10">
+                    <div>
+                        <AnimatedSection animation="slideUp" className="mb-10 max-w-3xl">
                             <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6">
                                 Die Software dahinter haben wir selbst gebaut
                             </h2>
@@ -301,7 +301,7 @@ export default function DigitalSignagePage() {
                             <p className="text-text-primary font-semibold mb-6">
                                 Was das konkret heisst:
                             </p>
-                            <ul className="space-y-6">
+                            <ul className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-6">
                                 <li className="flex gap-4 p-6 rounded-xl bg-surface border border-border">
                                     <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                                     <p className="text-text-secondary">
@@ -383,7 +383,7 @@ export default function DigitalSignagePage() {
                     </AnimatedSection>
 
                     <AnimatedSection animation="slideUp" delay={0.2}>
-                        <div className="max-w-5xl mx-auto">
+                        <div>
                             <Image
                                 src="/images/digital-signage/products.webp"
                                 alt="InfraOne Digital Signage Produktpalette: Mini-Server, 4K-Displays und Cloud-Verwaltungssoftware für Werbebildschirme und Infoscreens in der Schweiz"
@@ -410,7 +410,7 @@ export default function DigitalSignagePage() {
                     </AnimatedSection>
 
                     <AnimatedSection animation="slideUp" delay={0.2}>
-                        <div className="max-w-4xl mx-auto overflow-x-auto">
+                        <div className="overflow-x-auto">
                             <table className="w-full border-collapse bg-card rounded-2xl overflow-hidden shadow-lg">
                                 <thead>
                                     <tr className="bg-surface">
@@ -624,7 +624,7 @@ export default function DigitalSignagePage() {
                     </AnimatedSection>
 
                     <AnimatedSection animation="slideUp" delay={0.2}>
-                        <div className="max-w-3xl mx-auto">
+                        <div>
                             <div className="p-8 rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-white">
                                 <div className="grid md:grid-cols-2 gap-8 items-center">
                                     <div>
@@ -674,8 +674,8 @@ export default function DigitalSignagePage() {
                         </h2>
                     </AnimatedSection>
 
-                    <div className="max-w-3xl mx-auto">
-                        <StaggerContainer className="space-y-6" staggerDelay={0.1}>
+                    <div>
+                        <StaggerContainer className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-6" staggerDelay={0.1}>
                             {processSteps.map((step, index) => (
                                 <StaggerItem key={index}>
                                     <MotionCard
@@ -710,8 +710,8 @@ export default function DigitalSignagePage() {
                                 Häufige Fragen
                             </h2>
                         </AnimatedSection>
-                        <div className="max-w-3xl mx-auto">
-                            <FAQList items={digitalSignageFaqs} />
+                        <div>
+                            <FAQList items={digitalSignageFaqs} twoColumns />
                         </div>
                     </div>
                 </section>

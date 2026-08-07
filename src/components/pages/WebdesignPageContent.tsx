@@ -96,7 +96,7 @@ export function WebdesignPageContent() {
                         <p className="text-text-secondary">Transparent. Fair. Leistungsstark.</p>
                     </AnimatedSection>
 
-                    <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div className="grid md:grid-cols-3 gap-8">
                         {packages.map((pkg, index) => (
                             <AnimatedSection
                                 key={index}

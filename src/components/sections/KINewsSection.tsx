@@ -109,7 +109,7 @@ export default async function KINewsSection() {
                     </h2>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div className="grid md:grid-cols-2 gap-6">
                     {news.map((item) => (
                         <article
                             key={item.link}

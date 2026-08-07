@@ -167,7 +167,7 @@ export default function KontaktPage() {
                     </StaggerContainer>
 
                     {/* Contact Info */}
-                    <div className="mt-12 max-w-2xl mx-auto">
+                    <div className="mt-12">
                         <div className="grid sm:grid-cols-3 gap-6">
                             <a
                                 href="tel:+41522221818"

@@ -304,7 +304,7 @@ export function ITSupportContent({ regionSlug }: ITSupportContentProps) {
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">Häufige Fragen</h2>
                     </AnimatedSection>
 
-                    <div className="max-w-3xl mx-auto space-y-4">
+                    <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4 lg:items-start">
                         {faqs.map((faq, index) => (
                             <div key={index} className="rounded-xl border border-border bg-card overflow-hidden">
                                 <button onClick={() => setOpenFaq(openFaq === index ? null : index)} className="w-full flex items-center justify-between p-4 text-left">

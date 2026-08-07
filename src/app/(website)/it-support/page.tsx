@@ -489,8 +489,8 @@ export default async function ITSupportPage() {
                             </p>
                         </AnimatedSection>
 
-                        <div className="max-w-3xl mx-auto">
-                            <StaggerContainer className="space-y-6" staggerDelay={0.1}>
+                        <div>
+                            <StaggerContainer className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-6" staggerDelay={0.1}>
                                 {processSection.steps.map((step: { title: string; text: string }, index: number) => (
                                     <StaggerItem key={index}>
                                         <div className="flex gap-6 p-6 rounded-xl bg-surface border border-border hover:border-primary/50 transition-all">
@@ -643,8 +643,8 @@ export default async function ITSupportPage() {
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">{faqsSection.sectionTitle}</h2>
                         <p className="text-text-secondary max-w-2xl mx-auto">{faqsSection.sectionSubtitle}</p>
                     </AnimatedSection>
-                    <div className="max-w-3xl mx-auto">
-                        <FAQList items={faqsSection.faqs} />
+                    <div>
+                        <FAQList items={faqsSection.faqs} twoColumns />
                     </div>
                 </div>
             </section>

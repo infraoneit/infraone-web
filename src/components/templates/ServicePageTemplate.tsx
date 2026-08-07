@@ -196,8 +196,8 @@ export function ServicePageTemplate({
                             </h2>
                         </AnimatedSection>
 
-                        <div className="max-w-3xl mx-auto">
-                            <StaggerContainer className="space-y-6" staggerDelay={0.1}>
+                        <div>
+                            <StaggerContainer className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-6" staggerDelay={0.1}>
                                 {processSteps.map((step, index) => (
                                     <StaggerItem key={index}>
                                         <div
@@ -261,7 +261,7 @@ export function ServicePageTemplate({
                             </p>
                         </AnimatedSection>
 
-                        <div className="max-w-6xl mx-auto space-y-6">
+                        <div className="space-y-6">
                             {/* vPBX Basic + Plus */}
                             <div className="grid md:grid-cols-2 gap-6">
                                 {/* vPBX Basic */}
@@ -406,8 +406,8 @@ export function ServicePageTemplate({
                                 Häufige Fragen
                             </h2>
                         </AnimatedSection>
-                        <div className="max-w-3xl mx-auto">
-                            <FAQList items={faqs} />
+                        <div>
+                            <FAQList items={faqs} twoColumns />
                         </div>
                     </div>
                 </section>

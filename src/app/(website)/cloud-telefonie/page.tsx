@@ -278,10 +278,10 @@ export default function CloudTelefoniePage() {
             {/* Intro Content */}
             <section className="py-12 lg:py-16 bg-background">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
+                    <div>
                         <AnimatedSection animation="slideUp">
                             <h2 className="text-3xl font-bold text-text-primary mb-4">Cloud-Telefonanlagen</h2>
-                            <p className="text-lg text-text-secondary leading-relaxed mb-8">
+                            <p className="text-lg text-text-secondary leading-relaxed mb-8 max-w-3xl">
                                 In der Schweiz setzen immer mehr Unternehmen auf Cloud-Telefonie. Die Vorteile liegen auf der Hand: Keine wartungsintensive Hardware vor Ort, flexible Arbeitsplätze im Homeoffice, und professionelle Telefonielösungen zu planbaren Kosten. Als zertifizierter Peoplefone-Partner beraten wir Sie unabhängig und finden die optimale Lösung für Ihr Unternehmen. Von der Einmann-Firma bis zum 50-Personen-Betrieb – wir kennen die Anforderungen von Schweizer KMU.
                             </p>
 
@@ -362,7 +362,7 @@ export default function CloudTelefoniePage() {
                         </p>
                     </AnimatedSection>
 
-                    <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-6xl mx-auto" staggerDelay={0.05}>
+                    <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" staggerDelay={0.05}>
                         {peoplefoneFeatures.map((feature, index) => (
                             <StaggerItem key={index}>
                                 <div className="h-full p-5 rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors">
@@ -399,7 +399,7 @@ export default function CloudTelefoniePage() {
                         </p>
                     </AnimatedSection>
 
-                    <div className="max-w-6xl mx-auto space-y-6">
+                    <div className="space-y-6">
                         {/* vPBX Basic + Plus */}
                         <div className="grid md:grid-cols-2 gap-6">
                             {/* vPBX Basic */}
@@ -568,8 +568,8 @@ export default function CloudTelefoniePage() {
                         </p>
                     </AnimatedSection>
 
-                    <div className="max-w-3xl mx-auto">
-                        <StaggerContainer className="space-y-6" staggerDelay={0.1}>
+                    <div>
+                        <StaggerContainer className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-6" staggerDelay={0.1}>
                             {[
                                 {
                                     title: 'Bestandsaufnahme',
@@ -621,7 +621,7 @@ export default function CloudTelefoniePage() {
                         </p>
                     </AnimatedSection>
 
-                    <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div className="grid md:grid-cols-3 gap-6">
                         {alternativeSolutions.map((solution, index) => (
                             <Link
                                 key={index}
@@ -651,8 +651,8 @@ export default function CloudTelefoniePage() {
                             Häufige Fragen
                         </h2>
                     </AnimatedSection>
-                    <div className="max-w-3xl mx-auto">
-                        <FAQList items={globalFaqs} />
+                    <div>
+                        <FAQList items={globalFaqs} twoColumns />
                     </div>
                 </div>
             </section>

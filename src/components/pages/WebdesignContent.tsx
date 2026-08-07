@@ -388,7 +388,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
 
                     {isHubPage ? (
                         /* Hub: Full detailed packages */
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             {packages.map((pkg, index) => (
                                 <AnimatedSection
                                     key={index}
@@ -447,7 +447,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         </div>
                     ) : (
                         /* Spoke: Condensed packages with CTA to Hub */
-                        <div className="max-w-5xl mx-auto">
+                        <div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                                 {packages.map((pkg, index) => (
                                     <AnimatedSection
@@ -652,7 +652,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                             </p>
                         </AnimatedSection>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {[
                                 { step: '01', title: 'Discovery', desc: 'Wir analysieren Ihre Ziele, Zielgruppe und Wettbewerber. Gemeinsam definieren wir die optimale Strategie.', icon: Target },
                                 { step: '02', title: 'Design', desc: 'Modernes UI/UX-Design, das Ihre Marke stärkt. Wireframes und interaktive Prototypen zur Freigabe.', icon: Palette },
@@ -745,7 +745,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
 
                     {/* Keystatic Highlight - Hub-only */}
                     {isHubPage && (
-                        <div className="mt-12 max-w-5xl mx-auto">
+                        <div className="mt-12">
                             <div className="p-8 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary">
                                 <div className="space-y-8">
                                     <div className="text-center">
@@ -854,7 +854,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                     </div>
 
                                     {/* Benefits List */}
-                                    <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                                    <div className="grid md:grid-cols-2 gap-4">
                                         {[
                                             'Live-Vorschau beim Bearbeiten',
                                             'Keine Software-Installation nötig',
@@ -885,7 +885,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         </h2>
                     </AnimatedSection>
 
-                    <div className="max-w-3xl mx-auto space-y-4">
+                    <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4 lg:items-start">
                         {isHubPage && faqs.map((faq, index) => (
                             <div
                                 key={index}

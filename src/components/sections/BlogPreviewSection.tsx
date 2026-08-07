@@ -35,7 +35,7 @@ export async function BlogPreviewSection() {
 
                 {/* Neuester Beitrag — gross */}
                 <AnimatedSection animation="slideUp" delay={0.1}>
-                    <Link href={`/blog/${post.slug}`} className="block group max-w-5xl mx-auto">
+                    <Link href={`/blog/${post.slug}`} className="block group">
                         <article className="flex flex-col rounded-2xl bg-card border border-border overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-150">
                             {/* Cover */}
                             <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5">

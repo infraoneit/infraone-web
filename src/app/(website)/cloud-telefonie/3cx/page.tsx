@@ -243,7 +243,7 @@ export default function CloudTelefonie3CXPage() {
                         </p>
                     </AnimatedSection>
 
-                    <StaggerContainer className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto" staggerDelay={0.1}>
+                    <StaggerContainer className="grid md:grid-cols-3 gap-6" staggerDelay={0.1}>
                         {variants.map((variant, index) => (
                             <StaggerItem key={index}>
                                 <div className="h-full p-6 rounded-2xl bg-card border border-border">
@@ -266,7 +266,7 @@ export default function CloudTelefonie3CXPage() {
             {/* Stärken */}
             <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
+                    <div>
                         <AnimatedSection animation="slideUp">
                             <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-8">
                                 Stärken von 3CX im Überblick
@@ -296,7 +296,7 @@ export default function CloudTelefonie3CXPage() {
                         </p>
                     </AnimatedSection>
 
-                    <div className="max-w-5xl mx-auto space-y-6">
+                    <div className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-6">
                         {useCases.map((useCase, i) => (
                             <AnimatedSection key={i} animation="slideUp">
                                 <div className="p-6 rounded-2xl bg-card border border-border">
@@ -324,8 +324,8 @@ export default function CloudTelefonie3CXPage() {
                             Häufige Fragen zu 3CX
                         </h2>
                     </AnimatedSection>
-                    <div className="max-w-3xl mx-auto">
-                        <FAQList items={faqs} />
+                    <div>
+                        <FAQList items={faqs} twoColumns />
                     </div>
                 </div>
             </section>

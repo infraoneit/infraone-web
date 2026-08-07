@@ -94,7 +94,10 @@
 
 html, body {
   width: 100%;
-  overflow-x: hidden;
+  /* clip statt hidden: verhindert Horizontal-Overflow ebenso, erzeugt aber
+     keinen Scroll-Container — position:sticky (Rechner-Ergebnis, AUFTRAG-013)
+     funktioniert nur mit clip. */
+  overflow-x: clip;
   margin: 0;
   padding: 0;
 }

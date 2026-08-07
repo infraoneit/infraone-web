@@ -345,7 +345,7 @@ export function SupportKostenRechner() {
 
     // Fehlerfall (z. B. lokal ohne Netlify-Backend): Meldung + Fallback auf vorbefülltes /kontakt
     const fehlerBlock = sendStatus === 'error' && kontaktHref !== null && (
-        <div className="mt-4 p-4 rounded-xl bg-destructive/10 border border-destructive/30 max-w-xl mx-auto text-left">
+        <div className="mt-4 p-4 rounded-xl bg-destructive/10 border border-destructive/30 text-left">
             <p className="text-sm font-medium text-text-primary mb-1">
                 Das hat leider nicht geklappt – die Anfrage konnte nicht gesendet werden.
             </p>
@@ -361,7 +361,7 @@ export function SupportKostenRechner() {
 
     // Inline-Bestätigung nach erfolgreichem Versand (Wortlaut gemäss Vorgabe)
     const erfolgsBlock = sendStatus === 'success' && (
-        <div className="mt-4 p-4 rounded-xl bg-primary/10 border border-primary/30 max-w-xl mx-auto">
+        <div className="mt-4 p-4 rounded-xl bg-primary/10 border border-primary/30">
             <p className="text-sm font-medium text-text-primary flex items-start justify-center gap-2">
                 <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
                 <span>
@@ -374,7 +374,7 @@ export function SupportKostenRechner() {
 
     // Schritt 3: Richtpreis-Anzeige (erst nach erfolgreichem Versand)
     const richtpreisBlock = richtpreisSichtbar && (
-        <div className="mt-6 p-6 rounded-xl bg-card border border-border max-w-xl mx-auto w-full">
+        <div className="mt-6 p-6 rounded-xl bg-card border border-border">
             <p className="text-xl md:text-2xl font-bold text-text-primary text-center mb-2">
                 Ihr Richtpreis: {formatCHFGanz(richtpreis.summe)} pro Monat
             </p>
@@ -508,75 +508,77 @@ export function SupportKostenRechner() {
                 </div>
             </fieldset>
 
-            {/* Schritt 2: Kontakt-Gate (nur in diesem Modus) */}
-            {!richtpreisSichtbar && (
-                <div className="p-6 rounded-2xl border border-primary/30 bg-primary/5">
-                    <h3 className="text-lg font-bold text-text-primary mb-2">Ihr Richtpreis ist bereit</h3>
-                    <p className="text-text-secondary mb-4">
-                        Sagen Sie uns noch, wer Sie sind – dann zeigen wir Ihnen den Richtpreis
-                        sofort an und senden Ihnen die Aufstellung unverbindlich zu.
-                    </p>
-                    <form onSubmit={handleGateSubmit} className="space-y-3">
-                        <div className="grid sm:grid-cols-2 gap-3">
-                            <input
-                                type="text"
-                                aria-label="Name"
-                                placeholder="Name*"
-                                required
-                                value={kName}
-                                onChange={(e) => setKName(e.target.value)}
-                                className={inputKlasse}
-                            />
-                            <input
-                                type="text"
-                                aria-label="Firma"
-                                placeholder="Firma*"
-                                required
-                                value={kFirma}
-                                onChange={(e) => setKFirma(e.target.value)}
-                                className={inputKlasse}
-                            />
-                            <input
-                                type="email"
-                                aria-label="E-Mail"
-                                placeholder="E-Mail*"
-                                required
-                                value={kEmail}
-                                onChange={(e) => setKEmail(e.target.value)}
-                                className={inputKlasse}
-                            />
-                            <input
-                                type="tel"
-                                aria-label="Telefon (optional)"
-                                placeholder="Telefon (optional)"
-                                value={kTelefon}
-                                onChange={(e) => setKTelefon(e.target.value)}
-                                className={inputKlasse}
-                            />
-                        </div>
-                        <p className="text-xs text-text-secondary">
-                            Ihre Angaben gehen ausschliesslich an uns (info@infraone.ch) und werden
-                            nur für diese Offerte verwendet. Details:{' '}
-                            <Link href="/datenschutz" className="text-primary hover:underline">
-                                /datenschutz
-                            </Link>
-                            .
-                        </p>
-                        <div className="text-center pt-2">
-                            <Button
-                                type="submit"
-                                size="lg"
-                                disabled={sendStatus === 'submitting'}
-                                className="h-auto min-h-14 py-3 whitespace-normal text-base"
-                            >
-                                <Send className="w-5 h-5" />
-                                {sendStatus === 'submitting' ? 'Wird gesendet …' : 'Richtpreis anzeigen'}
-                            </Button>
-                        </div>
-                    </form>
-                    {fehlerBlock}
+        </div>
+    );
+
+    // Schritt 2 (Betreuung + Kombi-Pfad): Kontakt-Gate.
+    // Steht seit AUFTRAG-013 in der rechten Ergebnis-Spalte, nicht mehr unter den Eingaben.
+    const kontaktGate = !richtpreisSichtbar && (
+        <div className="mt-6 p-6 rounded-2xl border border-primary/30 bg-primary/5">
+            <h3 className="text-lg font-bold text-text-primary mb-2">Ihr Richtpreis ist bereit</h3>
+            <p className="text-text-secondary mb-4">
+                Sagen Sie uns noch, wer Sie sind – dann zeigen wir Ihnen den Richtpreis
+                sofort an und senden Ihnen die Aufstellung unverbindlich zu.
+            </p>
+            <form onSubmit={handleGateSubmit} className="space-y-3">
+                <div className="grid sm:grid-cols-2 gap-3">
+                    <input
+                        type="text"
+                        aria-label="Name"
+                        placeholder="Name*"
+                        required
+                        value={kName}
+                        onChange={(e) => setKName(e.target.value)}
+                        className={inputKlasse}
+                    />
+                    <input
+                        type="text"
+                        aria-label="Firma"
+                        placeholder="Firma*"
+                        required
+                        value={kFirma}
+                        onChange={(e) => setKFirma(e.target.value)}
+                        className={inputKlasse}
+                    />
+                    <input
+                        type="email"
+                        aria-label="E-Mail"
+                        placeholder="E-Mail*"
+                        required
+                        value={kEmail}
+                        onChange={(e) => setKEmail(e.target.value)}
+                        className={inputKlasse}
+                    />
+                    <input
+                        type="tel"
+                        aria-label="Telefon (optional)"
+                        placeholder="Telefon (optional)"
+                        value={kTelefon}
+                        onChange={(e) => setKTelefon(e.target.value)}
+                        className={inputKlasse}
+                    />
                 </div>
-            )}
+                <p className="text-xs text-text-secondary">
+                    Ihre Angaben gehen ausschliesslich an uns (info@infraone.ch) und werden
+                    nur für diese Offerte verwendet. Details:{' '}
+                    <Link href="/datenschutz" className="text-primary hover:underline">
+                        /datenschutz
+                    </Link>
+                    .
+                </p>
+                <div className="text-center pt-2">
+                    <Button
+                        type="submit"
+                        size="lg"
+                        disabled={sendStatus === 'submitting'}
+                        className="h-auto min-h-14 py-3 whitespace-normal text-base"
+                    >
+                        <Send className="w-5 h-5" />
+                        {sendStatus === 'submitting' ? 'Wird gesendet …' : 'Richtpreis anzeigen'}
+                    </Button>
+                </div>
+            </form>
+            {fehlerBlock}
         </div>
     );
 
@@ -594,7 +596,7 @@ export function SupportKostenRechner() {
                 </div>
 
                 <noscript>
-                    <div className="max-w-3xl mx-auto p-6 rounded-2xl bg-card border border-border text-center">
+                    <div className="p-6 rounded-2xl bg-card border border-border text-center">
                         <p className="text-text-secondary">
                             Der Kostenrechner benötigt JavaScript. Alle Preise finden Sie in der{' '}
                             <a href="#preise" className="text-primary font-medium hover:underline">
@@ -605,8 +607,13 @@ export function SupportKostenRechner() {
                     </div>
                 </noscript>
 
-                {/* min-h verhindert Layout-Verschiebungen beim Umschalten der Modi (CLS 0) */}
-                <div className="max-w-3xl mx-auto p-6 md:p-8 rounded-2xl bg-card border border-border min-h-[560px] flex flex-col">
+                {/* min-h verhindert Layout-Verschiebungen beim Umschalten der Modi (CLS 0).
+                    AUFTRAG-013: volle Container-Breite, ab lg zweispaltig — links Eingaben,
+                    rechts das Ergebnis in eigener, sticky Spalte. */}
+                <div className="p-6 md:p-8 rounded-2xl bg-card border border-border min-h-[560px]">
+                    <div className="lg:grid lg:grid-cols-2 lg:gap-10">
+                        {/* Linke Spalte: Eingaben */}
+                        <div>
                     {/* Schritt 1: Was liegt an? */}
                     <fieldset>
                         <legend className="text-lg font-bold text-text-primary mb-4">Was liegt an?</legend>
@@ -815,8 +822,14 @@ export function SupportKostenRechner() {
 
                     {modus === 'betreuung' && betreuungsAssistent}
 
+                    {/* Kombi-Pfad: Assistent erscheint nach den Sparmodus-Eingaben */}
+                    {modus === 'fixkosten' && betreuungDazu && betreuungsAssistent}
+                        </div>
+
+                        {/* Rechte Spalte: Ergebnis, ab lg sticky beim Scrollen sichtbar */}
+                        <div className="mt-8 lg:mt-0 lg:sticky lg:top-24 lg:self-start">
                     {/* Ergebnis-Bereich: feste Mindesthöhe, damit nichts springt */}
-                    <div className="mt-8 p-6 rounded-2xl bg-surface border border-border min-h-[190px] flex flex-col justify-center flex-grow">
+                    <div className="p-6 rounded-2xl bg-surface border border-border min-h-[190px] flex flex-col justify-center">
                         {modus === 'fixkosten' && (
                             <div className="text-center">
                                 {fixkostenPaket ? (
@@ -930,8 +943,8 @@ export function SupportKostenRechner() {
                         {erfolgsBlock}
                     </div>
 
-                    {/* Kombi-Pfad: Assistent erscheint nach dem sichtbaren Sparergebnis */}
-                    {modus === 'fixkosten' && betreuungDazu && betreuungsAssistent}
+                    {/* Kontakt-Gate des Betreuungs-/Kombi-Pfads gehört in die Ergebnis-Spalte */}
+                    {(modus === 'betreuung' || (modus === 'fixkosten' && betreuungDazu)) && kontaktGate}
 
                     {/* Direktversand (Sparmodus ohne Gate + Einsatz-Modus) */}
                     {versandKnopfMoeglich && sendStatus !== 'success' && (
@@ -949,7 +962,7 @@ export function SupportKostenRechner() {
                             ) : (
                                 <form
                                     onSubmit={handleSparSubmit}
-                                    className="max-w-xl mx-auto flex flex-col sm:flex-row gap-3"
+                                    className="flex flex-col sm:flex-row gap-3"
                                 >
                                     <input
                                         type="text"
@@ -981,6 +994,8 @@ export function SupportKostenRechner() {
                             {fehlerBlock}
                         </div>
                     )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

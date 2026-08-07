@@ -11,13 +11,15 @@ interface FAQItem {
 interface FAQListProps {
     items: FAQItem[];
     className?: string;
+    /** Optionale zweispaltige Darstellung ab lg (AUFTRAG-013). Standard: einspaltig. */
+    twoColumns?: boolean;
 }
 
-export function FAQList({ items, className = '' }: FAQListProps) {
+export function FAQList({ items, className = '', twoColumns = false }: FAQListProps) {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     return (
-        <div className={`space-y-4 ${className}`}>
+        <div className={`${twoColumns ? 'space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4 lg:items-start' : 'space-y-4'} ${className}`}>
             {items.map((item, index) => (
                 <div key={index} className="rounded-xl border border-border bg-card overflow-hidden">
                     <button

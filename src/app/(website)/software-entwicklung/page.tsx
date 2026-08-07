@@ -172,8 +172,8 @@ export default function SoftwareEntwicklungPage() {
                                 Häufige Fragen
                             </h2>
                         </AnimatedSection>
-                        <div className="max-w-3xl mx-auto">
-                            <FAQList items={softwareEntwicklungFaqs} />
+                        <div>
+                            <FAQList items={softwareEntwicklungFaqs} twoColumns />
                         </div>
                     </div>
                 </section>

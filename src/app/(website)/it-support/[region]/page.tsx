@@ -262,7 +262,7 @@ export default async function ITSupportRegionPage({ params }: { params: Promise<
             <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="text-center mb-12"><h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">Haeufige Fragen</h2></AnimatedSection>
-                    <div className="max-w-3xl mx-auto"><FAQList items={generalFaqs} />{data.localFaqQuestion && <div className="mt-4 rounded-xl border-2 border-primary bg-primary/5 p-4"><h4 className="font-medium text-text-primary mb-2">{data.localFaqQuestion}</h4><p className="text-text-secondary">{data.localFaqAnswer}</p></div>}{data.additionalFaqs?.length > 0 && <div className="mt-4"><FAQList items={data.additionalFaqs} /></div>}</div>
+                    <div><FAQList items={generalFaqs} twoColumns />{data.localFaqQuestion && <div className="mt-4 rounded-xl border-2 border-primary bg-primary/5 p-4"><h4 className="font-medium text-text-primary mb-2">{data.localFaqQuestion}</h4><p className="text-text-secondary">{data.localFaqAnswer}</p></div>}{data.additionalFaqs?.length > 0 && <div className="mt-4"><FAQList items={data.additionalFaqs} twoColumns /></div>}</div>
                 </div>
             </section>
 

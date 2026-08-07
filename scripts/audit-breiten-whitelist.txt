@@ -1,0 +1,13 @@
+# Whitelist für scripts/audit-breiten.mjs (AUFTRAG-013)
+# Format: <relativer/pfad.tsx> <max-w-token> # Begründung
+# Der Eintrag deckt alle Treffer mit diesem Token in der Datei ab.
+
+# Regel 3: Rechtsseiten behalten bewusst ihre Lesebreite (reine Textseiten)
+src/app/(website)/agb/page.tsx max-w-3xl # Rechtsseite — Lesebreite fuer Fliesstext (Design-Entscheidung)
+src/app/(website)/datenschutz/page.tsx max-w-3xl # Rechtsseite — Lesebreite fuer Fliesstext (Design-Entscheidung)
+src/app/(website)/impressum/page.tsx max-w-3xl # Rechtsseite — Lesebreite fuer Fliesstext (Design-Entscheidung)
+
+# Regel 2: Intro-Prosa — laufender Prosatext, keine strukturellen Bloecke in der Sektion
+src/app/(website)/cloud-telefonie/ms-teams/page.tsx max-w-4xl # Intro-Sektion: drei lange Prosa-Absaetze (Lesebreite)
+src/app/(website)/cloud-telefonie/3cx/page.tsx max-w-4xl # Intro-Sektion: drei lange Prosa-Absaetze (Lesebreite)
+src/app/(website)/cloud-telefonie/yeastar/page.tsx max-w-4xl # Intro-Sektion: drei lange Prosa-Absaetze (Lesebreite)

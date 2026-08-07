@@ -122,7 +122,7 @@ export function RegionalPageTemplate({
                         </h2>
                     </AnimatedSection>
 
-                    <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto" staggerDelay={0.1}>
+                    <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.1}>
                         {features.map((feature, index) => (
                             <StaggerItem key={index}>
                                 <div className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border">
@@ -145,7 +145,7 @@ export function RegionalPageTemplate({
                             </h2>
                         </AnimatedSection>
 
-                        <div className="max-w-2xl mx-auto grid md:grid-cols-2 gap-6">
+                        <div className="grid md:grid-cols-2 gap-6">
                             <div className="p-6 rounded-2xl bg-card border border-border text-center">
                                 <Monitor className="w-8 h-8 text-primary mx-auto mb-4" />
                                 <h3 className="font-bold text-text-primary mb-2">Remote-Support</h3>
@@ -179,7 +179,7 @@ export function RegionalPageTemplate({
                             </h2>
                         </AnimatedSection>
 
-                        <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6">
+                        <div className="grid md:grid-cols-3 gap-6">
                             {servicePricing['webdesign'].packages.map((pkg, index) => (
                                 <div
                                     key={index}
