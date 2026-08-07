@@ -202,19 +202,8 @@ export default function DigitalSignagePage() {
                             </AnimatedSection>
                         </div>
 
-                        <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
-                            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
-                                <Image
-                                    src="/images/hero_digital_signage_1768423279297.webp"
-                                    alt="Professionelle Digital Signage Installation mit Werbebildschirmen und Infoscreens in modernem Schweizer Unternehmen"
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                    quality={85}
-                                    sizes="(max-width: 1024px) 100vw, 50vw"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
-                            </div>
+                        <AnimatedSection animation="slideUp" delay={0.2} className="min-w-0">
+                            <SignageDemoGalerie />
                         </AnimatedSection>
                     </div>
                 </div>
@@ -346,23 +335,6 @@ export default function DigitalSignagePage() {
                             </ul>
                         </AnimatedSection>
                     </div>
-                </div>
-            </section>
-
-            {/* Demo-Galerie: Echte Ansichten aus infraone-signage */}
-            <section className="py-16 lg:py-24 bg-surface">
-                <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-                            So sieht es im Betrieb aus
-                        </h2>
-                        <p className="text-text-secondary max-w-2xl mx-auto">
-                            Echte Ansichten aus infraone-signage – keine Mockups. Klicken Sie sich durch.
-                        </p>
-                    </AnimatedSection>
-                    <AnimatedSection animation="slideUp" delay={0.1}>
-                        <SignageDemoGalerie />
-                    </AnimatedSection>
                 </div>
             </section>
 

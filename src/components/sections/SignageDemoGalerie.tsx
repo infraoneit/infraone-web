@@ -12,33 +12,28 @@ interface DemoView {
 
 const DEMO_VIEWS: DemoView[] = [
     {
-        src: '/images/signage-demo/demo-empfang.webp',
-        caption: 'Empfang: Begrüssung mit Live-Uhr. Der Inhalt wechselt nach Playlist – von allein.',
+        src: '/images/signage-demo/admin-bildschirme.webp',
+        caption: 'Alle Bildschirme im Blick – mit Live-Vorschau jedes einzelnen Displays.',
     },
     {
-        src: '/images/signage-demo/demo-solar.webp',
-        caption: 'Custom Widget: Live-Daten der eigenen Solaranlage, direkt aus der Wechselrichter-API.',
+        src: '/images/signage-demo/admin-playlist-editor.webp',
+        caption: 'Der Playlist-Editor: Reihenfolge, Dauer pro Element, Webseiten und eigenes HTML.',
     },
     {
-        src: '/images/signage-demo/demo-tagesmenu.webp',
-        caption: 'Tagesmenü im Personalrestaurant – erscheint um 11 Uhr, verschwindet um 14 Uhr. Niemand muss daran denken.',
+        src: '/images/signage-demo/admin-playlists.webp',
+        caption: 'Playlists für jeden Bildschirm – das Mittagsmenü kennt seinen Zeitplan selbst.',
     },
     {
-        src: '/images/signage-demo/demo-raumbelegung.webp',
-        caption: 'Raumbelegung mit JETZT-Markierung: Das Widget weiss, wie spät es ist.',
+        src: '/images/signage-demo/admin-layouts.webp',
+        caption: 'Zonen-Layouts: ein Bildschirm, mehrere Bereiche – Menü links, Uhr rechts.',
     },
     {
-        src: '/images/signage-demo/demo-mitarbeiterinfo.webp',
-        caption: 'Mitarbeiterinfo: eine Botschaft, gross und freundlich.',
+        src: '/images/signage-demo/admin-medien.webp',
+        caption: 'Medien hochladen, fertig – PDFs werden automatisch zu schnellen Bildseiten.',
     },
     {
-        src: '/images/signage-demo/demo-kopplung.webp',
-        caption: 'Neues Display anschliessen? URL öffnen, Code eingeben, fertig.',
-    },
-    {
-        src: '/images/signage-demo/demo-verwaltung.webp',
-        caption: 'Die Verwaltung im Browser: Playlists, Zonen-Layouts, Zeitpläne – von jedem Rechner im Netzwerk.',
-        objectFit: 'contain',
+        src: '/images/signage-demo/player-beispiel.webp',
+        caption: 'Und so kommt es beim Kunden an – hier mit Demo-Inhalten einer fiktiven Firma.',
     },
 ];
 
@@ -93,7 +88,7 @@ export function SignageDemoGalerie() {
 
     return (
         <div
-            className="max-w-5xl mx-auto outline-none"
+            className="w-full min-w-0 outline-none"
             tabIndex={0}
             role="region"
             aria-label="Demo-Galerie infraone-signage"
@@ -101,7 +96,7 @@ export function SignageDemoGalerie() {
         >
             {/* Grosses Vorschaubild */}
             <div
-                className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border bg-surface"
+                className="relative aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border border-border bg-surface"
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
             >
@@ -112,7 +107,7 @@ export function SignageDemoGalerie() {
                     fill
                     priority={index === 0}
                     loading={index === 0 ? undefined : 'lazy'}
-                    sizes="(max-width: 1024px) 100vw, 1024px"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className={`${current.objectFit === 'contain' ? 'object-contain' : 'object-cover'} animate-fade-in-motion-safe`}
                 />
 
@@ -136,7 +131,7 @@ export function SignageDemoGalerie() {
             </div>
 
             {/* Bildunterschrift */}
-            <p className="text-center text-text-secondary mt-4 min-h-[3rem] px-4" aria-live="polite">
+            <p className="text-center text-text-secondary mt-4 min-h-[4.5rem] md:min-h-[3rem] px-4" aria-live="polite">
                 {current.caption}
             </p>
 
