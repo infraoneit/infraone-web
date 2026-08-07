@@ -358,9 +358,12 @@ export default async function ITSupportPage() {
                                         </p>
                                         <p className="text-text-secondary mb-6">{maintenanceSection.priceUnit}</p>
                                         <Button variant="primary" size="lg" asChild>
-                                            <Link href={maintenanceSection.ctaHref}>
+                                            {/* Bewusst <a> statt <Link>: Next setzt Hashes per pushState,
+                                                das feuert kein hashchange - der Rechner wuerde weder
+                                                scrollen noch den Betreuungsmodus vorwaehlen. */}
+                                            <a href={maintenanceSection.ctaHref}>
                                                 {maintenanceSection.ctaLabel}
-                                            </Link>
+                                            </a>
                                         </Button>
                                     </div>
                                 </div>
@@ -472,7 +475,8 @@ export default async function ITSupportPage() {
             </section>
 
             {/* Kostenrechner - zwischen Preiskarten und Regionen-Sektion (AUFTRAG-007) */}
-            <SupportKostenRechner />
+            {/* IT-Faelle ohne Telefonie-Sparmodus — der gehoert auf /cloud-telefonie */}
+            <SupportKostenRechner modi={['einsatz', 'betreuung']} defaultModus="einsatz" />
 
             {/* So läuft ein Einsatz ab - direkt nach den Preiskarten.
                 Position gewählt: Der Block schliesst den Preis-/Einsatz-Teil ab

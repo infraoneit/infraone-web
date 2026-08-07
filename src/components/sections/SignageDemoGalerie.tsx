@@ -31,10 +31,6 @@ const DEMO_VIEWS: DemoView[] = [
         src: '/images/signage-demo/admin-medien.webp',
         caption: 'Medien hochladen, fertig – PDFs werden automatisch zu schnellen Bildseiten.',
     },
-    {
-        src: '/images/signage-demo/player-beispiel.webp',
-        caption: 'Und so kommt es beim Kunden an – hier mit Demo-Inhalten einer fiktiven Firma.',
-    },
 ];
 
 const SWIPE_THRESHOLD = 50;

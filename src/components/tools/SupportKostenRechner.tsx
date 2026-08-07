@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle, Send } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -112,9 +112,41 @@ function JaNeinFeld({
 const inputKlasse =
     'w-full p-3 rounded-xl border border-border bg-background text-text-primary focus:border-primary focus:outline-none transition-colors';
 
-export function SupportKostenRechner() {
-    // Standard-Modus: «Fixkosten senken» (Türöffner, AUFTRAG-009)
-    const [modus, setModus] = useState<Modus | null>('fixkosten');
+const MODUS_LABEL: Record<Modus, string> = {
+    fixkosten: 'Fixkosten senken',
+    einsatz: 'Ein akutes Problem',
+    betreuung: 'Regelmässige Betreuung',
+};
+
+export function SupportKostenRechner({
+    // Je Seite unterschiedlich: /it-support zeigt die IT-Faelle (Einsatz,
+    // Betreuung), /cloud-telefonie den Telefonie-Sparrechner. So fragt der
+    // Rechner auf der IT-Support-Seite nicht nach Telefon-Benutzern.
+    modi = ['fixkosten', 'einsatz', 'betreuung'],
+    defaultModus,
+}: {
+    modi?: Modus[];
+    defaultModus?: Modus;
+} = {}) {
+    const [modus, setModus] = useState<Modus | null>(defaultModus ?? modi[0]);
+
+    // Anker-Steuerung: "#kostenrechner" scrollt zum Rechner,
+    // "#kostenrechner-betreuung" waehlt zusaetzlich den Betreuungsmodus vor
+    // (Ziel des "Unverbindlich durchrechnen"-Buttons im Dienstleistungsvertrag-Block).
+    useEffect(() => {
+        const anwenden = () => {
+            const h = window.location.hash;
+            if (h !== '#kostenrechner' && h !== '#kostenrechner-betreuung') return;
+            if (h === '#kostenrechner-betreuung' && modi.includes('betreuung')) {
+                setModus('betreuung');
+            }
+            document.getElementById('kostenrechner')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        anwenden();
+        window.addEventListener('hashchange', anwenden);
+        return () => window.removeEventListener('hashchange', anwenden);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const [ort, setOrt] = useState<Ort | null>(null);
     const [region, setRegion] = useState<Region | null>(null);
     const [zeit, setZeit] = useState<Zeitfenster | null>(null);
@@ -583,7 +615,7 @@ export function SupportKostenRechner() {
     );
 
     return (
-        <section className="py-16 lg:py-24 bg-background border-t border-border">
+        <section id="kostenrechner" className="py-16 lg:py-24 bg-background border-t border-border scroll-mt-24">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
@@ -614,29 +646,28 @@ export function SupportKostenRechner() {
                     <div className="lg:grid lg:grid-cols-2 lg:gap-10">
                         {/* Linke Spalte: Eingaben */}
                         <div>
-                    {/* Schritt 1: Was liegt an? */}
+                    {/* Schritt 1: Was liegt an? — nur die fuer diese Seite konfigurierten Modi */}
                     <fieldset>
                         <legend className="text-lg font-bold text-text-primary mb-4">Was liegt an?</legend>
-                        <div className="grid sm:grid-cols-3 gap-3">
-                            <OptionButton
-                                selected={modus === 'fixkosten'}
-                                onClick={() => wechsleModus('fixkosten')}
-                            >
-                                Fixkosten senken
-                            </OptionButton>
-                            <OptionButton
-                                selected={modus === 'einsatz'}
-                                onClick={() => wechsleModus('einsatz')}
-                            >
-                                Ein akutes Problem
-                            </OptionButton>
-                            <OptionButton
-                                selected={modus === 'betreuung'}
-                                onClick={() => wechsleModus('betreuung')}
-                            >
-                                Regelmässige Betreuung
-                            </OptionButton>
+                        <div className={`grid gap-3 ${modi.length === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
+                            {modi.map((m) => (
+                                <OptionButton
+                                    key={m}
+                                    selected={modus === m}
+                                    onClick={() => wechsleModus(m)}
+                                >
+                                    {MODUS_LABEL[m]}
+                                </OptionButton>
+                            ))}
                         </div>
+                        {!modi.includes('fixkosten') && (
+                            <p className="text-sm text-text-secondary mt-3">
+                                Telefon- und Internetkosten senken?{' '}
+                                <Link href="/cloud-telefonie#kostenrechner" className="text-primary font-medium hover:underline">
+                                    Zum Sparrechner auf der Cloud-Telefonie-Seite
+                                </Link>
+                            </p>
+                        )}
                     </fieldset>
 
                     {modus === 'fixkosten' && (

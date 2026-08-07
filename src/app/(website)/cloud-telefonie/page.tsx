@@ -273,7 +273,8 @@ export default function CloudTelefoniePage() {
 
             {/* Kostenrechner mit Modus «Fixkosten senken» vorausgewählt (AUFTRAG-009):
                 direkt nach dem Hero, vor den Produktbereichen */}
-            <SupportKostenRechner />
+            {/* Telefonie-Sparrechner als Tueroeffner plus Betreuungs-Upsell */}
+            <SupportKostenRechner modi={['fixkosten', 'betreuung']} defaultModus="fixkosten" />
 
             {/* Intro Content */}
             <section className="py-12 lg:py-16 bg-background">

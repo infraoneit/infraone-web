@@ -1,20 +1,20 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Clock, ArrowRight, Tag, BookOpen } from 'lucide-react';
-import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
 import { getAllBlogPosts } from '@/lib/blog';
 
 /**
- * Zeigt den neuesten Blog-Beitrag gross auf der Homepage (Cover, Titel, Lead, Datum, Kategorie).
- * Liest dynamisch aus content/blog/ (statisch + Keystatic) und sortiert nach publishDate absteigend.
- * Darunter ein klarer Verweis auf alle Beitraege (/blog).
+ * Zeigt die drei neuesten Blog-Beitraege nebeneinander auf der Homepage
+ * (Cover oben, Kategorie, Titel, Datum). Liest dynamisch aus content/blog/
+ * und sortiert nach publishDate absteigend. Darunter der Verweis auf /blog.
  */
 export async function BlogPreviewSection() {
     const allPosts = await getAllBlogPosts();
-    const post = allPosts[0];
+    const posts = allPosts.slice(0, 3);
 
-    if (!post) return null;
+    if (posts.length === 0) return null;
 
     return (
         <section className="py-16 lg:py-24 bg-surface">
@@ -29,67 +29,68 @@ export async function BlogPreviewSection() {
                         IT-Wissen, das weiterhilft
                     </h2>
                     <p className="text-text-secondary">
-                        Praxistipps, Vergleiche und Hintergrundwissen für Schweizer KMU — direkt aus unserer Beratungspraxis. Unser aktuellster Beitrag:
+                        Praxistipps, Vergleiche und Hintergrundwissen für Schweizer KMU — direkt aus unserer Beratungspraxis.
                     </p>
                 </AnimatedSection>
 
-                {/* Neuester Beitrag — gross */}
-                <AnimatedSection animation="slideUp" delay={0.1}>
-                    <Link href={`/blog/${post.slug}`} className="block group">
-                        <article className="flex flex-col rounded-2xl bg-card border border-border overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-150">
-                            {/* Cover */}
-                            <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5">
-                                {post.featuredImage ? (
-                                    <Image
-                                        src={post.featuredImage}
-                                        alt={post.title}
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                                        sizes="(max-width: 1024px) 100vw, 1024px"
-                                    />
-                                ) : (
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <BookOpen className="w-20 h-20 text-primary/40" strokeWidth={1.5} />
+                {/* Die drei neuesten Beitraege nebeneinander */}
+                <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
+                    {posts.map((post) => (
+                        <StaggerItem key={post.slug}>
+                            <Link href={`/blog/${post.slug}`} className="block group h-full">
+                                <article className="flex flex-col h-full rounded-2xl bg-card border border-border overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-150">
+                                    {/* Cover */}
+                                    <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5">
+                                        {post.featuredImage ? (
+                                            <Image
+                                                src={post.featuredImage}
+                                                alt={post.title}
+                                                fill
+                                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                            />
+                                        ) : (
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <BookOpen className="w-16 h-16 text-primary/40" strokeWidth={1.5} />
+                                            </div>
+                                        )}
                                     </div>
-                                )}
-                            </div>
 
-                            {/* Content */}
-                            <div className="flex flex-col flex-grow p-6 lg:p-10">
-                                <span className="inline-flex self-start items-center gap-1.5 px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full mb-4">
-                                    <Tag className="w-3 h-3" />
-                                    {post.category}
-                                </span>
-                                <h3 className="text-2xl lg:text-3xl font-bold text-text-primary mb-3 group-hover:text-primary transition-colors">
-                                    {post.title}
-                                </h3>
-                                <p className="text-text-secondary leading-relaxed mb-6 flex-grow">
-                                    {post.excerpt}
-                                </p>
-                                <div className="flex items-center justify-between text-sm text-text-secondary pt-4 border-t border-border">
-                                    <div className="flex items-center gap-4">
-                                        <span className="flex items-center gap-1.5">
-                                            <Calendar className="w-4 h-4" />
-                                            {new Date(post.date).toLocaleDateString('de-CH', {
-                                                day: '2-digit',
-                                                month: '2-digit',
-                                                year: 'numeric',
-                                            })}
+                                    {/* Content */}
+                                    <div className="flex flex-col flex-grow p-6">
+                                        <span className="inline-flex self-start items-center gap-1.5 px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full mb-3">
+                                            <Tag className="w-3 h-3" />
+                                            {post.category}
                                         </span>
-                                        <span className="flex items-center gap-1.5">
-                                            <Clock className="w-4 h-4" />
-                                            {post.readingTime}
-                                        </span>
+                                        <h3 className="text-lg font-bold text-text-primary mb-2 group-hover:text-primary transition-colors">
+                                            {post.title}
+                                        </h3>
+                                        <p className="text-sm text-text-secondary leading-relaxed mb-4 flex-grow line-clamp-3">
+                                            {post.excerpt}
+                                        </p>
+                                        <div className="flex items-center justify-between text-sm text-text-secondary pt-3 border-t border-border">
+                                            <div className="flex items-center gap-3">
+                                                <span className="flex items-center gap-1.5">
+                                                    <Calendar className="w-4 h-4" />
+                                                    {new Date(post.date).toLocaleDateString('de-CH', {
+                                                        day: '2-digit',
+                                                        month: '2-digit',
+                                                        year: 'numeric',
+                                                    })}
+                                                </span>
+                                                <span className="flex items-center gap-1.5">
+                                                    <Clock className="w-4 h-4" />
+                                                    {post.readingTime}
+                                                </span>
+                                            </div>
+                                            <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+                                        </div>
                                     </div>
-                                    <span className="flex items-center gap-1.5 text-primary font-medium">
-                                        Lesen
-                                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                    </span>
-                                </div>
-                            </div>
-                        </article>
-                    </Link>
-                </AnimatedSection>
+                                </article>
+                            </Link>
+                        </StaggerItem>
+                    ))}
+                </StaggerContainer>
 
                 {/* CTA: Alle Beiträge */}
                 <div className="text-center mt-10">
