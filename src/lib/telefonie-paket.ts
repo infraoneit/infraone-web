@@ -6,9 +6,18 @@
 
 export type FlatrateOption = 'keine' | 'ch' | 'cheu';
 
-// Anzahl Rufnummern (DIDs): wählbar in 5er-Blöcken (AUFTRAG-010)
-export type RufnummernOption = 5 | 10 | 15 | 20;
-export const RUFNUMMERN_OPTIONEN: RufnummernOption[] = [5, 10, 15, 20];
+// Anzahl Rufnummern (DIDs): echte Preisstufen laut Whitepaper auf
+// cloud-telefonanlagen.ch (Einzelnummer vs. Nummernblock).
+// Der Optionswert ist die Obergrenze der Stufe.
+export type RufnummernOption = 1 | 5 | 10 | 20;
+export const RUFNUMMERN_OPTIONEN: RufnummernOption[] = [1, 5, 10, 20];
+
+export function rufnummernLabel(option: RufnummernOption): string {
+    if (option === 1) return '1 (Einzelnummer)';
+    if (option === 5) return '2–5';
+    if (option === 10) return '6–10';
+    return '11–20';
+}
 
 export const PREIS_INTERNET_1GBIT = 49;
 export const PREIS_FESTE_IP = 10;
@@ -16,7 +25,14 @@ export const PREIS_VPBX_BASIC = 15; // bis 10 Benutzer, Grundgebühr pro Monat
 export const PREIS_VPBX_PLUS = 25; // ab 11 Benutzer (bis 150), Grundgebühr pro Monat
 export const PREIS_FLATRATE_CH = 19; // 1000 Min Festnetz / 200 Min Mobil
 export const PREIS_FLATRATE_CH_EU = 22; // 1000 Min Festnetz / 300 Min Mobil
-export const PREIS_DID_BLOCK = 10; // CHF 10.– pro 5er-Block Rufnummern (DIDs) pro Monat
+// Rufnummern-Monatspreise nach Stufe (Whitepaper cloud-telefonanlagen.ch):
+// 1 Nummer 5.– · 2–5 Nummern 10.– · 6–10 Nummern 15.– · 11–20 Nummern 30.–
+export const PREIS_DID_STUFEN: Record<RufnummernOption, number> = {
+    1: 5,
+    5: 10,
+    10: 15,
+    20: 30,
+};
 
 export const MAX_BENUTZER = 150;
 export const OFFERTE_AB_BENUTZER = 30; // darüber: individuelle Offerte, keine Summe
@@ -48,9 +64,8 @@ export interface InfraOnePaket {
     summe: number;
 }
 
-// DIDs kommen in 5er-Blöcken: CHF 10.– pro 5er-Block/Monat (5/10/15/20 → 10/20/30/40)
-export function didBlockPreis(rufnummern: number): number {
-    return Math.ceil(rufnummern / 5) * PREIS_DID_BLOCK;
+export function didBlockPreis(rufnummern: RufnummernOption): number {
+    return PREIS_DID_STUFEN[rufnummern];
 }
 
 // null = über 30 Benutzer → keine Summe anzeigen, Offerten-Pfad.
@@ -75,7 +90,12 @@ export function berechneInfraOnePaket(
     } else if (flatrate === 'cheu') {
         positionen.push({ label: 'Flatrate CH & EU (1000 Min Festnetz / 300 Min Mobil)', preis: PREIS_FLATRATE_CH_EU });
     }
-    positionen.push({ label: `${rufnummern} Rufnummern (DIDs)`, preis: didBlockPreis(rufnummern) });
+    positionen.push({
+        label: rufnummern === 1
+            ? 'Rufnummer (Einzelnummer)'
+            : `Rufnummern (Block ${rufnummernLabel(rufnummern)})`,
+        preis: didBlockPreis(rufnummern),
+    });
     if (internetDazu) {
         positionen.push({ label: 'Internet 1 Gbit/s Glasfaser (iway)', preis: PREIS_INTERNET_1GBIT });
         positionen.push({ label: 'Feste IP-Adresse (iway)', preis: PREIS_FESTE_IP });

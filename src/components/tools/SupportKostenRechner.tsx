@@ -17,6 +17,7 @@ import {
     formatCHFGanz,
     MAX_BENUTZER,
     RUFNUMMERN_OPTIONEN,
+    rufnummernLabel,
     type FlatrateOption,
     type RufnummernOption,
 } from '@/lib/telefonie-paket';
@@ -182,7 +183,7 @@ export function SupportKostenRechner() {
         const zeilen = [
             'Anliegen: Fixkosten senken (Telefonie & Internet)',
             `Anzahl Telefon-Benutzer: ${benutzer}`,
-            `Anzahl Rufnummern (DIDs): ${rufnummern}`,
+            `Rufnummern (DIDs): ${rufnummernLabel(rufnummern)}`,
             `Heutige Telefoniekosten: ${heuteTelefonieBetrag > 0 ? `${formatCHFGanz(heuteTelefonieBetrag)} pro Monat` : 'nicht angegeben'}`,
             `Heutige Internetkosten: ${heuteInternetBetrag > 0 ? `${formatCHFGanz(heuteInternetBetrag)} pro Monat` : 'nicht angegeben'}`,
             `Flatrate: ${FLATRATE_LABEL[flatrate]}`,
@@ -669,13 +670,14 @@ export function SupportKostenRechner() {
                                             selected={rufnummern === n}
                                             onClick={() => setRufnummern(n)}
                                         >
-                                            {n}
+                                            {rufnummernLabel(n)}
                                         </OptionButton>
                                     ))}
                                 </div>
                                 <p className="text-xs text-text-secondary mt-2">
-                                    Rufnummern (DIDs) gibt es in 5er-Blöcken – CHF 10.– pro
-                                    5er-Block/Monat.
+                                    Einzelnummer CHF 5.– · Block 2–5 CHF 10.– · Block 6–10
+                                    CHF 15.– · Block 11–20 CHF 30.– pro Monat. Bestehende
+                                    Nummern übernehmen wir per Portierung (einmalige Kosten).
                                 </p>
                             </fieldset>
 

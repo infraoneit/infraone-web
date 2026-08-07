@@ -54,8 +54,9 @@ export function formatCHF(betrag: number): string {
 }
 
 // ---------------------------------------------------------------------------
-// RICHTPREISE - vom Inhaber freigegeben am 06.08.2026 (Werte gemäss AUFTRAG-010,
-// KEINE eigenen Annahmen). Modus «Regelmässige Betreuung» im Kostenrechner.
+// RICHTPREISE - vom Inhaber am 07.08.2026 ausdruecklich freigegeben
+// («ja mache das mit diesen preisen»). Werte gemäss AUFTRAG-010,
+// KEINE eigenen Annahmen. Modus «Regelmässige Betreuung» im Kostenrechner.
 // ---------------------------------------------------------------------------
 // CHF 252 pro Arbeitsplatz/Monat — inbegriffen: Betrieb & Support der
 // Arbeitsplätze, bis 3 Server, Netzwerk-Management, Security-Grundschutz, 1 Standort
