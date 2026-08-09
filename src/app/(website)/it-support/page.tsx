@@ -322,55 +322,6 @@ export default async function ITSupportPage() {
                         </p>
                     </AnimatedSection>
 
-                    {/* Wartungsvertrag - steht bewusst VOR den Stundensaetzen.
-                        Laut Search Console suchen 2'111 Anfragen nach laufender Betreuung
-                        ("it betreuung", "managed services", "it outsourcing") - bisher hatte
-                        die Seite dafuer kein Angebot. */}
-                    {maintenanceSection && (
-                        <AnimatedSection animation="slideUp" className="mb-12">
-                            <div className="rounded-2xl border-2 border-primary/30 bg-card overflow-hidden">
-                                <div className="grid lg:grid-cols-5 gap-0">
-                                    <div className="lg:col-span-3 p-6 lg:p-10">
-                                        <p className="text-sm font-medium text-primary uppercase tracking-wider mb-3">
-                                            {maintenanceSection.eyebrow}
-                                        </p>
-                                        <h3 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
-                                            {maintenanceSection.headline}
-                                        </h3>
-                                        <p className="text-text-secondary leading-relaxed mb-6">
-                                            {maintenanceSection.intro}
-                                        </p>
-                                        <ul className="space-y-3 mb-6">
-                                            {maintenanceSection.included?.map((punkt: string, i: number) => (
-                                                <li key={i} className="flex gap-3 text-text-secondary">
-                                                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                                                    <span>{punkt}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <p className="text-sm text-text-secondary border-l-2 border-border pl-4 italic">
-                                            {maintenanceSection.limitation}
-                                        </p>
-                                    </div>
-                                    <div className="lg:col-span-2 bg-surface p-6 lg:p-10 flex flex-col justify-center items-start lg:items-center lg:text-center">
-                                        <p className="text-4xl md:text-5xl font-bold text-primary">
-                                            {maintenanceSection.price}
-                                        </p>
-                                        <p className="text-text-secondary mb-6">{maintenanceSection.priceUnit}</p>
-                                        <Button variant="primary" size="lg" asChild>
-                                            {/* Bewusst <a> statt <Link>: Next setzt Hashes per pushState,
-                                                das feuert kein hashchange - der Rechner wuerde weder
-                                                scrollen noch den Betreuungsmodus vorwaehlen. */}
-                                            <a href={maintenanceSection.ctaHref}>
-                                                {maintenanceSection.ctaLabel}
-                                            </a>
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </AnimatedSection>
-                    )}
-
                     <StaggerContainer className={`grid ${gridClass} gap-6`} staggerDelay={0.1}>
                         {pricingSection.priceCards.map((card, index) => (
                             <StaggerItem key={index}>
@@ -517,6 +468,83 @@ export default async function ITSupportPage() {
                     </div>
                 </section>
             )}
+
+            {/* Laufende Betreuung - eigene Sektion NACH dem Ablauf (AUFTRAG-014).
+                #preise beginnt dadurch direkt mit den Stundensaetzen; das
+                Betreuungsangebot bekommt seinen eigenen Block weiter unten. */}
+            <section id="betreuung" className="py-16 lg:py-24 bg-surface scroll-mt-24">
+                <div className="container mx-auto px-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                            Laufende Betreuung statt Feuerwehr
+                        </h2>
+                        <p className="text-text-secondary max-w-2xl mx-auto">
+                            Zwei Wege, wie wir Ihre IT dauerhaft betreuen – klar getrennt, ohne Kleingedrucktes.
+                        </p>
+                    </AnimatedSection>
+
+                    {maintenanceSection && (
+                        <AnimatedSection animation="slideUp" className="mb-12">
+                            <div className="rounded-2xl border-2 border-primary/30 bg-card overflow-hidden">
+                                <div className="grid lg:grid-cols-5 gap-0">
+                                    <div className="lg:col-span-3 p-6 lg:p-10">
+                                        <p className="text-sm font-medium text-primary uppercase tracking-wider mb-3">
+                                            {maintenanceSection.eyebrow}
+                                        </p>
+                                        <h3 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+                                            {maintenanceSection.headline}
+                                        </h3>
+                                        <p className="text-text-secondary leading-relaxed mb-6">
+                                            {maintenanceSection.intro}
+                                        </p>
+                                        <ul className="space-y-3 mb-6">
+                                            {maintenanceSection.included?.map((punkt: string, i: number) => (
+                                                <li key={i} className="flex gap-3 text-text-secondary">
+                                                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                                                    <span>{punkt}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <p className="text-sm text-text-secondary border-l-2 border-border pl-4 italic">
+                                            {maintenanceSection.limitation}
+                                        </p>
+                                    </div>
+                                    <div className="lg:col-span-2 bg-surface p-6 lg:p-10 flex flex-col justify-center items-start lg:items-center lg:text-center">
+                                        <p className="text-4xl md:text-5xl font-bold text-primary">
+                                            {maintenanceSection.price}
+                                        </p>
+                                        <p className="text-text-secondary mb-6">{maintenanceSection.priceUnit}</p>
+                                        <Button variant="primary" size="lg" asChild>
+                                            {/* Bewusst <a> statt <Link>: Next setzt Hashes per pushState,
+                                                das feuert kein hashchange - der Rechner wuerde weder
+                                                scrollen noch den Betreuungsmodus vorwaehlen. */}
+                                            <a href={maintenanceSection.ctaHref}>
+                                                {maintenanceSection.ctaLabel}
+                                            </a>
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </AnimatedSection>
+                    )}
+
+                    {/* Wartungsvertrag (Jahresprodukt) - hart kodiert, KEINE neuen
+                        JSON-Felder: Keystatic entfernt unbekannte Felder beim Speichern. */}
+                    <AnimatedSection animation="slideUp">
+                        <div className="rounded-2xl border border-border bg-card p-6 lg:p-8">
+                            <h3 className="text-xl font-bold text-text-primary mb-4">
+                                Wartungsvertrag – das Jahresprodukt
+                            </h3>
+                            <p className="text-text-secondary leading-relaxed mb-6">
+                                Für Firmen, die keine monatliche Betreuung brauchen, aber ihre Anlage nicht sich selbst überlassen wollen: ein Jahresvertrag mit mindestens einer fest eingeplanten Wartung pro Jahr. Termin, Umfang und Preis werden vorab definiert – Sie wissen, wann wir kommen und was es kostet.
+                            </p>
+                            <p className="text-sm text-text-secondary border-l-2 border-border pl-4 italic">
+                                Nicht zu verwechseln mit dem IT-Dienstleistungsvertrag: Der IT-Dienstleistungsvertrag ist die monatliche Rundum-Betreuung (ab CHF 200 pro Monat, monatlich kündbar). Der Wartungsvertrag ist das Jahresprodukt mit fest geplanten Wartungsterminen.
+                            </p>
+                        </div>
+                    </AnimatedSection>
+                </div>
+            </section>
 
             {/* Häufige Probleme */}
             <section className="py-16 lg:py-24 bg-background">
