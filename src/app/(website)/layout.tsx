@@ -161,6 +161,15 @@ export default function RootLayout({
           </main>
           <Footer />
         </ThemeProvider>
+        {/* Cloudflare Web Analytics: cookieless, kein Consent-Banner noetig.
+            Laedt NUR, wenn das Token als Netlify-ENV gesetzt ist (S2). */}
+        {process.env.NEXT_PUBLIC_CF_BEACON_TOKEN && (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: process.env.NEXT_PUBLIC_CF_BEACON_TOKEN })}
+          />
+        )}
       </body>
     </html>
   );
