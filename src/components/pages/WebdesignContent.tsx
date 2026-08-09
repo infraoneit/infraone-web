@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 
 // Pricing packages
 const packages = [
@@ -87,7 +87,8 @@ const references = [
     },
     {
         name: 'Höppli Architektur GmbH',
-        url: 'https://winterthur-architekten.netlify.app',
+        // Bewusst ohne URL: die Site liegt noch auf einer Netlify-Subdomain (Inhaber-Vorgabe)
+        url: '',
         description: 'Architektur & Planung, Winterthur',
         quote: 'Die Website wurde extrem schnell umgesetzt und bringt unsere Projekte genau so zur Geltung, wie wir es uns vorgestellt haben. Klare Gestaltung, einfache Bedienung und ein sehr gutes Preis-Leistungs-Verhältnis. Wir sind rundum zufrieden.',
         author: 'Peer Höppli',
@@ -176,7 +177,6 @@ const hubDefaultData: WebdesignRegionData = {
     subheadline: 'Moderne Websites für Schweizer Unternehmen',
     description: 'Von der einfachen Visitenkarte bis zur komplexen Web-Applikation, wir designen und entwickeln Websites, die überzeugen und verkaufen.',
     intro: 'Die Schweiz ist ein Land der KMU. Über 99% aller Unternehmen sind kleine und mittlere Betriebe, die das Rückgrat unserer Wirtschaft bilden. Genau für diese Unternehmen entwickeln wir Websites: pragmatisch, bezahlbar und mit echtem Mehrwert. Unser Team in Winterthur betreut Kunden in der gesamten Deutschschweiz, persönlich und auf Augenhöhe.',
-    regionalImage: '/images/webdesign-hero.webp',
     localBenefits: ['Schweizer Qualität', 'Persönliche Betreuung', 'Faire Preise', 'Schnelle Umsetzung'],
     stats: [{ label: 'Referenzen (Auszug)', value: 'schaltkraft.ch' }, { label: 'Referenzprojekte', value: 'auf Anfrage' }],
     localFaq: { question: 'Betreuen Sie auch Kunden ausserhalb der Deutschschweiz?', answer: 'Ja, wir arbeiten remote mit Kunden in der ganzen Schweiz zusammen. Persönliche Treffen sind in den meisten Fällen nicht nötig.' },
@@ -190,6 +190,34 @@ const hubDefaultData: WebdesignRegionData = {
     areaServed: [],
 };
 
+
+// CSS-"Browserfenster" fuer die Referenz-Collage im Hero (AUFTRAG-016, Baustein B).
+// url = sichtbare URL-Zeile; ohne url zeigt die Leiste neutral "Referenzprojekt" (kein Link, keine URL).
+function BrowserFrame({ url, children }: { url?: string; children: ReactNode }) {
+    return (
+        <div className="rounded-xl overflow-hidden border border-black/40 bg-neutral-900 shadow-2xl">
+            <div className="flex items-center gap-1.5 px-3 py-2 bg-neutral-800">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-400 shrink-0" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 shrink-0" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-400 shrink-0" />
+                {url ? (
+                    <span className="ml-2 flex-1 truncate rounded-md bg-neutral-700/80 px-2.5 py-1 text-[11px] leading-none text-neutral-300">{url}</span>
+                ) : (
+                    <span className="ml-2 flex-1 truncate rounded-md bg-neutral-700/40 px-2.5 py-1 text-[11px] leading-none italic text-neutral-500">Referenzprojekt</span>
+                )}
+            </div>
+            {children}
+        </div>
+    );
+}
+
+const heroReferenzen = {
+    schaltkraft: { href: 'https://www.schaltkraft.ch', url: 'schaltkraft.ch', img: '/images/webdesign-hero-refs/webdesign-ref-schaltkraft-2026.webp', alt: 'Referenz: Website Schaltkraft AG' },
+    elektrotel: { href: 'https://www.elektro-tel.ch', url: 'elektro-tel.ch', img: '/images/webdesign-hero-refs/webdesign-ref-elektrotel-2026.webp', alt: 'Referenz: Website Elektro-Tel AG' },
+    beertracker: { href: 'https://beertracker.ch', url: 'beertracker.ch', img: '/images/webdesign-hero-refs/webdesign-ref-beertracker-2026.webp', alt: 'Referenz: Website BeerTracker' },
+    // Hoeppli Architektur: bewusst OHNE Link und OHNE URL-Anzeige (Inhaber-Vorgabe, echte URL noch auf Netlify-Subdomain)
+    hoeppli: { img: '/images/webdesign-hero-refs/webdesign-ref-hoeppli-2026.webp', alt: 'Referenz: Website Höppli Architektur' },
+};
 
 interface WebdesignContentProps {
     /**
@@ -279,16 +307,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
         <>
             {/* Hero Section */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
-                <div className="absolute inset-0 opacity-20">
-                    <Image
-                        src="/images/webdesign-hero.webp"
-                        alt="Webdesign und moderne Website-Entwicklung am Arbeitsplatz"
-                        fill
-                        className="object-cover"
-                        priority
-                        aria-hidden="true"
-                    />
-                </div>
+                <div className="absolute inset-0 opacity-60 bg-[radial-gradient(ellipse_60%_50%_at_70%_20%,rgba(61,150,70,0.14),transparent),radial-gradient(ellipse_50%_40%_at_15%_85%,rgba(61,150,70,0.10),transparent)]" aria-hidden="true" />
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <AnimatedSection animation="slideUp">
@@ -315,17 +334,44 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                 </Button>
                             </div>
                         </AnimatedSection>
-                        <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
-                            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
-                                <Image
-                                    src={content.regionalImage || '/images/webdesign-hero.webp'}
-                                    alt={content.headline}
-                                    fill
-                                    className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
-                            </div>
-                        </AnimatedSection>
+                        {isHubPage ? (
+                            <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
+                                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                                    <a href={heroReferenzen.schaltkraft.href} target="_blank" rel="noopener" className="absolute left-0 top-0 z-10 block w-[62%] -rotate-3 transition-transform duration-300 hover:-translate-y-1 hover:rotate-0">
+                                        <BrowserFrame url={heroReferenzen.schaltkraft.url}>
+                                            <Image src={heroReferenzen.schaltkraft.img} alt={heroReferenzen.schaltkraft.alt} width={800} height={557} className="w-full h-auto" />
+                                        </BrowserFrame>
+                                    </a>
+                                    <a href={heroReferenzen.elektrotel.href} target="_blank" rel="noopener" className="absolute right-0 top-[10%] z-20 block w-[55%] rotate-2 transition-transform duration-300 hover:-translate-y-1 hover:rotate-0">
+                                        <BrowserFrame url={heroReferenzen.elektrotel.url}>
+                                            <Image src={heroReferenzen.elektrotel.img} alt={heroReferenzen.elektrotel.alt} width={800} height={557} className="w-full h-auto" />
+                                        </BrowserFrame>
+                                    </a>
+                                    <a href={heroReferenzen.beertracker.href} target="_blank" rel="noopener" className="absolute left-[2%] top-[47%] z-30 block w-[56%] rotate-1 transition-transform duration-300 hover:-translate-y-1 hover:rotate-0">
+                                        <BrowserFrame url={heroReferenzen.beertracker.url}>
+                                            <Image src={heroReferenzen.beertracker.img} alt={heroReferenzen.beertracker.alt} width={800} height={557} className="w-full h-auto" />
+                                        </BrowserFrame>
+                                    </a>
+                                    <div className="absolute right-[-12%] top-[56%] z-40 w-[52%] -rotate-6">
+                                        <BrowserFrame>
+                                            <Image src={heroReferenzen.hoeppli.img} alt={heroReferenzen.hoeppli.alt} width={800} height={557} className="w-full h-auto" />
+                                        </BrowserFrame>
+                                    </div>
+                                </div>
+                            </AnimatedSection>
+                        ) : content.regionalImage ? (
+                            <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
+                                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border">
+                                    <Image
+                                        src={content.regionalImage}
+                                        alt={content.headline}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
+                                </div>
+                            </AnimatedSection>
+                        ) : null}
                     </div>
                 </div>
             </section>
@@ -583,31 +629,43 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         {references.map((ref, index) => (
                             <StaggerItem key={index}>
                                 <div className="h-full rounded-2xl bg-card border border-border hover:border-primary transition-colors overflow-hidden">
-                                    {ref.image && (
+                                    {ref.image && (ref.url ? (
                                         <a href={ref.url} target="_blank" rel="noopener noreferrer" className="block overflow-hidden bg-surface">
-                                            <Image 
-                                                src={ref.image} 
-                                                alt={`Website ${ref.name}`} 
-                                                width={400} 
-                                                height={280} 
+                                            <Image
+                                                src={ref.image}
+                                                alt={`Website ${ref.name}`}
+                                                width={400}
+                                                height={280}
                                                 className="w-full h-56 object-contain p-4 hover:scale-105 transition-transform duration-200"
                                             />
                                         </a>
-                                    )}
+                                    ) : (
+                                        <div className="block overflow-hidden bg-surface">
+                                            <Image
+                                                src={ref.image}
+                                                alt={`Website ${ref.name}`}
+                                                width={400}
+                                                height={280}
+                                                className="w-full h-56 object-contain p-4"
+                                            />
+                                        </div>
+                                    ))}
                                     <div className="p-6">
                                         <div className="mb-4">
                                             <h3 className="text-lg font-bold text-text-primary mb-1">{ref.name}</h3>
                                             <p className="text-sm text-text-secondary">{ref.description}</p>
                                         </div>
-                                        <a
-                                            href={ref.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline mb-4"
-                                        >
-                                            Website ansehen
-                                            <ExternalLink className="w-4 h-4" />
-                                        </a>
+                                        {ref.url && (
+                                            <a
+                                                href={ref.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline mb-4"
+                                            >
+                                                Website ansehen
+                                                <ExternalLink className="w-4 h-4" />
+                                            </a>
+                                        )}
                                         <div className="pt-4 border-t border-border">
                                             <div className="flex gap-1 mb-2">
                                                 {[...Array(5)].map((_, i) => (

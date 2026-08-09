@@ -17,6 +17,7 @@ import {
 } from '@/lib/seo/schema';
 import { BASE_URL } from '@/lib/constants';
 import { getITSupportRegion, getAllITSupportRegionSlugs } from '@/lib/leistungen';
+import { RegionMap } from '@/components/regions/RegionMap';
 
 const services = [
     { icon: <Monitor className="w-6 h-6" />, title: 'PC & Laptop Support', desc: 'Windows, Mac, Hardware' },
@@ -156,7 +157,7 @@ export default async function ITSupportRegionPage({ params }: { params: Promise<
                                 </div>
                             </AnimatedSection>
                         </div>
-                        {data.regionalImage && <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block"><div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-border"><Image src={data.regionalImage} alt={data.headline} fill className="object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" /></div></AnimatedSection>}
+                        <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block"><RegionMap region={region} /></AnimatedSection>
                     </div>
                 </div>
             </section>

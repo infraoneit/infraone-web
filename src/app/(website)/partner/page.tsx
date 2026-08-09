@@ -103,14 +103,22 @@ export default function PartnerPage() {
                         {technologiepartner.map(p => (
                             <StaggerItem key={p.name}>
                                 <div className="bg-card border border-border rounded-2xl p-6 h-full flex flex-col">
-                                    <div className="h-12 mb-5 flex items-center">
-                                        <Image
-                                            src={p.logo}
-                                            alt={p.name}
-                                            width={140}
-                                            height={48}
-                                            className="max-h-12 w-auto object-contain dark:brightness-0 dark:invert"
-                                        />
+                                    <div className="h-14 mb-5 flex items-center">
+                                        {/* Einheitlicher weisser Logo-Chip (AUFTRAG-016, Baustein C): Veeam (gruener Block)
+                                            und Milestone (weisser Grund) blieben sonst weisse Rechtecke; dunkle Logo-Teile
+                                            (Fortinet, HPE, Synology, Swisscom, Ubiquiti) wuerden auf dunklem Chip verschwinden. */}
+                                        <div className="rounded-lg bg-white px-3 py-2 ring-1 ring-black/10">
+                                            {/* h-8 + eager: peoplefone/iWay-SVGs haben keine intrinsische Groesse
+                                                (nur viewBox) und blieben sonst 0x0 (Chrome-Layout-Quirk). */}
+                                            <Image
+                                                src={p.logo}
+                                                alt={p.name}
+                                                width={140}
+                                                height={48}
+                                                loading="eager"
+                                                className="h-8 w-auto object-contain"
+                                            />
+                                        </div>
                                     </div>
                                     <h3 className="text-lg font-bold text-text-primary">{p.name}</h3>
                                     <p className="text-sm text-primary mb-3">{p.kurz}</p>
