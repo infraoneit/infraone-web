@@ -12,8 +12,8 @@ import { webdesignHubFaqs } from '@/data/webdesign-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Webdesign Schweiz | Websites ab CHF 990',
-    description: 'Professionelles Webdesign in der Schweiz. Moderne, SEO-optimierte Websites ab CHF 990. Wix, WordPress oder Next.js – wir finden die passende Lösung.',
+    title: 'Webdesign Schweiz: Preise online, Websites ab CHF 990',
+    description: 'Websites für KMU ab CHF 990 – Preise offen statt Offerten-Poker. Wix, WordPress oder Next.js aus Winterthur, mit echten Referenzen zum Anklicken.',
     keywords: ['Webdesign Schweiz', 'Webagentur', 'Website erstellen', 'Homepage', 'SEO Webdesign'],
     alternates: {
         canonical: 'https://infraone.ch/webdesign',

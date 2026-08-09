@@ -12,8 +12,8 @@ import { digitalSignageFaqs } from '@/data/digital-signage-faqs';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Digital Signage Schweiz | Werbebildschirme & Infoscreen ohne Abo',
-    description: 'Digital Signage Schweiz ohne Abo-Kosten. Werbebildschirme & Infoscreens mit lokalem Betrieb und Live-Daten Integration. Einmalige Investition, schweizweite Installation.',
+    title: 'Digital Signage Schweiz | Ab CHF 1\'590 einmalig, kein Abo',
+    description: 'Werbebildschirme & Infoscreens mit eigener Schweizer Software: einmalig ab CHF 1\'590, keine Abo-Kosten, unbegrenzte Bildschirme. Installation, Design & Schulung inklusive.',
     keywords: ['Digital Signage Schweiz', 'Werbebildschirme Schweiz', 'Infoscreen Schweiz', 'Digital Signage', 'Werbedisplay', 'Digitale Beschilderung', 'Infoscreen', 'Digital Signage Winterthur', 'Digital Signage Zürich', 'Digital Signage Ostschweiz'],
     alternates: {
         canonical: 'https://infraone.ch/digital-signage',

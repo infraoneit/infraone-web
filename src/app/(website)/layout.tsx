@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     default: "InfraOne IT Solutions | IT-Support, Webdesign & Telefonie in Winterthur",
     template: "%s | InfraOne"
   },
-  description: "IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur, Schaffhausen & Zuerich. Ihr Informatiker fuer KMU & Privat – persoenlich und transparent.",
+  description: "IT-Support, Cloud-Telefonie, Webdesign und KI-Lösungen für KMU – mit offenen Preisen und Online-Kostenrechner. Winterthur, Schaffhausen, Thurgau und Zürich.",
   keywords: [
     "IT Support Winterthur",
     "Webdesign Winterthur",

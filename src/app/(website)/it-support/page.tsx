@@ -23,8 +23,8 @@ import { SupportKostenRechner } from '@/components/tools/SupportKostenRechner';
 import { getITSupportData } from '@/lib/leistungen';
 
 export const metadata: Metadata = {
-    title: 'IT-Support & Informatik-Support Schweiz | Preise & Leistungen',
-    description: 'IT-Support für KMU & Private: Remote-Support CHF 130/h, Vor-Ort CHF 157/h. Sofortige Computerhilfe in Winterthur, Zürich, Schaffhausen, Thurgau.',
+    title: 'IT-Support Preise: ab CHF 130/h, online berechnen',
+    description: 'Alle Preise offen: Remote CHF 130/h, vor Ort ab CHF 145/h – Kosten in 60 Sekunden online berechnen. IT-Support für KMU & Private in Winterthur, Thurgau, Zürich, Schaffhausen.',
     keywords: ['IT Support Schweiz', 'Informatik Support', 'Computerhilfe', 'PC Support'],
     alternates: {
         canonical: 'https://infraone.ch/it-support',
