@@ -261,7 +261,8 @@ export default function DigitalSignagePage() {
                                     className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-150"
                                 >
                                     <div className="flex items-start gap-6">
-                                        <span className="text-5xl font-bold text-primary/20 group-hover:text-primary/40 transition-colors">
+                                        {/* A11y: text-5xl = Grosstext, braucht >= 3:1 -> /60 statt /20 */}
+                                        <span className="text-5xl font-bold text-primary/60 group-hover:text-primary transition-colors">
                                             {feature.number}
                                         </span>
                                         <div>

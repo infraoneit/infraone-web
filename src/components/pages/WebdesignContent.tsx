@@ -738,7 +738,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                             <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200">
                                                 <IconComponent className="w-8 h-8 text-primary" />
                                             </div>
-                                            <div className="text-xs font-bold text-primary/60 mb-2">{phase.step}</div>
+                                            <div className="text-xs font-bold text-primary mb-2">{phase.step}</div>
                                             <h3 className="text-xl font-bold text-text-primary mb-3 group-hover:text-primary transition-colors duration-200">{phase.title}</h3>
                                             <p className="text-base text-text-secondary leading-relaxed">{phase.desc}</p>
                                         </div>

@@ -534,18 +534,18 @@ export default function CloudTelefoniePage() {
             <section className="py-12 bg-primary">
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center text-white">
-                        <p className="text-sm uppercase tracking-wider opacity-80 mb-2">Beispielkonfiguration</p>
+                        <p className="text-sm uppercase tracking-wider mb-2">Beispielkonfiguration</p>
                         <h2 className="text-2xl md:text-3xl font-bold mb-3">
                             Komplettpaket für 20 Benutzer
                         </h2>
-                        <p className="text-sm opacity-90 mb-6">
+                        <p className="text-sm mb-6">
                             20 Benutzer mit vPBX Plus · 10 Rufnummern · Flatrate CH+EU · 1 Gbit Internet + IP
                         </p>
-                        <div className="inline-flex flex-col items-center bg-white/15 rounded-2xl px-8 py-5">
+                        <div className="inline-flex flex-col items-center bg-white/10 rounded-2xl px-8 py-5">
                             <p className="text-4xl md:text-5xl font-bold">CHF 176.–</p>
-                            <p className="text-sm opacity-80 mt-1">pro Monat, Flatrate inklusive</p>
+                            <p className="text-sm mt-1">pro Monat, Flatrate inklusive</p>
                         </div>
-                        <p className="mt-4 text-xs opacity-70">
+                        <p className="mt-4 text-xs">
                             Zzgl. einmaliger Installation und Portierung
                         </p>
                     </div>

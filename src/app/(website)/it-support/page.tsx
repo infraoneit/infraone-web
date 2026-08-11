@@ -367,7 +367,7 @@ export default async function ITSupportPage() {
                                                 item.style === 'warning' 
                                                     ? 'text-yellow-600 dark:text-yellow-500 font-bold' 
                                                     : item.style === 'danger' 
-                                                    ? 'text-red-500 font-bold' 
+                                                    ? 'text-red-400 font-bold' 
                                                     : 'text-text-secondary'
                                             }`}>
                                                 {item.text}

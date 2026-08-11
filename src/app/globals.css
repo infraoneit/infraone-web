@@ -39,6 +39,32 @@
   
   /* Radius */
   --radius: 0.75rem;
+
+  /* A11y (WCAG 1.4.3): Gruen fuer Flaechen mit weissem Text bzw. gruene Schrift
+     auf Weiss. Das Akzent-Gruen (--primary) bleibt hell, weil es auf dunklem
+     Grund steht; Buttons brauchen aber >= 4.5:1 zu Weiss -> #2E7335 (5.9:1). */
+  --btn-primary-bg: #2E7335;
+  --btn-primary-hover: #256129;
+  --primary-on-white: #2E7335;
+}
+
+/* A11y-Korrekturen fuer bestehende Klassen-Kombinationen (nur wenn beide
+   Klassen am selben Element haengen - Sektionshintergruende ohne text-white
+   am selben Element sind nicht betroffen): */
+.bg-primary.text-white {
+  background-color: var(--btn-primary-bg);
+}
+a.bg-primary.text-white:hover,
+button.bg-primary.text-white:hover {
+  background-color: var(--btn-primary-hover);
+}
+.bg-white.text-primary {
+  color: var(--primary-on-white);
+}
+/* Gruene CTA-Baender (section mit bg-primary, weisser Text in Kind-Elementen):
+   gleiches kraeftiges Gruen wie die Buttons -> 5.9:1 statt 2.77:1. */
+section.bg-primary {
+  background-color: var(--btn-primary-bg);
 }
 
 /* Dark Mode */
@@ -46,6 +72,7 @@
   --primary: #4CAF50;
   --primary-hover: #5DC560;
   --primary-light: #6BD66F;
+  /* Buttons behalten in beiden Themes dasselbe kraeftige Gruen (s. unten) */
   
   --background: #0A120A;
   --surface: #121E12;

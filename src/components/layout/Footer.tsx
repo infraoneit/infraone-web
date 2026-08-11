@@ -227,7 +227,7 @@ export function Footer() {
                                 Antwort innert einem Arbeitstag
                             </p>
                             <p className="text-xs text-text-secondary">
-                                Bei Notfällen erreichen Sie uns direkt: <a href="tel:+41522221818" className="text-primary hover:underline">052 222 18 18</a>.
+                                Bei Notfällen erreichen Sie uns direkt: <a href="tel:+41522221818" className="text-primary underline underline-offset-2">052 222 18 18</a>.
                             </p>
                         </div>
 
