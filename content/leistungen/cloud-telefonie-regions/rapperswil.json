@@ -15,7 +15,7 @@
   "stats": [
     {
       "label": "Ø Setup-Zeit",
-      "value": "5–7 Tage"
+      "value": "5 bis 7 Tage"
     },
     {
       "label": "Rechenzentren",
@@ -24,7 +24,7 @@
   ],
   "localFaq": {
     "question": "Wie schnell sind Sie aus Winterthur in Rapperswil vor Ort?",
-    "answer": "Die meisten Probleme lösen wir per Fernwartung innert Minuten direkt vom Telefongespräch. Für Vor-Ort-Einsätze sind wir in etwa 40 Minuten aus Winterthur in Rapperswil. Bei dringenden Notfällen am gleichen Tag bei Ihnen, sofern die Buchung vor 14 Uhr erfolgt. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten von 2 bis 4 Stunden je nach Stufe. Die Notfall-Hotline 076 587 50 55 ist bis 23:00 Uhr erreichbar."
+    "answer": "Die meisten Probleme lösen wir per Fernwartung innert Minuten direkt vom Telefongespräch. Für Vor-Ort-Einsätze sind wir in etwa 40 Minuten aus Winterthur in Rapperswil. Bei dringenden Notfällen am gleichen Tag bei Ihnen, sofern die Buchung vor 14 Uhr erfolgt. Bei dringenden Störungen erreichen Sie uns zu Bürozeiten direkt; verbindliche Reaktionszeiten vereinbaren wir schriftlich im Servicevertrag. Die Notfall-Hotline 076 587 50 55 ist bis 23:00 Uhr erreichbar."
   },
   "localIndustries": [
     {
@@ -47,7 +47,7 @@
   "additionalFaqs": [
     {
       "question": "Was kostet Cloud-Telefonie für ein Rapperswiler KMU?",
-      "answer": "Ein typisches Setup für 5 Mitarbeitende mit Peoplefone Hosted, Flatrate CH plus EU und 3 Rufnummern kostet etwa CHF 50 bis 70 pro Monat. Bei 10 Mitarbeitenden rechnen Sie mit CHF 70 bis 90 pro Monat. Plus einmalige Einrichtung CHF 500 bis 1500 je nach Komplexität. Kleine Setups für Einzelunternehmen oder 2- bis 3-Personen-Firmen starten bei CHF 25 pro Monat plus Rufnummer."
+      "answer": "Ein typisches Setup für 5 Mitarbeitende mit Peoplefone Hosted, Flatrate CH plus EU und 3 Rufnummern kostet rund CHF 72 pro Monat. Bei 10 Mitarbeitenden rechnen Sie mit CHF 70 bis 90 pro Monat. Plus einmalige Einrichtung CHF 500 bis 1500 je nach Komplexität. Kleine Setups für Einzelunternehmen oder 2- bis 3-Personen-Firmen starten bei CHF 45 pro Monat inklusive einer Rufnummer."
     },
     {
       "question": "Funktioniert die Cloud-Telefonie auch mit Macs?",

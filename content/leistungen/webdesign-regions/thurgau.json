@@ -4,7 +4,7 @@
   "headline": "Webdesign Thurgau",
   "subheadline": "Websites für Thurgauer Hotellerie, Obstbau und Handwerk",
   "description": "Eine Website, die zum Thurgau passt: bodenständig, sachlich, mit dem Auge fürs Wesentliche. Wir kennen die Anforderungen am Bodensee und bauen Auftritte, die echte Anfragen bringen.",
-  "intro": "Thurgauer Unternehmen haben eine eigene Mentalität: pragmatisch, qualitätsbewusst, ohne unnötiges Marketing-Brimborium. Eine Website soll funktionieren, gefunden werden und Anfragen bringen, nicht primär schön aussehen. Genau so bauen wir. Ein Hotel in Kreuzlingen muss bei deutschen Wochenend-Gästen genauso überzeugen wie bei Schweizer Stammkunden, ein Mosterei-Direktvermarkter in Bischofszell braucht einen Online-Shop, der von Februar bis Dezember läuft, ein Schreinerbetrieb in Frauenfeld will bei lokalen Suchen wie 'Schreiner Frauenfeld' oder 'Küche Weinfelden' gefunden werden. Wir liefern alles drei aus einer Hand. Unser Thurgauer Standort an der Bahnhofstrasse 17 in 8274 Tägerwilen liegt direkt an der Grenze zu Konstanz. Von dort sind wir in Kreuzlingen in 15 Minuten, in Frauenfeld in 30, in Romanshorn in 30 und in Amriswil in 35 Minuten. Online-Shop, KI-Integration für Chatbot oder Reservierung und klassisches Webdesign decken wir alles ab.",
+  "intro": "Thurgauer Unternehmen haben eine eigene Mentalität: pragmatisch, qualitätsbewusst, ohne unnötiges Marketing-Brimborium. Eine Website soll funktionieren, gefunden werden und Anfragen bringen, nicht primär schön aussehen. Genau so bauen wir. Ein Hotel in Kreuzlingen muss bei deutschen Wochenend-Gästen genauso überzeugen wie bei Schweizer Stammkunden, ein Mosterei-Direktvermarkter in Bischofszell braucht einen Online-Shop, der von Februar bis Dezember läuft, ein Schreinerbetrieb in Frauenfeld will bei lokalen Suchen wie 'Schreiner Frauenfeld' oder 'Küche Weinfelden' gefunden werden. Wir liefern alles drei. Unser Thurgauer Standort an der Bahnhofstrasse 17 in 8274 Tägerwilen liegt direkt an der Grenze zu Konstanz. Von dort sind wir in Kreuzlingen in 15 Minuten, in Frauenfeld in 30, in Romanshorn in 30 und in Amriswil in 35 Minuten. Online-Shop, KI-Integration für Chatbot oder Reservierung und klassisches Webdesign decken wir alles ab.",
   "regionalImage": "/images/regions/thurgau.webp",
   "localBenefits": [
     "Standort Tägerwilen direkt am Bodensee",
@@ -18,8 +18,8 @@
       "value": "elektro-tel.ch"
     },
     {
-      "label": "Ø Reaktionszeit",
-      "value": "< 4h"
+      "label": "Standort",
+      "value": "Tägerwilen"
     }
   ],
   "localFaq": {

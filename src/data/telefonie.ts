@@ -1,7 +1,7 @@
 export const globalFaqs = [
     {
         question: 'Was kostet Cloud-Telefonie für mein Unternehmen?',
-        answer: 'Ein Komplettpaket für 5 Benutzer mit Flatrate CH+EU kostet ab CHF 37.– pro Monat. Die genauen Kosten hängen von Ihrer Benutzeranzahl, den gewünschten Rufnummern und dem Tarifmodell ab. Nutzen Sie unseren Online-Rechner oder fordern Sie eine individuelle Offerte an.'
+        answer: 'Ein Komplettpaket für 5 Benutzer mit Flatrate CH+EU kostet CHF 67 pro Monat: Grundgebühr, Benutzerpaket, Flatrate und eine Rufnummer. Die genauen Kosten hängen von Ihrer Benutzeranzahl, den gewünschten Rufnummern und dem Tarifmodell ab. Nutzen Sie unseren Online-Rechner oder fordern Sie eine individuelle Offerte an.'
     },
     {
         question: 'Kann ich meine bestehende Telefonnummer behalten?',

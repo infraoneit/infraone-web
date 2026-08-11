@@ -154,7 +154,7 @@ const faqs = [
     },
     {
         question: 'Kann ich die Website selbst bearbeiten?',
-        answer: 'Ja! Bei allen Plattformen erhalten Sie Zugang zu einem CMS. Besonders einfach ist Keystatic – hier können Sie Texte und Bilder direkt im Browser bearbeiten.',
+        answer: 'Ja! Bei allen Plattformen erhalten Sie Zugang zu einem CMS. Besonders einfach ist Keystatic: Hier können Sie Texte und Bilder direkt im Browser bearbeiten.',
     },
     {
         question: 'Ist meine Website für Suchmaschinen optimiert?',
@@ -541,7 +541,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                 Webdesign für {content.headline.replace('Webdesign ', '')}er Branchen
                             </h2>
                             <p className="text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed">
-                                Wir verstehen die spezifischen Anforderungen der lokalen Wirtschaft und entwickeln massgeschneiderte Lösungen.
+                                Wir verstehen die spezifischen Anforderungen der lokalen Wirtschaft und entwickeln Lösungen, die zum Betrieb passen.
                             </p>
                         </AnimatedSection>
 
@@ -757,7 +757,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
                             Welche Technologie passt zu Ihnen?
                         </h2>
-                        <p className="text-xl text-text-secondary">Wir beraten Sie ehrlich – ohne Buzzwords</p>
+                        <p className="text-xl text-text-secondary">Wir beraten Sie ehrlich, ohne Buzzwords</p>
                     </AnimatedSection>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -810,7 +810,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                 <div className="space-y-8">
                                     <div className="text-center">
                                         <h3 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
-                                            Keystatic CMS – Ihr Content, Ihre Kontrolle
+                                            Keystatic CMS: Ihr Content, Ihre Kontrolle
                                         </h3>
                                         <p className="text-text-secondary max-w-2xl mx-auto">
                                             Keystatic ist ein modernes Content Management System, das direkt in Ihre Website integriert ist.
@@ -1037,7 +1037,7 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         Bereit für Ihre neue Website?
                     </h2>
                     <p className="text-xl opacity-90 mb-10 max-w-2xl mx-auto leading-relaxed">
-                        Kostenloses Erstgespräch – wir beraten Sie unverbindlich.
+                        Kostenloses Erstgespräch: Wir beraten Sie unverbindlich.
                     </p>
                     <Button
                         variant="secondary"

@@ -18,7 +18,7 @@ import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Cloud-Telefonanlagen Schweiz | VoIP für KMU | Peoplefone & 3CX',
-    description: 'Cloud-Telefonanlagen für Schweizer KMU: VoIP mit Peoplefone & 3CX. Komplettpaket ab CHF 151/Monat inkl. Internet & Flatrate. Kostenrechner & Support aus Winterthur.',
+    description: 'Cloud-Telefonanlagen für Schweizer KMU: VoIP mit Peoplefone & 3CX. Komplettpaket ab CHF 176/Monat inkl. Internet & Flatrate. Kostenrechner & Support aus Winterthur.',
     keywords: ['Cloud Telefonanlage Schweiz', 'VoIP KMU', 'Peoplefone', '3CX', 'Business Telefonie'],
     alternates: {
         canonical: 'https://infraone.ch/cloud-telefonie',
@@ -542,7 +542,7 @@ export default function CloudTelefoniePage() {
                             20 Benutzer mit vPBX Plus · 10 Rufnummern · Flatrate CH+EU · 1 Gbit Internet + IP
                         </p>
                         <div className="inline-flex flex-col items-center bg-white/15 rounded-2xl px-8 py-5">
-                            <p className="text-4xl md:text-5xl font-bold">CHF 151.–</p>
+                            <p className="text-4xl md:text-5xl font-bold">CHF 176.–</p>
                             <p className="text-sm opacity-80 mt-1">pro Monat, Flatrate inklusive</p>
                         </div>
                         <p className="mt-4 text-xs opacity-70">

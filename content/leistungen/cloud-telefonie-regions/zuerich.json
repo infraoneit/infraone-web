@@ -24,7 +24,7 @@
   ],
   "localFaq": {
     "question": "Wie schnell sind Sie bei Problemen in Zürich vor Ort?",
-    "answer": "Die meisten Probleme lösen wir per Fernwartung innert Minuten direkt vom Telefongespräch. Für Vor-Ort-Einsätze sind wir aus Winterthur in 25 Minuten am Zürcher HB, plus 5 bis 15 Minuten je nach Stadtkreis. Bei dringenden Notfällen erreichen Sie uns bis 23:00 Uhr unter 076 587 50 55. Bei Wartungsverträgen mit SLA garantieren wir Reaktionszeiten von 1 bis 4 Stunden, je nach Stufe."
+    "answer": "Die meisten Probleme lösen wir per Fernwartung innert Minuten direkt vom Telefongespräch. Für Vor-Ort-Einsätze sind wir aus Winterthur in 25 Minuten am Zürcher HB, plus 5 bis 15 Minuten je nach Stadtkreis. Bei dringenden Notfällen erreichen Sie uns bis 23:00 Uhr unter 076 587 50 55. Bei dringenden Störungen erreichen Sie uns zu Bürozeiten direkt; verbindliche Reaktionszeiten vereinbaren wir schriftlich im Servicevertrag."
   },
   "localIndustries": [
     {
@@ -55,14 +55,14 @@
     },
     {
       "question": "Bieten Sie auch Wartungsverträge für Zürcher Cloud-Telefonie an?",
-      "answer": "Ja. Bei kritischen Anwendungen wie Notariaten oder Kliniken empfehlen wir einen Wartungsvertrag mit SLA: garantierte Reaktionszeit (1, 2 oder 4 Stunden je nach Stufe), proaktives Monitoring der Anlage, regelmässige Updates der Software und Schulung neuer Mitarbeitender. Pricing ab CHF 200 pro Monat, je nach Benutzerzahl und SLA-Stufe."
+      "answer": "Ja. Bei kritischen Anwendungen wie Notariaten oder Kliniken empfehlen wir einen Wartungsvertrag mit proaktivem Monitoring der Anlage, regelmässigen Updates der Software und Schulung neuer Mitarbeitender. Bei dringenden Störungen erreichen Sie uns zu Bürozeiten direkt; verbindliche Reaktionszeiten vereinbaren wir schriftlich im Servicevertrag."
     },
     {
       "question": "Kann ich meine bestehende Zürcher 044-Nummer behalten?",
       "answer": "Selbstverständlich. Wir portieren Ihre 044-Nummern zu Peoplefone. Der Prozess dauert 5 bis 10 Arbeitstage und läuft komplett unterbruchfrei. Auch Durchwahlen, Sammelanschlüsse und Mobilnummern werden bei Bedarf portiert. Während der Portierung läuft Ihre alte Anlage parallel weiter, damit Sie immer erreichbar bleiben."
     }
   ],
-  "whyChooseUs": "Als zertifizierter Peoplefone-Partner liefern wir Zürcher Qualität ohne Bahnhofstrasse-Tarife. Über 25 Zürcher Cloud-Telefonie-Setups, Erfahrung mit Kanzleien, Beratungen, Tech-Startups und Arztpraxen. Anders als anonyme Telekom-Anbieter haben Sie direkten Kontakt zur Person, die Ihre Anlage einrichtet, und keinen 1st-Level-Callcenter dazwischen. Pricing transparent vor Vertragsabschluss, Wartungsverträge optional mit SLA-Garantie.",
+  "whyChooseUs": "Als zertifizierter Peoplefone-Partner liefern wir Zürcher Qualität ohne Bahnhofstrasse-Tarife. Wir arbeiten seit Jahren für KMU in der Region, mit Erfahrung bei Kanzleien, Beratungen, Tech-Startups und Arztpraxen. Anders als anonyme Telekom-Anbieter haben Sie direkten Kontakt zur Person, die Ihre Anlage einrichtet, und keinen 1st-Level-Callcenter dazwischen. Pricing transparent vor Vertragsabschluss, Wartungsverträge optional mit SLA-Garantie.",
   "metaTitle": "Cloud-Telefonie Zürich | Peoplefone-Partner",
   "metaDescription": "Cloud-Telefonie Zürich mit Peoplefone: VoIP für KMU, Kanzleien, Startups. Anfahrt 25 Min ab Winterthur. ☎ 052 222 18 18",
   "keywords": [

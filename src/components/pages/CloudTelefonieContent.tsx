@@ -149,7 +149,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                                     <span className="block mt-2">Wartungsfrei. Flexibel. Schweiz.</span>
                                 </h1>
                                 <p className="text-xl text-text-secondary mb-8 max-w-2xl">
-                                    VoIP-Telefonie mit Peoplefone – ohne lokale Hardware, ohne Wartungsaufwand.
+                                    VoIP-Telefonie mit Peoplefone: ohne lokale Hardware, ohne Wartungsaufwand.
                                     Telefonieren Sie von überall: Büro, Homeoffice oder unterwegs.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4">
@@ -251,7 +251,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                             </div>
                         </div>
                         <div className="bg-white/20 rounded-2xl p-6 inline-block">
-                            <p className="text-4xl md:text-5xl font-bold">CHF 151.–</p>
+                            <p className="text-4xl md:text-5xl font-bold">CHF 176.–</p>
                             <p className="text-sm opacity-80">pro Monat, Flatrate inklusive</p>
                         </div>
                         <p className="mt-4 text-sm opacity-70">
@@ -374,7 +374,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                     <div className="bg-card rounded-3xl border border-border p-8 lg:p-12 text-center shadow-lg">
                         <h3 className="text-2xl font-bold text-text-primary mb-4">Flatrate-Modelle für KMU</h3>
                         <p className="text-text-secondary mb-8 max-w-xl mx-auto">
-                            Starten Sie ab <strong>CHF 15.– pro Monat</strong> (vPBX Basic, 1 bis 5 Benutzer pauschal). Wählen Sie zwischen Pay-as-you-go oder attraktiven Flatrates für die Schweiz und EU.
+                            Kleine Setups starten bei CHF 45 pro Monat: Grundgebühr, Benutzerpaket für 1 bis 5 Benutzer und eine Rufnummer, ohne Flatrate.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -392,7 +392,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                             </Button>
                         </div>
                         <p className="text-xs text-text-secondary mt-6">
-                            Bereits über 80 Unternehmen vertrauen auf unsere fairen Konditionen.
+                            Transparente Konditionen: Alle Preise stehen offen auf dieser Seite.
                         </p>
                     </div>
                 </div>
@@ -444,7 +444,7 @@ export function CloudTelefonieContent({ data, showRegionalLinks = true }: CloudT
                         Bereit für moderne Telefonie?
                     </h2>
                     <p className="text-lg opacity-90 mb-8 max-w-xl mx-auto">
-                        Kostenloses Erstgespräch – wir beraten Sie unverbindlich zu Ihrer idealen Lösung.
+                        Kostenloses Erstgespräch: Wir beraten Sie unverbindlich zu Ihrer idealen Lösung.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Button
