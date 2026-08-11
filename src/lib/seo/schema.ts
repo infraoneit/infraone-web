@@ -92,7 +92,7 @@ export function generateLocalBusinessSchema(
 
     const regionNames: Record<string, string> = {
         winterthur: 'Winterthur',
-        zuerich: 'Zuerich',
+        zuerich: 'Zürich',
         schaffhausen: 'Schaffhausen',
         'st-gallen': 'St. Gallen',
         thurgau: 'Thurgau',

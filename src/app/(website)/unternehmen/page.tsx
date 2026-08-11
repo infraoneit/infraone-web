@@ -50,45 +50,45 @@ const values = [
 const timelineEvents = [
     {
         year: '2026',
-        title: 'Rebranding & Strategische Neuausrichtung',
-        description: 'Der Blick nach vorn. Unser neuer Webauftritt ist mehr als nur frisches Design – er ist das Spiegelbild unserer Evolution. Heute sind wir Ihr umfassender Partner für die digitale Zukunft.',
+        title: 'Neuer Auftritt, klarer Fokus',
+        description: 'Neue Website, geschärftes Angebot und offene Preise. Der Auftritt zeigt jetzt das, was wir täglich machen: IT für KMU, verständlich und nachvollziehbar.',
         highlight: true,
     },
     {
         year: '2025',
-        title: 'Phönix aus der Asche: Die Geburt von InfraOne',
-        description: 'Wir sind zurück – stärker, fokussierter und mit neuem Namen: InfraOne IT Solutions GmbH. Durch die Übernahme der Bestandskunden der Elektro-Tel AG bieten wir nun Elektrotechnik und IT aus einer Hand.',
+        title: 'Neustart als InfraOne IT Solutions GmbH',
+        description: 'Nach dem Wiederaufbau starten wir unter neuem Namen. Mit der Übernahme der IT-Bestandskunden der Elektro-Tel AG kommt ein gewachsener Kundenstamm dazu, den wir bis heute betreuen.',
         highlight: true,
     },
     {
         year: '2021',
-        title: 'Die Feuerprobe',
-        description: 'Am 3. März 2021 zerstörte ein Grossbrand unsere Büroräumlichkeiten komplett. 48 Stunden später lief unser Betrieb provisorisch wieder. Wir legten das operative Geschäft strategisch auf Eis, um den Wiederaufbau richtig zu gestalten.',
+        title: 'Der Brand',
+        description: 'Am 3. März 2021 zerstörte ein Grossbrand unsere Büroräumlichkeiten vollständig. 48 Stunden später lief der Betrieb provisorisch wieder. Danach legten wir das operative Geschäft bewusst auf Eis, um den Wiederaufbau sauber zu planen.',
     },
     {
         year: '2019',
-        title: 'Wachstum durch Vertrauen: Übernahme NET-SYS',
-        description: 'Die Übernahme der NET-SYS IT Solutions GmbH war eine bedeutende Stärkung unseres Geschäftsfelds mit neuen Kunden und Mitarbeitenden.',
+        title: 'Übernahme der NET-SYS IT Solutions GmbH',
+        description: 'Mit der Übernahme kamen neue Kunden und Mitarbeitende dazu. Ein wichtiger Schritt für die Breite unseres Angebots.',
     },
     {
         year: '2015',
-        title: 'Wir schaffen Raum für Fokus',
-        description: 'Um der steigenden Nachfrage gerecht zu werden, holten wir erstmals Verstärkung für die Administration.',
+        title: 'Erste Verstärkung',
+        description: 'Die Nachfrage wuchs. Für die Administration holten wir zum ersten Mal Unterstützung ins Team.',
     },
     {
         year: '2013',
-        title: 'Ein starkes Fundament: Umwandlung zur GmbH',
-        description: 'Neun Jahre nach der Gründung wandelten wir die Einzelfirma in eine GmbH um – ein Bekenntnis zu Stabilität und Wachstum.',
+        title: 'Umwandlung zur GmbH',
+        description: 'Neun Jahre nach der Gründung wurde aus der Einzelfirma eine GmbH. Ein Schritt zu mehr Verbindlichkeit gegenüber unseren Kunden.',
     },
     {
         year: '2006',
-        title: 'Der erste eigene Raum',
-        description: 'Der Umzug in die ersten externen Büroräumlichkeiten war ein wichtiger Meilenstein.',
+        title: 'Das erste eigene Büro',
+        description: 'Umzug in die ersten externen Büroräumlichkeiten.',
     },
     {
         year: '2004',
-        title: 'Wo alles begann',
-        description: 'Von einem kleinen Homeoffice in Hinwil aus betreuten wir unsere allerersten Kunden.',
+        title: 'Der Anfang',
+        description: 'Von einem kleinen Homeoffice in Hinwil aus betreuten wir die ersten Kunden.',
     },
 ];
 export default function UnternehmenPage() {
@@ -248,16 +248,16 @@ export default function UnternehmenPage() {
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="text-center mb-8">
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-                            Unsere Reise
+                            Unsere Geschichte
                         </h2>
                         <p className="text-lg text-primary font-medium">
-                            Mehr als nur Jahre
+                            Von der Einzelfirma 2004 zur InfraOne IT Solutions GmbH
                         </p>
                     </AnimatedSection>
 
                     <Timeline
                         events={timelineEvents}
-                        introText="Hinter jedem Meilenstein stehen Menschen, Entscheidungen und der unbedingte Wille, Technologie für Sie besser zu machen. Unsere Geschichte ist geprägt von stetigem Wachstum, mutigen Schritten und der Fähigkeit, auch aus Krisen gestärkt hervorzugehen."
+                        introText="Über 20 Jahre IT-Arbeit, mit Höhen und Tiefen. Hier die Stationen, so wie sie waren."
                     />
                 </div>
             </section>

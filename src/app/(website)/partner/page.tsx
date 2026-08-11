@@ -116,7 +116,7 @@ export default function PartnerPage() {
                                                 width={140}
                                                 height={48}
                                                 loading="eager"
-                                                className="h-8 w-auto object-contain"
+                                                className={`h-8 w-auto object-contain${p.logoClass ? ` ${p.logoClass}` : ''}`}
                                             />
                                         </div>
                                     </div>

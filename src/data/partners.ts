@@ -16,6 +16,8 @@ export interface Partner {
     kurz: string;
     /** Warum wir zusammenarbeiten bzw. wofuer wir das Produkt einsetzen. */
     text: string;
+    /** Zusatzklasse fuers Logo (z. B. brightness-0 fuer rein weisse SVGs auf hellem Chip). */
+    logoClass?: string;
 }
 
 export const gewerbepartner: Partner[] = [
@@ -114,17 +116,18 @@ export const technologiepartner: Partner[] = [
         text: 'Geschäftsanschlüsse mit fester IP-Adresse und verbindlichem Support - Grundlage für Telefonie, Fernzugriff und Videoüberwachung.',
     },
     {
-        name: 'Swisscom',
-        logo: '/images/partners/partner-swisscom.svg',
-        url: 'https://www.swisscom.ch/de/business.html',
-        kurz: 'Anschlüsse und Mobilfunk',
-        text: 'Für Kunden, die beim gewohnten Anbieter bleiben wollen: Wir übernehmen Einrichtung und Betrieb rundherum.',
+        name: 'Proxmox',
+        logo: '/images/partners/proxmox-black.svg',
+        url: 'https://www.proxmox.com/',
+        kurz: 'Virtualisierung (Open Source)',
+        text: 'Mehrere Server auf einer Maschine - spart Hardware und macht Wiederherstellungen im Notfall deutlich schneller. Open Source ohne Lizenzkosten, mit voller Kontrolle über die eigene Umgebung.',
     },
     {
-        name: 'VMware',
-        logo: '/images/partners/partner-vmware.svg',
-        url: 'https://www.vmware.com/',
-        kurz: 'Virtualisierung',
-        text: 'Mehrere Server auf einer Maschine - spart Hardware und macht Wiederherstellungen im Notfall deutlich schneller.',
+        name: 'TP-Link',
+        logo: '/images/partners/TP-Link-logo.svg',
+        url: 'https://www.tp-link.com/ch/',
+        kurz: 'Switches und WLAN',
+        text: 'Switches und Access Points für kleinere Netzwerke, zentral verwaltbar über die Omada-Plattform. Die bewährte Wahl, wenn das Budget im Vordergrund steht.',
+        logoClass: 'brightness-0',
     },
 ];

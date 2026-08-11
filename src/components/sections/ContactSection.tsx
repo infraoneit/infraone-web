@@ -17,7 +17,7 @@ type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 const VALID_SUBJECTS = [
     'IT-Support und Netzwerke',
     'Telefonie und Kommunikation',
-    'Videoueberwachung',
+    'Videoüberwachung',
     'Webdesign',
     'KI & Software-Entwicklung',
     'Andere Anfrage',
@@ -147,7 +147,7 @@ export function ContactSection({
                                         <Clock className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <p className="font-semibold text-text-primary">Oeffnungszeiten</p>
+                                        <p className="font-semibold text-text-primary">Öffnungszeiten</p>
                                         <p className="text-text-secondary text-sm">Mo-Fr 8:00-17:00</p>
                                     </div>
                                 </div>
@@ -271,10 +271,10 @@ export function ContactSection({
                                             onChange={(e) => setSubject(e.target.value)}
                                             className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-text-primary"
                                         >
-                                            <option value="">Bitte waehlen...</option>
+                                            <option value="">Bitte wählen ...</option>
                                             <option value="IT-Support und Netzwerke">IT-Support und Netzwerke</option>
                                             <option value="Telefonie und Kommunikation">Telefonie und Kommunikation</option>
-                                            <option value="Videoueberwachung">Videoueberwachung</option>
+                                            <option value="Videoüberwachung">Videoüberwachung</option>
                                             <option value="Webdesign">Webdesign</option>
                                             <option value="KI & Software-Entwicklung">KI &amp; Software-Entwicklung</option>
                                             <option value="Andere Anfrage">Andere Anfrage</option>
@@ -293,7 +293,7 @@ export function ContactSection({
                                             value={message}
                                             onChange={(e) => setMessage(e.target.value)}
                                             className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-text-primary resize-none"
-                                            placeholder="Wie koennen wir Ihnen helfen?"
+                                            placeholder="Wie können wir Ihnen helfen?"
                                         />
                                     </div>
 

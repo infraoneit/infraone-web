@@ -19,6 +19,30 @@ export const globalFaqs = [
         question: 'Was passiert bei einem Internet-Ausfall?',
         answer: 'Bei Peoplefone können Sie Anrufe automatisch auf Mobilnummern umleiten lassen, wenn das Internet ausfällt. Zudem funktioniert die Handy-App auch über Mobilfunk – Ihre Erreichbarkeit ist also gewährleistet. Für kritische Umgebungen empfehlen wir eine Backup-Internetleitung.'
     },
+    {
+        question: 'Funktioniert Cloud-Telefonie auch im Homeoffice?',
+        answer: 'Ja. Jeder Benutzer nimmt seine Nummer einfach mit: per App auf dem Handy, per Softphone auf dem Laptop oder mit einem IP-Telefon am Heimarbeitsplatz. Anrufe klingeln dort, wo Sie gerade arbeiten, und Ihre Kunden sehen immer die gewohnte Firmennummer.'
+    },
+    {
+        question: 'Was ist der Unterschied zwischen vPBX und 3CX?',
+        answer: 'vPBX ist die gehostete Anlage von Peoplefone: nichts zu installieren, ideal für die meisten KMU. 3CX ist eine eigene Telefonanlagen-Software mit mehr Funktionen und Schnittstellen, die in der Cloud oder auf eigener Hardware läuft. Wir beraten ehrlich, welches System zu Ihrer Grösse und Ihren Anforderungen passt.'
+    },
+    {
+        question: 'Kann ich die Telefonie mit Microsoft Teams verbinden?',
+        answer: 'Ja, Telefonie lässt sich in Microsoft Teams einbinden, sodass Ihr Team direkt aus Teams heraus ins Festnetz telefoniert. Ob sich das für Sie lohnt, hängt von Lizenzen und Arbeitsweise ab. Wir zeigen Ihnen die Varianten inklusive Kosten transparent auf.'
+    },
+    {
+        question: 'Welche Internetleitung brauche ich für VoIP?',
+        answer: 'Eine gewöhnliche Geschäftsleitung reicht in den meisten Fällen: pro Gespräch rechnet man mit rund 100 kbit/s. Wichtiger als die Geschwindigkeit ist die Stabilität. Wir prüfen Ihre Leitung vor der Umstellung und empfehlen bei Bedarf einen Anschluss mit fester IP-Adresse.'
+    },
+    {
+        question: 'Gibt es Mindestlaufzeiten oder versteckte Kosten?',
+        answer: 'Die pauschalen Benutzerpakete gelten bei einer Laufzeit von 24 Monaten. Einmalig fallen Installation und Portierung an, laufend nur die ausgewiesenen Monatspreise. Alle Preise stehen offen auf dieser Seite: Was hier nicht steht, wird auch nicht verrechnet.'
+    },
+    {
+        question: 'Übernehmen Sie auch bestehende Anlagen anderer Anbieter?',
+        answer: 'Ja. Wir übernehmen bestehende VoIP-Umgebungen oder lösen alte ISDN- und Analoganlagen ab. Zuerst schauen wir an, was vorhanden ist. Danach erhalten Sie einen klaren Umstellungsplan mit Terminen und Kosten.'
+    },
 ];
 
 export const pricingModules = {

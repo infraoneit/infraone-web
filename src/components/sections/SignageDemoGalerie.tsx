@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react';
 
 interface DemoView {
     src: string;
@@ -37,6 +37,7 @@ const SWIPE_THRESHOLD = 50;
 
 export function SignageDemoGalerie() {
     const [index, setIndex] = useState(0);
+    const [lightboxOpen, setLightboxOpen] = useState(false);
     const touchStartX = useRef<number | null>(null);
 
     const goTo = useCallback((next: number) => {
@@ -80,6 +81,23 @@ export function SignageDemoGalerie() {
         [goPrev, goNext]
     );
 
+    // Lightbox: Esc schliesst, Pfeiltasten blaettern, Hintergrund-Scroll gesperrt
+    useEffect(() => {
+        if (!lightboxOpen) return;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setLightboxOpen(false);
+            else if (e.key === 'ArrowLeft') goPrev();
+            else if (e.key === 'ArrowRight') goNext();
+        };
+        document.addEventListener('keydown', onKey);
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.removeEventListener('keydown', onKey);
+            document.body.style.overflow = prevOverflow;
+        };
+    }, [lightboxOpen, goPrev, goNext]);
+
     const current = DEMO_VIEWS[index];
 
     return (
@@ -106,6 +124,17 @@ export function SignageDemoGalerie() {
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className={`${current.objectFit === 'contain' ? 'object-contain' : 'object-cover'} animate-fade-in-motion-safe`}
                 />
+
+                {/* Klick vergroessert (Inhaber 11.08.): unsichtbare Schaltflaeche ueber dem Bild */}
+                <button
+                    type="button"
+                    onClick={() => setLightboxOpen(true)}
+                    aria-label="Ansicht vergrössern"
+                    className="absolute inset-0 cursor-zoom-in"
+                />
+                <div className="absolute right-3 top-3 w-9 h-9 rounded-full bg-background/80 backdrop-blur border border-border text-text-primary flex items-center justify-center pointer-events-none" aria-hidden="true">
+                    <Maximize2 className="w-4 h-4" />
+                </div>
 
                 {/* Vor/Zurueck-Buttons */}
                 <button
@@ -157,6 +186,58 @@ export function SignageDemoGalerie() {
                     </button>
                 ))}
             </div>
+
+            {/* Lightbox: Vollbild-Ansicht der aktuellen Demo-Ansicht */}
+            {lightboxOpen && (
+                <div
+                    className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center p-4 md:p-8"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={`Grossansicht: ${current.caption}`}
+                    onClick={() => setLightboxOpen(false)}
+                >
+                    <button
+                        type="button"
+                        onClick={() => setLightboxOpen(false)}
+                        aria-label="Grossansicht schliessen"
+                        className="absolute right-4 top-4 z-10 w-11 h-11 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                    >
+                        <X className="w-6 h-6" />
+                    </button>
+                    <div
+                        className="relative w-full max-w-6xl flex-1 min-h-0"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <Image
+                            key={current.src}
+                            src={current.src}
+                            alt={current.caption}
+                            fill
+                            sizes="100vw"
+                            className="object-contain"
+                        />
+                        <button
+                            type="button"
+                            onClick={goPrev}
+                            aria-label="Vorherige Ansicht"
+                            className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                        >
+                            <ChevronLeft className="w-6 h-6" />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={goNext}
+                            aria-label="Nächste Ansicht"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                        >
+                            <ChevronRight className="w-6 h-6" />
+                        </button>
+                    </div>
+                    <p className="text-white/85 text-center mt-4 max-w-3xl" onClick={(e) => e.stopPropagation()}>
+                        {current.caption}
+                    </p>
+                </div>
+            )}
         </div>
     );
 }

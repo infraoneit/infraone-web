@@ -221,7 +221,7 @@ export default function CloudTelefoniePage() {
             {/* Hero */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_telefonie_1768423192251.webp" alt="Cloud-Telefonie und VoIP-Arbeitsplatz in einem Schweizer Buero" fill className="object-cover" priority aria-hidden="true" />
+                    <Image src="/images/hero_telefonie_1768423192251.webp" alt="Cloud-Telefonie und VoIP-Arbeitsplatz in einem Schweizer Büro" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -240,7 +240,8 @@ export default function CloudTelefoniePage() {
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <Button variant="primary" size="lg" asChild>
-                                        <a href="https://cloud-telefonanlagen.ch#rechner" target="_blank" rel="noopener noreferrer">
+                                        {/* Natives <a> auf den eigenen Rechner weiter unten (kein Next-Link: Hash) */}
+                                        <a href="#kostenrechner">
                                             <Calculator className="w-5 h-5" />
                                             Kosten berechnen
                                         </a>
@@ -270,11 +271,6 @@ export default function CloudTelefoniePage() {
                     </div>
                 </div>
             </section>
-
-            {/* Kostenrechner mit Modus «Fixkosten senken» vorausgewählt (AUFTRAG-009):
-                direkt nach dem Hero, vor den Produktbereichen */}
-            {/* Telefonie-Sparrechner als Tueroeffner plus Betreuungs-Upsell */}
-            <SupportKostenRechner modi={['fixkosten', 'betreuung']} defaultModus="fixkosten" />
 
             {/* Intro Content */}
             <section className="py-12 lg:py-16 bg-background">
@@ -522,14 +518,13 @@ export default function CloudTelefoniePage() {
                     </div>
 
                     <div className="text-center mt-8">
+                        {/* Eigener Rechner direkt auf dieser Seite (Inhaber 11.08.), natives <a> wegen Hash */}
                         <a
-                            href="https://cloud-telefonanlagen.ch#rechner"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href="#kostenrechner"
                             className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
                         >
                             Kosten für Ihre Konfiguration berechnen
-                            <ExternalLink className="w-4 h-4" />
+                            <Calculator className="w-4 h-4" />
                         </a>
                     </div>
                 </div>
@@ -556,6 +551,10 @@ export default function CloudTelefoniePage() {
                     </div>
                 </div>
             </section>
+
+            {/* Kostenrechner NACH der Preisuebersicht (Inhaber 11.08.: erst Preise,
+                dann Rechner, wie auf /it-support). Modus «Fixkosten senken» vorausgewaehlt. */}
+            <SupportKostenRechner modi={['fixkosten', 'betreuung']} defaultModus="fixkosten" />
 
             {/* Process-Sektion: 4 Schritte zur neuen Telefonanlage */}
             <section className="py-16 lg:py-24 bg-background">

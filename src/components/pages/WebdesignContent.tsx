@@ -337,9 +337,11 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                         {isHubPage ? (
                             <AnimatedSection animation="slideUp" delay={0.2} className="hidden lg:block">
                                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                                    <a href={heroReferenzen.schaltkraft.href} target="_blank" rel="noopener" className="absolute left-0 top-0 z-10 block w-[62%] -rotate-3 transition-transform duration-300 hover:-translate-y-1 hover:rotate-0">
-                                        <BrowserFrame url={heroReferenzen.schaltkraft.url}>
-                                            <Image src={heroReferenzen.schaltkraft.img} alt={heroReferenzen.schaltkraft.alt} width={800} height={557} className="w-full h-auto" />
+                                    {/* Positionstausch (Inhaber 11.08.): Schaltkraft ist die Vorzeige-Referenz
+                                        und steht zuvorderst (z-30), Beertracker rueckt nach hinten. */}
+                                    <a href={heroReferenzen.beertracker.href} target="_blank" rel="noopener" className="absolute left-0 top-0 z-10 block w-[62%] -rotate-3 transition-transform duration-300 hover:-translate-y-1 hover:rotate-0">
+                                        <BrowserFrame url={heroReferenzen.beertracker.url}>
+                                            <Image src={heroReferenzen.beertracker.img} alt={heroReferenzen.beertracker.alt} width={800} height={557} className="w-full h-auto" />
                                         </BrowserFrame>
                                     </a>
                                     <a href={heroReferenzen.elektrotel.href} target="_blank" rel="noopener" className="absolute right-0 top-[10%] z-20 block w-[55%] rotate-2 transition-transform duration-300 hover:-translate-y-1 hover:rotate-0">
@@ -347,9 +349,9 @@ export function WebdesignContent({ data, showRegionalLinks = true }: WebdesignCo
                                             <Image src={heroReferenzen.elektrotel.img} alt={heroReferenzen.elektrotel.alt} width={800} height={557} className="w-full h-auto" />
                                         </BrowserFrame>
                                     </a>
-                                    <a href={heroReferenzen.beertracker.href} target="_blank" rel="noopener" className="absolute left-[2%] top-[47%] z-30 block w-[56%] rotate-1 transition-transform duration-300 hover:-translate-y-1 hover:rotate-0">
-                                        <BrowserFrame url={heroReferenzen.beertracker.url}>
-                                            <Image src={heroReferenzen.beertracker.img} alt={heroReferenzen.beertracker.alt} width={800} height={557} className="w-full h-auto" />
+                                    <a href={heroReferenzen.schaltkraft.href} target="_blank" rel="noopener" className="absolute left-[2%] top-[47%] z-30 block w-[56%] rotate-1 transition-transform duration-300 hover:-translate-y-1 hover:rotate-0">
+                                        <BrowserFrame url={heroReferenzen.schaltkraft.url}>
+                                            <Image src={heroReferenzen.schaltkraft.img} alt={heroReferenzen.schaltkraft.alt} width={800} height={557} className="w-full h-auto" />
                                         </BrowserFrame>
                                     </a>
                                     <div className="absolute right-[-12%] top-[56%] z-40 w-[52%] -rotate-6">

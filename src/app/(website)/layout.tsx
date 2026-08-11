@@ -43,12 +43,12 @@ export const metadata: Metadata = {
     "Webdesign Winterthur",
     "Cloud Telefonanlage Schweiz",
     "Informatiker Winterthur",
-    "IT Dienstleister Zuerich",
+    "IT Dienstleister Zürich",
     "VoIP Schweiz",
     "Netzwerk Infrastruktur",
     "3CX Telefonie",
     "peoplefone",
-    "Videoueberwachung",
+    "Videoüberwachung",
   ],
   authors: [{ name: "InfraOne IT Solutions GmbH" }],
   creator: "InfraOne IT Solutions GmbH",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     url: "https://infraone.ch",
     siteName: "InfraOne IT Solutions",
     title: "InfraOne IT Solutions | IT-Support, Webdesign & Telefonie",
-    description: "Digitale Loesungen fuer KMU & Privatpersonen - IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur.",
+    description: "Digitale Lösungen für KMU & Privatpersonen - IT-Support, Webdesign & Cloud Telefonanlagen in Winterthur.",
     images: [
       {
         url: "/images/infraone-og-image.jpg",

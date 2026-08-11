@@ -35,7 +35,7 @@ const generalFaqs = [
 
 const allRegions = [
     { name: 'Winterthur', slug: 'winterthur' },
-    { name: 'Zuerich', slug: 'zuerich' },
+    { name: 'Zürich', slug: 'zuerich' },
     { name: 'Schaffhausen', slug: 'schaffhausen' },
     { name: 'Thurgau', slug: 'thurgau' },
     { name: 'St. Gallen', slug: 'st-gallen' },
@@ -142,7 +142,7 @@ export default async function ITSupportRegionPage({ params }: { params: Promise<
             {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
 
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
-                <div className="absolute inset-0 opacity-10"><Image src="/images/hero_it_network_1768423176860.webp" alt="IT-Support und Netzwerk-Infrastruktur fuer Schweizer KMU" fill className="object-cover" priority aria-hidden="true" /></div>
+                <div className="absolute inset-0 opacity-10"><Image src="/images/hero_it_network_1768423176860.webp" alt="IT-Support und Netzwerk-Infrastruktur für Schweizer KMU" fill className="object-cover" priority aria-hidden="true" /></div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <div className="max-w-xl">
@@ -262,7 +262,7 @@ export default async function ITSupportRegionPage({ params }: { params: Promise<
 
             <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="text-center mb-12"><h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">Haeufige Fragen</h2></AnimatedSection>
+                    <AnimatedSection animation="slideUp" className="text-center mb-12"><h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">Häufige Fragen</h2></AnimatedSection>
                     <div><FAQList items={generalFaqs} twoColumns />{data.localFaqQuestion && <div className="mt-4 rounded-xl border-2 border-primary bg-primary/5 p-4"><h4 className="font-medium text-text-primary mb-2">{data.localFaqQuestion}</h4><p className="text-text-secondary">{data.localFaqAnswer}</p></div>}{data.additionalFaqs?.length > 0 && <div className="mt-4"><FAQList items={data.additionalFaqs} twoColumns /></div>}</div>
                 </div>
             </section>

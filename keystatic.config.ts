@@ -254,7 +254,7 @@ export default config({
                 faqsSection: fields.object({
                     sectionTitle: fields.text({
                         label: 'Section-Titel',
-                        defaultValue: 'Haeufige Fragen',
+                        defaultValue: 'Häufige Fragen',
                     }),
                     sectionSubtitle: fields.text({
                         label: 'Section-Untertitel',

@@ -46,7 +46,7 @@ export const regionMapConfigs: Record<string, RegionMapConfig> = {
     },
     zuerich: {
         cantonKey: 'zh',
-        regionName: 'Zuerich',
+        regionName: 'Zürich',
         lakeIds: [9040, 9050],
         hq: { name: 'Winterthur', cityKey: 'Winterthur', dx: 14, dy: -30 },
         ziele: [

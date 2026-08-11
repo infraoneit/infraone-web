@@ -3,19 +3,19 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// Hinweis: TP-Link fehlt hier, weil der Hersteller kein offizielles
-// SVG-Logo bereitstellt (nur PNG). Nicht selbst nachzeichnen.
-const partners = [
+// TP-Link-SVG ist rein weiss -> brightness-0 macht es im Light-Mode schwarz,
+// dark:invert dreht es im Dark-Mode wieder auf weiss (wie alle anderen Logos).
+const partners: { name: string; logo: string; logoClass?: string }[] = [
     { name: 'Microsoft', logo: '/images/partners/partner-microsoft.svg' },
     { name: '3CX', logo: '/images/partners/partner-3cx.svg' },
     { name: 'Fortinet', logo: '/images/partners/partner-fortinet.svg' },
     { name: 'HPE', logo: '/images/partners/partner-hpe.svg' },
     { name: 'Lenovo', logo: '/images/partners/partner-lenovo.svg' },
     { name: 'Sophos', logo: '/images/partners/partner-sophos.svg' },
-    { name: 'Swisscom', logo: '/images/partners/partner-swisscom.svg' },
+    { name: 'Proxmox', logo: '/images/partners/proxmox-black.svg' },
     { name: 'Synology', logo: '/images/partners/partner-synology.svg' },
     { name: 'Ubiquiti', logo: '/images/partners/partner-ubiquiti.svg' },
-    { name: 'VMware', logo: '/images/partners/partner-vmware.svg' },
+    { name: 'TP-Link', logo: '/images/partners/TP-Link-logo.svg', logoClass: 'brightness-0 dark:invert' },
     { name: 'iWay', logo: '/images/partners/partner-iway.svg' },
     { name: 'peoplefone', logo: '/images/partners/partner-peoplefone.svg' },
 ];
@@ -71,7 +71,8 @@ export function PartnerSlider() {
                                 height={96}
                                 className={cn(
                                     "w-full h-auto object-contain transition-all duration-300",
-                                    "dark:brightness-0 dark:invert"
+                                    "dark:brightness-0 dark:invert",
+                                    partner.logoClass
                                 )}
 
                             />

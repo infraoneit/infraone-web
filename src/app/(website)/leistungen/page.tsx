@@ -67,7 +67,7 @@ export default function LeistungenPage() {
             {/* Hero */}
             <section className="relative py-16 lg:py-24 bg-gradient-to-br from-background via-background to-surface overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
-                    <Image src="/images/hero_homepage_1768423161913.webp" alt="Uebersicht der IT-Dienstleistungen von InfraOne IT Solutions" fill className="object-cover" priority aria-hidden="true" />
+                    <Image src="/images/hero_homepage_1768423161913.webp" alt="Übersicht der IT-Dienstleistungen von InfraOne IT Solutions" fill className="object-cover" priority aria-hidden="true" />
                 </div>
                 <div className="container mx-auto px-4 text-center relative z-10">
                     <AnimatedSection animation="slideUp">
