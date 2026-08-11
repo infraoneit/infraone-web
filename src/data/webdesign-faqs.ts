@@ -30,6 +30,22 @@ export const webdesignHubFaqs = [
         question: 'Bieten Sie auch Wartung und Support nach dem Launch?',
         answer: 'Ja, wir bieten Website-Wartung und Support als Service an. Das umfasst Updates, Backups, Sicherheitsüberwachung und inhaltliche Anpassungen. Sie entscheiden, ob Sie die Website selbst pflegen oder unseren Service nutzen möchten.',
     },
+    {
+        question: 'Wem gehört die Website nach dem Projekt?',
+        answer: 'Ihnen. Domain, Inhalte und Design gehören nach Bezahlung vollständig Ihnen. Sie sind nicht an uns gebunden und können die Website jederzeit zu einem anderen Anbieter mitnehmen. Wir setzen bewusst nicht auf Abo-Modelle, die Kunden einsperren.',
+    },
+    {
+        question: 'Was brauchen Sie von mir für den Start?',
+        answer: 'Im Erstgespräch klären wir Ziel, Umfang und Stil. Danach brauchen wir von Ihnen vor allem Texte in Rohform, Bilder falls vorhanden und Ihr Logo. Fehlt etwas davon, finden wir eine Lösung: Texte schärfen wir gemeinsam, für Bilder gibt es gute Alternativen zur teuren Fotoproduktion.',
+    },
+    {
+        question: 'Wird meine Website bei Google gefunden?',
+        answer: 'Die technische Basis dafür ist in jedem Paket enthalten: saubere Struktur, schnelle Ladezeiten, korrekte Meta-Angaben und mobile Optimierung. Ein Rankingversprechen für umkämpfte Suchbegriffe wäre unseriös. Was realistisch ist, besprechen wir ehrlich im Erstgespräch.',
+    },
+    {
+        question: 'Übernehmen Sie auch bestehende Websites?',
+        answer: 'Ja. Wir übernehmen bestehende Websites zur Wartung, bauen sie um oder ersetzen sie durch einen Neuaufbau. Zuerst schauen wir den Ist-Zustand an und sagen Ihnen ehrlich, ob sich ein Umbau lohnt oder ein Neustart günstiger kommt.',
+    },
 ];
 
 /**

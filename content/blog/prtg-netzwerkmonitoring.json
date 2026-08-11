@@ -1,6 +1,6 @@
 {
-  "title": "PRTG Netzwerkmonitoring – So behältst du deine IT im Griff",
-  "excerpt": "Mit dem PRTG Network Monitor von Paessler kannst du dein gesamtes IT-Netzwerk überwachen, Störungen frühzeitig erkennen und Ausfälle vermeiden.",
+  "title": "PRTG Netzwerkmonitoring: So behalten Sie Ihre IT im Griff",
+  "excerpt": "Mit dem PRTG Network Monitor von Paessler überwachen Sie Ihr gesamtes IT-Netzwerk, erkennen Störungen frühzeitig und vermeiden Ausfälle.",
   "category": "netzwerke",
   "keywords": [
     "PRTG Netzwerk Monitoring",
@@ -11,5 +11,6 @@
   "publishDate": "2024-12-20",
   "readingTime": "6 Min.",
   "metaTitle": "PRTG Netzwerkmonitoring – IT im Griff",
-  "metaDescription": "Mit PRTG Network Monitor dein IT-Netzwerk überwachen, Störungen erkennen und Ausfälle vermeiden."
+  "metaDescription": "Mit PRTG Network Monitor dein IT-Netzwerk überwachen, Störungen erkennen und Ausfälle vermeiden.",
+  "featuredImage": "/images/blog-cover-prtg-netzwerkmonitoring.webp"
 }

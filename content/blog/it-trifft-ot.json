@@ -1,6 +1,6 @@
 {
-  "title": "IT trifft OT – Unterschied IT und OT Systeme",
-  "excerpt": "IT und OT wachsen zusammen. Erfahren Sie, warum diese Konvergenz zur Schlüsselkompetenz moderner Unternehmen wird und welche Sicherheitsrisiken dabei entstehen.",
+  "title": "IT trifft OT: Wenn Informatik auf Steuerungstechnik trifft",
+  "excerpt": "IT und OT wachsen zusammen. Was die beiden Welten unterscheidet, warum sie vernetzt werden und welche Sicherheitsrisiken dabei entstehen.",
   "category": "it-wissen",
   "keywords": [
     "IT OT Unterschied",
@@ -11,5 +11,6 @@
   "publishDate": "2025-01-15",
   "readingTime": "6 Min.",
   "metaTitle": "IT trifft OT – Unterschied IT und OT Systeme",
-  "metaDescription": "IT und OT wachsen zusammen. Erfahren Sie, warum diese Konvergenz zur Schlüsselkompetenz moderner Unternehmen wird."
+  "metaDescription": "IT und OT wachsen zusammen. Erfahren Sie, warum diese Konvergenz zur Schlüsselkompetenz moderner Unternehmen wird.",
+  "featuredImage": "/images/blog-cover-it-trifft-ot.webp"
 }

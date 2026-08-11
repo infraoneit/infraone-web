@@ -1,6 +1,6 @@
 {
-  "title": "Multimonitor-Systeme mit Black Box Emerald – KVM-over-IP Lösungen",
-  "excerpt": "Moderne KVM-over-IP Multimonitor-Systeme mit Black Box Emerald ermöglichen flexible und zentrale Steuerung in Kontrollräumen, Leitständen und Sicherheitszentralen.",
+  "title": "Multimonitor-Systeme mit Black Box Emerald: KVM-over-IP für Kontrollräume",
+  "excerpt": "KVM-over-IP mit Black Box Emerald: zentrale Steuerung mehrerer Rechner in Kontrollräumen, Leitständen und Sicherheitszentralen, lokal und aus der Ferne.",
   "category": "kontrollraum",
   "keywords": [
     "KVM over IP",
@@ -12,5 +12,6 @@
   "publishDate": "2025-01-10",
   "readingTime": "7 Min.",
   "metaTitle": "Multimonitor-Systeme mit Black Box Emerald",
-  "metaDescription": "Moderne KVM-over-IP Multimonitor-Systeme mit Black Box Emerald für Kontrollräume und Leitstände."
+  "metaDescription": "Moderne KVM-over-IP Multimonitor-Systeme mit Black Box Emerald für Kontrollräume und Leitstände.",
+  "featuredImage": "/images/blog-cover-multimonitor-systeme-black-box-emerald.webp"
 }

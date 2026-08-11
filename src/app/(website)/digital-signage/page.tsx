@@ -338,6 +338,62 @@ export default function DigitalSignagePage() {
                 </div>
             </section>
 
+            {/* Pricing Section - direkt nach dem Software-Abschnitt (Inhaber-Feedback 11.08.:
+                der Einmalpreis ist DAS Unterscheidungsmerkmal und steht im SERP-Title;
+                er gehoert nach vorne wie auf /it-support und /cloud-telefonie) */}
+            <section className="py-16 lg:py-24 bg-surface">
+                <div className="container mx-auto px-4">
+                    <AnimatedSection animation="slideUp" className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                            Transparente Preise
+                        </h2>
+                        <p className="text-text-secondary max-w-2xl mx-auto">
+                            Einmalige Investition ohne monatliche Abo-Kosten
+                        </p>
+                    </AnimatedSection>
+
+                    <AnimatedSection animation="slideUp" delay={0.2}>
+                        <div>
+                            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-white">
+                                <div className="grid md:grid-cols-2 gap-8 items-center">
+                                    <div>
+                                        <div className="text-5xl font-bold mb-2">CHF 1'590.–</div>
+                                        <div className="text-xl opacity-90 mb-6">Einmalig – Starter-Paket</div>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <div className="flex items-start gap-3">
+                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                                            <span>1 Display + Mini-Server</span>
+                                        </div>
+                                        <div className="flex items-start gap-3">
+                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                                            <span>Bis 5 Bildschirme pro Server, beliebig erweiterbar</span>
+                                        </div>
+                                        <div className="flex items-start gap-3">
+                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                                            <span>Setup & Installation</span>
+                                        </div>
+                                        <div className="flex items-start gap-3">
+                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                                            <span>Custom Designvorlage</span>
+                                        </div>
+                                        <div className="flex items-start gap-3">
+                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                                            <span>Schulung & Support</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mt-6 pt-6 border-t border-white/20">
+                                    <p className="text-sm opacity-90">
+                                        <strong>Optional:</strong> Live-Daten/API-Integrationen (PV-Anlagen, Kalender, KPIs) nach Aufwand
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </AnimatedSection>
+                </div>
+            </section>
+
             {/* Industries Section */}
             <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
@@ -611,62 +667,8 @@ export default function DigitalSignagePage() {
                 </div>
             </section>
 
-            {/* Pricing Section */}
+            {/* Process Section (bg-surface, weil die Preis-Sektion nach oben gezogen wurde) */}
             <section className="py-16 lg:py-24 bg-surface">
-                <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-                            Transparente Preise
-                        </h2>
-                        <p className="text-text-secondary max-w-2xl mx-auto">
-                            Einmalige Investition ohne monatliche Abo-Kosten
-                        </p>
-                    </AnimatedSection>
-
-                    <AnimatedSection animation="slideUp" delay={0.2}>
-                        <div>
-                            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-white">
-                                <div className="grid md:grid-cols-2 gap-8 items-center">
-                                    <div>
-                                        <div className="text-5xl font-bold mb-2">CHF 1'590.–</div>
-                                        <div className="text-xl opacity-90 mb-6">Einmalig – Starter-Paket</div>
-                                    </div>
-                                    <div className="space-y-3">
-                                        <div className="flex items-start gap-3">
-                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                                            <span>1 Display + Mini-Server</span>
-                                        </div>
-                                        <div className="flex items-start gap-3">
-                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                                            <span>Bis 5 Bildschirme pro Server, beliebig erweiterbar</span>
-                                        </div>
-                                        <div className="flex items-start gap-3">
-                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                                            <span>Setup & Installation</span>
-                                        </div>
-                                        <div className="flex items-start gap-3">
-                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                                            <span>Custom Designvorlage</span>
-                                        </div>
-                                        <div className="flex items-start gap-3">
-                                            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                                            <span>Schulung & Support</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mt-6 pt-6 border-t border-white/20">
-                                    <p className="text-sm opacity-90">
-                                        <strong>Optional:</strong> Live-Daten/API-Integrationen (PV-Anlagen, Kalender, KPIs) nach Aufwand
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </AnimatedSection>
-                </div>
-            </section>
-
-            {/* Process Section */}
-            <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary">
