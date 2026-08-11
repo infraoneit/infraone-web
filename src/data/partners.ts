@@ -128,6 +128,5 @@ export const technologiepartner: Partner[] = [
         url: 'https://www.tp-link.com/ch/',
         kurz: 'Switches und WLAN',
         text: 'Switches und Access Points für kleinere Netzwerke, zentral verwaltbar über die Omada-Plattform. Die bewährte Wahl, wenn das Budget im Vordergrund steht.',
-        logoClass: 'brightness-0',
     },
 ];

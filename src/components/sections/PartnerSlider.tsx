@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// TP-Link-SVG ist rein weiss -> brightness-0 macht es im Light-Mode schwarz,
-// dark:invert dreht es im Dark-Mode wieder auf weiss (wie alle anderen Logos).
+// TP-Link-SVG ist auf #0A5A5A eingefaerbt (Inhaber-Vorgabe 11.08.); im Dark-Mode
+// greift wie bei allen Logos die Standard-Invertierung auf Weiss.
 const partners: { name: string; logo: string; logoClass?: string }[] = [
     { name: 'Microsoft', logo: '/images/partners/partner-microsoft.svg' },
     { name: '3CX', logo: '/images/partners/partner-3cx.svg' },
@@ -15,7 +15,7 @@ const partners: { name: string; logo: string; logoClass?: string }[] = [
     { name: 'Proxmox', logo: '/images/partners/proxmox-black.svg' },
     { name: 'Synology', logo: '/images/partners/partner-synology.svg' },
     { name: 'Ubiquiti', logo: '/images/partners/partner-ubiquiti.svg' },
-    { name: 'TP-Link', logo: '/images/partners/TP-Link-logo.svg', logoClass: 'brightness-0 dark:invert' },
+    { name: 'TP-Link', logo: '/images/partners/TP-Link-logo.svg' },
     { name: 'iWay', logo: '/images/partners/partner-iway.svg' },
     { name: 'peoplefone', logo: '/images/partners/partner-peoplefone.svg' },
 ];
