@@ -9,7 +9,7 @@ interface Feature {
     number: string;
     title: string;
     description: string;
-    highlight: string;
+    highlight?: string;
 }
 
 interface ProcessStep {
@@ -23,6 +23,11 @@ interface Advantage {
     description: string;
 }
 
+interface ContentSection {
+    title: string;
+    paragraphs: string[];
+}
+
 interface ServicePageProps {
     // Hero
     headline: string;
@@ -32,6 +37,9 @@ interface ServicePageProps {
 
     // Features
     features: Feature[];
+
+    // Freie Inhaltssektionen (zwischen Features und Process)
+    contentSections?: ContentSection[];
 
     // Process
     processHeadline?: string;
@@ -73,6 +81,7 @@ export function ServicePageTemplate({
     description,
     heroImage,
     features,
+    contentSections = [],
     processHeadline = 'So läuft unsere Zusammenarbeit ab',
     processSteps = [],
     advantages = [],
@@ -156,7 +165,9 @@ export function ServicePageTemplate({
             {/* Features Section */}
             <section className="py-16 lg:py-24 bg-surface">
                 <div className="container mx-auto px-4">
-                    <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8" staggerDelay={0.15}>
+                    {/* Spalten nach Eintragszahl: volle Reihen auf jedem Breakpoint
+                        (6/3 Eintraege -> 3 Spalten, 4/2 -> 2 Spalten) */}
+                    <StaggerContainer className={`grid grid-cols-1 md:grid-cols-2 ${features.length % 3 === 0 ? 'lg:grid-cols-3' : ''} gap-6 md:gap-8`} staggerDelay={0.15}>
                         {features.map((feature, index) => (
                             <StaggerItem key={index}>
                                 <div
@@ -173,10 +184,12 @@ export function ServicePageTemplate({
                                             <p className="text-text-secondary mb-4">
                                                 {feature.description}
                                             </p>
-                                            <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-                                                <CheckCircle className="w-4 h-4" />
-                                                {feature.highlight}
-                                            </span>
+                                            {feature.highlight && (
+                                                <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
+                                                    <CheckCircle className="w-4 h-4" />
+                                                    {feature.highlight}
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -185,6 +198,29 @@ export function ServicePageTemplate({
                     </StaggerContainer>
                 </div>
             </section>
+
+            {/* Content Sections (Fliesstext in Lesebreite, alternierende Hintergründe) */}
+            {contentSections.map((section, sectionIndex) => (
+                <section
+                    key={sectionIndex}
+                    className={`py-16 lg:py-24 ${sectionIndex % 2 === 0 ? 'bg-background' : 'bg-surface'}`}
+                >
+                    <div className="container mx-auto px-4">
+                        <AnimatedSection animation="slideUp" className="max-w-3xl mx-auto text-text-secondary">
+                            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6">
+                                {section.title}
+                            </h2>
+                            <div className="space-y-4">
+                                {section.paragraphs.map((paragraph, paragraphIndex) => (
+                                    <p key={paragraphIndex} className="text-lg text-text-secondary leading-relaxed">
+                                        {paragraph}
+                                    </p>
+                                ))}
+                            </div>
+                        </AnimatedSection>
+                    </div>
+                </section>
+            ))}
 
             {/* Process Section */}
             {processSteps.length > 0 && (
@@ -227,7 +263,8 @@ export function ServicePageTemplate({
             {advantages.length > 0 && (
                 <section className="py-16 lg:py-24 bg-surface">
                     <div className="container mx-auto px-4">
-                        <StaggerContainer className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
+                        {/* 4 Vorteile -> 1/2/4 Spalten, 3 -> 1/3, sonst 1/2 (immer volle Reihen) */}
+                        <StaggerContainer className={`grid grid-cols-1 ${advantages.length % 4 === 0 ? 'sm:grid-cols-2 lg:grid-cols-4' : advantages.length % 3 === 0 ? 'md:grid-cols-3' : 'sm:grid-cols-2'} gap-8`} staggerDelay={0.15}>
                             {advantages.map((advantage, index) => (
                                 <StaggerItem key={index}>
                                     <div className="text-center p-6">

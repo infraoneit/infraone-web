@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Server, Phone, Video, Code, Palette, Tv, Plus } from 'lucide-react';
+import { ArrowRight, Server, Phone, Video, Code, Palette, Tv, Plus, ShieldCheck, Cloud, Wifi } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 
 import { generateServiceSchema } from '@/lib/seo/schema';
@@ -12,6 +12,27 @@ const services = [
         subtitle: 'für Unternehmen & Privatpersonen',
         description: 'Stabile IT-Infrastrukturen mit Server, Cloud, Microsoft 365, Backup und Netzwerksicherheit.',
         href: '/it-netzwerke',
+    },
+    {
+        icon: ShieldCheck,
+        title: 'IT-Sicherheit',
+        subtitle: 'Fortinet • Sophos • Veeam',
+        description: 'Firewall, Virenschutz, Backup und Updates: Grundsicherung, die zum Betrieb passt.',
+        href: '/it-sicherheit',
+    },
+    {
+        icon: Cloud,
+        title: 'Microsoft 365',
+        subtitle: 'Einrichtung • Migration • Betrieb',
+        description: 'E-Mail, Teams und Office sauber eingerichtet, migriert und betreut.',
+        href: '/microsoft-365',
+    },
+    {
+        icon: Wifi,
+        title: 'WLAN',
+        subtitle: 'Ubiquiti UniFi • TP-Link Omada',
+        description: 'Flächendeckendes Firmen-WLAN: ausgemessen, installiert, überwacht.',
+        href: '/wlan',
     },
     {
         icon: Phone,

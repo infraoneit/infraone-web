@@ -68,6 +68,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: '/cloud-telefonie', priority: 1.0 },
         { url: '/digital-signage', priority: 0.9 },
         { url: '/it-netzwerke', priority: 0.8 },
+        { url: '/it-sicherheit', priority: 0.8 },
+        { url: '/microsoft-365', priority: 0.8 },
+        { url: '/wlan', priority: 0.8 },
         { url: '/videoueberwachung', priority: 0.8 },
         { url: '/software-entwicklung', priority: 0.8 },
     ];

@@ -74,6 +74,9 @@ Werbebildschirme und Infoscreens ohne monatliche Abo-Kosten.
 
 ### Weitere Leistungen
 - IT-Netzwerke: Planung, Installation, Wartung (Cisco, Ubiquiti, Fortinet) - /it-netzwerke
+- IT-Sicherheit: Firewall (Fortinet), Endpoint-Schutz (Sophos), Backup (Veeam/Synology), Patch-Management, Sensibilisierung - /it-sicherheit
+- Microsoft 365: Migration, Lizenzberatung, Teams/SharePoint/OneDrive, M365-Backup (Veeam), Betrieb - /microsoft-365
+- WLAN: Ausleuchtung und Installation von Firmen-WLAN (Ubiquiti UniFi, TP-Link Omada), Gaeste-WLAN, Ueberwachung - /wlan
 - Videoueberwachung: IP-Kameras (Hikvision, Axis, Dahua), NVR-Systeme - /videoueberwachung
 - KI & Software-Entwicklung: KI-Integration, Automatisierung, Software auf Mass - /software-entwicklung
 
@@ -118,6 +121,9 @@ Insgesamt ueber 200 betreute Kunden in der Deutschschweiz.
 - Cloud-Telefonie: https://infraone.ch/cloud-telefonie
 - Digital Signage: https://infraone.ch/digital-signage
 - IT-Netzwerke: https://infraone.ch/it-netzwerke
+- IT-Sicherheit: https://infraone.ch/it-sicherheit
+- Microsoft 365: https://infraone.ch/microsoft-365
+- WLAN: https://infraone.ch/wlan
 - Videoueberwachung: https://infraone.ch/videoueberwachung
 - KI & Software-Entwicklung: https://infraone.ch/software-entwicklung
 - Sitemap: https://infraone.ch/sitemap.xml

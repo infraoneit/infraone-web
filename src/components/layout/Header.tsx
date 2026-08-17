@@ -24,6 +24,9 @@ const navigation: NavItem[] = [
         href: '/leistungen',
         submenu: [
             { label: 'IT-Systeme & Netzwerke', href: '/it-netzwerke' },
+            { label: 'IT-Sicherheit', href: '/it-sicherheit' },
+            { label: 'Microsoft 365', href: '/microsoft-365' },
+            { label: 'WLAN', href: '/wlan' },
             { label: 'Telefonie & Kommunikation', href: '/telefonie' },
             { label: 'Videoüberwachung', href: '/videoueberwachung' },
             { label: 'KI & Software-Entwicklung', href: '/software-entwicklung' },

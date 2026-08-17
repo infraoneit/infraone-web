@@ -163,6 +163,18 @@ KI-Integration, Automatisierung und Software auf Mass fuer Schweizer KMU. Techno
 - Individuelle Software und Integrationen: Festofferte nach Analyse
 - Code gehoert dem Kunden, vollstaendige Dokumentation
 
+### 3.4 IT-Sicherheit
+
+Grundschutz fuer KMU statt Spezialtheater: Fortinet-Firewalls mit VPN, Sophos Endpoint-Schutz und Verschluesselung, Backup mit Veeam und Synology (Ruecksicherungen werden getestet), Patch-Management, Mehrfaktor-Anmeldung und Sensibilisierung der Mitarbeitenden. Laufender Schutz im IT-Dienstleistungsvertrag ab CHF 200 pro Monat. Vertiefte Penetrationstests ueber spezialisierte Partner. - /it-sicherheit
+
+### 3.5 Microsoft 365
+
+Einrichtung, Migration und Betrieb von Microsoft 365 fuer KMU: Postfach- und Datenmigration ohne Unterbruch, Lizenzberatung (Business Basic/Standard/Premium), Teams, SharePoint und OneDrive mit sauberen Berechtigungen, Mehrfaktor-Anmeldung und eigenes Backup mit Veeam (Microsoft sichert keine Inhalte gegen Loeschen). Festpreis-Migration nach vorab definiertem Umfang. - /microsoft-365
+
+### 3.6 WLAN
+
+Flaechendeckendes Firmen-WLAN: Ausleuchtung und Planung nach Grundriss und Bausubstanz, zentral verwaltbare Systeme von Ubiquiti UniFi und TP-Link Omada, nahtloses Roaming, sauber getrenntes Gaeste-WLAN, Verkabelung bei Bedarf mit Elektropartnern, Ueberwachung im laufenden Betrieb. Fuer Buero, Werkstatt, Lager und Gastro. - /wlan
+
 ---
 
 ## 4. Regional-Praesenz im Detail
@@ -399,6 +411,9 @@ Erstanfrage ueber https://infraone.ch/kontakt oder direkt unter 052 222 18 18.
 - Cloud-Telefonie: https://infraone.ch/cloud-telefonie
 - Digital Signage: https://infraone.ch/digital-signage
 - IT-Netzwerke: https://infraone.ch/it-netzwerke
+- IT-Sicherheit: https://infraone.ch/it-sicherheit
+- Microsoft 365: https://infraone.ch/microsoft-365
+- WLAN: https://infraone.ch/wlan
 - Videoueberwachung: https://infraone.ch/videoueberwachung
 - KI & Software-Entwicklung: https://infraone.ch/software-entwicklung
 
