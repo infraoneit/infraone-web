@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { 
     Phone, Monitor, MapPin, Clock, Users, Shield, ArrowRight, CheckCircle,
     Cloud, Wrench, Zap, Headphones, Globe, Mail, Server, HardDrive,
-    BarChart3, Lock, Settings, Smartphone, Laptop, Printer, Wifi, Download,
+    BarChart3, Lock, Settings, Smartphone, Laptop, Printer, Wifi,
     AlertTriangle, AlertCircle
 } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
@@ -20,6 +20,7 @@ import {
 import { BASE_URL } from '@/lib/constants';
 import { FAQList } from '@/components/ui/FAQList';
 import { SupportKostenRechner } from '@/components/tools/SupportKostenRechner';
+import { FernwartungDialog } from '@/components/support/FernwartungDialog';
 import { getITSupportData } from '@/lib/leistungen';
 
 export const metadata: Metadata = {
@@ -79,9 +80,7 @@ export default async function ITSupportPage() {
         primaryButtonHref: 'tel:+41522221818',
         secondaryButtonText: 'Remote-Support starten',
         secondaryButtonAction: 'download' as const,
-        secondaryButtonUrl: 'https://anydesk.com/de/downloads/thank-you?dv=win_exe',
-        secondaryButtonFile: '/downloads/Fernwartung-Infraone.zip',
-        secondaryButtonFileName: 'Fernwartung-Infraone.zip',
+        secondaryButtonUrl: '/kontakt',
     };
 
     const pricingSection = cmsData?.pricingSection ?? {
@@ -122,17 +121,11 @@ export default async function ITSupportPage() {
     const gridColumns = pricingSection.gridColumns || '4';
     const gridClass = gridColumnsMap[gridColumns] || gridColumnsMap['4'];
 
-    // Secondary Button Logik (vereinfacht: Link oder Download)
-    const isDownload = (heroSection.secondaryButtonAction === 'download') && heroSection.secondaryButtonFile;
-    const secondaryButtonHref = isDownload 
-        ? heroSection.secondaryButtonFile 
-        : (heroSection.secondaryButtonUrl || '#');
-    
-    // Prüfen ob externer Link (beginnt mit http)
-    const isExternalLink = !isDownload && secondaryButtonHref?.startsWith('http');
-    
-    // Download-Dateiname (Original oder aus CMS)
-    const downloadFileName = heroSection.secondaryButtonFileName || undefined;
+    // Secondary Button: Aktion "download" oeffnet die Fernwartung-Auswahl mit
+    // Windows- und macOS-Client, "link" bleibt ein gewoehnlicher Link.
+    const opensFernwartung = heroSection.secondaryButtonAction === 'download';
+    const secondaryButtonHref = heroSection.secondaryButtonUrl || '#';
+    const isExternalLink = secondaryButtonHref.startsWith('http');
 
     const regionsSection = cmsData?.regionsSection ?? {
         sectionTitle: 'IT-Support in Ihrer Region',
@@ -276,21 +269,24 @@ export default async function ITSupportPage() {
                                             {heroSection.primaryButtonText}
                                         </a>
                                     </Button>
-                                    <Button variant="outline" size="lg" asChild>
-                                        <a 
-                                            href={secondaryButtonHref}
-                                            target={isExternalLink ? '_blank' : undefined}
-                                            rel={isExternalLink ? 'noopener noreferrer' : undefined}
-                                            {...(isDownload ? { download: downloadFileName || '' } : {})}
-                                        >
-                                            {isDownload ? (
-                                                <Download className="w-5 h-5" />
-                                            ) : (
+                                    {opensFernwartung ? (
+                                        <FernwartungDialog
+                                            label={heroSection.secondaryButtonText}
+                                            variant="outline"
+                                            size="lg"
+                                        />
+                                    ) : (
+                                        <Button variant="outline" size="lg" asChild>
+                                            <a
+                                                href={secondaryButtonHref}
+                                                target={isExternalLink ? '_blank' : undefined}
+                                                rel={isExternalLink ? 'noopener noreferrer' : undefined}
+                                            >
                                                 <Monitor className="w-5 h-5" />
-                                            )}
-                                            {heroSection.secondaryButtonText}
-                                        </a>
-                                    </Button>
+                                                {heroSection.secondaryButtonText}
+                                            </a>
+                                        </Button>
+                                    )}
                                 </div>
                             </AnimatedSection>
                         </div>

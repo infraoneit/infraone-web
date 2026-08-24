@@ -67,24 +67,24 @@ export default config({
                         description: 'Was passiert beim Klick?',
                         options: [
                             { label: 'Link oeffnen (URL/Seite)', value: 'link' },
-                            { label: 'Datei herunterladen', value: 'download' },
+                            { label: 'Fernwartung-Auswahl oeffnen (Windows/macOS)', value: 'download' },
                         ],
                         defaultValue: 'link',
                     }),
                     secondaryButtonUrl: fields.text({
                         label: 'Button 2: URL (fuer Link)',
-                        description: 'Wird geoeffnet wenn Aktion = Link. z.B. "https://anydesk.com/..." oder "/kontakt"',
-                        defaultValue: 'https://anydesk.com/de/downloads/thank-you?dv=win_exe',
+                        description: 'Wird geoeffnet wenn Aktion = Link. z.B. "/kontakt" oder eine vollstaendige Adresse.',
+                        defaultValue: '/kontakt',
                     }),
                     secondaryButtonFile: fields.file({
-                        label: 'Button 2: Datei (fuer Download)',
-                        description: 'Wird heruntergeladen wenn Aktion = Datei herunterladen.',
+                        label: 'Button 2: Datei (nicht mehr verwendet)',
+                        description: 'Wird nicht mehr ausgewertet. Die Fernwartung-Auswahl liefert Windows- und macOS-Client direkt aus (siehe src/components/support/FernwartungDialog.tsx).',
                         directory: 'public/downloads',
                         publicPath: '/downloads/',
                     }),
                     secondaryButtonFileName: fields.text({
-                        label: 'Button 2: Download-Dateiname',
-                        description: 'Wie soll die Datei beim Download heissen? z.B. "AnyDesk.exe" oder "Remote-Support.zip"',
+                        label: 'Button 2: Download-Dateiname (nicht mehr verwendet)',
+                        description: 'Wird nicht mehr ausgewertet.',
                     }),
                 }, {
                     label: 'HERO-BEREICH',
