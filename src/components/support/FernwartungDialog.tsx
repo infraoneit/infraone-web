@@ -26,7 +26,7 @@ const DOWNLOAD_OPTIONS: DownloadOption[] = [
         fileName: 'Fernwartung-Infraone.zip',
         steps: [
             'ZIP-Datei entpacken',
-            'Programm doppelklicken – installieren muss man nichts',
+            'Programm doppelklicken und installieren – die Installation ist nötig, damit sich der Client mit unserem Server verbindet',
             'ID und Kennwort durchgeben',
         ],
     },
