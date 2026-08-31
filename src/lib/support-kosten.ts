@@ -54,20 +54,25 @@ export function formatCHF(betrag: number): string {
 }
 
 // ---------------------------------------------------------------------------
-// RICHTPREISE - vom Inhaber am 07.08.2026 ausdruecklich freigegeben
-// («ja mache das mit diesen preisen»). Werte gemäss AUFTRAG-010,
-// KEINE eigenen Annahmen. Modus «Regelmässige Betreuung» im Kostenrechner.
+// RICHTPREISE - überarbeitet am 31.08.2026 auf Anweisung des Inhabers:
+// Der Dienstleistungsvertrag ist KEIN Komplett-Outsourcing (kein Managed
+// Workplace, keine virtuellen Arbeitsplätze) — der alte Preis von CHF 252
+// pro Arbeitsplatz war dafür viel zu hoch. Neues Modell: Grundpauschale für
+// Monitoring, Verwaltung und Erreichbarkeit + kleiner Betrag pro Gerät;
+// Supporteinsätze und Dienstleistungen werden nach Aufwand zum Stundensatz
+// verrechnet. Modus «Regelmässige Betreuung» im Kostenrechner.
 // ---------------------------------------------------------------------------
-// CHF 252 pro Arbeitsplatz/Monat — inbegriffen: Betrieb & Support der
-// Arbeitsplätze, bis 3 Server, Netzwerk-Management, Security-Grundschutz, 1 Standort
-export const BETREUUNG_PREIS_PRO_ARBEITSPLATZ = 252;
-export const BETREUUNG_SERVER_INBEGRIFFEN = 3; // bis 3 Server im Arbeitsplatzpreis enthalten
-export const BETREUUNG_PREIS_ZUSATZSERVER = 150; // je Server ab dem 4., pro Monat
+// Grundpauschale (inkl. 1. Arbeitsplatz): Monitoring & Alarmierung,
+// Patch-/Update-Management, Verwaltung, direkte Erreichbarkeit,
+// Security-Grundschutz — entspricht dem kommunizierten «ab CHF 200/Monat».
+export const BETREUUNG_GRUNDPAUSCHALE = 200;
+export const BETREUUNG_PREIS_WEITERER_ARBEITSPLATZ = 40; // je Arbeitsplatz ab dem 2., pro Monat
+export const BETREUUNG_PREIS_PRO_SERVER = 50; // je Server, pro Monat
 export const BETREUUNG_PREIS_ZUSATZSTANDORT = 50; // je Standort ab dem 2., pro Monat
 export const BETREUUNG_PREIS_ERWEITERTE_SECURITY_PRO_PLATZ = 15; // pro Arbeitsplatz/Monat
 export const BETREUUNG_MINIMUM = 200; // Untergrenze: nie unter CHF 200/Mt.
-// Vor-Ort-Support-Wunsch und Microsoft 365 ändern den Richtpreis NICHT
-// (fliessen nur als Info in die Anfrage-Mail).
+// Netzwerk-Management, Vor-Ort-Support-Wunsch und Microsoft 365 ändern den
+// Richtpreis NICHT (fliessen nur als Info in die Anfrage-Mail).
 
 export interface BetreuungKonfiguration {
     arbeitsplaetze: number; // 1–100
@@ -89,16 +94,23 @@ export interface BetreuungRichtpreis {
 export function berechneBetreuungRichtpreis(konfig: BetreuungKonfiguration): BetreuungRichtpreis {
     const positionen: BetreuungPosition[] = [
         {
-            label: `${konfig.arbeitsplaetze} Arbeitsplätze × CHF ${BETREUUNG_PREIS_PRO_ARBEITSPLATZ} (Betrieb, Support, Verwaltung)`,
-            preis: konfig.arbeitsplaetze * BETREUUNG_PREIS_PRO_ARBEITSPLATZ,
+            label: `Grundpauschale (Monitoring, Verwaltung, Erreichbarkeit — inkl. 1 Arbeitsplatz)`,
+            preis: BETREUUNG_GRUNDPAUSCHALE,
         },
     ];
 
-    const zusatzServer = Math.max(0, konfig.server - BETREUUNG_SERVER_INBEGRIFFEN);
-    if (zusatzServer > 0) {
+    const weitereArbeitsplaetze = Math.max(0, konfig.arbeitsplaetze - 1);
+    if (weitereArbeitsplaetze > 0) {
         positionen.push({
-            label: `${zusatzServer} Zusatzserver (ab dem 4.) × CHF ${BETREUUNG_PREIS_ZUSATZSERVER}`,
-            preis: zusatzServer * BETREUUNG_PREIS_ZUSATZSERVER,
+            label: `${weitereArbeitsplaetze} weitere Arbeitsplätze × CHF ${BETREUUNG_PREIS_WEITERER_ARBEITSPLATZ}`,
+            preis: weitereArbeitsplaetze * BETREUUNG_PREIS_WEITERER_ARBEITSPLATZ,
+        });
+    }
+
+    if (konfig.server > 0) {
+        positionen.push({
+            label: `${konfig.server} Server × CHF ${BETREUUNG_PREIS_PRO_SERVER}`,
+            preis: konfig.server * BETREUUNG_PREIS_PRO_SERVER,
         });
     }
 
