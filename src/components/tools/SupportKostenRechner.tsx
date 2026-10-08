@@ -414,7 +414,7 @@ export function SupportKostenRechner({
             <p className="text-sm text-text-secondary text-center">
                 Monatliche Pauschale für Monitoring, Verwaltung und direkte Erreichbarkeit –
                 Supporteinsätze, Projekte, Hardware und Lizenzen nach Aufwand
-                (Remote CHF 130/h, vor Ort CHF 157/h).
+                (Remote CHF 145/h, vor Ort CHF 157/h).
             </p>
             <p className="text-sm text-text-secondary text-center mb-3">
                 Verbindliche Offerte innert zwei Arbeitstagen. Monatlich kündbar, keine Mindestlaufzeit.

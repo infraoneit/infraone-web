@@ -206,7 +206,7 @@ const coverGraphics = {
     /* Balkendiagramm mit echten Tarifen (Preisliste/Artikel) */
     'it-support-kosten-schweiz': ({ gx, gy, gw }) => {
         const rows = [
-            { label: 'Remote-Support', value: 130, txt: 'CHF 130/h' },
+            { label: 'Remote-Support', value: 145, txt: 'CHF 145/h' },
             { label: 'Vor-Ort Privat', value: 145, txt: 'CHF 145/h' },
             { label: 'Vor-Ort KMU', value: 157, txt: 'CHF 157/h' },
             { label: 'Wartungsvertrag', value: 200, txt: 'ab CHF 200/Mt.' },

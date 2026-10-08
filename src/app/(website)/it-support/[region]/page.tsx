@@ -28,7 +28,7 @@ const services = [
 
 const generalFaqs = [
     { question: 'Wie schnell können Sie helfen?', answer: 'Remote-Support ist meist innert 15 Minuten verfügbar. Bei Vor-Ort-Einsätzen je nach Region und Verfügbarkeit oft innerhalb weniger Stunden.' },
-    { question: 'Was kostet der IT-Support?', answer: 'Remote-Support: ab CHF 130/h (Min. 15 Min.). Vor-Ort-Support: ab CHF 145/h (Min. 30 Min.). Zuschläge für Abend-/Wochenend-/Feiertagseinsätze.' },
+    { question: 'Was kostet der IT-Support?', answer: 'Remote-Support: ab CHF 145/h (Min. 15 Min.). Vor-Ort-Support: ab CHF 145/h (Min. 30 Min.). Zuschläge für Abend-/Wochenend-/Feiertagseinsätze.' },
     { question: 'Betreuen Sie auch Privatpersonen?', answer: 'Ja! Wir helfen sowohl KMU als auch Privatpersonen bei allen IT-Problemen – vom langsamen PC bis zum Virenbefall.' },
     { question: 'Wie läuft Remote-Support ab?', answer: 'Sie erhalten von uns einen sicheren Zugangslink. Nach Ihrer Freigabe können wir direkt an Ihrem Gerät arbeiten – meist ist das Problem innert Minuten gelöst.' },
 ];
@@ -192,7 +192,7 @@ export default async function ITSupportRegionPage({ params }: { params: Promise<
                             <div className="p-6 rounded-2xl bg-card border border-border text-center">
                                 <Monitor className="w-8 h-8 text-primary mx-auto mb-4" />
                                 <h3 className="font-bold text-text-primary mb-2">Remote-Support</h3>
-                                <p className="text-3xl font-bold text-primary mb-2">ab CHF 130.–/h</p>
+                                <p className="text-3xl font-bold text-primary mb-2">ab CHF 145.–/h</p>
                                 <p className="text-sm text-text-secondary">Schnellste Lösung – meist innert 15 Minuten</p>
                                 <p className="text-xs text-text-secondary mt-2">Mindestverrechnung: 15 Minuten</p>
                             </div>

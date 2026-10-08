@@ -18,7 +18,7 @@ const services = [
 // General FAQs
 const faqs = [
     { question: 'Wie schnell können Sie helfen?', answer: 'Remote-Support ist meist innert 15 Minuten verfügbar. Bei Vor-Ort-Einsätzen je nach Region und Verfügbarkeit oft innerhalb weniger Stunden.' },
-    { question: 'Was kostet der IT-Support?', answer: 'Remote-Support: ab CHF 130/h (Min. 15 Min.). Vor-Ort-Support: ab CHF 145/h (Min. 30 Min.). Zuschläge für Abend-/Wochenend-/Feiertagseinsätze.' },
+    { question: 'Was kostet der IT-Support?', answer: 'Remote-Support: ab CHF 145/h (Min. 15 Min.). Vor-Ort-Support: ab CHF 145/h (Min. 30 Min.). Zuschläge für Abend-/Wochenend-/Feiertagseinsätze.' },
     { question: 'Betreuen Sie auch Privatpersonen?', answer: 'Ja! Wir helfen sowohl KMU als auch Privatpersonen bei allen IT-Problemen – vom langsamen PC bis zum Virenbefall.' },
     { question: 'Wie läuft Remote-Support ab?', answer: 'Sie erhalten von uns einen sicheren Zugangslink. Nach Ihrer Freigabe können wir direkt an Ihrem Gerät arbeiten – meist ist das Problem innert Minuten gelöst.' },
 ];
@@ -47,7 +47,7 @@ const regionalContent: Record<string, RegionalData> = {
         description: 'Schnelle Problemlösung, faire Preise, persönlicher Service. Remote-Support innert Minuten oder Vor-Ort-Einsatz bei Ihnen.',
         intro: 'In der Schweiz sind über 600\'000 KMU auf funktionierende IT angewiesen. Wenn der Computer streikt oder das Netzwerk ausfällt, brauchen Sie schnelle und kompetente Hilfe. Genau das bieten wir: IT-Support, der Probleme löst statt neue zu schaffen. Unser Team aus erfahrenen Technikern betreut Unternehmen und Privatpersonen in der gesamten Deutschschweiz. Ob Windows oder Mac, Netzwerk oder Cloud – wir sprechen Ihre Sprache und finden die Lösung.',
         localBenefits: ['Schnelle Reaktionszeit', 'Faire Stundenpreise', 'Remote & Vor-Ort', 'KMU & Privat'],
-        stats: [{ label: 'Remote-Support ab', value: 'CHF 130/h' }, { label: 'Mindestverrechnung', value: '15 Min' }],
+        stats: [{ label: 'Remote-Support ab', value: 'CHF 145/h' }, { label: 'Mindestverrechnung', value: '15 Min' }],
         localFaq: { question: 'In welchen Regionen bieten Sie Vor-Ort-Support an?', answer: 'Wir betreuen primär die Regionen Zürich, Winterthur, Schaffhausen, Thurgau und St. Gallen. Remote-Support ist schweizweit verfügbar.' },
         anfahrt: 'Je nach Region',
         regionalImage: '/images/hero_it_network_1768423176860.webp',
@@ -227,7 +227,7 @@ export function ITSupportContent({ regionSlug }: ITSupportContentProps) {
                             <div className="p-6 rounded-2xl bg-card border border-border text-center hover:-translate-y-[5px] transition-transform duration-300">
                                 <Monitor className="w-8 h-8 text-primary mx-auto mb-4" />
                                 <h3 className="font-bold text-text-primary mb-2">Remote-Support</h3>
-                                <p className="text-3xl font-bold text-primary mb-2">ab CHF 130.–/h</p>
+                                <p className="text-3xl font-bold text-primary mb-2">ab CHF 145.–/h</p>
                                 <p className="text-sm text-text-secondary">Schnellste Lösung – meist innert 15 Minuten</p>
                                 <p className="text-xs text-text-secondary mt-2">Mindestverrechnung: 15 Minuten</p>
                             </div>

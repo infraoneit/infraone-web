@@ -1,5 +1,5 @@
 // Preislogik für den Support-Kostenrechner auf /it-support.
-// Nur reale Preise (Stand Preisliste): Remote CHF 130/h (15-Min-Takt,
+// Nur reale Preise (Stand Preisliste): Remote CHF 145/h (15-Min-Takt,
 // Mindestverrechnung 15 Min), Vor-Ort KMU CHF 157/h (Mindestverrechnung 30 Min),
 // Anfahrtspauschale CHF 50 (Winterthur und Andelfingen: keine).
 // Zuschläge: Mo–Fr 17–23 Uhr +25 %, Sa/So/Feiertage +50 %.
@@ -7,7 +7,7 @@
 export type Zeitfenster = 'buerozeiten' | 'abend' | 'wochenende';
 export type Region = 'winterthur-andelfingen' | 'uebrige-deutschschweiz';
 
-export const REMOTE_STUNDENSATZ = 130;
+export const REMOTE_STUNDENSATZ = 145;
 export const VOR_ORT_STUNDENSATZ = 157;
 export const ANFAHRT_PAUSCHALE = 50;
 
