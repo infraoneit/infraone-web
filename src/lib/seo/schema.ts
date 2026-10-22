@@ -1557,3 +1557,28 @@ export function generateDigitalSignageSpokeSchema(
 
     return baseSchema;
 }
+
+/**
+ * Generiert Service Schema für /ki-telefonassistent (AUFTRAG-092)
+ * Bewusst ohne Angebote/Preise (keine Preise auf dieser Seite).
+ */
+export function generateKiTelefonassistentServiceSchema(description: string) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/ki-telefonassistent#service`,
+        name: 'KI-Telefonassistent',
+        alternateName: ['KI-Telefonassistent auf Schweizerdeutsch', 'Telefonassistent mit künstlicher Intelligenz'],
+        serviceType: ['KI-Telefonassistent', 'Voicebot', 'Telefonassistenz'],
+        description,
+        provider: { '@id': `${BASE_URL}/#organization` },
+        url: `${BASE_URL}/ki-telefonassistent`,
+        areaServed: { '@type': 'Country', name: 'Switzerland' },
+        availableLanguage: [
+            { '@type': 'Language', name: 'Schweizerdeutsch', alternateName: 'gsw' },
+            { '@type': 'Language', name: 'Deutsch', alternateName: 'de' },
+            { '@type': 'Language', name: 'Englisch', alternateName: 'en' },
+        ],
+        isRelatedTo: { '@id': `${BASE_URL}/cloud-telefonie#service` },
+    };
+}

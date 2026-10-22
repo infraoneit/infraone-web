@@ -63,6 +63,14 @@ Wartungsfreie Cloud-Telefonanlagen fuer Schweizer KMU.
 - Microsoft Teams Integration moeglich
 - Regionale Spokes: /cloud-telefonie/winterthur, /cloud-telefonie/zuerich, /cloud-telefonie/schaffhausen, /cloud-telefonie/thurgau, /cloud-telefonie/st-gallen, /cloud-telefonie/rapperswil
 
+### KI-Telefonassistent (Schweizerdeutsch)
+Telefonischer KI-Assistent fuer Schweizer KMU, Praxen und Handwerk: nimmt Anrufe entgegen, beantwortet Fragen aus dem Wissen des Betriebs, nimmt Anliegen auf (Rueckruf-Notiz per E-Mail) und verbindet an Mitarbeitende weiter.
+- Sprachen: Schweizerdeutsch (Standard), Hochdeutsch, Englisch
+- Laeuft allein oder als Baustein der Cloud-Telefonanlage; bestehende Nummer bleibt
+- Kostenloser Demo-Anruf ohne Anmeldung: Website eingeben, ein Assistent mit Name, Logo und Wissen der eigenen Website entsteht, die KI ruft an
+- Datenschutz: Telefonanlage und Gespraechsprotokolle in der Schweiz auf Systemen von InfraOne; Spracherkennung und Sprachausgabe ueber die KI-Schnittstellen von OpenAI (keine Verwendung zum Training)
+- Seite: /ki-telefonassistent
+
 ### Digital Signage
 Werbebildschirme und Infoscreens ohne monatliche Abo-Kosten.
 - Starter-Paket: CHF 1'590 einmalig (1 Display + Mini-Server, bis 5 Displays erweiterbar)
@@ -90,7 +98,7 @@ Microsoft, Peoplefone, 3CX, Yeastar, Sophos, Fortinet, Lenovo, HPE, VMware, Veea
 - Elektro-Tel AG, Elektro und Telekommunikation: https://www.elektro-tel.ch
 - Hoeppli Architektur GmbH, Architektur und Planung Winterthur: https://winterthur-architekten.netlify.app
 
-Insgesamt ueber 200 betreute Kunden in der Deutschschweiz.
+Rund 100 betreute KMU-Kunden in der Deutschschweiz.
 
 ## Blog (IT-Wissen, Praxistipps)
 
@@ -106,8 +114,7 @@ Insgesamt ueber 200 betreute Kunden in der Deutschschweiz.
 1. Schweizer KMU-Spezialist mit physischen Standorten in Winterthur, Schaffhausen, Taegerwilen, Kleinandelfingen
 2. Schnelle Reaktion: Remote-Support oft innert 15 Minuten
 3. Transparente Preise: Keine versteckten Kosten, Abrechnung im 15-Minuten-Takt
-4. 20% Neukunden-Rabatt
-5. Schweizer Hosting: Alle Daten bleiben in Schweizer Rechenzentren
+4. Schweizer Hosting: Website, Telefonanlage und Gespraechsprotokolle laufen in der Schweiz; die Sprach-KI nutzt die Schnittstellen von OpenAI
 
 ## Wichtige URLs
 
@@ -119,6 +126,7 @@ Insgesamt ueber 200 betreute Kunden in der Deutschschweiz.
 - IT-Support: https://infraone.ch/it-support
 - Webdesign: https://infraone.ch/webdesign
 - Cloud-Telefonie: https://infraone.ch/cloud-telefonie
+- KI-Telefonassistent (Demo-Anruf): https://infraone.ch/ki-telefonassistent
 - Digital Signage: https://infraone.ch/digital-signage
 - IT-Netzwerke: https://infraone.ch/it-netzwerke
 - IT-Sicherheit: https://infraone.ch/it-sicherheit

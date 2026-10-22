@@ -1,0 +1,44 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A120A"/>
+      <stop offset="55%" stop-color="#132413"/>
+      <stop offset="100%" stop-color="#1F4A24"/>
+    </linearGradient>
+    <linearGradient id="balken" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8FD694"/>
+      <stop offset="45%" stop-color="#4CAF50"/>
+      <stop offset="100%" stop-color="#3D9646"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4CAF50" stop-opacity="0.38"/>
+      <stop offset="100%" stop-color="#4CAF50" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="punkte" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.6" fill="#FFFFFF" opacity="0.045"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#punkte)"/>
+
+  <!-- Wortmarke -->
+  <text x="72" y="96" font-family="Geist, Arial, sans-serif" font-size="30" font-weight="600" fill="#FFFFFF">Infra<tspan fill="#8FD694">One</tspan></text>
+
+  <!-- Pille -->
+  <rect x="72" y="138" width="372" height="42" rx="21" fill="#3D9646"/>
+  <text x="258" y="166" text-anchor="middle" font-family="Geist, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="2.5" fill="#FFFFFF">DEMO-ANRUF IN EINER MINUTE</text>
+
+  <!-- Headline -->
+  <text font-family="Geist, Arial, sans-serif" font-weight="700" fill="#FFFFFF">
+    <tspan x="72" y="262" font-size="64">KI-Telefonassistent</tspan>
+    <tspan x="72" y="338" font-size="64">auf <tspan fill="#8FD694">Schweizerdeutsch</tspan></tspan>
+  </text>
+  <text x="72" y="396" font-family="Geist, Arial, sans-serif" font-size="26" font-weight="400" fill="#CFE3CF">Website eingeben – Assistent entsteht – die KI ruft Sie an.</text>
+
+  <!-- Wellenform -->
+  <ellipse cx="600" cy="520" rx="560" ry="120" fill="url(#glow)"/>
+  <line x1="72" y1="520" x2="1128" y2="520" stroke="#4CAF50" stroke-opacity="0.35" stroke-width="1.5"/>
+  <rect x="76.2" y="511.0" width="10.4" height="18.0" rx="5.2" fill="url(#balken)"/><rect x="95.1" y="508.3" width="10.4" height="23.4" rx="5.2" fill="url(#balken)"/><rect x="114.0" y="508.3" width="10.4" height="23.3" rx="5.2" fill="url(#balken)"/><rect x="132.8" y="504.0" width="10.4" height="32.1" rx="5.2" fill="url(#balken)"/><rect x="151.7" y="504.0" width="10.4" height="32.1" rx="5.2" fill="url(#balken)"/><rect x="170.5" y="500.8" width="10.4" height="38.4" rx="5.2" fill="url(#balken)"/><rect x="189.4" y="500.0" width="10.4" height="40.0" rx="5.2" fill="url(#balken)"/><rect x="208.2" y="500.3" width="10.4" height="39.4" rx="5.2" fill="url(#balken)"/><rect x="227.1" y="498.0" width="10.4" height="44.0" rx="5.2" fill="url(#balken)"/><rect x="246.0" y="502.8" width="10.4" height="34.4" rx="5.2" fill="url(#balken)"/><rect x="264.8" y="498.9" width="10.4" height="42.3" rx="5.2" fill="url(#balken)"/><rect x="283.7" y="504.2" width="10.4" height="31.6" rx="5.2" fill="url(#balken)"/><rect x="302.5" y="501.4" width="10.4" height="37.3" rx="5.2" fill="url(#balken)"/><rect x="321.4" y="503.5" width="10.4" height="33.0" rx="5.2" fill="url(#balken)"/><rect x="340.2" y="502.7" width="10.4" height="34.6" rx="5.2" fill="url(#balken)"/><rect x="359.1" y="499.9" width="10.4" height="40.3" rx="5.2" fill="url(#balken)"/><rect x="378.0" y="500.8" width="10.4" height="38.4" rx="5.2" fill="url(#balken)"/><rect x="396.8" y="490.8" width="10.4" height="58.4" rx="5.2" fill="url(#balken)"/><rect x="415.7" y="494.9" width="10.4" height="50.1" rx="5.2" fill="url(#balken)"/><rect x="434.5" y="477.5" width="10.4" height="85.1" rx="5.2" fill="url(#balken)"/><rect x="453.4" y="478.1" width="10.4" height="83.8" rx="5.2" fill="url(#balken)"/><rect x="472.2" y="465.7" width="10.4" height="108.6" rx="5.2" fill="url(#balken)"/><rect x="491.1" y="460.0" width="10.4" height="120.1" rx="5.2" fill="url(#balken)"/><rect x="510.0" y="462.4" width="10.4" height="115.2" rx="5.2" fill="url(#balken)"/><rect x="528.8" y="448.9" width="10.4" height="142.3" rx="5.2" fill="url(#balken)"/><rect x="547.7" y="469.8" width="10.4" height="100.4" rx="5.2" fill="url(#balken)"/><rect x="566.5" y="450.9" width="10.4" height="138.2" rx="5.2" fill="url(#balken)"/><rect x="585.4" y="470.7" width="10.4" height="98.7" rx="5.2" fill="url(#balken)"/><rect x="604.2" y="464.6" width="10.4" height="110.7" rx="5.2" fill="url(#balken)"/><rect x="623.1" y="475.3" width="10.4" height="89.5" rx="5.2" fill="url(#balken)"/><rect x="642.0" y="482.1" width="10.4" height="75.8" rx="5.2" fill="url(#balken)"/><rect x="660.8" y="483.9" width="10.4" height="72.2" rx="5.2" fill="url(#balken)"/><rect x="679.7" y="495.3" width="10.4" height="49.4" rx="5.2" fill="url(#balken)"/><rect x="698.5" y="489.9" width="10.4" height="60.3" rx="5.2" fill="url(#balken)"/><rect x="717.4" y="498.8" width="10.4" height="42.3" rx="5.2" fill="url(#balken)"/><rect x="736.2" y="490.2" width="10.4" height="59.6" rx="5.2" fill="url(#balken)"/><rect x="755.1" y="492.5" width="10.4" height="55.1" rx="5.2" fill="url(#balken)"/><rect x="774.0" y="487.6" width="10.4" height="64.8" rx="5.2" fill="url(#balken)"/><rect x="792.8" y="484.0" width="10.4" height="71.9" rx="5.2" fill="url(#balken)"/><rect x="811.7" y="487.0" width="10.4" height="66.0" rx="5.2" fill="url(#balken)"/><rect x="830.5" y="478.7" width="10.4" height="82.5" rx="5.2" fill="url(#balken)"/><rect x="849.4" y="490.8" width="10.4" height="58.4" rx="5.2" fill="url(#balken)"/><rect x="868.2" y="480.3" width="10.4" height="79.4" rx="5.2" fill="url(#balken)"/><rect x="887.1" y="489.6" width="10.4" height="60.9" rx="5.2" fill="url(#balken)"/><rect x="906.0" y="488.1" width="10.4" height="63.9" rx="5.2" fill="url(#balken)"/><rect x="924.8" y="493.2" width="10.4" height="53.7" rx="5.2" fill="url(#balken)"/><rect x="943.7" y="498.2" width="10.4" height="43.6" rx="5.2" fill="url(#balken)"/><rect x="962.5" y="500.1" width="10.4" height="39.8" rx="5.2" fill="url(#balken)"/><rect x="981.4" y="506.8" width="10.4" height="26.3" rx="5.2" fill="url(#balken)"/><rect x="1000.2" y="507.0" width="10.4" height="26.0" rx="5.2" fill="url(#balken)"/><rect x="1019.1" y="511.3" width="10.4" height="17.4" rx="5.2" fill="url(#balken)"/><rect x="1038.0" y="511.6" width="10.4" height="16.9" rx="5.2" fill="url(#balken)"/><rect x="1056.8" y="513.1" width="10.4" height="13.8" rx="5.2" fill="url(#balken)"/><rect x="1075.7" y="513.4" width="10.4" height="13.2" rx="5.2" fill="url(#balken)"/><rect x="1094.5" y="513.2" width="10.4" height="13.6" rx="5.2" fill="url(#balken)"/><rect x="1113.4" y="513.3" width="10.4" height="13.4" rx="5.2" fill="url(#balken)"/>
+
+  <text x="1128" y="96" text-anchor="end" font-family="Geist, Arial, sans-serif" font-size="22" font-weight="500" fill="#CFE3CF">infraone.ch/ki-telefonassistent</text>
+</svg>

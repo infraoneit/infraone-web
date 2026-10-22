@@ -68,6 +68,16 @@ Peoplefone bietet zwei vPBX-Modelle: vPBX Basic (1-10 User, Standardfunktionen) 
 
 Beispielkonfiguration: 20 Benutzer mit vPBX Plus plus Flatrate CH+EU plus 1 Gbit/s Internet plus fixe IP plus Nummernblock 6-10 ab CHF 151 pro Monat.
 
+### 2.1a KI-Telefonassistent (Schweizerdeutsch)
+
+Der KI-Telefonassistent von InfraOne nimmt Anrufe rund um die Uhr entgegen, beantwortet Fragen aus dem Wissen des Betriebs (nie erfunden), nimmt Anliegen mit Rueckruf-Notiz per E-Mail auf und verbindet an Mitarbeitende oder definierte Nummern weiter, nachdem er geprueft hat, wer frei ist. Er versteht Schweizerdeutsch und antwortet auf Schweizerdeutsch; Hochdeutsch und Englisch sind ebenfalls moeglich.
+
+Einsatz: allein oder als Baustein der Cloud-Telefonanlage, die bestehende Nummer bleibt. Typische Betriebe: Praxen (Arzt, Zahnarzt, Physio), Handwerk und Elektro, Garagen, Treuhand und Beratung, Gastronomie, KMU mit Empfang.
+
+Demo: Auf https://infraone.ch/ki-telefonassistent gibt man die eigene Website ein. Die Seite liest die oeffentliche Website (Leistungen, Kontakt, Oeffnungszeiten, Logo, Farben), baut daraus einen Assistenten mit Namen, Auftritt und Wissen der Firma und ruft auf Wunsch die angegebene Schweizer oder Liechtensteiner Nummer an. Kostenlos, ohne Anmeldung, keine Werbeanrufe; die Nummer wird fuer diesen Anruf und fuer eine Rueckmeldung bei Fragen verwendet, nicht fuer Werbung.
+
+Datenschutz und Technik: Telefonanlage und Gespraechsprotokolle laufen in der Schweiz auf Systemen von InfraOne. Fuer Spracherkennung und Sprachausgabe werden die KI-Schnittstellen von OpenAI genutzt; Gespraechsinhalte werden dort nicht zum Training verwendet. Mitschnitte im Kundenbetrieb nur mit Einwilligung beider Seiten.
+
 ### 2.2 Webdesign
 
 InfraOne entwickelt Websites mit drei Technologie-Stacks: Wix, WordPress und Next.js mit Keystatic CMS. Das Pricing-Modell ist transparent in drei Pakete strukturiert:
@@ -409,6 +419,7 @@ Erstanfrage ueber https://infraone.ch/kontakt oder direkt unter 052 222 18 18.
 - IT-Support: https://infraone.ch/it-support
 - Webdesign: https://infraone.ch/webdesign
 - Cloud-Telefonie: https://infraone.ch/cloud-telefonie
+- KI-Telefonassistent (Demo-Anruf): https://infraone.ch/ki-telefonassistent
 - Digital Signage: https://infraone.ch/digital-signage
 - IT-Netzwerke: https://infraone.ch/it-netzwerke
 - IT-Sicherheit: https://infraone.ch/it-sicherheit

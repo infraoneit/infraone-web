@@ -30,6 +30,8 @@ export function ContactSection({
     const [status, setStatus] = useState<FormStatus>('idle');
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
+    // Dynamischer Betreff aus der KI-Demo (AUFTRAG-092): «KI-Telefonassistent für FIRMA»
+    const [zusatzBetreff, setZusatzBetreff] = useState<string | null>(null);
 
     // Vorbefuellung per Query-Parameter (z. B. Uebergabe einer Rechner-Konfiguration):
     // /kontakt?subject=Telefonie%20und%20Kommunikation&message=Konfiguration%20...
@@ -38,6 +40,9 @@ export function ContactSection({
         const paramSubject = params.get('subject');
         const paramMessage = params.get('message');
         if (paramSubject && VALID_SUBJECTS.includes(paramSubject)) {
+            setSubject(paramSubject);
+        } else if (paramSubject && /^KI-Telefonassistent für [^<>\r\n]{1,100}$/.test(paramSubject)) {
+            setZusatzBetreff(paramSubject);
             setSubject(paramSubject);
         }
         if (paramMessage) {
@@ -278,6 +283,7 @@ export function ContactSection({
                                             <option value="Webdesign">Webdesign</option>
                                             <option value="KI & Software-Entwicklung">KI &amp; Software-Entwicklung</option>
                                             <option value="Andere Anfrage">Andere Anfrage</option>
+                                            {zusatzBetreff && <option value={zusatzBetreff}>{zusatzBetreff}</option>}
                                         </select>
                                     </div>
 

@@ -1,0 +1,280 @@
+/* KI-Telefonassistent-Demo (AUFTRAG-092): atmende Stimm-Wellenform.
+   Reines CSS (keine Canvas-Animation). Die Farbe kommt über --welle und
+   gleitet von InfraOne-Grün zur Firmenfarbe des Besuchers. */
+
+@property --welle {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #4caf50;
+}
+
+.welle {
+    --welle: #4caf50;
+    position: relative;
+    width: 100%;
+    height: var(--welle-hoehe, 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+    /* Balkenbreite relativ zur Bühne (nicht zum Fenster): nie abgeschnitten */
+    container-type: inline-size;
+    transition: --welle 1.4s ease;
+}
+
+.glow {
+    position: absolute;
+    inset: 8% 12%;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in oklab, var(--welle) 42%, transparent), transparent 75%);
+    filter: blur(22px);
+    animation: glow 3.6s ease-in-out infinite;
+}
+
+.balken {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.5px, 0.8cqi, 5px);
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.balken > span {
+    flex: 0 0 auto;
+    width: clamp(2px, 1.15cqi, 7px);
+    height: calc(var(--h) * 100%);
+    border-radius: 999px;
+    background: linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--welle) 55%, white) 0%,
+        var(--welle) 45%,
+        color-mix(in oklab, var(--welle) 72%, black) 100%
+    );
+    box-shadow: 0 0 12px color-mix(in oklab, var(--welle) 35%, transparent);
+    transform: scaleY(0.55);
+    transform-origin: center;
+    animation: atmen 3.6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -95ms);
+    will-change: transform;
+}
+
+/* Grundlinie */
+.balken::after {
+    content: '';
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--welle) 45%, transparent), transparent);
+    z-index: -1;
+}
+
+.ringe > span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border-radius: 50%;
+    border: 2px solid var(--welle);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Scan: schneller, mit Lichtkante, die über die Wellenform läuft */
+.welle[data-modus='scan'] .balken > span {
+    animation-duration: 1.15s;
+}
+
+.welle[data-modus='scan'] .balken::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 22%;
+    background: linear-gradient(90deg, transparent, color-mix(in oklab, white 40%, transparent), transparent);
+    mix-blend-mode: soft-light;
+    animation: streifen 1.6s linear infinite;
+}
+
+.welle[data-modus='klingeln'] .ringe > span {
+    animation: ring 2.4s ease-out infinite;
+}
+
+.welle[data-modus='klingeln'] .ringe > span:nth-child(2) {
+    animation-delay: 0.8s;
+}
+
+.welle[data-modus='klingeln'] .ringe > span:nth-child(3) {
+    animation-delay: 1.6s;
+}
+
+.welle[data-modus='klingeln'] .balken > span {
+    animation-duration: 2.4s;
+}
+
+.welle[data-modus='sprechen'] .balken > span {
+    animation-name: sprechen;
+    animation-duration: 1.05s;
+}
+
+.welle[data-modus='still'] .balken > span {
+    animation-duration: 7s;
+}
+
+/* Kompakte Variante im Kartenkopf (weiss auf Firmenfarbe) */
+.kompakt {
+    --welle-hoehe: 36px;
+}
+
+.kompakt .balken > span {
+    width: 3px;
+    background: currentColor;
+    box-shadow: none;
+    opacity: 0.75;
+}
+
+.kompakt .balken {
+    gap: 3px;
+    justify-content: flex-start;
+}
+
+.kompakt .balken::after,
+.kompakt .glow {
+    display: none;
+}
+
+@keyframes atmen {
+    0%,
+    100% {
+        transform: scaleY(0.42);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes sprechen {
+    0% {
+        transform: scaleY(0.3);
+    }
+    18% {
+        transform: scaleY(0.95);
+    }
+    36% {
+        transform: scaleY(0.5);
+    }
+    58% {
+        transform: scaleY(1);
+    }
+    78% {
+        transform: scaleY(0.38);
+    }
+    100% {
+        transform: scaleY(0.3);
+    }
+}
+
+@keyframes glow {
+    0%,
+    100% {
+        opacity: 0.55;
+        transform: scale(0.94);
+    }
+    50% {
+        opacity: 0.95;
+        transform: scale(1.04);
+    }
+}
+
+@keyframes ring {
+    0% {
+        transform: scale(0.55);
+        opacity: 0.55;
+    }
+    100% {
+        transform: scale(1.9);
+        opacity: 0;
+    }
+}
+
+@keyframes streifen {
+    from {
+        left: -25%;
+    }
+    to {
+        left: 105%;
+    }
+}
+
+/* Chips erscheinen weich */
+.chip {
+    animation: chip-rein 0.35s cubic-bezier(0.25, 0.4, 0.25, 1) both;
+}
+
+@keyframes chip-rein {
+    from {
+        opacity: 0;
+        transform: translateY(6px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.karteRein {
+    animation: karte-rein 0.5s cubic-bezier(0.25, 0.4, 0.25, 1) both;
+}
+
+@keyframes karte-rein {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Bewegung reduzieren: sanft statt aus (ruhiges Atmen, keine Ringe, kein Lauflicht) */
+@media (prefers-reduced-motion: reduce) {
+    .welle {
+        transition: none;
+    }
+
+    .balken > span,
+    .welle[data-modus] .balken > span {
+        animation: atmen-sanft 8s ease-in-out infinite;
+        animation-delay: calc(var(--i) * -170ms);
+    }
+
+    .glow,
+    .ringe > span,
+    .welle[data-modus] .ringe > span,
+    .welle[data-modus='scan'] .balken::before {
+        animation: none;
+    }
+
+    .chip,
+    .karteRein {
+        animation: none;
+    }
+}
+
+@keyframes atmen-sanft {
+    0%,
+    100% {
+        transform: scaleY(0.78);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+}

@@ -43,6 +43,7 @@ const navigation: NavItem[] = [
             { label: '3CX', href: '/cloud-telefonie/3cx' },
             { label: 'Microsoft Teams', href: '/cloud-telefonie/ms-teams' },
             { label: 'Yeastar', href: '/cloud-telefonie/yeastar' },
+            { label: 'KI-Telefonassistent', href: '/ki-telefonassistent' },
         ],
     },
     {

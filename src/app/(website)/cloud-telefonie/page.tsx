@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, Cloud, Globe, Users, Calculator, CheckCircle, ArrowRight, ExternalLink, Shield, Zap, Building2, Settings, Tv, Hash, Mail, Voicemail, Plug, Headphones, LayoutGrid, Clock, CalendarClock, Smartphone, Mic, MessageSquare } from 'lucide-react';
+import { Phone, Cloud, Globe, Users, Calculator, CheckCircle, ArrowRight, ExternalLink, Shield, Zap, Building2, Settings, Tv, Hash, Mail, Voicemail, Plug, Headphones, LayoutGrid, Clock, CalendarClock, Smartphone, Mic, MessageSquare, AudioLines } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
 import { FAQList } from '@/components/ui/FAQList';
@@ -639,6 +639,31 @@ export default function CloudTelefoniePage() {
                                 </span>
                             </Link>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Teaser KI-Telefonassistent (AUFTRAG-092) */}
+            <section className="py-12 lg:py-16 bg-background">
+                <div className="container mx-auto px-4">
+                    <div className="rounded-3xl border border-primary/40 bg-primary/5 p-6 md:p-10 flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+                        <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                            <AudioLines className="w-7 h-7" aria-hidden="true" />
+                        </div>
+                        <div className="flex-1">
+                            <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-3">
+                                KI-Telefonassistent auf Schweizerdeutsch
+                            </h2>
+                            <p className="text-text-secondary leading-relaxed max-w-3xl">
+                                Ein KI-Assistent nimmt Anrufe entgegen, beantwortet Fragen aus Ihrem Wissen und nimmt Anliegen auf – allein oder als Baustein Ihrer Cloud-Telefonanlage. Testen Sie ihn mit Ihrer eigenen Website: Er ruft Sie in einer Minute an.
+                            </p>
+                        </div>
+                        <Button variant="primary" size="lg" asChild>
+                            <Link href="/ki-telefonassistent">
+                                Testanruf ausprobieren
+                                <ArrowRight className="w-5 h-5" />
+                            </Link>
+                        </Button>
                     </div>
                 </div>
             </section>

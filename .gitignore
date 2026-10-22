@@ -50,3 +50,6 @@ INFRAONE_SEO_BULLETPROOF_PLAN.md
 # Generierte Fontconfig + Cache des Grafik-Skripts
 scripts/.fontcache/
 scripts/fonts/fonts.conf
+
+# KI-Demo (AUFTRAG-092): lokaler Datei-Speicher statt Netlify Blobs
+.demo-store/

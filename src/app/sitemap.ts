@@ -66,6 +66,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: '/it-support', priority: 1.0 },
         { url: '/webdesign', priority: 1.0 },
         { url: '/cloud-telefonie', priority: 1.0 },
+        { url: '/ki-telefonassistent', priority: 0.9 },
         { url: '/digital-signage', priority: 0.9 },
         { url: '/it-netzwerke', priority: 0.8 },
         { url: '/it-sicherheit', priority: 0.8 },

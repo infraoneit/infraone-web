@@ -10,11 +10,20 @@ import {
     Plus,
     ShieldCheck,
     Cloud,
-    Wifi
+    Wifi,
+    AudioLines
 } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 
-const services = [
+const services: Array<{
+    icon: typeof Server;
+    title: string;
+    subtitle: string;
+    description: string;
+    href: string;
+    /** Breite Teaser-Karte über die ganze Rasterbreite (ab lg) */
+    breit?: boolean;
+}> = [
     {
         icon: Server,
         title: 'IT-Systeme & Netzwerke',
@@ -78,6 +87,15 @@ const services = [
         description: 'Display-Netzwerke für dynamische Inhalte – lokal betrieben, ohne Cloud-Abhängigkeit.',
         href: '/digital-signage',
     },
+    {
+        // AUFTRAG-092: Teaser auf die Landingpage mit Demo-Anruf
+        icon: AudioLines,
+        title: 'KI-Telefonassistent',
+        subtitle: 'Schweizerdeutsch • Hochdeutsch • Englisch',
+        description: 'Nimmt Anrufe entgegen, beantwortet Fragen aus Ihrem Wissen und nimmt Anliegen auf. Testen Sie ihn mit Ihrer Website – die KI ruft Sie an.',
+        href: '/ki-telefonassistent',
+        breit: true,
+    },
 ];
 
 export function ServicesSection() {
@@ -107,7 +125,7 @@ export function ServicesSection() {
                 {/* Services Grid - 4 columns like Jungmann */}
                 <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
                     {services.map((service, index) => (
-                        <StaggerItem key={index}>
+                        <StaggerItem key={index} className={service.breit ? 'lg:col-span-3' : undefined}>
                             <Link href={service.href} className="block h-full group">
                                 <div
                                     className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 hover:scale-[1.02] transition-all duration-150 relative overflow-hidden"
@@ -115,30 +133,34 @@ export function ServicesSection() {
                                     {/* Accent Line at Top */}
                                     <div className="absolute top-0 left-0 right-0 h-1 bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                                    {/* Icon */}
-                                    <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                        <service.icon className="w-7 h-7" />
-                                    </div>
+                                    <div className={service.breit ? 'lg:flex lg:items-center lg:gap-6' : undefined}>
+                                        {/* Icon */}
+                                        <div className={`flex-shrink-0 w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors${service.breit ? ' lg:mb-0' : ''}`}>
+                                            <service.icon className="w-7 h-7" />
+                                        </div>
 
-                                    {/* Title */}
-                                    <h3 className="text-lg font-bold text-text-primary mb-1 group-hover:text-primary transition-colors">
-                                        {service.title}
-                                    </h3>
+                                        <div className={service.breit ? 'lg:flex-1' : undefined}>
+                                            {/* Title */}
+                                            <h3 className="text-lg font-bold text-text-primary mb-1 group-hover:text-primary transition-colors">
+                                                {service.title}
+                                            </h3>
 
-                                    {/* Subtitle */}
-                                    <p className="text-xs font-medium text-primary mb-3">
-                                        {service.subtitle}
-                                    </p>
+                                            {/* Subtitle */}
+                                            <p className="text-xs font-medium text-primary mb-3">
+                                                {service.subtitle}
+                                            </p>
 
-                                    {/* Description */}
-                                    <p className="text-sm text-text-secondary mb-4 line-clamp-3">
-                                        {service.description}
-                                    </p>
+                                            {/* Description */}
+                                            <p className={`text-sm text-text-secondary mb-4 line-clamp-3${service.breit ? ' lg:mb-0' : ''}`}>
+                                                {service.description}
+                                            </p>
+                                        </div>
 
-                                    {/* CTA Link */}
-                                    <div className="flex items-center gap-2 text-sm font-medium text-primary opacity-80 group-hover:opacity-100 transition-opacity">
-                                        <span>Mehr erfahren</span>
-                                        <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-150" />
+                                        {/* CTA Link */}
+                                        <div className="flex-shrink-0 flex items-center gap-2 text-sm font-medium text-primary opacity-80 group-hover:opacity-100 transition-opacity">
+                                            <span>Mehr erfahren</span>
+                                            <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-150" />
+                                        </div>
                                     </div>
                                 </div>
                             </Link>

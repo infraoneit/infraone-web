@@ -1,0 +1,69 @@
+/**
+ * POST /api/demo/anruf
+ * Body {scan_id, nummer, sprache, einwilligung: true, honigtopf: "", farben?, turnstile?}
+ * → 201 {id} oder 4xx {fehler}
+ *
+ * Legt einen Rückruf-Auftrag in die Warteschlange; der VoIP-Orchestrator
+ * (AUFTRAG-091) holt ihn über /api/demo/warteschlange ab.
+ */
+import { antwort, clientIp, fehler, leseJson, MELDUNG, pruefeTurnstile } from '@/lib/demo/api';
+import { pruefeRueckrufNummer } from '@/lib/demo/nummer';
+import { anrufPruefen, anrufZaehlen } from '@/lib/demo/limits';
+import { leseScan } from '@/lib/demo/scans';
+import { auftraegeBereinigen, erstelleAuftrag } from '@/lib/demo/auftraege';
+import { aufraeumenGelegentlich } from '@/lib/demo/speicher';
+import { SPRACHEN, type Farben, type Sprache } from '@/lib/demo/typen';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+const HEX_RE = /^#[0-9A-F]{6}$/i;
+
+export async function POST(req: Request) {
+    const body = await leseJson(req, 4_000);
+    if (!body) return fehler(MELDUNG.allgemein, 400);
+
+    // Honigtopf: muss leer sein (Bots füllen jedes Feld)
+    if (body.honigtopf !== undefined && body.honigtopf !== '') return fehler(MELDUNG.allgemein, 400);
+    if (body.einwilligung !== true) return fehler(MELDUNG.einwilligung, 400);
+
+    const sprache = body.sprache as Sprache;
+    if (!SPRACHEN.includes(sprache)) return fehler(MELDUNG.allgemein, 400);
+
+    const nummerRoh = typeof body.nummer === 'string' ? body.nummer.slice(0, 40) : '';
+    const pruefung = pruefeRueckrufNummer(nummerRoh);
+    if (!pruefung.ok) {
+        const text = pruefung.grund === 'land' ? MELDUNG.nummerLand : pruefung.grund === 'sonderdienst' ? MELDUNG.nummerSonderdienst : MELDUNG.nummerFormat;
+        return fehler(text, 422);
+    }
+
+    const ip = clientIp(req);
+    if (!(await pruefeTurnstile(body.turnstile, ip))) return fehler(MELDUNG.turnstile, 403);
+
+    const scan = await leseScan(typeof body.scan_id === 'string' ? body.scan_id : '');
+    if (!scan) return fehler(MELDUNG.scanAbgelaufen, 410);
+
+    const limit = await anrufPruefen(ip, pruefung.e164);
+    if (limit) return fehler(limit, 429);
+
+    // Endgültige Primärfarbe bestimmt der Browser aus dem Logo (optional)
+    const profil = { ...scan.profil };
+    const f = body.farben as Partial<Farben> | undefined;
+    if (f && typeof f === 'object' && HEX_RE.test(String(f.primaer)) && HEX_RE.test(String(f.sekundaer))) {
+        profil.farben = { primaer: String(f.primaer).toUpperCase(), sekundaer: String(f.sekundaer).toUpperCase() };
+    }
+    // Logo, das im Browser tatsächlich geladen werden konnte (nur aus den Scan-Kandidaten)
+    if (typeof body.logo_url === 'string' && scan.extrakt.logo_kandidaten.some((k) => k.url === body.logo_url)) {
+        profil.logo_url = body.logo_url;
+    }
+
+    try {
+        const auftrag = await erstelleAuftrag({ scan_id: scan.id, nummer: pruefung.e164, sprache, profil, profil_bis: scan.ablauf });
+        await anrufZaehlen(ip, pruefung.e164);
+        if (await aufraeumenGelegentlich().catch(() => false)) await auftraegeBereinigen().catch(() => undefined);
+        return antwort({ id: auftrag.id }, 201);
+    } catch (e) {
+        console.error('[demo/anruf] Speichern fehlgeschlagen:', e instanceof Error ? e.message : e);
+        return fehler(MELDUNG.allgemein, 500);
+    }
+}

@@ -85,26 +85,32 @@ export default function DatenschutzPage() {
                                 Vertragserfüllung notwendig ist oder Sie ausdrücklich eingewilligt haben.
                             </p>
 
-                            <h2 className="text-xl font-bold text-text-primary mt-8 mb-4">5. Datensicherheit</h2>
+                            {/* AUFTRAG-092 (Nachtrag Manager): Text wortgleich */}
+                            <h2 id="testanruf-ki-telefonassistent" className="text-xl font-bold text-text-primary mt-8 mb-4">5. Testanruf KI-Telefonassistent</h2>
+                            <p>
+                                Wenn Sie auf der Seite «KI-Telefonassistent» eine Website-Adresse eingeben, rufen unsere Systeme die öffentlich erreichbaren Seiten dieser Website ab und erstellen daraus ein Profil (Firmenname, Kontaktangaben, Öffnungszeiten, Leistungen, Logo und Farben). Dieses Profil wird für höchstens zwei Stunden gespeichert und danach gelöscht. Geben Sie Ihre Telefonnummer ein und bestätigen den Testanruf, verwenden wir die Nummer für diesen Anruf. Zusammen mit einer Zusammenfassung und dem Gesprächsprotokoll erhält InfraOne sie als Hinweis auf Ihr Interesse, damit wir Rückfragen beantworten können; für Werbung verwenden wir sie nicht. Der Testanruf dauert höchstens drei Minuten. Die Telefonanlage und das Gesprächsprotokoll laufen auf Systemen von InfraOne in der Schweiz; für Spracherkennung und Sprachausgabe nutzen wir die Schnittstellen von OpenAI, wobei Gesprächsinhalte dort nicht zum Training von Modellen verwendet werden. Mitschnitte werden nicht erstellt. Pro Telefonnummer sind zwei Testanrufe am Tag möglich.
+                            </p>
+
+                            <h2 className="text-xl font-bold text-text-primary mt-8 mb-4">6. Datensicherheit</h2>
                             <p>
                                 Wir treffen angemessene technische und organisatorische Massnahmen, um Ihre Daten
                                 gegen Missbrauch, Verlust oder unbefugten Zugriff zu schützen.
                             </p>
 
-                            <h2 className="text-xl font-bold text-text-primary mt-8 mb-4">6. Ihre Rechte</h2>
+                            <h2 className="text-xl font-bold text-text-primary mt-8 mb-4">7. Ihre Rechte</h2>
                             <p>
                                 Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der
                                 Verarbeitung Ihrer personenbezogenen Daten. Wenden Sie sich dazu an info@infraone.ch.
                             </p>
 
-                            <h2 className="text-xl font-bold text-text-primary mt-8 mb-4">7. Änderungen</h2>
+                            <h2 className="text-xl font-bold text-text-primary mt-8 mb-4">8. Änderungen</h2>
                             <p>
                                 Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen, um sie
                                 neuen rechtlichen Anforderungen oder Änderungen unserer Dienste anzupassen.
                             </p>
 
                             <p className="mt-8 text-sm">
-                                Stand: Januar 2026
+                                Stand: Oktober 2026
                             </p>
                         </div>
                     </div>

@@ -6,6 +6,7 @@ const footerLinks = {
     services: [
         { label: 'IT-Support / Informatik', href: '/it-support' },
         { label: 'Cloud-Telefonie', href: '/cloud-telefonie' },
+        { label: 'KI-Telefonassistent', href: '/ki-telefonassistent' },
         { label: 'IT-Systeme & Netzwerke', href: '/it-netzwerke' },
         { label: 'IT-Sicherheit', href: '/it-sicherheit' },
         { label: 'Microsoft 365', href: '/microsoft-365' },
