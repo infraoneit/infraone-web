@@ -232,11 +232,12 @@ try {
     await sleep(1000);
     t = await evaluate('window.__resultText()');
     check('GATE: Richtpreis erscheint ERST nach Gate + Versand(-Mock)', t.includes('Ihr Richtpreis:'));
-    check("b) 10 AP, 2 Server, 2 Standorte, Netzwerk ja, ext. Sec ja = CHF 2'720", t.includes("CHF 2'720"),
+    check('b) 10 AP, 2 Server, 2 Standorte, Netzwerk ja, ext. Sec ja = 200 + 9×40 + 2×50 + 50 + 10×15 = CHF 860', t.includes('CHF 860'),
         t.match(/Ihr Richtpreis:[^\n]*/)?.[0]);
-    check('b) Anzeige-Text wörtlich', t.includes('Betrieb, Support und Verwaltung – Hardware und Lizenzen nach Aufwand.')
+    check('b) Anzeige-Text wörtlich', t.includes('Monatliche Pauschale für Monitoring, Verwaltung und direkte Erreichbarkeit')
         && t.includes('Verbindliche Offerte innert zwei Arbeitstagen. Monatlich kündbar, keine Mindestlaufzeit.'));
-    check('b) Positionsliste: Arbeitsplätze × 252 + Zuschläge einzeln', t.includes('10 Arbeitsplätze × CHF 252')
+    check('b) Positionsliste: Grundpauschale + Zuschläge einzeln', t.includes('Grundpauschale (Monitoring, Verwaltung, Erreichbarkeit — inkl. 1 Arbeitsplatz)')
+        && t.includes('9 weitere Arbeitsplätze × CHF 40') && t.includes('2 Server × CHF 50')
         && t.includes('1 Zusatzstandorte (ab dem 2.) × CHF 50') && t.includes('Erweiterte Security'));
     check('Erfolgs-Bestätigung wörtlich', t.includes('Danke! Ihre Anfrage ist bei uns – Sie hören innert eines Arbeitstages von uns.')
         && t.includes('052 222 18 18'));
@@ -252,7 +253,7 @@ try {
     check('VERSAND: Gate-Werte im Payload', payload && payload.name === 'Test Person' && payload.company === 'Test AG'
         && payload.email === 'test@example.ch' && payload.phone === '052 000 00 00');
     check('VERSAND: message enthält Modus-Titel + Beträge + alle Werte',
-        payload && payload.message.includes('Regelmässige Betreuung') && payload.message.includes("CHF 2'720")
+        payload && payload.message.includes('Regelmässige Betreuung') && payload.message.includes('CHF 860')
         && payload.message.includes('Anzahl Arbeitsplätze: 10') && payload.message.includes('Anzahl Standorte: 2')
         && payload.message.includes('Anzahl Server: 2') && payload.message.includes('Netzwerk-Management durch InfraOne')
         && payload.message.includes('Microsoft 365 / Teams im Einsatz: Nein')
@@ -268,13 +269,13 @@ try {
     `);
     await sleep(400);
     t = await evaluate('window.__resultText()');
-    check("c) 4 AP, 5 Server = 4×252 + 2×150 = CHF 1'308", t.includes("CHF 1'308"), t.match(/Ihr Richtpreis:[^\n]*/)?.[0]);
-    check('c) Positionsliste: 2 Zusatzserver', t.includes('2 Zusatzserver (ab dem 4.) × CHF 150'));
+    check('c) 4 AP, 5 Server = 200 + 3×40 + 5×50 = CHF 570', t.includes('CHF 570'), t.match(/Ihr Richtpreis:[^\n]*/)?.[0]);
+    check('c) Positionsliste: 5 Server', t.includes('5 Server × CHF 50'));
 
     await evaluate(`window.__setVal('arbeitsplaetze', '1'); window.__setVal('anzahl-server', '0');`);
     await sleep(400);
     t = await evaluate('window.__resultText()');
-    check('d) 1 AP, nichts = max(252, 200) = CHF 252', t.includes('Ihr Richtpreis: CHF 252 pro Monat'));
+    check('d) 1 AP, nichts = Grundpauschale = CHF 200', t.includes('Ihr Richtpreis: CHF 200 pro Monat'));
 
     // ============ E: Kombi-Pfad (Sparergebnis + Assistent, EIN Versand) ============
     await evaluate(`window.__clickModus('Fixkosten senken');`);
@@ -309,11 +310,11 @@ try {
     t = await evaluate('window.__resultText()');
     const callsAfter = await evaluate('window.__formCalls().length');
     check('KOMBI: EIN Versand für alles', callsAfter - callsBefore === 1, `Calls=${callsAfter - callsBefore}`);
-    check('KOMBI: BEIDE Blöcke untereinander sichtbar', t.includes('Ihr InfraOne-Paket') && t.includes("Ihr Richtpreis: CHF 2'720 pro Monat"));
+    check('KOMBI: BEIDE Blöcke untereinander sichtbar', t.includes('Ihr InfraOne-Paket') && t.includes('Ihr Richtpreis: CHF 860 pro Monat'));
     const kombiPayload = await evaluate('window.__lastPayload()');
     check('KOMBI: message enthält Spar- UND Betreuungs-Block',
         kombiPayload && kombiPayload.message.includes('Fixkosten senken') && kombiPayload.message.includes('CHF 148')
-        && kombiPayload.message.includes('Regelmässige Betreuung') && kombiPayload.message.includes("CHF 2'720")
+        && kombiPayload.message.includes('Regelmässige Betreuung') && kombiPayload.message.includes('CHF 860')
         && kombiPayload.message.includes('Anzahl Rufnummern (DIDs): 10'));
     console.log('--- message (Kombi) ---\n' + (kombiPayload?.message || '') + '\n-----------------------');
 

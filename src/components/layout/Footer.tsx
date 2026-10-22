@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Phone, Mail, MapPin, Clock, ExternalLink, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { FernwartungDialog } from '@/components/support/FernwartungDialog';
 
 const footerLinks = {
     services: [
@@ -216,14 +217,12 @@ export function Footer() {
                     {/* Support, Partner Sites & CTA */}
                     <div>
                         <h3 className="text-lg font-bold text-text-primary mb-4">Support</h3>
-                        <a
-                            href="/downloads/Fernwartung-Infraone.zip"
-                            download
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors text-sm font-medium mb-6"
-                        >
-                            Support Anfordern
-                            <ExternalLink className="w-4 h-4" />
-                        </a>
+                        <FernwartungDialog
+                            label="Fernwartung starten"
+                            variant="primary"
+                            size="sm"
+                            className="mb-6"
+                        />
 
                         <div className="bg-card p-4 rounded-xl border border-border mb-6">
                             <p className="text-sm font-semibold text-primary mb-2">

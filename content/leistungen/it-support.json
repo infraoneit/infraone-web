@@ -8,7 +8,7 @@
     "primaryButtonHref": "tel:+41522221818",
     "secondaryButtonText": "Remote-Support starten",
     "secondaryButtonAction": "download",
-    "secondaryButtonUrl": "https://anydesk.com/de/downloads/thank-you?dv=win_exe",
+    "secondaryButtonUrl": "/kontakt",
     "secondaryButtonFile": "/downloads/Fernwartung-Infraone.zip",
     "secondaryButtonFileName": "Fernwartung-Infraone.zip"
   },
@@ -20,7 +20,7 @@
       {
         "title": "Telefon- & Remote-Support",
         "description": "Sofortige Problemlösung durch zertifizierte Techniker. Der Grossteil der Standardprobleme wird remote gelöst – ohne Wartezeit auf einen Techniker.",
-        "price": "CHF 130.–/h",
+        "price": "CHF 145.–/h",
         "billing": "Mindestverrechnung: 15 Minuten",
         "icon": "phone"
       },
@@ -161,7 +161,7 @@
       },
       {
         "question": "Was kostet Remote-Support?",
-        "answer": "Telefon- & Remote-Support kostet CHF 130.–/h. Wir verrechnen transparent nach Zeitaufwand mit einer Mindestverrechnung von nur 15 Minuten."
+        "answer": "Telefon- & Remote-Support kostet CHF 145.–/h. Wir verrechnen transparent nach Zeitaufwand mit einer Mindestverrechnung von nur 15 Minuten."
       },
       {
         "question": "Was mache ich, wenn mein Computer nicht startet?",
@@ -169,7 +169,7 @@
       },
       {
         "question": "Wie läuft Remote-Support ab?",
-        "answer": "Sie laden eine kleine Software herunter (AnyDesk), teilen uns den Code mit, und wir können Ihren Bildschirm sehen und Probleme direkt beheben."
+        "answer": "Sie laden über den Button «Remote-Support starten» unser kleines Fernwartungsprogramm für Windows oder Mac herunter und starten es. Dann teilen Sie uns ID und Kennwort mit, die im Programm angezeigt werden – erst danach sehen wir Ihren Bildschirm und beheben das Problem direkt. Sie schauen die ganze Zeit mit und können die Verbindung jederzeit beenden. Die Verbindung läuft über unseren eigenen Server in der Schweiz."
       },
       {
         "question": "Lösen Sie Server- und Netzwerkprobleme für KMU?",

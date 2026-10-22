@@ -1,0 +1,4 @@
+# Shell-Skripte muessen LF behalten. Mit CRLF bricht der Interpreter ab
+# ("bad interpreter: /bin/bash^M") - betrifft public/downloads/fernwartung-mac.sh,
+# das Kunden auf dem Mac ausfuehren.
+*.sh text eol=lf

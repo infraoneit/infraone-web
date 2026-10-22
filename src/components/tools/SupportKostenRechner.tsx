@@ -251,6 +251,7 @@ export function SupportKostenRechner({
             `Heute betreut durch: ${BETREUT_DURCH_LABEL[betreutDurch]}`,
             '',
             `Richtpreis: ${formatCHFGanz(richtpreis.summe)} pro Monat`,
+            '(Pauschale für Monitoring, Verwaltung und Erreichbarkeit – Supporteinsätze und Dienstleistungen nach Aufwand)',
             'Positionen:',
             ...richtpreis.positionen.map((p) => `- ${p.label}: ${formatCHFGanz(p.preis)}`),
         ];
@@ -411,7 +412,9 @@ export function SupportKostenRechner({
                 Ihr Richtpreis: {formatCHFGanz(richtpreis.summe)} pro Monat
             </p>
             <p className="text-sm text-text-secondary text-center">
-                Betrieb, Support und Verwaltung – Hardware und Lizenzen nach Aufwand.
+                Monatliche Pauschale für Monitoring, Verwaltung und direkte Erreichbarkeit –
+                Supporteinsätze, Projekte, Hardware und Lizenzen nach Aufwand
+                (Remote CHF 145/h, vor Ort CHF 157/h).
             </p>
             <p className="text-sm text-text-secondary text-center mb-3">
                 Verbindliche Offerte innert zwei Arbeitstagen. Monatlich kündbar, keine Mindestlaufzeit.

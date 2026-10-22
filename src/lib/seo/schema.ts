@@ -541,12 +541,12 @@ export function generateITSupportHubSchema() {
         offers: {
             '@type': 'AggregateOffer',
             priceCurrency: 'CHF',
-            lowPrice: '130',
+            lowPrice: '145',
             highPrice: '200',
             priceSpecification: [
                 {
                     '@type': 'UnitPriceSpecification',
-                    price: '130',
+                    price: '145',
                     priceCurrency: 'CHF',
                     name: 'Remote-Support',
                 },

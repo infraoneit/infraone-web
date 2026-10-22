@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { 
     Phone, Monitor, MapPin, Clock, Users, Shield, ArrowRight, CheckCircle,
     Cloud, Wrench, Zap, Headphones, Globe, Mail, Server, HardDrive,
-    BarChart3, Lock, Settings, Smartphone, Laptop, Printer, Wifi, Download,
+    BarChart3, Lock, Settings, Smartphone, Laptop, Printer, Wifi,
     AlertTriangle, AlertCircle
 } from 'lucide-react';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
@@ -20,11 +20,12 @@ import {
 import { BASE_URL } from '@/lib/constants';
 import { FAQList } from '@/components/ui/FAQList';
 import { SupportKostenRechner } from '@/components/tools/SupportKostenRechner';
+import { FernwartungDialog } from '@/components/support/FernwartungDialog';
 import { getITSupportData } from '@/lib/leistungen';
 
 export const metadata: Metadata = {
-    title: 'IT-Support Preise: ab CHF 130/h, online berechnen',
-    description: 'Alle Preise offen: Remote CHF 130/h, vor Ort ab CHF 145/h – Kosten in 60 Sekunden online berechnen. IT-Support für KMU & Private in Winterthur, Thurgau, Zürich, Schaffhausen.',
+    title: 'IT-Support Preise: ab CHF 145/h, online berechnen',
+    description: 'Alle Preise offen: Remote und vor Ort Privat CHF 145/h, KMU vor Ort CHF 157/h – Kosten in 60 Sekunden online berechnen. IT-Support für KMU & Private in Winterthur, Thurgau, Zürich, Schaffhausen.',
     keywords: ['IT Support Schweiz', 'Informatik Support', 'Computerhilfe', 'PC Support'],
     alternates: {
         canonical: 'https://infraone.ch/it-support',
@@ -79,9 +80,7 @@ export default async function ITSupportPage() {
         primaryButtonHref: 'tel:+41522221818',
         secondaryButtonText: 'Remote-Support starten',
         secondaryButtonAction: 'download' as const,
-        secondaryButtonUrl: 'https://anydesk.com/de/downloads/thank-you?dv=win_exe',
-        secondaryButtonFile: '/downloads/Fernwartung-Infraone.zip',
-        secondaryButtonFileName: 'Fernwartung-Infraone.zip',
+        secondaryButtonUrl: '/kontakt',
     };
 
     const pricingSection = cmsData?.pricingSection ?? {
@@ -89,7 +88,7 @@ export default async function ITSupportPage() {
         sectionSubtitle: 'Transparente Preise ohne versteckte Kosten. Abrechnung im 15-Minuten-Takt.',
         gridColumns: '4',
         priceCards: [
-            { title: 'Telefon- & Remote-Support', description: 'Sofortige Problemlösung durch zertifizierte Techniker. Der Grossteil der Standardprobleme wird remote gelöst – ohne Wartezeit auf einen Techniker.', price: 'CHF 130.–/h', billing: 'Mindestverrechnung: 15 Minuten', icon: 'phone' },
+            { title: 'Telefon- & Remote-Support', description: 'Sofortige Problemlösung durch zertifizierte Techniker. Der Grossteil der Standardprobleme wird remote gelöst – ohne Wartezeit auf einen Techniker.', price: 'CHF 145.–/h', billing: 'Mindestverrechnung: 15 Minuten', icon: 'phone' },
             { title: 'Vor-Ort-Support (Privatkunden)', description: 'Persönliche Betreuung vor Ort für Privatpersonen. Seriös, klar, effizient.', price: 'CHF 145.–/h', billing: 'Mindestverrechnung: 30 Minuten', icon: 'monitor' },
             { title: 'Vor-Ort-Support (Firma / KMU)', description: 'Professionelle Betreuung für Unternehmen. SLA-Modelle verfügbar.', price: 'CHF 157.–/h', billing: 'Mindestverrechnung: 30 Minuten', icon: 'mappin' },
             { title: 'Schulungen / Workshops / Beratung', description: 'Individuelle Schulungen, Workshops und IT-Beratung für Ihr Team.', price: 'CHF 200.–/h', billing: 'Nach Aufwand', icon: 'users' },
@@ -122,17 +121,11 @@ export default async function ITSupportPage() {
     const gridColumns = pricingSection.gridColumns || '4';
     const gridClass = gridColumnsMap[gridColumns] || gridColumnsMap['4'];
 
-    // Secondary Button Logik (vereinfacht: Link oder Download)
-    const isDownload = (heroSection.secondaryButtonAction === 'download') && heroSection.secondaryButtonFile;
-    const secondaryButtonHref = isDownload 
-        ? heroSection.secondaryButtonFile 
-        : (heroSection.secondaryButtonUrl || '#');
-    
-    // Prüfen ob externer Link (beginnt mit http)
-    const isExternalLink = !isDownload && secondaryButtonHref?.startsWith('http');
-    
-    // Download-Dateiname (Original oder aus CMS)
-    const downloadFileName = heroSection.secondaryButtonFileName || undefined;
+    // Secondary Button: Aktion "download" oeffnet die Fernwartung-Auswahl mit
+    // Windows- und macOS-Client, "link" bleibt ein gewoehnlicher Link.
+    const opensFernwartung = heroSection.secondaryButtonAction === 'download';
+    const secondaryButtonHref = heroSection.secondaryButtonUrl || '#';
+    const isExternalLink = secondaryButtonHref.startsWith('http');
 
     const regionsSection = cmsData?.regionsSection ?? {
         sectionTitle: 'IT-Support in Ihrer Region',
@@ -154,7 +147,7 @@ export default async function ITSupportPage() {
             { question: 'Wie schnell erhalte ich IT Support im Notfall?', answer: 'Im Notfall (Pikett) reagieren wir sofort. Während den Bürozeiten haben Sie direkt einen Techniker am Apparat oder werden innert Kürze zurückgerufen. Remote-Support ist meist innert 15 Minuten verfügbar. Vor-Ort-Einsätze planen wir nach Dringlichkeit – bei Notfällen oft noch am gleichen Tag.' },
             { question: 'Bieten Sie Support für Privatkunden?', answer: 'Ja. Wir unterstützen Privatpersonen genauso professionell wie Firmenkunden bei allen Computer- und Internetproblemen.' },
             { question: 'Können Sie Outlook- und E-Mail-Probleme sofort lösen?', answer: 'Ja. Den Grossteil dieser Probleme lösen wir direkt per Fernwartung, ohne dass jemand vorbeikommen muss.' },
-            { question: 'Was kostet Remote-Support?', answer: 'Telefon- & Remote-Support kostet CHF 130.–/h. Wir verrechnen transparent nach Zeitaufwand mit einer Mindestverrechnung von nur 15 Minuten.' },
+            { question: 'Was kostet Remote-Support?', answer: 'Telefon- & Remote-Support kostet CHF 145.–/h. Wir verrechnen transparent nach Zeitaufwand mit einer Mindestverrechnung von nur 15 Minuten.' },
             { question: 'Was mache ich, wenn mein Computer nicht startet?', answer: 'Rufen Sie an. Oft können wir per Telefon erste Tipps geben oder kommen vorbei, um die Hardware zu prüfen.' },
             { question: 'Wie läuft Remote-Support ab?', answer: 'Sie laden eine kleine Software herunter (AnyDesk), teilen uns den Code mit, und wir können Ihren Bildschirm sehen und Probleme direkt beheben.' },
             { question: 'Lösen Sie Server- und Netzwerkprobleme für KMU?', answer: 'Absolut. Das ist unser Kerngeschäft. Wir betreuen ganze Server-Infrastrukturen und Firmennetzwerke.' },
@@ -276,21 +269,24 @@ export default async function ITSupportPage() {
                                             {heroSection.primaryButtonText}
                                         </a>
                                     </Button>
-                                    <Button variant="outline" size="lg" asChild>
-                                        <a 
-                                            href={secondaryButtonHref}
-                                            target={isExternalLink ? '_blank' : undefined}
-                                            rel={isExternalLink ? 'noopener noreferrer' : undefined}
-                                            {...(isDownload ? { download: downloadFileName || '' } : {})}
-                                        >
-                                            {isDownload ? (
-                                                <Download className="w-5 h-5" />
-                                            ) : (
+                                    {opensFernwartung ? (
+                                        <FernwartungDialog
+                                            label={heroSection.secondaryButtonText}
+                                            variant="outline"
+                                            size="lg"
+                                        />
+                                    ) : (
+                                        <Button variant="outline" size="lg" asChild>
+                                            <a
+                                                href={secondaryButtonHref}
+                                                target={isExternalLink ? '_blank' : undefined}
+                                                rel={isExternalLink ? 'noopener noreferrer' : undefined}
+                                            >
                                                 <Monitor className="w-5 h-5" />
-                                            )}
-                                            {heroSection.secondaryButtonText}
-                                        </a>
-                                    </Button>
+                                                {heroSection.secondaryButtonText}
+                                            </a>
+                                        </Button>
+                                    )}
                                 </div>
                             </AnimatedSection>
                         </div>
