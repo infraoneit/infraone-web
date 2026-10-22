@@ -9,6 +9,7 @@
 import { antwort, fehler, leseJson, MELDUNG } from '@/lib/demo/api';
 import { baueProfil } from '@/lib/demo/profil';
 import { leseScan, speichereScan } from '@/lib/demo/scans';
+import { formatiereNummer } from '@/lib/demo/nummer';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -26,7 +27,8 @@ export async function POST(req: Request) {
         const ergebnis = await baueProfil(scan.extrakt);
         if (ergebnis.fehler) console.warn('[demo/profil] Rückfall auf Regeln:', ergebnis.fehler);
         if (ergebnis.quelle === 'ki') {
-            scan.profil = ergebnis.profil;
+            // logo_url bestimmt der Scan (geprüftes Logo, ggf. Proxy-Link für Inline-SVG)
+            scan.profil = { ...ergebnis.profil, logo_url: scan.profil.logo_url };
             scan.profil_quelle = 'ki';
             scan.assistent_weiblich = ergebnis.weiblich;
             scan.profil_ms = ergebnis.ms;
@@ -39,6 +41,11 @@ export async function POST(req: Request) {
         profil: scan.profil,
         profil_quelle: scan.profil_quelle,
         assistent_weiblich: scan.assistent_weiblich,
+        funde: {
+            telefon: scan.profil.telefon ? formatiereNummer(scan.profil.telefon) : null,
+            oeffnungszeiten: scan.profil.oeffnungszeiten_text,
+            wissen: scan.profil.wissen.length,
+        },
         dauer_ms: Date.now() - t0,
     });
 }

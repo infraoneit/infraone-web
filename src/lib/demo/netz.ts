@@ -160,7 +160,9 @@ export type Akzeptiere = 'html' | 'css' | 'bild';
 const ACCEPT: Record<Akzeptiere, string> = {
     html: 'text/html,application/xhtml+xml;q=0.9,*/*;q=0.5',
     css: 'text/css,*/*;q=0.1',
-    bild: 'image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.1',
+    // PNG/SVG zuerst: Bild-CDNs (Wix enc_auto u. a.) liefern sonst AVIF, das der Server nicht auswerten kann
+    // Ohne webp/avif: Bild-CDNs (Wix enc_auto, Squarespace, Webflow …) liefern dann PNG/JPEG, das der Server auswerten kann
+    bild: 'image/svg+xml,image/png,image/jpeg;q=0.9,image/gif;q=0.8,image/x-icon;q=0.8,*/*;q=0.1',
 };
 
 export interface AbrufOptionen {

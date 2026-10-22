@@ -1,6 +1,6 @@
 /**
  * POST /api/demo/anruf
- * Body {scan_id, nummer, sprache, einwilligung: true, honigtopf: "", farben?, turnstile?}
+ * Body {scan_id, nummer, sprache, einwilligung: true, honigtopf: "", farben?, logo_index?, turnstile?}
  * → 201 {id} oder 4xx {fehler}
  *
  * Legt einen Rückruf-Auftrag in die Warteschlange; der VoIP-Orchestrator
@@ -13,6 +13,8 @@ import { leseScan } from '@/lib/demo/scans';
 import { auftraegeBereinigen, erstelleAuftrag } from '@/lib/demo/auftraege';
 import { aufraeumenGelegentlich } from '@/lib/demo/speicher';
 import { SPRACHEN, type Farben, type Sprache } from '@/lib/demo/typen';
+import { logoUrlFuerProfil } from '@/lib/demo/logo';
+import { stimmeFuer } from '@/lib/demo/namen';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -52,10 +54,14 @@ export async function POST(req: Request) {
     if (f && typeof f === 'object' && HEX_RE.test(String(f.primaer)) && HEX_RE.test(String(f.sekundaer))) {
         profil.farben = { primaer: String(f.primaer).toUpperCase(), sekundaer: String(f.sekundaer).toUpperCase() };
     }
-    // Logo, das im Browser tatsächlich geladen werden konnte (nur aus den Scan-Kandidaten)
-    if (typeof body.logo_url === 'string' && scan.extrakt.logo_kandidaten.some((k) => k.url === body.logo_url)) {
-        profil.logo_url = body.logo_url;
+    // Logo, das im Browser tatsächlich geladen werden konnte (Index in den geprüften Scan-Kandidaten)
+    const idx = body.logo_index;
+    if (typeof idx === 'number' && Number.isInteger(idx) && idx >= 0) {
+        const k = scan.extrakt.logo_kandidaten[idx];
+        if (k?.gueltig) profil.logo_url = logoUrlFuerProfil(k, idx, scan.id, new URL(req.url).origin);
     }
+    // Stimme passt immer zum Vornamen (AUFTRAG-095; auch für ältere Scans ohne Feld)
+    profil.stimme = stimmeFuer(profil.assistent_name);
 
     try {
         const auftrag = await erstelleAuftrag({ scan_id: scan.id, nummer: pruefung.e164, sprache, profil, profil_bis: scan.ablauf });

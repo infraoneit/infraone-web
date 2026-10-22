@@ -3,7 +3,8 @@
  *
  * Auftrag und Profil sind WORTGLEICH zur Schnittstelle in AUFTRAG-091
  * (voip-agent, Orchestrator prüft streng per Pydantic) — keine Felder
- * hinzufügen oder umbenennen.
+ * umbenennen. Einzige Erweiterung: `stimme` im Profil (AUFTRAG-095; der
+ * Orchestrator ignoriert unbekannte Felder, AUFTRAG-094 wertet es aus).
  */
 
 export type Sprache = 'dialekt_auto' | 'hochdeutsch' | 'englisch';
@@ -27,6 +28,9 @@ export interface WissenEintrag {
     thema: string;
 }
 
+/** Stimme des Assistenten (AUFTRAG-095/094): passt zum Vornamen. */
+export type Stimme = 'weiblich' | 'maennlich';
+
 export interface Farben {
     primaer: string;
     sekundaer: string;
@@ -47,6 +51,8 @@ export interface Profil {
     wissen: WissenEintrag[];
     logo_url: string | null;
     farben: Farben | null;
+    /** AUFTRAG-095: Stimme passend zum Vornamen (Orchestrator A-094). */
+    stimme: Stimme;
 }
 
 /** Auftrag, wie ihn der Orchestrator aus der Warteschlange erhält. */
@@ -109,9 +115,51 @@ export interface SeitenProtokoll {
     fehler?: string;
 }
 
+export type LogoQuelle =
+    | 'jsonld'
+    | 'header-img'
+    | 'home-link-img'
+    | 'img'
+    | 'inline-svg'
+    | 'data-uri'
+    | 'css'
+    | 'apple-touch-icon'
+    | 'icon'
+    | 'favicon.ico'
+    | 'og:image';
+
 export interface LogoKandidat {
-    url: string;
-    quelle: 'jsonld' | 'header-img' | 'home-link-img' | 'img' | 'apple-touch-icon' | 'og:image' | 'icon';
+    /** http(s)-Adresse des Bildes; null bei Inline-SVG/data:-URI (Inhalt in `inhalt`). */
+    url: string | null;
+    quelle: LogoQuelle;
+    /** 1 = sicher das Logo (Kopf, Startseiten-Link, Logo-Selektor, JSON-LD), 2 = wahrscheinlich, 3 = Icon, 4 = og:image */
+    stufe: 1 | 2 | 3 | 4;
+    /** Merkmalspunkte innerhalb der Stufe */
+    punkte: number;
+    /** Reihenfolge im Dokument */
+    reihenfolge: number;
+    /** Bereinigtes SVG (Inline) bzw. data:-URI (nur serverseitig gespeichert) */
+    inhalt?: string;
+    /** Dateiname/Merkmale deuten auf helle Variante (negativ/white/inverse) */
+    hellName?: boolean;
+    /** Ausdrückliches Logo-Merkmal (logo/brand in Klasse, Datei, Selektor; JSON-LD logo) */
+    logoWort?: boolean;
+    /** Ersatz-URL, falls `url` eine vergrösserte CDN-Variante ist */
+    url_original?: string;
+    // Ergebnis der Prüfung (scanner.ts)
+    geprueft?: boolean;
+    gueltig?: boolean;
+    grund?: string;
+    format?: 'svg' | 'png' | 'webp' | 'avif' | 'jpeg' | 'gif' | 'ico' | 'bmp';
+    breite?: number | null;
+    hoehe?: number | null;
+    transparenz?: boolean | null;
+    hell?: boolean | null;
+    helligkeit?: number | null;
+    farbe?: string | null;
+    foto?: boolean;
+    bytes?: number;
+    ms?: number;
 }
 
 export interface Abschnitt {
@@ -135,6 +183,8 @@ export interface Extrakt {
     firma: string | null;
     firma_quelle: 'jsonld' | 'og:site_name' | 'titel' | 'host';
     logo_kandidaten: LogoKandidat[];
+    /** Bestes gültiges Logo (AUFTRAG-095) oder null */
+    logo: LogoKandidat | null;
     theme_color: string | null;
     css_farben: string[];
     button_farben: string[];

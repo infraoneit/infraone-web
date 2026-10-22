@@ -193,3 +193,37 @@ export function dominanteFarbe(pixel: Uint8ClampedArray): { primaer: string; sek
     const zweit = liste.slice(1).find((e) => e.n / gesamtFarbig > 0.08 && farbtonAbstand(mittel(e), primaer) >= 40);
     return { primaer, sekundaer: zweit ? mittel(zweit) : null };
 }
+
+/** Dunkle Logo-Plakette (Karte, Dunkelmodus-Körper) — Gegenstück zu Weiss. */
+export const LOGO_GRUND_DUNKEL = '#16191E';
+
+/**
+ * Welcher Hintergrund zeigt ein Logo vollständig? Zählt die sichtbaren
+ * Pixel (Alpha ≥ 128), die auf Weiss bzw. auf Dunkel fast verschwinden
+ * (Kontrast < 1,6). Ein Logo mit weisser Schrift und farbigem Signet
+ * braucht so den dunklen Grund, auch wenn es im Mittel nicht hell ist.
+ * Liefert den Anteil «verschwindender» Pixel je Grund.
+ */
+export function logoVerlust(pixel: Uint8ClampedArray): { weiss: number; dunkel: number; sichtbar: number } {
+    let sichtbar = 0;
+    let aufWeiss = 0;
+    let aufDunkel = 0;
+    const lumDunkel = luminanz(LOGO_GRUND_DUNKEL);
+    const lin = (c: number) => {
+        const v = c / 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    };
+    for (let i = 0; i < pixel.length; i += 4) {
+        if (pixel[i + 3] < 128) continue;
+        sichtbar++;
+        const l = 0.2126 * lin(pixel[i]) + 0.7152 * lin(pixel[i + 1]) + 0.0722 * lin(pixel[i + 2]);
+        if ((1.05) / (l + 0.05) < 1.6) aufWeiss++;
+        if ((l + 0.05) / (lumDunkel + 0.05) < 1.6) aufDunkel++;
+    }
+    return { weiss: sichtbar ? aufWeiss / sichtbar : 0, dunkel: sichtbar ? aufDunkel / sichtbar : 0, sichtbar };
+}
+
+/** true = Logo braucht einen dunklen Grund (helle Teile verschwänden auf Weiss). */
+export function brauchtDunklenGrund(v: { weiss: number; dunkel: number }): boolean {
+    return v.weiss > 0.12 && v.weiss > v.dunkel;
+}

@@ -41,7 +41,8 @@ export function ContactSection({
         const paramMessage = params.get('message');
         if (paramSubject && VALID_SUBJECTS.includes(paramSubject)) {
             setSubject(paramSubject);
-        } else if (paramSubject && /^KI-Telefonassistent für [^<>\r\n]{1,100}$/.test(paramSubject)) {
+        } else if (paramSubject && /^KI-Telefonassistent(?: für [^<>\r\n]{1,100})?$/.test(paramSubject)) {
+            // AUFTRAG-095: Betreff «KI-Telefonassistent» (A-092: «KI-Telefonassistent für FIRMA»)
             setZusatzBetreff(paramSubject);
             setSubject(paramSubject);
         }

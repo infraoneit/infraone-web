@@ -1,51 +1,46 @@
 #!/usr/bin/env node
 /**
- * auftrag092-browser-test.mjs — Browser-Test der KI-Telefonassistent-Demo.
+ * auftrag092-browser-test.mjs — Browser-Test der KI-Telefonassistent-Demo
+ * (AUFTRAG-092, erweitert für AUFTRAG-095).
  *
- * Voraussetzung: lokaler Server (npm run dev -- -H 0.0.0.0 -p 3000) mit
- * .env.local (DEMO_TOKEN, OPENAI_API_KEY). Lokal speichert die Demo im
- * Datei-Rückfall .demo-store/ (vor jedem Szenario werden die Zähler unter
- * .demo-store/limit gelöscht, damit die Limits den Test nicht sperren).
- *
- * Ein ATTRAPPEN-ORCHESTRATOR holt die Warteschlange ab (Bearer DEMO_TOKEN)
- * und spielt angenommen → waehlt → verbunden → beendet (bzw. fehler) durch.
- * Es wird NIE wirklich telefoniert. Gescannt werden nur öffentliche Seiten.
+ * Teil A (Standard): Texte/SEO/Navigation, dann je Variante (Desktop 1440 /
+ * Mobil 375, hell / dunkel) der ganze Zustandsautomat mit Screenshots:
+ * eingabe → scan → bereit → wartend → waehlt → verbunden → beendet (bzw.
+ * fehler). Gescannt wird echt (öffentliche Seiten, nur lesen). Die
+ * ANRUF-API wird im Browser abgefangen (page.route): Es entsteht KEIN
+ * Auftrag in der Warteschlange, ein echter Orchestrator ruft also nie an.
  *
  *   node scripts/auftrag092-browser-test.mjs
- *   BASE_URL=http://localhost:3000 PLAYWRIGHT_CHROMIUM="C:/…/chrome.exe" node scripts/auftrag092-browser-test.mjs
+ *   node scripts/auftrag092-browser-test.mjs --logos gmtec.ch ryserboeden.ch …   (nur Logo-Karten)
  *
- * Läuft daneben ein Server, den ein echter Orchestrator abfragt, den Test
- * gegen einen eigenen Server mit eigenem Speicher fahren, z. B.
- *   DEMO_STORE_DIR=<ordner> npx next start -p 3100   und
- *   DEMO_STORE_DIR=<ordner> BASE_URL=http://localhost:3100 node scripts/auftrag092-browser-test.mjs
- * (sonst könnte ein echter Orchestrator die Test-Aufträge abholen).
+ * Teil B (--attrappe, nur gegen einen EIGENEN Server mit eigenem Speicher):
+ * Schnittstelle A-091 über die API mit einem Attrappen-Orchestrator.
+ *   DEMO_STORE_DIR=<ordner> npx next start -p 3100
+ *   DEMO_STORE_DIR=<ordner> BASE_URL=http://localhost:3100 node scripts/auftrag092-browser-test.mjs --attrappe
  *
- * Screenshots: ../auftraege/ergebnisse/A092-screens/
+ * Screenshots: ../auftraege/ergebnisse/A095-screens/
  */
 import { chromium } from 'playwright-core';
-import { readFileSync, readdirSync, mkdirSync, rmSync, existsSync } from 'node:fs';
+import { readFileSync, mkdirSync, rmSync, existsSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.BASE_URL || 'http://localhost:3000';
 const CHROME = process.env.PLAYWRIGHT_CHROMIUM || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const SCREENS = path.resolve(ROOT, '..', 'auftraege', 'ergebnisse', 'A092-screens');
+const SCREENS = path.resolve(ROOT, '..', 'auftraege', 'ergebnisse', 'A095-screens');
 const SEITE = `${BASE}/ki-telefonassistent`;
+const args = process.argv.slice(2);
 
 const env = {};
-for (const zeile of readFileSync(path.join(ROOT, '.env.local'), 'utf8').split(/\r?\n/)) {
-    const m = zeile.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
-    if (m) env[m[1]] = m[2];
-}
-const TOKEN = env.DEMO_TOKEN;
-if (!TOKEN) {
-    console.error('DEMO_TOKEN fehlt in .env.local');
-    process.exit(2);
+if (existsSync(path.join(ROOT, '.env.local'))) {
+    for (const zeile of readFileSync(path.join(ROOT, '.env.local'), 'utf8').split(/\r?\n/)) {
+        const m = zeile.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+        if (m) env[m[1]] = m[2];
+    }
 }
 
 mkdirSync(SCREENS, { recursive: true });
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /* ------------------------------------------------------------------ */
 /* Prüfprotokoll                                                       */
@@ -56,92 +51,19 @@ function check(name, ok, detail = '') {
     console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? ' — ' + String(detail).slice(0, 300) : ''}`);
 }
 
-/* ------------------------------------------------------------------ */
-/* Attrappen-Orchestrator                                              */
-/* ------------------------------------------------------------------ */
-const ATTRAPPE_ZUSAMMENFASSUNG =
-    'Testgespräch der Attrappe: Der Anrufer fragte nach den Öffnungszeiten und nach einem Termin. Der Assistent nannte die Zeiten aus der Website und nahm den Terminwunsch auf.';
-
-function startAttrappe() {
-    const gesehen = new Set();
-    const protokoll = [];
-    let modus = 'erfolg'; // oder 'fehler'
-    let aktiv = true;
-    const meldung = async (id, status, extra = {}) => {
-        const r = await fetch(`${BASE}/api/demo/auftraege/${id}/status`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${TOKEN}` },
-            body: JSON.stringify({ status, grund: null, dauer_s: null, zusammenfassung: null, zeit: new Date().toISOString(), ...extra }),
-        });
-        protokoll.push({ id, status, http: r.status });
-    };
-    const ablauf = async (auftrag, m) => {
-        await meldung(auftrag.id, 'angenommen');
-        await sleep(2500);
-        await meldung(auftrag.id, 'waehlt');
-        await sleep(3500);
-        if (m === 'fehler') {
-            await meldung(auftrag.id, 'fehler', { grund: 'nicht_erreicht' });
-            return;
-        }
-        await meldung(auftrag.id, 'verbunden');
-        await sleep(5000);
-        await meldung(auftrag.id, 'beendet', { dauer_s: 47, zusammenfassung: ATTRAPPE_ZUSAMMENFASSUNG });
-    };
-    (async () => {
-        while (aktiv) {
-            try {
-                const r = await fetch(`${BASE}/api/demo/warteschlange`, { headers: { Authorization: `Bearer ${TOKEN}` } });
-                if (r.ok) {
-                    const { auftraege } = await r.json();
-                    for (const a of auftraege) {
-                        if (gesehen.has(a.id)) continue;
-                        gesehen.add(a.id);
-                        protokoll.push({ id: a.id, status: 'abgeholt', nummer: a.nummer, sprache: a.sprache, felder: Object.keys(a).join(','), profilFelder: Object.keys(a.profil).join(','), wissen: a.profil.wissen.length, logo: a.profil.logo_url, farben: a.profil.farben });
-                        ablauf(a, modus).catch((e) => protokoll.push({ id: a.id, status: 'attrappe-fehler', fehler: String(e) }));
-                    }
-                }
-            } catch {
-                /* Server kurz weg */
-            }
-            await sleep(500);
-        }
-    })();
-    return {
-        protokoll,
-        setzeModus: (m) => (modus = m),
-        stopp: () => (aktiv = false),
-    };
-}
-
-/* ------------------------------------------------------------------ */
-/* Hilfen                                                              */
-/* ------------------------------------------------------------------ */
-const ERWARTETE_CHIPS = [
-    'Website gelesen',
-    'Unternehmensinfos erkannt',
-    'Kontaktdaten gefunden',
-    'Öffnungszeiten geprüft',
-    'Leistungen erfasst',
-    'Branding analysiert',
-    'Wissen aufgebaut',
-    'Assistent wird vorbereitet',
-];
-
 const STORE = process.env.DEMO_STORE_DIR ? path.resolve(process.env.DEMO_STORE_DIR) : path.join(ROOT, '.demo-store');
-
 function limitsZuruecksetzen() {
     const dir = path.join(STORE, 'limit');
     if (existsSync(dir)) rmSync(dir, { recursive: true, force: true });
 }
 
-async function neueSeite(browser, { breite, hoehe, theme, mobil = false }) {
+async function neueSeite(browser, { breite, hoehe, theme, mobil = false, ruhig = false }) {
     const ctx = await browser.newContext({
         viewport: { width: breite, height: hoehe },
         deviceScaleFactor: mobil ? 2 : 1,
         isMobile: mobil,
         hasTouch: mobil,
-        reducedMotion: 'no-preference',
+        reducedMotion: ruhig ? 'reduce' : 'no-preference',
         locale: 'de-CH',
     });
     await ctx.addInitScript((t) => {
@@ -160,303 +82,504 @@ async function neueSeite(browser, { breite, hoehe, theme, mobil = false }) {
     return { ctx, page, konsole };
 }
 
-const screenshot = (page, name, voll = false) => page.screenshot({ path: path.join(SCREENS, name), fullPage: voll });
+const shot = (page, name, opt = {}) => page.screenshot({ path: path.join(SCREENS, name), ...opt });
 
-/** Ein kompletter Durchlauf: Scan → Karte → Nummer → Status → Abschluss. */
-async function durchlauf(browser, attrappe, { name, breite, hoehe, theme, mobil, website, sprache, nummer, fehlerFall = false }) {
+/* ------------------------------------------------------------------ */
+/* Abgefangene Anruf-API (kein echter Auftrag, kein echter Anruf)      */
+/* ------------------------------------------------------------------ */
+const ZUSAMMENFASSUNG =
+    'Testgespräch (Attrappe im Browser): Der Anrufer fragte nach den Öffnungszeiten und nach einem Termin. Der Assistent nannte die Zeiten aus der Website und nahm den Terminwunsch auf.';
+
+/**
+ * Ersetzt POST /api/demo/anruf und GET /api/demo/auftraege/{id} im Browser.
+ * Ablauf nach dem Klick: wartend → angenommen (1,5 s) → waehlt (3,5 s) →
+ * verbunden (7 s) → beendet (14 s) bzw. fehler (7 s).
+ */
+async function anrufApiAbfangen(page, { fehler = false } = {}) {
+    const zustand = { start: 0, gesendet: null, ablauf: fehler ? 'fehler' : 'erfolg' };
+    await page.route('**/api/demo/anruf', async (route) => {
+        zustand.gesendet = JSON.parse(route.request().postData() || '{}');
+        zustand.start = Date.now();
+        await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify({ id: 'd-20261022-attrappebrowser01' }) });
+    });
+    await page.route('**/api/demo/auftraege/**', async (route) => {
+        const t = Date.now() - zustand.start;
+        let status = 'wartend';
+        let dauer_s = null;
+        let zusammenfassung = null;
+        if (t > 1500) status = 'angenommen';
+        if (t > 3500) status = 'waehlt';
+        if (zustand.ablauf === 'fehler' && t > 7000) status = 'fehler';
+        else if (t > 7000) status = 'verbunden';
+        if (zustand.ablauf === 'erfolg' && t > 14000) {
+            status = 'beendet';
+            dauer_s = 47;
+            zusammenfassung = ZUSAMMENFASSUNG;
+        }
+        await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ id: 'd-20261022-attrappebrowser01', status, zeit: new Date().toISOString(), dauer_s, zusammenfassung }) });
+    });
+    return zustand;
+}
+
+/** Text und Zustand des sichtbaren Primär-Buttons. */
+async function knopf(page) {
+    return page.evaluate(() => {
+        const b = [...document.querySelectorAll('#ki-demo-scan-knopf, #ki-demo-anruf-knopf')].find((x) => x.offsetParent !== null && getComputedStyle(x).visibility !== 'hidden');
+        return b ? { text: b.textContent.trim(), disabled: b.disabled, zustand: b.dataset.zustand } : null;
+    });
+}
+
+/** Anzahl sichtbarer Primär-Buttons (grün gefüllt) im Demo-Bereich. */
+async function primaerAnzahl(page) {
+    return page.evaluate(() => {
+        const buehne = document.querySelector('#ki-demo-url')?.closest('section');
+        const kandidaten = [...buehne.querySelectorAll('button, a')].filter((el) => el.offsetParent !== null && getComputedStyle(el).visibility !== 'hidden');
+        return kandidaten.filter((el) => /\bbg-primary\b|bg-\[#1f7a35\]/.test(el.className)).map((el) => el.textContent.trim());
+    });
+}
+
+async function zuTelefon(page) {
+    await page.evaluate(() => {
+        const f = document.querySelector('figure');
+        const r = f.getBoundingClientRect();
+        if (window.innerWidth < 1024) window.scrollTo(0, r.top + window.scrollY - 76);
+        else window.scrollTo(0, 0);
+    });
+    await page.waitForTimeout(350);
+}
+
+async function zuAktion(page) {
+    await page.evaluate(() => {
+        const a = document.querySelector('#ki-demo-anruf-titel');
+        if (!a) return;
+        const r = a.closest('section').getBoundingClientRect();
+        if (window.innerWidth < 1024) window.scrollTo(0, r.top + window.scrollY - 76);
+    });
+    await page.waitForTimeout(300);
+}
+
+/* ------------------------------------------------------------------ */
+/* Teil A: Zustandsautomat je Variante                                 */
+/* ------------------------------------------------------------------ */
+async function variante(browser, { name, breite, hoehe, theme, mobil, website, sprache, fehlerFall = false }) {
     limitsZuruecksetzen();
-    attrappe.setzeModus(fehlerFall ? 'fehler' : 'erfolg');
     const { ctx, page, konsole } = await neueSeite(browser, { breite, hoehe, theme, mobil });
-    const t0 = Date.now();
+    // Layout-Verschiebungen messen (CLS ohne Nutzereingabe)
+    await page.addInitScript(() => {
+        window.__cls = 0;
+        window.__clsQuellen = [];
+        try {
+            new PerformanceObserver((l) => {
+                for (const e of l.getEntries()) {
+                    if (e.hadRecentInput) continue;
+                    window.__cls += e.value;
+                    const q = (e.sources || []).map((s) => {
+                        const n = s.node;
+                        const name = n ? `${n.nodeName}.${String(n.className || '').slice(0, 40)}` : '?';
+                        return `${name} ${Math.round(s.previousRect.y)}→${Math.round(s.currentRect.y)} h${Math.round(s.previousRect.height)}→${Math.round(s.currentRect.height)}`;
+                    });
+                    window.__clsQuellen.push(`${e.value.toFixed(4)} @${Math.round(e.startTime)}ms: ${q.join(' | ')}`);
+                }
+            }).observe({ type: 'layout-shift', buffered: true });
+        } catch {
+            /* ältere Browser */
+        }
+    });
+    const abfang = await anrufApiAbfangen(page, { fehler: fehlerFall });
     await page.goto(SEITE, { waitUntil: 'networkidle' });
     const dunkel = await page.evaluate(() => document.documentElement.classList.contains('dark'));
     check(`${name}: Theme ${theme}`, dunkel === (theme === 'dark'));
-    await screenshot(page, `${name}-01-hero.png`);
 
-    // Clientseitige Validierung der URL
-    await page.click('button:has-text("Assistent erstellen")');
+    // eingabe
+    let k = await knopf(page);
+    check(`${name}: eingabe – Button «Website scannen»`, k?.text === 'Website scannen' && !k.disabled, JSON.stringify(k));
+    check(`${name}: eingabe – genau ein Primär-Button`, (await primaerAnzahl(page)).length === 1, (await primaerAnzahl(page)).join(' | '));
+    await shot(page, `${name}-01-eingabe.png`);
+    if (mobil) await shot(page, `${name}-01b-eingabe-ganz.png`, { fullPage: false, clip: undefined });
+
+    await page.click('#ki-demo-scan-knopf');
     const urlFehler = await page.locator('#ki-demo-url-fehler').textContent().catch(() => null);
     check(`${name}: leere URL wird abgefangen`, urlFehler?.includes('gültige Website-Adresse'), urlFehler);
 
+    // scan
     await page.fill('#ki-demo-url', website);
-    await page.click('button:has-text("Assistent erstellen")');
-    await page.locator('ul li:has-text("Website gelesen")').waitFor({ timeout: 15000 });
-    await page.locator('ul li:has-text("Leistungen erfasst")').waitFor({ timeout: 15000 }).catch(() => undefined);
-    await screenshot(page, `${name}-02-scan.png`);
+    const t0 = Date.now();
+    const profilAntwort = page.waitForResponse((r) => r.url().endsWith('/api/demo/profil'), { timeout: 45000 }).then((r) => r.json()).catch(() => null);
+    await page.click('#ki-demo-scan-knopf');
+    await page.waitForTimeout(250);
+    k = await knopf(page);
+    check(`${name}: scan – Button «Wird gescannt …», deaktiviert`, k?.text === 'Wird gescannt …' && k.disabled, JSON.stringify(k));
+    await page.locator('figure li:has-text("Logo")').first().waitFor({ timeout: 20000 }).catch(() => undefined);
+    await page.waitForTimeout(900);
+    await zuTelefon(page);
+    await shot(page, `${name}-02-scan.png`);
+    const chipsScan = await page.locator('[aria-label="Gefunden"] li').allTextContents();
 
-    const karte = page.locator('article[aria-label]');
-    await karte.waitFor({ timeout: 40000 });
+    // bereit
+    await page.locator('#ki-demo-anruf-knopf[data-zustand="bereit"]').waitFor({ state: 'visible', timeout: 45000 });
     const scanDauer = Date.now() - t0;
-    const chips = await page.locator('[aria-live="polite"] ul li').allTextContents();
-    const chipsBereinigt = chips.map((c) => c.trim());
-    const reihenfolgeOk = chipsBereinigt.every((c, i) => i === 0 || ERWARTETE_CHIPS.indexOf(c) > ERWARTETE_CHIPS.indexOf(chipsBereinigt[i - 1]));
-    check(`${name}: Chips in Auftrags-Reihenfolge (${chipsBereinigt.length}/8)`, reihenfolgeOk && chipsBereinigt.length >= 6 && chipsBereinigt.every((c) => ERWARTETE_CHIPS.includes(c)), chipsBereinigt.join(' | '));
-    check(`${name}: Karte nach ${Math.round(scanDauer / 100) / 10} s`, scanDauer < 30000);
-
-    await page.waitForTimeout(800);
-    const zuKarte = () => page.evaluate(() => {
-        const a = document.querySelector('article[aria-label]');
-        window.scrollTo(0, a.getBoundingClientRect().top + window.scrollY - (window.innerWidth >= 1024 ? 110 : 80));
-    });
-    await zuKarte();
-    await page.waitForTimeout(300);
-    await screenshot(page, `${name}-03-karte.png`);
-
-    const kartenInfo = await page.evaluate(() => {
-        const a = document.querySelector('article[aria-label]');
-        const kopf = a.firstElementChild;
-        const koerper = a.children[1];
-        const [links, rechts] = koerper.children;
-        const lr = links.getBoundingClientRect();
-        const rr = rechts.getBoundingClientRect();
-        const logo = a.querySelector('img');
+    await page.waitForTimeout(700);
+    k = await knopf(page);
+    check(`${name}: bereit – Button «Jetzt KI-Anruf erhalten»`, k?.text === 'Jetzt KI-Anruf erhalten' && !k.disabled, JSON.stringify(k));
+    check(`${name}: bereit – genau ein Primär-Button`, (await primaerAnzahl(page)).length === 1, (await primaerAnzahl(page)).join(' | '));
+    check(`${name}: Scan bis Karte ${Math.round(scanDauer / 100) / 10} s`, scanDauer < 30000);
+    check(`${name}: Fund-Chips während des Scans`, chipsScan.length >= 1, chipsScan.join(' | '));
+    const karte = await page.evaluate(() => {
+        const g = document.querySelector('figure [role="group"][aria-label]');
+        const logo = g?.querySelector('img');
+        const kopf = g?.firstElementChild;
         return {
-            label: a.getAttribute('aria-label'),
-            kopfHintergrund: getComputedStyle(kopf).backgroundImage,
-            zweispaltig: Math.abs(lr.top - rr.top) < 2 && rr.left > lr.right - 1,
-            gestapelt: rr.top >= lr.bottom - 1,
-            logoVorhanden: !!logo,
+            label: g?.getAttribute('aria-label'),
+            rolle: g ? [...g.querySelectorAll('p')].map((p) => p.textContent.trim()).find((t) => /^KI-Telefonassistent(in)? von /.test(t)) : null,
+            kann: g ? [...g.querySelectorAll('ul li')].map((l) => l.textContent.trim()) : [],
+            zitat: g?.querySelector('blockquote')?.textContent.trim(),
             logoGeladen: !!logo && logo.complete && logo.naturalWidth > 0,
-            name: a.querySelector('p')?.textContent,
-            rolle: a.querySelectorAll('p')[1]?.textContent,
-            faehigkeiten: [...koerper.querySelectorAll('ul li')].slice(0, 3).map((l) => l.textContent.trim()),
+            logoVorhanden: !!logo,
+            kopfHintergrund: kopf ? getComputedStyle(kopf).backgroundImage : '',
             ueberlauf: document.documentElement.scrollWidth - window.innerWidth,
+            // Inhalte, die über die Aktionskarte bzw. das Telefon hinausragen
+            ueberstand: [document.querySelector('#ki-demo-anruf-titel')?.closest('section'), document.querySelector('figure')]
+                .filter(Boolean)
+                .flatMap((box) => {
+                    const r = box.getBoundingClientRect();
+                    return [...box.querySelectorAll('*')]
+                        .filter((el) => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden' && !el.closest('.sr-only') && !el.closest('[aria-hidden="true"]') && el.getBoundingClientRect().right > r.right + 1)
+                        .map((el) => `${el.tagName}.${String(el.className).slice(0, 30)}`);
+                })
+                .slice(0, 5),
+            ansage: document.querySelector('[role="status"][aria-live]')?.textContent,
         };
     });
-    check(`${name}: Rolle «KI-Telefonassistent(in) von FIRMA»`, /^KI-Telefonassistent(in)? von .+/.test(kartenInfo.rolle || ''), kartenInfo.rolle);
-    check(`${name}: drei Fähigkeiten`, kartenInfo.faehigkeiten.length === 3 && kartenInfo.faehigkeiten.every(Boolean), kartenInfo.faehigkeiten.join(' · '));
-    const gruen = /rgb\(61, 150, 70\)|rgb\(76, 175, 80\)/;
-    check(`${name}: Kartenkopf nicht InfraOne-Grün`, !gruen.test(kartenInfo.kopfHintergrund), kartenInfo.kopfHintergrund.slice(0, 120));
-    if (breite >= 768) check(`${name}: Karte zweispaltig ab 768 px`, kartenInfo.zweispaltig);
-    else check(`${name}: Karte mobil gestapelt`, kartenInfo.gestapelt);
-    // Kein brauchbares Logo (z. B. nur 16-px-Favicon) → Karte zeigt die Initiale, nie ein kaputtes Bild
-    check(`${name}: Logo über Proxy geladen oder bewusst weggelassen`, !kartenInfo.logoVorhanden || kartenInfo.logoGeladen, kartenInfo.logoVorhanden ? 'Logo sichtbar' : 'kein Logo ≥ 24 px auf der Website → Initiale');
-    logosSichtbar.push(kartenInfo.logoGeladen);
-    check(`${name}: kein horizontaler Überlauf`, kartenInfo.ueberlauf <= 0, `Überlauf ${kartenInfo.ueberlauf}px`);
+    check(`${name}: Rolle «KI-Telefonassistent(in) von FIRMA»`, !!karte.rolle, karte.rolle);
+    check(`${name}: drei «Kann»-Zeilen`, karte.kann.length === 3 && karte.kann.every(Boolean), karte.kann.join(' · '));
+    check(`${name}: Begrüssung als Zitat (A-091 wortgleich)`, /^«(Grüezi, do isch|Grüezi, hier ist|Hello, this is) /.test(karte.zitat || ''), karte.zitat);
+    check(`${name}: Kartenkopf nicht InfraOne-Grün`, !/rgb\(61, 150, 70\)|rgb\(76, 175, 80\)/.test(karte.kopfHintergrund), karte.kopfHintergrund.slice(0, 100));
+    check(`${name}: Logo geladen oder bewusst Initiale`, !karte.logoVorhanden || karte.logoGeladen, karte.logoVorhanden ? 'Logo' : 'Initiale');
+    check(`${name}: aria-live meldet «bereit»`, /ist bereit/.test(karte.ansage || ''), karte.ansage);
+    check(`${name}: kein horizontaler Überlauf`, karte.ueberlauf <= 0, `${karte.ueberlauf}px`);
+    check(`${name}: nichts ragt über Karte/Telefon hinaus`, karte.ueberstand.length === 0, karte.ueberstand.join(' | '));
+    await zuTelefon(page);
+    await shot(page, `${name}-03-bereit.png`);
+    if (mobil) {
+        await zuAktion(page);
+        await shot(page, `${name}-03b-bereit-formular.png`);
+    }
 
-    // Barrierefreiheit: zugängliche Namen der Sprachwahl und der Einwilligung
+    // Sprachwahl + Barrierefreiheit
     const sprachNamen = [];
     for (const n of ['Schweizerdeutsch', 'Hochdeutsch', 'English']) sprachNamen.push(await page.getByRole('radio', { name: n, exact: true }).count());
-    check(`${name}: Sprach-Radios mit zugänglichem Namen`, sprachNamen.every((c) => c === 1), `Schweizerdeutsch/Hochdeutsch/English: ${sprachNamen.join('/')}`);
+    check(`${name}: Sprach-Radios mit zugänglichem Namen`, sprachNamen.every((c) => c === 1), sprachNamen.join('/'));
     const einwName = await page.getByRole('checkbox', { name: /^Ich bin unter dieser Nummer erreichbar und möchte den Testanruf erhalten\. Es gelten die Datenschutzhinweise\.$/ }).count();
-    check(`${name}: Einwilligungs-Checkbox mit zugänglichem Namen`, einwName === 1);
+    check(`${name}: Einwilligung mit zugänglichem Namen`, einwName === 1);
 
     // Formular-Validierung
     await page.fill('#ki-demo-nummer', '0900 123 456');
-    await page.click('button:has-text("Jetzt KI-Anruf erhalten")');
-    const fehler090 = await page.locator('form [role="alert"]').last().textContent().catch(() => '');
-    check(`${name}: 0900-Nummer abgelehnt`, fehler090.includes('Mehrwert'), fehler090);
-    await page.fill('#ki-demo-nummer', nummer);
-    await page.click('button:has-text("Jetzt KI-Anruf erhalten")');
-    const fehlerEinw = await page.locator('form [role="alert"]').last().textContent().catch(() => '');
-    check(`${name}: Einwilligung ist Pflicht`, fehlerEinw.includes('bestätigen'), fehlerEinw);
+    await page.click('#ki-demo-anruf-knopf');
+    const f1 = await page.locator('#ki-demo-anruf-titel ~ form [role="alert"]').last().textContent().catch(() => '');
+    check(`${name}: 0900-Nummer abgelehnt`, f1.includes('Mehrwert'), f1);
+    await page.fill('#ki-demo-nummer', '079 000 00 01');
+    await page.click('#ki-demo-anruf-knopf');
+    const f2 = await page.locator('#ki-demo-anruf-titel ~ form [role="alert"]').last().textContent().catch(() => '');
+    check(`${name}: Einwilligung ist Pflicht`, f2.includes('bestätigen'), f2);
 
-    await page.locator(`label:has-text("${sprache}")`).click();
-    await page.locator('input[type="checkbox"]').check();
-    await page.click('button:has-text("Jetzt KI-Anruf erhalten")');
+    await page.getByRole('radio', { name: sprache, exact: true }).check({ force: true });
+    const zitatNeu = await page.locator('figure blockquote').first().textContent();
+    check(`${name}: Begrüssung folgt der Sprachwahl (${sprache})`, sprache === 'English' ? zitatNeu.includes('Hello, this is') : sprache === 'Hochdeutsch' ? zitatNeu.includes('hier ist') : zitatNeu.includes('do isch'), zitatNeu.slice(0, 60));
+    await page.locator('#ki-demo-einwilligung').check();
+    await page.click('#ki-demo-anruf-knopf');
 
-    // Statusfolge beobachten
+    // Anruf-Zustände beobachten
     const gesehen = [];
-    const ziel = fehlerFall ? 'Leider nicht erreicht' : 'Gespräch beendet – so lief es:';
-    const statusTexte = ['Ihr Assistent wählt gleich …', 'Es klingelt bei Ihnen …', 'Gespräch läuft', 'Gespräch beendet – so lief es:', 'Leider nicht erreicht'];
-    const ende = Date.now() + 45000;
-    let gespraechsShot = false;
+    const hoehen = { bereit: await page.evaluate(() => Math.round(document.querySelector('#ki-demo-anruf-titel')?.closest('section')?.getBoundingClientRect().height ?? 0)) };
+    const ende = Date.now() + 30000;
+    const bilder = new Set();
+    let timer1 = null;
+    let timer2 = null;
     while (Date.now() < ende) {
-        const text = await page.locator('article[aria-label]').innerText();
-        for (const s of statusTexte) if (text.includes(s) && !gesehen.includes(s)) gesehen.push(s);
-        if (!gespraechsShot && text.includes('Gespräch läuft')) {
-            await zuKarte();
-            await screenshot(page, `${name}-04-gespraech.png`);
-            gespraechsShot = true;
+        k = await knopf(page);
+        const z = k?.zustand;
+        if (z && gesehen[gesehen.length - 1] !== `${z}:${k.text}`) gesehen.push(`${z}:${k.text}`);
+        if (z) hoehen[z] = Math.max(hoehen[z] ?? 0, await page.evaluate(() => Math.round(document.querySelector('#ki-demo-anruf-titel')?.closest('section')?.getBoundingClientRect().height ?? 0)));
+        if (z === 'wartend' && !bilder.has('wartend')) {
+            bilder.add('wartend');
+            await zuTelefon(page);
+            await shot(page, `${name}-04a-wartend.png`);
         }
-        if (!gespraechsShot && fehlerFall && text.includes('Es klingelt bei Ihnen')) {
-            await zuKarte();
-            await screenshot(page, `${name}-04-klingelt.png`);
-            gespraechsShot = true;
+        if (z === 'waehlt' && !bilder.has('waehlt')) {
+            bilder.add('waehlt');
+            await zuTelefon(page);
+            await shot(page, `${name}-04b-klingelt.png`);
         }
-        if (text.includes(ziel)) break;
-        await page.waitForTimeout(400);
+        if (z === 'verbunden') {
+            if (!timer1) timer1 = await page.locator('[aria-label^="Gesprächsdauer"]').first().textContent();
+            if (!bilder.has('verbunden')) {
+                await page.waitForTimeout(2300);
+                timer2 = await page.locator('[aria-label^="Gesprächsdauer"]').first().textContent();
+                bilder.add('verbunden');
+                await zuTelefon(page);
+                await shot(page, `${name}-04-verbunden.png`);
+                if (mobil) {
+                    await zuAktion(page);
+                    await shot(page, `${name}-04c-verbunden-button.png`);
+                }
+            }
+        }
+        if (z === 'beendet' || z === 'fehler') break;
+        await page.waitForTimeout(250);
     }
+    const folge = gesehen.map((g) => g.split(':').slice(1).join(':'));
+    check(`${name}: Anruf-API abgefangen (kein Auftrag beim Server)`, !!abfang.gesendet && abfang.gesendet.nummer === '+41790000001', JSON.stringify(abfang.gesendet ?? {}).slice(0, 160));
+    const profil = (await profilAntwort)?.profil;
+    const weiblich = ['Lena', 'Mia', 'Laura', 'Sara', 'Anna', 'Lea', 'Nina', 'Julia', 'Elena', 'Sophie', 'Lara', 'Alina', 'Noemi', 'Selina', 'Jana', 'Livia', 'Lina', 'Leonie', 'Chiara', 'Elin'];
+    check(
+        `${name}: Profil hat stimme passend zum Namen (Schalter 0 → nur Frauennamen)`,
+        !!profil && profil.stimme === 'weiblich' && weiblich.includes(profil.assistent_name) && abfang.gesendet && karte.rolle?.startsWith('KI-Telefonassistentin von '),
+        profil ? `${profil.assistent_name}/${profil.stimme}` : 'kein Profil',
+    );
     if (fehlerFall) {
-        check(`${name}: Statusfolge bis Fehler`, gesehen.join(' > ') === 'Ihr Assistent wählt gleich … > Es klingelt bei Ihnen … > Leider nicht erreicht', gesehen.join(' > '));
-        const formWieder = await page.locator('button:has-text("Jetzt KI-Anruf erhalten")').isVisible();
-        check(`${name}: nach Fehler Formular wieder da`, formWieder);
+        check(`${name}: Button-Folge bis Fehler (wortgleich)`, folge.join(' > ') === 'Wir rufen Sie gleich an … > Ihr Telefon klingelt … > Nochmals versuchen', folge.join(' > '));
+        const meldung = await page.locator('#ki-demo-anruf-titel ~ form [role="alert"]').textContent().catch(() => '');
+        check(`${name}: klare Fehlermeldung`, meldung.startsWith('Leider nicht erreicht.'), meldung);
+        await zuTelefon(page);
+        await shot(page, `${name}-05-fehler.png`);
+        if (mobil) {
+            await zuAktion(page);
+            await shot(page, `${name}-05b-fehler-button.png`);
+        }
+        await page.click('#ki-demo-anruf-knopf');
         await page.waitForTimeout(500);
-        await zuKarte();
-        await screenshot(page, `${name}-05-fehler.png`);
+        k = await knopf(page);
+        check(`${name}: «Nochmals versuchen» führt zurück zu «bereit»`, k?.text === 'Jetzt KI-Anruf erhalten', JSON.stringify(k));
     } else {
-        check(`${name}: Statusfolge vollständig`, gesehen.join(' > ') === 'Ihr Assistent wählt gleich … > Es klingelt bei Ihnen … > Gespräch läuft > Gespräch beendet – so lief es:', gesehen.join(' > '));
-        await page.waitForTimeout(900);
-        const zusammenfassung = await page.locator('article[aria-label]').innerText();
-        check(`${name}: Zusammenfassung angezeigt`, zusammenfassung.includes('Testgespräch der Attrappe') && /ihr gespräch/i.test(zusammenfassung) && zusammenfassung.includes('0:47 Min.'));
-        const nach = await page.locator('text=Das war ein Assistent aus Ihrer Website – in einer Minute.').isVisible();
-        check(`${name}: Text nach dem Gespräch`, nach);
-        const link = page.locator('a:has-text("Erstgespräch vereinbaren")').first();
-        const href = await link.getAttribute('href');
-        check(`${name}: Erstgespräch-Link mit Betreff`, decodeURIComponent(href || '').startsWith('/kontakt?subject=KI-Telefonassistent für '), decodeURIComponent(href || ''));
-        await zuKarte();
-        await page.waitForTimeout(400);
-        await screenshot(page, `${name}-05-ende.png`);
-        // Ganzseitig: Scroll-Animationen (Reveal) aus, sonst sind Abschnitte ausserhalb des Viewports leer
-        const stil = await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important}' });
-        await screenshot(page, `${name}-06-ganze-seite.png`, true);
-        await stil.evaluate((el) => el.remove());
-        await link.click();
-        await page.waitForURL(/\/kontakt/, { timeout: 15000 });
-        await page.waitForTimeout(1500);
-        const betreff = await page.locator('#subject').inputValue();
-        check(`${name}: Kontaktformular Betreff vorbefüllt`, betreff.startsWith('KI-Telefonassistent für '), betreff);
+        const nameAssistent = karte.label?.split(',')[0];
+        check(
+            `${name}: Button-Folge wortgleich`,
+            folge.join(' > ') === `Wir rufen Sie gleich an … > Ihr Telefon klingelt … > Verbunden – sprechen Sie mit ${nameAssistent} > Nochmals testen`,
+            folge.join(' > '),
+        );
+        check(`${name}: Dauerzähler läuft während «verbunden»`, !!timer1 && !!timer2 && timer1 !== timer2, `${timer1} → ${timer2}`);
+        await page.waitForTimeout(700);
+        const ende2 = await page.evaluate(() => {
+            const s = document.querySelector('#ki-demo-anruf-titel')?.closest('section');
+            const cta = [...(s?.querySelectorAll('a') ?? [])].find((a) => a.textContent.includes('So bekommt Ihre Firma diesen Assistenten'));
+            return { titel: document.querySelector('#ki-demo-anruf-titel')?.textContent, text: s?.innerText ?? '', cta: cta?.getAttribute('href') ?? null, ctaPrimaer: /\bbg-primary\b/.test(cta?.className ?? '') };
+        });
+        check(`${name}: beendet – Zusammenfassung und Dauer`, ende2.titel === 'Gespräch beendet – so lief es:' && ende2.text.includes('Testgespräch (Attrappe im Browser)') && ende2.text.includes('Dauer: 0:47 Min.'), ende2.titel);
+        check(`${name}: beendet – «Nochmals testen» sekundär, CTA primär`, (await primaerAnzahl(page)).length === 1 && ende2.ctaPrimaer, (await primaerAnzahl(page)).join(' | '));
+        check(`${name}: CTA → /kontakt mit Betreff «KI-Telefonassistent»`, decodeURIComponent(ende2.cta || '').startsWith('/kontakt?subject=KI-Telefonassistent&message='), decodeURIComponent(ende2.cta || '').slice(0, 90));
+        await zuTelefon(page);
+        await shot(page, `${name}-05-beendet.png`);
+        if (mobil) {
+            await zuAktion(page);
+            await shot(page, `${name}-05b-beendet-cta.png`);
+        }
+        if (name === 'desktop-1440-hell') {
+            const stil = await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important}' });
+            await shot(page, `${name}-06-ganze-seite.png`, { fullPage: true });
+            await stil.evaluate((el) => el.remove());
+        }
+        // Nochmals testen → bereit
+        await page.click('#ki-demo-anruf-knopf');
+        await page.waitForTimeout(500);
+        k = await knopf(page);
+        check(`${name}: «Nochmals testen» führt zurück zu «bereit»`, k?.text === 'Jetzt KI-Anruf erhalten', JSON.stringify(k));
     }
+    console.log(`  Höhen Aktionskarte ${name}: ${JSON.stringify(hoehen)}`);
+    const cls = await page.evaluate(() => window.__cls);
+    if (cls > 0) console.log(`  CLS-Quellen ${name}:\n    ` + (await page.evaluate(() => window.__clsQuellen)).join('\n    '));
+    check(`${name}: CLS im ganzen Ablauf ${cls.toFixed(4)}`, cls < 0.1, cls.toFixed(4));
     check(`${name}: keine Konsolenfehler`, konsole.length === 0, konsole.slice(0, 3).join(' | '));
     await ctx.close();
+    return { cls, scanDauer };
+}
+
+/* ------------------------------------------------------------------ */
+/* Teil 0: Texte, SEO, Navigation                                      */
+/* ------------------------------------------------------------------ */
+async function seoPruefung(browser) {
+    const { ctx, page } = await neueSeite(browser, { breite: 1440, hoehe: 900, theme: 'light' });
+    await page.goto(SEITE, { waitUntil: 'networkidle' });
+    const seo = await page.evaluate(() => ({
+        titel: document.title,
+        beschreibung: document.querySelector('meta[name="description"]')?.content,
+        canonical: document.querySelector('link[rel="canonical"]')?.href,
+        ogBild: document.querySelector('meta[property="og:image"]')?.content,
+        h1: document.querySelector('h1')?.textContent,
+        h2: [...document.querySelectorAll('h2')].map((h) => h.textContent.trim()),
+        typen: [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => JSON.parse(s.textContent)['@type']),
+        platzhalter: document.querySelector('#ki-demo-url')?.placeholder,
+        vertrauen: document.querySelector('#ki-demo-vertrauen')?.textContent,
+        preise: /CHF|Fr\.\s?\d|\d+\s?%/.test(document.querySelector('main').innerText),
+        ss: /ß/.test(document.body.innerText),
+        belege: [...document.querySelectorAll('#ki-demo-vertrauen + div li')].map((l) => l.textContent.trim()),
+        faqLink: !!document.querySelector('details a[href="/datenschutz#testanruf-ki-telefonassistent"]'),
+    }));
+    check('Titel wortgleich', seo.titel === 'KI-Telefonassistent auf Schweizerdeutsch – Demo-Anruf in einer Minute | InfraOne', seo.titel);
+    check('Description wortgleich', seo.beschreibung === 'Der KI-Telefonassistent, der Schweizerdeutsch spricht: Website eingeben, Assistent entsteht, die KI ruft Sie an. Kostenlos testen, ohne Anmeldung. Für Praxen, Handwerk, KMU in der Schweiz.');
+    check('Canonical', seo.canonical === 'https://infraone.ch/ki-telefonassistent', seo.canonical);
+    check('OG-Bild', /\/og\/ki-telefonassistent\.png$/.test(seo.ogBild || ''), seo.ogBild);
+    check('H1 wortgleich', seo.h1 === 'Erleben Sie Ihren KI-Telefonassistenten – in einer Minute', seo.h1);
+    const h2Soll = ['So funktioniert der Testanruf', 'Warum Schweizerdeutsch den Unterschied macht', 'Was der Assistent im Alltag übernimmt', 'So läuft es bei Ihnen', 'Für welche Betriebe', 'Datenschutz und Technik, ehrlich erklärt', 'Häufige Fragen', 'Bereit für Ihren eigenen Assistenten?'];
+    check('H2 vollständig (inkl. «So läuft es bei Ihnen»)', h2Soll.every((h) => seo.h2.includes(h)), seo.h2.join(' | '));
+    check('JSON-LD Service/FAQPage/BreadcrumbList/WebPage', ['Service', 'FAQPage', 'BreadcrumbList', 'WebPage'].every((t) => seo.typen.includes(t)), seo.typen.join(','));
+    check('Platzhalter wortgleich', seo.platzhalter === 'Ihre Website, z. B. muster-ag.ch');
+    check('Vertrauenszeile wortgleich', seo.vertrauen === 'Kostenlos · Ohne Anmeldung · Keine Werbeanrufe', seo.vertrauen);
+    check('Drei Mini-Belege', seo.belege.join(' | ') === 'Schweizerdeutsch, Hochdeutsch, Englisch | In einer Minute | Ihre Website als Wissen', seo.belege.join(' | '));
+    check('FAQ verlinkt den Datenschutz-Abschnitt Testanruf', seo.faqLink);
+    const dsTechnik = await page.evaluate(() => [...document.querySelectorAll('h2')].find((h) => h.textContent.trim() === 'Datenschutz und Technik, ehrlich erklärt')?.nextElementSibling?.textContent?.replace(/\s+/g, ' ').trim());
+    check('Abschnitt «Datenschutz und Technik» wortgleich', dsTechnik === 'Die Telefonanlage und Ihre Gesprächsprotokolle laufen in der Schweiz auf Systemen von InfraOne. Für Spracherkennung und Sprachausgabe nutzen wir die KI-Schnittstellen von OpenAI; Gesprächsinhalte werden dort nicht zum Training verwendet. Ihre Nummer aus dem Testanruf verwenden wir für diesen Anruf und für eine Rückmeldung von uns, falls Sie Fragen haben – nicht für Werbung. Mitschnitte gibt es im Kundenbetrieb nur mit Einwilligung beider Seiten.', dsTechnik);
+    check('keine Preise/Prozente im Inhalt', !seo.preise);
+    check('kein ß', !seo.ss);
+
+    await page.locator('header nav >> text=Cloud-').first().hover();
+    await page.waitForTimeout(500);
+    const imHeader = await page.locator('header a[href="/ki-telefonassistent"]').count();
+    const imFooter = await page.locator('footer a[href="/ki-telefonassistent"]').count();
+    check('Header und Footer verlinken /ki-telefonassistent', imHeader >= 1 && imFooter >= 1, `Header ${imHeader}, Footer ${imFooter}`);
+    const sitemap = await (await fetch(`${BASE}/sitemap.xml`)).text();
+    check('Sitemap enthält Seite', sitemap.includes('https://infraone.ch/ki-telefonassistent'));
+
+    // Kantenmessung (Layout-Regel) wie AUFTRAG-013
+    const kanten = await page.evaluate(() => {
+        const aus = [];
+        for (const sec of document.querySelectorAll('main section')) {
+            const c = sec.querySelector(':scope > .container');
+            if (!c) continue;
+            const cr = c.getBoundingClientRect();
+            const links = cr.left + parseFloat(getComputedStyle(c).paddingLeft);
+            for (const k of c.children) {
+                const r = k.getBoundingClientRect();
+                if (r.width === 0) continue;
+                const cls = typeof k.className === 'string' ? k.className : '';
+                const typo = k.tagName === 'P' || /text-|subtitle|opacity/.test(cls);
+                aus.push({ abw: Math.abs(r.left - links), typo, tag: k.tagName, cls: cls.slice(0, 60) });
+            }
+        }
+        return aus;
+    });
+    const abweichend = kanten.filter((k) => !k.typo && k.abw > 1.1);
+    check('Kanten: Strukturblöcke volle Containerbreite', abweichend.length === 0, abweichend.map((a) => `${a.tag} ${a.cls}`).join(' ;; ') || `${kanten.length} Blöcke geprüft`);
+
+    await page.goto(`${BASE}/kontakt?subject=${encodeURIComponent('KI-Telefonassistent')}`, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(800);
+    const betreff = await page.locator('#subject').inputValue().catch(() => '');
+    check('Kontaktformular übernimmt Betreff «KI-Telefonassistent»', betreff === 'KI-Telefonassistent', betreff);
+    await ctx.close();
+}
+
+/* ------------------------------------------------------------------ */
+/* Teil L: Logo-Karten (Messung)                                       */
+/* ------------------------------------------------------------------ */
+async function logoKarten(browser, sites) {
+    const dir = path.join(SCREENS, 'logos');
+    mkdirSync(dir, { recursive: true });
+    const aus = [];
+    for (const site of sites) {
+        limitsZuruecksetzen();
+        const { ctx, page } = await neueSeite(browser, { breite: 1440, hoehe: 900, theme: 'light' });
+        const eintrag = { site };
+        try {
+            // Website selbst (Kopfbereich) zum Vergleich — nur ansehen
+            const w = await ctx.newPage();
+            await w.setViewportSize({ width: 1280, height: 420 });
+            await w.goto(`https://${site}`, { waitUntil: 'load', timeout: 25000 }).catch(() => undefined);
+            await w.waitForTimeout(2500);
+            await w.screenshot({ path: path.join(dir, `${site}-website.png`) }).catch(() => undefined);
+            await w.close();
+
+            await page.goto(SEITE, { waitUntil: 'networkidle' });
+            const t0 = Date.now();
+            const antwort = page.waitForResponse((r) => r.url().endsWith('/api/demo/scan'), { timeout: 30000 });
+            await page.fill('#ki-demo-url', site);
+            await page.click('#ki-demo-scan-knopf');
+            const scan = await (await antwort).json().catch(() => ({}));
+            await page.locator('#ki-demo-anruf-knopf[data-zustand="bereit"]').waitFor({ state: 'visible', timeout: 60000 });
+            eintrag.ms = Date.now() - t0;
+            await page.waitForTimeout(900);
+            const info = await page.evaluate(() => {
+                const img = document.querySelector('figure [role="group"] img');
+                return { logo: !!img && img.complete && img.naturalWidth > 0, natW: img?.naturalWidth ?? null, natH: img?.naturalHeight ?? null, plakette: img ? getComputedStyle(img.parentElement).backgroundColor : null };
+            });
+            Object.assign(eintrag, info, { scanLogo: scan.logos?.[0] ?? null, scanMs: scan.dauer_ms ?? null });
+            await page.locator('figure').screenshot({ path: path.join(dir, `${site}-karte.png`) });
+            console.log(`LOGO  ${site}  ${info.logo ? 'Logo' : 'Initiale'}  ${scan.logos?.[0]?.quelle ?? '–'} ${scan.logos?.[0]?.format ?? ''}  ${eintrag.ms} ms`);
+        } catch (e) {
+            eintrag.fehler = e.message;
+            console.log(`LOGO  ${site}  FEHLER ${e.message.slice(0, 120)}`);
+        }
+        aus.push(eintrag);
+        await ctx.close();
+    }
+    // mit früheren Läufen zusammenführen (gleiche Site → neuer Eintrag)
+    const datei = path.join(dir, 'karten.json');
+    const alt = existsSync(datei) ? JSON.parse(readFileSync(datei, 'utf8')) : [];
+    const zusammen = [...alt.filter((a) => !aus.some((n) => n.site === a.site)), ...aus];
+    writeFileSync(datei, JSON.stringify(zusammen, null, 2), 'utf8');
+    return aus;
+}
+
+/* ------------------------------------------------------------------ */
+/* Teil B: Attrappen-Orchestrator (nur eigener Server!)                */
+/* ------------------------------------------------------------------ */
+async function attrappenTest() {
+    if (BASE === 'http://localhost:3000' || !process.env.DEMO_STORE_DIR) {
+        console.error('--attrappe nur gegen einen eigenen Server mit eigenem Speicher (BASE_URL ≠ :3000 und DEMO_STORE_DIR gesetzt): ein echter Orchestrator könnte sonst Test-Aufträge abholen und anrufen.');
+        process.exit(2);
+    }
+    const TOKEN = env.DEMO_TOKEN;
+    limitsZuruecksetzen();
+    const scan = await (await fetch(`${BASE}/api/demo/scan`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: 'zahnarztpraxisneuwiesen.ch' }) })).json();
+    const r = await fetch(`${BASE}/api/demo/anruf`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scan_id: scan.scan_id, nummer: '+41790000009', sprache: 'hochdeutsch', einwilligung: true, honigtopf: '' }) });
+    const { id } = await r.json();
+    check('Attrappe: Auftrag angelegt (201)', r.status === 201, id);
+    const q = await (await fetch(`${BASE}/api/demo/warteschlange`, { headers: { Authorization: `Bearer ${TOKEN}` } })).json();
+    const a = q.auftraege.find((x) => x.id === id);
+    check('Attrappe: Auftrag-Felder exakt', a && Object.keys(a).join(',') === 'id,erstellt,nummer,sprache,profil', a && Object.keys(a).join(','));
+    check('Attrappe: Profil-Felder (A-091 + stimme)', a && Object.keys(a.profil).join(',') === 'firma,website,assistent_name,branche,telefon,email,adresse,oeffnungszeiten_text,firma_text,faehigkeiten,wissen,logo_url,farben,stimme', a && Object.keys(a.profil).join(','));
+    check('Attrappe: stimme passt zum Namen', a && ((a.profil.stimme === 'weiblich') === ['Lena', 'Mia', 'Laura', 'Sara', 'Anna', 'Lea', 'Nina', 'Julia', 'Elena', 'Sophie', 'Lara', 'Alina', 'Noemi', 'Selina', 'Jana', 'Livia', 'Lina', 'Leonie', 'Chiara', 'Elin'].includes(a.profil.assistent_name)), a && `${a.profil.assistent_name}/${a.profil.stimme}`);
+    check('Attrappe: logo_url http(s) oder null', a && (a.profil.logo_url === null || /^https?:\/\//.test(a.profil.logo_url)), a?.profil.logo_url);
+    for (const status of ['angenommen', 'waehlt', 'verbunden', 'beendet']) {
+        const s = await fetch(`${BASE}/api/demo/auftraege/${id}/status`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${TOKEN}` }, body: JSON.stringify({ status, grund: null, dauer_s: status === 'beendet' ? 47 : null, zusammenfassung: status === 'beendet' ? 'Attrappe' : null, zeit: new Date().toISOString() }) });
+        check(`Attrappe: Status ${status} → 200`, s.status === 200);
+    }
+    const ohne = await fetch(`${BASE}/api/demo/warteschlange`);
+    check('Warteschlange ohne Token → 401', ohne.status === 401);
 }
 
 /* ------------------------------------------------------------------ */
 /* Ablauf                                                              */
 /* ------------------------------------------------------------------ */
-const logosSichtbar = [];
-const browser = await chromium.launch({ executablePath: CHROME, headless: true });
-const attrappe = startAttrappe();
-try {
-    // 0. SEO-Grundlagen und Texte
-    {
-        const { ctx, page } = await neueSeite(browser, { breite: 1440, hoehe: 900, theme: 'light' });
-        await page.goto(SEITE, { waitUntil: 'networkidle' });
-        const seo = await page.evaluate(() => ({
-            titel: document.title,
-            beschreibung: document.querySelector('meta[name="description"]')?.content,
-            canonical: document.querySelector('link[rel="canonical"]')?.href,
-            ogBild: document.querySelector('meta[property="og:image"]')?.content,
-            h1: document.querySelector('h1')?.textContent,
-            h2: [...document.querySelectorAll('h2')].map((h) => h.textContent.trim()),
-            typen: [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => JSON.parse(s.textContent)['@type']),
-            platzhalter: document.querySelector('#ki-demo-url')?.placeholder,
-            vertrauen: document.querySelector('#ki-demo-vertrauen')?.textContent,
-            preise: /CHF|Fr\.\s?\d|\d+\s?%/.test(document.querySelector('main').innerText),
-            ss: /ß/.test(document.body.innerText),
-        }));
-        check('Titel wortgleich', seo.titel === 'KI-Telefonassistent auf Schweizerdeutsch – Demo-Anruf in einer Minute | InfraOne', seo.titel);
-        check('Description wortgleich', seo.beschreibung === 'Der KI-Telefonassistent, der Schweizerdeutsch spricht: Website eingeben, Assistent entsteht, die KI ruft Sie an. Kostenlos testen, ohne Anmeldung. Für Praxen, Handwerk, KMU in der Schweiz.');
-        check('Canonical', seo.canonical === 'https://infraone.ch/ki-telefonassistent', seo.canonical);
-        check('OG-Bild', /\/og\/ki-telefonassistent\.png$/.test(seo.ogBild || ''), seo.ogBild);
-        check('H1 wortgleich', seo.h1 === 'Erleben Sie Ihren KI-Telefonassistenten – in einer Minute', seo.h1);
-        const h2Soll = ['So funktioniert der Testanruf', 'Warum Schweizerdeutsch den Unterschied macht', 'Was der Assistent im Alltag übernimmt', 'Für welche Betriebe', 'Datenschutz und Technik, ehrlich erklärt', 'Häufige Fragen', 'Bereit für Ihren eigenen Assistenten?'];
-        check('H2 wortgleich und vollständig', h2Soll.every((h) => seo.h2.includes(h)), seo.h2.join(' | '));
-        check('JSON-LD Service/FAQPage/BreadcrumbList/WebPage', ['Service', 'FAQPage', 'BreadcrumbList', 'WebPage'].every((t) => seo.typen.includes(t)), seo.typen.join(','));
-        check('Platzhalter wortgleich', seo.platzhalter === 'Ihre Website, z. B. muster-ag.ch');
-        check('Vertrauenszeile wortgleich', seo.vertrauen === 'Kostenlos · Ohne Anmeldung · Keine Werbeanrufe', seo.vertrauen);
-        const dsTechnik = await page.evaluate(() => [...document.querySelectorAll('h2')].find((h) => h.textContent.trim() === 'Datenschutz und Technik, ehrlich erklärt')?.nextElementSibling?.textContent?.replace(/\s+/g, ' ').trim());
-        check('Abschnitt «Datenschutz und Technik» wortgleich', dsTechnik === 'Die Telefonanlage und Ihre Gesprächsprotokolle laufen in der Schweiz auf Systemen von InfraOne. Für Spracherkennung und Sprachausgabe nutzen wir die KI-Schnittstellen von OpenAI; Gesprächsinhalte werden dort nicht zum Training verwendet. Ihre Nummer aus dem Testanruf verwenden wir für diesen Anruf und für eine Rückmeldung von uns, falls Sie Fragen haben – nicht für Werbung. Mitschnitte gibt es im Kundenbetrieb nur mit Einwilligung beider Seiten.', dsTechnik);
-        check('keine Preise/Prozente im Inhalt', !seo.preise);
-        check('kein ß', !seo.ss);
-
-        // Navigation (Header-Untermenü erscheint beim Überfahren), Footer, Sitemap, llms
-        await page.locator('header nav >> text=Cloud-').first().hover();
-        await page.waitForTimeout(500);
-        const imHeader = await page.locator('header a[href="/ki-telefonassistent"]').count();
-        const imFooter = await page.locator('footer a[href="/ki-telefonassistent"]').count();
-        check('Header (unter Cloud-Telefonie) und Footer verlinken /ki-telefonassistent', imHeader >= 1 && imFooter >= 1, `Header ${imHeader}, Footer ${imFooter}`);
-        const sitemap = await (await fetch(`${BASE}/sitemap.xml`)).text();
-        check('Sitemap enthält Seite', sitemap.includes('https://infraone.ch/ki-telefonassistent'));
-        const llms = await (await fetch(`${BASE}/llms.txt`)).text();
-        const llmsFull = await (await fetch(`${BASE}/llms-full.txt`)).text();
-        check('llms.txt + llms-full.txt ergänzt', llms.includes('/ki-telefonassistent') && llmsFull.includes('/ki-telefonassistent'));
-
-        // Kantenmessung (Layout-Regel) wie AUFTRAG-013
-        await page.evaluate(async () => {
-            for (let y = 0; y <= document.body.scrollHeight; y += 800) {
-                window.scrollTo(0, y);
-                await new Promise((r) => setTimeout(r, 50));
-            }
-            window.scrollTo(0, 0);
-        });
-        const kanten = await page.evaluate(() => {
-            const aus = [];
-            for (const sec of document.querySelectorAll('main section')) {
-                const c = sec.querySelector(':scope > .container');
-                if (!c) continue;
-                const cr = c.getBoundingClientRect();
-                const links = cr.left + parseFloat(getComputedStyle(c).paddingLeft);
-                for (const k of c.children) {
-                    const r = k.getBoundingClientRect();
-                    if (r.width === 0) continue;
-                    const cls = typeof k.className === 'string' ? k.className : '';
-                    const typo = k.tagName === 'P' || /text-|subtitle|opacity/.test(cls) || /max-w-/.test(cls) && k.tagName === 'P';
-                    aus.push({ abw: Math.abs(r.left - links), typo, tag: k.tagName, cls: cls.slice(0, 60) });
-                }
-            }
-            return aus;
-        });
-        const abweichend = kanten.filter((k) => !k.typo && k.abw > 1.1);
-        check('Kanten /ki-telefonassistent: Strukturblöcke volle Containerbreite', abweichend.length === 0, abweichend.map((a) => `${a.tag} ${a.cls}`).join(' ;; ') || `${kanten.length} Blöcke geprüft`);
-
-        // Datenschutz: Abschnitt Testanruf (wortgleich)
-        await page.goto(`${BASE}/datenschutz`, { waitUntil: 'networkidle' });
-        const ds = await page.evaluate(() => {
-            const h = document.querySelector('#testanruf-ki-telefonassistent');
-            return { h2: h?.textContent?.trim(), p: h?.nextElementSibling?.textContent?.replace(/\s+/g, ' ').trim(), danach: h?.nextElementSibling?.nextElementSibling?.textContent?.trim() };
-        });
-        const dsSoll = 'Wenn Sie auf der Seite «KI-Telefonassistent» eine Website-Adresse eingeben, rufen unsere Systeme die öffentlich erreichbaren Seiten dieser Website ab und erstellen daraus ein Profil (Firmenname, Kontaktangaben, Öffnungszeiten, Leistungen, Logo und Farben). Dieses Profil wird für höchstens zwei Stunden gespeichert und danach gelöscht. Geben Sie Ihre Telefonnummer ein und bestätigen den Testanruf, verwenden wir die Nummer für diesen Anruf. Zusammen mit einer Zusammenfassung und dem Gesprächsprotokoll erhält InfraOne sie als Hinweis auf Ihr Interesse, damit wir Rückfragen beantworten können; für Werbung verwenden wir sie nicht. Der Testanruf dauert höchstens drei Minuten. Die Telefonanlage und das Gesprächsprotokoll laufen auf Systemen von InfraOne in der Schweiz; für Spracherkennung und Sprachausgabe nutzen wir die Schnittstellen von OpenAI, wobei Gesprächsinhalte dort nicht zum Training von Modellen verwendet werden. Mitschnitte werden nicht erstellt. Pro Telefonnummer sind zwei Testanrufe am Tag möglich.';
-        check('Datenschutz: H2 «Testanruf KI-Telefonassistent» vor den Schlussabschnitten', /^\d+\. Testanruf KI-Telefonassistent$/.test(ds.h2 || '') && /Datensicherheit/.test(ds.danach || ''), `${ds.h2} → danach «${ds.danach}»`);
-        check('Datenschutz: Abschnittstext wortgleich', ds.p === dsSoll, ds.p);
-        const stand = await page.evaluate(() => [...document.querySelectorAll('main p')].map((p) => p.textContent.trim()).find((t) => t.startsWith('Stand:')));
-        check('Datenschutz: Stand Oktober 2026', stand === 'Stand: Oktober 2026', stand);
-
-        // Teaser auf /cloud-telefonie und Startseite
-        await page.goto(`${BASE}/cloud-telefonie`, { waitUntil: 'networkidle' });
-        check('Teaser auf /cloud-telefonie', (await page.locator('main a[href="/ki-telefonassistent"]').count()) >= 1);
-        await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-        check('Eintrag in der Leistungsübersicht der Startseite', (await page.locator('main a[href="/ki-telefonassistent"]').count()) >= 1);
-        await ctx.close();
+if (args.includes('--attrappe')) {
+    await attrappenTest();
+} else {
+    const browser = await chromium.launch({ executablePath: CHROME, headless: true });
+    try {
+        const logoIndex = args.indexOf('--logos');
+        const nur = args.includes('--nur') ? args[args.indexOf('--nur') + 1] : null;
+        if (logoIndex >= 0) {
+            await logoKarten(browser, args.slice(logoIndex + 1));
+        } else if (nur) {
+            const v = {
+                'desktop-1440-hell': { breite: 1440, hoehe: 900, theme: 'light', website: 'zahnarztpraxisneuwiesen.ch', sprache: 'Schweizerdeutsch' },
+                'mobil-375-hell': { breite: 375, hoehe: 812, theme: 'light', mobil: true, website: 'ryserboeden.ch', sprache: 'Schweizerdeutsch' },
+                'desktop-1440-dunkel': { breite: 1440, hoehe: 900, theme: 'dark', website: 'gmtec.ch', sprache: 'Hochdeutsch' },
+                'mobil-375-dunkel': { breite: 375, hoehe: 812, theme: 'dark', mobil: true, website: 'swipay.ch', sprache: 'English' },
+            }[nur];
+            await variante(browser, { name: nur, ...v });
+        } else {
+            await seoPruefung(browser);
+            const messung = [];
+            messung.push(await variante(browser, { name: 'desktop-1440-hell', breite: 1440, hoehe: 900, theme: 'light', website: 'zahnarztpraxisneuwiesen.ch', sprache: 'Schweizerdeutsch' }));
+            messung.push(await variante(browser, { name: 'desktop-1440-dunkel', breite: 1440, hoehe: 900, theme: 'dark', website: 'gmtec.ch', sprache: 'Hochdeutsch' }));
+            messung.push(await variante(browser, { name: 'mobil-375-hell', breite: 375, hoehe: 812, theme: 'light', mobil: true, website: 'ryserboeden.ch', sprache: 'Schweizerdeutsch' }));
+            messung.push(await variante(browser, { name: 'mobil-375-dunkel', breite: 375, hoehe: 812, theme: 'dark', mobil: true, website: 'swipay.ch', sprache: 'English' }));
+            messung.push(await variante(browser, { name: 'desktop-1440-fehler', breite: 1440, hoehe: 900, theme: 'light', website: 'kafischnaps.ch', sprache: 'Hochdeutsch', fehlerFall: true }));
+            console.log(`\nCLS je Variante: ${messung.map((m) => m.cls.toFixed(4)).join(', ')} · Scan bis Karte: ${messung.map((m) => (m.scanDauer / 1000).toFixed(1) + ' s').join(', ')}`);
+        }
+    } finally {
+        await browser.close();
+        limitsZuruecksetzen();
     }
-
-    // 1. Desktop hell, Erfolg
-    await durchlauf(browser, attrappe, { name: 'desktop-1440', breite: 1440, hoehe: 900, theme: 'light', website: 'zahnarztpraxisneuwiesen.ch', sprache: 'Schweizerdeutsch', nummer: '079 000 00 01' });
-    // 2. Mobil hell, Erfolg, Hochdeutsch
-    await durchlauf(browser, attrappe, { name: 'mobil-390', breite: 390, hoehe: 844, theme: 'light', mobil: true, website: 'https://elektro-tel.ch', sprache: 'Hochdeutsch', nummer: '+41 79 000 00 02' });
-    // 3. Desktop dunkel, Fehlerpfad (nicht erreicht), Englisch
-    await durchlauf(browser, attrappe, { name: 'desktop-dunkel', breite: 1440, hoehe: 900, theme: 'dark', website: 'swipay.ch', sprache: 'English', nummer: '079 000 00 03', fehlerFall: true });
-    // 4. Mobil dunkel, Erfolg
-    await durchlauf(browser, attrappe, { name: 'mobil-dunkel', breite: 390, hoehe: 844, theme: 'dark', mobil: true, website: 'infraone.ch', sprache: 'Schweizerdeutsch', nummer: '079 000 00 04' });
-
-    check('Logo auf mindestens 3 von 4 Karten sichtbar', logosSichtbar.filter(Boolean).length >= 3, `${logosSichtbar.filter(Boolean).length}/4`);
-
-    // Attrappe: Schnittstelle wie AUFTRAG-091
-    await sleep(1500);
-    const abgeholt = attrappe.protokoll.filter((p) => p.status === 'abgeholt');
-    check('Attrappe: 4 Aufträge abgeholt', abgeholt.length === 4, abgeholt.map((a) => `${a.sprache}/${a.nummer}`).join(', '));
-    check('Attrappe: Auftrag-Felder exakt', abgeholt.every((a) => a.felder === 'id,erstellt,nummer,sprache,profil'), abgeholt[0]?.felder);
-    check('Attrappe: Profil-Felder exakt', abgeholt.every((a) => a.profilFelder === 'firma,website,assistent_name,branche,telefon,email,adresse,oeffnungszeiten_text,firma_text,faehigkeiten,wissen,logo_url,farben'), abgeholt[0]?.profilFelder);
-    check('Attrappe: Sprachen dialekt_auto/hochdeutsch/englisch', ['dialekt_auto', 'hochdeutsch', 'englisch'].every((s) => abgeholt.some((a) => a.sprache === s)));
-    check('Attrappe: Wissen 5–30 je Auftrag', abgeholt.every((a) => a.wissen >= 5 && a.wissen <= 30), abgeholt.map((a) => a.wissen).join(','));
-    check('Attrappe: alle Statusmeldungen 200', attrappe.protokoll.filter((p) => p.http).every((p) => p.http === 200));
-
-    // Datensparsamkeit: abgeschlossene Aufträge ohne Nummer und ohne Profil
-    if (existsSync(path.join(STORE, 'auftrag'))) {
-        const auftraege = readdirSync(path.join(STORE, 'auftrag')).map((f) => JSON.parse(readFileSync(path.join(STORE, 'auftrag', f), 'utf8')));
-        const offen = auftraege.filter((a) => a.nummer !== null || a.profil !== null);
-        check('Gespeicherte Aufträge: Nummer und Profil nach Abschluss entfernt', auftraege.length >= 4 && offen.length === 0, `${auftraege.length} Aufträge, ${offen.length} mit Nummer/Profil`);
-    } else {
-        check('Gespeicherte Aufträge prüfbar (Datei-Speicher)', false, `kein Ordner ${STORE}/auftrag`);
-    }
-
-    // Grenzen über die API (eigene IP)
-    limitsZuruecksetzen();
-    const scanAntworten = [];
-    for (let i = 0; i < 4; i++) {
-        const r = await fetch(`${BASE}/api/demo/scan`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: 'localtest.me' }) });
-        scanAntworten.push(r.status);
-    }
-    // Erwarteter Modus des (lokalen) Servers: DEMO_LIMITS_AUS aus der Prozess-Umgebung, sonst aus .env.local
-    const limitsAus = (process.env.DEMO_LIMITS_AUS ?? env.DEMO_LIMITS_AUS) === '1';
-    if (limitsAus) check('Limits aus (DEMO_LIMITS_AUS=1, lokal): 4. Scan je Stunde ohne 429', scanAntworten.join(',') === '422,422,422,422', scanAntworten.join(','));
-    else check('Limit: 4. Scan je Stunde → 429', scanAntworten.join(',') === '422,422,422,429', scanAntworten.join(','));
-    const ohneToken = await fetch(`${BASE}/api/demo/warteschlange`);
-    check('Warteschlange ohne Token → 401', ohneToken.status === 401);
-    limitsZuruecksetzen();
-} finally {
-    attrappe.stopp();
-    await browser.close();
 }
 
 const fehlgeschlagen = ergebnisse.filter((e) => !e.ok);

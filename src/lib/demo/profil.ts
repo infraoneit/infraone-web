@@ -9,7 +9,7 @@
  *   Profil regelbasiert — die Demo scheitert nie an der KI.
  */
 import type { Extrakt, Profil, ProfilQuelle, WissenEintrag } from './typen';
-import { freieNamen, istErlaubterName, istWeiblich, waehleName, NAMEN_MAENNLICH, NAMEN_WEIBLICH } from './namen';
+import { erlaubteNamen, freieNamen, istErlaubterName, istWeiblich, stimmeFuer, waehleName } from './namen';
 import { formatiereNummer, normalisiereGefundeneNummer } from './nummer';
 
 export const KI_MODELL = 'gpt-4.1-mini';
@@ -190,8 +190,9 @@ export function regelProfil(x: Extrakt): ProfilErgebnis {
         firma_text: firmaTextRegeln(x),
         faehigkeiten: [...STANDARD_FAEHIGKEITEN],
         wissen: wissenRegeln(x, firma, telefon, email, adresse, zeiten),
-        logo_url: x.logo_kandidaten[0]?.url ?? null,
+        logo_url: x.logo?.url ?? null,
         farben: x.farben,
+        stimme: stimmeFuer(name),
     };
     return { profil, quelle: 'regeln', weiblich: istWeiblich(name), ms: Date.now() - t0 };
 }
@@ -345,11 +346,12 @@ export function bereinigeKiProfil(roh: unknown, x: Extrakt, regel: Profil): { pr
         if (!fragenGesehen.has(r.frage.toLowerCase())) wissen.push(r);
     }
 
+    const assistentName = name && istErlaubterName(name) && erlaubt.includes(name) ? name : regel.assistent_name;
     return {
         profil: {
             firma: firma && firma.length >= 2 && firma.length <= 120 ? firma : regel.firma,
             website: regel.website,
-            assistent_name: name && istErlaubterName(name) && erlaubt.includes(name) ? name : regel.assistent_name,
+            assistent_name: assistentName,
             branche: branche.length >= 2 && branche.length <= 30 ? branche : regel.branche,
             telefon,
             email,
@@ -360,6 +362,7 @@ export function bereinigeKiProfil(roh: unknown, x: Extrakt, regel: Profil): { pr
             wissen,
             logo_url: regel.logo_url,
             farben: regel.farben,
+            stimme: stimmeFuer(assistentName),
         },
         verworfen,
     };
@@ -379,7 +382,7 @@ export async function baueProfil(x: Extrakt, zeitMs = KI_ZEIT_MS): Promise<Profi
         for (const c of `${x.host}|${n}`) h = (h * 33 + c.charCodeAt(0)) >>> 0;
         return h;
     };
-    const erlaubteNamen = (namen.length ? namen : [...NAMEN_WEIBLICH, ...NAMEN_MAENNLICH]).sort((a, b) => streue(a) - streue(b));
+    const namenFuerKi = (namen.length ? namen : erlaubteNamen()).sort((a, b) => streue(a) - streue(b));
     try {
         const res = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -392,12 +395,12 @@ export async function baueProfil(x: Extrakt, zeitMs = KI_ZEIT_MS): Promise<Profi
                     { role: 'system', content: SYSTEM_PROMPT },
                     {
                         role: 'user',
-                        content: `Erlaubte Vornamen: ${erlaubteNamen.join(', ')}\n\nExtrakt (JSON):\n${JSON.stringify(kiEingabe(x))}`,
+                        content: `Erlaubte Vornamen: ${namenFuerKi.join(', ')}\n\nExtrakt (JSON):\n${JSON.stringify(kiEingabe(x))}`,
                     },
                 ],
                 response_format: {
                     type: 'json_schema',
-                    json_schema: { name: 'assistenten_profil', strict: true, schema: kiSchema(erlaubteNamen) },
+                    json_schema: { name: 'assistenten_profil', strict: true, schema: kiSchema(namenFuerKi) },
                 },
             }),
             signal: AbortSignal.timeout(zeitMs),
@@ -436,5 +439,7 @@ export function profilFehler(p: Profil): string[] {
     if (p.wissen.length < 5 || p.wissen.length > 30) f.push('wissen_anzahl');
     if (p.wissen.some((w) => !w.frage || !w.antwort || w.antwort.length > 500 || !w.thema)) f.push('wissen_eintrag');
     if (p.farben && !(/^#[0-9A-F]{6}$/i.test(p.farben.primaer) && /^#[0-9A-F]{6}$/i.test(p.farben.sekundaer))) f.push('farben');
+    if (p.stimme !== 'weiblich' && p.stimme !== 'maennlich') f.push('stimme');
+    if (p.stimme !== stimmeFuer(p.assistent_name)) f.push('stimme_passt_nicht');
     return f;
 }

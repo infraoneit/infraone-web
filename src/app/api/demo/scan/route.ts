@@ -1,16 +1,21 @@
 /**
- * POST /api/demo/scan  Body {url} → {scan_id, schritte, profil, …}
+ * POST /api/demo/scan  Body {url} → {scan_id, schritte, profil, logo, funde, …}
  *
  * Stufe 1 von 2 (AUFTRAG-092): liest die Website (Budget 8 s) und liefert
  * sofort ein regelbasiertes Profil. Das KI-Profil baut danach
  * POST /api/demo/profil (eigener Aufruf, damit jede Function deutlich unter
  * dem Netlify-Limit von 26 s bleibt).
+ *
+ * AUFTRAG-095: `logo` (geprüft: Quelle, Format, Grösse, hell) und `funde`
+ * (echte Werte für die Scan-Schritte der Oberfläche).
  */
 import { antwort, clientIp, fehler, leseJson, MELDUNG } from '@/lib/demo/api';
 import { normalisiereEingabe, scanneWebsite, ScanFehler } from '@/lib/demo/scanner';
 import { regelProfil } from '@/lib/demo/profil';
 import { scanErlaubt } from '@/lib/demo/limits';
-import { speichereNeuenScan } from '@/lib/demo/scans';
+import { neueScanId, speichereNeuenScan } from '@/lib/demo/scans';
+import { gueltigeLogos, logoFuerKarte, logoUrlFuerProfil } from '@/lib/demo/logo';
+import { formatiereNummer } from '@/lib/demo/nummer';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -42,8 +47,13 @@ export async function POST(req: Request) {
 
     try {
         const scan = await scanneWebsite(url);
+        const scanId = neueScanId();
+        const logos = gueltigeLogos(scan.extrakt.logo_kandidaten);
+        const bestes = logos[0] ?? null;
         const regel = regelProfil(scan.extrakt);
+        regel.profil.logo_url = logoUrlFuerProfil(bestes?.k ?? null, bestes?.index ?? 0, scanId, new URL(req.url).origin);
         const gespeichert = await speichereNeuenScan({
+            id: scanId,
             extrakt: scan.extrakt,
             profil: regel.profil,
             profil_quelle: 'regeln',
@@ -51,13 +61,23 @@ export async function POST(req: Request) {
             schritte: scan.schritte,
             dauer_ms: scan.dauer_ms,
         });
+        const x = scan.extrakt;
         return antwort({
             scan_id: gespeichert.id,
             schritte: scan.schritte.map(({ schluessel, ok }) => ({ schluessel, ok })),
             profil: regel.profil,
             profil_quelle: 'regeln',
             assistent_weiblich: regel.weiblich,
-            logo_kandidaten: scan.extrakt.logo_kandidaten.slice(0, 5).map((k) => k.url),
+            // Bestes Logo zuerst, danach bis zu zwei Ersatz-Logos (falls eines im Browser nicht lädt)
+            logos: logos.slice(0, 3).map(({ k, index }) => logoFuerKarte(k, index, gespeichert.id)),
+            funde: {
+                seiten: x.seiten.filter((s) => !s.fehler).length,
+                firma: regel.profil.firma,
+                telefon: regel.profil.telefon ? formatiereNummer(regel.profil.telefon) : null,
+                oeffnungszeiten: regel.profil.oeffnungszeiten_text,
+                farbe: bestes?.k.farbe ?? x.farben?.primaer ?? null,
+                plattform: x.plattform,
+            },
             dauer_ms: scan.dauer_ms,
         });
     } catch (e) {

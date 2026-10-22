@@ -1,6 +1,7 @@
-/* KI-Telefonassistent-Demo (AUFTRAG-092): atmende Stimm-Wellenform.
-   Reines CSS (keine Canvas-Animation). Die Farbe kommt über --welle und
-   gleitet von InfraOne-Grün zur Firmenfarbe des Besuchers. */
+/* KI-Telefonassistent-Demo (AUFTRAG-092/095).
+   Bühne: Eingabe links, lebendes Telefon rechts (mobil darunter).
+   Die Wellenform gleitet von InfraOne-Grün (Leerlauf) zur Firmenfarbe
+   des Besuchers (--welle). Kundeninhalte tragen nie InfraOne-Grün. */
 
 @property --welle {
     syntax: '<color>';
@@ -8,28 +9,460 @@
     initial-value: #4caf50;
 }
 
-.welle {
+/* ------------------------------------------------------------------ */
+/* Bühne (Raster)                                                      */
+/* ------------------------------------------------------------------ */
+
+.buehne {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'intro' 'konsole' 'telefon' 'aktion';
+    column-gap: 4rem;
+    row-gap: 2rem;
+}
+
+.intro {
+    grid-area: intro;
+}
+.konsole {
+    grid-area: konsole;
+}
+.telefonBereich {
+    grid-area: telefon;
+    display: flex;
+    justify-content: center;
+}
+.aktion {
+    grid-area: aktion;
+    align-self: start;
+}
+
+/* Aktionskarte: feste Mindesthöhe über alle Anruf-Zustände (CLS 0 beim Polling) */
+.aktionKarte {
+    min-height: var(--aktion-min, 0px);
+}
+
+@media (min-width: 1024px) {
+    .buehne {
+        grid-template-columns: minmax(0, 1fr) 380px;
+        grid-template-rows: auto auto 1fr;
+        grid-template-areas: 'intro telefon' 'konsole telefon' 'aktion telefon';
+        row-gap: 2.25rem;
+    }
+    /* Kein position:sticky: body ist hier ein Scroll-Container (overflow-x), Sticky versetzt dann das Telefon */
+    .telefonBereich {
+        align-self: start;
+    }
+}
+
+@media (min-width: 1280px) {
+    .buehne {
+        grid-template-columns: minmax(0, 1fr) 400px;
+        column-gap: 5.5rem;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* Eingabe                                                             */
+/* ------------------------------------------------------------------ */
+
+.feld {
+    transition:
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+.feld:focus-within {
+    border-color: var(--primary);
+    box-shadow:
+        0 0 0 4px color-mix(in oklab, var(--primary) 18%, transparent),
+        0 18px 40px -24px color-mix(in oklab, var(--primary) 60%, transparent);
+}
+
+/* Platz für Belege bzw. Fund-Chips: keine Layout-Sprünge beim Wechsel */
+.fundzeile {
+    /* drei Chip-Zeilen auf 375 px */
+    min-height: 7.75rem;
+}
+@media (min-width: 640px) {
+    .fundzeile {
+        min-height: 3.25rem;
+    }
+}
+
+.chip {
+    animation: chip-rein 0.32s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes chip-rein {
+    from {
+        opacity: 0;
+        transform: translateY(5px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* Primär-Button (Zustandsautomat)                                     */
+/* ------------------------------------------------------------------ */
+
+.knopf {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.15s ease;
+}
+.knopf:not(:disabled):hover {
+    transform: translateY(-1px);
+}
+.knopf:not(:disabled):active {
+    transform: translateY(0) scale(0.99);
+}
+.knopfText {
+    display: inline-block;
+    animation: knopf-text 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes knopf-text {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Wir rufen Sie gleich an … — Puls */
+.puls {
+    position: relative;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 999px;
+    background: currentColor;
+}
+.puls::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: currentColor;
+    animation: puls 1.6s ease-out infinite;
+}
+@keyframes puls {
+    from {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    to {
+        transform: scale(2.8);
+        opacity: 0;
+    }
+}
+
+/* Gesamter Button atmet sanft, solange gewartet wird */
+.knopfWartet {
+    animation: knopf-atmen 1.8s ease-in-out infinite;
+}
+@keyframes knopf-atmen {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 45%, transparent);
+    }
+    50% {
+        box-shadow: 0 0 0 8px color-mix(in oklab, var(--primary) 0%, transparent);
+    }
+}
+
+/* Ihr Telefon klingelt … */
+.klingeln {
+    animation: klingeln 1.2s ease-in-out infinite;
+    transform-origin: 50% 60%;
+}
+@keyframes klingeln {
+    0%,
+    50%,
+    100% {
+        transform: rotate(0);
+    }
+    10%,
+    30% {
+        transform: rotate(-14deg);
+    }
+    20%,
+    40% {
+        transform: rotate(14deg);
+    }
+}
+
+/* Verbunden — kleine Wellenform im Button */
+.knopfWelle {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 1.1rem;
+}
+.knopfWelle > span {
+    width: 3px;
+    height: 100%;
+    border-radius: 99px;
+    background: currentColor;
+    transform-origin: center;
+    animation: sprechen 0.9s ease-in-out infinite;
+}
+.knopfWelle > span:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.knopfWelle > span:nth-child(3) {
+    animation-delay: -0.6s;
+}
+.knopfWelle > span:nth-child(4) {
+    animation-delay: -0.15s;
+}
+.knopfWelle > span:nth-child(5) {
+    animation-delay: -0.45s;
+}
+
+/* ------------------------------------------------------------------ */
+/* Telefon                                                             */
+/* ------------------------------------------------------------------ */
+
+.telefonHuelle {
+    position: relative;
+    width: min(100%, 300px);
+}
+@media (min-width: 1024px) {
+    .telefonHuelle {
+        width: 100%;
+        max-width: 322px;
+    }
+}
+
+/* Lichthof in der aktuellen Farbe (grün → Firmenfarbe) */
+.hof {
+    position: absolute;
+    inset: 6% -18% 10%;
+    z-index: 0;
+    border-radius: 50%;
+    /* weicher Verlauf ohne blur-Filter (günstiger beim Malen) */
+    background: radial-gradient(closest-side, color-mix(in oklab, var(--welle) 30%, transparent) 0%, color-mix(in oklab, var(--welle) 12%, transparent) 45%, transparent 78%);
+    transition: --welle 1.2s ease;
+    pointer-events: none;
+}
+
+.geraet {
     --welle: #4caf50;
     position: relative;
+    z-index: 1;
+    aspect-ratio: 9 / 18.6;
+    border-radius: 3rem;
+    padding: 0.6rem;
+    background: linear-gradient(160deg, #2a2f36 0%, #0e1013 55%, #1c2026 100%);
+    box-shadow:
+        0 2px 0 1px rgba(255, 255, 255, 0.06) inset,
+        0 0 0 1px rgba(0, 0, 0, 0.6),
+        0 40px 80px -30px rgba(10, 18, 10, 0.55),
+        0 18px 30px -18px rgba(10, 18, 10, 0.4);
+    transition: --welle 1.2s ease;
+}
+/* Dunkelmodus: Gerät hebt sich mit hellem Rand und Lichtsaum vom dunklen Grund ab */
+:global(.dark) .geraet {
+    background: linear-gradient(160deg, #3a414a 0%, #15181c 55%, #2a3038 100%);
+    box-shadow:
+        0 2px 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 0 1px rgba(255, 255, 255, 0.14),
+        0 0 70px -12px color-mix(in oklab, var(--welle) 40%, transparent),
+        0 40px 80px -30px rgba(0, 0, 0, 0.8);
+}
+:global(.dark) .hof {
+    background: radial-gradient(closest-side, color-mix(in oklab, var(--welle) 36%, transparent) 0%, color-mix(in oklab, var(--welle) 14%, transparent) 50%, transparent 80%);
+}
+
+/* Seitentasten */
+.geraet::before,
+.geraet::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    border-radius: 2px;
+    background: #23272d;
+}
+.geraet::before {
+    left: -3px;
+    top: 22%;
+    height: 9%;
+    box-shadow: 0 3.4rem 0 #23272d;
+}
+.geraet::after {
+    right: -3px;
+    top: 28%;
+    height: 14%;
+}
+
+.bildschirm {
+    position: relative;
+    height: 100%;
+    border-radius: 2.45rem;
+    overflow: hidden;
+    background: #f5f6f7;
+    color: #111418;
+    isolation: isolate;
+}
+:global(.dark) .bildschirm {
+    background: #0f1216;
+    color: #eef0f3;
+}
+
+.insel {
+    position: absolute;
+    z-index: 30;
+    top: 0.55rem;
+    left: 50%;
+    width: 5.8rem;
+    height: 1.6rem;
+    margin-left: -2.9rem;
+    border-radius: 999px;
+    background: #050607;
+}
+
+/* Ansichten: überblenden statt springen */
+.ansicht {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.985);
+    transition:
+        opacity 0.4s ease,
+        transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
+        visibility 0s linear 0.45s;
+}
+.ansichtAktiv {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+        opacity 0.4s ease 0.08s,
+        transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) 0.08s,
+        visibility 0s;
+}
+
+/* Akzent der Kundenfarbe: lesbar auf hellem bzw. dunklem Bildschirm */
+.bildschirm {
+    --kunde-akzent: var(--kunde-akzent-hell, #1e3a5f);
+}
+:global(.dark) .bildschirm {
+    --kunde-akzent: var(--kunde-akzent-dunkel, #8fb3e0);
+}
+
+/* Firmenfarbe als Fläche (Karte, Anruf) */
+.kundenFlaeche {
+    background: linear-gradient(160deg, var(--kunde) 0%, var(--kunde-tief) 100%);
+    color: var(--kunde-text);
+}
+
+/* Scan-Schritte */
+.schritt {
+    animation: schritt-rein 0.38s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes schritt-rein {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+.haken {
+    animation: haken 0.35s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+@keyframes haken {
+    from {
+        transform: scale(0.4);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Avatar mit Ringen (wählt / klingelt) */
+.ringe {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.ringe > span {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    border: 2px solid currentColor;
+    opacity: 0;
+    animation: ring 2.4s ease-out infinite;
+}
+.ringe > span:nth-child(2) {
+    animation-delay: 0.8s;
+}
+.ringe > span:nth-child(3) {
+    animation-delay: 1.6s;
+}
+@keyframes ring {
+    0% {
+        transform: scale(1);
+        opacity: 0.55;
+    }
+    100% {
+        transform: scale(1.9);
+        opacity: 0;
+    }
+}
+
+/* Sprachwahl (Segment-Control) */
+.segment {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 0.75rem;
+    background: rgba(17, 20, 24, 0.06);
+}
+:global(.dark) .segment {
+    background: rgba(255, 255, 255, 0.07);
+}
+.segmentAktiv {
+    background: #fff;
+    color: #111418;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+}
+:global(.dark) .segmentAktiv {
+    background: #2a3038;
+    color: #fff;
+}
+
+/* ------------------------------------------------------------------ */
+/* Wellenform                                                          */
+/* ------------------------------------------------------------------ */
+
+.welle {
+    position: relative;
     width: 100%;
-    height: var(--welle-hoehe, 200px);
+    height: var(--welle-hoehe, 120px);
+    transition: --welle 1.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    isolation: isolate;
-    /* Balkenbreite relativ zur Bühne (nicht zum Fenster): nie abgeschnitten */
     container-type: inline-size;
-    transition: --welle 1.4s ease;
-}
-
-.glow {
-    position: absolute;
-    inset: 8% 12%;
-    z-index: -1;
-    border-radius: 50%;
-    background: radial-gradient(closest-side, color-mix(in oklab, var(--welle) 42%, transparent), transparent 75%);
-    filter: blur(22px);
-    animation: glow 3.6s ease-in-out infinite;
 }
 
 .balken {
@@ -37,15 +470,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(1.5px, 0.8cqi, 5px);
+    gap: clamp(1.5px, 1.1cqi, 5px);
     height: 100%;
     width: 100%;
-    overflow: hidden;
 }
 
 .balken > span {
     flex: 0 0 auto;
-    width: clamp(2px, 1.15cqi, 7px);
+    width: clamp(2px, 1.6cqi, 6px);
     height: calc(var(--h) * 100%);
     border-radius: 999px;
     background: linear-gradient(
@@ -54,100 +486,28 @@
         var(--welle) 45%,
         color-mix(in oklab, var(--welle) 72%, black) 100%
     );
-    box-shadow: 0 0 12px color-mix(in oklab, var(--welle) 35%, transparent);
     transform: scaleY(0.55);
     transform-origin: center;
     animation: atmen 3.6s ease-in-out infinite;
     animation-delay: calc(var(--i) * -95ms);
-    will-change: transform;
 }
 
-/* Grundlinie */
-.balken::after {
-    content: '';
-    position: absolute;
-    left: 6%;
-    right: 6%;
-    top: 50%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--welle) 45%, transparent), transparent);
-    z-index: -1;
-}
-
-.ringe > span {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 150px;
-    height: 150px;
-    margin: -75px 0 0 -75px;
-    border-radius: 50%;
-    border: 2px solid var(--welle);
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Scan: schneller, mit Lichtkante, die über die Wellenform läuft */
 .welle[data-modus='scan'] .balken > span {
-    animation-duration: 1.15s;
+    animation-duration: 1.2s;
 }
-
-.welle[data-modus='scan'] .balken::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 22%;
-    background: linear-gradient(90deg, transparent, color-mix(in oklab, white 40%, transparent), transparent);
-    mix-blend-mode: soft-light;
-    animation: streifen 1.6s linear infinite;
-}
-
-.welle[data-modus='klingeln'] .ringe > span {
-    animation: ring 2.4s ease-out infinite;
-}
-
-.welle[data-modus='klingeln'] .ringe > span:nth-child(2) {
-    animation-delay: 0.8s;
-}
-
-.welle[data-modus='klingeln'] .ringe > span:nth-child(3) {
-    animation-delay: 1.6s;
-}
-
-.welle[data-modus='klingeln'] .balken > span {
-    animation-duration: 2.4s;
-}
-
 .welle[data-modus='sprechen'] .balken > span {
     animation-name: sprechen;
     animation-duration: 1.05s;
 }
-
 .welle[data-modus='still'] .balken > span {
-    animation-duration: 7s;
+    animation: none;
+    transform: scaleY(0.18);
 }
 
-/* Kompakte Variante im Kartenkopf (weiss auf Firmenfarbe) */
-.kompakt {
-    --welle-hoehe: 36px;
-}
-
-.kompakt .balken > span {
-    width: 3px;
+/* Weiss auf Firmenfarbe */
+.welleHell .balken > span {
     background: currentColor;
-    box-shadow: none;
-    opacity: 0.75;
-}
-
-.kompakt .balken {
-    gap: 3px;
-    justify-content: flex-start;
-}
-
-.kompakt .balken::after,
-.kompakt .glow {
-    display: none;
+    opacity: 0.85;
 }
 
 @keyframes atmen {
@@ -181,47 +541,13 @@
     }
 }
 
-@keyframes glow {
-    0%,
-    100% {
-        opacity: 0.55;
-        transform: scale(0.94);
-    }
-    50% {
-        opacity: 0.95;
-        transform: scale(1.04);
-    }
+.einblenden {
+    animation: einblenden 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
-
-@keyframes ring {
-    0% {
-        transform: scale(0.55);
-        opacity: 0.55;
-    }
-    100% {
-        transform: scale(1.9);
-        opacity: 0;
-    }
-}
-
-@keyframes streifen {
-    from {
-        left: -25%;
-    }
-    to {
-        left: 105%;
-    }
-}
-
-/* Chips erscheinen weich */
-.chip {
-    animation: chip-rein 0.35s cubic-bezier(0.25, 0.4, 0.25, 1) both;
-}
-
-@keyframes chip-rein {
+@keyframes einblenden {
     from {
         opacity: 0;
-        transform: translateY(6px) scale(0.98);
+        transform: translateY(8px);
     }
     to {
         opacity: 1;
@@ -229,43 +555,48 @@
     }
 }
 
-.karteRein {
-    animation: karte-rein 0.5s cubic-bezier(0.25, 0.4, 0.25, 1) both;
-}
+/* ------------------------------------------------------------------ */
+/* Bewegung reduzieren                                                 */
+/* ------------------------------------------------------------------ */
 
-@keyframes karte-rein {
-    from {
-        opacity: 0;
-        transform: translateY(14px);
-    }
-    to {
-        opacity: 1;
-        transform: none;
-    }
-}
-
-/* Bewegung reduzieren: sanft statt aus (ruhiges Atmen, keine Ringe, kein Lauflicht) */
 @media (prefers-reduced-motion: reduce) {
+    .hof,
+    .geraet,
     .welle {
         transition: none;
     }
-
+    .ansicht,
+    .ansichtAktiv {
+        transform: none;
+        transition: opacity 0.15s linear;
+    }
     .balken > span,
     .welle[data-modus] .balken > span {
         animation: atmen-sanft 8s ease-in-out infinite;
         animation-delay: calc(var(--i) * -170ms);
     }
-
-    .glow,
-    .ringe > span,
-    .welle[data-modus] .ringe > span,
-    .welle[data-modus='scan'] .balken::before {
+    .welle[data-modus='still'] .balken > span {
         animation: none;
     }
-
     .chip,
-    .karteRein {
+    .schritt,
+    .haken,
+    .knopfText,
+    .einblenden {
         animation: none;
+    }
+    .ringe > span,
+    .puls::after,
+    .klingeln,
+    .knopfWartet {
+        animation: none;
+    }
+    .knopfWelle > span {
+        animation: none;
+        transform: scaleY(0.6);
+    }
+    .knopf:not(:disabled):hover {
+        transform: none;
     }
 }
 

@@ -101,9 +101,13 @@ export async function leseAuftrag(id: string): Promise<AuftragGespeichert | null
     return a ? pruefeFristen(a) : null;
 }
 
-/** Öffentliche Statusansicht: nur Status, keine Nummer, kein Profil. */
+/**
+ * Öffentliche Statusansicht: nur Status, keine Nummer, kein Profil.
+ * AUFTRAG-095: bei «fehler» zusätzlich der Grund (z. B. limit, besetzt), damit
+ * die Seite eine zutreffende Meldung zeigt statt immer «nicht erreicht».
+ */
 export function oeffentlich(a: AuftragGespeichert) {
-    return { id: a.id, status: a.status, zeit: a.zeit, dauer_s: a.dauer_s, zusammenfassung: a.zusammenfassung };
+    return { id: a.id, status: a.status, zeit: a.zeit, dauer_s: a.dauer_s, zusammenfassung: a.zusammenfassung, grund: a.status === 'fehler' ? a.grund : null };
 }
 
 export function fuerOrchestrator(a: AuftragGespeichert): AuftragFuerOrchestrator {

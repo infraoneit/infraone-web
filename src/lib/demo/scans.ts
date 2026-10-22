@@ -10,7 +10,13 @@ export const SCAN_ID_RE = /^s-[a-z0-9]{16}$/;
 
 export type ScanMitVersuchen = ScanGespeichert & { ki_versuche: number };
 
+/** Neue, unvorhersehbare Scan-Kennung (16 Zufallszeichen). */
+export function neueScanId(): string {
+    return `s-${zufall(16)}`;
+}
+
 export async function speichereNeuenScan(daten: {
+    id?: string;
     extrakt: Extrakt;
     profil: Profil;
     profil_quelle: ProfilQuelle;
@@ -19,13 +25,14 @@ export async function speichereNeuenScan(daten: {
     dauer_ms: number;
 }): Promise<ScanMitVersuchen> {
     const jetzt = Date.now();
+    const { id, ...rest } = daten;
     const scan: ScanMitVersuchen = {
-        id: `s-${zufall(16)}`,
+        id: id && SCAN_ID_RE.test(id) ? id : neueScanId(),
         erstellt: isoZuerich(new Date(jetzt)),
         ablauf: jetzt + SCAN_TTL_MS,
         profil_ms: null,
         ki_versuche: 0,
-        ...daten,
+        ...rest,
     };
     await speicher().schreibe(`scan/${scan.id}`, scan);
     return scan;

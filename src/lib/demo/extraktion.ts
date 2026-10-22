@@ -8,6 +8,20 @@
 import { load, type CheerioAPI } from 'cheerio/slim';
 import type { Abschnitt, LogoKandidat } from './typen';
 import { parseCssFarbe } from './farben';
+import {
+    bereinigeSvg,
+    bestesAusSrcset,
+    hostTreffer,
+    hostWoerter,
+    iconName,
+    istFremdlogoKontext,
+    istHelleVariante,
+    logosAusCss,
+    hatLogoWort,
+    type CssLogo,
+    merkmalPunkte,
+} from './logo';
+import { svgGroesse } from './bildanalyse';
 
 /** Minimale Struktur eines htmlparser2-Knotens (ohne Import von domhandler). */
 interface DomKnoten {
@@ -30,6 +44,8 @@ export interface SeitenAnalyse {
     generator: string | null;
     jsonld: Record<string, unknown>[];
     logo_kandidaten: LogoKandidat[];
+    /** Logo-URLs aus <style>-Blöcken (CSS-Hintergrund auf Logo-Selektoren) */
+    css_logo: CssLogo[];
     tel_links: string[];
     mailto: string[];
     ueberschriften: string[];
@@ -117,23 +133,43 @@ export function textZeilen(knoten: DomKnoten | DomKnoten[]): string[] {
         .filter((z) => z.length >= 2);
 }
 
-function bildQuelle($: CheerioAPI, el: DomKnoten, basis: string): string | null {
+/** Lazy-Attribute zuerst (src ist dann oft nur ein Platzhalter), dann src, srcset, <picture>. */
+function bildQuelle($: CheerioAPI, el: DomKnoten, basis: string): { url: string | null; dataUri: string | null } {
     const a = el.attribs ?? {};
-    const kandidaten = [
+    const kandidaten: Array<string | null | undefined> = [
         a['data-src'],
         a['data-lazy-src'],
         a['data-orig-src'],
         a['data-original'],
         a['data-lazy'],
+        a['data-pagespeed-lazy-src'],
+        bestesAusSrcset(a['data-srcset'] || a['data-lazy-srcset']),
         a.src,
-        (a.srcset || a['data-srcset'] || a['data-lazy-srcset'] || '').split(',')[0]?.trim().split(/\s+/)[0],
+        bestesAusSrcset(a.srcset),
     ];
-    for (const k of kandidaten) {
-        const u = absolut(k, basis);
-        if (u) return u;
+    // <picture><source srcset type="image/svg+xml|webp"> …
+    const picture = $(el as never).parent('picture');
+    if (picture.length) {
+        picture.children('source').each((_, s) => {
+            const sa = (s as unknown as DomKnoten).attribs ?? {};
+            const srcset = sa.srcset || sa['data-srcset'];
+            if (/svg/i.test(sa.type || '') || /\.svg(\?|$)/i.test(srcset || '')) kandidaten.unshift(bestesAusSrcset(srcset));
+            else kandidaten.push(bestesAusSrcset(srcset));
+        });
     }
-    void $;
-    return null;
+    let dataUri: string | null = null;
+    for (const k of kandidaten) {
+        if (!k) continue;
+        const t = k.trim();
+        if (/^data:/i.test(t)) {
+            // Platzhalter (1×1-GIF, leeres SVG) überspringen; echte Logos als data:-URI merken
+            if (/^data:image\/(svg\+xml|png|webp|gif|jpe?g)[;,]/i.test(t) && t.length > 400 && !dataUri) dataUri = t;
+            continue;
+        }
+        const u = absolut(t, basis);
+        if (u) return { url: u, dataUri: null };
+    }
+    return { url: null, dataUri };
 }
 
 function jsonLdKnoten(roh: unknown, aus: Record<string, unknown>[], tiefe = 0): void {
@@ -171,15 +207,16 @@ function parseJsonLd(text: string): unknown {
     }
 }
 
-const LOGO_RE = /logo|brand|marke|wordmark|signet/i;
-
 function istHomeLink(href: string | undefined, basis: string): boolean {
     if (!href) return false;
+    const h = href.trim();
+    if (h === '/' || h === './') return true;
+    if (!h || h.startsWith('#')) return false;
     try {
-        const u = new URL(href, basis);
+        const u = new URL(h, basis);
         const b = new URL(basis);
-        const host = (h: string) => h.replace(/^www\./, '');
-        return host(u.hostname) === host(b.hostname) && (u.pathname === '/' || /^\/(de|de-ch|index\.(html?|php))?\/?$/i.test(u.pathname));
+        const host = (x: string) => x.replace(/^www\./, '');
+        return host(u.hostname) === host(b.hostname) && (u.pathname === '/' || /^\/(de|de-ch|ch-de|home|startseite|index\.(html?|php))?\/?$/i.test(u.pathname));
     } catch {
         return false;
     }
@@ -190,9 +227,193 @@ function iconGroesse(sizes: string | undefined): number {
     return m ? Number(m[1]) : 0;
 }
 
+// Kopfbereich: bewusst ohne [class*="header"] allein — das trifft auch Hero-Module mit Fotos (z. B. Divi «fullwidth_header»)
+const KOPF_SELEKTOR =
+    'header, [role="banner"], #header, #masthead, #main-header, #SITE_HEADER, .site-header, .header, .main-header, [class*="site-header"], [class*="main-header"], [class*="header__"], [class*="header-wrap"], [class*="header-inner"], [class*="header-container"], [class*="header-top"], [class*="header-main"], [id*="header"], nav, [role="navigation"], [class*="navbar"], [class*="topbar"], [class*="top-bar"], [class*="menu-bar"]';
+const SOZIAL_RE = /facebook|instagram|linkedin|twitter|x\.com|youtube|tiktok|xing|pinterest|whatsapp|mailto:|tel:/i;
+
+/** Merkmalstext eines Elements und seiner Vorfahren (Klassen/Ids/Labels). */
+function merkmalText($: CheerioAPI, el: unknown, ebenen: number): string {
+    const knoten = $(el as never);
+    const eigen = ['class', 'id', 'alt', 'title', 'aria-label', 'data-testid', 'role', 'src', 'data-src']
+        .map((a) => knoten.attr(a) || '')
+        .join(' ');
+    const vorfahren = knoten
+        .parents()
+        .slice(0, ebenen)
+        .map((_, p) => `${$(p).attr('class') || ''} ${$(p).attr('id') || ''} ${$(p).attr('aria-label') || ''}`)
+        .get()
+        .join(' ');
+    return `${eigen} ${vorfahren}`;
+}
+
+/** Sammelt Logo-Kandidaten der Startseite (AUFTRAG-095). */
+function sammleLogos(
+    $: CheerioAPI,
+    html: string,
+    basis: string,
+    jsonld: Record<string, unknown>[],
+): { kandidaten: LogoKandidat[]; css_logo: CssLogo[] } {
+    const kandidaten: LogoKandidat[] = [];
+    let host = '';
+    try {
+        host = new URL(basis).hostname;
+    } catch {
+        /* egal */
+    }
+    const woerter = hostWoerter(host);
+    let reihenfolge = 0;
+    const dazu = (k: Omit<LogoKandidat, 'reihenfolge'>) => {
+        const schluessel = k.url ?? k.inhalt?.slice(0, 300);
+        if (!schluessel) return;
+        const da = kandidaten.find((x) => (x.url ?? x.inhalt?.slice(0, 300)) === schluessel);
+        if (da) {
+            // gleiche Datei aus besserer Quelle: Stufe/Punkte übernehmen
+            if (k.stufe < da.stufe || (k.stufe === da.stufe && k.punkte > da.punkte)) Object.assign(da, { ...k, reihenfolge: da.reihenfolge });
+            return;
+        }
+        kandidaten.push({ ...k, reihenfolge: reihenfolge++ });
+    };
+
+    // JSON-LD logo (Organisation/Betrieb)
+    for (const k of jsonld) {
+        const typ = String(k['@type'] ?? '');
+        if (/website|webpage|breadcrumb|person|product|offer|article|posting/i.test(typ)) continue;
+        const logo = k.logo as unknown;
+        let roh: string | undefined;
+        if (typeof logo === 'string') roh = logo;
+        else if (Array.isArray(logo) && typeof logo[0] === 'string') roh = logo[0];
+        else if (logo && typeof logo === 'object') {
+            const lo = (Array.isArray(logo) ? logo[0] : logo) as Record<string, unknown>;
+            roh = (lo?.contentUrl || lo?.url || lo?.['@id']) as string | undefined;
+        }
+        const u = typeof roh === 'string' ? absolut(roh, basis) : null;
+        if (u && /\.(png|jpe?g|gif|webp|avif|svg|ico)(\?|$)|\/media\/|\/image|\/uploads\//i.test(u)) {
+            dazu({ url: u, quelle: 'jsonld', stufe: 1, punkte: 10 + (hostTreffer(u, woerter) ? 5 : 0) - (iconName(u) ? 25 : 0), hellName: istHelleVariante(u), logoWort: true });
+        }
+    }
+
+    // <img>, Inline-<svg> und style-Hintergründe in Dokument-Reihenfolge
+    let erstesImKopf = true;
+    let svgAnzahl = 0;
+    $('img, svg, [style*="url("]').each((_, el) => {
+        const knoten = el as unknown as DomKnoten & { startIndex?: number; endIndex?: number };
+        const name = knoten.name;
+        const ctx = $(el as never);
+        if (name === 'svg' && ctx.parents('svg').length) return;
+        const merkmale = merkmalText($, el, 4);
+        const fremd = istFremdlogoKontext(merkmalText($, el, 6).replace(/\S*header\S*/gi, ''));
+        const link = ctx.closest('a');
+        const href = link.attr('href');
+        const homeLink = istHomeLink(href, basis);
+        if (!homeLink && href && SOZIAL_RE.test(href)) return;
+        const imKopf = ctx.closest(KOPF_SELEKTOR).length > 0 && !ctx.closest('footer').length;
+        const logoWort = hatLogoWort(merkmale);
+        if (fremd && !homeLink) return;
+        if (ctx.closest('footer').length && !logoWort) return;
+
+        if (name === 'img') {
+            const { url, dataUri } = bildQuelle($, knoten, basis);
+            if (!url && !dataUri) return;
+            // Firmenname im alt/title ist ein starkes Merkmal; im Dateinamen (z. B. «henrici-web-20.jpg») nur ein schwaches
+            const altTreffer = hostTreffer(`${knoten.attribs?.alt ?? ''} ${knoten.attribs?.title ?? ''}`, woerter);
+            const treffer = altTreffer || hostTreffer(url ?? '', woerter);
+            const stufe = (imKopf && (logoWort || homeLink || altTreffer)) || (homeLink && logoWort) ? 1 : homeLink || logoWort || (imKopf && erstesImKopf) ? 2 : 0;
+            if (!stufe) return;
+            if (url && /\.svg(\?|$)/i.test(url) && /arrow|chevron|close|menu|burger|search|lupe|icon-|flag/i.test(url) && !logoWort) return;
+            const punkte = merkmalPunkte({ homeLink, logoWort, hostTreffer: treffer, imKopf, erstesImKopf: imKopf && erstesImKopf, iconName: iconName(url) });
+            if (imKopf) erstesImKopf = false;
+            const quelle: LogoKandidat['quelle'] = dataUri ? 'data-uri' : homeLink ? 'home-link-img' : imKopf ? 'header-img' : 'img';
+            dazu({ url, quelle, stufe: stufe as 1 | 2, punkte, inhalt: dataUri ?? undefined, hellName: istHelleVariante(url, merkmale), logoWort });
+            return;
+        }
+
+        if (name === 'svg') {
+            if (svgAnzahl >= 4) return;
+            if (ctx.closest('button').length && !logoWort) return;
+            if (!(imKopf || homeLink || logoWort)) return;
+            // Symbole (Menü, Lupe, Pfeile) aussortieren: wenig Pfaddaten, quadratisch klein
+            const pfad = ctx
+                .find('path')
+                .map((__, p) => $(p).attr('d') || '')
+                .get()
+                .join('').length;
+            const formen = ctx.find('path, polygon, rect, circle, ellipse, text, use, image').length;
+            const roh = knoten.startIndex !== undefined && knoten.endIndex !== undefined ? html.slice(knoten.startIndex, knoten.endIndex + 1) : '';
+            if (!roh || formen === 0) return;
+            const g = svgGroesse(roh.replace(/viewbox=/i, 'viewBox='));
+            const quadratKlein = !!g && Math.max(g.w, g.h) <= 32 && g.w / g.h < 1.6;
+            if (!logoWort && pfad < 180 && !ctx.find('text, image, use').length) return;
+            // kleine quadratische Symbole (Menü, Telefon, Lupe …) sind keine Logos, ausser sie sind aufwendig gezeichnet
+            if (quadratKlein && pfad < 1500 && !ctx.find('text, image').length) return;
+            // <use href="#id"> auf ein Sprite ausserhalb → Symbol mitnehmen
+            let quelleSvg = roh;
+            const refs = [...roh.matchAll(/<use[^>]+(?:xlink:)?href=["']#([\w:-]+)["']/gi)].map((m) => m[1]);
+            const defs: string[] = [];
+            for (const id of refs.slice(0, 4)) {
+                if (new RegExp(`id=["']${id}["']`).test(roh)) continue;
+                const ziel = $(`[id="${id}"]`)[0] as unknown as { startIndex?: number; endIndex?: number } | undefined;
+                if (ziel?.startIndex !== undefined && ziel.endIndex !== undefined) defs.push(html.slice(ziel.startIndex, ziel.endIndex + 1));
+            }
+            if (defs.length) quelleSvg = roh.replace(/(<svg\b[^>]*>)/i, `$1<defs>${defs.join('')}</defs>`);
+            const inhalt = bereinigeSvg(quelleSvg);
+            if (!inhalt) return;
+            const titel = `${ctx.find('title').first().text()} ${ctx.attr('aria-label') || ''}`;
+            const treffer = hostTreffer(titel, woerter);
+            const stufe = (logoWort || homeLink) && (imKopf || logoWort) ? 1 : 2;
+            const punkte = merkmalPunkte({ homeLink, logoWort, hostTreffer: treffer, imKopf, erstesImKopf: imKopf && erstesImKopf, iconName: false });
+            if (imKopf) erstesImKopf = false;
+            svgAnzahl++;
+            dazu({ url: null, quelle: 'inline-svg', stufe: stufe as 1 | 2, punkte, inhalt, hellName: istHelleVariante(null, merkmale), logoWort });
+            return;
+        }
+
+        // style="background-image:url(…)" auf Logo-Elementen
+        if (!(logoWort && (imKopf || homeLink))) return;
+        const stil = knoten.attribs?.style || '';
+        const m = stil.match(/background(?:-image)?\s*:[^;]*url\(\s*["']?([^"')]+)["']?\s*\)/i);
+        const u = m ? absolut(m[1], basis) : null;
+        if (!u) return;
+        dazu({
+            url: u,
+            quelle: 'css',
+            stufe: 1,
+            punkte: merkmalPunkte({ homeLink, logoWort, hostTreffer: hostTreffer(u, woerter), imKopf, erstesImKopf: false, iconName: iconName(u) }),
+            hellName: istHelleVariante(u, merkmale),
+            logoWort: true,
+        });
+    });
+
+    // Icons: apple-touch-icon, link rel=icon (sizes ≥ 64 und SVG bevorzugt)
+    $('link[rel~="apple-touch-icon"], link[rel~="apple-touch-icon-precomposed"]').each((_, el) => {
+        const u = absolut($(el).attr('href'), basis);
+        if (u) dazu({ url: u, quelle: 'apple-touch-icon', stufe: 3, punkte: 10 + Math.min(10, iconGroesse($(el).attr('sizes')) / 18) });
+    });
+    $('link[rel~="icon"], link[rel="shortcut icon"]').each((_, el) => {
+        const href = $(el).attr('href') || '';
+        const typ = ($(el).attr('type') || '').toLowerCase();
+        const groesse = iconGroesse($(el).attr('sizes'));
+        const svg = /svg/.test(typ) || /\.svg(\?|$)/i.test(href);
+        const punkte = svg ? 15 : groesse >= 64 ? 8 + Math.min(10, groesse / 32) : /\.ico(\?|$)/i.test(href) ? 2 : 0;
+        const u = absolut(href, basis);
+        if (u) dazu({ url: u, quelle: 'icon', stufe: 3, punkte });
+    });
+    const og = $('meta[property="og:image"]').first().attr('content') || $('meta[name="og:image"]').first().attr('content');
+    const ogUrl = absolut(og, basis);
+    if (ogUrl) dazu({ url: ogUrl, quelle: 'og:image', stufe: 4, punkte: hostTreffer(ogUrl, woerter) || hatLogoWort(ogUrl) ? 10 : 0 });
+
+    // CSS aus <style>-Blöcken der Seite (Logo-Selektoren)
+    const inlineCss = $('style')
+        .map((_, el) => $(el).text())
+        .get()
+        .join('\n');
+    return { kandidaten, css_logo: logosAusCss(inlineCss, basis) };
+}
+
 /** Analysiert eine HTML-Seite. */
 export function analysiereSeite(html: string, url: string, mitLogo: boolean): SeitenAnalyse {
-    const $ = load(html, { baseURI: url });
+    // Positionen im Quelltext: Inline-SVG wird unverändert (Gross-/Kleinschreibung) übernommen
+    const $ = load(html, { baseURI: url, withStartIndices: true, withEndIndices: true } as never);
     const basisHref = $('base[href]').attr('href');
     const basis = absolut(basisHref, url) ?? url;
 
@@ -233,65 +454,8 @@ export function analysiereSeite(html: string, url: string, mitLogo: boolean): Se
         }
     });
 
-    // Logo-Kandidaten (Reihenfolge laut Auftrag)
-    const logo_kandidaten: LogoKandidat[] = [];
-    const logoDazu = (u: string | null, quelle: LogoKandidat['quelle']) => {
-        if (u && !logo_kandidaten.some((k) => k.url === u)) logo_kandidaten.push({ url: u, quelle });
-    };
-    if (mitLogo) {
-        for (const k of jsonld) {
-            const logo = k.logo as unknown;
-            if (typeof logo === 'string') logoDazu(absolut(logo, basis), 'jsonld');
-            else if (logo && typeof logo === 'object') {
-                const lo = logo as Record<string, unknown>;
-                const u = (lo.url || lo.contentUrl || lo['@id']) as string | undefined;
-                if (typeof u === 'string') logoDazu(absolut(u, basis), 'jsonld');
-            }
-        }
-        const kopf = $('header, [role="banner"], [class*="header"], [id*="header"]');
-        kopf.find('img').each((_, el) => {
-            const e = el as unknown as DomKnoten;
-            const a = e.attribs ?? {};
-            const vorfahren = $(el)
-                .parents()
-                .slice(0, 3)
-                .map((__, p) => `${$(p).attr('class') || ''} ${$(p).attr('id') || ''}`)
-                .get()
-                .join(' ');
-            const merkmale = `${a.src || ''} ${a['data-src'] || ''} ${a['data-orig-src'] || ''} ${a.alt || ''} ${a.title || ''} ${a.class || ''} ${a.id || ''} ${vorfahren}`;
-            if (LOGO_RE.test(merkmale)) logoDazu(bildQuelle($, e, basis), 'header-img');
-        });
-        // Bild im Link auf die Startseite (typisch für Wix/Jimdo)
-        $('a[href]').each((_, el) => {
-            if (logo_kandidaten.length >= 6) return false;
-            if (!istHomeLink($(el).attr('href'), basis)) return;
-            const img = $(el).find('img').first();
-            if (img.length) logoDazu(bildQuelle($, img[0] as unknown as DomKnoten, basis), 'home-link-img');
-        });
-        $('img').each((_, el) => {
-            const e = el as unknown as DomKnoten;
-            const a = e.attribs ?? {};
-            const merkmale = `${a.src || ''} ${a['data-src'] || ''} ${a['data-orig-src'] || ''} ${a.alt || ''} ${a.title || ''} ${a.class || ''} ${a.id || ''}`;
-            if (LOGO_RE.test(merkmale)) logoDazu(bildQuelle($, e, basis), 'img');
-            if (logo_kandidaten.length >= 8) return false;
-        });
-        const touch = $('link[rel~="apple-touch-icon"], link[rel~="apple-touch-icon-precomposed"]')
-            .map((_, el) => ({ u: absolut($(el).attr('href'), basis), g: iconGroesse($(el).attr('sizes')) }))
-            .get()
-            .sort((a, b) => b.g - a.g);
-        for (const t of touch) logoDazu(t.u, 'apple-touch-icon');
-        logoDazu(absolut(meta('meta[property="og:image"]') ?? meta('meta[name="og:image"]'), basis), 'og:image');
-        const icons = $('link[rel~="icon"], link[rel="shortcut icon"]')
-            .map((_, el) => {
-                const href = $(el).attr('href') || '';
-                const typ = ($(el).attr('type') || '').toLowerCase();
-                const g = iconGroesse($(el).attr('sizes')) + (/svg/.test(typ) || /\.svg/i.test(href) ? 1000 : 0) - (/\.ico/i.test(href) ? 500 : 0);
-                return { u: absolut(href, basis), g };
-            })
-            .get()
-            .sort((a, b) => b.g - a.g);
-        for (const i of icons) logoDazu(i.u, 'icon');
-    }
+    // Logo-Kandidaten (AUFTRAG-095): nur auf der Startseite
+    const logos = mitLogo ? sammleLogos($, html, basis, jsonld) : { kandidaten: [], css_logo: [] };
 
     // Links (vor dem Entfernen der Navigation)
     const links: Array<{ url: string; text: string }> = [];
@@ -388,7 +552,8 @@ export function analysiereSeite(html: string, url: string, mitLogo: boolean): Se
         theme_color: meta('meta[name="theme-color"]'),
         generator: meta('meta[name="generator"]'),
         jsonld,
-        logo_kandidaten,
+        logo_kandidaten: logos.kandidaten,
+        css_logo: logos.css_logo,
         tel_links,
         mailto,
         ueberschriften,
