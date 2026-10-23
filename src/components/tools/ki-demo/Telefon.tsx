@@ -29,7 +29,8 @@ export interface SchrittAnzeige {
     status: SchrittStatus;
     farbe?: string;
     logoSrc?: string;
-    logoDunkel?: boolean;
+    /** Hintergrund der kleinen Logo-Plakette (wie auf der Karte) */
+    logoGrund?: string;
 }
 
 export interface KartenAnzeige {
@@ -38,7 +39,8 @@ export interface KartenAnzeige {
     firma: string;
     website: string;
     kann: string[];
-    logo: { src: string; grund: 'weiss' | 'dunkel' | 'marke'; breite: number | null; hoehe: number | null } | null;
+    /** AUFTRAG-096: Plakette — Website-Umgebung, Marke (sitzt auf der Kundenfläche), Weiss oder Dunkel */
+    logo: { src: string; grund: 'weiss' | 'dunkel' | 'marke' | 'umgebung'; farbe: string; breite: number | null; hoehe: number | null } | null;
     primaer: string;
     tief: string;
     text: string;
@@ -83,13 +85,15 @@ function Ansicht({ aktiv, children, className = '', style, label }: { aktiv: boo
     );
 }
 
-function LogoOderInitiale({ karte, gross = false }: { karte: KartenAnzeige; gross?: boolean }) {
+/** `aufMarke`: steht auf der Kundenfläche (Markenfarbe) — eine Marken-Plakette ist dann durchsichtig. */
+function LogoOderInitiale({ karte, gross = false, aufMarke = true }: { karte: KartenAnzeige; gross?: boolean; aufMarke?: boolean }) {
     const masse = gross ? 'w-24 h-24 text-4xl' : 'w-14 h-14 text-2xl';
     if (karte.logo) {
-        const grund = karte.logo.grund === 'weiss' ? '#FFFFFF' : karte.logo.grund === 'dunkel' ? '#16191E' : 'transparent';
+        const durchsichtig = karte.logo.grund === 'marke' && aufMarke;
+        const grund = durchsichtig ? 'transparent' : karte.logo.farbe;
         return (
             <span
-                className={`relative flex items-center justify-center rounded-2xl ${gross ? 'w-28 h-28 p-3' : 'w-fit max-w-[11.5rem] h-14 px-3 py-2'} ${karte.logo.grund === 'marke' ? '' : 'shadow-sm'}`}
+                className={`relative flex items-center justify-center rounded-2xl ${gross ? 'w-28 h-28 p-3' : 'w-fit max-w-[11.5rem] h-14 px-3 py-2'} ${durchsichtig ? '' : 'shadow-sm'}`}
                 style={{ background: grund }}
             >
                 {/* eslint-disable-next-line @next/next/no-img-element -- Logo kommt über den eigenen Proxy (beliebige Fremd-URL) */}
@@ -193,7 +197,7 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
                                         {s.detail && <span className="block text-[0.74rem] leading-snug text-[#5b6472] dark:text-[#9aa3af] truncate">{s.detail}</span>}
                                     </span>
                                     {s.logoSrc && (
-                                        <span className={`flex-shrink-0 h-7 max-w-[5.5rem] rounded-md px-1.5 py-1 flex items-center ${s.logoDunkel ? 'bg-[#16191E]' : 'bg-white ring-1 ring-black/5'}`}>
+                                        <span className="flex-shrink-0 h-7 max-w-[5.5rem] rounded-md px-1.5 py-1 flex items-center ring-1 ring-black/5" style={{ background: s.logoGrund ?? '#FFFFFF' }}>
                                             {/* eslint-disable-next-line @next/next/no-img-element -- eigener Proxy */}
                                             <img src={s.logoSrc} alt="" className="block h-5 w-auto max-w-[4.5rem] object-contain" />
                                         </span>
@@ -318,7 +322,7 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
                             <Ansicht aktiv={zustand === 'beendet'} className="px-5 pt-14 pb-5">
                                 <div className="text-center">
                                     <span className="inline-flex mx-auto">
-                                        <LogoOderInitiale karte={karte} />
+                                        <LogoOderInitiale karte={karte} aufMarke={false} />
                                     </span>
                                     <p className="mt-3 text-lg font-semibold">Anruf beendet</p>
                                     <p className="mt-0.5 inline-flex items-center gap-1.5 text-sm text-[#5b6472] dark:text-[#9aa3af] tabular-nums">

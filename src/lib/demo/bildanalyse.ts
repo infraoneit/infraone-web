@@ -15,7 +15,7 @@
  */
 import zlib from 'node:zlib';
 import { load } from 'cheerio/slim';
-import { brauchtDunklenGrund, dominanteFarbe, hexZuRgb, logoVerlust, luminanz, parseCssFarbe } from './farben';
+import { brauchtDunklenGrund, dominanteFarbe, hexZuRgb, logoVerlust, luminanz, parseCssFarbe, rasterKlein } from './farben';
 
 export type BildFormat = 'svg' | 'png' | 'webp' | 'avif' | 'jpeg' | 'gif' | 'ico' | 'bmp';
 
@@ -36,6 +36,10 @@ export interface BildAnalyse {
     farbAnzahl: number | null;
     /** Foto-Signatur (viele Farben ohne Transparenz bzw. JPEG mit hoher Datenrate). */
     foto: boolean;
+    /** AUFTRAG-096: SVG ohne zeichnende Elemente oder mit Zeichenfläche 0 */
+    leer?: boolean;
+    /** AUFTRAG-096: SVG-Formen ohne eigene Farbe (currentColor/keine Füllung) */
+    ohneEigeneFarbe?: boolean;
 }
 
 /* ------------------------------------------------------------------ */
@@ -396,6 +400,11 @@ export interface PixelStatistik {
     farbe: string | null;
 }
 
+function rasterVerlust(p: Pixel): { weiss: number; dunkel: number } {
+    const r = rasterKlein(p.rgba, p.w, p.h, 160);
+    return logoVerlust(r.rgba, r.w);
+}
+
 /** Statistik über die sichtbaren Pixel (Alpha ≥ 128), höchstens ~40 000 Stichproben. */
 export function pixelStatistik(p: Pixel): PixelStatistik {
     const gesamt = p.w * p.h;
@@ -428,7 +437,8 @@ export function pixelStatistik(p: Pixel): PixelStatistik {
         helligkeit,
         // Hell = braucht dunklen Grund (helle Teile verschwänden auf Weiss). Nur bei Transparenz:
         // ein deckendes Bild bringt seinen Hintergrund selbst mit.
-        hell: transparenz && brauchtDunklenGrund(logoVerlust(rgbaProbe)),
+        // Raster (≤ 160 px) statt Stichprobe: umschlossene helle Flächen zählen nicht als verloren (AUFTRAG-096)
+        hell: transparenz && brauchtDunklenGrund(rasterVerlust(p)),
         farbAnzahl: eimer.size,
         sichtbar,
         farbe,
@@ -497,37 +507,122 @@ export interface SvgAnalyse {
     farbe: string | null;
     farbAnzahl: number;
     eingebettetesPng: Buffer | null;
+    /** AUFTRAG-096: Anzahl zeichnender Elemente (nach Auflösung von <use>) */
+    zeichnend: number;
+    /** AUFTRAG-096: alle Formen ohne eigene Farbe (currentColor bzw. keine Füllung angegeben) */
+    ohneEigeneFarbe: boolean;
+}
+
+/** Elemente, die etwas zeichnen (AUFTRAG-096, Leer-Prüfung). */
+const ZEICHNEND = 'path, rect, circle, ellipse, polygon, polyline, line, text, image';
+/** Inhalt dieser Elemente zeichnet nicht selbst. */
+const NICHT_ZEICHNEND = 'clipPath, clippath, mask, pattern, marker, filter, linearGradient, lineargradient, radialGradient, radialgradient, title, desc, metadata';
+
+/** Zeichnet das Element tatsächlich etwas (Grösse/Daten vorhanden)? */
+function zeichnetEtwas($: ReturnType<typeof load>, el: unknown): boolean {
+    const k = $(el as never);
+    const tag = ((el as { name?: string }).name || '').toLowerCase();
+    const zahlAttr = (n: string) => parseFloat(k.attr(n) || '0');
+    switch (tag) {
+        case 'path':
+            return /\d/.test(k.attr('d') || '') && (k.attr('d') || '').length >= 4;
+        case 'rect':
+            return zahlAttr('width') > 0 && zahlAttr('height') > 0;
+        case 'circle':
+            return zahlAttr('r') > 0;
+        case 'ellipse':
+            return zahlAttr('rx') > 0 && zahlAttr('ry') > 0;
+        case 'polygon':
+        case 'polyline':
+            return /\d/.test(k.attr('points') || '');
+        case 'line':
+            return zahlAttr('x1') !== zahlAttr('x2') || zahlAttr('y1') !== zahlAttr('y2');
+        case 'text':
+            return k.text().trim().length > 0;
+        case 'image':
+            return !!(k.attr('href') || k.attr('xlink:href'));
+        default:
+            return false;
+    }
 }
 
 /** Analysiert die Füllfarben eines (bereinigten) SVG. */
 export function analysiereSvg(svg: string): SvgAnalyse {
     const $ = load(svg, { xml: { xmlMode: true } });
     const klassen = klassenFarben($('style').text());
-    const effektiv = (el: unknown): string | 'none' | 'aktuell' => {
-        const kette = [el, ...$(el as never).parents().toArray()].slice(0, 12);
-        for (const n of kette) {
-            const knoten = $(n as never);
-            const attr = farbeAus(stilWert(knoten.attr('style'), 'fill')) ?? farbeAus(knoten.attr('fill'));
-            if (attr) return attr;
-            for (const k of (knoten.attr('class') || '').split(/\s+/).filter(Boolean)) {
-                const f = klassen.get(k);
-                if (f) return f;
-            }
-            if (knoten.is('svg')) break;
+    // <use href="#id">: referenzierte Teile in <defs>/<symbol> zeichnen mit (auch verschachtelt)
+    const referenziert = new Map<string, unknown[]>();
+    const hrefVon = (el: unknown) => ($(el as never).attr('href') || $(el as never).attr('xlink:href') || '').trim();
+    /** Element zeichnet mit: ausserhalb von <defs>/<symbol> oder in einem referenzierten Teil. */
+    const aktiv = (el: unknown): boolean => {
+        const k = $(el as never);
+        if (!k.parents('defs, symbol').length && !k.is('symbol')) return true;
+        for (const n of [el, ...k.parents().toArray()]) {
+            const id = $(n as never).attr('id');
+            if (id && referenziert.has(id)) return true;
         }
-        return '#000000';
+        return false;
+    };
+    for (let runde = 0; runde < 4; runde++) {
+        const vorher = referenziert.size;
+        $('use').each((_, el) => {
+            const h = hrefVon(el);
+            // <use> in clipPath/mask definiert nur die Schnittform, zeichnet nicht (Illustrator-Exporte)
+            if (!h.startsWith('#') || !aktiv(el) || $(el).parents(NICHT_ZEICHNEND).length) return;
+            const liste = referenziert.get(h.slice(1)) ?? [];
+            if (!liste.includes(el)) liste.push(el);
+            referenziert.set(h.slice(1), liste);
+        });
+        if (referenziert.size === vorher) break;
+    }
+    const zaehltMit = (el: unknown): boolean => !$(el as never).parents(NICHT_ZEICHNEND).length && aktiv(el);
+    let ohneFarbe = 0;
+    let mitFarbe = 0;
+    const fuellungVon = (n: unknown): string | 'none' | 'aktuell' | null => {
+        const knoten = $(n as never);
+        const attr = farbeAus(stilWert(knoten.attr('style'), 'fill')) ?? farbeAus(knoten.attr('fill'));
+        if (attr) return attr;
+        for (const k of (knoten.attr('class') || '').split(/\s+/).filter(Boolean)) {
+            const f = klassen.get(k);
+            if (f) return f;
+        }
+        return null;
+    };
+    const effektiv = (el: unknown, tiefe = 0): string | 'none' | 'aktuell' | 'standard' => {
+        const kette = [el, ...$(el as never).parents().toArray()].slice(0, 16);
+        for (const n of kette) {
+            const f = fuellungVon(n);
+            if (f) return f;
+            // Teil eines referenzierten Symbols: Füllung erbt vom <use>
+            const id = $(n as never).attr('id');
+            const nutzer = id ? referenziert.get(id) : undefined;
+            if (nutzer?.length && tiefe < 3) return effektiv(nutzer[0], tiefe + 1);
+            if ($(n as never).is('defs')) break;
+        }
+        return 'standard';
     };
     const farben: string[] = [];
+    let zeichnend = 0;
+    $(ZEICHNEND).each((_, el) => {
+        if (zaehltMit(el) && zeichnetEtwas($, el)) zeichnend++;
+    });
     $(FORMEN).each((_, el) => {
-        if ($(el).parents('defs, clipPath, clippath, mask, symbol').length && !$(el).parents('symbol').length) return;
+        if (!zaehltMit(el)) return;
+        if ((el as { name?: string }).name === 'use') return; // Inhalt wird über das Ziel gezählt
         const f = effektiv(el);
         if (f === 'none') {
             // nur Kontur? dann zählt die Konturfarbe
             const s = farbeAus(stilWert($(el).attr('style'), 'stroke')) ?? farbeAus($(el).attr('stroke'));
-            if (s && s !== 'none') farben.push(s === 'aktuell' ? '#000000' : s);
+            if (s && s !== 'none') {
+                farben.push(s === 'aktuell' ? '#000000' : s);
+                if (s === 'aktuell') ohneFarbe++;
+                else mitFarbe++;
+            }
             return;
         }
-        farben.push(f === 'aktuell' ? '#000000' : f);
+        if (f === 'aktuell' || f === 'standard') ohneFarbe++;
+        else mitFarbe++;
+        farben.push(f === 'aktuell' || f === 'standard' ? '#000000' : f);
     });
     // Verläufe: Stoppfarben als Füllung zählen
     $('stop').each((_, el) => {
@@ -563,7 +658,16 @@ export function analysiereSvg(svg: string): SvgAnalyse {
             return s >= 0.35 && l >= 0.18 && l <= 0.85;
         })
         .sort((a, b) => b[1] - a[1]);
-    return { helligkeit, hell, farbe: gesaettigt[0]?.[0] ?? null, farbAnzahl: zaehler.size, eingebettetesPng };
+    const verlaeufe = $('stop').length > 0;
+    return {
+        helligkeit,
+        hell,
+        farbe: gesaettigt[0]?.[0] ?? null,
+        farbAnzahl: zaehler.size,
+        eingebettetesPng,
+        zeichnend,
+        ohneEigeneFarbe: ohneFarbe > 0 && mitFarbe === 0 && !verlaeufe && !eingebettetesPng,
+    };
 }
 
 /* ------------------------------------------------------------------ */
@@ -594,7 +698,10 @@ export function analysiereBild(body: Buffer, contentType: string, abgeschnitten 
                     farbe = st.farbe ?? farbe;
                 }
             }
-            return { ...leer, breite: g?.w ?? null, hoehe: g?.h ?? null, transparenz: true, helligkeit, hell, farbe, farbAnzahl: a.farbAnzahl };
+            // Leer-Prüfung (AUFTRAG-096): nichts Zeichnendes oder Zeichenfläche 0
+            const vb = (text.match(/<svg\b[^>]*\sviewBox\s*=\s*["']([^"']*)["']/i)?.[1] ?? '').trim().split(/[\s,]+/).map(Number);
+            const flaecheNull = vb.length === 4 && (!(vb[2] > 0) || !(vb[3] > 0));
+            return { ...leer, breite: g?.w ?? null, hoehe: g?.h ?? null, transparenz: true, helligkeit, hell, farbe, farbAnzahl: a.farbAnzahl, leer: a.zeichnend === 0 || flaecheNull, ohneEigeneFarbe: a.ohneEigeneFarbe };
         }
         if (format === 'png') {
             const kopf = pngKopf(body);

@@ -113,6 +113,61 @@ export function bereinigeSvg(roh: string): string | null {
 }
 
 /* ------------------------------------------------------------------ */
+/* Sprites (AUFTRAG-096)                                               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Holt `<symbol id>` (bzw. `<g id>`/`<svg id>` …) aus einer Sprite-Datei,
+ * dazu Definitionen, auf die das Symbol mit `url(#…)`/`href="#…"` verweist
+ * (Verläufe, Masken). Liefert die Elemente als Text oder null.
+ */
+export function symbolAusSprite(sprite: string, id: string): string | null {
+    if (!sprite || sprite.length > 1_200_000 || !id) return null;
+    const anfang = sprite.search(/<svg[\s>]/i);
+    if (anfang < 0) return null;
+    const $ = load(svgSchreibweise(sprite.slice(anfang)), { xml: { xmlMode: true, decodeEntities: false } });
+    const ziel = $('[id]').filter((_, el) => $(el).attr('id') === id).first();
+    if (!ziel.length) return null;
+    const teile = [$.xml(ziel)];
+    const gesehen = new Set([id]);
+    for (const m of teile[0].matchAll(/url\(\s*["']?#([\w:.-]+)["']?\s*\)|href=["']#([\w:.-]+)["']/g)) {
+        const ref = m[1] ?? m[2];
+        if (!ref || gesehen.has(ref) || gesehen.size > 12) continue;
+        gesehen.add(ref);
+        const def = $('[id]').filter((_, el) => $(el).attr('id') === ref).first();
+        if (def.length && !def.parents().filter((_, p) => $(p).attr('id') === id).length) teile.push($.xml(def));
+    }
+    const text = teile.join('');
+    return text.length <= SVG_MAX_ZEICHEN ? text : null;
+}
+
+/** Bettet Symbole aus Sprites in ein (rohes) SVG ein: `<defs>` direkt nach dem Wurzel-Tag. */
+export function spriteEinbetten(svg: string, symbole: string[]): string {
+    if (!symbole.length) return svg;
+    return svg.replace(/(<svg\b[^>]*>)/i, `$1<defs>${symbole.join('')}</defs>`);
+}
+
+/**
+ * Schreibt externe `<use href="datei.svg#id">` auf `#id` um und liefert die
+ * Verweise (absolute URL + id). Interne `#id` bleiben unverändert.
+ */
+export function externeSpriteVerweise(svg: string, basis: string): { svg: string; verweise: Array<{ url: string; id: string }> } {
+    const verweise: Array<{ url: string; id: string }> = [];
+    const neu = svg.replace(/(<use\b[^>]*?\s(?:xlink:)?href\s*=\s*)(["'])([^"'#]+)#([\w:.-]+)\2/gi, (ganz, vor: string, q: string, datei: string, id: string) => {
+        let url: string;
+        try {
+            url = new URL(datei.trim(), basis).toString();
+        } catch {
+            return ganz;
+        }
+        if (!/^https?:/i.test(url)) return ganz;
+        if (!verweise.some((v) => v.url === url && v.id === id) && verweise.length < 4) verweise.push({ url, id });
+        return `${vor}${q}#${id}${q}`;
+    });
+    return { svg: neu, verweise };
+}
+
+/* ------------------------------------------------------------------ */
 /* Merkmale                                                            */
 /* ------------------------------------------------------------------ */
 
@@ -360,8 +415,11 @@ export function bewerteMitAnalyse(k: LogoKandidat, a: BildAnalyse | null, bytes:
         foto: a.foto,
         bytes,
     };
+    if (a.format === 'svg' && k.quelle === 'inline-svg') aus.ohneEigeneFarbe = !!a.ohneEigeneFarbe;
     const w = a.breite;
     const h = a.hoehe;
+    // Leer-Prüfung (AUFTRAG-096): SVG ohne zeichnende Elemente bzw. Zeichenfläche 0 ist ungültig
+    if (a.format === 'svg' && a.leer) return { ...aus, gueltig: false, grund: k.sprite?.length ? 'SVG leer (Sprite nicht aufgelöst)' : 'SVG leer (nichts Zeichnendes)' };
     if (a.foto) return { ...aus, gueltig: false, grund: 'Foto-Signatur' };
     if (w && h) {
         const verhaeltnis = w / h;
@@ -451,7 +509,7 @@ export function quelleText(q: LogoQuelle): string {
 /* Darstellung für Browser und Profil                                  */
 /* ------------------------------------------------------------------ */
 
-/** Logo, wie es die Karte erhält (Bild immer über den eigenen Proxy). */
+/** Logo, wie es die Karte erhält (Bild immer über den eigenen Proxy, relativer Pfad). */
 export interface LogoFuerKarte {
     src: string;
     index: number;
@@ -462,6 +520,10 @@ export interface LogoFuerKarte {
     hell: boolean | null;
     transparenz: boolean | null;
     farbe: string | null;
+    /** AUFTRAG-096: Hintergrund der Logo-Umgebung auf der Website (#RRGGBB) oder null */
+    umgebung: string | null;
+    /** AUFTRAG-096: Inline-SVG ohne eigene Farbe (die Website färbt es) */
+    ohneEigeneFarbe: boolean;
 }
 
 export function logoProxyPfad(k: LogoKandidat, index: number, scanId: string): string {
@@ -479,14 +541,45 @@ export function logoFuerKarte(k: LogoKandidat, index: number, scanId: string): L
         hell: k.hell ?? (k.hellName ? true : null),
         transparenz: k.transparenz ?? null,
         farbe: k.farbe ?? null,
+        umgebung: k.umgebung ?? null,
+        ohneEigeneFarbe: !!k.ohneEigeneFarbe,
     };
 }
 
-/** logo_url im Profil (Schnittstelle A-091: http/https): Original-URL oder absoluter Proxy-Link (Inline-SVG). */
-export function logoUrlFuerProfil(k: LogoKandidat | null, index: number, scanId: string, origin: string): string | null {
+/**
+ * logo_url in den Antworten an den Browser (Scan, Profil): immer der
+ * RELATIVE Pfad über den eigenen Proxy — nie der Host des Servers
+ * (AUFTRAG-096: vorher stand dort z. B. «http://0.0.0.0:3000/…»).
+ */
+export function logoUrlFuerProfil(k: LogoKandidat | null, index: number, scanId: string): string | null {
+    return k ? logoProxyPfad(k, index, scanId) : null;
+}
+
+/** Öffentlicher Host (kein localhost/0.0.0.0/privates Netz)? */
+function istOeffentlicherUrsprung(origin: string): boolean {
+    try {
+        const u = new URL(origin);
+        if (u.protocol !== 'https:') return false;
+        const h = u.hostname.toLowerCase();
+        if (h === 'localhost' || h.endsWith('.localhost') || h.endsWith('.local') || h === '0.0.0.0' || h === '[::1]') return false;
+        if (/^(127\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(h)) return false;
+        return /\./.test(h);
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * logo_url im Auftrag an den Orchestrator (Schnittstelle A-091 verlangt
+ * http/https): Original-URL des Logos; bei Inline-SVG/data:-URI der Proxy-Link
+ * mit dem öffentlichen Ursprung (DEMO_OEFFENTLICHE_URL bzw. Anfrage-Ursprung,
+ * nur wenn öffentlich https) — sonst null statt eines lokalen Hosts.
+ */
+export function logoUrlFuerAuftrag(k: LogoKandidat | null, index: number, scanId: string, origin: string): string | null {
     if (!k) return null;
     if (k.url && !k.inhalt) return k.url.length <= 500 ? k.url : null;
-    return /^https?:\/\//.test(origin) ? `${origin}${logoProxyPfad(k, index, scanId)}` : null;
+    const basis = (process.env.DEMO_OEFFENTLICHE_URL || '').replace(/\/+$/, '') || origin;
+    return istOeffentlicherUrsprung(basis) ? `${basis}${logoProxyPfad(k, index, scanId)}` : null;
 }
 
 /** Gültige Logos (beste zuerst) mit ihrem Index in `logo_kandidaten`. */

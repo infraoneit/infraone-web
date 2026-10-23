@@ -160,6 +160,18 @@ export interface LogoKandidat {
     foto?: boolean;
     bytes?: number;
     ms?: number;
+    /** AUFTRAG-096: externe Sprite-Verweise (<use href="datei.svg#id">), nur während des Scans */
+    sprite?: Array<{ url: string; id: string }>;
+    /** AUFTRAG-096: Vorfahren-Kette im DOM (Logo → html), nur während des Scans */
+    ahnen?: Array<{ tag: string; id?: string; klassen?: string[]; stil?: string; attr?: Record<string, string> }>;
+    /** AUFTRAG-096: CSS-Selektor des Logos (CSS-Hintergrund), nur während des Scans */
+    selektor?: string;
+    /** AUFTRAG-096: Hintergrund der Logo-Umgebung auf der Website (#RRGGBB) oder null (unbekannt/Bild) */
+    umgebung?: string | null;
+    /** AUFTRAG-096: Element, das den Hintergrund trägt (Messung) */
+    umgebung_quelle?: string;
+    /** AUFTRAG-096: Inline-SVG ohne eigene Farbe (currentColor/ohne Füllung) — die Website färbt es */
+    ohneEigeneFarbe?: boolean;
 }
 
 export interface Abschnitt {
@@ -181,7 +193,7 @@ export interface Extrakt {
     jsonld_name: string | null;
     jsonld_beschreibung: string | null;
     firma: string | null;
-    firma_quelle: 'jsonld' | 'og:site_name' | 'titel' | 'host';
+    firma_quelle: 'jsonld' | 'og:site_name' | 'titel' | 'text' | 'host';
     logo_kandidaten: LogoKandidat[];
     /** Bestes gültiges Logo (AUFTRAG-095) oder null */
     logo: LogoKandidat | null;
@@ -189,6 +201,10 @@ export interface Extrakt {
     css_farben: string[];
     button_farben: string[];
     farben: Farben | null;
+    /** AUFTRAG-096: Quelle der Markenfarbe (css-variable, hintergrund, theme-color, manifest, haeufigkeit, button, logo) */
+    farbe_quelle: string | null;
+    /** AUFTRAG-096: gewichtete Farbsignale (ohne Logo-Farbe aus dem Browser) — die Karte ergänzt die Logo-Farbe */
+    farb_signale: Array<{ farbe: string; gewicht: number; quelle: string }>;
     telefone: string[];
     emails: string[];
     adressen: string[];

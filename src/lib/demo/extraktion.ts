@@ -11,6 +11,7 @@ import { parseCssFarbe } from './farben';
 import {
     bereinigeSvg,
     bestesAusSrcset,
+    externeSpriteVerweise,
     hostTreffer,
     hostWoerter,
     iconName,
@@ -22,6 +23,7 @@ import {
     merkmalPunkte,
 } from './logo';
 import { svgGroesse } from './bildanalyse';
+import type { Ahne } from './umgebung';
 
 /** Minimale Struktur eines htmlparser2-Knotens (ohne Import von domhandler). */
 interface DomKnoten {
@@ -54,6 +56,8 @@ export interface SeitenAnalyse {
     stylesheets: string[];
     inline_css: string;
     stil_farben: string[];
+    /** AUFTRAG-096: link rel=manifest (theme_color) */
+    manifest: string | null;
     zeilen: string[];
     abschnitte: Abschnitt[];
 }
@@ -232,6 +236,48 @@ const KOPF_SELEKTOR =
     'header, [role="banner"], #header, #masthead, #main-header, #SITE_HEADER, .site-header, .header, .main-header, [class*="site-header"], [class*="main-header"], [class*="header__"], [class*="header-wrap"], [class*="header-inner"], [class*="header-container"], [class*="header-top"], [class*="header-main"], [id*="header"], nav, [role="navigation"], [class*="navbar"], [class*="topbar"], [class*="top-bar"], [class*="menu-bar"]';
 const SOZIAL_RE = /facebook|instagram|linkedin|twitter|x\.com|youtube|tiktok|xing|pinterest|whatsapp|mailto:|tel:/i;
 
+/** Attribute, die für die Umgebungs-Bestimmung nichts bringen (oder zu lang sind). */
+const AHNEN_OHNE_ATTR = /^(class|id|style|src|srcset|href|alt|title|d|data-src|data-srcset|data-lazy-src|sizes|width|height|loading|decoding|viewbox|xmlns.*|aria-label|content)$/i;
+
+/**
+ * Vorfahren-Kette eines Elements (Element selbst → html) für die Bestimmung
+ * der Hintergrundfarbe seiner Umgebung (AUFTRAG-096, umgebung.ts).
+ */
+export function ahnenVon($: CheerioAPI, el: unknown): Ahne[] {
+    const kette: Ahne[] = [];
+    for (const n of [el, ...$(el as never).parents().toArray()].slice(0, 40)) {
+        const k = n as unknown as DomKnoten;
+        if (k.type !== 'tag' && k.type !== 'script' && k.type !== 'style') continue;
+        const a = k.attribs ?? {};
+        const attr: Record<string, string> = {};
+        let anzahl = 0;
+        for (const [name, wert] of Object.entries(a)) {
+            if (AHNEN_OHNE_ATTR.test(name) || wert.length > 80 || anzahl >= 8) continue;
+            attr[name.toLowerCase()] = wert;
+            anzahl++;
+        }
+        kette.push({
+            tag: (k.name ?? '').toLowerCase(),
+            ...(a.id ? { id: a.id } : {}),
+            ...(a.class ? { klassen: a.class.split(/\s+/).filter(Boolean).slice(0, 40) } : {}),
+            ...(a.style ? { stil: a.style.slice(0, 600) } : {}),
+            ...(anzahl ? { attr } : {}),
+        });
+    }
+    return kette;
+}
+
+/** Vorfahren-Kette des ersten Elements, auf das ein CSS-Selektor passt (CSS-Hintergrund-Logos). */
+export function ahnenFuerSelektor(html: string, selektor: string): Ahne[] | null {
+    try {
+        const $ = load(html);
+        const el = $(selektor.split(',')[0].replace(/::?(before|after)\b/gi, '').trim()).first()[0];
+        return el ? ahnenVon($, el) : null;
+    } catch {
+        return null;
+    }
+}
+
 /** Merkmalstext eines Elements und seiner Vorfahren (Klassen/Ids/Labels). */
 function merkmalText($: CheerioAPI, el: unknown, ebenen: number): string {
     const knoten = $(el as never);
@@ -324,7 +370,7 @@ function sammleLogos(
             const punkte = merkmalPunkte({ homeLink, logoWort, hostTreffer: treffer, imKopf, erstesImKopf: imKopf && erstesImKopf, iconName: iconName(url) });
             if (imKopf) erstesImKopf = false;
             const quelle: LogoKandidat['quelle'] = dataUri ? 'data-uri' : homeLink ? 'home-link-img' : imKopf ? 'header-img' : 'img';
-            dazu({ url, quelle, stufe: stufe as 1 | 2, punkte, inhalt: dataUri ?? undefined, hellName: istHelleVariante(url, merkmale), logoWort });
+            dazu({ url, quelle, stufe: stufe as 1 | 2, punkte, inhalt: dataUri ?? undefined, hellName: istHelleVariante(url, merkmale), logoWort, ahnen: ahnenVon($, el) });
             return;
         }
 
@@ -356,7 +402,9 @@ function sammleLogos(
                 if (ziel?.startIndex !== undefined && ziel.endIndex !== undefined) defs.push(html.slice(ziel.startIndex, ziel.endIndex + 1));
             }
             if (defs.length) quelleSvg = roh.replace(/(<svg\b[^>]*>)/i, `$1<defs>${defs.join('')}</defs>`);
-            const inhalt = bereinigeSvg(quelleSvg);
+            // AUFTRAG-096: <use href="datei.svg#id"> → auf #id umschreiben, die Sprite-Datei lädt der Scanner nach
+            const extern = externeSpriteVerweise(quelleSvg, basis);
+            const inhalt = bereinigeSvg(extern.svg);
             if (!inhalt) return;
             const titel = `${ctx.find('title').first().text()} ${ctx.attr('aria-label') || ''}`;
             const treffer = hostTreffer(titel, woerter);
@@ -364,7 +412,7 @@ function sammleLogos(
             const punkte = merkmalPunkte({ homeLink, logoWort, hostTreffer: treffer, imKopf, erstesImKopf: imKopf && erstesImKopf, iconName: false });
             if (imKopf) erstesImKopf = false;
             svgAnzahl++;
-            dazu({ url: null, quelle: 'inline-svg', stufe: stufe as 1 | 2, punkte, inhalt, hellName: istHelleVariante(null, merkmale), logoWort });
+            dazu({ url: null, quelle: 'inline-svg', stufe: stufe as 1 | 2, punkte, inhalt, hellName: istHelleVariante(null, merkmale), logoWort, ahnen: ahnenVon($, el), ...(extern.verweise.length ? { sprite: extern.verweise } : {}) });
             return;
         }
 
@@ -381,6 +429,7 @@ function sammleLogos(
             punkte: merkmalPunkte({ homeLink, logoWort, hostTreffer: hostTreffer(u, woerter), imKopf, erstesImKopf: false, iconName: iconName(u) }),
             hellName: istHelleVariante(u, merkmale),
             logoWort: true,
+            ahnen: ahnenVon($, el),
         });
     });
 
@@ -562,6 +611,7 @@ export function analysiereSeite(html: string, url: string, mitLogo: boolean): Se
         stylesheets,
         inline_css,
         stil_farben,
+        manifest: absolut($('link[rel~="manifest"]').first().attr('href'), basis),
         zeilen,
         abschnitte,
     };

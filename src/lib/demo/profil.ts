@@ -11,6 +11,7 @@
 import type { Extrakt, Profil, ProfilQuelle, WissenEintrag } from './typen';
 import { erlaubteNamen, freieNamen, istErlaubterName, istWeiblich, stimmeFuer, waehleName } from './namen';
 import { formatiereNummer, normalisiereGefundeneNummer } from './nummer';
+import { istOeffnungszeitText } from './oeffnungszeiten';
 
 export const KI_MODELL = 'gpt-4.1-mini';
 const KI_ZEIT_MS = 17_000;
@@ -306,7 +307,8 @@ export function bereinigeKiProfil(roh: unknown, x: Extrakt, regel: Profil): { pr
 
     let zeiten: string | null = null;
     const zeitRoh = str(o.oeffnungszeiten_text);
-    if (zeitRoh && zeitRoh.length <= 300 && zahlenBelegt(zeitRoh, korpus.belege)) zeiten = zeitRoh;
+    // AUFTRAG-096: nur echte Öffnungszeiten (Tag/«Uhr» + Zeitspanne, kein Datum) — sonst die Regel-Angabe bzw. leer
+    if (zeitRoh && zeitRoh.length <= 300 && zahlenBelegt(zeitRoh, korpus.belege) && istOeffnungszeitText(zeitRoh)) zeiten = zeitRoh;
     zeiten = zeiten ?? regel.oeffnungszeiten_text;
 
     let firmaText = str(o.firma_text) ?? '';

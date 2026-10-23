@@ -21,11 +21,16 @@ import {
     dominanteFarbe,
     helligkeit,
     lesbarAuf,
+    logoPixel,
+    logoSichtbar,
     logoVerlust,
-    luminanz,
     NEUTRAL_PRIMAER,
     textAuf,
+    verlustAuf,
+    waehlePlakette,
+    type PlakettenArt,
 } from '@/lib/demo/farben';
+import { bestimmeMarkenfarbe, FARB_GEWICHT_LOGO, type FarbSignal } from '@/lib/demo/markenfarbe';
 import { formatiereNummer, pruefeRueckrufNummer } from '@/lib/demo/nummer';
 import { begruessungFuer, rolleFuer } from '@/lib/demo/begruessung';
 import { ansage, dauerAnzeige, fehlerMeldung, naechsterZustand, primaerButton, zustandAusStatus, type Zustand } from '@/lib/demo/zustand';
@@ -63,6 +68,10 @@ interface LogoVomServer {
     hell: boolean | null;
     transparenz: boolean | null;
     farbe: string | null;
+    /** AUFTRAG-096: Hintergrund der Logo-Umgebung auf der Website */
+    umgebung?: string | null;
+    /** AUFTRAG-096: Inline-SVG ohne eigene Farbe */
+    ohneEigeneFarbe?: boolean;
 }
 
 interface ScanAntwort {
@@ -70,6 +79,8 @@ interface ScanAntwort {
     profil: Profil;
     assistent_weiblich: boolean;
     logos: LogoVomServer[];
+    /** AUFTRAG-096: gewichtete Farbsignale ohne Browser-Logo-Farbe */
+    farb_signale?: FarbSignal[];
     funde: { seiten: number; firma: string; telefon: string | null; oeffnungszeiten: string | null; farbe: string | null };
 }
 
@@ -85,6 +96,8 @@ interface GeladenesLogo {
     farbe: string | null;
     breite: number | null;
     hoehe: number | null;
+    /** AUFTRAG-096: Plakette hinter dem Logo (Website-Umgebung, Marke, Weiss oder Dunkel) */
+    plakette: { art: PlakettenArt; farbe: string };
 }
 
 interface Karte {
@@ -107,7 +120,8 @@ interface Chip {
     text: string;
     farbe?: string;
     logoSrc?: string;
-    logoDunkel?: boolean;
+    /** Hintergrund der kleinen Logo-Plakette (wie auf der Karte) */
+    logoGrund?: string;
     icon?: 'telefon' | 'zeiten' | 'wissen';
 }
 
@@ -144,45 +158,65 @@ function ladeBild(src: string, zeitMs: number): Promise<HTMLImageElement> {
     });
 }
 
-/** Browser-Analyse (für Formate, die der Server nicht dekodiert: WebP, AVIF, JPEG, GIF). */
-function canvasAnalyse(img: HTMLImageElement): { hell: boolean | null; farbe: string | null } {
+/** Pixel des Logos über Canvas (gleicher Ursprung dank eigenem Proxy); null, wenn nicht lesbar. */
+function canvasPixel(img: HTMLImageElement): { px: Uint8ClampedArray; breite: number } | null {
     try {
         const w = img.naturalWidth || 120;
         const h = img.naturalHeight || 60;
-        const m = Math.min(1, 140 / Math.max(w, h));
+        const m = Math.min(1, 160 / Math.max(w, h));
         const canvas = document.createElement('canvas');
         canvas.width = Math.max(1, Math.round(w * m));
         canvas.height = Math.max(1, Math.round(h * m));
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        if (!ctx) return { hell: null, farbe: null };
+        if (!ctx) return null;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        const px = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-        let transparent = 0;
-        for (let i = 3; i < px.length; i += 4) if (px[i] < 250) transparent++;
-        const mitTransparenz = transparent / (px.length / 4) > 0.02;
-        return { hell: mitTransparenz && brauchtDunklenGrund(logoVerlust(px)), farbe: dominanteFarbe(px)?.primaer ?? null };
+        return { px: ctx.getImageData(0, 0, canvas.width, canvas.height).data, breite: canvas.width };
     } catch {
-        return { hell: null, farbe: null };
+        return null;
     }
 }
 
-/** Erstes Logo, das im Browser lädt (bestes zuerst, dann Ersatz). */
-async function ladeLogo(logos: LogoVomServer[]): Promise<GeladenesLogo | null> {
-    for (const l of logos.slice(0, 3)) {
+/**
+ * AUFTRAG-096: Die Karte probiert die geordneten Kandidaten (höchstens 4) der
+ * Reihe nach: laden, auf Canvas zeichnen, ≥ 2 % sichtbare Pixel und keine
+ * einfarbige Fläche → gültig, sonst nächster. Das deckt alle Formate ab, auch
+ * SVG mit CSS-Füllungen, die der Server nicht beurteilen kann. Danach:
+ * Markenfarbe aus den Signalen des Servers plus Logo-Farbe (gleiche Regeln wie
+ * der Server) und Plakette (Website-Umgebung, Marke, Weiss oder Dunkel).
+ */
+async function ladeLogo(logos: LogoVomServer[], signale: FarbSignal[]): Promise<{ logo: GeladenesLogo | null; marke: string | null }> {
+    const markeOhneLogo = bestimmeMarkenfarbe(signale)?.primaer ?? null;
+    for (const l of logos.slice(0, 4)) {
+        let img: HTMLImageElement;
         try {
-            const img = await ladeBild(l.src, 6500);
-            let { hell, farbe } = l;
-            if (hell === null || farbe === null) {
-                const a = canvasAnalyse(img);
-                if (hell === null) hell = a.hell;
-                if (farbe === null) farbe = a.farbe;
-            }
-            return { src: l.src, index: l.index, hell: !!hell, farbe, breite: img.naturalWidth || l.breite, hoehe: img.naturalHeight || l.hoehe };
+            img = await ladeBild(l.src, 6500);
         } catch {
             continue;
         }
+        const raster = canvasPixel(img);
+        const px = raster?.px ?? null;
+        const stat = px ? logoPixel(px) : null;
+        if (stat && !logoSichtbar(stat).ok) continue;
+        let { hell, farbe } = l;
+        if (px && hell === null) hell = stat!.transparenz && brauchtDunklenGrund(logoVerlust(px, raster!.breite));
+        if (px && farbe === null) farbe = dominanteFarbe(px)?.primaer ?? null;
+        const marke = bestimmeMarkenfarbe([...signale, ...(farbe ? [{ farbe, gewicht: FARB_GEWICHT_LOGO, quelle: 'logo' as const }] : [])])?.primaer ?? markeOhneLogo;
+        const plakette = waehlePlakette({
+            umgebung: l.umgebung ?? null,
+            // ohne Markenfarbe trägt die Karte das neutrale Blau (helles Logo sitzt dann direkt darauf, wie A-095)
+            marke: marke ?? NEUTRAL_PRIMAER,
+            hell: !!hell,
+            mittel: stat?.mittel ?? null,
+            einfarbig: !!stat?.einfarbig,
+            ohneEigeneFarbe: !!l.ohneEigeneFarbe,
+            verlust: px ? (grund) => verlustAuf(px, grund, raster!.breite).anteil : undefined,
+        });
+        return {
+            logo: { src: l.src, index: l.index, hell: !!hell, farbe, breite: img.naturalWidth || l.breite, hoehe: img.naturalHeight || l.hoehe, plakette },
+            marke,
+        };
     }
-    return null;
+    return { logo: null, marke: markeOhneLogo };
 }
 
 function hostVon(eingabe: string): string {
@@ -363,7 +397,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 .then((r) => (r.ok ? r.json() : null))
                 .then((d) => (d && d.profil ? (d as ProfilAntwort) : { profil: scan.profil }))
                 .catch(() => ({ profil: scan.profil }));
-            const logoVersprechen = ladeLogo(scan.logos ?? []);
+            const logoVersprechen = ladeLogo(scan.logos ?? [], scan.farb_signale ?? []);
             const takt = async (ms = 360) => {
                 await pause(ms);
                 return aktuell();
@@ -374,17 +408,18 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             if (!(await takt())) return;
 
             setzeSchritt({ id: 'logo', titel: 'Logo wird geprüft …', status: 'laeuft' });
-            const logo = await logoVersprechen;
+            const { logo, marke } = await logoVersprechen;
             if (!aktuell()) return;
             if (logo) {
-                setzeSchritt({ id: 'logo', titel: 'Logo gefunden', status: 'ok', logoSrc: logo.src, logoDunkel: logo.hell });
-                setChips((c) => [...c, { id: 'logo', text: 'Logo', logoSrc: logo.src, logoDunkel: logo.hell }]);
+                setzeSchritt({ id: 'logo', titel: 'Logo gefunden', status: 'ok', logoSrc: logo.src, logoGrund: logo.plakette.farbe });
+                setChips((c) => [...c, { id: 'logo', text: 'Logo', logoSrc: logo.src, logoGrund: logo.plakette.farbe }]);
             } else {
                 setzeSchritt({ id: 'logo', titel: 'Kein Logo gefunden', detail: 'Die Karte zeigt die Initiale', status: 'leer' });
             }
             if (!(await takt())) return;
 
-            const farbe = logo?.farbe ?? scan.funde?.farbe ?? scan.profil.farben?.primaer ?? null;
+            // AUFTRAG-096: Markenfarbe aus den gewichteten Signalen (inkl. Logo-Farbe), zuletzt Server-Ergebnis
+            const farbe = marke ?? scan.funde?.farbe ?? scan.profil.farben?.primaer ?? null;
             if (farbe) {
                 setWelleFarbe(farbe);
                 setzeSchritt({ id: 'farbe', titel: `Markenfarbe ${farbe}`, status: 'ok', farbe });
@@ -609,14 +644,13 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         if (!karte) return null;
         const p = karte.profil;
         const primaer = karte.primaer;
-        const logoGrund: 'weiss' | 'dunkel' | 'marke' = karte.logo?.hell ? (luminanz(primaer) < 0.06 ? 'marke' : 'dunkel') : 'weiss';
         return {
             name: p.assistent_name,
             rolle: rolleFuer(karte.stimme),
             firma: p.firma,
             website: p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''),
             kann: p.faehigkeiten.slice(0, 3),
-            logo: karte.logo ? { src: karte.logo.src, grund: logoGrund, breite: karte.logo.breite, hoehe: karte.logo.hoehe } : null,
+            logo: karte.logo ? { src: karte.logo.src, grund: karte.logo.plakette.art, farbe: karte.logo.plakette.art === 'marke' ? primaer : karte.logo.plakette.farbe, breite: karte.logo.breite, hoehe: karte.logo.hoehe } : null,
             primaer,
             tief: helligkeit(primaer, -0.16),
             text: textAuf(primaer),
@@ -935,7 +969,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                     className={`${styles.chip} inline-flex items-center gap-2 h-8 sm:h-9 rounded-full border border-border bg-card pl-1 sm:pl-1.5 pr-3 sm:pr-3.5 text-[0.8125rem] sm:text-sm font-medium text-text-primary`}
                                 >
                                     {c.logoSrc ? (
-                                        <span className={`h-6 rounded-full px-2 flex items-center ${c.logoDunkel ? 'bg-[#16191E]' : 'bg-white ring-1 ring-black/5'}`}>
+                                        <span className="h-6 rounded-full px-2 flex items-center ring-1 ring-black/5" style={{ background: c.logoGrund ?? '#FFFFFF' }}>
                                             {/* eslint-disable-next-line @next/next/no-img-element -- eigener Proxy */}
                                             <img src={c.logoSrc} alt="" className="block h-4 w-auto max-w-[4.5rem] object-contain" />
                                         </span>

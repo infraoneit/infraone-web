@@ -13,7 +13,7 @@ import { leseScan } from '@/lib/demo/scans';
 import { auftraegeBereinigen, erstelleAuftrag } from '@/lib/demo/auftraege';
 import { aufraeumenGelegentlich } from '@/lib/demo/speicher';
 import { SPRACHEN, type Farben, type Sprache } from '@/lib/demo/typen';
-import { logoUrlFuerProfil } from '@/lib/demo/logo';
+import { gueltigeLogos, logoUrlFuerAuftrag } from '@/lib/demo/logo';
 import { stimmeFuer } from '@/lib/demo/namen';
 
 export const runtime = 'nodejs';
@@ -55,11 +55,13 @@ export async function POST(req: Request) {
         profil.farben = { primaer: String(f.primaer).toUpperCase(), sekundaer: String(f.sekundaer).toUpperCase() };
     }
     // Logo, das im Browser tatsächlich geladen werden konnte (Index in den geprüften Scan-Kandidaten)
+    // AUFTRAG-096: Der Orchestrator verlangt http(s) — Original-URL bzw. Proxy-Link nur mit öffentlichem Ursprung, sonst null
     const idx = body.logo_index;
-    if (typeof idx === 'number' && Number.isInteger(idx) && idx >= 0) {
-        const k = scan.extrakt.logo_kandidaten[idx];
-        if (k?.gueltig) profil.logo_url = logoUrlFuerProfil(k, idx, scan.id, new URL(req.url).origin);
-    }
+    const gewaehlt =
+        typeof idx === 'number' && Number.isInteger(idx) && idx >= 0 && scan.extrakt.logo_kandidaten[idx]?.gueltig
+            ? { k: scan.extrakt.logo_kandidaten[idx], index: idx }
+            : (gueltigeLogos(scan.extrakt.logo_kandidaten)[0] ?? null);
+    profil.logo_url = logoUrlFuerAuftrag(gewaehlt?.k ?? null, gewaehlt?.index ?? 0, scan.id, new URL(req.url).origin);
     // Stimme passt immer zum Vornamen (AUFTRAG-095; auch für ältere Scans ohne Feld)
     profil.stimme = stimmeFuer(profil.assistent_name);
 

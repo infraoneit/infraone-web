@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * demo-logo-test.mjs (AUFTRAG-095) — Logo-Erkennung des Demo-Scanners messen.
+ * demo-logo-test.mjs (AUFTRAG-095, erweitert AUFTRAG-096) — Logo-Erkennung des Demo-Scanners messen.
  *
  * Läuft direkt gegen scanneWebsite() (ohne Next-Server, ohne KI). Druckt je
  * Site das gewählte Logo (Quelle, Format, Grösse, hell) und die geprüften
@@ -8,6 +8,8 @@
  *
  *   node scripts/demo-logo-test.mjs gmtec.ch ryserboeden.ch …
  *   node scripts/demo-logo-test.mjs --json ergebnis.json <url…>   (Rohdaten für die Tabelle)
+ *   AUFTRAG-096: JSON zusätzlich mit Firma, Telefon, Öffnungszeiten, Adresse, Textlänge,
+ *   Markenfarbe (+ Quelle) und Logo-Umgebung (Plakette).
  *
  * Node >= 22.18 (Type-Stripping).
  */
@@ -65,7 +67,16 @@ for (const url of urls) {
             ms: scan.dauer_ms,
             plattform: x.plattform,
             firma: x.firma,
-            logo: logo ? { quelle: logo.quelle, format: logo.format, breite: logo.breite, hoehe: logo.hoehe, hell: logo.hell, transparenz: logo.transparenz, farbe: logo.farbe, url: logo.url, ms: logo.ms ?? null } : null,
+            firma_quelle: x.firma_quelle,
+            end_url: x.end_url,
+            text_laenge: x.text.length,
+            telefone: x.telefone,
+            oeffnungszeiten: x.oeffnungszeiten,
+            adressen: x.adressen,
+            farben: x.farben,
+            farbe_quelle: x.farbe_quelle ?? null,
+            theme_color: x.theme_color,
+            logo: logo ? { quelle: logo.quelle, format: logo.format, breite: logo.breite, hoehe: logo.hoehe, hell: logo.hell, transparenz: logo.transparenz, farbe: logo.farbe, url: logo.url, ms: logo.ms ?? null, umgebung: logo.umgebung ?? null } : null,
             kandidaten: x.logo_kandidaten.map((k) => ({ quelle: k.quelle, stufe: k.stufe, punkte: k.punkte, gueltig: k.gueltig ?? null, grund: k.grund ?? null, format: k.format ?? null, breite: k.breite ?? null, hoehe: k.hoehe ?? null, url: k.url })),
         });
     } catch (e) {

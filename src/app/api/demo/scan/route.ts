@@ -51,7 +51,8 @@ export async function POST(req: Request) {
         const logos = gueltigeLogos(scan.extrakt.logo_kandidaten);
         const bestes = logos[0] ?? null;
         const regel = regelProfil(scan.extrakt);
-        regel.profil.logo_url = logoUrlFuerProfil(bestes?.k ?? null, bestes?.index ?? 0, scanId, new URL(req.url).origin);
+        // AUFTRAG-096: relativer Proxy-Pfad (kein Host in den Antworten)
+        regel.profil.logo_url = logoUrlFuerProfil(bestes?.k ?? null, bestes?.index ?? 0, scanId);
         const gespeichert = await speichereNeuenScan({
             id: scanId,
             extrakt: scan.extrakt,
@@ -68,14 +69,17 @@ export async function POST(req: Request) {
             profil: regel.profil,
             profil_quelle: 'regeln',
             assistent_weiblich: regel.weiblich,
-            // Bestes Logo zuerst, danach bis zu zwei Ersatz-Logos (falls eines im Browser nicht lädt)
-            logos: logos.slice(0, 3).map(({ k, index }) => logoFuerKarte(k, index, gespeichert.id)),
+            // AUFTRAG-096: geordnete Kandidaten (höchstens 4); die Karte prüft sie der Reihe nach im Browser (Sichtbarkeit)
+            logos: logos.slice(0, 4).map(({ k, index }) => logoFuerKarte(k, index, gespeichert.id)),
+            // gewichtete Farbsignale: die Karte ergänzt die im Browser gemessene Logo-Farbe und wählt mit denselben Regeln
+            farb_signale: x.farb_signale,
             funde: {
                 seiten: x.seiten.filter((s) => !s.fehler).length,
                 firma: regel.profil.firma,
                 telefon: regel.profil.telefon ? formatiereNummer(regel.profil.telefon) : null,
                 oeffnungszeiten: regel.profil.oeffnungszeiten_text,
-                farbe: bestes?.k.farbe ?? x.farben?.primaer ?? null,
+                farbe: x.farben?.primaer ?? null,
+                farbe_quelle: x.farbe_quelle,
                 plattform: x.plattform,
             },
             dauer_ms: scan.dauer_ms,

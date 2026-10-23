@@ -12,6 +12,7 @@
  *
  *   node scripts/auftrag092-browser-test.mjs
  *   node scripts/auftrag092-browser-test.mjs --logos gmtec.ch ryserboeden.ch …   (nur Logo-Karten)
+ *   node scripts/auftrag092-browser-test.mjs --logos --ziel A096-screens --ohne-ki hr-campus.ch/de/ …   (AUFTRAG-096)
  *
  * Teil B (--attrappe, nur gegen einen EIGENEN Server mit eigenem Speicher):
  * Schnittstelle A-091 über die API mit einem Attrappen-Orchestrator.
@@ -28,7 +29,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.BASE_URL || 'http://localhost:3000';
 const CHROME = process.env.PLAYWRIGHT_CHROMIUM || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const SCREENS = path.resolve(ROOT, '..', 'auftraege', 'ergebnisse', 'A095-screens');
+// AUFTRAG-096: SCREENS_ORDNER=A096-screens/browser-test legt die Screenshots woanders ab (A-095-Belege bleiben)
+const SCREENS = path.resolve(ROOT, '..', 'auftraege', 'ergebnisse', process.env.SCREENS_ORDNER || 'A095-screens');
 const SEITE = `${BASE}/ki-telefonassistent`;
 const args = process.argv.slice(2);
 
@@ -57,10 +59,10 @@ function limitsZuruecksetzen() {
     if (existsSync(dir)) rmSync(dir, { recursive: true, force: true });
 }
 
-async function neueSeite(browser, { breite, hoehe, theme, mobil = false, ruhig = false }) {
+async function neueSeite(browser, { breite, hoehe, theme, mobil = false, ruhig = false, skala = null }) {
     const ctx = await browser.newContext({
         viewport: { width: breite, height: hoehe },
-        deviceScaleFactor: mobil ? 2 : 1,
+        deviceScaleFactor: skala ?? (mobil ? 2 : 1),
         isMobile: mobil,
         hasTouch: mobil,
         reducedMotion: ruhig ? 'reduce' : 'no-preference',
@@ -470,39 +472,85 @@ async function seoPruefung(browser) {
 /* ------------------------------------------------------------------ */
 /* Teil L: Logo-Karten (Messung)                                       */
 /* ------------------------------------------------------------------ */
-async function logoKarten(browser, sites) {
-    const dir = path.join(SCREENS, 'logos');
+/**
+ * AUFTRAG-096: Optionen für die breite Messung
+ *   --ziel <ordner>    Screenshots unter auftraege/ergebnisse/<ordner> (Vorgabe A095-screens/logos)
+ *   --ohne-ki          /api/demo/profil im Browser mit dem Regel-Profil des Scans beantworten
+ *                      (keine KI-Kosten; Logo, Plakette und Farbe hängen nur am Scan)
+ *   --ohne-website     keinen Screenshot des Website-Kopfs (bei Wiederholungen)
+ *   --gross            Karte in doppelter Auflösung («<site>-karte-gross.png»)
+ * Je Site: Logo geladen, Plakette (Hintergrund), Markenfarbe der Karte (--kunde), Logo-Quelle.
+ */
+function logoOptionen() {
+    const wert = (n) => (args.includes(n) ? args[args.indexOf(n) + 1] : null);
+    const ziel = wert('--ziel');
+    const optionen = new Set(['--ziel', '--ohne-ki', '--ohne-website', '--logos', '--gross']);
+    const sites = [];
+    for (let i = args.indexOf('--logos') + 1; i < args.length; i++) {
+        if (args[i] === '--ziel') {
+            i++;
+            continue;
+        }
+        if (!optionen.has(args[i])) sites.push(args[i]);
+    }
+    return { dir: ziel ? path.resolve(ROOT, '..', 'auftraege', 'ergebnisse', ziel) : path.join(SCREENS, 'logos'), ohneKi: args.includes('--ohne-ki'), ohneWebsite: args.includes('--ohne-website'), gross: args.includes('--gross'), sites };
+}
+
+const dateiName = (site) => site.replace(/^https?:\/\//, '').replace(/[^a-z0-9.-]+/gi, '_').replace(/_+$/, '');
+
+async function logoKarten(browser, sites, { dir, ohneKi = false, ohneWebsite = false, gross = false } = {}) {
     mkdirSync(dir, { recursive: true });
     const aus = [];
     for (const site of sites) {
         limitsZuruecksetzen();
-        const { ctx, page } = await neueSeite(browser, { breite: 1440, hoehe: 900, theme: 'light' });
+        const { ctx, page, konsole } = await neueSeite(browser, { breite: 1440, hoehe: 900, theme: 'light', skala: gross ? 2 : null });
         const eintrag = { site };
+        const name = dateiName(site);
         try {
             // Website selbst (Kopfbereich) zum Vergleich — nur ansehen
-            const w = await ctx.newPage();
-            await w.setViewportSize({ width: 1280, height: 420 });
-            await w.goto(`https://${site}`, { waitUntil: 'load', timeout: 25000 }).catch(() => undefined);
-            await w.waitForTimeout(2500);
-            await w.screenshot({ path: path.join(dir, `${site}-website.png`) }).catch(() => undefined);
-            await w.close();
-
+            if (!ohneWebsite) {
+                const w = await ctx.newPage();
+                await w.setViewportSize({ width: 1280, height: 420 });
+                await w.goto(/^https?:/.test(site) ? site : `https://${site}`, { waitUntil: 'load', timeout: 25000 }).catch(() => undefined);
+                await w.waitForTimeout(2500);
+                await w.screenshot({ path: path.join(dir, `${name}-website.png`) }).catch(() => undefined);
+                await w.close();
+            }
+            let scanJson = null;
+            await page.route('**/api/demo/scan', async (route) => {
+                const r = await route.fetch();
+                scanJson = await r.json().catch(() => null);
+                await route.fulfill({ response: r, json: scanJson ?? {} });
+            });
+            if (ohneKi) {
+                await page.route('**/api/demo/profil', async (route) => {
+                    const p = scanJson?.profil;
+                    await route.fulfill({ status: p ? 200 : 404, contentType: 'application/json', body: JSON.stringify(p ? { profil: p, funde: { telefon: scanJson.funde?.telefon ?? null, oeffnungszeiten: scanJson.funde?.oeffnungszeiten ?? null, wissen: p.wissen.length } } : { fehler: 'kein Scan' }) });
+                });
+            }
             await page.goto(SEITE, { waitUntil: 'networkidle' });
             const t0 = Date.now();
-            const antwort = page.waitForResponse((r) => r.url().endsWith('/api/demo/scan'), { timeout: 30000 });
             await page.fill('#ki-demo-url', site);
             await page.click('#ki-demo-scan-knopf');
-            const scan = await (await antwort).json().catch(() => ({}));
             await page.locator('#ki-demo-anruf-knopf[data-zustand="bereit"]').waitFor({ state: 'visible', timeout: 60000 });
             eintrag.ms = Date.now() - t0;
             await page.waitForTimeout(900);
             const info = await page.evaluate(() => {
                 const img = document.querySelector('figure [role="group"] img');
-                return { logo: !!img && img.complete && img.naturalWidth > 0, natW: img?.naturalWidth ?? null, natH: img?.naturalHeight ?? null, plakette: img ? getComputedStyle(img.parentElement).backgroundColor : null };
+                const stil = document.querySelector('figure [style*="--kunde"]');
+                return {
+                    logo: !!img && img.complete && img.naturalWidth > 0,
+                    src: img?.getAttribute('src') ?? null,
+                    natW: img?.naturalWidth ?? null,
+                    natH: img?.naturalHeight ?? null,
+                    plakette: img ? getComputedStyle(img.parentElement).backgroundColor : null,
+                    kunde: stil ? stil.style.getPropertyValue('--kunde').trim() : null,
+                };
             });
-            Object.assign(eintrag, info, { scanLogo: scan.logos?.[0] ?? null, scanMs: scan.dauer_ms ?? null });
-            await page.locator('figure').screenshot({ path: path.join(dir, `${site}-karte.png`) });
-            console.log(`LOGO  ${site}  ${info.logo ? 'Logo' : 'Initiale'}  ${scan.logos?.[0]?.quelle ?? '–'} ${scan.logos?.[0]?.format ?? ''}  ${eintrag.ms} ms`);
+            const scan = scanJson ?? {};
+            Object.assign(eintrag, info, { scanLogo: scan.logos?.[0] ?? null, logos: (scan.logos ?? []).map((l) => `${l.quelle} ${l.format ?? ''}`), scanMs: scan.dauer_ms ?? null, funde: scan.funde ?? null, logoUrlProfil: scan.profil?.logo_url ?? null, konsole: konsole.slice(0, 3) });
+            await page.locator('figure').screenshot({ path: path.join(dir, gross ? `${name}-karte-gross.png` : `${name}-karte.png`) });
+            console.log(`LOGO  ${site}  ${info.logo ? 'Logo' : 'Initiale'}  ${scan.logos?.[0]?.quelle ?? '–'} ${scan.logos?.[0]?.format ?? ''}  Plakette ${info.plakette ?? '–'}  Farbe ${info.kunde ?? '–'}  ${eintrag.ms} ms`);
         } catch (e) {
             eintrag.fehler = e.message;
             console.log(`LOGO  ${site}  FEHLER ${e.message.slice(0, 120)}`);
@@ -557,7 +605,8 @@ if (args.includes('--attrappe')) {
         const logoIndex = args.indexOf('--logos');
         const nur = args.includes('--nur') ? args[args.indexOf('--nur') + 1] : null;
         if (logoIndex >= 0) {
-            await logoKarten(browser, args.slice(logoIndex + 1));
+            const o = logoOptionen();
+            await logoKarten(browser, o.sites, o);
         } else if (nur) {
             const v = {
                 'desktop-1440-hell': { breite: 1440, hoehe: 900, theme: 'light', website: 'zahnarztpraxisneuwiesen.ch', sprache: 'Schweizerdeutsch' },

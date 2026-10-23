@@ -1,21 +1,29 @@
 /**
  * Website-Scanner der KI-Telefonassistent-Demo (AUFTRAG-092, Teil A).
  *
- * Ablauf: URL normalisieren → Startseite (≤ 4 s) → bis zu 5 priorisierte
- * interne Seiten + bis zu 3 Stylesheets parallel (je ≤ 4 s) → Extraktion.
- * Gesamtbudget 8 s, HTML max. 1,5 MB, CSS max. 300 kB. Keine
- * Browser-Automation.
+ * Ablauf: URL normalisieren → Startseite (≤ 5,5 s, A-096) → bis zu 5 priorisierte
+ * interne Seiten + bis zu 4 Stylesheets, Manifest und Sprite-Dateien parallel
+ * (je ≤ 4 s) → Extraktion → Logo-Umgebung und gewichtete Markenfarbe (A-096).
+ * Gesamtbudget 8 s, HTML max. 1,5 MB, CSS max. 300 kB, Sprite max. 1 MB.
+ * Keine Browser-Automation.
  */
 import { holeSicher, dekodiere, NetzFehler, pruefeUrlFormal } from './netz';
 import { analysiereBild, erkenneFormat } from './bildanalyse';
-import { bereinigeSvg, bewerteMitAnalyse, groessereVariante, kaskadenSchluessel, logosAusCss, ordneLogos, vorrang, type CssLogo } from './logo';
-import { analysiereSeite, bereinigeText, COOKIE_ZEILE_RE, type SeitenAnalyse } from './extraktion';
+import { bereinigeSvg, bewerteMitAnalyse, groessereVariante, kaskadenSchluessel, logosAusCss, ordneLogos, spriteEinbetten, symbolAusSprite, vorrang, type CssLogo } from './logo';
+import { ahnenFuerSelektor, analysiereSeite, bereinigeText, COOKIE_ZEILE_RE, type SeitenAnalyse } from './extraktion';
 import { normalisiereGefundeneNummer } from './nummer';
-import { farbtonAbstand, istMarkenfarbe, parseCssFarbe, helligkeit } from './farben';
-import type { Abschnitt, Extrakt, Farben, LogoKandidat, Schritt, SeitenProtokoll } from './typen';
+import { parseCssFarbe } from './farben';
+import { bestimmeMarkenfarbe, FARB_GEWICHT_LOGO, farbHaeufigkeit, istFrameworkFarbe, istKraeftig, type FarbSignal } from './markenfarbe';
+import { baueHintergrundIndex, bestimmeUmgebung, type Ahne } from './umgebung';
+import { findeOeffnungszeiten, istOeffnungszeitText } from './oeffnungszeiten';
+import type { Abschnitt, Extrakt, LogoKandidat, Schritt, SeitenProtokoll } from './typen';
+
+export { istFrameworkFarbe } from './markenfarbe';
+export { findeOeffnungszeiten, istOeffnungszeitText, istOeffnungszeitZeile } from './oeffnungszeiten';
 
 export const SCAN_BUDGET_MS = 8000;
 const SEITE_MS = 4000;
+const STARTSEITE_MS = 5500;
 const HTML_MAX = 1_500_000;
 const CSS_MAX = 300_000;
 const MAX_UNTERSEITEN = 5;
@@ -140,18 +148,45 @@ function waehleStylesheets(alle: string[], startUrl: string): string[] {
 const TEL_RE =
     /(?:\+|00)\s?(?:41|423)[\s.\-/]?(?:\(0\)[\s.\-/]?)?\d{1,3}(?:[\s.\-/]?\d{2,3}){2,4}|\b0\d{2}[\s.\-/]?\d{3}[\s.\-/]?\d{2}[\s.\-/]?\d{2}\b/g;
 
+/**
+ * Telefonnummern aus Textzeilen: nur CH/FL-Formate (normalisiereGefundeneNummer),
+ * keine Fax-Nummern (AUFTRAG-096: «Fax», «Telefax», «F», «F:» vor der Nummer —
+ * auch wenn Tel. und Fax in derselben Zeile stehen), keine Konto-/UID-Zeilen.
+ */
 export function findeTelefone(zeilen: string[]): string[] {
     const aus: string[] = [];
     for (const z of zeilen) {
         if (/iban|uid|mwst|che-\d|konto|bic|swift/i.test(z)) continue;
+        let letztesEnde = 0;
         for (const m of z.matchAll(TEL_RE)) {
-            const davor = z.slice(Math.max(0, (m.index ?? 0) - 14), m.index ?? 0);
-            if (/fax/i.test(davor)) continue;
+            const start = m.index ?? 0;
+            // Text zwischen der vorigen Nummer und dieser: dort steht die Bezeichnung
+            const davor = z.slice(Math.max(letztesEnde, start - 24), start);
+            letztesEnde = start + m[0].length;
+            if (/fax|telefax/i.test(davor) || /(?:^|[\s|,;/(])F\s?[.:]?\s*$/.test(davor)) continue;
             const n = normalisiereGefundeneNummer(m[0]);
             if (n) aus.push(n);
         }
     }
     return aus;
+}
+
+/** Fax-Nummern (zum Aussortieren von tel:-Links und JSON-LD, die auf eine Fax-Nummer zeigen). */
+export function findeFaxnummern(zeilen: string[]): Set<string> {
+    const fax = new Set<string>();
+    for (const z of zeilen) {
+        let letztesEnde = 0;
+        for (const m of z.matchAll(TEL_RE)) {
+            const start = m.index ?? 0;
+            const davor = z.slice(Math.max(letztesEnde, start - 24), start);
+            letztesEnde = start + m[0].length;
+            if (/fax|telefax/i.test(davor) || /(?:^|[\s|,;/(])F\s?[.:]?\s*$/.test(davor)) {
+                const n = normalisiereGefundeneNummer(m[0]);
+                if (n) fax.add(n);
+            }
+        }
+    }
+    return fax;
 }
 
 const MAIL_RE = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,24}/gi;
@@ -196,46 +231,13 @@ export function findeAdressen(zeilen: string[]): Array<{ adresse: string; mitStr
     return aus;
 }
 
-const TAG_RE =
-    /(?:^|[\s,;(])(mo(?:ntag)?|di(?:enstag)?|mi(?:ttwoch)?|do(?:nnerstag)?|fr(?:eitag)?|sa(?:mstag)?|so(?:nntag)?|werktags?|täglich|wochenende|feiertags?)(?:\.|:|\s|–|-|,|$)/i;
-const ZEIT_RE =
-    /\b(?:[01]?\d|2[0-3])[.:h][0-5]\d\b|\b(?:[01]?\d|2[0-3])\s?(?:–|-|bis)\s?(?:[01]?\d|2[0-3])\s?uhr\b|geschlossen|nach vereinbarung|durchgehend/i;
-const OEFFNUNG_TITEL_RE =
-    /öffnungszeit|oeffnungszeit|sprechstunde|praxiszeit|bürozeit|buerozeit|geschäftszeit|geschaeftszeit|telefonzeit|erreichbarkeit|opening hours/i;
+// Öffnungszeiten: strenge Prüfung in oeffnungszeiten.ts (AUFTRAG-096, Teil 4)
 
-export function findeOeffnungszeiten(zeilen: string[]): string[] {
-    const bloecke: string[][] = [];
-    for (let i = 0; i < zeilen.length; i++) {
-        const z = zeilen[i];
-        // Block nach einer Öffnungszeiten-Überschrift
-        if (OEFFNUNG_TITEL_RE.test(z) && z.length <= 60) {
-            const block: string[] = [];
-            for (let j = i + 1; j < Math.min(zeilen.length, i + 16) && block.length < 10; j++) {
-                const k = zeilen[j];
-                if (k.length > 120) break;
-                if (TAG_RE.test(k) && ZEIT_RE.test(k)) block.push(k);
-                else if (TAG_RE.test(k) && j + 1 < zeilen.length && ZEIT_RE.test(zeilen[j + 1]) && !TAG_RE.test(zeilen[j + 1])) {
-                    block.push(`${k} ${zeilen[j + 1]}`);
-                    j++;
-                } else if (ZEIT_RE.test(k) && block.length) block.push(k);
-            }
-            if (block.length) bloecke.push(block);
-            continue;
-        }
-        if (z.length <= 120 && TAG_RE.test(z) && ZEIT_RE.test(z)) {
-            bloecke.push([z]);
-        } else if (z.length <= 30 && TAG_RE.test(z) && i + 1 < zeilen.length && ZEIT_RE.test(zeilen[i + 1]) && zeilen[i + 1].length <= 60) {
-            bloecke.push([`${z} ${zeilen[i + 1]}`]);
-            i++;
-        }
-    }
-    // benachbarte Einzelzeilen zusammenfassen, beste Blöcke zuerst
-    const texte = bloecke
-        .map((b) => [...new Set(b.map(bereinigeText))].join('; '))
-        .filter((t) => t.length >= 6)
-        .map((t) => (t.length > 300 ? t.slice(0, 297).replace(/[;,\s]+\S*$/, '') + ' …' : t));
-    const eindeutig = [...new Set(texte)];
-    return eindeutig.sort((a, b) => (b.match(/;/g)?.length ?? 0) - (a.match(/;/g)?.length ?? 0)).slice(0, 4);
+/** Adresse nur mit 4-stelliger PLZ und Ortsname (nicht «Switzerland», «Schweiz» …). */
+export function istAdresse(a: string | null | undefined): boolean {
+    if (!a) return false;
+    const m = a.match(/\b([1-9]\d{3})\s+(\p{Lu}[\p{L}.'-]+)/u);
+    return !!m && !/^(switzerland|schweiz|suisse|svizzera|ch|liechtenstein)$/i.test(m[2]);
 }
 
 /* ------------------------------------------------------------------ */
@@ -416,25 +418,43 @@ export function openingHoursKompakt(liste: string[]): string | null {
 /* Farben                                                              */
 /* ------------------------------------------------------------------ */
 
-const CSS_VAR_RE = /--([a-z0-9_-]*?)(primary|brand|accent|main-color|theme-color|color-1)(?:-colou?r)?\s*:\s*([^;}{!]+)/gi;
+/** CSS-Variablen mit primary/brand/accent/main im Namen (AUFTRAG-096: «main» allgemein). */
+const CSS_VAR_RE = /--([a-z0-9_-]*?(?:primary|brand|accent|main|theme-color|color-1|ast-global-color-0)[a-z0-9_-]*)\s*:\s*([^;}{!]+)/gi;
+/** Variablen von Bibliotheken, Cookie-Bannern usw. — deren «primary/theme» ist nicht die Marke. */
+const FREMD_VAR_RE = /^(swiper|plyr|fancybox|glide|splide|slick|toastify|lightbox|lg-|mejs|cc-|cmplz|borlabs|klaro|cky|cookie|usercentrics|uc-|onetrust|ot-|tw-|fa-|ck-|mdc-|mat-|ion-|wp-admin|wp--preset--gradient|bs-(?!primary)|joomla|toolbar|admin|mce|tox-|leaflet|mapbox|gm-|recaptcha|grecaptcha|wpforms|gform|ff-|nf-|woocommerce|wc-|select2|choices|flatpickr|pswp|photoswipe|aos|elementor-(?!kit)|e-global-color-(?:secondary|text))/i;
+const EXAKT_VAR_RE = /^(primary|brand|main|color-primary|primary-color|brand-color|color-brand|main-color|color-main|brand-primary|primary-brand|theme-primary|e-global-color-primary|wp--preset--color--primary|bs-primary|colou?r-1|global-color-primary|theme-color|(?:wp--preset--color--)?ast-global-color-0)$/i;
+/** Astra: global-color-0 ist die Hauptfarbe, 1–8 sind Neben- und Grautöne (A-096: Hustech zeigte sonst Grün statt Rot). */
+const NEBEN_VAR_RE = /ast-global-color-[1-9]$/i;
 const BUTTON_SELEKTOR_RE =
     /(^|[\s,>+~])(button|\.btn|\.button|\.cta|\.wp-block-button|\.elementor-button|\.primary|input\[type=.?submit|a:hover|a\s*\{|a,|\.link)/i;
 
-/**
- * Voreinstellungen verbreiteter Frameworks (Bootstrap 3–5): sie stehen als --primary/--blue usw. in
- * jeder Bootstrap-Seite, sind aber keine Markenfarbe (AUFTRAG-095: Stocker Tiefbau zeigte sonst Bootstrap-Blau).
- */
-const FRAMEWORK_FARBEN = new Set(['#007BFF', '#0D6EFD', '#337AB7', '#6C757D', '#28A745', '#198754', '#17A2B8', '#0DCAF0', '#FFC107', '#DC3545', '#6610F2', '#6F42C1', '#E83E8C', '#D63384', '#FD7E14', '#20C997', '#5CB85C', '#5BC0DE', '#F0AD4E', '#D9534F', '#007CBA', '#006BA1', '#005A87', '#0693E3', '#3858E9']);
-
-export function istFrameworkFarbe(hex: string): boolean {
-    return FRAMEWORK_FARBEN.has(hex.toUpperCase());
+/** Letzter Teil eines Selektors (das Element, das die Deklaration trägt). */
+function letzterTeil(selektor: string): string {
+    const teile = selektor.trim().split(/\s*[\s>+~]\s*/);
+    return teile[teile.length - 1] ?? '';
 }
 
-/** Selektoren des Seitenkopfs: deren Hintergrundfarbe ist meist die Markenfarbe (AUFTRAG-095). */
-const KOPF_CSS_RE = /(^|[\s,>+~.#])(header|site-header|main-header|page-header__top|navbar|nav|top-?bar|topbar|menu-?bar|main-?nav|navigation)([\s,>+~.#:\[]|$)/i;
+/**
+ * Seitenflächen, deren deckender Hintergrund die Markenfarbe zeigt (AUFTRAG-096):
+ * body/html/:root, Kopf (header, Navigation, Topbar) und Hero/Banner — jeweils als
+ * LETZTER Teil des Selektors («.header .btn» zählt nicht als Kopf).
+ */
+const FLAECHE_RE =
+    /^(?:html|body|:root|header|nav)(?:[.#:[]|$)|^[.#](?:site-header|main-header|page-header|header|header-top|header-main|header-wrapper|header-inner|masthead|navbar|nav|navigation|main-?nav|top-?bar|topbar|menu-?bar|hero|hero-section|banner|jumbotron|stage)(?:[.#:[]|$)/i;
 
-export function cssFarben(css: string): { variablen: Array<{ farbe: string; gewicht: number }>; buttons: string[]; kopf: string[] } {
-    const variablen: Array<{ farbe: string; gewicht: number }> = [];
+/** Navigation als Vorfahre (z. B. «ul.nav li a»): deren Einträge bilden die farbige Leiste (Verhalten wie A-095). */
+const NAV_RE = /(^|[\s>+~.#])(nav|navbar|navigation|main-?nav|main-?menu|menu-?bar|top-?bar|topbar|site-header|header)([\s>+~.#:[]|$)/i;
+const NAV_EINTRAG_RE = /^(?:a|li|ul|\.nav-link|\.nav-item|\.menu-item|\.navbar-nav|\.menu)(?:[.#:[]|$)/i;
+
+export interface CssFarbSignale {
+    variablen: Array<{ farbe: string; gewicht: number; name: string }>;
+    buttons: string[];
+    /** deckende Hintergrundfarben von body/html/Kopf/Hero */
+    flaechen: string[];
+}
+
+export function cssFarben(css: string): CssFarbSignale {
+    const variablen: Array<{ farbe: string; gewicht: number; name: string }> = [];
     const varMap = new Map<string, string>();
     for (const m of css.matchAll(/--([a-z0-9_-]+)\s*:\s*([^;}{!]+)/gi)) varMap.set(m[1].toLowerCase(), m[2].trim());
     const aufloesen = (wert: string, tiefe = 0): string | null => {
@@ -447,24 +467,31 @@ export function cssFarben(css: string): { variablen: Array<{ farbe: string; gewi
         }
         return parseCssFarbe(v);
     };
+    const gesehen = new Set<string>();
     for (const m of css.matchAll(CSS_VAR_RE)) {
-        const name = `${m[1]}${m[2]}`.toLowerCase();
-        const farbe = aufloesen(m[3]);
-        if (!farbe || istFrameworkFarbe(farbe)) continue;
-        const exakt = /^(primary|brand|color-primary|accent)$/.test(name);
-        const gewicht = (exakt ? 3 : 1) + (/primary|brand/.test(name) ? 1 : 0) - (/accent/.test(name) ? 0.5 : 0);
-        variablen.push({ farbe, gewicht });
+        const name = m[1].toLowerCase();
+        if (FREMD_VAR_RE.test(name) || NEBEN_VAR_RE.test(name) || /text|font|border|shadow|light|lighter|pale|bg-light|gray|grey|neutral|muted|contrast|inverse|on-primary|foreground|fg/i.test(name)) continue;
+        const farbe = aufloesen(m[2]);
+        if (!farbe || !istKraeftig(farbe)) continue;
+        const schluessel = `${name}|${farbe}`;
+        if (gesehen.has(schluessel)) continue;
+        gesehen.add(schluessel);
+        const exakt = EXAKT_VAR_RE.test(name);
+        const gewicht = exakt ? 5 : /accent/.test(name) ? 2.5 : 3;
+        variablen.push({ farbe, gewicht, name });
     }
     const buttons: string[] = [];
-    const kopf: string[] = [];
+    const flaechen: string[] = [];
     for (const regel of css.split('}')) {
-        const [selektor, deklarationen] = regel.split('{');
-        if (!deklarationen || !selektor || selektor.length > 400) continue;
-        if (KOPF_CSS_RE.test(selektor) && !/:hover|:focus|dropdown|sub-?menu|footer/i.test(selektor)) {
+        const [selektorRoh, deklarationen] = regel.split('{');
+        if (!deklarationen || !selektorRoh || selektorRoh.length > 400) continue;
+        const selektor = selektorRoh.replace(/^[\s\S]*;/, '');
+        if (!/:hover|:focus|:active|dropdown|sub-?menu|footer|modal|popup|cookie|consent/i.test(selektor) && selektor.split(',').some((s) => FLAECHE_RE.test(letzterTeil(s)) || (NAV_RE.test(s) && NAV_EINTRAG_RE.test(letzterTeil(s))))) {
             for (const d of deklarationen.matchAll(/(?:^|;)\s*background(?:-color)?\s*:\s*([^;]+)/gi)) {
                 const wert = d[1].replace(/!important/i, '').trim();
+                if (/url\(|gradient\(/i.test(wert)) continue;
                 const farbe = aufloesen(wert) ?? parseCssFarbe(wert.split(/\s+/)[0] ?? '');
-                if (farbe && !istFrameworkFarbe(farbe)) kopf.push(farbe);
+                if (farbe && !istFrameworkFarbe(farbe)) flaechen.push(farbe);
             }
         }
         if (!BUTTON_SELEKTOR_RE.test(selektor)) continue;
@@ -474,7 +501,7 @@ export function cssFarben(css: string): { variablen: Array<{ farbe: string; gewi
             if (farbe && !istFrameworkFarbe(farbe)) buttons.push(farbe);
         }
     }
-    return { variablen, buttons, kopf };
+    return { variablen, buttons, flaechen };
 }
 
 function haeufigste(liste: string[]): string[] {
@@ -483,19 +510,48 @@ function haeufigste(liste: string[]): string[] {
     return [...z.entries()].sort((a, b) => b[1] - a[1]).map(([f]) => f);
 }
 
-export function bestimmeFarben(theme: string | null, variablen: Array<{ farbe: string; gewicht: number }>, buttons: string[], kopf: string[] = []): Farben | null {
-    const kandidaten: string[] = [];
-    const themeHex = theme ? parseCssFarbe(theme) : null;
-    if (themeHex && istMarkenfarbe(themeHex)) kandidaten.push(themeHex);
-    // Farbiger Seitenkopf (z. B. rote Navigationsleiste) vor CSS-Variablen
-    kandidaten.push(...haeufigste(kopf).filter(istMarkenfarbe));
-    const varSortiert = [...variablen].sort((a, b) => b.gewicht - a.gewicht).map((v) => v.farbe);
-    kandidaten.push(...varSortiert.filter(istMarkenfarbe));
-    kandidaten.push(...haeufigste(buttons).filter(istMarkenfarbe));
-    if (!kandidaten.length) return null;
-    const primaer = kandidaten[0];
-    const sekundaer = kandidaten.find((f) => farbtonAbstand(f, primaer) >= 30) ?? helligkeit(primaer, -0.18);
-    return { primaer, sekundaer };
+function zaehle(liste: string[]): Array<[string, number]> {
+    const z = new Map<string, number>();
+    for (const f of liste) z.set(f, (z.get(f) ?? 0) + 1);
+    return [...z.entries()].sort((a, b) => b[1] - a[1]);
+}
+
+/** Gewichte der Farbsignale (AUFTRAG-096, Teil 3; Reihenfolge laut Auftrag). */
+export const FARB_GEWICHTE = {
+    variableExakt: 5,
+    variable: 3,
+    flaeche: 4,
+    flaecheJeWeitere: 0.5,
+    flaecheMaxBonus: 2,
+    theme: 3,
+    manifest: 2.5,
+    haeufigkeit: [2.5, 1.5, 1],
+    haeufigkeitVoll: 10,
+    button: [1.5, 0.75],
+    logo: FARB_GEWICHT_LOGO,
+} as const;
+
+/** Sammelt die gewichteten Farbsignale einer Website (ohne Logo-Farbe aus dem Browser). */
+export function farbSignale(opt: { theme: string | null; manifest: string | null; css: CssFarbSignale; haeufigkeit: Array<{ farbe: string; anzahl: number }>; stilFarben: string[]; logoFarbe: string | null }): FarbSignal[] {
+    const G = FARB_GEWICHTE;
+    const signale: FarbSignal[] = [];
+    for (const v of opt.css.variablen) signale.push({ farbe: v.farbe, gewicht: v.gewicht, quelle: 'css-variable' });
+    zaehle(opt.css.flaechen.filter(istKraeftig)).forEach(([farbe, n], i) =>
+        signale.push({ farbe, gewicht: (i === 0 ? G.flaeche : G.flaeche * 0.6) + Math.min(G.flaecheMaxBonus, G.flaecheJeWeitere * (n - 1)), quelle: 'hintergrund' }),
+    );
+    const theme = opt.theme ? parseCssFarbe(opt.theme) : null;
+    if (theme && istKraeftig(theme)) signale.push({ farbe: theme, gewicht: G.theme, quelle: 'theme-color' });
+    const manifest = opt.manifest ? parseCssFarbe(opt.manifest) : null;
+    if (manifest && istKraeftig(manifest)) signale.push({ farbe: manifest, gewicht: G.manifest, quelle: 'manifest' });
+    opt.haeufigkeit
+        .filter((h) => h.anzahl >= 2)
+        .slice(0, 3)
+        .forEach((h, i) => signale.push({ farbe: h.farbe, gewicht: Math.round(G.haeufigkeit[i] * Math.min(1, h.anzahl / G.haeufigkeitVoll) * 100) / 100, quelle: 'haeufigkeit' }));
+    haeufigste([...opt.css.buttons, ...opt.stilFarben].filter(istKraeftig))
+        .slice(0, 2)
+        .forEach((farbe, i) => signale.push({ farbe, gewicht: G.button[i], quelle: 'button' }));
+    if (opt.logoFarbe) signale.push({ farbe: opt.logoFarbe, gewicht: G.logo, quelle: 'logo' });
+    return signale;
 }
 
 /* ------------------------------------------------------------------ */
@@ -509,37 +565,79 @@ function vergleichsform(s: string): string {
     return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
 }
 
+/** Zierzeichen am Rand («▷ Zahnarzt Winterthur», «» Startseite») entfernen. */
+function ohneZierzeichen(s: string): string {
+    return s.replace(/^[\s▷►▶▸»›•·|★☆✓✔→⇒–—\-:]+|[\s▷►▶▸»›•·|★☆✓✔→⇒–—\-:]+$/gu, '').trim();
+}
+
+/** Passt ein Name zum Host? Enthalten, oder Kürzel (BSC Young Boys → bscyb, Hockey Club Davos → hcd). */
+function passtZumHost(s: string, hostVgl: string): boolean {
+    const vgl = vergleichsform(s);
+    if (hostVgl.length >= 3 && vgl.length >= 3 && (vgl.includes(hostVgl) || hostVgl.includes(vgl))) return true;
+    const woerter = s.split(/[\s\-&+.]+/).map(vergleichsform).filter(Boolean);
+    if (woerter.length < 2 || hostVgl.length < 3) return false;
+    const initialen = woerter.map((w) => w[0]).join('');
+    const ersteGanz = woerter[0] + woerter.slice(1).map((w) => w[0]).join('');
+    return initialen === hostVgl || ersteGanz === hostVgl;
+}
+
+/** Firmenname mit Rechtsform im Text (Impressum/Fusszeile), passend zum Host — z. B. «Huber Fenster AG». */
+function firmaAusText(zeilen: string[], hostVgl: string): string | null {
+    if (hostVgl.length < 3) return null;
+    const re = /(?:^|[\s,(©])((?:[A-ZÄÖÜ][\wÄÖÜäöüéèà&'.-]*\s){0,3}[A-ZÄÖÜ][\wÄÖÜäöüéèà&'.-]*)\s(AG|GmbH|SA|Sàrl|SARL|KlG|Genossenschaft)\b/g;
+    for (const z of zeilen.slice(0, 1500)) {
+        if (z.length > 300) continue;
+        for (const m of z.matchAll(re)) {
+            const name = m[1].trim();
+            const vgl = vergleichsform(name);
+            if (vgl.length >= 3 && (vgl === hostVgl || vgl.startsWith(hostVgl) || hostVgl.startsWith(vgl) || passtZumHost(name, hostVgl))) return `${name} ${m[2]}`;
+        }
+    }
+    return null;
+}
+
 export function bestimmeFirma(
     jsonldName: string | null,
     ogSiteName: string | null,
     titel: string | null,
     host: string,
+    zeilen: string[] = [],
 ): { firma: string; quelle: Extrakt['firma_quelle'] } {
     const hostLabel = ohneWww(host).split('.')[0];
     const hostVgl = vergleichsform(hostLabel);
-    if (jsonldName && jsonldName.length >= 2 && jsonldName.length <= 90 && !GENERISCH.test(jsonldName)) {
-        return { firma: jsonldName, quelle: 'jsonld' };
+    const name = jsonldName ? ohneZierzeichen(jsonldName) : null;
+    if (name && name.length >= 2 && name.length <= 90 && !GENERISCH.test(name)) {
+        return { firma: name, quelle: 'jsonld' };
     }
-    if (ogSiteName && ogSiteName.length >= 2 && ogSiteName.length <= 80 && !GENERISCH.test(ogSiteName)) {
-        return { firma: ogSiteName, quelle: 'og:site_name' };
+    // og:site_name mit Zusatz («Taxiphone Geneva - Official taxis»): Teil, der zum Host passt
+    const og = ogSiteName ? ohneZierzeichen(ogSiteName) : null;
+    if (og && og.length >= 2 && og.length <= 80 && !GENERISCH.test(og)) {
+        const teile = og.split(/\s+[|–—-]\s+|\s*[|–—·•»]\s*/).map(ohneZierzeichen).filter((t) => t.length >= 2);
+        const passend = teile.length > 1 ? teile.find((t) => passtZumHost(t, hostVgl)) : null;
+        return { firma: passend ?? og, quelle: 'og:site_name' };
     }
     if (titel) {
         const segmente = titel
-            .split(/\s+[|–—\-:·•»]\s+|\s*[|–—·•»]\s*/)
-            .map((s) => s.trim())
+            .split(/\s+[|–—\-:·•»]\s+|\s*[|–—·•»]\s*|:\s+/)
+            .map(ohneZierzeichen)
             .filter((s) => s.length >= 2 && s.length <= 80 && !GENERISCH.test(s));
         let best: { s: string; p: number } | null = null;
         for (const s of segmente) {
-            const vgl = vergleichsform(s);
             let p = 0;
-            if (hostVgl.length >= 3 && (vgl.includes(hostVgl) || hostVgl.includes(vgl))) p += 4;
+            if (passtZumHost(s, hostVgl)) p += 4;
             if (RECHTSFORM.test(s)) p += 2;
             p -= s.length / 40;
             if (!best || p > best.p) best = { s, p };
         }
-        if (best && best.p > 0) return { firma: best.s, quelle: 'titel' };
+        if (best && best.p > 0) {
+            // «Sutter Begg in Basel» → «Sutter Begg», wenn der Rest weiterhin zum Host passt
+            const kurz = best.s.replace(/\s+in\s+\p{Lu}[\p{L}.-]+(?:\s\p{Lu}[\p{L}.-]+)?$/u, '');
+            return { firma: kurz !== best.s && passtZumHost(kurz, hostVgl) ? kurz : best.s, quelle: 'titel' };
+        }
         if (segmente.length === 1 && segmente[0].length <= 40) return { firma: segmente[0], quelle: 'titel' };
     }
+    const ausText = firmaAusText(zeilen, hostVgl);
+    if (ausText) return { firma: ausText, quelle: 'text' };
     const lesbar = hostLabel
         .split('-')
         .map((t) => t.charAt(0).toUpperCase() + t.slice(1))
@@ -582,12 +680,12 @@ interface SeitenRoh {
     html: string;
 }
 
-async function holeHtml(url: string, deadline: number): Promise<{ url: string; html: string; ms: number; bytes: number }> {
+async function holeHtml(url: string, deadline: number, zeitMax = SEITE_MS): Promise<{ url: string; html: string; ms: number; bytes: number }> {
     const rest = deadline - Date.now();
     if (rest < 300) throw new NetzFehler('zeit', 'Zeitbudget aufgebraucht');
     const r = await holeSicher(url, {
         akzeptiere: 'html',
-        zeitMs: Math.min(SEITE_MS, rest),
+        zeitMs: Math.min(zeitMax, rest),
         maxBytes: HTML_MAX,
         abschneiden: true,
     });
@@ -599,6 +697,20 @@ async function holeHtml(url: string, deadline: number): Promise<{ url: string; h
     }
     if (!typ && !siehtAusWieHtml) throw new NetzFehler('typ', 'Kein HTML');
     return { url: r.url, html, ms: r.ms, bytes: r.body.length };
+}
+
+/** theme_color aus dem Web-App-Manifest (AUFTRAG-096, Signal 3); still null bei Fehler. */
+async function holeManifestFarbe(url: string | null, deadline: number): Promise<string | null> {
+    if (!url) return null;
+    const zeit = Math.min(2500, deadline - Date.now());
+    if (zeit < 200) return null;
+    try {
+        const r = await holeSicher(url, { akzeptiere: 'css', zeitMs: zeit, maxBytes: 60_000 });
+        const json = JSON.parse(dekodiere(r.body, r.contentType)) as { theme_color?: unknown };
+        return typeof json.theme_color === 'string' ? json.theme_color.slice(0, 40) : null;
+    } catch {
+        return null;
+    }
 }
 
 function netzZuScanFehler(e: unknown): ScanFehler {
@@ -632,12 +744,59 @@ const LOGO_MAX_BYTES = 700_000;
  * und data:-URI direkt), bestimmt Format, Grösse, Transparenz, Helligkeit
  * und Gültigkeit (logo.ts). Bei CDN-Logos zuerst die grössere Variante.
  */
-async function pruefeLogo(k: LogoKandidat, deadline: number): Promise<LogoKandidat> {
+const SPRITE_MAX_BYTES = 1_000_000;
+
+/** Pro Scan: geladene Sprite-Dateien (eine Datei für mehrere Symbole nur einmal holen). */
+interface LogoKontext {
+    startHost: string;
+    sprites: Map<string, Promise<string | null>>;
+}
+
+function holeSprite(url: string, ctx: LogoKontext, deadline: number): Promise<string | null> {
+    const da = ctx.sprites.get(url);
+    if (da) return da;
+    const versprechen = (async () => {
+        let host = '';
+        try {
+            host = ohneWww(new URL(url).hostname);
+        } catch {
+            return null;
+        }
+        // gleiche Grenzen wie Stylesheets: nur dieselbe Site, max. 1 MB, Frist im Budget
+        if (host !== ctx.startHost) return null;
+        const zeit = Math.min(SEITE_MS, deadline - 150 - Date.now());
+        if (zeit < 200) return null;
+        try {
+            const r = await holeSicher(url, { akzeptiere: 'bild', zeitMs: zeit, maxBytes: SPRITE_MAX_BYTES });
+            return r.body.toString('utf8');
+        } catch {
+            return null;
+        }
+    })();
+    ctx.sprites.set(url, versprechen);
+    return versprechen;
+}
+
+/** Externe Sprite-Symbole eines Inline-SVG einbetten (AUFTRAG-096). */
+async function loeseSpritesAuf(k: LogoKandidat, ctx: LogoKontext, deadline: number): Promise<string | null> {
+    if (!k.inhalt || !k.sprite?.length) return k.inhalt ?? null;
+    const symbole: string[] = [];
+    for (const v of k.sprite) {
+        const datei = await holeSprite(v.url, ctx, deadline);
+        const sym = datei ? symbolAusSprite(datei, v.id) : null;
+        if (sym) symbole.push(sym);
+    }
+    if (!symbole.length) return k.inhalt;
+    return bereinigeSvg(spriteEinbetten(k.inhalt, symbole)) ?? k.inhalt;
+}
+
+async function pruefeLogo(k: LogoKandidat, deadline: number, ctx: LogoKontext): Promise<LogoKandidat> {
     const t0 = Date.now();
     if (k.inhalt) {
         if (k.quelle === 'inline-svg') {
-            const body = Buffer.from(k.inhalt, 'utf8');
-            return { ...bewerteMitAnalyse(k, analysiereBild(body, 'image/svg+xml'), body.length), ms: 0 };
+            const inhalt = (await loeseSpritesAuf(k, ctx, deadline)) ?? k.inhalt;
+            const body = Buffer.from(inhalt, 'utf8');
+            return { ...bewerteMitAnalyse({ ...k, inhalt }, analysiereBild(body, 'image/svg+xml'), body.length), ms: Date.now() - t0 };
         }
         const d = dataUriBytes(k.inhalt);
         if (!d) return { ...k, geprueft: true, gueltig: false, grund: 'data:-URI ungültig' };
@@ -652,6 +811,7 @@ async function pruefeLogo(k: LogoKandidat, deadline: number): Promise<LogoKandid
     if (!k.url) return { ...k, geprueft: true, gueltig: false, grund: 'keine Adresse' };
     const versuche = [groessereVariante(k.url), k.url].filter((u): u is string => !!u);
     let letzterGrund = 'nicht erreichbar';
+    let wiederholt = false;
     for (const u of versuche) {
         const zeit = Math.min(3000, deadline - 150 - Date.now());
         if (zeit < 200) return { ...k, geprueft: true, gueltig: false, grund: 'Zeitbudget' };
@@ -678,18 +838,24 @@ async function pruefeLogo(k: LogoKandidat, deadline: number): Promise<LogoKandid
             if (geprueft.format || u === k.url) return { ...geprueft, ms: Date.now() - t0 };
         } catch (e) {
             letzterGrund = e instanceof NetzFehler ? e.message : 'nicht erreichbar';
+            // AUFTRAG-096: abgebrochene Verbindung (z. B. «socket hang up») einmal wiederholen, wenn Zeit bleibt —
+            // sonst fällt das beste Logo wegen eines Netz-Aussetzers aus der Liste
+            if (e instanceof NetzFehler && e.code === 'verbindung' && !wiederholt && deadline - Date.now() > 1500) {
+                wiederholt = true;
+                versuche.push(u);
+            }
         }
     }
     return { ...k, geprueft: true, gueltig: false, grund: letzterGrund, ms: Date.now() - t0 };
 }
 
 /** Prüft die vielversprechendsten Kandidaten parallel (höchstens `max` Abrufe). */
-async function pruefeLogoKandidaten(kandidaten: LogoKandidat[], deadline: number, max = 6): Promise<LogoKandidat[]> {
+async function pruefeLogoKandidaten(kandidaten: LogoKandidat[], deadline: number, ctx: LogoKontext, max = 6): Promise<LogoKandidat[]> {
     const reihe = vorrang(kandidaten);
     const mitAbruf = reihe.filter((k) => !k.inhalt).slice(0, max);
     const ohneAbruf = reihe.filter((k) => !!k.inhalt).slice(0, 4);
     const zuPruefen = [...ohneAbruf, ...mitAbruf];
-    const ergebnisse = await Promise.all(zuPruefen.map((k) => pruefeLogo(k, deadline)));
+    const ergebnisse = await Promise.all(zuPruefen.map((k) => pruefeLogo(k, deadline, ctx)));
     const rest = reihe.filter((k) => !zuPruefen.includes(k));
     return [...ergebnisse, ...rest];
 }
@@ -718,7 +884,9 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
     for (const v of varianten) {
         const t0 = Date.now();
         try {
-            startseite = await holeHtml(v, deadline);
+            // AUFTRAG-096: Startseite bis 5,5 s (langsame Server, z. B. Weiterleitung + 2 s Antwortzeit);
+            // ohne Startseite gibt es gar kein Ergebnis — Unterseiten bekommen dann eben weniger Zeit
+            startseite = await holeHtml(v, deadline, STARTSEITE_MS);
             protokoll.push({ url: startseite.url, status: 200, bytes: startseite.bytes, ms: startseite.ms });
             break;
         } catch (e) {
@@ -737,10 +905,11 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
     const plattform = plattformVon(startAnalyse, startseite.html);
     if (plattform) hinweise.push(`Plattform: ${plattform}`);
 
-    // 2. Unterseiten + Stylesheets parallel
+    // 2. Unterseiten + Stylesheets (+ Manifest, Sprites) parallel
     const unterseiten = waehleUnterseiten(startAnalyse, startseite.url, startAnalyse.lang);
     const css = waehleStylesheets(startAnalyse.stylesheets, startseite.url);
-    const [unterErg, cssErg, logos] = await Promise.all([
+    const logoKontext: LogoKontext = { startHost: ohneWww(new URL(startseite.url).hostname), sprites: new Map() };
+    const [unterErg, cssErg, logos, manifestFarbe] = await Promise.all([
         Promise.allSettled(unterseiten.map((u) => holeHtml(u, deadline - 250))),
         Promise.allSettled(
             css.map((u) =>
@@ -752,7 +921,8 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
                 }),
             ),
         ),
-        pruefeLogoKandidaten(startAnalyse.logo_kandidaten, deadline - 300),
+        pruefeLogoKandidaten(startAnalyse.logo_kandidaten, deadline - 300, logoKontext),
+        holeManifestFarbe(startAnalyse.manifest, deadline - 300),
     ]);
     unterErg.forEach((r, i) => {
         if (r.status === 'fulfilled') {
@@ -799,13 +969,14 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
             reihenfolge: naechste + i,
             hellName: /neg|white|weiss|inverse|light/i.test(l.url),
             logoWort: true,
+            selektor: l.selektor,
         }));
     if (!logoListe.some((k) => k.gueltig) && !cssKandidaten.length) {
         const ico = new URL('/favicon.ico', startseite.url).toString();
         if (!bekannt.has(ico)) cssKandidaten.push({ url: ico, quelle: 'favicon.ico', stufe: 3, punkte: 0, reihenfolge: naechste + 5 });
     }
     if (cssKandidaten.length && deadline - Date.now() > 700) {
-        logoListe = [...logoListe, ...(await pruefeLogoKandidaten(cssKandidaten, deadline - 150, 3))];
+        logoListe = [...logoListe, ...(await pruefeLogoKandidaten(cssKandidaten, deadline - 150, logoKontext, 3))];
     } else {
         logoListe = [...logoListe, ...cssKandidaten];
     }
@@ -819,12 +990,28 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
     const logoGeordnet = ordneLogos(logoListe);
     const logo = logoGeordnet[0]?.gueltig ? logoGeordnet[0] : null;
 
+    // Umgebung der besten Logos (AUFTRAG-096, Teil 2): Hintergrund des Logos auf der Website
+    const index = baueHintergrundIndex(cssText);
+    for (const k of logoGeordnet.filter((x) => x.gueltig).slice(0, 4)) {
+        const kette = k.ahnen ?? (k.quelle === 'css' && k.selektor ? ahnenFuerSelektor(startseite.html, k.selektor) : null);
+        if (!kette || kette.length < 2) continue;
+        // ab dem Elternelement: der eigene Hintergrund des Logo-Elements ist Platzhalter bzw. das Logo selbst (CSS-Logo)
+        const u = bestimmeUmgebung(kette.slice(1) as Ahne[], index);
+        k.umgebung = u.farbe;
+        k.umgebung_quelle = u.bild ? `Bild/Verlauf (${u.quelle})` : u.quelle;
+    }
+    // nur während des Scans gebraucht — nicht speichern
+    for (const k of logoGeordnet) {
+        delete k.ahnen;
+        delete k.sprite;
+        delete k.selektor;
+    }
+
     // 3. Zusammenführen
     const alleJsonLd = seiten.flatMap((s) => s.analyse.jsonld);
     const betrieb = besterBetrieb(alleJsonLd);
     const websiteKnoten = alleJsonLd.find((k) => /website/i.test(typVon(k)));
     const jsonldName = text(betrieb?.name) ?? text(websiteKnoten?.name);
-    const { firma, quelle } = bestimmeFirma(jsonldName, startAnalyse.og_site_name, startAnalyse.titel, new URL(startseite.url).hostname);
 
     // Zeilen: Startseite zuerst, Dubletten (Navigation/Footer) nur einmal
     const gesehen = new Set<string>();
@@ -838,16 +1025,18 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
             alleZeilen.push(z);
         }
     }
+    const { firma, quelle } = bestimmeFirma(jsonldName, startAnalyse.og_site_name, startAnalyse.titel, new URL(startseite.url).hostname, alleZeilen);
     let textGesamt = '';
     for (const z of alleZeilen) {
         if (textGesamt.length + z.length + 1 > TEXT_MAX) break;
         textGesamt += (textGesamt ? '\n' : '') + z;
     }
 
-    // Telefon: JSON-LD > tel:-Links (Häufigkeit) > Text (Häufigkeit)
+    // Telefon: JSON-LD > tel:-Links (Häufigkeit) > Text (Häufigkeit); nie eine als Fax bezeichnete Nummer
     const telefone: string[] = [];
+    const faxNummern = findeFaxnummern(alleZeilen);
     const telDazu = (n: string | null) => {
-        if (n && !telefone.includes(n)) telefone.push(n);
+        if (n && !telefone.includes(n) && !faxNummern.has(n)) telefone.push(n);
     };
     telDazu(betrieb ? normalisiereGefundeneNummer(String(text(betrieb.telephone) ?? '')) : null);
     for (const n of haeufigste(seiten.flatMap((s) => s.analyse.tel_links).map((t) => normalisiereGefundeneNummer(t) ?? '').filter(Boolean))) telDazu(n);
@@ -863,18 +1052,29 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
     const emails = [...new Set(mailRoh)].sort((a, b) => Number(b.endsWith(hostBasis)) - Number(a.endsWith(hostBasis))).slice(0, 5);
 
     // Adresse
+    // Adresse: nur mit 4-stelliger PLZ und Ort (AUFTRAG-096)
     const adressen: string[] = [];
     const jsonAdr = betrieb ? jsonLdAdresse(betrieb.address) : null;
-    if (jsonAdr) adressen.push(jsonAdr);
+    if (jsonAdr && istAdresse(jsonAdr)) adressen.push(jsonAdr);
     const gefundeneAdr = findeAdressen(alleZeilen);
-    for (const a of haeufigste(gefundeneAdr.filter((x) => x.mitStrasse).map((x) => x.adresse))) if (!adressen.includes(a)) adressen.push(a);
-    for (const a of haeufigste(gefundeneAdr.filter((x) => !x.mitStrasse).map((x) => x.adresse))) if (!adressen.includes(a)) adressen.push(a);
+    for (const a of haeufigste(gefundeneAdr.filter((x) => x.mitStrasse).map((x) => x.adresse))) if (!adressen.includes(a) && istAdresse(a)) adressen.push(a);
+    for (const a of haeufigste(gefundeneAdr.filter((x) => !x.mitStrasse).map((x) => x.adresse))) if (!adressen.includes(a) && istAdresse(a)) adressen.push(a);
 
-    // Öffnungszeiten
+    // Öffnungszeiten (AUFTRAG-096): JSON-LD → Kontakt/Impressum/Öffnungszeiten-Seite → Startseite;
+    // weitere Unterseiten nur mit Block unter einer Öffnungszeiten-Überschrift. Sonst leer.
     const oeffnungszeiten: string[] = [];
     const jsonZeiten = betrieb ? jsonLdOeffnungszeiten(betrieb) : null;
-    if (jsonZeiten) oeffnungszeiten.push(jsonZeiten);
-    for (const o of findeOeffnungszeiten(alleZeilen)) if (!oeffnungszeiten.includes(o)) oeffnungszeiten.push(o);
+    if (jsonZeiten && istOeffnungszeitText(jsonZeiten)) oeffnungszeiten.push(jsonZeiten);
+    const ohneCookie = (s: SeitenRoh) => s.analyse.zeilen.filter((z) => !(z.length < 400 && COOKIE_ZEILE_RE.test(z)));
+    const kontaktSeite = (s: SeitenRoh) => /kontakt|contact|impressum|imprint|öffnungszeit|oeffnungszeit|offnungszeit|sprechstunde|praxiszeit|standort|anfahrt|horaires|orari/i.test(decodeURIComponent(s.analyse.url));
+    const reihe: Array<{ seite: SeitenRoh; nurBlock: boolean }> = [
+        ...seiten.slice(1).filter(kontaktSeite).map((seite) => ({ seite, nurBlock: false })),
+        { seite: seiten[0], nurBlock: false },
+        ...seiten.slice(1).filter((s) => !kontaktSeite(s)).map((seite) => ({ seite, nurBlock: true })),
+    ];
+    for (const { seite, nurBlock } of reihe) {
+        for (const o of findeOeffnungszeiten(ohneCookie(seite), nurBlock)) if (!oeffnungszeiten.includes(o)) oeffnungszeiten.push(o);
+    }
 
     // Überschriften, Navigation, Abschnitte
     const ueberschriften = [...new Set(seiten.flatMap((s) => s.analyse.ueberschriften))].slice(0, 60);
@@ -886,9 +1086,13 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         if (abschnitte.length >= 40) break;
     }
 
-    // Farben
-    const { variablen, buttons, kopf } = cssFarben(cssText);
-    const farben = bestimmeFarben(startAnalyse.theme_color, variablen, [...buttons, ...startAnalyse.stil_farben], kopf);
+    // Farben (AUFTRAG-096): gewichtete Signale; die Logo-Farbe zählt nur, wenn der Server sie kennt
+    // (PNG/SVG/ICO). Für WebP/JPEG ergänzt die Karte die im Browser gemessene Logo-Farbe.
+    const cssSignale = cssFarben(cssText);
+    const { variablen, buttons } = cssSignale;
+    const signaleOhneLogo = farbSignale({ theme: startAnalyse.theme_color, manifest: manifestFarbe, css: cssSignale, haeufigkeit: farbHaeufigkeit(cssText), stilFarben: startAnalyse.stil_farben, logoFarbe: null });
+    const markenfarbe = bestimmeMarkenfarbe([...signaleOhneLogo, ...(logo?.farbe ? [{ farbe: logo.farbe, gewicht: FARB_GEWICHTE.logo, quelle: 'logo' as const }] : [])]);
+    const farben = markenfarbe ? { primaer: markenfarbe.primaer, sekundaer: markenfarbe.sekundaer } : null;
 
     const extrakt: Extrakt = {
         start_url: url.toString(),
@@ -910,6 +1114,8 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         css_farben: [...new Set(variablen.map((v) => v.farbe))].slice(0, 8),
         button_farben: haeufigste(buttons).slice(0, 8),
         farben,
+        farbe_quelle: markenfarbe?.quelle ?? null,
+        farb_signale: signaleOhneLogo.slice(0, 24),
         telefone: telefone.slice(0, 5),
         emails,
         adressen: adressen.slice(0, 3),
