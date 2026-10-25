@@ -562,7 +562,8 @@ async function seoPruefung(browser) {
     check('keine Preise/Prozente im Inhalt', !seo.preise);
     check('kein ß', !seo.ss);
 
-    await page.locator('header nav >> text=Cloud-').first().hover();
+    // AUFTRAG-100: Mega-Menü — der KI-Telefonassistent steht im Panel «Leistungen» (immer im DOM)
+    await page.locator('#nav-knopf-leistungen').hover();
     await page.waitForTimeout(500);
     const imHeader = await page.locator('header a[href="/ki-telefonassistent"]').count();
     const imFooter = await page.locator('footer a[href="/ki-telefonassistent"]').count();

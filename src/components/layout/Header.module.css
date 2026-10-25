@@ -1,0 +1,236 @@
+/* Mega-Menü und mobiles Akkordeon (AUFTRAG-100).
+   Panels bleiben immer im DOM (Links für Crawler), geschlossen sind sie
+   unsichtbar (visibility) und damit weder fokussierbar noch klickbar.
+   Bewegt werden nur opacity und transform (60 fps); Panels liegen absolut
+   unter dem Header, die Seite darunter bleibt stehen. */
+
+/* ------------------------------------------------------------------ */
+/* Desktop: Mega-Panel (volle Breite unter dem Header)                 */
+/* ------------------------------------------------------------------ */
+
+.panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition:
+        opacity 0.16s ease,
+        transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1),
+        visibility 0s linear 0.22s;
+}
+.panel[data-offen='true'] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+        opacity 0.16s ease,
+        transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1),
+        visibility 0s;
+}
+
+/* Inhalt scrollt bei niedrigen Fenstern im Panel, nicht die Seite */
+.panelHuelle {
+    max-height: calc(100svh - 6rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Desktop: einfaches Dropdown («Unternehmen») unter dem Auslöser */
+.dropdown {
+    position: absolute;
+    left: 0;
+    top: calc(100% - 0.75rem);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition:
+        opacity 0.14s ease,
+        transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1),
+        visibility 0s linear 0.2s;
+}
+.dropdown[data-offen='true'] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+        opacity 0.14s ease,
+        transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1),
+        visibility 0s;
+}
+
+/* Abdunkelung der Seite, solange ein Mega-Panel offen ist (liegt unter dem Header) */
+.schleier {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgb(10 18 10 / 0.16);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.18s ease,
+        visibility 0s linear 0.18s;
+}
+:global(.dark) .schleier {
+    background: rgb(0 0 0 / 0.45);
+}
+.schleier[data-offen='true'] {
+    opacity: 1;
+    visibility: visible;
+    transition:
+        opacity 0.18s ease,
+        visibility 0s;
+}
+@media (max-width: 1023.98px) {
+    .schleier {
+        display: none;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hervorhebung: «KI-Anruf testen» (einzige Hervorhebung im Menü)      */
+/* ------------------------------------------------------------------ */
+
+.kiKarte {
+    background:
+        radial-gradient(120% 90% at 100% 0%, rgb(107 214 111 / 0.22), transparent 60%),
+        linear-gradient(160deg, #1a4721 0%, #0f2c14 100%);
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 0.08),
+        0 18px 40px -24px rgb(15 44 20 / 0.7);
+    transition: box-shadow 0.2s ease;
+}
+.kiKarte:hover {
+    box-shadow:
+        inset 0 0 0 1px rgb(107 214 111 / 0.4),
+        0 22px 44px -22px rgb(15 44 20 / 0.8);
+}
+:global(.dark) .kiKarte {
+    background:
+        radial-gradient(120% 90% at 100% 0%, rgb(107 214 111 / 0.2), transparent 60%),
+        linear-gradient(160deg, #1d4a24 0%, #112b16 100%);
+    box-shadow:
+        inset 0 0 0 1px rgb(107 214 111 / 0.22),
+        0 18px 40px -24px rgb(0 0 0 / 0.8);
+}
+
+/* Wellenform wie im Demo-Telefon: der Assistent «spricht» */
+.welle {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 2rem;
+}
+.welle > span {
+    width: 3px;
+    height: calc(var(--h) * 100%);
+    border-radius: 99px;
+    background: linear-gradient(180deg, #a6efa8 0%, #6bd66f 55%, #3d9646 100%);
+    transform: scaleY(0.55);
+    transform-origin: center;
+    animation: sprechen 1.4s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -90ms);
+}
+@keyframes sprechen {
+    0%,
+    100% {
+        transform: scaleY(0.4);
+    }
+    35% {
+        transform: scaleY(1);
+    }
+    65% {
+        transform: scaleY(0.6);
+    }
+}
+/* Nur animieren, solange das Panel offen ist (sonst kostet es nichts) */
+.panel:not([data-offen='true']) .welle > span,
+.mobil:not([data-offen='true']) .welle > span {
+    animation-play-state: paused;
+}
+
+/* ------------------------------------------------------------------ */
+/* Mobil: Vollbild-Overlay mit Akkordeon                               */
+/* ------------------------------------------------------------------ */
+
+.mobil {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: var(--background);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.2s ease,
+        visibility 0s linear 0.2s;
+}
+.mobil[data-offen='true'] {
+    opacity: 1;
+    visibility: visible;
+    transition:
+        opacity 0.2s ease,
+        visibility 0s;
+}
+
+/* Akkordeon: Höhe über grid-template-rows (ohne Messen), geschlossen unsichtbar */
+.akkordeon {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+        grid-template-rows 0.24s cubic-bezier(0.2, 0.7, 0.2, 1),
+        visibility 0s linear 0.24s;
+}
+.akkordeon[data-offen='true'] {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition:
+        grid-template-rows 0.24s cubic-bezier(0.2, 0.7, 0.2, 1),
+        visibility 0s;
+}
+.akkordeon > div {
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ */
+/* Bewegung reduzieren                                                 */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+    .panel,
+    .panel[data-offen='true'],
+    .dropdown,
+    .dropdown[data-offen='true'] {
+        transform: none;
+    }
+    .panel,
+    .dropdown,
+    .schleier,
+    .mobil {
+        transition:
+            opacity 0.08s linear,
+            visibility 0s linear 0.08s;
+    }
+    .panel[data-offen='true'],
+    .dropdown[data-offen='true'],
+    .schleier[data-offen='true'],
+    .mobil[data-offen='true'] {
+        transition:
+            opacity 0.08s linear,
+            visibility 0s;
+    }
+    .akkordeon,
+    .akkordeon[data-offen='true'] {
+        transition: none;
+    }
+    .welle > span {
+        animation: none;
+        transform: scaleY(0.7);
+    }
+    .kiKarte {
+        transition: none;
+    }
+}
