@@ -431,7 +431,8 @@
 /* Sprachwahl (Segment-Control) */
 .segment {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
+    /* AUFTRAG-098: Deutsch · English · Schweizerdeutsch (in Erprobung) — die lange Wahl steht rechts */
+    grid-template-columns: 1fr 1fr 1.5fr;
     gap: 2px;
     padding: 3px;
     border-radius: 0.75rem;

@@ -11,6 +11,22 @@ import type { AuftragStatus } from './typen';
 
 export type Zustand = 'eingabe' | 'scan' | 'bereit' | 'wartend' | 'waehlt' | 'verbunden' | 'beendet' | 'fehler';
 
+/*
+ * Statusabfrage sparsam (AUFTRAG-098, Netlify Free): alle 4 s statt 1,5 s,
+ * nach «beendet»/«fehler» keine weitere Abfrage, bei verdecktem Tab Pause
+ * (beim Zurückkommen sofort eine Abfrage), nach 20 Minuten ohne Endzustand
+ * Schluss mit Hinweis (Grund «keine_rueckmeldung»).
+ */
+export const STATUS_TAKT_MS = 4_000;
+export const STATUS_MAX_MS = 20 * 60 * 1000;
+/** Grund im Widget, wenn die Abfrage nach STATUS_MAX_MS ohne Endzustand aufhört. */
+export const GRUND_KEINE_RUECKMELDUNG = 'keine_rueckmeldung';
+
+/** Endzustand des Auftrags: danach keine Statusabfrage mehr. */
+export function istEndStatus(status: AuftragStatus): boolean {
+    return status === 'beendet' || status === 'fehler';
+}
+
 export const ZUSTAENDE: readonly Zustand[] = ['eingabe', 'scan', 'bereit', 'wartend', 'waehlt', 'verbunden', 'beendet', 'fehler'];
 
 /** Orchestrator-Status → Oberflächen-Zustand. */
@@ -104,7 +120,16 @@ export function fehlerMeldung(grund: string | null | undefined): { text: string;
         case 'technisch':
         case 'zeitueberschreitung':
             return { text: 'Der Anruf kam nicht zustande. Versuchen Sie es gleich nochmals oder rufen Sie uns an:', mitNummer: true };
+        case GRUND_KEINE_RUECKMELDUNG:
+            return { text: 'Seit 20 Minuten kam keine Rückmeldung zu Ihrem Testanruf, darum fragen wir den Stand nicht mehr ab. Versuchen Sie es nochmals oder rufen Sie uns an:', mitNummer: true };
         default:
             return { text: 'Leider nicht erreicht. Versuchen Sie es gleich nochmals oder rufen Sie uns an:', mitNummer: true };
     }
+}
+
+/** Überschrift bei «fehler» (Aktionskarte und Telefon). */
+export function fehlerTitel(grund: string | null | undefined): string {
+    if (grund === 'limit') return 'Tageslimit erreicht';
+    if (grund === GRUND_KEINE_RUECKMELDUNG) return 'Keine Rückmeldung';
+    return 'Nicht erreicht';
 }

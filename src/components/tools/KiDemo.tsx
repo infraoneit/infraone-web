@@ -15,7 +15,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type
 import Link from 'next/link';
 import { ArrowRight, BookOpen, Check, Clock, Globe, Languages, Loader2, Phone, PhoneCall, RotateCcw, Timer, X } from 'lucide-react';
 import styles from './KiDemo.module.css';
-import { Telefon, SPRACH_WAHL, ANRUF_VON, type KartenAnzeige, type SchrittAnzeige } from './ki-demo/Telefon';
+import { Telefon, SPRACH_WAHL, ANRUF_VON, sprachName, type KartenAnzeige, type SchrittAnzeige } from './ki-demo/Telefon';
 import {
     brauchtDunklenGrund,
     dominanteFarbe,
@@ -32,9 +32,22 @@ import {
 } from '@/lib/demo/farben';
 import { bestimmeMarkenfarbe, FARB_GEWICHT_LOGO, type FarbSignal } from '@/lib/demo/markenfarbe';
 import { formatiereNummer, pruefeRueckrufNummer } from '@/lib/demo/nummer';
-import { begruessungFuer, rolleFuer } from '@/lib/demo/begruessung';
-import { ansage, dauerAnzeige, fehlerMeldung, naechsterZustand, primaerButton, zustandAusStatus, type Zustand } from '@/lib/demo/zustand';
-import type { AuftragStatus, Profil, Sprache, Stimme } from '@/lib/demo/typen';
+import { begruessungFuer, rollenZeile, standardAufEnglisch, STANDARD_FAEHIGKEITEN_EN } from '@/lib/demo/begruessung';
+import {
+    ansage,
+    dauerAnzeige,
+    fehlerMeldung,
+    fehlerTitel,
+    GRUND_KEINE_RUECKMELDUNG,
+    istEndStatus,
+    naechsterZustand,
+    primaerButton,
+    STATUS_MAX_MS,
+    STATUS_TAKT_MS,
+    zustandAusStatus,
+    type Zustand,
+} from '@/lib/demo/zustand';
+import { SPRACHE_VORGABE, type AuftragStatus, type Profil, type Sprache, type Stimme } from '@/lib/demo/typen';
 
 /* ------------------------------------------------------------------ */
 /* Texte                                                               */
@@ -103,6 +116,11 @@ interface GeladenesLogo {
 interface Karte {
     scanId: string;
     profil: Profil;
+    /**
+     * AUFTRAG-098: die drei Fähigkeiten auf Englisch (Karte bei «English»). Standard-
+     * Fähigkeiten sofort, sonst null bis zur ersten Wahl von «English» (POST /api/demo/faehigkeiten).
+     */
+    faehigkeitenEn: string[] | null;
     stimme: Stimme;
     logo: GeladenesLogo | null;
     primaer: string;
@@ -307,7 +325,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     const [welleFarbe, setWelleFarbe] = useState(GRUEN_LEERLAUF);
     const [karte, setKarte] = useState<Karte | null>(null);
 
-    const [sprache, setSprache] = useState<Sprache>('dialekt_auto');
+    // AUFTRAG-098: Hochdeutsch ist die Vorgabe (Englisch gleichwertig, Schweizerdeutsch in Erprobung)
+    const [sprache, setSprache] = useState<Sprache>(SPRACHE_VORGABE);
     const [vorwahl, setVorwahl] = useState<'+41' | '+423'>('+41');
     const [nummer, setNummer] = useState('');
     const [einwilligung, setEinwilligung] = useState(false);
@@ -463,11 +482,24 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             if (!(await takt(320))) return;
 
             const stimme: Stimme = p.stimme ?? (scan.assistent_weiblich ? 'weiblich' : 'maennlich');
-            setKarte({ scanId: scan.scan_id, profil: p, stimme, logo, primaer: farbe ?? NEUTRAL_PRIMAER });
+            setKarte({ scanId: scan.scan_id, profil: p, faehigkeitenEn: standardAufEnglisch(p.faehigkeiten), stimme, logo, primaer: farbe ?? NEUTRAL_PRIMAER });
             setZustand('bereit');
         },
         [eingabe, zustand, setzeSchritt],
     );
+
+    // AUFTRAG-098: Fähigkeiten auf Englisch erst bei der ersten Wahl von «English» übersetzen (einmal je Scan)
+    const enAngefragt = useRef<string | null>(null);
+    const enScanId = sprache === 'englisch' && karte && karte.faehigkeitenEn === null ? karte.scanId : null;
+    useEffect(() => {
+        if (!enScanId || enAngefragt.current === enScanId) return;
+        enAngefragt.current = enScanId;
+        const setzen = (liste: string[]) => setKarte((k) => (k && k.scanId === enScanId ? { ...k, faehigkeitenEn: liste } : k));
+        fetch('/api/demo/faehigkeiten', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scan_id: enScanId }) })
+            .then((r) => (r.ok ? r.json() : null))
+            .then((d) => setzen(Array.isArray(d?.faehigkeiten_en) && d.faehigkeiten_en.length === 3 ? d.faehigkeiten_en : [...STANDARD_FAEHIGKEITEN_EN]))
+            .catch(() => setzen([...STANDARD_FAEHIGKEITEN_EN]));
+    }, [enScanId]);
 
     // Mobil: Karte (im Telefon) ins Bild holen, sobald sie steht
     useEffect(() => {
@@ -583,15 +615,30 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         }
     };
 
-    // Status-Polling alle 1,5 s bis zum Endzustand (höchstens 12 Minuten)
+    /*
+     * Status-Polling (AUFTRAG-098, sparsam für Netlify Free): alle 4 s bis zum
+     * Endzustand, danach keine Abfrage mehr. Bei verdecktem Tab (Besucher am
+     * Telefon, anderer Tab) Pause; beim Zurückkommen sofort eine Abfrage. Nach
+     * 20 Minuten ohne Endzustand Schluss: Hinweis «Keine Rückmeldung» mit
+     * «Nochmals versuchen» (kein totes Ende).
+     */
     const auftragId = auftrag?.id;
     useEffect(() => {
         if (!auftragId) return;
         let aktiv = true;
+        let fertig = false;
+        let laeuft = false;
         const start = Date.now();
-        let timer: ReturnType<typeof setTimeout>;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const verdeckt = () => document.visibilityState === 'hidden';
+        const planen = () => {
+            clearTimeout(timer);
+            timer = undefined;
+            if (aktiv && !fertig && !verdeckt()) timer = setTimeout(abfragen, STATUS_TAKT_MS);
+        };
         const abfragen = async () => {
-            if (!aktiv) return;
+            if (!aktiv || fertig || laeuft) return;
+            laeuft = true;
             try {
                 const res = await fetch(`/api/demo/auftraege/${auftragId}`, { cache: 'no-store' });
                 if (res.ok) {
@@ -605,21 +652,35 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                     }
                     setZustand((alt) => naechsterZustand(alt, neu));
                     setAuftrag((a) => (a && a.id === d.id ? { ...a, dauer_s: d.dauer_s, zusammenfassung: d.zusammenfassung, grund: d.grund ?? null } : a));
-                    if (d.status === 'beendet' || d.status === 'fehler') return;
+                    if (istEndStatus(d.status)) fertig = true;
                 }
             } catch {
                 /* nächster Versuch */
+            } finally {
+                laeuft = false;
             }
-            if (Date.now() - start > 12 * 60 * 1000) {
+            if (aktiv && !fertig && Date.now() - start > STATUS_MAX_MS) {
+                fertig = true;
+                setAuftrag((a) => (a && a.id === auftragId ? { ...a, grund: GRUND_KEINE_RUECKMELDUNG } : a));
                 setZustand('fehler');
-                return;
             }
-            timer = setTimeout(abfragen, 1500);
+            planen();
         };
-        timer = setTimeout(abfragen, 900);
+        const sichtbarkeit = () => {
+            if (verdeckt()) {
+                clearTimeout(timer);
+                timer = undefined;
+            } else if (!laeuft) {
+                clearTimeout(timer);
+                void abfragen();
+            }
+        };
+        document.addEventListener('visibilitychange', sichtbarkeit);
+        planen();
         return () => {
             aktiv = false;
             clearTimeout(timer);
+            document.removeEventListener('visibilitychange', sichtbarkeit);
         };
     }, [auftragId]);
 
@@ -644,12 +705,15 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         if (!karte) return null;
         const p = karte.profil;
         const primaer = karte.primaer;
+        const englisch = sprache === 'englisch';
         return {
             name: p.assistent_name,
-            rolle: rolleFuer(karte.stimme),
+            // AUFTRAG-098: bei «English» Karte auf Englisch («AI phone assistant of FIRMA»)
+            rollenZeile: rollenZeile(karte.stimme, sprache, p.firma),
+            lang: englisch ? ('en' as const) : ('de' as const),
             firma: p.firma,
             website: p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''),
-            kann: p.faehigkeiten.slice(0, 3),
+            kann: englisch ? karte.faehigkeitenEn : p.faehigkeiten.slice(0, 3),
             logo: karte.logo ? { src: karte.logo.src, grund: karte.logo.plakette.art, farbe: karte.logo.plakette.art === 'marke' ? primaer : karte.logo.plakette.farbe, breite: karte.logo.breite, hoehe: karte.logo.hoehe } : null,
             primaer,
             tief: helligkeit(primaer, -0.16),
@@ -670,7 +734,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         const p = pruefeRueckrufNummer(nummer, vorwahl);
         return p.ok ? formatiereNummer(p.e164) : nummer;
     })();
-    const sprachText = SPRACH_WAHL.find((s) => s.wert === sprache)?.text ?? '';
+    const sprachEintrag = SPRACH_WAHL.find((s) => s.wert === sprache);
+    const sprachText = sprachEintrag ? sprachName(sprachEintrag) : '';
     const verlauf: Array<{ titel: string; detail: string; stand: 'offen' | 'laeuft' | 'ok' | 'fehler' }> = [
         {
             titel: 'Auftrag angenommen',
@@ -683,7 +748,9 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 zustand === 'fehler'
                     ? auftrag?.grund === 'limit'
                         ? 'Tageslimit für diese Nummer erreicht'
-                        : `${nummerAnzeige} nicht erreicht`
+                        : auftrag?.grund === GRUND_KEINE_RUECKMELDUNG
+                          ? 'seit 20 Minuten keine Rückmeldung'
+                          : `${nummerAnzeige} nicht erreicht`
                     : zustand === 'bereit'
                       ? `Anruf von ${ANRUF_VON}`
                       : `Anruf von ${ANRUF_VON} an ${nummerAnzeige}`,
@@ -704,7 +771,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         const inhalt = (
             <>
                                     <h2 id="ki-demo-anruf-titel" className="text-xl sm:text-2xl font-bold text-text-primary tracking-tight">
-                                        {zustand === 'fehler' ? (auftrag?.grund === 'limit' ? 'Tageslimit erreicht' : 'Nicht erreicht') : `${kartenAnzeige?.name ?? 'Ihr Assistent'} ruft Sie an`}
+                                        {zustand === 'fehler' ? fehlerTitel(auftrag?.grund) : `${kartenAnzeige?.name ?? 'Ihr Assistent'} ruft Sie an`}
                                     </h2>
                                     <form onSubmit={starteAnruf} noValidate className="mt-5 space-y-5">
                                         <fieldset disabled={zustand !== 'bereit'} className="min-w-0 space-y-5 disabled:opacity-80">
@@ -712,14 +779,14 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                                 <p id="ki-demo-sprache-titel" className="text-sm font-medium text-text-primary mb-2">
                                                     Sprache
                                                 </p>
-                                                <div className="grid grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)_minmax(0,1fr)] gap-1 rounded-xl bg-surface p-1 border border-border">
+                                                <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.45fr)] gap-1 rounded-xl bg-surface p-1 border border-border">
                                                     {SPRACH_WAHL.map((s) => {
                                                         const aktiv = sprache === s.wert;
                                                         return (
                                                             <label
                                                                 key={s.wert}
                                                                 htmlFor={`ki-demo-sprache-${s.wert}`}
-                                                                className={`flex items-center justify-center min-h-11 rounded-lg px-1 sm:px-2 text-[0.8125rem] sm:text-sm font-semibold whitespace-nowrap transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-primary ${
+                                                                className={`flex flex-col items-center justify-center min-h-12 rounded-lg px-1 sm:px-2 text-[0.8125rem] sm:text-sm font-semibold leading-tight whitespace-nowrap transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-primary ${
                                                                     aktiv ? 'bg-card text-text-primary shadow-sm ring-1 ring-border' : 'text-text-secondary hover:text-text-primary'
                                                                 } ${zustand === 'bereit' ? 'cursor-pointer' : 'cursor-default'}`}
                                                             >
@@ -730,9 +797,11 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                                                     value={s.wert}
                                                                     checked={aktiv}
                                                                     onChange={() => setSprache(s.wert)}
+                                                                    aria-label={sprachName(s)}
                                                                     className="sr-only"
                                                                 />
                                                                 {s.text}
+                                                                {s.zusatz && <span className="text-[0.6875rem] sm:text-xs font-medium text-text-secondary">{s.zusatz}</span>}
                                                             </label>
                                                         );
                                                     })}
@@ -949,7 +1018,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                     {zustand === 'eingabe' ? (
                         <ul className="grid gap-3 sm:grid-cols-3 sm:gap-4">
                             {[
-                                { icon: Languages, text: 'Schweizerdeutsch, Hochdeutsch, Englisch' },
+                                { icon: Languages, text: 'Deutsch und Englisch, Schweizerdeutsch in Erprobung' },
                                 { icon: Timer, text: 'In einer Minute' },
                                 { icon: BookOpen, text: 'Ihre Website als Wissen' },
                             ].map(({ icon: Icon, text }) => (

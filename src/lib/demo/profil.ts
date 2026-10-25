@@ -12,15 +12,14 @@ import type { Extrakt, Profil, ProfilQuelle, WissenEintrag } from './typen';
 import { erlaubteNamen, freieNamen, istErlaubterName, istWeiblich, stimmeFuer, waehleName } from './namen';
 import { formatiereNummer, normalisiereGefundeneNummer } from './nummer';
 import { istOeffnungszeitText } from './oeffnungszeiten';
+import { STANDARD_FAEHIGKEITEN, STANDARD_FAEHIGKEITEN_EN } from './begruessung';
 
 export const KI_MODELL = 'gpt-4.1-mini';
 const KI_ZEIT_MS = 17_000;
 
-export const STANDARD_FAEHIGKEITEN = [
-    'Rund um die Uhr erreichbar',
-    'Beantwortet Fragen aus Ihrer Website',
-    'Nimmt Anliegen und Rückrufwünsche auf',
-];
+// AUFTRAG-098: die Standard-Fähigkeiten stehen (mit englischer Fassung) in begruessung.ts,
+// damit die Karte sie im Browser ohne Server-Aufruf übersetzen kann.
+export { STANDARD_FAEHIGKEITEN, STANDARD_FAEHIGKEITEN_EN };
 
 /* ------------------------------------------------------------------ */
 /* Hilfen                                                              */
@@ -425,6 +424,87 @@ export async function baueProfil(x: Extrakt, zeitMs = KI_ZEIT_MS): Promise<Profi
     } catch (e) {
         const grund = e instanceof Error ? (e.name === 'TimeoutError' ? 'Zeitlimit' : e.name) : 'Fehler';
         return { ...regel, ms: Date.now() - t0, fehler: `KI ${grund}` };
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* AUFTRAG-098: Fähigkeiten auf Englisch (Karte bei «English»)         */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Eigener, kleiner KI-Aufruf NUR wenn der Besucher «English» wählt — der
+ * Profil-Aufruf bleibt unverändert (ein Zusatzfeld dort kürzte im A/B-Vergleich
+ * das Wissen, siehe auftraege/ergebnisse/A098-profil-ab.md).
+ */
+const UEBERSETZUNG_PROMPT = `Übersetze die drei Fähigkeiten eines telefonischen KI-Assistenten ins Englische.
+Regeln: gleiche Reihenfolge, gleiche Bedeutung, nichts hinzufügen; je 3 bis 6 Wörter; Verbform in der 3. Person wie im Deutschen (z. B. «Nimmt Terminwünsche entgegen» → «Takes appointment requests»); Eigennamen und Zahlen unverändert.`;
+
+const DEUTSCHE_WOERTER = /\b(der|die|das|den|dem|des|und|oder|zu|zur|zum|für|mit|von|aus|bei|ihr|ihre|ihren|sie|nimmt|gibt|beantwortet|informiert|entgegen|auf|ist|rund|uhr)\b/i;
+
+/** Prüft eine englische Fassung gegen ihr deutsches Original (Länge, nicht deutsch, nur Zahlen des Originals). */
+export function englischGueltig(de: string, en: unknown): en is string {
+    if (typeof en !== 'string') return false;
+    const t = en.replace(/\s+/g, ' ').trim();
+    if (t !== en || woerter(t) < 2 || woerter(t) > 8 || t.length > 60 || /[äöüßÄÖÜ«»]/.test(t)) return false;
+    if (t.toLowerCase() === de.trim().toLowerCase() || DEUTSCHE_WOERTER.test(t)) return false;
+    const zahlen = (s: string) => (s.match(/\d+/g) ?? []).sort().join(',');
+    return zahlen(t) === zahlen(de);
+}
+
+/**
+ * Englische Fähigkeiten zu den deutschen: Standard-Fähigkeiten fest übersetzt,
+ * übrige aus `ki` (gleiche Stelle, geprüft). Fehlt eine gültige Fassung, gilt die
+ * englische Standardliste (nie eine gemischt deutsch-englische Karte).
+ */
+export function faehigkeitenEnglisch(de: string[], ki: unknown[] = []): { en: string[]; vollstaendig: boolean } {
+    const aus: string[] = [];
+    for (const [i, d] of de.slice(0, 3).entries()) {
+        const standard = STANDARD_FAEHIGKEITEN.indexOf(d);
+        const wert = standard >= 0 ? STANDARD_FAEHIGKEITEN_EN[standard] : englischGueltig(d, ki[i]) ? (ki[i] as string) : null;
+        if (!wert) return { en: [...STANDARD_FAEHIGKEITEN_EN], vollstaendig: false };
+        aus.push(wert);
+    }
+    return aus.length === 3 ? { en: aus, vollstaendig: true } : { en: [...STANDARD_FAEHIGKEITEN_EN], vollstaendig: false };
+}
+
+export async function faehigkeitenAufEnglisch(de: string[], zeitMs = 8_000): Promise<{ en: string[]; quelle: 'standard' | 'ki' | 'rueckfall'; ms: number; fehler?: string }> {
+    const t0 = Date.now();
+    const ohneKi = faehigkeitenEnglisch(de);
+    if (ohneKi.vollstaendig) return { en: ohneKi.en, quelle: 'standard', ms: 0 };
+    const schluessel = process.env.OPENAI_API_KEY;
+    if (!schluessel) return { en: ohneKi.en, quelle: 'rueckfall', ms: 0, fehler: 'kein OPENAI_API_KEY' };
+    try {
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${schluessel}` },
+            body: JSON.stringify({
+                model: KI_MODELL,
+                temperature: 0,
+                max_completion_tokens: 120,
+                messages: [
+                    { role: 'system', content: UEBERSETZUNG_PROMPT },
+                    { role: 'user', content: JSON.stringify({ faehigkeiten: de.slice(0, 3) }) },
+                ],
+                response_format: {
+                    type: 'json_schema',
+                    json_schema: {
+                        name: 'faehigkeiten_englisch',
+                        strict: true,
+                        schema: { type: 'object', additionalProperties: false, required: ['faehigkeiten_en'], properties: { faehigkeiten_en: { type: 'array', items: { type: 'string' } } } },
+                    },
+                },
+            }),
+            signal: AbortSignal.timeout(zeitMs),
+        });
+        if (!res.ok) return { en: ohneKi.en, quelle: 'rueckfall', ms: Date.now() - t0, fehler: `OpenAI HTTP ${res.status}` };
+        const daten = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
+        const roh = JSON.parse(daten.choices?.[0]?.message?.content ?? '{}') as { faehigkeiten_en?: unknown };
+        const liste = Array.isArray(roh.faehigkeiten_en) ? roh.faehigkeiten_en.map((e) => (typeof e === 'string' ? e.replace(/\s+/g, ' ').trim() : e)) : [];
+        const mitKi = faehigkeitenEnglisch(de, liste);
+        return mitKi.vollstaendig ? { en: mitKi.en, quelle: 'ki', ms: Date.now() - t0 } : { en: mitKi.en, quelle: 'rueckfall', ms: Date.now() - t0, fehler: 'KI-Übersetzung ungültig' };
+    } catch (e) {
+        const grund = e instanceof Error ? (e.name === 'TimeoutError' ? 'Zeitlimit' : e.name) : 'Fehler';
+        return { en: ohneKi.en, quelle: 'rueckfall', ms: Date.now() - t0, fehler: `KI ${grund}` };
     }
 }
 

@@ -31,7 +31,7 @@
   <!-- Headline -->
   <text font-family="Geist, Arial, sans-serif" font-weight="700" fill="#FFFFFF">
     <tspan x="72" y="262" font-size="64">KI-Telefonassistent</tspan>
-    <tspan x="72" y="338" font-size="64">auf <tspan fill="#8FD694">Schweizerdeutsch</tspan></tspan>
+    <tspan x="72" y="338" font-size="64">für <tspan fill="#8FD694">Schweizer KMU</tspan></tspan>
   </text>
   <text x="72" y="396" font-family="Geist, Arial, sans-serif" font-size="26" font-weight="400" fill="#CFE3CF">Website eingeben – Assistent entsteht – die KI ruft Sie an.</text>
 

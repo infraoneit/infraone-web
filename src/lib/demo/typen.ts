@@ -9,7 +9,11 @@
 
 export type Sprache = 'dialekt_auto' | 'hochdeutsch' | 'englisch';
 
-export const SPRACHEN: readonly Sprache[] = ['dialekt_auto', 'hochdeutsch', 'englisch'];
+/** Reihenfolge der Sprachwahl (AUFTRAG-098): Deutsch · English · Schweizerdeutsch (in Erprobung). */
+export const SPRACHEN: readonly Sprache[] = ['hochdeutsch', 'englisch', 'dialekt_auto'];
+
+/** Vorgabe der Sprachwahl (AUFTRAG-098, Entscheid des Inhabers): Hochdeutsch. */
+export const SPRACHE_VORGABE: Sprache = 'hochdeutsch';
 
 export type AuftragStatus = 'wartend' | 'angenommen' | 'waehlt' | 'verbunden' | 'beendet' | 'fehler';
 
@@ -229,4 +233,11 @@ export interface ScanGespeichert {
     schritte: Schritt[];
     dauer_ms: number;
     profil_ms: number | null;
+    /**
+     * AUFTRAG-098: Fähigkeiten auf Englisch (Karte bei «English»), erst bei Bedarf
+     * übersetzt (POST /api/demo/faehigkeiten) und zu den deutschen Fähigkeiten `de` gespeichert.
+     */
+    karte_en?: { de: string[]; en: string[]; quelle: 'standard' | 'ki' | 'rueckfall' };
+    /** AUFTRAG-098: Anzahl KI-Übersetzungsversuche (höchstens 2 je Scan) */
+    en_versuche?: number;
 }

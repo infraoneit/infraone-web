@@ -3,8 +3,14 @@
  * Body {scan_id, nummer, sprache, einwilligung: true, honigtopf: "", farben?, logo_index?, turnstile?}
  * → 201 {id} oder 4xx {fehler}
  *
- * Legt einen Rückruf-Auftrag in die Warteschlange; der VoIP-Orchestrator
- * (AUFTRAG-091) holt ihn über /api/demo/warteschlange ab.
+ * Legt einen Rückruf-Auftrag in die Warteschlange und stösst die Anlage an
+ * (AUFTRAG-098: `POST <DEMO_ANSTOSS_URL>` mit Bearer, nur die Kennung; Frist
+ * 4 s, eine Wiederholung nach 1 s). Scheitert der Anstoss (401/5xx/Timeout)
+ * oder ist die Anlage belegt (409), bleibt der Auftrag «wartend» — der
+ * Rückfall der Anlage (Warteschlange einmal pro Minute) holt ihn ab; der
+ * Besucher bekommt trotzdem 201. Ohne DEMO_ANSTOSS_URL (lokal) wie bisher:
+ * der VoIP-Orchestrator (AUFTRAG-091) holt den Auftrag über
+ * /api/demo/warteschlange ab.
  */
 import { antwort, clientIp, fehler, leseJson, MELDUNG, pruefeTurnstile } from '@/lib/demo/api';
 import { pruefeRueckrufNummer } from '@/lib/demo/nummer';
@@ -15,9 +21,12 @@ import { aufraeumenGelegentlich } from '@/lib/demo/speicher';
 import { SPRACHEN, type Farben, type Sprache } from '@/lib/demo/typen';
 import { gueltigeLogos, logoUrlFuerAuftrag } from '@/lib/demo/logo';
 import { stimmeFuer } from '@/lib/demo/namen';
+import { stosseAn } from '@/lib/demo/anstoss';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+// Anstoss höchstens 4 s + 1 s + 4 s; die Route bleibt damit unter 10 s
+export const maxDuration = 15;
 
 const HEX_RE = /^#[0-9A-F]{6}$/i;
 
@@ -67,8 +76,12 @@ export async function POST(req: Request) {
 
     try {
         const auftrag = await erstelleAuftrag({ scan_id: scan.id, nummer: pruefung.e164, sprache, profil, profil_bis: scan.ablauf });
+        // AUFTRAG-098: Anlage sofort anstossen (wirft nie; ohne DEMO_ANSTOSS_URL sofort fertig) —
+        // Zählen und Aufräumen laufen derweil weiter
+        const anstoss = stosseAn(auftrag.id);
         await anrufZaehlen(ip, pruefung.e164);
         if (await aufraeumenGelegentlich().catch(() => false)) await auftraegeBereinigen().catch(() => undefined);
+        await anstoss;
         return antwort({ id: auftrag.id }, 201);
     } catch (e) {
         console.error('[demo/anruf] Speichern fehlgeschlagen:', e instanceof Error ? e.message : e);

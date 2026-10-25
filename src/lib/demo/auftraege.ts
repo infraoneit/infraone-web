@@ -3,8 +3,10 @@
  *
  * - `auftrag/{id}` lebt 24 h; Id `d-YYYYMMDD-` + 16 Zufallszeichen.
  * - `warteschlange/{erstellt_ms}-{id}` ist ein Marker, solange der Auftrag
- *   `wartend` ist — der Orchestrator-Abruf (alle 2 s) liest damit im
- *   Normalfall nur eine leere Liste.
+ *   `wartend` ist — der Abruf der Anlage liest damit im Normalfall nur eine
+ *   leere Liste. Seit AUFTRAG-098 stösst die Website die Anlage an
+ *   (lib/demo/anstoss.ts); die Warteschlange ist nur noch der Rückfall
+ *   (die Anlage fragt einmal pro Minute ohne Warten, A-097).
  * - Wartet ein Auftrag länger als 10 Minuten, wird er mit `fehler`
  *   (grund `zeitueberschreitung`) geschlossen: niemand soll Stunden später
  *   überraschend angerufen werden.
@@ -114,10 +116,24 @@ export function fuerOrchestrator(a: AuftragGespeichert): AuftragFuerOrchestrator
     return { id: a.id, erstellt: a.erstellt, nummer: a.nummer as string, sprache: a.sprache, profil: a.profil as Profil };
 }
 
-/** Long-Polling der Warteschlange: höchstens 20 s (Netlify-Grenze 26 s). */
-export const WARTE_MAX_S = 20;
+/**
+ * Ansicht für die Anlage (AUFTRAG-098, nur mit Bearer DEMO_TOKEN): Nach dem
+ * Anstoss holt die Anlage Nummer und Profil über GET /api/demo/auftraege/{id}
+ * (A-097: der Anstoss trägt nur die Kennung). Status wie öffentlich, dazu die
+ * Felder des Warteschlangen-Eintrags; nach dem Abschluss sind Nummer und
+ * Profil null (gelöscht).
+ */
+export function fuerAnlage(a: AuftragGespeichert) {
+    return { ...oeffentlich(a), erstellt: a.erstellt, nummer: a.nummer, sprache: a.sprache, profil: a.profil };
+}
 
-/** Parameter `warte` lesen: ganze Sekunden 0–20, Ungültiges → 0, Grösseres → 20. */
+/**
+ * Long-Polling der Warteschlange: höchstens 8 s (AUFTRAG-098) — sie ist nur
+ * noch der Rückfall zum Anstoss, keine Function soll lange offen bleiben.
+ */
+export const WARTE_MAX_S = 8;
+
+/** Parameter `warte` lesen: ganze Sekunden 0–8, Ungültiges → 0, Grösseres → 8. */
 export function warteSekunden(roh: string | null): number {
     const n = Math.floor(Number(roh ?? 0));
     if (!Number.isFinite(n) || n <= 0) return 0;

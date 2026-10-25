@@ -1568,16 +1568,17 @@ export function generateKiTelefonassistentServiceSchema(description: string) {
         '@type': 'Service',
         '@id': `${BASE_URL}/ki-telefonassistent#service`,
         name: 'KI-Telefonassistent',
-        alternateName: ['KI-Telefonassistent auf Schweizerdeutsch', 'Telefonassistent mit künstlicher Intelligenz'],
+        alternateName: ['KI-Telefonassistent für Schweizer KMU', 'Telefonassistent mit künstlicher Intelligenz'],
         serviceType: ['KI-Telefonassistent', 'Voicebot', 'Telefonassistenz'],
         description,
         provider: { '@id': `${BASE_URL}/#organization` },
         url: `${BASE_URL}/ki-telefonassistent`,
         areaServed: { '@type': 'Country', name: 'Switzerland' },
+        // AUFTRAG-098: Deutsch und Englisch zuverlässig, Schweizerdeutsch wählbar (in Erprobung)
         availableLanguage: [
-            { '@type': 'Language', name: 'Schweizerdeutsch', alternateName: 'gsw' },
             { '@type': 'Language', name: 'Deutsch', alternateName: 'de' },
             { '@type': 'Language', name: 'Englisch', alternateName: 'en' },
+            { '@type': 'Language', name: 'Schweizerdeutsch', alternateName: 'gsw' },
         ],
         isRelatedTo: { '@id': `${BASE_URL}/cloud-telefonie#service` },
     };

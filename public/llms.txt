@@ -63,9 +63,10 @@ Wartungsfreie Cloud-Telefonanlagen fuer Schweizer KMU.
 - Microsoft Teams Integration moeglich
 - Regionale Spokes: /cloud-telefonie/winterthur, /cloud-telefonie/zuerich, /cloud-telefonie/schaffhausen, /cloud-telefonie/thurgau, /cloud-telefonie/st-gallen, /cloud-telefonie/rapperswil
 
-### KI-Telefonassistent (Schweizerdeutsch)
+### KI-Telefonassistent fuer Schweizer KMU
 Telefonischer KI-Assistent fuer Schweizer KMU, Praxen und Handwerk: nimmt Anrufe entgegen, beantwortet Fragen aus dem Wissen des Betriebs, nimmt Anliegen auf (Rueckruf-Notiz per E-Mail) und verbindet an Mitarbeitende weiter.
-- Sprachen: Schweizerdeutsch (Standard), Hochdeutsch, Englisch
+- Sprachen: Deutsch (Hochdeutsch, Standard) und Englisch zuverlaessig; Schweizerdeutsch waehlbar, in Erprobung
+- Betrieb auf der eigenen Telefonanlage von InfraOne in der Schweiz, kein Callcenter im Ausland
 - Laeuft allein oder als Baustein der Cloud-Telefonanlage; bestehende Nummer bleibt
 - Kostenloser Demo-Anruf ohne Anmeldung: Website eingeben, ein Assistent mit Name, Logo und Wissen der eigenen Website entsteht, die KI ruft an
 - Datenschutz: Telefonanlage und Gespraechsprotokolle in der Schweiz auf Systemen von InfraOne; Spracherkennung und Sprachausgabe ueber die KI-Schnittstellen von OpenAI (keine Verwendung zum Training)

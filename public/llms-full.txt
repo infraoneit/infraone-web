@@ -68,9 +68,9 @@ Peoplefone bietet zwei vPBX-Modelle: vPBX Basic (1-10 User, Standardfunktionen) 
 
 Beispielkonfiguration: 20 Benutzer mit vPBX Plus plus Flatrate CH+EU plus 1 Gbit/s Internet plus fixe IP plus Nummernblock 6-10 ab CHF 151 pro Monat.
 
-### 2.1a KI-Telefonassistent (Schweizerdeutsch)
+### 2.1a KI-Telefonassistent fuer Schweizer KMU
 
-Der KI-Telefonassistent von InfraOne nimmt Anrufe rund um die Uhr entgegen, beantwortet Fragen aus dem Wissen des Betriebs (nie erfunden), nimmt Anliegen mit Rueckruf-Notiz per E-Mail auf und verbindet an Mitarbeitende oder definierte Nummern weiter, nachdem er geprueft hat, wer frei ist. Er versteht Schweizerdeutsch und antwortet auf Schweizerdeutsch; Hochdeutsch und Englisch sind ebenfalls moeglich.
+Der KI-Telefonassistent von InfraOne nimmt Anrufe rund um die Uhr entgegen, beantwortet Fragen aus dem Wissen des Betriebs (nie erfunden), nimmt Anliegen mit Rueckruf-Notiz per E-Mail auf und verbindet an Mitarbeitende oder definierte Nummern weiter, nachdem er geprueft hat, wer frei ist. Er spricht zuverlaessig Deutsch (Hochdeutsch, Standard) und Englisch. Schweizerdeutsch ist waehlbar, aber in Erprobung und klingt noch nicht in jedem Gespraech natuerlich; empfohlen sind Hochdeutsch oder Englisch. Die Sprache waehlt man vor dem Anruf. Betrieb auf der eigenen Telefonanlage von InfraOne in der Schweiz, kein Callcenter im Ausland.
 
 Einsatz: allein oder als Baustein der Cloud-Telefonanlage, die bestehende Nummer bleibt. Typische Betriebe: Praxen (Arzt, Zahnarzt, Physio), Handwerk und Elektro, Garagen, Treuhand und Beratung, Gastronomie, KMU mit Empfang.
 

@@ -91,7 +91,8 @@ const services: Array<{
         // AUFTRAG-092: Teaser auf die Landingpage mit Demo-Anruf
         icon: AudioLines,
         title: 'KI-Telefonassistent',
-        subtitle: 'Schweizerdeutsch • Hochdeutsch • Englisch',
+        // AUFTRAG-098: Deutsch und Englisch zuverlässig, Schweizerdeutsch in Erprobung
+        subtitle: 'Deutsch • Englisch • Schweizerdeutsch in Erprobung',
         description: 'Nimmt Anrufe entgegen, beantwortet Fragen aus Ihrem Wissen und nimmt Anliegen auf. Testen Sie ihn mit Ihrer Website – die KI ruft Sie an.',
         href: '/ki-telefonassistent',
         breit: true,

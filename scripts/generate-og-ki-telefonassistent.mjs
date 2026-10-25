@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * generate-og-ki-telefonassistent.mjs (AUFTRAG-092)
+ * generate-og-ki-telefonassistent.mjs (AUFTRAG-092, Text AUFTRAG-098)
  *
  * Erzeugt public/og/ki-telefonassistent.png (1200x630): Headline + atmende
  * Wellenform in InfraOne-Grün. SVG → PNG per sharp (in Next enthalten),
@@ -102,7 +102,7 @@ const svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http
   <!-- Headline -->
   <text font-family="${FONT}" font-weight="700" fill="${C.white}">
     <tspan x="72" y="262" font-size="64">${esc('KI-Telefonassistent')}</tspan>
-    <tspan x="72" y="338" font-size="64">${esc('auf ')}<tspan fill="${C.accentLight}">${esc('Schweizerdeutsch')}</tspan></tspan>
+    <tspan x="72" y="338" font-size="64">${esc('für ')}<tspan fill="${C.accentLight}">${esc('Schweizer KMU')}</tspan></tspan>
   </text>
   <text x="72" y="396" font-family="${FONT}" font-size="26" font-weight="400" fill="${C.textSec}">${esc('Website eingeben – Assistent entsteht – die KI ruft Sie an.')}</text>
 

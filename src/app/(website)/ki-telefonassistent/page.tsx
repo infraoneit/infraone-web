@@ -32,16 +32,18 @@ import { BASE_URL } from '@/lib/constants';
 
 // Texte wortgleich aus AUFTRAG-092 (Lektor: Claude) — nicht umformulieren.
 // AUFTRAG-095: Hero-Satz gekürzt (ein Satz Nutzen), Abschnitt «So läuft es bei Ihnen» neu.
-const TITEL = 'KI-Telefonassistent auf Schweizerdeutsch – Demo-Anruf in einer Minute | InfraOne';
+// AUFTRAG-098: kein Mundart-Versprechen mehr (Hochdeutsch Vorgabe, Englisch gleichwertig,
+// Schweizerdeutsch in Erprobung) — Titel, Beschreibung, Badge, Hero-Satz, FAQ wortgleich Manager-Vorgabe.
+const TITEL = 'KI-Telefonassistent für Schweizer KMU – Demo-Anruf in einer Minute | InfraOne';
 const BESCHREIBUNG =
-    'Der KI-Telefonassistent, der Schweizerdeutsch spricht: Website eingeben, Assistent entsteht, die KI ruft Sie an. Kostenlos testen, ohne Anmeldung. Für Praxen, Handwerk, KMU in der Schweiz.';
+    'Geben Sie Ihre Website ein, wir bauen daraus Ihren KI-Telefonassistenten und rufen Sie an. Zuverlässig auf Deutsch und Englisch, Schweizerdeutsch in Erprobung. Betrieb in der Schweiz.';
 const URL_SEITE = `${BASE_URL}/ki-telefonassistent`;
 const OG_BILD = '/og/ki-telefonassistent.png';
 
 export const metadata: Metadata = {
     title: { absolute: TITEL },
     description: BESCHREIBUNG,
-    keywords: ['KI-Telefonassistent', 'KI Telefonassistent Schweizerdeutsch', 'Voicebot Schweiz', 'Telefonassistent KMU', 'KI Anrufbeantworter'],
+    keywords: ['KI-Telefonassistent', 'KI-Telefonassistent Schweiz', 'Voicebot Schweiz', 'Telefonassistent KMU', 'KI Anrufbeantworter'],
     alternates: {
         canonical: URL_SEITE,
         languages: { 'de-CH': URL_SEITE },
@@ -53,7 +55,7 @@ export const metadata: Metadata = {
         siteName: 'InfraOne IT Solutions',
         title: TITEL,
         description: BESCHREIBUNG,
-        images: [{ url: OG_BILD, width: 1200, height: 630, alt: 'KI-Telefonassistent auf Schweizerdeutsch – InfraOne' }],
+        images: [{ url: OG_BILD, width: 1200, height: 630, alt: 'KI-Telefonassistent für Schweizer KMU – InfraOne' }],
     },
     twitter: {
         card: 'summary_large_image',
@@ -77,7 +79,7 @@ const schritte = [
     {
         icon: PhoneIncoming,
         titel: '3. Die KI ruft Sie an',
-        text: 'Sie hören, wie Ihr Assistent Anrufer begrüsst, Fragen beantwortet und Anliegen aufnimmt – auf Schweizerdeutsch.',
+        text: 'Sie hören, wie Ihr Assistent Anrufer begrüsst, Fragen beantwortet und Anliegen aufnimmt – in der Sprache, die Sie wählen.',
     },
 ];
 
@@ -140,7 +142,7 @@ const betriebe = [
 const faqs = [
     {
         question: 'Spricht der Assistent wirklich Schweizerdeutsch?',
-        answer: 'Ja. Er versteht Mundart und antwortet auf Schweizerdeutsch. Im Testanruf hören Sie es selbst.',
+        answer: 'Er kann es, aber wir empfehlen Hochdeutsch oder Englisch. Schweizerdeutsch ist bei uns in Erprobung und klingt noch nicht in jedem Gespräch natürlich. Sie wählen die Sprache vor dem Anruf.',
     },
     {
         question: 'Was kostet der Testanruf?',
@@ -172,10 +174,11 @@ const faqs = [
     },
 ];
 
+// AUFTRAG-098: Reihenfolge und Vorgabe wie die Sprachwahl im Testanruf
 const sprachen = [
-    { name: 'Schweizerdeutsch', text: 'Versteht Mundart und antwortet auf Mundart.', standard: true },
-    { name: 'Hochdeutsch', text: 'Für Kundschaft aus Deutschland und Österreich.', standard: false },
-    { name: 'English', text: 'For international callers.', standard: false },
+    { name: 'Deutsch', text: 'Hochdeutsch, klar und zuverlässig – die Vorgabe.', hinweis: 'vorgewählt', standard: true, lang: 'de' },
+    { name: 'English', text: 'Reliable for international callers.', hinweis: null, standard: false, lang: 'en' },
+    { name: 'Schweizerdeutsch', text: 'Als Option wählbar, klingt noch nicht in jedem Gespräch natürlich.', hinweis: 'in Erprobung', standard: false, lang: 'de' },
 ];
 
 // AUFTRAG-095: nur, was wir wirklich leisten; Preis nicht freigegeben → «Festpreis auf Anfrage»
@@ -199,7 +202,7 @@ const beiIhnen = [
 
 export default function KiTelefonassistentPage() {
     const serviceSchema = generateKiTelefonassistentServiceSchema(BESCHREIBUNG);
-    const webPageSchema = generateWebPageSchema(URL_SEITE, 'KI-Telefonassistent auf Schweizerdeutsch', BESCHREIBUNG);
+    const webPageSchema = generateWebPageSchema(URL_SEITE, 'KI-Telefonassistent für Schweizer KMU', BESCHREIBUNG);
     const breadcrumbSchema = generateBreadcrumbListSchema([
         { name: 'Home', url: BASE_URL },
         { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` },
@@ -232,13 +235,13 @@ export default function KiTelefonassistentPage() {
                                 <span className="absolute inset-0 rounded-full bg-primary opacity-60 motion-safe:animate-ping" />
                                 <span className="relative w-2 h-2 rounded-full bg-primary" />
                             </span>
-                            Der KI-Telefonassistent auf Schweizerdeutsch
+                            KI-Telefonassistent für Schweizer KMU
                         </p>
                         <h1 className="mt-5 text-[2.4rem] leading-[1.04] sm:text-5xl lg:text-[3.5rem] xl:text-[3.9rem] font-bold tracking-[-0.035em] text-text-primary text-balance">
                             Erleben Sie Ihren KI-Telefonassistenten – in einer Minute
                         </h1>
                         <p className="mt-5 text-lg md:text-xl text-text-secondary leading-relaxed max-w-[38rem]">
-                            Geben Sie Ihre Website ein – wir bauen daraus einen Assistenten mit Ihrem Namen, Ihrem Logo und Ihrem Wissen und rufen Sie an.
+                            Geben Sie Ihre Website ein – wir bauen daraus einen Assistenten mit Ihrem Namen, Ihrem Logo und Ihrem Wissen und rufen Sie an. Auf Deutsch, auf Englisch, auf Wunsch auch auf Schweizerdeutsch.
                         </p>
                     </KiDemo>
                 </div>
@@ -264,14 +267,14 @@ export default function KiTelefonassistentPage() {
                 </div>
             </section>
 
-            {/* 2. Warum Schweizerdeutsch */}
+            {/* 2. Warum ein Assistent aus der Schweiz (AUFTRAG-098, ersetzt «Warum Schweizerdeutsch den Unterschied macht») */}
             <section className="py-16 lg:py-24 bg-background">
                 <div className="container mx-auto px-4">
                     <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
                         <AnimatedSection animation="slideUp" className="lg:col-span-7">
-                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-6">Warum Schweizerdeutsch den Unterschied macht</h2>
+                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-6">Warum ein Assistent aus der Schweiz</h2>
                             <p className="text-lg text-text-secondary leading-relaxed max-w-3xl">
-                                Ihre Kunden rufen auf Mundart an. Ein Assistent, der mit Hochdeutsch antwortet, wirkt wie ein Callcenter im Ausland. Unser Assistent versteht Schweizerdeutsch und antwortet auf Schweizerdeutsch – natürlich, direkt und freundlich. Hochdeutsch und Englisch kann er ebenfalls, wenn Ihre Kundschaft das braucht.
+                                Ihr Assistent läuft auf unserer eigenen Telefonanlage in der Schweiz – nicht in einem Callcenter im Ausland. Auf Deutsch und Englisch spricht er zuverlässig. Schweizerdeutsch bieten wir als Option an; es ist bei uns in Erprobung. Welche KI-Dienste dabei mitarbeiten, erklären wir weiter unten offen.
                             </p>
                         </AnimatedSection>
                         <AnimatedSection animation="slideUp" delay={0.1} className="lg:col-span-5">
@@ -287,9 +290,9 @@ export default function KiTelefonassistentPage() {
                                         <span className="min-w-0">
                                             <span className="block text-lg font-semibold text-text-primary">
                                                 {s.name}
-                                                {s.standard && <span className="ml-2 align-middle text-xs font-semibold text-primary">vorgewählt</span>}
+                                                {s.hinweis && <span className={`ml-2 align-middle text-xs font-semibold ${s.standard ? 'text-primary' : 'text-text-secondary'}`}>{s.hinweis}</span>}
                                             </span>
-                                            <span className="block text-sm text-text-secondary" lang={s.name === 'English' ? 'en' : 'de'}>
+                                            <span className="block text-sm text-text-secondary" lang={s.lang}>
                                                 {s.text}
                                             </span>
                                         </span>

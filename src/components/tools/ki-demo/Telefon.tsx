@@ -14,7 +14,7 @@ import { Check, Clock, Grid3x3, Loader2, Mic, Minus, Phone, PhoneOff, Volume2 } 
 import styles from '../KiDemo.module.css';
 import { Welle } from './Welle';
 import type { Zustand } from '@/lib/demo/zustand';
-import { dauerAnzeige } from '@/lib/demo/zustand';
+import { dauerAnzeige, fehlerTitel, GRUND_KEINE_RUECKMELDUNG } from '@/lib/demo/zustand';
 import type { Sprache } from '@/lib/demo/typen';
 
 /** Absendernummer der Demo-Anrufe (Orchestrator `ausgehende_cli`). */
@@ -35,10 +35,14 @@ export interface SchrittAnzeige {
 
 export interface KartenAnzeige {
     name: string;
-    rolle: string;
+    /** Ganze Rollenzeile: «KI-Telefonassistentin von FIRMA» bzw. bei English «AI phone assistant of FIRMA» (AUFTRAG-098) */
+    rollenZeile: string;
+    /** Sprache der Karte (AUFTRAG-098: English → Karte auf Englisch) */
+    lang: 'de' | 'en';
     firma: string;
     website: string;
-    kann: string[];
+    /** drei «Kann»-Zeilen; null = englische Fassung wird noch übersetzt (AUFTRAG-098) */
+    kann: string[] | null;
     /** AUFTRAG-096: Plakette — Website-Umgebung, Marke (sitzt auf der Kundenfläche), Weiss oder Dunkel */
     logo: { src: string; grund: 'weiss' | 'dunkel' | 'marke' | 'umgebung'; farbe: string; breite: number | null; hoehe: number | null } | null;
     primaer: string;
@@ -50,11 +54,21 @@ export interface KartenAnzeige {
     begruessung: string;
 }
 
-export const SPRACH_WAHL: Array<{ wert: Sprache; text: string }> = [
-    { wert: 'dialekt_auto', text: 'Schweizerdeutsch' },
-    { wert: 'hochdeutsch', text: 'Hochdeutsch' },
+/**
+ * Sprachwahl (AUFTRAG-098, Entscheid des Inhabers): Deutsch · English ·
+ * Schweizerdeutsch (in Erprobung), Vorgabe Deutsch. An die Anlage gehen
+ * weiterhin `hochdeutsch` / `englisch` / `dialekt_auto`.
+ */
+export const SPRACH_WAHL: Array<{ wert: Sprache; text: string; zusatz?: string }> = [
+    { wert: 'hochdeutsch', text: 'Deutsch' },
     { wert: 'englisch', text: 'English' },
+    { wert: 'dialekt_auto', text: 'Schweizerdeutsch', zusatz: 'in Erprobung' },
 ];
+
+/** Zugänglicher Name einer Sprache, z. B. «Schweizerdeutsch (in Erprobung)». */
+export function sprachName(s: { text: string; zusatz?: string }): string {
+    return s.zusatz ? `${s.text} (${s.zusatz})` : s.text;
+}
 
 interface Props {
     zustand: Zustand;
@@ -209,25 +223,30 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
 
                     {/* Assistenten-Karte */}
                     {karte && (
-                        <Ansicht aktiv={zustand === 'bereit'} label={`${karte.name}, ${karte.rolle} von ${karte.firma}`}>
-                            <div className={`${styles.kundenFlaeche} px-5 pt-12 pb-5`}>
+                        <Ansicht aktiv={zustand === 'bereit'} label={`${karte.name}, ${karte.rollenZeile}`}>
+                            <div className={`${styles.kundenFlaeche} px-5 pt-12 pb-5`} lang={karte.lang}>
                                 <LogoOderInitiale karte={karte} />
                                 <p className="mt-3 text-[1.7rem] font-bold leading-none tracking-tight">{karte.name}</p>
-                                <p className="mt-1.5 text-[0.82rem] leading-snug opacity-90 line-clamp-2">
-                                    {karte.rolle} von {karte.firma}
-                                </p>
+                                <p className="mt-1.5 text-[0.82rem] leading-snug opacity-90 line-clamp-2">{karte.rollenZeile}</p>
                                 <div className="mt-3 w-28" style={{ color: karte.text }}>
                                     <Welle farbe={karte.primaer} modus="ruhe" anzahl={16} hell className="[--welle-hoehe:22px]" />
                                 </div>
                             </div>
                             <div className="flex-1 flex flex-col px-5 pt-4 pb-5 min-h-0">
-                                <ul className="space-y-2">
-                                    {karte.kann.map((f) => (
-                                        <li key={f} className="flex items-start gap-2 text-[0.84rem] font-medium leading-snug">
-                                            <Check className="mt-0.5 w-4 h-4 flex-shrink-0" style={{ color: 'var(--kunde-akzent)' }} strokeWidth={3} aria-hidden="true" />
-                                            <span>{f}</span>
-                                        </li>
-                                    ))}
+                                <ul className="space-y-2" lang={karte.lang} aria-busy={karte.kann === null || undefined}>
+                                    {karte.kann
+                                        ? karte.kann.map((f) => (
+                                              <li key={f} className="flex items-start gap-2 text-[0.84rem] font-medium leading-snug">
+                                                  <Check className="mt-0.5 w-4 h-4 flex-shrink-0" style={{ color: 'var(--kunde-akzent)' }} strokeWidth={3} aria-hidden="true" />
+                                                  <span>{f}</span>
+                                              </li>
+                                          ))
+                                        : [0.82, 0.7, 0.76].map((b, i) => (
+                                              <li key={i} className="flex items-center gap-2 h-[1.155rem]" data-laedt="">
+                                                  <Check className="w-4 h-4 flex-shrink-0 opacity-40" style={{ color: 'var(--kunde-akzent)' }} strokeWidth={3} aria-hidden="true" />
+                                                  <span className="h-2.5 rounded-full bg-black/[0.08] dark:bg-white/[0.1] motion-safe:animate-pulse" style={{ width: `${b * 100}%` }} />
+                                              </li>
+                                          ))}
                                 </ul>
                                 {/* Spiegel der Sprachwahl im Formular: klickbar, aber nicht doppelt für Tastatur/Screenreader */}
                                 <div className={`mt-4 ${styles.segment}`} aria-hidden="true">
@@ -237,11 +256,12 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
                                             type="button"
                                             tabIndex={-1}
                                             onClick={() => onSprache(s.wert)}
-                                            className={`flex items-center justify-center h-9 px-0.5 rounded-[0.6rem] text-[0.62rem] lg:text-[0.68rem] font-semibold tracking-[-0.015em] whitespace-nowrap transition-colors ${
+                                            className={`flex flex-col items-center justify-center h-9 px-0.5 rounded-[0.6rem] text-[0.62rem] lg:text-[0.68rem] font-semibold leading-none tracking-[-0.015em] whitespace-nowrap transition-colors ${
                                                 sprache === s.wert ? styles.segmentAktiv : 'text-[#4a525e] dark:text-[#aab2bd] hover:text-[#111418] dark:hover:text-white'
                                             }`}
                                         >
                                             {s.text}
+                                            {s.zusatz && <span className="mt-0.5 text-[0.52rem] lg:text-[0.56rem] font-medium opacity-75">{s.zusatz}</span>}
                                         </button>
                                     ))}
                                 </div>
@@ -342,9 +362,13 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
                                 <span className="w-14 h-14 rounded-full bg-[#e5484d]/12 text-[#c9353a] flex items-center justify-center" aria-hidden="true">
                                     <PhoneOff className="w-6 h-6" />
                                 </span>
-                                <p className="mt-4 text-lg font-semibold">{fehlerGrund === 'limit' ? 'Tageslimit erreicht' : 'Nicht erreicht'}</p>
+                                <p className="mt-4 text-lg font-semibold">{fehlerTitel(fehlerGrund)}</p>
                                 <p className="mt-1 text-sm text-[#5b6472] dark:text-[#9aa3af]">
-                                    {fehlerGrund === 'limit' ? 'Heute keine weiteren Testanrufe an diese Nummer.' : 'Versuchen Sie es gleich nochmals.'}
+                                    {fehlerGrund === 'limit'
+                                        ? 'Heute keine weiteren Testanrufe an diese Nummer.'
+                                        : fehlerGrund === GRUND_KEINE_RUECKMELDUNG
+                                          ? 'Die Statusanzeige ist stehen geblieben.'
+                                          : 'Versuchen Sie es gleich nochmals.'}
                                 </p>
                             </Ansicht>
                         </>

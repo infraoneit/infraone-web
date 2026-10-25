@@ -652,7 +652,7 @@ export default function CloudTelefoniePage() {
                         </div>
                         <div className="flex-1">
                             <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-3">
-                                KI-Telefonassistent auf Schweizerdeutsch
+                                KI-Telefonassistent für Schweizer KMU
                             </h2>
                             <p className="text-text-secondary leading-relaxed max-w-3xl">
                                 Ein KI-Assistent nimmt Anrufe entgegen, beantwortet Fragen aus Ihrem Wissen und nimmt Anliegen auf – allein oder als Baustein Ihrer Cloud-Telefonanlage. Testen Sie ihn mit Ihrer eigenen Website: Er ruft Sie in einer Minute an.

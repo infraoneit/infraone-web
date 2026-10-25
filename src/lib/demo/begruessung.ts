@@ -36,7 +36,36 @@ export function begruessungFuer(sprache: Sprache, name: string, firma: string, s
     return vorlage.replace('{name}', name).replace('{firma}', firma);
 }
 
-/** Rolle auf der Karte: «KI-Telefonassistentin von FIRMA» / «KI-Telefonassistent von FIRMA». */
-export function rolleFuer(stimme: Stimme): string {
+/**
+ * Rolle auf der Karte: «KI-Telefonassistentin von FIRMA» / «KI-Telefonassistent von FIRMA»;
+ * AUFTRAG-098: bei «English» «AI phone assistant of FIRMA» (für beide Stimmen).
+ */
+export function rolleFuer(stimme: Stimme, sprache: Sprache = 'hochdeutsch'): string {
+    if (sprache === 'englisch') return 'AI phone assistant';
     return stimme === 'weiblich' ? 'KI-Telefonassistentin' : 'KI-Telefonassistent';
+}
+
+/** Standard-Fähigkeiten (Regel-Profil bzw. Auffüllung des KI-Profils, AUFTRAG-092). */
+export const STANDARD_FAEHIGKEITEN = [
+    'Rund um die Uhr erreichbar',
+    'Beantwortet Fragen aus Ihrer Website',
+    'Nimmt Anliegen und Rückrufwünsche auf',
+];
+
+/** AUFTRAG-098: feste englische Fassung, gleiche Reihenfolge (Karte bei «English»). */
+export const STANDARD_FAEHIGKEITEN_EN = [
+    'Available around the clock',
+    'Answers questions from your website',
+    'Takes requests and callback wishes',
+];
+
+/** Englische Fassung, wenn alle Fähigkeiten Standard sind (ohne Server-Aufruf), sonst null. */
+export function standardAufEnglisch(de: string[]): string[] | null {
+    const en = de.slice(0, 3).map((d) => STANDARD_FAEHIGKEITEN_EN[STANDARD_FAEHIGKEITEN.indexOf(d)]);
+    return en.length === 3 && en.every(Boolean) ? en : null;
+}
+
+/** Ganze Rollenzeile der Karte, z. B. «AI phone assistant of Muster AG». */
+export function rollenZeile(stimme: Stimme, sprache: Sprache, firma: string): string {
+    return `${rolleFuer(stimme, sprache)} ${sprache === 'englisch' ? 'of' : 'von'} ${firma}`;
 }

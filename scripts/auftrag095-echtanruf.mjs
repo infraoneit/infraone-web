@@ -7,9 +7,11 @@
  * Auftrag), gescannt wird infraone.ch. Ohne --ja passiert nichts.
  * Der Orchestrator holt den Auftrag über den Tunnel beim Dev-Server ab.
  *
- *   node scripts/auftrag095-echtanruf.mjs --ja [--sprache Hochdeutsch]
+ *   node scripts/auftrag095-echtanruf.mjs --ja [--sprache Deutsch|English|"Schweizerdeutsch (in Erprobung)"]
  *
- * Screenshots: ../auftraege/ergebnisse/A095-screens/echt-*.png
+ * AUFTRAG-098: Sprachwahl Deutsch · English · Schweizerdeutsch (in Erprobung),
+ * Vorgabe Deutsch; zählt die Status-Abfragen des Widgets je Anruf.
+ * Screenshots: ../auftraege/ergebnisse/A098-screens/echt-*.png (SCREENS_ORDNER überschreibt)
  */
 import { chromium } from 'playwright-core';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -19,14 +21,14 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.BASE_URL || 'http://localhost:3000';
 const CHROME = process.env.PLAYWRIGHT_CHROMIUM || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const SCREENS = path.resolve(ROOT, '..', 'auftraege', 'ergebnisse', 'A095-screens');
+const SCREENS = path.resolve(ROOT, '..', 'auftraege', 'ergebnisse', process.env.SCREENS_ORDNER || 'A098-screens');
 const NUMMER = '044 552 03 06'; // einzige erlaubte Zielnummer (Auftrag)
 const args = process.argv.slice(2);
 if (!args.includes('--ja')) {
     console.error('Echter Anruf an 044 552 03 06 nur mit --ja.');
     process.exit(2);
 }
-const sprache = args.includes('--sprache') ? args[args.indexOf('--sprache') + 1] : 'Hochdeutsch';
+const sprache = args.includes('--sprache') ? args[args.indexOf('--sprache') + 1] : 'Deutsch';
 const lauf = args.includes('--lauf') ? args[args.indexOf('--lauf') + 1] : '1';
 mkdirSync(SCREENS, { recursive: true });
 
@@ -82,6 +84,12 @@ try {
     const zusammenfassung = await page.evaluate(() => document.querySelector('#ki-demo-anruf-titel')?.closest('section')?.innerText ?? '');
     writeFileSync(path.join(SCREENS, `echt-${lauf}-protokoll.json`), JSON.stringify({ sprache, folge, protokoll, karte: zusammenfassung.slice(0, 1200) }, null, 2), 'utf8');
     console.log('Folge:', folge.map((f) => f.text).join(' > '));
+    // AUFTRAG-098: Status-Abfragen je Anruf (Widget, Takt 4 s), nach dem Endzustand keine weitere
+    const vorher = protokoll.filter((p) => /\/api\/demo\/auftraege\//.test(p.url)).length;
+    await page.waitForTimeout(9000);
+    const nachher = protokoll.filter((p) => /\/api\/demo\/auftraege\//.test(p.url)).length;
+    console.log(`Status-Abfragen je Anruf: ${vorher} (nach dem Endzustand weitere: ${nachher - vorher})`);
+    writeFileSync(path.join(SCREENS, `echt-${lauf}-abfragen.json`), JSON.stringify({ abfragen: vorher, nach_ende: nachher - vorher, dauer_bis_ende: folge[folge.length - 1]?.t ?? null }, null, 2), 'utf8');
 } finally {
     await browser.close();
 }
