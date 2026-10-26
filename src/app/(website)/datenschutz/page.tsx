@@ -74,8 +74,11 @@ export default function DatenschutzPage() {
                             <h2 className="text-xl font-bold text-text-primary mt-8 mb-4">3. Cookies</h2>
                             <p>
                                 Diese Website verwendet technisch notwendige Cookies, um die Funktionalität der Website
-                                zu gewährleisten. Sie können Ihren Browser so einstellen, dass Sie über das Setzen von
-                                Cookies informiert werden.
+                                zu gewährleisten. Beim Testanruf des KI-Telefonassistenten setzen wir das Cookie «demo_geraet»
+                                mit einer zufälligen, signierten Gerätekennung (Laufzeit 400 Tage). Es dient allein dazu, die
+                                Zahl der Testanrufe und Website-Prüfungen je Gerät zu begrenzen; es enthält keine persönlichen
+                                Daten und wird nicht zur Nachverfolgung über andere Websites genutzt. Sie können Ihren Browser
+                                so einstellen, dass Sie über das Setzen von Cookies informiert werden.
                             </p>
 
                             <h2 className="text-xl font-bold text-text-primary mt-8 mb-4">4. Nutzung und Weitergabe</h2>
@@ -88,7 +91,7 @@ export default function DatenschutzPage() {
                             {/* AUFTRAG-092 (Nachtrag Manager): Text wortgleich */}
                             <h2 id="testanruf-ki-telefonassistent" className="text-xl font-bold text-text-primary mt-8 mb-4">5. Testanruf KI-Telefonassistent</h2>
                             <p>
-                                Wenn Sie auf der Seite «KI-Telefonassistent» eine Website-Adresse eingeben, rufen unsere Systeme die öffentlich erreichbaren Seiten dieser Website ab und erstellen daraus ein Profil (Firmenname, Kontaktangaben, Öffnungszeiten, Leistungen, Logo und Farben). Dieses Profil wird für höchstens zwei Stunden gespeichert und danach gelöscht. Geben Sie Ihre Telefonnummer ein und bestätigen den Testanruf, verwenden wir die Nummer für diesen Anruf. Zusammen mit einer Zusammenfassung und dem Gesprächsprotokoll erhält InfraOne sie als Hinweis auf Ihr Interesse, damit wir Rückfragen beantworten können; für Werbung verwenden wir sie nicht. Der Testanruf dauert höchstens drei Minuten. Die Telefonanlage und das Gesprächsprotokoll laufen auf Systemen von InfraOne in der Schweiz; für Spracherkennung und Sprachausgabe nutzen wir die Schnittstellen von OpenAI, wobei Gesprächsinhalte dort nicht zum Training von Modellen verwendet werden. Mitschnitte werden nicht erstellt. Pro Telefonnummer sind zwei Testanrufe am Tag möglich.
+                                Wenn Sie auf der Seite «KI-Telefonassistent» eine Website-Adresse eingeben, rufen unsere Systeme die öffentlich erreichbaren Seiten dieser Website ab und erstellen daraus ein Profil (Firmenname, Kontaktangaben, Öffnungszeiten, Leistungen, Logo und Farben). Dieses Profil wird für höchstens zwei Stunden gespeichert und danach gelöscht. Geben Sie Ihre Telefonnummer ein und bestätigen den Testanruf, verwenden wir die Nummer für diesen Anruf. Zusammen mit einer Zusammenfassung und dem Gesprächsprotokoll erhält InfraOne sie als Hinweis auf Ihr Interesse, damit wir Rückfragen beantworten können; für Werbung verwenden wir sie nicht. Der Testanruf dauert höchstens drei Minuten. Die Telefonanlage und das Gesprächsprotokoll laufen auf Systemen von InfraOne in der Schweiz; für Spracherkennung und Sprachausgabe nutzen wir die Schnittstellen von OpenAI, wobei Gesprächsinhalte dort nicht zum Training von Modellen verwendet werden. Mitschnitte werden nicht erstellt. Pro Telefonnummer, Gerät und Internetanschluss sind zwei Testanrufe am Tag möglich. Dafür speichern wir für höchstens zwei Tage Prüfsummen (Hashes) der Internetadresse und der Gerätekennung, aus denen sich Adresse und Kennung nicht zurückrechnen lassen.
                             </p>
 
                             <h2 className="text-xl font-bold text-text-primary mt-8 mb-4">6. Datensicherheit</h2>
