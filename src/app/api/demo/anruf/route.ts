@@ -11,12 +11,18 @@
  * Besucher bekommt trotzdem 201. Ohne DEMO_ANSTOSS_URL (lokal) wie bisher:
  * der VoIP-Orchestrator (AUFTRAG-091) holt den Auftrag über
  * /api/demo/warteschlange ab.
+ *
+ * AUFTRAG-103: Limits gesamt → Gerät → Adresse → Nummer (lib/demo/limits.ts); Gerätekennung aus
+ * dem signierten Cookie `demo_geraet` (fehlt es, setzt diese Antwort es). Ablauf: Auftrag anlegen
+ * → zählen → erst dann anstossen; scheitert das Zählen, wird der Auftrag gelöscht (500, kein
+ * Anstoss). Der Auftrag trägt `ip_hash`, `ip_art`, `geraet_hash` (nur für die Anlage mit Bearer).
  */
 import { antwort, clientIp, fehler, leseJson, MELDUNG, pruefeTurnstile } from '@/lib/demo/api';
 import { pruefeRueckrufNummer } from '@/lib/demo/nummer';
-import { anrufPruefen, anrufZaehlen } from '@/lib/demo/limits';
+import { anrufPruefen, anrufZaehlen, pseudonyme } from '@/lib/demo/limits';
 import { leseScan } from '@/lib/demo/scans';
-import { auftraegeBereinigen, erstelleAuftrag } from '@/lib/demo/auftraege';
+import { auftraegeBereinigen, erstelleAuftrag, loescheAuftrag, nimmAnrufAn } from '@/lib/demo/auftraege';
+import { geraetAusAnfrage, mitGeraetCookie } from '@/lib/demo/geraet';
 import { aufraeumenGelegentlich } from '@/lib/demo/speicher';
 import { SPRACHEN, type Farben, type Sprache } from '@/lib/demo/typen';
 import { gueltigeLogos, logoUrlFuerAuftrag } from '@/lib/demo/logo';
@@ -31,6 +37,12 @@ export const maxDuration = 15;
 const HEX_RE = /^#[0-9A-F]{6}$/i;
 
 export async function POST(req: Request) {
+    // AUFTRAG-103: fehlt das Cookie (oder ist es ungültig), setzt diese Antwort eine neue Kennung
+    const geraet = geraetAusAnfrage(req);
+    return mitGeraetCookie(await anruf(req, geraet.hash), geraet);
+}
+
+async function anruf(req: Request, geraetHash: string): Promise<Response> {
     const body = await leseJson(req, 4_000);
     if (!body) return fehler(MELDUNG.allgemein, 400);
 
@@ -54,8 +66,14 @@ export async function POST(req: Request) {
     const scan = await leseScan(typeof body.scan_id === 'string' ? body.scan_id : '');
     if (!scan) return fehler(MELDUNG.scanAbgelaufen, 410);
 
-    const limit = await anrufPruefen(ip, pruefung.e164);
-    if (limit) return fehler(limit, 429);
+    const p = pseudonyme({ ip, geraetHash, nummer: pruefung.e164 });
+    try {
+        const limit = await anrufPruefen(p);
+        if (limit) return fehler(limit.meldung, 429);
+    } catch (e) {
+        console.error('[demo/anruf] Limit-Prüfung fehlgeschlagen:', e instanceof Error ? e.message : e);
+        return fehler(MELDUNG.allgemein, 500);
+    }
 
     // Endgültige Primärfarbe bestimmt der Browser aus dem Logo (optional)
     const profil = { ...scan.profil };
@@ -74,17 +92,35 @@ export async function POST(req: Request) {
     // Stimme passt immer zum Vornamen (AUFTRAG-095; auch für ältere Scans ohne Feld)
     profil.stimme = stimmeFuer(profil.assistent_name);
 
-    try {
-        const auftrag = await erstelleAuftrag({ scan_id: scan.id, nummer: pruefung.e164, sprache, profil, profil_bis: scan.ablauf });
-        // AUFTRAG-098: Anlage sofort anstossen (wirft nie; ohne DEMO_ANSTOSS_URL sofort fertig) —
-        // Zählen und Aufräumen laufen derweil weiter
-        const anstoss = stosseAn(auftrag.id);
-        await anrufZaehlen(ip, pruefung.e164);
-        if (await aufraeumenGelegentlich().catch(() => false)) await auftraegeBereinigen().catch(() => undefined);
-        await anstoss;
-        return antwort({ id: auftrag.id }, 201);
-    } catch (e) {
-        console.error('[demo/anruf] Speichern fehlgeschlagen:', e instanceof Error ? e.message : e);
+    // AUFTRAG-103: Auftrag anlegen → zählen → erst dann anstossen (wirft nie; ohne DEMO_ANSTOSS_URL
+    // sofort fertig). Das gelegentliche Aufräumen läuft während des Anstosses.
+    const annahme = await nimmAnrufAn({
+        erstelle: () =>
+            erstelleAuftrag({
+                scan_id: scan.id,
+                nummer: pruefung.e164,
+                sprache,
+                profil,
+                profil_bis: scan.ablauf,
+                ip_hash: p.ip_hash,
+                ip_art: p.ip_art,
+                geraet_hash: p.geraet_hash,
+            }),
+        zaehle: () => anrufZaehlen(p),
+        loesche: (a) => loescheAuftrag(a),
+        stosseAn: (id) => stosseAn(id),
+        nebenbei: async () => {
+            if (await aufraeumenGelegentlich().catch(() => false)) await auftraegeBereinigen().catch(() => undefined);
+        },
+    });
+    if (!annahme.ok) {
+        const f = annahme.fehler instanceof Error ? annahme.fehler.message : annahme.fehler;
+        if (annahme.schritt === 'zaehlen') {
+            console.error(`[demo/anruf] Zählen fehlgeschlagen, kein Anstoss, Auftrag ${annahme.zurueckgenommen ? 'gelöscht' : 'NICHT gelöscht'}:`, f);
+        } else {
+            console.error('[demo/anruf] Speichern fehlgeschlagen:', f);
+        }
         return fehler(MELDUNG.allgemein, 500);
     }
+    return antwort({ id: annahme.auftrag.id }, 201);
 }

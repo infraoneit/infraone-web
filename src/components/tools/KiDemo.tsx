@@ -152,6 +152,7 @@ declare global {
         turnstile?: {
             render: (el: HTMLElement, opt: Record<string, unknown>) => string;
             reset: (id?: string) => void;
+            remove: (id: string) => void;
         };
     }
 }
@@ -289,8 +290,26 @@ const KNOPF_BASIS =
     // Höhe aus Polsterung + Zeilenhöhe (56 px), nicht aus min-height: globals.css setzt mobil min-height:44px auf alle Buttons
     'w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl text-[1.1875rem] font-bold leading-6 text-center focus-visible:outline-2 focus-visible:outline-offset-2';
 
-function PrimaerKnopf({ zustand, name, type, onClick, id, zweizeilig = false }: { zustand: Zustand; name: string; type: 'submit' | 'button'; onClick?: () => void; id?: string; zweizeilig?: boolean }) {
+function PrimaerKnopf({
+    zustand,
+    name,
+    type,
+    onClick,
+    id,
+    zweizeilig = false,
+    gesperrt = false,
+}: {
+    zustand: Zustand;
+    name: string;
+    type: 'submit' | 'button';
+    onClick?: () => void;
+    id?: string;
+    zweizeilig?: boolean;
+    /** AUFTRAG-103: nach 429 (Limit) gesperrt — kein weiterer Versuch aus dieser Seite */
+    gesperrt?: boolean;
+}) {
     const b = primaerButton(zustand, name);
+    const deaktiviert = b.deaktiviert || gesperrt;
     const farbe =
         b.art === 'verbunden'
             ? 'bg-[#1f7a35] text-white shadow-lg shadow-[#1f7a35]/30'
@@ -302,10 +321,11 @@ function PrimaerKnopf({ zustand, name, type, onClick, id, zweizeilig = false }: 
             id={id}
             type={type}
             onClick={onClick}
-            disabled={b.deaktiviert}
-            aria-disabled={b.deaktiviert || undefined}
+            disabled={deaktiviert}
+            aria-disabled={deaktiviert || undefined}
             data-zustand={zustand}
-            className={`${styles.knopf} ${KNOPF_BASIS} ${farbe} ${zustand === 'wartend' ? styles.knopfWartet : ''} ${zweizeilig ? 'h-[4.75rem] sm:h-auto' : ''} disabled:cursor-default`}
+            data-gesperrt={gesperrt ? 'true' : undefined}
+            className={`${styles.knopf} ${KNOPF_BASIS} ${farbe} ${zustand === 'wartend' ? styles.knopfWartet : ''} ${zweizeilig ? 'h-[4.75rem] sm:h-auto' : ''} ${gesperrt ? 'opacity-50 shadow-none' : ''} disabled:cursor-default`}
         >
             <KnopfSymbol symbol={b.symbol} />
             <span key={`${zustand}-${b.text}`} className={styles.knopfText}>
@@ -340,6 +360,9 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     const [verbundenSeit, setVerbundenSeit] = useState<number | null>(null);
     const [jetzt, setJetzt] = useState(0);
     const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+    // AUFTRAG-103: nach 429 bleibt der jeweilige Button gesperrt (Server-Klartext bleibt stehen, kein Neuversuch)
+    const [scanGesperrt, setScanGesperrt] = useState(false);
+    const [anrufSperre, setAnrufSperre] = useState<string | null>(null);
 
     // AUFTRAG-102: Sitzung (Lauf + Scan-Kennung) — Logo, Farben und Profil gehören immer zum laufenden Scan
     const sitzungRef = useRef<Sitzung>(LEERE_SITZUNG);
@@ -369,7 +392,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     const starteScan = useCallback(
         async (e: FormEvent) => {
             e.preventDefault();
-            if (zustand !== 'eingabe') return;
+            if (zustand !== 'eingabe' || scanGesperrt) return;
             const wert = eingabe.trim();
             if (!wert || wert.length > 300 || !/\.[a-z]{2,}/i.test(wert)) {
                 setScanFehler(HINWEIS.url);
@@ -404,6 +427,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 if (!aktuell()) return;
                 if (!res.ok) {
                     setScanFehler(typeof daten.fehler === 'string' ? daten.fehler : HINWEIS.netz);
+                    // AUFTRAG-103: Limit erreicht → Button bleibt gesperrt, kein Neuversuch
+                    if (res.status === 429) setScanGesperrt(true);
                     setSchritte([]);
                     setZustand('eingabe');
                     return;
@@ -507,7 +532,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             setKarte({ scanId: scan.scan_id, profil: p, faehigkeitenEn: standardAufEnglisch(p.faehigkeiten), stimme, logo, primaer: farbe ?? NEUTRAL_PRIMAER });
             setZustand('bereit');
         },
-        [eingabe, zustand, setzeSchritt],
+        [eingabe, zustand, setzeSchritt, scanGesperrt],
     );
 
     // AUFTRAG-098: Fähigkeiten auf Englisch erst bei der ersten Wahl von «English» übersetzen (einmal je Scan)
@@ -598,33 +623,58 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
 
     /* ---------- Turnstile (nur wenn konfiguriert) ---------- */
 
+    /*
+     * AUFTRAG-103: Der Container existiert nur im Zustand «bereit». Verlässt die Karte «bereit»
+     * (Absenden, Anruf, Fehler), wird das Widget entfernt; beim nächsten «bereit» rendert ein
+     * frisches Widget mit neuem Token (Turnstile-Token gelten nur einmal). Vorher blieb die alte
+     * Widget-Kennung stehen: nach dem ersten Versuch erschien kein Widget mehr, jeder weitere
+     * Versuch scheiterte mit 403.
+     */
     useEffect(() => {
-        if (!turnstileSiteKey || zustand !== 'bereit' || !turnstileRef.current || turnstileWidget.current) return;
+        if (!turnstileSiteKey || zustand !== 'bereit' || anrufSperre || !turnstileRef.current) return;
+        let aktiv = true;
         const rendern = () => {
-            if (!window.turnstile || !turnstileRef.current || turnstileWidget.current) return;
+            if (!aktiv || !window.turnstile || !turnstileRef.current || turnstileWidget.current) return;
             turnstileWidget.current = window.turnstile.render(turnstileRef.current, {
                 sitekey: turnstileSiteKey,
                 callback: (t: string) => setTurnstileToken(t),
                 'expired-callback': () => setTurnstileToken(null),
+                'error-callback': () => setTurnstileToken(null),
                 language: 'de',
             });
         };
         if (window.turnstile) {
             rendern();
-            return;
+        } else {
+            let s = document.getElementById('ki-demo-turnstile-skript') as HTMLScriptElement | null;
+            if (!s) {
+                s = document.createElement('script');
+                s.id = 'ki-demo-turnstile-skript';
+                s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+                s.async = true;
+                document.head.appendChild(s);
+            }
+            s.addEventListener('load', rendern, { once: true });
         }
-        const s = document.createElement('script');
-        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-        s.async = true;
-        s.onload = rendern;
-        document.head.appendChild(s);
-    }, [turnstileSiteKey, zustand]);
+        return () => {
+            aktiv = false;
+            const id = turnstileWidget.current;
+            turnstileWidget.current = null;
+            if (id && window.turnstile) {
+                try {
+                    window.turnstile.remove(id);
+                } catch {
+                    /* Widget schon weg */
+                }
+            }
+        };
+    }, [turnstileSiteKey, zustand, anrufSperre]);
 
     /* ---------- Anruf ---------- */
 
     const starteAnruf = async (e: FormEvent) => {
         e.preventDefault();
-        if (!karte || zustand !== 'bereit') return;
+        if (!karte || zustand !== 'bereit' || anrufSperre) return;
         setFormFehler(null);
         const pruefung = pruefeRueckrufNummer(nummer, vorwahl);
         if (!pruefung.ok) {
@@ -639,6 +689,9 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         }
         // Sofortige Rückmeldung: der Button zeigt den Wartezustand, solange der Auftrag angelegt wird
         setZustand('wartend');
+        // Turnstile-Token gilt nur einmal; das nächste «bereit» rendert ein frisches Widget
+        const token = turnstileToken;
+        setTurnstileToken(null);
         try {
             const res = await fetch('/api/demo/anruf', {
                 method: 'POST',
@@ -651,14 +704,16 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                     honigtopf,
                     farben: { primaer: karte.primaer, sekundaer: karte.profil.farben?.sekundaer ?? helligkeit(karte.primaer, -0.18) },
                     ...(karte.logo ? { logo_index: karte.logo.index } : {}),
-                    ...(turnstileSiteKey ? { turnstile: turnstileToken } : {}),
+                    ...(turnstileSiteKey ? { turnstile: token } : {}),
                 }),
             });
             const daten = await res.json().catch(() => ({}));
             if (res.status !== 201 || typeof daten.id !== 'string') {
+                const text = typeof daten.fehler === 'string' ? daten.fehler : HINWEIS.netz;
+                // AUFTRAG-103: 429 (Limit) zeigt den Server-Klartext und sperrt den Button — kein automatischer Neuversuch
+                if (res.status === 429) setAnrufSperre(text);
                 setZustand('bereit');
-                setFormFehler(typeof daten.fehler === 'string' ? daten.fehler : HINWEIS.netz);
-                if (turnstileWidget.current && window.turnstile) window.turnstile.reset(turnstileWidget.current);
+                setFormFehler(text);
                 return;
             }
             setAuftrag({ id: daten.id, dauer_s: null, zusammenfassung: null, grund: null });
@@ -861,7 +916,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                         {zustand === 'fehler' ? fehlerTitel(auftrag?.grund) : `${kartenAnzeige?.name ?? 'Ihr Assistent'} ruft Sie an`}
                                     </h2>
                                     <form onSubmit={starteAnruf} noValidate className="mt-5 space-y-5">
-                                        <fieldset disabled={zustand !== 'bereit'} className="min-w-0 space-y-5 disabled:opacity-80">
+                                        <fieldset disabled={zustand !== 'bereit' || !!anrufSperre} className="min-w-0 space-y-5 disabled:opacity-80">
                                             <div role="radiogroup" aria-labelledby="ki-demo-sprache-titel">
                                                 <p id="ki-demo-sprache-titel" className="text-sm font-medium text-text-primary mb-2">
                                                     Sprache
@@ -954,11 +1009,11 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                             </label>
                                         </fieldset>
     
-                                        {turnstileSiteKey && zustand === 'bereit' && <div ref={turnstileRef} />}
+                                        {turnstileSiteKey && zustand === 'bereit' && !anrufSperre && <div ref={turnstileRef} />}
     
-                                        {formFehler && zustand === 'bereit' && (
+                                        {(anrufSperre ?? formFehler) && zustand === 'bereit' && (
                                             <p role="alert" className="text-sm font-medium text-red-700 dark:text-red-300">
-                                                {formFehler}
+                                                {anrufSperre ?? formFehler}
                                             </p>
                                         )}
                                         {zustand === 'fehler' && (
@@ -979,6 +1034,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                             onClick={zustand === 'fehler' ? nochmals : undefined}
                                             id="ki-demo-anruf-knopf"
                                             zweizeilig
+                                            gesperrt={zustand === 'bereit' && !!anrufSperre}
                                         />
                                     </form>
     
@@ -1075,7 +1131,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                         </div>
                         {zustand === 'eingabe' || zustand === 'scan' ? (
                             <div className="sm:w-auto sm:min-w-[13.5rem]">
-                                <PrimaerKnopf zustand={zustand} name={name} type="submit" id="ki-demo-scan-knopf" />
+                                <PrimaerKnopf zustand={zustand} name={name} type="submit" id="ki-demo-scan-knopf" gesperrt={zustand === 'eingabe' && scanGesperrt} />
                             </div>
                         ) : (
                             <button

@@ -2,6 +2,8 @@
  * Gemeinsame Hilfen der Demo-API-Routen (AUFTRAG-092).
  */
 import { createHash, randomInt, timingSafeEqual } from 'node:crypto';
+import { isIP } from 'node:net';
+import type { IpArt } from './typen';
 
 export const KEIN_CACHE = { 'Cache-Control': 'no-store, max-age=0' };
 
@@ -37,6 +39,57 @@ export function clientIp(req: Request): string {
     const xff = req.headers.get('x-forwarded-for');
     if (xff) return xff.split(',')[0].trim();
     return req.headers.get('x-real-ip')?.trim() || 'lokal';
+}
+
+/** IPv6 in 8 Gruppen à 16 Bit (auch mit IPv4-Schwanz wie ::ffff:1.2.3.4); null, wenn keine IPv6. */
+function ipv6Gruppen(s: string): number[] | null {
+    if (isIP(s) !== 6) return null;
+    let text = s;
+    const v4 = text.match(/:(\d{1,3}(?:\.\d{1,3}){3})$/);
+    if (v4) {
+        const b = v4[1].split('.').map(Number);
+        text = `${text.slice(0, -v4[1].length)}${((b[0] << 8) | b[1]).toString(16)}:${((b[2] << 8) | b[3]).toString(16)}`;
+    }
+    const [links, rechts] = text.includes('::') ? text.split('::') : [text, null];
+    const teil = (t: string) => (t ? t.split(':').map((g) => parseInt(g, 16)) : []);
+    const a = teil(links);
+    const z = rechts === null ? [] : teil(rechts);
+    const gruppen = rechts === null ? a : [...a, ...new Array(8 - a.length - z.length).fill(0), ...z];
+    return gruppen.length === 8 && gruppen.every((g) => Number.isInteger(g) && g >= 0 && g <= 0xffff) ? gruppen : null;
+}
+
+/**
+ * AUFTRAG-103: Adresse normalisieren — Kleinbuchstaben, Klammern/Port und Zone-ID («%eth0»)
+ * entfernen, IPv4-gemappte IPv6 (`::ffff:a.b.c.d`) als IPv4. Keine gültige Adresse (z. B. «lokal»)
+ * → Art «unbekannt».
+ */
+export function normalisiereIp(roh: string): { ip: string; art: IpArt } {
+    let s = String(roh ?? '').trim().toLowerCase();
+    const klammer = s.match(/^\[([^\]]+)\](?::\d+)?$/);
+    if (klammer) s = klammer[1];
+    const v4Port = s.match(/^(\d{1,3}(?:\.\d{1,3}){3}):\d+$/);
+    if (v4Port) s = v4Port[1];
+    const zone = s.indexOf('%');
+    if (zone >= 0) s = s.slice(0, zone);
+    if (isIP(s) === 4) return { ip: s, art: 'v4' };
+    const g = ipv6Gruppen(s);
+    if (g) {
+        if (g.slice(0, 5).every((x) => x === 0) && g[5] === 0xffff) {
+            return { ip: `${g[6] >> 8}.${g[6] & 255}.${g[7] >> 8}.${g[7] & 255}`, art: 'v4' };
+        }
+        return { ip: g.map((x) => x.toString(16)).join(':'), art: 'v6' };
+    }
+    return { ip: s || 'unbekannt', art: 'unbekannt' };
+}
+
+/**
+ * AUFTRAG-103: Schlüssel der Adress-Limits. IPv6 → /64-Präfix (Mobilgeräte wechseln die
+ * Temporäradresse innerhalb ihres /64), IPv4 → volle Adresse. Nur gehasht speichern/loggen.
+ */
+export function ipSchluessel(roh: string): string {
+    const { ip, art } = normalisiereIp(roh);
+    if (art !== 'v6') return ip;
+    return `${ip.split(':').slice(0, 4).join(':')}::/64`;
 }
 
 /** Pseudonym für Zähler (IP/Nummer werden nie im Klartext gespeichert). */
@@ -138,7 +191,10 @@ export const MELDUNG = {
     turnstile: 'Die Sicherheitsprüfung hat nicht geklappt. Bitte laden Sie die Seite neu.',
     allgemein: 'Das hat leider nicht geklappt. Bitte versuchen Sie es gleich nochmals.',
     limitScanIp: 'Sie haben in der letzten Stunde bereits drei Websites getestet. Bitte versuchen Sie es später wieder oder rufen Sie uns an: 052 222 18 18.',
-    limitAnrufIp: 'Von Ihrem Anschluss wurden in der letzten Stunde bereits zwei Testanrufe angefordert. Bitte versuchen Sie es später wieder oder rufen Sie uns an: 052 222 18 18.',
+    // AUFTRAG-103: Scan je Gerät oder Adresse und Tag (wortgleich)
+    limitScanTag: 'Von diesem Gerät wurden heute bereits mehrere Websites getestet. Bitte versuchen Sie es morgen wieder oder rufen Sie uns an: 052 222 18 18.',
+    // AUFTRAG-103: Anruf je Gerät oder Adresse und Tag (wortgleich; ersetzt die frühere Stunden-Meldung je Anschluss)
+    limitAnrufGeraet: 'Von diesem Gerät wurden heute bereits zwei Testanrufe angefordert. Gerne zeigen wir Ihnen den Assistenten persönlich: 052 222 18 18.',
     limitNummer: 'Diese Nummer hat heute bereits zwei Testanrufe erhalten. Gerne zeigen wir Ihnen den Assistenten persönlich: 052 222 18 18.',
     limitGesamt: 'Für heute sind alle Testanrufe vergeben. Versuchen Sie es morgen wieder oder rufen Sie uns an: 052 222 18 18.',
 } as const;

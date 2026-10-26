@@ -17,6 +17,10 @@
  * Menüs), Team-Links und Team-Seiten, Zusammenführen, Wissen zum Team, Profil mit
  * Personen, Textbudget, Rechtstexte, Mobilnummern, Seitenwahl, Race der Widget-Sitzung,
  * Bild-Proxy (Pfad mit Scan-Kennung, Netlify-Vary/Vary).
+ * AUFTRAG-103: Gerätekennung (Cookie-Signatur gültig/manipuliert/fehlend), ipSchluessel
+ * (v4, v6 /64, gemappt, Zone), Tagesfenster Zürich, Reihenfolge der Regeln, Log ohne
+ * Klartext, Zählen vor dem Anstoss mit Fehlerpfad, Diagnosefelder, Turnstile (gemocktes fetch).
+ * Der ganze Lauf nutzt einen eigenen Speicher-Ordner (Temp), nie den .demo-store des Dev-Servers.
  *
  *   node scripts/demo-einheit-test.mjs
  *
@@ -26,6 +30,8 @@ import { registerHooks } from 'node:module';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import path from 'node:path';
 import zlib from 'node:zlib';
+import os from 'node:os';
+import { mkdtempSync, rmSync } from 'node:fs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 registerHooks({
@@ -41,6 +47,9 @@ registerHooks({
     },
 });
 const lade = (p) => import(pathToFileURL(path.join(ROOT, 'src/lib/demo', p)).href);
+// AUFTRAG-103: eigener Speicher-Ordner für den ganzen Lauf (vor dem ersten Speicherzugriff setzen)
+const TEST_STORE = mkdtempSync(path.join(os.tmpdir(), 'demo-einheit-'));
+process.env.DEMO_STORE_DIR = TEST_STORE;
 const namen = await lade('namen.ts');
 const begruessung = await lade('begruessung.ts');
 const zustand = await lade('zustand.ts');
@@ -735,6 +744,324 @@ pruefe('Personen: Rolle ohne Firmenname, Kundenstimme mit fremder Firma verworfe
     const ungueltig = await bildproxy.logoAusScan('../etc', '0');
     pruefe('Bild-Proxy: ungültige Scan-Kennung im Pfad → 404', ungueltig.status === 404);
 }
+
+/* ------------------------------------------------------------------ */
+/* AUFTRAG-103: Gerätekennung (Cookie), Adress-Schlüssel (IPv6 /64),   */
+/* Tagesfenster Zürich, Reihenfolge der Regeln, Log ohne Klartext,     */
+/* Zählen vor dem Anstoss (Fehlerpfad), Turnstile mit gemocktem fetch  */
+/* (Adressen aus den Dokumentationsbereichen RFC 3849/5737, Nummern    */
+/* erfunden; Speicher = Temp-Ordner, siehe Kopf)                       */
+/* ------------------------------------------------------------------ */
+const api = await lade('api.ts');
+const geraet = await lade('geraet.ts');
+const limits = await lade('limits.ts');
+const speicherMod = await lade('speicher.ts');
+const altLimitsAus = process.env.DEMO_LIMITS_AUS;
+const altToken = process.env.DEMO_TOKEN;
+process.env.DEMO_LIMITS_AUS = '0';
+
+/* Texte wortgleich (AUFTRAG-103, Punkt 3) */
+pruefe('Meldung Anruf Gerät/Adresse wortgleich', api.MELDUNG.limitAnrufGeraet === 'Von diesem Gerät wurden heute bereits zwei Testanrufe angefordert. Gerne zeigen wir Ihnen den Assistenten persönlich: 052 222 18 18.');
+pruefe('Meldung Scan Gerät/Adresse je Tag wortgleich', api.MELDUNG.limitScanTag === 'Von diesem Gerät wurden heute bereits mehrere Websites getestet. Bitte versuchen Sie es morgen wieder oder rufen Sie uns an: 052 222 18 18.');
+pruefe(
+    'Bestehende Texte (Stunde, Nummer, gesamt) unverändert',
+    api.MELDUNG.limitScanIp === 'Sie haben in der letzten Stunde bereits drei Websites getestet. Bitte versuchen Sie es später wieder oder rufen Sie uns an: 052 222 18 18.' &&
+        api.MELDUNG.limitNummer === 'Diese Nummer hat heute bereits zwei Testanrufe erhalten. Gerne zeigen wir Ihnen den Assistenten persönlich: 052 222 18 18.' &&
+        api.MELDUNG.limitGesamt === 'Für heute sind alle Testanrufe vergeben. Versuchen Sie es morgen wieder oder rufen Sie uns an: 052 222 18 18.',
+);
+pruefe(
+    'Limits: Gerät Anruf 2/Tag, Scan 3/h + 8/Tag; Adresse Anruf 2/Tag, Scan 3/h + 10/Tag; Nummer 2/Tag; gesamt 30/Tag',
+    limits.LIMITS.anrufProGeraetTag === 2 && limits.LIMITS.scanProGeraetStunde === 3 && limits.LIMITS.scanProGeraetTag === 8 &&
+        limits.LIMITS.anrufProIpTag === 2 && limits.LIMITS.scanProIpStunde === 3 && limits.LIMITS.scanProIpTag === 10 &&
+        limits.LIMITS.anrufProNummerTag === 2 && limits.LIMITS.anrufGesamtTag === 30,
+);
+
+/* Cookie-Signatur: gültig / manipuliert / fehlend */
+{
+    delete process.env.DEMO_TOKEN;
+    const k = geraet.neueGeraetKennung();
+    const k2 = geraet.neueGeraetKennung();
+    pruefe('Kennung: 16 Zufallsbytes base64url (22 Zeichen), je Aufruf neu', /^[A-Za-z0-9_-]{22}$/.test(k) && Buffer.from(k, 'base64url').length === 16 && k !== k2);
+    const wert = geraet.signiereGeraet(k);
+    pruefe('Signatur: HMAC-SHA256 base64url, Wert «kennung.signatur»', /^[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}$/.test(wert));
+    pruefe('Cookie gültig → Kennung', geraet.pruefeGeraetWert(wert) === k);
+    const tausche = (s, i) => s.slice(0, i) + (s[i] === 'A' ? 'B' : 'A') + s.slice(i + 1);
+    pruefe(
+        'Cookie manipuliert (Kennung, Signatur, Teile, Länge) → null',
+        geraet.pruefeGeraetWert(tausche(wert, 3)) === null &&
+            geraet.pruefeGeraetWert(tausche(wert, wert.length - 2)) === null &&
+            geraet.pruefeGeraetWert(`${k2}.${wert.split('.')[1]}`) === null &&
+            geraet.pruefeGeraetWert(`${wert}.x`) === null &&
+            geraet.pruefeGeraetWert(k) === null &&
+            geraet.pruefeGeraetWert(wert + 'A') === null,
+    );
+    process.env.DEMO_TOKEN = 'anderes-salz-fuer-den-test-0123456789';
+    pruefe('Signatur hängt am Salz DEMO_TOKEN (fremdes Salz → ungültig)', geraet.pruefeGeraetWert(wert) === null && geraet.pruefeGeraetWert(geraet.signiereGeraet(k)) === k);
+    delete process.env.DEMO_TOKEN;
+    pruefe('Cookie fehlend/leer → null', geraet.pruefeGeraetWert(null) === null && geraet.pruefeGeraetWert(undefined) === null && geraet.pruefeGeraetWert('') === null);
+
+    const req = (cookie) => new Request('http://lokal.test/api/demo/scan', { method: 'POST', headers: cookie ? { cookie } : {} });
+    const g1 = geraet.geraetAusAnfrage(req(`a=b; demo_geraet=${wert}; c=d`));
+    pruefe('Anfrage mit gültigem Cookie → gleiche Kennung, kein neues Cookie', g1.kennung === k && g1.neu === false && g1.hash === api.hashe('geraet:' + k));
+    const g2 = geraet.geraetAusAnfrage(req(`demo_geraet=${tausche(wert, 5)}`));
+    pruefe('Anfrage mit manipuliertem Cookie → neue Kennung + Cookie', g2.neu === true && g2.kennung !== k && /^[A-Za-z0-9_-]{22}$/.test(g2.kennung));
+    const g3 = geraet.geraetAusAnfrage(req(null));
+    pruefe('Anfrage ohne Cookie → neue Kennung + Cookie', g3.neu === true && g3.hash === api.hashe('geraet:' + g3.kennung));
+
+    const lokal = geraet.geraetCookieKopf(k, false);
+    const netlify = geraet.geraetCookieKopf(k, true);
+    pruefe(
+        'Set-Cookie: HttpOnly, SameSite=Lax, Path=/, Max-Age 400 Tage; Secure nur auf Netlify',
+        lokal === `demo_geraet=${wert}; Path=/; Max-Age=34560000; HttpOnly; SameSite=Lax` && netlify === `${lokal}; Secure` && geraet.GERAET_MAX_AGE_S === 400 * 86400,
+    );
+    process.env.NETLIFY = 'true';
+    pruefe('Secure automatisch, wenn NETLIFY gesetzt', geraet.geraetCookieKopf(k).endsWith('; Secure'));
+    delete process.env.NETLIFY;
+    const mit = geraet.mitGeraetCookie(new Response('{}', { status: 429 }), g3);
+    const ohne = geraet.mitGeraetCookie(new Response('{}', { status: 200 }), g1);
+    pruefe('Antwort setzt Cookie nur bei neuer Kennung (auch bei 429)', mit.headers.get('set-cookie')?.startsWith(`demo_geraet=${g3.kennung}.`) && mit.status === 429 && ohne.headers.get('set-cookie') === null);
+}
+
+/* ipSchluessel: v4, v6 /64, gemappt, Zone */
+{
+    const n = api.normalisiereIp;
+    const s = api.ipSchluessel;
+    pruefe('IPv4 → volle Adresse (auch mit Port), Art v4', s('192.0.2.17') === '192.0.2.17' && s(' 192.0.2.17:4711 ') === '192.0.2.17' && n('192.0.2.17').art === 'v4');
+    pruefe(
+        'IPv6 → /64-Präfix, Kleinbuchstaben, gleiches /64 = gleicher Schlüssel',
+        s('2001:DB8:A:B:1111:2222:3333:4444') === '2001:db8:a:b::/64' && s('2001:db8:a:b::99') === '2001:db8:a:b::/64' && s('2001:0db8:000a:000b:0:0:0:1') === '2001:db8:a:b::/64' && n('2001:db8:a:b::99').art === 'v6',
+    );
+    pruefe('IPv6 anderes /64 → anderer Schlüssel', s('2001:db8:a:c::1') !== s('2001:db8:a:b::1') && s('2001:db8::1') === '2001:db8:0:0::/64');
+    pruefe(
+        'IPv4-gemappt (::ffff:a.b.c.d und Hex-Form) → IPv4',
+        s('::ffff:192.0.2.17') === '192.0.2.17' && s('::FFFF:C000:0211') === '192.0.2.17' && n('::ffff:192.0.2.17').art === 'v4' && s('[::ffff:192.0.2.17]:443') === '192.0.2.17',
+    );
+    pruefe('Zone-ID entfernt, Klammern/Port entfernt', n('fe80::1%eth0').ip === 'fe80:0:0:0:0:0:0:1' && s('FE80::1%25') === 'fe80:0:0:0::/64' && s('[2001:db8:a:b::5]:8443') === '2001:db8:a:b::/64');
+    pruefe('Ungültig/«lokal» → Art unbekannt, Schlüssel unverändert', n('lokal').art === 'unbekannt' && s('lokal') === 'lokal' && n('').art === 'unbekannt');
+    const p1 = limits.pseudonyme({ ip: '2001:db8:a:b::1', geraetHash: 'g' });
+    const p2 = limits.pseudonyme({ ip: '2001:db8:a:b:ffff::2', geraetHash: 'g' });
+    pruefe('Pseudonym: zwei Adressen im selben /64 → gleicher ip_hash, Art v6; nie Klartext', p1.ip_hash === p2.ip_hash && p1.ip_art === 'v6' && /^[0-9a-f]{24}$/.test(p1.ip_hash) && !JSON.stringify(p1).includes('2001'));
+}
+
+/* Tagesfenster Zürich */
+{
+    const t = (iso) => api.tagZuerich(new Date(iso));
+    pruefe(
+        'Zürcher Tag: Wechsel um 00:00 Zürich (Winter UTC+1, Sommer UTC+2), nicht um 00:00 UTC',
+        t('2026-10-26T22:59:59Z') === '20261026' && t('2026-10-26T23:00:00Z') === '20261027' && t('2026-07-01T21:59:59Z') === '20260701' && t('2026-07-01T22:00:00Z') === '20260702',
+    );
+    const p = limits.pseudonyme({ ip: '192.0.2.31', geraetHash: 'tagesfenster-a', nummer: '+41790000031' });
+    await limits.anrufZaehlen(p, new Date('2026-10-26T22:00:00Z'));
+    await limits.anrufZaehlen(p, new Date('2026-10-26T22:30:00Z'));
+    const vorMitternacht = await limits.anrufPruefen(p, new Date('2026-10-26T22:59:00Z'));
+    const nachMitternacht = await limits.anrufPruefen(p, new Date('2026-10-26T23:00:00Z'));
+    pruefe('Anruf-Tageslimit endet um Mitternacht Zürich', vorMitternacht?.regel === 'geraet_tag' && nachMitternacht === null, `${vorMitternacht?.regel} / ${nachMitternacht}`);
+    const q = limits.pseudonyme({ ip: '192.0.2.32', geraetHash: 'tagesfenster-b', nummer: '+41790000032' });
+    await limits.anrufZaehlen(q, new Date('2026-10-27T23:10:00Z')); // 00:10 Zürich, 28.10.
+    await limits.anrufZaehlen(q, new Date('2026-10-27T23:20:00Z'));
+    const nachUtc = await limits.anrufPruefen(q, new Date('2026-10-28T00:30:00Z')); // neuer UTC-Tag, gleicher Zürcher Tag
+    pruefe('UTC-Mitternacht beendet das Tageslimit nicht', nachUtc?.regel === 'geraet_tag');
+    const r = limits.pseudonyme({ ip: '192.0.2.33', geraetHash: 'tagesfenster-c', nummer: '+41790000033' });
+    await limits.anrufZaehlen(r, new Date('2026-10-24T22:30:00Z')); // 00:30 MESZ am 25.10. (25-Stunden-Tag)
+    await limits.anrufZaehlen(r, new Date('2026-10-24T22:31:00Z'));
+    const spaet = await limits.anrufPruefen(r, new Date('2026-10-25T22:50:00Z')); // 23:50 MEZ, 24 h 20 min später, gleicher Tag
+    pruefe('25-Stunden-Tag (Zeitumstellung): Zählung gilt bis 24:00 Zürich, nicht 24 h', spaet?.regel === 'geraet_tag');
+}
+
+/* Reihenfolge der Regeln: gesamt → Gerät → Adresse → Nummer */
+{
+    const pp = (geraetHash, ip, nummer) => limits.pseudonyme({ ip, geraetHash, nummer });
+    const jetzt = new Date('2026-11-02T10:00:00Z');
+    pruefe('Regel-Liste Anruf: gesamt, geraet_tag, ip_tag, nummer_tag', limits.anrufRegeln(pp('x', '192.0.2.1', '+41790000001'), jetzt).map((r) => r.name).join(',') === 'gesamt,geraet_tag,ip_tag,nummer_tag');
+    pruefe('Regel-Liste Scan: geraet_tag, geraet_stunde, ip_tag, ip_stunde', limits.scanRegeln(pp('x', '192.0.2.1'), jetzt).map((r) => r.name).join(',') === 'geraet_tag,geraet_stunde,ip_tag,ip_stunde');
+
+    const A = pp('reihe-geraet-a', '192.0.2.41', '+41790000041');
+    await limits.anrufZaehlen(A, new Date('2026-11-02T09:00:00Z'));
+    await limits.anrufZaehlen(A, new Date('2026-11-02T09:05:00Z'));
+    const e1 = await limits.anrufPruefen(A, jetzt);
+    const e2 = await limits.anrufPruefen(pp('reihe-geraet-b', '192.0.2.41', '+41790000041'), jetzt);
+    const e3 = await limits.anrufPruefen(pp('reihe-geraet-b', '2001:db8:41::1', '+41790000041'), jetzt);
+    const e4 = await limits.anrufPruefen(pp('reihe-geraet-b', '2001:db8:41::1', '+41790000042'), jetzt);
+    pruefe('Anruf: Gerät vor Adresse vor Nummer (alle drei verletzt → Gerät)', e1?.regel === 'geraet_tag' && e1.meldung === api.MELDUNG.limitAnrufGeraet, e1?.regel);
+    pruefe('Anruf: neues Gerät, gleiche Adresse → Adresse (gleiche Meldung)', e2?.regel === 'ip_tag' && e2.meldung === api.MELDUNG.limitAnrufGeraet, e2?.regel);
+    pruefe('Anruf: neues Gerät, neue Adresse, gleiche Nummer → Nummer', e3?.regel === 'nummer_tag' && e3.meldung === api.MELDUNG.limitNummer, e3?.regel);
+    pruefe('Anruf: alles neu → erlaubt', e4 === null);
+    const tag = api.tagZuerich(jetzt);
+    const z = await speicherMod.speicher().lese(`limit/${tag}/gesamt`);
+    await speicherMod.speicher().schreibe(`limit/${tag}/gesamt`, { zeiten: [...(z?.zeiten ?? []), ...Array.from({ length: 30 }, (_, i) => jetzt.getTime() - 60_000 * (i + 10))], ablauf: jetzt.getTime() + 2 * 86400000 });
+    const e5 = await limits.anrufPruefen(A, jetzt);
+    const e6 = await limits.anrufPruefen(pp('reihe-geraet-c', '2001:db8:42::1', '+41790000043'), jetzt);
+    pruefe('Anruf: gesamt 30 erreicht → gesamt vor allen anderen', e5?.regel === 'gesamt' && e6?.regel === 'gesamt' && e5.meldung === api.MELDUNG.limitGesamt);
+
+    // Scans, Gerät: 3 je Stunde, 8 je Tag (Tag vor Stunde)
+    const S = pp('reihe-scan-a', '192.0.2.51');
+    const zeit = (hhmm) => new Date(`2026-11-03T${hhmm}:00Z`);
+    const ergebnis = [];
+    for (const hm of ['08:00', '08:01', '08:02', '08:03']) ergebnis.push((await limits.scanErlaubt(S, zeit(hm)))?.regel ?? 'ok');
+    pruefe('Scan Gerät: 4. Scan in der Stunde → geraet_stunde (Meldung Stunde)', ergebnis.join(',') === 'ok,ok,ok,geraet_stunde', ergebnis.join(','));
+    for (const hm of ['09:10', '09:11', '09:12', '10:20', '10:21']) ergebnis.push((await limits.scanErlaubt(S, zeit(hm)))?.regel ?? 'ok');
+    const neunter = await limits.scanErlaubt(S, zeit('11:40'));
+    pruefe('Scan Gerät: 9. Scan am Tag → geraet_tag (Meldung «morgen»), obwohl die Stunde frei ist', neunter?.regel === 'geraet_tag' && neunter.meldung === api.MELDUNG.limitScanTag, ergebnis.join(',') + ' / ' + neunter?.regel);
+    // Scans, Adresse: 10 je Tag (gleiche Adresse, 8 bereits gezählt)
+    const b1 = await limits.scanErlaubt(pp('reihe-scan-b', '192.0.2.51'), zeit('11:41'));
+    const b2 = await limits.scanErlaubt(pp('reihe-scan-c', '192.0.2.51'), zeit('11:42'));
+    const b3 = await limits.scanErlaubt(pp('reihe-scan-d', '192.0.2.51'), zeit('11:43'));
+    pruefe('Scan Adresse: 11. Scan am Tag von neuem Gerät → ip_tag (Meldung «morgen»)', b1 === null && b2 === null && b3?.regel === 'ip_tag' && b3.meldung === api.MELDUNG.limitScanTag, b3?.regel);
+    // Scans, Adresse: 3 je Stunde über verschiedene Geräte, zwei Adressen im selben /64
+    const v6 = ['2001:db8:51:1::a', '2001:db8:51:1::b', '2001:db8:51:1:ffff::c', '2001:db8:51:1::d'];
+    const st = [];
+    for (let i = 0; i < 4; i++) st.push((await limits.scanErlaubt(pp(`reihe-scan-v6-${i}`, v6[i]), zeit(`14:0${i}`)))?.regel ?? 'ok');
+    pruefe('Scan Adresse: wechselnde IPv6 im selben /64, neue Geräte → 4. Scan ip_stunde', st.join(',') === 'ok,ok,ok,ip_stunde', st.join(','));
+    const anderes64 = await limits.scanErlaubt(pp('reihe-scan-v6-x', '2001:db8:51:2::a'), zeit('14:04'));
+    pruefe('Scan Adresse: anderes /64 → eigener Zähler', anderes64 === null);
+    pruefe('Stunde gleitend (kein Neubeginn zur vollen Stunde)', (await limits.scanErlaubt(pp('reihe-scan-v6-y', '2001:db8:51:1::e'), zeit('14:59')))?.regel === 'ip_stunde' && (await limits.scanErlaubt(pp('reihe-scan-v6-z', '2001:db8:51:1::e'), new Date('2026-11-03T15:01:00Z'))) === null);
+}
+
+/* Log je Entscheid: nur Hash-Präfixe */
+{
+    const zeilen = [];
+    const altInfo = console.info;
+    console.info = (z) => zeilen.push(String(z));
+    const p = limits.pseudonyme({ ip: '2001:db8:61::7', geraetHash: api.hashe('geraet:log-test'), nummer: '+41790000061' });
+    const ps = limits.pseudonyme({ ip: '2001:db8:61::7', geraetHash: api.hashe('geraet:log-test') });
+    try {
+        await limits.scanErlaubt(ps, new Date('2026-11-04T08:00:00Z'));
+        await limits.anrufZaehlen(p, new Date('2026-11-04T08:01:00Z'));
+        await limits.anrufZaehlen(p, new Date('2026-11-04T08:02:00Z'));
+        await limits.anrufPruefen(p, new Date('2026-11-04T08:03:00Z'));
+    } finally {
+        console.info = altInfo;
+    }
+    const muster = /^\[demo\/limit\] (angenommen|abgewiesen) art=(scan|anruf) regel=[a-z_-]+ ip_art=(v4|v6|unbekannt) ip=[0-9a-f]{8} geraet=[0-9a-f]{8} nummer=([0-9a-f]{8}|-)$/;
+    pruefe('Log: Format je Entscheid', zeilen.length === 4 && zeilen.every((z) => muster.test(z)), zeilen.join(' | '));
+    pruefe(
+        'Log: Entscheide und Regeln richtig, nie Klartext-Adresse oder -Nummer',
+        zeilen[0].includes('angenommen art=scan regel=- ip_art=v6') && zeilen[0].endsWith('nummer=-') && zeilen[3].includes('abgewiesen art=anruf regel=geraet_tag') && zeilen.every((z) => !/2001:|\+41|790000061/.test(z)),
+    );
+}
+
+/* Zählen vor dem Anstoss, Fehlerpfad (AUFTRAG-103, Punkt 4) */
+{
+    const auftragAttrappe = { id: 'd-20261103-abcdefghijklmnop', erstellt_ms: 1 };
+    const lauf = async (opt) => {
+        const ereignisse = [];
+        const res = await auftraege.nimmAnrufAn({
+            erstelle: async () => {
+                ereignisse.push('erstelle');
+                if (opt.erstelleWirft) throw new Error('Speicher weg');
+                return auftragAttrappe;
+            },
+            zaehle: async () => {
+                ereignisse.push('zaehle-start');
+                await new Promise((r) => setTimeout(r, 20));
+                if (opt.zaehleWirft) throw new Error('Blobs 503');
+                ereignisse.push('zaehle-ende');
+            },
+            loesche: async (a) => {
+                ereignisse.push(`loesche:${a.id === auftragAttrappe.id}`);
+                if (opt.loescheWirft) throw new Error('auch weg');
+            },
+            stosseAn: async (id) => {
+                ereignisse.push(`anstoss:${id === auftragAttrappe.id}`);
+            },
+            nebenbei: async () => {
+                ereignisse.push('aufraeumen');
+            },
+        });
+        return { res, ereignisse: ereignisse.join(',') };
+    };
+    const gut = await lauf({});
+    pruefe('Annahme: erstellen → zählen (fertig) → erst dann Anstoss', gut.res.ok && gut.ereignisse === 'erstelle,zaehle-start,zaehle-ende,anstoss:true,aufraeumen', gut.ereignisse);
+    const schlecht = await lauf({ zaehleWirft: true });
+    pruefe('Zählen scheitert → Auftrag gelöscht, KEIN Anstoss', !schlecht.res.ok && schlecht.res.schritt === 'zaehlen' && schlecht.res.zurueckgenommen === true && schlecht.ereignisse === 'erstelle,zaehle-start,loesche:true', schlecht.ereignisse);
+    const doppelt = await lauf({ zaehleWirft: true, loescheWirft: true });
+    pruefe('Zählen und Löschen scheitern → trotzdem kein Anstoss (gemeldet)', !doppelt.res.ok && doppelt.res.zurueckgenommen === false && !doppelt.ereignisse.includes('anstoss'), doppelt.ereignisse);
+    const ohne = await lauf({ erstelleWirft: true });
+    pruefe('Erstellen scheitert → weder Zählen noch Anstoss', !ohne.res.ok && ohne.res.schritt === 'erstellen' && ohne.ereignisse === 'erstelle', ohne.ereignisse);
+
+    // echter Speicher: Auftrag + Marker, Zählen scheitert → beides weg; Erfolg → Diagnosefelder + Zähler
+    const p = limits.pseudonyme({ ip: '2001:db8:71:1::5', geraetHash: api.hashe('geraet:annahme-test'), nummer: '+41790000071' });
+    const daten = { scan_id: 's-annahmetest00001', nummer: '+41790000071', sprache: 'hochdeutsch', profil: { firma: 'Muster AG' }, profil_bis: Date.now() + 3600_000, ip_hash: p.ip_hash, ip_art: p.ip_art, geraet_hash: p.geraet_hash };
+    let angelegt = null;
+    const fehlgeschlagen = await auftraege.nimmAnrufAn({
+        erstelle: async () => (angelegt = await auftraege.erstelleAuftrag(daten)),
+        zaehle: async () => {
+            throw new Error('Blobs 503');
+        },
+        loesche: (a) => auftraege.loescheAuftrag(a),
+        stosseAn: async () => {
+            throw new Error('darf nicht angestossen werden');
+        },
+    });
+    const marker = (await speicherMod.speicher().liste('warteschlange/')).filter((m) => angelegt && m.endsWith(angelegt.id));
+    pruefe('Speicher: nach gescheitertem Zählen weder Auftrag noch Warteschlangen-Marker', !fehlgeschlagen.ok && angelegt && (await auftraege.leseAuftrag(angelegt.id)) === null && marker.length === 0);
+    const angestossen = [];
+    const ok = await auftraege.nimmAnrufAn({
+        erstelle: () => auftraege.erstelleAuftrag(daten),
+        zaehle: () => limits.anrufZaehlen(p),
+        loesche: (a) => auftraege.loescheAuftrag(a),
+        stosseAn: async (id) => angestossen.push(id),
+    });
+    const gelesen = ok.ok ? await auftraege.leseAuftrag(ok.auftrag.id) : null;
+    const zaehler = await speicherMod.speicher().lese(`limit/${api.tagZuerich()}/anruf-geraet-${p.geraet_hash}`);
+    pruefe('Speicher: Erfolg → gezählt, dann angestossen; Auftrag trägt ip_hash, ip_art, geraet_hash', ok.ok && angestossen.length === 1 && zaehler?.zeiten?.length === 1 && gelesen?.ip_hash === p.ip_hash && gelesen?.ip_art === 'v6' && gelesen?.geraet_hash === p.geraet_hash);
+    const anlage = auftraege.fuerAnlage(gelesen);
+    const oeff = auftraege.oeffentlich(gelesen);
+    pruefe('Diagnosefelder nur für die Anlage (Bearer), nicht öffentlich', anlage.ip_hash === p.ip_hash && anlage.ip_art === 'v6' && anlage.geraet_hash === p.geraet_hash && !('ip_hash' in oeff) && !('ip_art' in oeff) && !('geraet_hash' in oeff));
+    pruefe('Ältere Aufträge ohne Diagnosefelder → null in der Anlage-Ansicht', auftraege.fuerAnlage({ ...gelesen, ip_hash: undefined, ip_art: undefined, geraet_hash: undefined }).ip_hash === null);
+}
+
+/* Turnstile: Pfad pruefeTurnstile mit gemocktem fetch */
+{
+    const altFetch = globalThis.fetch;
+    const altSite = process.env.TURNSTILE_SITE_KEY;
+    const altSecret = process.env.TURNSTILE_SECRET;
+    const aufrufe = [];
+    let antwortDaten = { success: true };
+    let wirf = false;
+    globalThis.fetch = async (url, init) => {
+        aufrufe.push({ url: String(url), methode: init?.method, body: new URLSearchParams(init?.body) });
+        if (wirf) throw new Error('Netz weg');
+        return new Response(JSON.stringify(antwortDaten), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    };
+    try {
+        delete process.env.TURNSTILE_SITE_KEY;
+        delete process.env.TURNSTILE_SECRET;
+        pruefe('Turnstile aus (keine Schlüssel) → erlaubt, kein Abruf', (await api.pruefeTurnstile(undefined, '192.0.2.9')) === true && aufrufe.length === 0);
+        process.env.TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
+        process.env.TURNSTILE_SECRET = '1x0000000000000000000000000000000AA';
+        pruefe('Turnstile an: Site-Key UND Secret nötig', api.turnstileAktiv() === true);
+        const ok = await api.pruefeTurnstile('token-abc', '192.0.2.9');
+        const a = aufrufe[0];
+        pruefe(
+            'Turnstile: POST siteverify mit secret, response, remoteip → success:true akzeptiert',
+            ok === true && a?.url === 'https://challenges.cloudflare.com/turnstile/v0/siteverify' && a.methode === 'POST' && a.body.get('secret') === process.env.TURNSTILE_SECRET && a.body.get('response') === 'token-abc' && a.body.get('remoteip') === '192.0.2.9',
+        );
+        await api.pruefeTurnstile('token-abc', 'lokal');
+        pruefe('Turnstile: ohne echte Adresse kein remoteip', aufrufe[1] && !aufrufe[1].body.has('remoteip'));
+        antwortDaten = { success: false, 'error-codes': ['invalid-input-response'] };
+        pruefe('Turnstile: success:false → abgelehnt', (await api.pruefeTurnstile('token-falsch', '192.0.2.9')) === false);
+        wirf = true;
+        pruefe('Turnstile: Netzfehler → abgelehnt', (await api.pruefeTurnstile('token-abc', '192.0.2.9')) === false);
+        const vorher = aufrufe.length;
+        pruefe(
+            'Turnstile: fehlendes, leeres, fremdes oder zu langes Token → abgelehnt ohne Abruf',
+            (await api.pruefeTurnstile(undefined, 'x')) === false && (await api.pruefeTurnstile('', 'x')) === false && (await api.pruefeTurnstile(42, 'x')) === false && (await api.pruefeTurnstile('a'.repeat(2049), 'x')) === false && aufrufe.length === vorher,
+        );
+    } finally {
+        globalThis.fetch = altFetch;
+        if (altSite === undefined) delete process.env.TURNSTILE_SITE_KEY;
+        else process.env.TURNSTILE_SITE_KEY = altSite;
+        if (altSecret === undefined) delete process.env.TURNSTILE_SECRET;
+        else process.env.TURNSTILE_SECRET = altSecret;
+    }
+}
+if (altLimitsAus === undefined) delete process.env.DEMO_LIMITS_AUS;
+else process.env.DEMO_LIMITS_AUS = altLimitsAus;
+if (altToken === undefined) delete process.env.DEMO_TOKEN;
+else process.env.DEMO_TOKEN = altToken;
+
+rmSync(TEST_STORE, { recursive: true, force: true });
 
 console.log(`\n${gesamt - fehler}/${gesamt} Prüfungen bestanden.`);
 process.exit(fehler ? 1 : 0);
