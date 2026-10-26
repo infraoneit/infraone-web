@@ -101,7 +101,18 @@ export interface AuftragGespeichert {
     ablauf: number;
     /** Epoch-ms der Erstellung (Sortierung/Warte-Frist). */
     erstellt_ms: number;
+    /**
+     * AUFTRAG-103, Diagnose ohne Klartext (nur für die Anlage mit Bearer und im Function-Log, nie
+     * öffentlich): Hash des Adress-Schlüssels (IPv6: /64-Präfix, IPv4: volle Adresse), Adressart,
+     * Hash der Gerätekennung (Cookie `demo_geraet`). Fehlt bei älteren Aufträgen.
+     */
+    ip_hash?: string | null;
+    ip_art?: IpArt | null;
+    geraet_hash?: string | null;
 }
+
+/** AUFTRAG-103: Art der Client-Adresse («unbekannt» nur ohne gültige Adresse, z. B. lokal ohne Kopf). */
+export type IpArt = 'v4' | 'v6' | 'unbekannt';
 
 export type ProfilQuelle = 'ki' | 'regeln';
 

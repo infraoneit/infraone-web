@@ -8,11 +8,15 @@
  *
  * AUFTRAG-095: `logo` (geprüft: Quelle, Format, Grösse, hell) und `funde`
  * (echte Werte für die Scan-Schritte der Oberfläche).
+ *
+ * AUFTRAG-103: Gerätekennung (Cookie `demo_geraet`, signiert) — fehlt sie oder ist die Signatur
+ * ungültig, setzt diese Antwort eine neue. Limits je Gerät und je Adresse (lib/demo/limits.ts).
  */
 import { antwort, clientIp, fehler, leseJson, MELDUNG } from '@/lib/demo/api';
 import { normalisiereEingabe, scanneWebsite, ScanFehler } from '@/lib/demo/scanner';
 import { regelProfil } from '@/lib/demo/profil';
-import { scanErlaubt } from '@/lib/demo/limits';
+import { pseudonyme, scanErlaubt } from '@/lib/demo/limits';
+import { geraetAusAnfrage, mitGeraetCookie } from '@/lib/demo/geraet';
 import { neueScanId, speichereNeuenScan } from '@/lib/demo/scans';
 import { gueltigeLogos, logoFuerKarte, logoUrlFuerProfil } from '@/lib/demo/logo';
 import { formatiereNummer } from '@/lib/demo/nummer';
@@ -34,6 +38,12 @@ function scanFehlerAntwort(e: unknown): Response {
 }
 
 export async function POST(req: Request) {
+    // AUFTRAG-103: Cookie mit der ersten Antwort setzen (jede Antwort dieser Route)
+    const geraet = geraetAusAnfrage(req);
+    return mitGeraetCookie(await scan(req, geraet.hash), geraet);
+}
+
+async function scan(req: Request, geraetHash: string): Promise<Response> {
     const body = await leseJson(req, 2_000);
     const url = typeof body?.url === 'string' ? body.url : '';
     try {
@@ -42,8 +52,13 @@ export async function POST(req: Request) {
         return scanFehlerAntwort(e);
     }
 
-    const limit = await scanErlaubt(clientIp(req));
-    if (limit) return fehler(limit, 429);
+    try {
+        const limit = await scanErlaubt(pseudonyme({ ip: clientIp(req), geraetHash }));
+        if (limit) return fehler(limit.meldung, 429);
+    } catch (e) {
+        console.error('[demo/scan] Limit-Prüfung fehlgeschlagen:', e instanceof Error ? e.message : e);
+        return fehler(MELDUNG.allgemein, 500);
+    }
 
     try {
         const scan = await scanneWebsite(url);

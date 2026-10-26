@@ -17,7 +17,7 @@
  */
 import { leseGueltig, speicher } from './speicher';
 import { isoZuerich, tagZuerich, zufall } from './api';
-import type { AuftragFuerOrchestrator, AuftragGespeichert, AuftragStatus, Profil, Sprache } from './typen';
+import type { AuftragFuerOrchestrator, AuftragGespeichert, AuftragStatus, IpArt, Profil, Sprache } from './typen';
 
 export const AUFTRAG_TTL_MS = 24 * 60 * 60 * 1000;
 export const WARTEN_MAX_MS = 10 * 60 * 1000;
@@ -43,6 +43,10 @@ export async function erstelleAuftrag(daten: {
     sprache: Sprache;
     profil: Profil;
     profil_bis: number;
+    /** AUFTRAG-103: Diagnose ohne Klartext (siehe AuftragGespeichert) */
+    ip_hash?: string | null;
+    ip_art?: IpArt | null;
+    geraet_hash?: string | null;
 }): Promise<AuftragGespeichert> {
     const jetzt = new Date();
     const auftrag: AuftragGespeichert = {
@@ -60,10 +64,67 @@ export async function erstelleAuftrag(daten: {
         zusammenfassung: null,
         grund: null,
         ablauf: jetzt.getTime() + AUFTRAG_TTL_MS,
+        ip_hash: daten.ip_hash ?? null,
+        ip_art: daten.ip_art ?? null,
+        geraet_hash: daten.geraet_hash ?? null,
     };
     await speicher().schreibe(`auftrag/${auftrag.id}`, auftrag);
     await speicher().schreibe(markerSchluessel(auftrag), { id: auftrag.id, ablauf: auftrag.ablauf });
     return auftrag;
+}
+
+/**
+ * AUFTRAG-103: Auftrag zurücknehmen (Zählen gescheitert): zuerst den Warteschlangen-Marker, dann
+ * den Auftrag — ohne Marker holt der Rückfall der Anlage ihn nie ab, ohne Auftrag findet sie nichts.
+ */
+export async function loescheAuftrag(a: Pick<AuftragGespeichert, 'erstellt_ms' | 'id'>): Promise<void> {
+    await speicher().loesche(markerSchluessel(a));
+    await speicher().loesche(`auftrag/${a.id}`);
+}
+
+export interface AnnahmeSchritte {
+    /** Auftrag samt Warteschlangen-Marker anlegen */
+    erstelle: () => Promise<AuftragGespeichert>;
+    /** Limits zählen (wirft bei Speicherfehlern) */
+    zaehle: () => Promise<void>;
+    /** Auftrag zurücknehmen */
+    loesche: (a: AuftragGespeichert) => Promise<void>;
+    /** Anlage anstossen (wirft nie) */
+    stosseAn: (id: string) => Promise<unknown>;
+    /** läuft während des Anstosses (gelegentliches Aufräumen); Fehler zählen nicht */
+    nebenbei?: () => Promise<unknown>;
+}
+
+export type Annahme =
+    | { ok: true; auftrag: AuftragGespeichert }
+    | { ok: false; schritt: 'erstellen' | 'zaehlen'; fehler: unknown; zurueckgenommen: boolean };
+
+/**
+ * AUFTRAG-103: Ablauf eines angenommenen Anrufs — Auftrag anlegen → zählen → erst dann anstossen.
+ * Vorher lief das Zählen parallel zum Anstoss: scheiterte es, kam 500, der Anruf fand trotzdem
+ * statt und der Zähler blieb stehen. Jetzt: Scheitert das Zählen, wird der Auftrag gelöscht und
+ * die Anlage NICHT angestossen (die Route antwortet 500).
+ */
+export async function nimmAnrufAn(s: AnnahmeSchritte): Promise<Annahme> {
+    let auftrag: AuftragGespeichert;
+    try {
+        auftrag = await s.erstelle();
+    } catch (e) {
+        return { ok: false, schritt: 'erstellen', fehler: e, zurueckgenommen: false };
+    }
+    try {
+        await s.zaehle();
+    } catch (e) {
+        const zurueckgenommen = await s.loesche(auftrag).then(
+            () => true,
+            () => false,
+        );
+        return { ok: false, schritt: 'zaehlen', fehler: e, zurueckgenommen };
+    }
+    const anstoss = s.stosseAn(auftrag.id);
+    if (s.nebenbei) await s.nebenbei().catch(() => undefined);
+    await anstoss;
+    return { ok: true, auftrag };
 }
 
 async function speichere(a: AuftragGespeichert): Promise<void> {
@@ -121,10 +182,21 @@ export function fuerOrchestrator(a: AuftragGespeichert): AuftragFuerOrchestrator
  * Anstoss holt die Anlage Nummer und Profil über GET /api/demo/auftraege/{id}
  * (A-097: der Anstoss trägt nur die Kennung). Status wie öffentlich, dazu die
  * Felder des Warteschlangen-Eintrags; nach dem Abschluss sind Nummer und
- * Profil null (gelöscht).
+ * Profil null (gelöscht). AUFTRAG-103: dazu `ip_hash`, `ip_art`, `geraet_hash`
+ * (Diagnose der Limits, nur Hashes; bei älteren Aufträgen null).
  */
 export function fuerAnlage(a: AuftragGespeichert) {
-    return { ...oeffentlich(a), erstellt: a.erstellt, nummer: a.nummer, sprache: a.sprache, profil: a.profil };
+    return {
+        ...oeffentlich(a),
+        erstellt: a.erstellt,
+        nummer: a.nummer,
+        sprache: a.sprache,
+        profil: a.profil,
+        // AUFTRAG-103: Diagnose ohne Klartext (Hashes), nur in dieser Ansicht und im Function-Log
+        ip_hash: a.ip_hash ?? null,
+        ip_art: a.ip_art ?? null,
+        geraet_hash: a.geraet_hash ?? null,
+    };
 }
 
 /**
