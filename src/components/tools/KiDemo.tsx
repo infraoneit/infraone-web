@@ -32,7 +32,8 @@ import {
 } from '@/lib/demo/farben';
 import { bestimmeMarkenfarbe, FARB_GEWICHT_LOGO, type FarbSignal } from '@/lib/demo/markenfarbe';
 import { formatiereNummer, pruefeRueckrufNummer } from '@/lib/demo/nummer';
-import { begruessungFuer, rollenZeile, standardAufEnglisch, STANDARD_FAEHIGKEITEN_EN } from '@/lib/demo/begruessung';
+import { begruessungFuer, kannZeilen, rollenZeile, standardAufEnglisch, STANDARD_FAEHIGKEITEN_EN } from '@/lib/demo/begruessung';
+import { bindeScan, istAktuell, LEERE_SITZUNG, logosDesScans, neueSitzung, profilPasst, type Sitzung } from '@/lib/demo/sitzung';
 import {
     ansage,
     dauerAnzeige,
@@ -340,7 +341,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     const [jetzt, setJetzt] = useState(0);
     const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
-    const laufId = useRef(0);
+    // AUFTRAG-102: Sitzung (Lauf + Scan-Kennung) — Logo, Farben und Profil gehören immer zum laufenden Scan
+    const sitzungRef = useRef<Sitzung>(LEERE_SITZUNG);
     const eingabeRef = useRef<HTMLInputElement>(null);
     const telefonRef = useRef<HTMLDivElement>(null);
     const buehneRef = useRef<HTMLDivElement>(null);
@@ -374,8 +376,12 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 eingabeRef.current?.focus();
                 return;
             }
-            const lauf = ++laufId.current;
-            const aktuell = () => laufId.current === lauf;
+            const neu = neueSitzung(sitzungRef.current);
+            sitzungRef.current = neu;
+            const lauf = neu.lauf;
+            // bis zur Scan-Antwort: gleicher Lauf; danach zusätzlich gleiche Scan-Kennung
+            const bindung: { scanId?: string } = {};
+            const aktuell = () => istAktuell(sitzungRef.current, lauf, bindung.scanId);
             const h = hostVon(wert);
             setScanFehler(null);
             setChips([]);
@@ -410,17 +416,29 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 setZustand('eingabe');
                 return;
             }
+            // AUFTRAG-102: Scan-Kennung an diesen Lauf binden; ab jetzt zählt nur noch, was zu ihr gehört
+            const gebunden = bindeScan(sitzungRef.current, lauf, scan.scan_id);
+            if (!gebunden) {
+                if (sitzungRef.current.lauf !== lauf) return;
+                setScanFehler(HINWEIS.netz);
+                setSchritte([]);
+                setZustand('eingabe');
+                return;
+            }
+            sitzungRef.current = gebunden;
+            bindung.scanId = scan.scan_id;
 
-            // Stufe 2 (KI-Profil) und Logo laufen parallel zu den Schritten
+            // Stufe 2 (KI-Profil) und Logo laufen parallel zu den Schritten; das Profil zählt nur mit derselben scan_id
             const profilVersprechen: Promise<ProfilAntwort> = fetch('/api/demo/profil', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ scan_id: scan.scan_id }),
             })
                 .then((r) => (r.ok ? r.json() : null))
-                .then((d) => (d && d.profil ? (d as ProfilAntwort) : { profil: scan.profil }))
+                .then((d) => (d && d.profil && profilPasst(sitzungRef.current, lauf, d) ? (d as ProfilAntwort) : { profil: scan.profil }))
                 .catch(() => ({ profil: scan.profil }));
-            const logoVersprechen = ladeLogo(scan.logos ?? [], scan.farb_signale ?? []);
+            // nur Logos mit dieser Scan-Kennung im Pfad (/api/demo/bild/<scan_id>/<n>)
+            const logoVersprechen = ladeLogo(logosDesScans(scan.logos, scan.scan_id), scan.farb_signale ?? []);
             const takt = async (ms = 360) => {
                 await pause(ms);
                 return aktuell();
@@ -561,7 +579,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     }, [aktionSichtbar]);
 
     const andereWebsite = () => {
-        laufId.current++;
+        // neuer Lauf: verspätete Antworten des bisherigen Scans werden verworfen
+        sitzungRef.current = neueSitzung(sitzungRef.current);
         setAktionMin(0);
         setZustand('eingabe');
         setKarte(null);
@@ -747,7 +766,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             lang: englisch ? ('en' as const) : ('de' as const),
             firma: p.firma,
             website: p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''),
-            kann: englisch ? karte.faehigkeitenEn : p.faehigkeiten.slice(0, 3),
+            // AUFTRAG-102: «Kennt Ansprechpersonen» nur, wenn auf der Website Personen gefunden wurden
+            kann: kannZeilen(englisch ? karte.faehigkeitenEn : p.faehigkeiten, p.personen?.length ?? 0, englisch),
             logo: karte.logo ? { src: karte.logo.src, grund: karte.logo.plakette.art, farbe: karte.logo.plakette.art === 'marke' ? primaer : karte.logo.plakette.farbe, breite: karte.logo.breite, hoehe: karte.logo.hoehe } : null,
             primaer,
             tief: helligkeit(primaer, -0.16),

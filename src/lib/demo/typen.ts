@@ -3,8 +3,10 @@
  *
  * Auftrag und Profil sind WORTGLEICH zur Schnittstelle in AUFTRAG-091
  * (voip-agent, Orchestrator prüft streng per Pydantic) — keine Felder
- * umbenennen. Einzige Erweiterung: `stimme` im Profil (AUFTRAG-095; der
- * Orchestrator ignoriert unbekannte Felder, AUFTRAG-094 wertet es aus).
+ * umbenennen. Erweiterungen: `stimme` im Profil (AUFTRAG-095; der
+ * Orchestrator ignoriert unbekannte Felder, AUFTRAG-094 wertet es aus) und
+ * `personen` (AUFTRAG-102, optional; die Anlage ignoriert es bis zu einem
+ * eigenen Auftrag, das Wissen trägt die Personen ohnehin).
  */
 
 export type Sprache = 'dialekt_auto' | 'hochdeutsch' | 'englisch';
@@ -35,6 +37,14 @@ export interface WissenEintrag {
 /** Stimme des Assistenten (AUFTRAG-095/094): passt zum Vornamen. */
 export type Stimme = 'weiblich' | 'maennlich';
 
+/** AUFTRAG-102: Ansprechperson laut Website (nur Name, Rolle, Zuständigkeit — keine Kontaktdaten). */
+export interface Person {
+    name: string;
+    rolle: string;
+    /** ein Satz zur Zuständigkeit bzw. «Schwerpunkte: …» */
+    zustaendigkeit?: string;
+}
+
 export interface Farben {
     primaer: string;
     sekundaer: string;
@@ -57,6 +67,8 @@ export interface Profil {
     farben: Farben | null;
     /** AUFTRAG-095: Stimme passend zum Vornamen (Orchestrator A-094). */
     stimme: Stimme;
+    /** AUFTRAG-102: Ansprechpersonen (höchstens 12, Leitung zuerst); optional (ältere Scans ohne Feld) */
+    personen?: Person[];
 }
 
 /** Auftrag, wie ihn der Orchestrator aus der Warteschlange erhält. */
@@ -117,6 +129,8 @@ export interface SeitenProtokoll {
     bytes: number;
     ms: number;
     fehler?: string;
+    /** AUFTRAG-102: Startseite, Unterseite oder Team-Unterseite (Person) */
+    art?: 'start' | 'unterseite' | 'team';
 }
 
 export type LogoQuelle =
@@ -217,6 +231,12 @@ export interface Extrakt {
     navigation: string[];
     abschnitte: Abschnitt[];
     text: string;
+    /** AUFTRAG-102: Personen (zusammengeführt, höchstens 12, Leitung zuerst) */
+    personen: Person[];
+    /** AUFTRAG-102: Anzahl geladener Team-Unterseiten (höchstens 6) */
+    team_seiten: number;
+    /** AUFTRAG-102: ausgewählte Team-Seiten, für die das Scan-Budget nicht reichte (Profil-Schritt lädt sie nach) */
+    team_offen?: Array<{ url: string; name: string | null; slugName: string; rolle: string | null; reihenfolge: number }>;
     plattform: string | null;
     hinweise: string[];
 }

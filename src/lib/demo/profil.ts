@@ -13,6 +13,7 @@ import { erlaubteNamen, freieNamen, istErlaubterName, istWeiblich, stimmeFuer, w
 import { formatiereNummer, normalisiereGefundeneNummer } from './nummer';
 import { istOeffnungszeitText } from './oeffnungszeiten';
 import { STANDARD_FAEHIGKEITEN, STANDARD_FAEHIGKEITEN_EN } from './begruessung';
+import { MAX_PERSONEN, wissenTeam } from './personen';
 
 export const KI_MODELL = 'gpt-4.1-mini';
 const KI_ZEIT_MS = 17_000;
@@ -80,6 +81,8 @@ function korpusVon(x: Extrakt): { text: string; belege: Set<string> } {
         ...x.oeffnungszeiten,
         ...x.ueberschriften,
         ...x.abschnitte.map((a) => `${a.titel} ${a.text}`),
+        // AUFTRAG-102: Personen (Name, Rolle, Zuständigkeit) gehören zu den Belegen
+        ...(x.personen ?? []).map((p) => [p.name, p.rolle, p.zustaendigkeit].filter(Boolean).join(' ')),
         x.text,
     ]
         .filter(Boolean)
@@ -147,8 +150,10 @@ function wissenRegeln(x: Extrakt, firma: string, telefon: string | null, email: 
     if (zeiten) w.push({ frage: 'Wann sind Sie erreichbar?', antwort: kuerze(`Laut Website: ${zeiten}.`, 500), thema: 'oeffnungszeiten' });
     const beschreibung = x.jsonld_beschreibung ?? x.meta_description;
     if (beschreibung && beschreibung.length >= 30) w.push({ frage: `Was bietet ${firma} an?`, antwort: ss(kuerze(beschreibung, 500)), thema: 'leistungen' });
+    // AUFTRAG-102: Team («Wer leitet …?», «Wer ist für … zuständig?», «Wen kann ich wegen … sprechen?»)
+    for (const t of wissenTeam(x.personen ?? [], firma)) w.push({ frage: ss(t.frage), antwort: ss(t.antwort), thema: t.thema });
     for (const a of x.abschnitte) {
-        if (w.length >= 16) break;
+        if (w.length >= 22) break;
         if (a.text.length < 40) continue;
         w.push({ frage: `Was können Sie mir zu «${kuerze(a.titel, 80)}» sagen?`, antwort: ss(kuerze(a.text, 480)), thema: 'website' });
     }
@@ -193,6 +198,7 @@ export function regelProfil(x: Extrakt): ProfilErgebnis {
         logo_url: x.logo?.url ?? null,
         farben: x.farben,
         stimme: stimmeFuer(name),
+        personen: (x.personen ?? []).slice(0, MAX_PERSONEN),
     };
     return { profil, quelle: 'regeln', weiblich: istWeiblich(name), ms: Date.now() - t0 };
 }
@@ -262,7 +268,9 @@ function kiEingabe(x: Extrakt) {
         oeffnungszeiten_kandidaten: x.oeffnungszeiten,
         ueberschriften: x.ueberschriften.slice(0, 40),
         navigation: x.navigation.slice(0, 30),
-        abschnitte: x.abschnitte.slice(0, 25),
+        // AUFTRAG-102: Ansprechpersonen laut Website (Name, Rolle, Zuständigkeit)
+        personen: x.personen ?? [],
+        abschnitte: x.abschnitte.slice(0, 30),
         text: x.text,
     };
 }
@@ -270,6 +278,9 @@ function kiEingabe(x: Extrakt) {
 function woerter(s: string): number {
     return s.trim().split(/\s+/).filter(Boolean).length;
 }
+
+/** Fragen der KI nach Leitung/Zuständigkeit/Team — ersetzt durch die Einträge aus den erkannten Personen (AUFTRAG-102). */
+const TEAM_FRAGE_RE = /^(?:wer|wen|mit wem|an wen)\b.{0,80}\b(?:leitet|leitung|zuständig|verantwortlich|sprechen|arbeitet|arbeiten|geschäftsführ|inhaber|chef|team|ansprech|mitarbeit)/i;
 
 /** Prüft und bereinigt die KI-Antwort gegen Schema, Längen und Belege. */
 export function bereinigeKiProfil(roh: unknown, x: Extrakt, regel: Profil): { profil: Profil; verworfen: number } | null {
@@ -341,6 +352,15 @@ export function bereinigeKiProfil(roh: unknown, x: Extrakt, regel: Profil): { pr
         wissen.push({ frage, antwort, thema });
         if (wissen.length >= 30) break;
     }
+    // AUFTRAG-102: Team-Wissen kommt nur aus den erkannten Personen (nie aus der KI): KI-Einträge zum Team
+    // werden durch die geprüften Einträge ersetzt; Platz für sie schaffen (höchstens 30 insgesamt).
+    const team = regel.wissen.filter((w) => w.thema === 'team');
+    if (team.length) {
+        const ohneTeam = wissen.filter((w) => !(w.thema === 'team' || TEAM_FRAGE_RE.test(w.frage)));
+        wissen.length = 0;
+        wissen.push(...ohneTeam.slice(0, 30 - team.length), ...team);
+        for (const t of team) fragenGesehen.add(t.frage.toLowerCase());
+    }
     // Mindestens 5 Einträge (Schnittstelle 091): mit regelbasierten auffüllen
     for (const r of regel.wissen) {
         if (wissen.length >= 5) break;
@@ -364,6 +384,7 @@ export function bereinigeKiProfil(roh: unknown, x: Extrakt, regel: Profil): { pr
             logo_url: regel.logo_url,
             farben: regel.farben,
             stimme: stimmeFuer(assistentName),
+            personen: regel.personen ?? [],
         },
         verworfen,
     };
@@ -523,5 +544,7 @@ export function profilFehler(p: Profil): string[] {
     if (p.farben && !(/^#[0-9A-F]{6}$/i.test(p.farben.primaer) && /^#[0-9A-F]{6}$/i.test(p.farben.sekundaer))) f.push('farben');
     if (p.stimme !== 'weiblich' && p.stimme !== 'maennlich') f.push('stimme');
     if (p.stimme !== stimmeFuer(p.assistent_name)) f.push('stimme_passt_nicht');
+    // AUFTRAG-102: Personen nur mit Name und Rolle (höchstens 12), nie mit E-Mail oder Telefonnummer
+    if (p.personen && (p.personen.length > MAX_PERSONEN || p.personen.some((x) => !x.name || x.name.length > 60 || !x.rolle || x.rolle.length > 120 || (x.zustaendigkeit?.length ?? 0) > 300 || /@|\d{3}\s?\d{2}\s?\d{2}/.test(`${x.name} ${x.rolle} ${x.zustaendigkeit ?? ''}`)))) f.push('personen');
     return f;
 }

@@ -81,6 +81,39 @@ einzurichten. Schlüssel:
 
 Lokal ohne Netlify: Datei-Rückfall unter `.demo-store/` (gitignored).
 
+**AUFTRAG-102: Store je Anfrage, nie als Modul-Singleton.** `getStore()` übernimmt
+Token und Edge-Adressen aus dem Kontext der laufenden Anfrage
+(`globalThis.netlifyBlobsContext`). `lib/demo/speicher.ts` baut den Store deshalb bei
+jedem Zugriff neu. Am 26.10.2026 lieferte der Branch-Deploy (mit dem früheren
+Singleton) für die Routen mit Speicherzugriff (`scan`, `profil`, `auftraege/{id}`,
+Logo aus dem Scan) zeitweise HTTP 500 ohne Text, im Wechsel mit erfolgreichen
+Antworten (18 von 30 Scans, 10 von 18 Profilen); Blobs-Fehler stehen jetzt mit Art
+und Fehlertext im Function-Log (`[demo/speicher] …`).
+
+## Bild-Proxy und CDN-Cache (AUFTRAG-102)
+
+Die Next-Laufzeit auf Netlify setzt `Netlify-Vary: query=__nextDataReq|_rsc`. Ohne
+eigene Angabe ignoriert der CDN-Cache damit alle anderen Query-Parameter: Gemessen
+am 26.10.2026 lieferte `/api/demo/bild?u=<Logo von Unipoint>` und
+`/api/demo/bild?s=<beliebiger Scan>&i=0` das zuerst zwischengespeicherte Bild
+(das Bint-Logo, `Cache-Status: "Netlify Durable"; hit`) — Ursache des gemeldeten
+«Durcheinanders» bei gleichzeitigen Tests (Logo und daraus gemessene Farbe).
+Seither:
+
+- Logos eines Scans kommen über **`/api/demo/bild/<scan_id>/<n>`** (Scan-Kennung
+  im Pfad, für Inline-SVG und Logos mit Adresse); der Cache-Schlüssel enthält Scan und
+  Index auch ohne Query.
+- Jede Antwort des Bild-Proxys sendet **`Netlify-Vary: query`** und **`Vary: Accept`**
+  (die Laufzeit übernimmt eigene `Netlify-Vary`-Angaben und erweitert den Schlüssel).
+- Das Widget nimmt nur Logos mit der eigenen Scan-Kennung im Pfad und nur eine
+  Profil-Antwort mit derselben `scan_id` (`lib/demo/sitzung.ts`).
+
+Prüfen nach einem Deploy (nur Scans, keine Anrufe; Scan-Limit 3 je IP und Stunde):
+
+```powershell
+node scripts/auftrag102-parallel-test.mjs --runden 1 --json <datei>
+```
+
 ## Kontingent: Function-Aufrufe je Demo-Anruf
 
 Gemessen mit `scripts/auftrag092-browser-test.mjs` (Belege in
@@ -104,7 +137,7 @@ Attrappen-Anlage, 17 s vom Klick bis «beendet»):
 
 | Wer | Aufrufe |
 |---|---|
-| Browser: `scan`, `profil`, `bild` (Logo), `anruf` | 1 + 1 + 1 + 1 (Logo-Proxy: 1 bis 4 Kandidaten, Antworten 24 h im CDN zwischengespeichert) |
+| Browser: `scan`, `profil`, `bild` (Logo), `anruf` | 1 + 1 + 1 + 1 (Logo-Proxy: 1 bis 4 Kandidaten über `/api/demo/bild/<scan>/<n>`, je Scan 2 h im CDN zwischengespeichert — AUFTRAG-102) |
 | Browser: Status-Abfragen | 4 (bei einem echten Anruf ≈ Dauer ÷ 4 s, siehe oben) |
 | Browser: `faehigkeiten` | 0 bei Deutsch und Schweizerdeutsch; 1, wenn «English» gewählt wird und das Profil KI-Fähigkeiten hat |
 | Anlage: Auftrag holen + Status «angenommen», «waehlt», «verbunden», «beendet» | 1 + 4 |

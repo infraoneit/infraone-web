@@ -45,6 +45,8 @@ export interface Markenfarbe extends Farben {
 const FRAMEWORK_FARBEN = new Set([
     // Bootstrap 3–5 inkl. abgeleiteter Töne (Hover, Alerts, Fokus)
     '#007BFF', '#0D6EFD', '#337AB7', '#6C757D', '#28A745', '#198754', '#17A2B8', '#0DCAF0', '#FFC107', '#DC3545', '#6610F2', '#6F42C1', '#E83E8C', '#D63384', '#FD7E14', '#20C997', '#5CB85C', '#5BC0DE', '#F0AD4E', '#D9534F', '#0088CC', '#0A58CA', '#0B5ED7', '#31D2F2', '#157347', '#BB2D3B', '#FFCA2C',
+    // AUFTRAG-102: Bootstrap 3 Zustandsfarben (Text, Hover, Rahmen der Alerts/Buttons/Formulare) — bint.ch zeigte sonst #A94442 (text-danger) als «Markenfarbe»
+    '#A94442', '#8A6D3B', '#3C763D', '#31708F', '#843534', '#66512C', '#2B542C', '#245269', '#2E6DA4', '#4CAE4C', '#46B8DA', '#EEA236', '#D43F3A', '#122B40', '#255625', '#1B6D85', '#985F0D', '#761C19', '#66AFE9',
     '#004085', '#0062CC', '#005CBF', '#0069D9', '#155724', '#1E7E34', '#1C7430', '#218838', '#0C5460', '#117A8B', '#10707F', '#138496', '#856404', '#D39E00', '#C69500', '#E0A800', '#721C24', '#BD2130', '#B21F2D', '#C82333', '#084298', '#0F5132', '#055160', '#664D03', '#842029', '#146C43', '#0AA2C0', '#286090', '#204D74', '#449D44', '#398439', '#31B0D5', '#269ABC', '#EC971F', '#D58512', '#C9302C', '#AC2925', '#23527C',
     // WordPress Admin/Block-Editor + Gutenberg-Paletten
     '#007CBA', '#006BA1', '#005A87', '#0693E3', '#3858E9', '#0073AA', '#00A0D2', '#2271B1', '#135E96', '#CF2E2E', '#FF6900', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#9B51E0', '#F78DA7', '#ABB8C3', '#D63638', '#00A32A', '#DBA617', '#72AEE6',

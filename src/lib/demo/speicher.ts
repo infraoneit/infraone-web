@@ -25,6 +25,19 @@ function pruefeSchluessel(s: string): void {
     if (!SCHLUESSEL_RE.test(s) || s.includes('..')) throw new Error('Ungültiger Speicherschlüssel');
 }
 
+/**
+ * AUFTRAG-102: Fehler des Blobs-Speichers ins Function-Log schreiben (Art, Bereich, Fehlertext —
+ * kein Token, kein vollständiger Schlüssel) und weiterwerfen. Vorher endeten sie als leere HTTP-500.
+ */
+async function mitLog<T>(art: string, schluessel: string, f: () => Promise<T>): Promise<T> {
+    try {
+        return await f();
+    } catch (e) {
+        console.error(`[demo/speicher] Blobs ${art} ${schluessel.split('/')[0]}/…: ${e instanceof Error ? `${e.name}: ${e.message}` : String(e)}`);
+        throw e;
+    }
+}
+
 function blobSpeicher(): Speicher | null {
     try {
         const store = getStore({ name: 'demo', consistency: 'strong' });
@@ -32,18 +45,18 @@ function blobSpeicher(): Speicher | null {
             art: 'blobs',
             async lese<T>(s: string) {
                 pruefeSchluessel(s);
-                return ((await store.get(s, { type: 'json' })) as T | null) ?? null;
+                return mitLog('lesen', s, async () => ((await store.get(s, { type: 'json' })) as T | null) ?? null);
             },
             async schreibe(s, wert) {
                 pruefeSchluessel(s);
-                await store.setJSON(s, wert);
+                await mitLog('schreiben', s, () => store.setJSON(s, wert));
             },
             async loesche(s) {
                 pruefeSchluessel(s);
-                await store.delete(s);
+                await mitLog('löschen', s, () => store.delete(s));
             },
             async liste(praefix) {
-                const { blobs } = await store.list({ prefix: praefix });
+                const { blobs } = await mitLog('auflisten', praefix, () => store.list({ prefix: praefix }));
                 return blobs.map((b) => b.key);
             },
         };
@@ -103,11 +116,26 @@ function dateiSpeicher(): Speicher {
     };
 }
 
-let instanz: Speicher | null = null;
+let dateiInstanz: Speicher | null = null;
 
+/**
+ * Speicher für DIESE Anfrage.
+ *
+ * AUFTRAG-102: Der Blobs-Store wird bei jedem Zugriff neu aus dem Kontext der
+ * laufenden Anfrage gebaut und NICHT über Anfragen hinweg zwischengespeichert:
+ * `getStore()` übernimmt Token und Edge-Adressen aus `globalThis.netlifyBlobsContext`,
+ * den die Netlify-Laufzeit je Aufruf setzt. Ein Modul-Singleton behält in einer
+ * warmen Function den Kontext eines früheren Aufrufs; auf dem Branch-Deploy lieferten
+ * die Routen mit Speicherzugriff (Scan, Profil, Auftrag, Logo aus dem Scan) zeitweise
+ * HTTP 500 ohne Text, im Wechsel mit Erfolgen (gemessen 26.10.2026,
+ * auftraege/ergebnisse/A102-messung.md).
+ * Nur der lokale Datei-Rückfall bleibt ein Singleton.
+ */
 export function speicher(): Speicher {
-    if (!instanz) instanz = blobSpeicher() ?? dateiSpeicher();
-    return instanz;
+    const blobs = blobSpeicher();
+    if (blobs) return blobs;
+    if (!dateiInstanz) dateiInstanz = dateiSpeicher();
+    return dateiInstanz;
 }
 
 /** Liest einen Eintrag und behandelt abgelaufene als nicht vorhanden (und löscht sie). */

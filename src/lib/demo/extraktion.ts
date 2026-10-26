@@ -24,6 +24,17 @@ import {
 } from './logo';
 import { svgGroesse } from './bildanalyse';
 import type { Ahne } from './umgebung';
+import {
+    firmenWoerterVon,
+    istReferenzSeite,
+    istTeamSeite,
+    personAusBildText,
+    personenAusJsonLd,
+    personenAusZeilen,
+    teamLinks,
+    type PersonFund,
+    type TeamLink,
+} from './personen';
 
 /** Minimale Struktur eines htmlparser2-Knotens (ohne Import von domhandler). */
 interface DomKnoten {
@@ -52,7 +63,7 @@ export interface SeitenAnalyse {
     mailto: string[];
     ueberschriften: string[];
     navigation: string[];
-    links: Array<{ url: string; text: string }>;
+    links: SeitenLink[];
     stylesheets: string[];
     inline_css: string;
     stil_farben: string[];
@@ -60,6 +71,22 @@ export interface SeitenAnalyse {
     manifest: string | null;
     zeilen: string[];
     abschnitte: Abschnitt[];
+    /** AUFTRAG-102: Personen dieser Seite (JSON-LD, Bild-alt, Textmuster) */
+    personen: PersonFund[];
+    /** AUFTRAG-102: Links auf Team-Unterseiten (/team/<name>/ …) */
+    team_links: TeamLink[];
+}
+
+/** Link einer Seite (AUFTRAG-102: mit Bild-alt und Textzeilen im Link, Navigation markiert). */
+export interface SeitenLink {
+    url: string;
+    text: string;
+    /** alt/title des ersten Bildes im Link */
+    bild?: string;
+    /** Textzeilen im Link (Name, Rolle einer Team-Karte) */
+    zeilen?: string[];
+    /** Link in Navigation/Kopf */
+    nav?: boolean;
 }
 
 const BLOCK = new Set([
@@ -71,6 +98,10 @@ const BLOCK = new Set([
 
 /** Inline-Elemente, an deren Grenzen ein Leerzeichen stehen muss (sonst kleben Nummer und E-Mail zusammen). */
 const INLINE_GRENZE = new Set(['a', 'button', 'img', 'input', 'small', 'time', 'i', 'em', 'strong', 'b', 'abbr', 'sup', 'sub']);
+
+/** AUFTRAG-102: Text-Container von Baukästen (Divi, Elementor, Wix, WPBakery, Avada, Beaver, TYPO3, Gutenberg). */
+const TEXT_CONTAINER =
+    '.et_pb_text_inner, .elementor-widget-text-editor, .elementor-text-editor, [data-testid="richTextElement"], .wixui-rich-text, .fusion-text, .wpb_text_column, .vc_column_text, .fl-rich-text, .ce-bodytext, .text-block, .rich-text, .richtext';
 
 const ENTFERNEN = 'script, style, noscript, template, svg, iframe, canvas, video, audio, object, embed, select, map';
 
@@ -507,12 +538,49 @@ export function analysiereSeite(html: string, url: string, mitLogo: boolean): Se
     const logos = mitLogo ? sammleLogos($, html, basis, jsonld) : { kandidaten: [], css_logo: [] };
 
     // Links (vor dem Entfernen der Navigation)
-    const links: Array<{ url: string; text: string }> = [];
+    const links: SeitenLink[] = [];
     $('a[href]').each((_, el) => {
         const u = absolut($(el).attr('href'), basis);
         if (!u) return;
-        const text = bereinigeText($(el).text()) || bereinigeText($(el).attr('title') || '') || '';
-        links.push({ url: u, text: text.slice(0, 80) });
+        const ctx = $(el);
+        const text = bereinigeText(ctx.text()) || bereinigeText(ctx.attr('title') || '') || '';
+        const eintrag: SeitenLink = { url: u, text: text.slice(0, 80) };
+        // AUFTRAG-102: Team-Karten (Bild + Name + Rolle im Link) und Navigation markieren
+        const bild = ctx.find('img[alt], img[title]').first();
+        const bildText = bereinigeText(bild.attr('alt') || bild.attr('title') || '');
+        if (bildText) eintrag.bild = bildText.slice(0, 200);
+        if (text.length > 0 && text.length <= 300) {
+            const z = textZeilen(el as unknown as DomKnoten).slice(0, 6);
+            if (z.length > 1) eintrag.zeilen = z.map((x) => x.slice(0, 120));
+        }
+        if (ctx.closest('nav, [role="navigation"], header, [class*="menu"], [id*="menu"]').length) eintrag.nav = true;
+        links.push(eintrag);
+    });
+
+    // AUFTRAG-102: Personen und Team-Links (vor dem Entfernen von Navigation/Cookie-Bannern)
+    let hostSeite = '';
+    try {
+        hostSeite = new URL(url).hostname;
+    } catch {
+        /* egal */
+    }
+    const firmenWoerter = firmenWoerterVon(hostSeite, meta('meta[property="og:site_name"]'));
+    const teamSeite = istTeamSeite(url, titel);
+    const team_links = teamLinks(links, url, firmenWoerter);
+    const personen: PersonFund[] = personenAusJsonLd(jsonld, firmenWoerter);
+    let bildNr = 0;
+    $('img[alt], img[title]').each((_, el) => {
+        const ctx = $(el);
+        const t = bereinigeText(ctx.attr('alt') || ctx.attr('title') || '');
+        if (t.length < 5) return;
+        const b = personAusBildText(t, firmenWoerter);
+        if (!b) return;
+        // Name ohne Rolle («Foto NAME», alt = Name) nur auf Team-Seiten bzw. im Link auf eine Team-Unterseite
+        const linkZiel = (absolut(ctx.closest('a').attr('href'), basis) ?? '').replace(/\/$/, '');
+        const imTeamLink = !!linkZiel && team_links.some((l) => l.url.replace(/\/$/, '') === linkZiel);
+        // ohne Rolle nur ausdrücklich als Personenfoto («Foto NAME», «Portrait NAME») auf Team-Seiten bzw. im Team-Link
+        if (!b.rolle && !(imTeamLink || (teamSeite && b.foto))) return;
+        personen.push({ name: b.name, rolle: b.rolle, quelle: 'bild', reihenfolge: 5000 + bildNr++ });
     });
 
     const tel_links = $('a[href^="tel:"], a[href^="TEL:"]')
@@ -587,8 +655,49 @@ export function analysiereSeite(html: string, url: string, mitLogo: boolean): Se
         if (text.length >= 30 && !COOKIE_ZEILE_RE.test(text.slice(0, 200))) abschnitte.push({ titel: titelA, text });
     });
 
+    // AUFTRAG-102: Text-Container von Baukästen (Divi, Elementor, Wix, WPBakery, Avada, TYPO3) als eigene Abschnitte
+    $(TEXT_CONTAINER).each((_, el) => {
+        const ctx = $(el);
+        if (ctx.parents(TEXT_CONTAINER).length) return;
+        const zeilenC = textZeilen(el as unknown as DomKnoten);
+        let text = bereinigeText(zeilenC.join(' '));
+        if (text.length < 80 || COOKIE_ZEILE_RE.test(text.slice(0, 200))) return;
+        const anfang = text.slice(0, 60);
+        if (abschnitte.some((a) => a.text.includes(anfang) || text.includes(a.text.slice(0, 60)))) return;
+        let titelC = bereinigeText(ctx.find('h1, h2, h3, h4, h5, h6').first().text());
+        if (titelC) text = bereinigeText(text.replace(titelC, ''));
+        if (!titelC) {
+            let k = ctx;
+            for (let tiefe = 0; tiefe < 4 && !titelC && k.length; tiefe++) {
+                const vorher = k.prevAll('h1, h2, h3, h4, h5').first();
+                titelC = bereinigeText(vorher.length ? vorher.text() : k.prevAll().find('h1, h2, h3, h4, h5').last().text());
+                k = k.parent();
+                if (k.is('body, main')) break;
+            }
+        }
+        if (!titelC && zeilenC.length > 1 && zeilenC[0].length <= 80) {
+            titelC = zeilenC[0];
+            text = bereinigeText(zeilenC.slice(1).join(' '));
+        }
+        if (!titelC || titelC.length < 3 || titelC.length > 120 || text.length < 60) return;
+        abschnitte.push({ titel: titelC, text: text.slice(0, 700) });
+    });
+
     const body = $('body')[0] as unknown as DomKnoten | undefined;
     const zeilen = body ? textZeilen(body) : textZeilen($.root()[0] as unknown as DomKnoten);
+    // Personen nur aus dem Inhalt: Kopf, Menüs (auch Mega-Menüs ausserhalb von <nav>) und Brotkrumen enthalten keine
+    // Team-Listen. Entfernt wird nur, was überwiegend aus Links besteht (Team-Karten mit <header> bleiben).
+    $('header, [role="banner"], [class*="menu"], [id*="menu"], [class*="mega"], [class*="dropdown"], [class*="navbar"], [class*="breadcrumb"]').each((_, el) => {
+        const e = el as unknown as DomKnoten;
+        if (e.name === 'html' || e.name === 'body' || e.name === 'main') return;
+        const k = $(el);
+        const gesamt = k.text().replace(/\s+/g, '').length;
+        if (gesamt && k.find('a').text().replace(/\s+/g, '').length / gesamt >= 0.5) k.remove();
+    });
+    const inhaltKnoten = $('body')[0] as unknown as DomKnoten | undefined;
+    const personZeilen = inhaltKnoten ? textZeilen(inhaltKnoten) : zeilen;
+    // Referenzen/Kundenstimmen/Projekte: die genannten Personen sind Kunden, nicht das Team
+    if (!istReferenzSeite(url)) personen.push(...personenAusZeilen(personZeilen, { firmenWoerter, teamSeite }));
 
     return {
         url,
@@ -614,5 +723,7 @@ export function analysiereSeite(html: string, url: string, mitLogo: boolean): Se
         manifest: absolut($('link[rel~="manifest"]').first().attr('href'), basis),
         zeilen,
         abschnitte,
+        personen,
+        team_links,
     };
 }
