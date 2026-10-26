@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { generateSitewideLocalBusinessSchema, generateSitewideWebSiteSchema } from "@/lib/seo/schema";
+import { ladeNavRegionen } from "@/lib/nav-regionen";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -105,7 +106,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -154,7 +155,8 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <ScrollToTop />
-          <Header />
+          {/* AUFTRAG-100: Mega-Menü «Für wen» verlinkt die Regionsseiten aus den [region]-Templates */}
+          <Header regionen={await ladeNavRegionen()} />
           {/* pt-16 lg:pt-20 compensates for fixed header height */}
           <main className="flex-1 pt-16 lg:pt-20">
             {children}

@@ -353,8 +353,8 @@ export default function KiTelefonassistentPage() {
                 </div>
             </section>
 
-            {/* 5. Für welche Betriebe */}
-            <section className="py-16 lg:py-24 bg-surface">
+            {/* 5. Für welche Betriebe (Anker für das Menü «Für wen», AUFTRAG-100) */}
+            <section id="betriebe" className="py-16 lg:py-24 bg-surface scroll-mt-24">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="mb-10 lg:mb-14">
                         <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">Für welche Betriebe</h2>

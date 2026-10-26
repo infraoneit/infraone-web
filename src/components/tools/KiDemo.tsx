@@ -13,7 +13,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import Link from 'next/link';
-import { ArrowRight, BookOpen, Check, Clock, Globe, Languages, Loader2, Phone, PhoneCall, RotateCcw, Timer, X } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUp, BookOpen, Check, Clock, Globe, Languages, Loader2, Phone, PhoneCall, RotateCcw, Timer, X } from 'lucide-react';
 import styles from './KiDemo.module.css';
 import { Telefon, SPRACH_WAHL, ANRUF_VON, sprachName, type KartenAnzeige, type SchrittAnzeige } from './ki-demo/Telefon';
 import {
@@ -66,6 +66,9 @@ const HINWEIS = {
 };
 
 const GRUEN_LEERLAUF = '#4CAF50';
+
+/** Schritte des Scans im Telefon: Website, Logo, Farbe, Telefon, Öffnungszeiten, Wissen, Assistent */
+const SCAN_SCHRITTE = 7;
 
 /* ------------------------------------------------------------------ */
 /* Typen der API                                                       */
@@ -340,6 +343,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     const laufId = useRef(0);
     const eingabeRef = useRef<HTMLInputElement>(null);
     const telefonRef = useRef<HTMLDivElement>(null);
+    const buehneRef = useRef<HTMLDivElement>(null);
     const aktionRef = useRef<HTMLElement>(null);
     const [aktionMin, setAktionMin] = useState(0);
     const turnstileRef = useRef<HTMLDivElement>(null);
@@ -501,15 +505,45 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             .catch(() => setzen([...STANDARD_FAEHIGKEITEN_EN]));
     }, [enScanId]);
 
-    // Mobil: Karte (im Telefon) ins Bild holen, sobald sie steht
+    /*
+     * AUFTRAG-100: Mobil kein automatischer Sprung zum Telefon mehr. Ist das
+     * Telefon ausserhalb des Bildes, zeigt eine kompakte Statuszeile oben
+     * (unter dem Header) Schritt und Fund; Antippen springt zum Telefon.
+     * Desktop: Das Telefon läuft ab lg mit (position: sticky, siehe CSS).
+     */
+    const [sicht, setSicht] = useState({ telefon: true, oben: false, buehne: true });
     useEffect(() => {
-        if (zustand !== 'bereit' || !telefonRef.current || window.innerWidth >= 1024) return;
-        const r = telefonRef.current.getBoundingClientRect();
-        if (r.top > window.innerHeight * 0.55) {
-            const ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            telefonRef.current.scrollIntoView({ behavior: ruhig ? 'auto' : 'smooth', block: 'start' });
-        }
-    }, [zustand]);
+        const tel = telefonRef.current;
+        const buehne = buehneRef.current;
+        if (!tel || !buehne || typeof IntersectionObserver === 'undefined') return;
+        // Header mobil: 64 px + 16 px Abstand oben
+        const rand = '-80px 0px 0px 0px';
+        const ioTel = new IntersectionObserver(
+            ([e]) => {
+                const oberkante = e.rootBounds?.top ?? 80;
+                const telefon = e.intersectionRatio >= 0.35;
+                const oben = e.boundingClientRect.top < oberkante;
+                // nur neu zeichnen, wenn sich etwas ändert
+                setSicht((s) => (s.telefon === telefon && s.oben === oben ? s : { ...s, telefon, oben }));
+            },
+            { rootMargin: rand, threshold: [0, 0.2, 0.35, 0.5, 0.75, 1] },
+        );
+        const ioBuehne = new IntersectionObserver(([e]) => setSicht((s) => (s.buehne === e.isIntersecting ? s : { ...s, buehne: e.isIntersecting })), { rootMargin: rand });
+        ioTel.observe(tel);
+        ioBuehne.observe(buehne);
+        return () => {
+            ioTel.disconnect();
+            ioBuehne.disconnect();
+        };
+    }, []);
+
+    const zumTelefon = () => {
+        const el = telefonRef.current;
+        if (!el) return;
+        const ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        el.scrollIntoView({ behavior: ruhig ? 'auto' : 'smooth', block: 'start' });
+        el.focus({ preventScroll: true });
+    };
 
     // Aktionskarte wächst nur: die grösste bisher gemessene Höhe bleibt als Mindesthöhe
     const aktionSichtbar = zustand !== 'eingabe';
@@ -765,6 +799,39 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     ];
     const imAnruf = zustand === 'wartend' || zustand === 'waehlt' || zustand === 'verbunden';
 
+    /* AUFTRAG-100: Statuszeile mobil — oben der Schritt, darunter der letzte Fund bzw. der Anrufstand */
+    const statusZeile: { kopf: string; text: string; zeichen: 'scan' | 'farbe' | 'puls' | 'welle' | 'ok' | 'fehler'; farbe?: string } | null = (() => {
+        const assistent = kartenAnzeige?.name ?? 'Ihr Assistent';
+        switch (zustand) {
+            case 'eingabe':
+                return null;
+            case 'scan': {
+                const laufend = [...schritte].reverse().find((s) => s.status === 'laeuft');
+                const fund = [...schritte].reverse().find((s) => s.status !== 'laeuft');
+                const nummer = Math.min(SCAN_SCHRITTE, Math.max(1, schritte.length));
+                return {
+                    kopf: `Schritt ${nummer} von ${SCAN_SCHRITTE}${laufend ? `: ${laufend.titel}` : ''}`,
+                    text: fund?.titel ?? 'Website wird gelesen …',
+                    zeichen: fund?.farbe ? 'farbe' : 'scan',
+                    farbe: fund?.farbe,
+                };
+            }
+            case 'bereit':
+                return { kopf: 'Scan abgeschlossen', text: `${assistent} ist bereit`, zeichen: 'farbe', farbe: kartenAnzeige?.primaer };
+            case 'wartend':
+                return { kopf: 'Testanruf', text: 'Wir rufen Sie gleich an …', zeichen: 'puls' };
+            case 'waehlt':
+                return { kopf: 'Testanruf', text: 'Ihr Telefon klingelt …', zeichen: 'puls' };
+            case 'verbunden':
+                return { kopf: `Verbunden – ${dauerAnzeige(dauerSek)}`, text: `Sie sprechen mit ${assistent}`, zeichen: 'welle' };
+            case 'beendet':
+                return { kopf: 'Testanruf', text: 'Gespräch beendet', zeichen: 'ok' };
+            case 'fehler':
+                return { kopf: 'Testanruf', text: fehlerTitel(auftrag?.grund), zeichen: 'fehler' };
+        }
+    })();
+    const statusSichtbar = !!statusZeile && !sicht.telefon && sicht.buehne;
+
 
     /** Formular des Testanrufs; als Platzhalter (während des Scans) unsichtbar mit gleicher Höhe, darüber ein Skelett. */
     const anrufFormular = (platzhalter: boolean) => {
@@ -957,7 +1024,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     };
 
     return (
-        <div className={styles.buehne}>
+        <div className={styles.buehne} ref={buehneRef}>
             <div className={styles.intro}>{children}</div>
 
             {/* Konsole: Eingabe der Website */}
@@ -1057,8 +1124,13 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 </div>
             </div>
 
-            {/* Lebendes Telefon */}
-            <div className={`${styles.telefonBereich} scroll-mt-20`} ref={telefonRef}>
+            {/* Lebendes Telefon — ab lg läuft es während Scan, Karte und Anruf mit (sticky bis zum Ende der Bühne) */}
+            <div
+                className={`${styles.telefonBereich} scroll-mt-20 focus:outline-none`}
+                ref={telefonRef}
+                data-mitlaufen={zustand !== 'eingabe' ? 'true' : undefined}
+                tabIndex={-1}
+            >
                 <Telefon
                     zustand={zustand}
                     host={host}
@@ -1118,6 +1190,50 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                     </section>
                 )}
             </div>
+
+            {/* AUFTRAG-100: Statuszeile mobil (fest unter dem Header, 48 px), solange das Telefon nicht im Bild ist */}
+            <button
+                type="button"
+                onClick={zumTelefon}
+                className={styles.statuszeile}
+                data-sichtbar={statusSichtbar ? 'true' : undefined}
+                aria-hidden={!statusSichtbar || undefined}
+                tabIndex={statusSichtbar ? 0 : -1}
+                data-zustand={zustand}
+            >
+                <span className="container mx-auto flex h-full items-center gap-3 px-4 text-left">
+                    {/* key: jedes Zeichen ist ein neues Element (kein Umbau eines bestehenden = keine Layout-Verschiebung) */}
+                    <span key={statusZeile?.zeichen ?? 'leer'} className="flex h-7 w-7 flex-shrink-0 items-center justify-center" aria-hidden="true">
+                        {statusZeile?.zeichen === 'scan' ? (
+                            <Loader2 className="h-5 w-5 text-primary motion-safe:animate-spin" />
+                        ) : statusZeile?.zeichen === 'farbe' ? (
+                            <span className="h-4 w-4 rounded-full ring-2 ring-black/10 dark:ring-white/15" style={{ background: statusZeile.farbe ?? GRUEN_LEERLAUF }} />
+                        ) : statusZeile?.zeichen === 'puls' ? (
+                            <span className={`${styles.puls} text-primary`} />
+                        ) : statusZeile?.zeichen === 'welle' ? (
+                            <span className={`${styles.knopfWelle} text-[#1f7a35] dark:text-primary`}>
+                                <span />
+                                <span />
+                                <span />
+                                <span />
+                                <span />
+                            </span>
+                        ) : statusZeile?.zeichen === 'fehler' ? (
+                            <X className="h-5 w-5 text-red-600 dark:text-red-400" strokeWidth={2.6} />
+                        ) : (
+                            <Check className="h-5 w-5 text-primary" strokeWidth={2.6} />
+                        )}
+                    </span>
+                    <span className="min-w-0 flex-1 leading-tight">
+                        <span className="block truncate text-xs text-text-secondary tabular-nums">{statusZeile?.kopf}</span>
+                        <span className="block truncate text-sm font-semibold text-text-primary tabular-nums">{statusZeile?.text}</span>
+                    </span>
+                    <span className="inline-flex flex-shrink-0 items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-text-primary">
+                        Zum Telefon
+                        {sicht.oben ? <ArrowUp className="h-3.5 w-3.5" aria-hidden="true" /> : <ArrowDown className="h-3.5 w-3.5" aria-hidden="true" />}
+                    </span>
+                </span>
+            </button>
 
             {/* Ansage der Zustandswechsel für Screenreader */}
             <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">

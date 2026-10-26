@@ -49,9 +49,20 @@
         grid-template-areas: 'intro telefon' 'konsole telefon' 'aktion telefon';
         row-gap: 2.25rem;
     }
-    /* Kein position:sticky: body ist hier ein Scroll-Container (overflow-x), Sticky versetzt dann das Telefon */
     .telefonBereich {
         align-self: start;
+    }
+    /*
+     * AUFTRAG-100: Während Scan, Karte und Anruf läuft das Telefon mit.
+     * Ab lg ist body kein Scroll-Container (globals.css: overflow-x: clip),
+     * Sticky greift also am Fenster. Grenze ist der Grid-Bereich des
+     * Telefons (ganze Bühnenhöhe): Das Telefon endet mit der Bühne und ragt
+     * nie in den nächsten Abschnitt oder den Footer. Offset: Header 96 px
+     * + 16 px Luft. Mobil (body overflow-x: hidden) bleibt es im Fluss.
+     */
+    .telefonBereich[data-mitlaufen='true'] {
+        position: sticky;
+        top: 7rem;
     }
 }
 
@@ -238,9 +249,11 @@
     width: min(100%, 300px);
 }
 @media (min-width: 1024px) {
+    /* AUFTRAG-100: so hoch, dass das mitlaufende Telefon unter dem Header ganz ins Fenster passt
+       (Höhe = Breite × 18,6 / 9; Fenster minus 7 rem Offset und 1 rem Luft) */
     .telefonHuelle {
         width: 100%;
-        max-width: 322px;
+        max-width: clamp(17.5rem, calc((100svh - 8rem) * 9 / 18.6), 322px);
     }
 }
 
@@ -545,6 +558,52 @@
 .einblenden {
     animation: einblenden 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
+
+/* ------------------------------------------------------------------ */
+/* Statuszeile mobil (AUFTRAG-100)                                     */
+/* ------------------------------------------------------------------ */
+
+/* Fest unter dem Header (64 px + Abstand oben), 48 px hoch; gleitet unter dem
+   Header hervor. Fest statt im Fluss: kein Platz, kein Layout-Sprung (CLS 0). */
+.statuszeile {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: calc(4rem + max(1rem, env(safe-area-inset-top)));
+    z-index: 40;
+    display: block;
+    width: 100%;
+    height: 3rem;
+    min-height: 3rem;
+    padding: 0;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 10px 24px -16px rgba(10, 18, 10, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-110%);
+    transition:
+        transform 0.26s cubic-bezier(0.2, 0.7, 0.2, 1),
+        opacity 0.2s ease,
+        visibility 0s linear 0.26s;
+}
+.statuszeile[data-sichtbar='true'] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+        transform 0.26s cubic-bezier(0.2, 0.7, 0.2, 1),
+        opacity 0.2s ease,
+        visibility 0s;
+}
+:global(.dark) .statuszeile {
+    box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.8);
+}
+@media (min-width: 1024px) {
+    .statuszeile {
+        display: none;
+    }
+}
 @keyframes einblenden {
     from {
         opacity: 0;
@@ -598,6 +657,18 @@
     }
     .knopf:not(:disabled):hover {
         transform: none;
+    }
+    .statuszeile,
+    .statuszeile[data-sichtbar='true'] {
+        transform: none;
+        transition:
+            opacity 0.12s linear,
+            visibility 0s linear 0.12s;
+    }
+    .statuszeile[data-sichtbar='true'] {
+        transition:
+            opacity 0.12s linear,
+            visibility 0s;
     }
 }
 

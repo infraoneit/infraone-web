@@ -395,8 +395,8 @@ export default function DigitalSignagePage() {
                 </div>
             </section>
 
-            {/* Industries Section */}
-            <section className="py-16 lg:py-24 bg-background">
+            {/* Industries Section (Anker für das Menü «Für wen», AUFTRAG-100) */}
+            <section id="branchen" className="py-16 lg:py-24 bg-background scroll-mt-24">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">

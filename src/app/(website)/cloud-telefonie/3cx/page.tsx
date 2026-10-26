@@ -284,8 +284,8 @@ export default function CloudTelefonie3CXPage() {
                 </div>
             </section>
 
-            {/* Anwendungsfälle */}
-            <section className="py-16 lg:py-24 bg-surface">
+            {/* Anwendungsfälle (Anker für das Menü «Für wen», AUFTRAG-100) */}
+            <section id="anwendungsfaelle" className="py-16 lg:py-24 bg-surface scroll-mt-24">
                 <div className="container mx-auto px-4">
                     <AnimatedSection animation="slideUp" className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
