@@ -13,6 +13,10 @@
  * 202/409/401/5xx/Timeout, ohne URL aus), Deckel der Warteschlange (8 s),
  * Statusabfrage (Takt 4 s, 20 Minuten, Endzustände), Sprachwahl (Reihenfolge,
  * Vorgabe Hochdeutsch), englische Karte (Rolle, Fähigkeiten).
+ * AUFTRAG-102: Personen (Namen, Rollen, Leitung, Bild-alt, Textmuster, Kundenstimmen,
+ * Menüs), Team-Links und Team-Seiten, Zusammenführen, Wissen zum Team, Profil mit
+ * Personen, Textbudget, Rechtstexte, Mobilnummern, Seitenwahl, Race der Widget-Sitzung,
+ * Bild-Proxy (Pfad mit Scan-Kennung, Netlify-Vary/Vary).
  *
  *   node scripts/demo-einheit-test.mjs
  *
@@ -344,9 +348,10 @@ pruefe('Sichtbarkeit: feine Schrift auf weissem JPEG (≈ 1 % Pixel) bleibt gül
 /* 5. Relative Logo-Pfade */
 const kInline = { url: null, quelle: 'inline-svg', stufe: 1, punkte: 1, reihenfolge: 0, inhalt: '<svg/>' };
 const kUrl = { url: 'https://x.ch/logo.svg', quelle: 'home-link-img', stufe: 1, punkte: 1, reihenfolge: 0 };
-pruefe('logo_url an den Browser: immer relativer Proxy-Pfad (kein Host)', logo.logoUrlFuerProfil(kInline, 2, 's-abc') === '/api/demo/bild?s=s-abc&i=2' && logo.logoUrlFuerProfil(kUrl, 0, 's-abc').startsWith('/api/demo/bild?u='));
+// AUFTRAG-102: Scan-Kennung im PFAD für alle Logos (vorher ?s=…&i=… bzw. ?u=…)
+pruefe('logo_url an den Browser: immer relativer Proxy-Pfad mit Scan-Kennung im Pfad (kein Host, keine Query)', logo.logoUrlFuerProfil(kInline, 2, 's-abc') === '/api/demo/bild/s-abc/2' && logo.logoUrlFuerProfil(kUrl, 0, 's-abc') === '/api/demo/bild/s-abc/0');
 delete process.env.DEMO_OEFFENTLICHE_URL;
-pruefe('logo_url an den Orchestrator: kein lokaler Host (0.0.0.0/localhost → null), öffentlich https → absolut', logo.logoUrlFuerAuftrag(kInline, 2, 's-abc', 'http://0.0.0.0:3000') === null && logo.logoUrlFuerAuftrag(kInline, 2, 's-abc', 'https://localhost:3000') === null && logo.logoUrlFuerAuftrag(kInline, 2, 's-abc', 'https://infraone.ch') === 'https://infraone.ch/api/demo/bild?s=s-abc&i=2' && logo.logoUrlFuerAuftrag(kUrl, 0, 's', 'http://0.0.0.0:3000') === 'https://x.ch/logo.svg');
+pruefe('logo_url an den Orchestrator: kein lokaler Host (0.0.0.0/localhost → null), öffentlich https → absolut', logo.logoUrlFuerAuftrag(kInline, 2, 's-abc', 'http://0.0.0.0:3000') === null && logo.logoUrlFuerAuftrag(kInline, 2, 's-abc', 'https://localhost:3000') === null && logo.logoUrlFuerAuftrag(kInline, 2, 's-abc', 'https://infraone.ch') === 'https://infraone.ch/api/demo/bild/s-abc/2' && logo.logoUrlFuerAuftrag(kUrl, 0, 's', 'http://0.0.0.0:3000') === 'https://x.ch/logo.svg');
 
 /* ------------------------------------------------------------------ */
 /* AUFTRAG-098                                                         */
@@ -525,6 +530,210 @@ pruefe('Fähigkeiten Englisch: KI-Fähigkeiten → im Browser null (Übersetzung
         ki && ki.profil.faehigkeiten.join(' | ') === 'Nimmt Terminwünsche entgegen | Beantwortet Fragen zu Implantaten | Rund um die Uhr erreichbar' && !('faehigkeiten_en' in ki) && !('faehigkeiten_en' in ki.profil),
         ki ? ki.profil.faehigkeiten.join(' | ') : 'null',
     );
+}
+
+/* ------------------------------------------------------------------ */
+/* AUFTRAG-102: Personen, Team-Links, Textbudget, Seitenwahl, Race     */
+/* (Namen in den Tests sind erfunden)                                  */
+/* ------------------------------------------------------------------ */
+const per = await lade('personen.ts');
+const sitz = await lade('sitzung.ts');
+const bildproxy = await lade('bildproxy.ts');
+
+/* Namen */
+pruefe('Personen: Namen erkannt (Titel vorne, «, Dr. med. dent» nach vorne, Grossbuchstaben, Initiale, Zusätze)',
+    per.normalisiereName('Anna Muster') === 'Anna Muster' &&
+        per.normalisiereName('ANNA MUSTER, Dr. med. dent') === 'Dr. med. dent. Anna Muster' &&
+        per.normalisiereName('Dr. med. vet. Peter Beispiel') === 'Dr. med. vet. Peter Beispiel' &&
+        per.normalisiereName('Kurt R. Muster') === 'Kurt R. Muster' &&
+        per.normalisiereName('Maria del Carmen Lopez') === 'Maria del Carmen Lopez' &&
+        per.normalisiereName('Peter Beispiel, lic. oec., MBA') === 'Peter Beispiel' &&
+        per.normalisiereName('Herr Peter Beispiel') === 'Peter Beispiel' &&
+        per.normalisiereName('Drago Petrovic') === 'Drago Petrovic');
+pruefe('Personen: keine Namen (Überschriften, Rollen, Firmen, Sachwörter, Einzelwörter)',
+    ['Unser Team', 'Senior Consultant', 'Business Integrator', 'Office Management', 'Gebäude Automation', 'Moderne Lösungen', 'Vertretungsberechtigte Person', 'Social Media', 'Hotel Banana City', 'Sie?', 'Muster', 'Muster Tiefbau']
+        .every((n) => per.normalisiereName(n, ['muster', 'tiefbau']) === null));
+
+/* Rollen */
+pruefe('Personen: Leitung erkannt, Assistenz/Abteilungsleitung nicht',
+    per.istLeitung('Geschäftsführer') && per.istLeitung('Inhaber / Geschäftsleiter / Dipl. Techniker HF') && per.istLeitung('Eidg. dipl. Zahnärztin SSO und Inhaberin') && per.istLeitung('Gründer und Direktor') &&
+        per.istLeitung('Vertretungsberechtigte Person') && per.istLeitung('Marktbearbeitung, Vorsitzender der Geschäftsleitung') && per.istLeitung('Innere Medizin, Leitung') &&
+        !per.istLeitung('Assistentin der Geschäftsleitung') && !per.istLeitung('Abteilungsleiter Service, Mitglied der Geschäftsleitung') && !per.istLeitung('Leiterin Finanzen, Mitglied der Geschäftsleitung') && per.istLeitung('Projektleiter Elektro-Installationen, Stellvertreter des Vorsitzenden der Geschäftsleitung') && !per.istLeitung('Senior Consultant'));
+pruefe('Personen: Rolle ohne Firmenname, Kundenstimme mit fremder Firma verworfen',
+    per.bereinigeRolle('Geschäftsführer Muster IT Solutions', ['muster']) === 'Geschäftsführer' &&
+        per.bereinigeRolle('Gründer und Inhaber Muster Planung GmbH, Altbau und Holzbau', ['muster', 'planung']) === 'Gründer und Inhaber' &&
+        per.bereinigeRolle('Planer bei Muster Planung GmbH, Umbau', ['muster', 'planung']) === 'Planer' &&
+        per.bereinigeRolle('Ihr Ansprechpartner für Muster-Cloud', ['muster']) === 'Ansprechpartner für Muster-Cloud' &&
+        per.bereinigeRolle('Geschäftsführer der Beispiel AG', ['muster']) === null);
+
+/* (b) Bilder */
+{
+    const foto = per.personAusBildText('Foto Anna Muster');
+    const alt = per.personAusBildText('Peter Beispiel - Geschäftsführer Muster IT Solutions', ['muster']);
+    const deko = per.personAusBildText('Modern Architecture');
+    pruefe('Personen: Bild-alt «Foto NAME» (ohne Rolle) und «NAME – ROLLE …»', foto?.name === 'Anna Muster' && foto.rolle === null && foto.foto === true && alt?.name === 'Peter Beispiel' && alt.rolle === 'Geschäftsführer' && deko === null, JSON.stringify([foto, alt, deko]));
+}
+
+/* (c) Textmuster */
+{
+    const team = per.personenAusZeilen(['Das Team', 'Geschäftsleitung', 'Anna Muster', 'Inhaberin / Geschäftsleiterin / Dipl. Technikerin HF', 'Nachricht schicken', 'Peter Beispiel', 'Projektleitung / Dipl. Elektro-Installateur', 'Lisa Probe', 'Administration'], { firmenWoerter: ['muster'], teamSeite: true });
+    pruefe('Personen: Team-Liste (Name + Rolle darunter)', team.map((p) => `${p.name}|${p.rolle}`).join(';') === 'Anna Muster|Inhaberin / Geschäftsleiterin / Dipl. Technikerin HF;Peter Beispiel|Projektleitung / Dipl. Elektro-Installateur;Lisa Probe|Administration', JSON.stringify(team));
+    const impressum = per.personenAusZeilen(['Kontaktadresse', 'Muster AG', 'Gewerbestr. 2', '8475 Ossingen', 'Vertretungsberechtigte Person', 'Peter Beispiel', 'Eingetragener Firmenname', 'Muster AG'], { firmenWoerter: ['muster'] });
+    pruefe('Personen: Impressum «Vertretungsberechtigte Person» / NAME', impressum.length === 1 && impressum[0].name === 'Peter Beispiel' && impressum[0].rolle === 'Vertretungsberechtigte Person', JSON.stringify(impressum));
+    const davor = per.personenAusZeilen(['Führung mit Vision', 'Geschäftsführer & Gründer', 'Peter Beispiel', 'Dipl. Techniker HF Systemtechnik'], { firmenWoerter: ['muster'] });
+    pruefe('Personen: Leitungsrolle in der Zeile davor kommt dazu', davor.length === 1 && davor[0].rolle === 'Geschäftsführer & Gründer, Dipl. Techniker HF Systemtechnik', JSON.stringify(davor));
+    const satz = per.personenAusZeilen(['Lassen Sie uns reden. Ihr Ansprechpartner für Muster-Cloud: Peter Beispiel', 'Peter Beispiel, lic. oec., Gründer und Direktor Muster GmbH, kennt Kooperationsvorhaben seit vielen Jahren.'], { firmenWoerter: ['muster'] });
+    pruefe('Personen: Satzmuster «Ansprechpartner für X: NAME» und «NAME, Grad, Gründer und Direktor FIRMA»', satz.map((p) => p.rolle).join(';') === 'Ansprechpartner für Muster-Cloud;Gründer und Direktor', JSON.stringify(satz));
+    const keine = per.personenAusZeilen(['Hotel Banana City', 'Winterthur', 'Umbau Restaurant', 'Frauenfeld, Neubau Arztpraxis', '«Super Service!» – Hans Kunde, Geschäftsführer der Beispiel AG'], { firmenWoerter: ['muster'] });
+    pruefe('Personen: keine Treffer in Projektlisten und Kundenstimmen (fremde Firma)', keine.length === 0, JSON.stringify(keine));
+    const stimme = per.personenAusZeilen(['«Die Zusammenarbeit war hervorragend und jederzeit zuverlässig.»', 'Hans Kunde', 'Geschäftsleitung Schuler Auktionen'], { firmenWoerter: ['muster'], teamSeite: true });
+    pruefe('Personen: Kundenstimme (Name nach Zitat) wird nicht übernommen', stimme.length === 0, JSON.stringify(stimme));
+    const menue = per.personenAusZeilen(['Yellow Top', 'Club d\'Or, Partner:innen Herren', 'Schweizer Cup', 'Statistik', 'Latte Art', '25. Oktober 2026', 'Filterkaffee Zubehör', 'Espressozubehör', 'Öffentlicher Sektor', 'Tourismus / Hotellerie', 'Zentrale Dienste', 'Geschäftsleitung', 'Interior Design', 'Leiterin'], { firmenWoerter: ['muster'], teamSeite: true });
+    pruefe('Personen: Menüs, Kurse, Termine, Branchen sind keine Personen (auch auf Team-Seiten)', menue.length === 0, JSON.stringify(menue));
+    const ichForm = per.personenAusZeilen(['Ich bin froh, in der Muster AG einen kompetenten und innovativen Partner gefunden zu haben.', 'Hans Kunde, Geschäftsleitung Schuler Auktionen'], { firmenWoerter: ['muster'] });
+    pruefe('Personen: Kundenstimme ohne Anführungszeichen (Ich-Form davor) wird nicht übernommen', ichForm.length === 0, JSON.stringify(ichForm));
+    pruefe('Personen: Referenz-/Projekt-/Kundenseiten liefern keine Personen', per.istReferenzSeite('https://www.muster.ch/references') && per.istReferenzSeite('https://www.muster.ch/de/uber-uns/erfolgsgeschichten/') && !per.istReferenzSeite('https://www.muster.ch/team/'));
+    const zitatImSatz = per.personenAusZeilen(['Peter Beispiel, lic. oec., Gründer und Direktor Muster GmbH, hilft Vorhaben «auf den Boden bringen» und berät Kunden.'], { firmenWoerter: ['muster'] });
+    pruefe('Personen: Anführungszeichen mitten im Satz verhindern den Fund nicht', zitatImSatz.length === 1 && zitatImSatz[0].rolle === 'Gründer und Direktor', JSON.stringify(zitatImSatz));
+    const titel = per.personenAusZeilen(['Dr. med. vet.', 'Peter Beispiel', 'Innere Medizin, Leitung', 'E-Mail-Adresse'], { firmenWoerter: ['muster'], teamSeite: true });
+    pruefe('Personen: Titel in eigener Zeile über dem Namen', titel.length === 1 && titel[0].name === 'Dr. med. vet. Peter Beispiel' && titel[0].rolle === 'Innere Medizin, Leitung', JSON.stringify(titel));
+    const privat = per.personenAusZeilen(['Peter Beispiel', 'Geschäftsinhaber', 'Tel 056 269 00 00', 'Mobile 079 000 00 00', 'info@muster.ch'], { firmenWoerter: ['muster'], teamSeite: true });
+    pruefe('Personen: Telefon/Mobile/E-Mail nie als Rolle oder Zuständigkeit', privat.length === 1 && privat[0].rolle === 'Geschäftsinhaber' && !/\d|@/.test(`${privat[0].name} ${privat[0].rolle} ${privat[0].zustaendigkeit ?? ''}`), JSON.stringify(privat));
+}
+
+/* Team-Links und Team-Unterseiten */
+{
+    const links = [
+        { url: 'https://www.muster.ch/team/muster-anna/', text: 'Anna Muster', zeilen: ['Anna Muster'] },
+        { url: 'https://www.muster.ch/team/beispiel/', text: '', bild: 'Foto Peter Beispiel' },
+        { url: 'https://www.muster.ch/team/probe-lisa/', text: 'Lisa Probe', zeilen: ['Lisa Probe'] },
+        { url: 'https://www.muster.ch/team/1339/', text: 'Sie?' },
+        { url: 'https://www.muster.ch/ueber-uns/geschichte/', text: 'Geschichte' },
+        { url: 'https://andere.ch/team/fremd-hans/', text: 'Hans Fremd' },
+    ];
+    const tl = per.teamLinks(links, 'https://www.muster.ch/ueber-uns/', ['muster']);
+    pruefe('Team-Links: Personen-Unterseiten (Name aus Text bzw. «Foto NAME»), ohne Stellenanzeige, Geschichte, fremde Site', tl.map((l) => l.name).join(',') === 'Anna Muster,Peter Beispiel,Lisa Probe', JSON.stringify(tl.map((l) => [l.url, l.name])));
+    pruefe('Team-Links: Personen-Link erkannt (Seitenwahl lädt ihn nur in der Team-Runde)', per.istPersonenLink('https://www.muster.ch/team/muster-anna/') && !per.istPersonenLink('https://www.muster.ch/ueber-uns/team/') && !per.istPersonenLink('https://www.muster.ch/ueber-uns/geschichte/') && per.istPersonenLink('https://www.muster.ch/ueber-uns/anna-muster/'));
+    const bekannt = [{ name: 'Lisa Probe', rolle: 'Ansprechpartnerin für Muster-Cloud', quelle: 'text', reihenfolge: 0 }];
+    const geordnet = per.ordneTeamLinks(tl, bekannt, 'Darf sich Lisa Probe bei Ihnen melden?', ['muster'], 2);
+    pruefe('Team-Links: Reihenfolge — Person mit Rolle auf anderer Seite zuerst, höchstens N', geordnet.length === 2 && geordnet[0].name === 'Lisa Probe' && geordnet[1].name === 'Anna Muster', JSON.stringify(geordnet.map((l) => l.name)));
+    const leitung = per.ordneTeamLinks([...tl, { url: 'https://www.muster.ch/team/chef/', name: 'Max Chef', slugName: 'Chef', rolle: 'Geschäftsführer', reihenfolge: 99 }], [], '', ['muster'], 6);
+    pruefe('Team-Links: Leitung aus der Übersicht vor allen anderen', leitung[0].name === 'Max Chef');
+    const seite = per.personAusTeamSeite(
+        ['Muster GmbH', 'Peter Beispiel', 'Direktor', '«Wir bringen Kunden voran.»', 'Peter Beispiel, lic. oec.', 'Strategische Projekte, Innovationen,', 'Peter Beispiel, lic. oec., Gründer und Direktor Muster GmbH, kennt Kooperationsvorhaben seit vielen Jahren aus verschiedenen Perspektiven und Branchen.', 'Telefon 052 000 00 00'],
+        { name: null, slugName: 'Beispiel Peter', rolle: null },
+        ['muster'],
+    );
+    pruefe('Team-Seite: Name aus dem Pfad, Rolle «Gründer und Direktor», Schwerpunkte, keine Nummer', seite?.name === 'Peter Beispiel' && seite.rolle === 'Gründer und Direktor' && seite.zustaendigkeit === 'Schwerpunkte: Strategische Projekte, Innovationen', JSON.stringify(seite));
+    const weiss = per.personAusTeamSeite(['Lisa Probe', 'Office Management', 'Lisa Probe ist seit 11 Jahren für administrative Fragen, das Dokumenten-Management wie auch für die Homepage zuständig. Erreichbar unter 052 000 00 00.'], { name: 'Lisa Probe', slugName: 'Probe Lisa', rolle: null });
+    pruefe('Team-Seite: Zuständigkeit = ein Satz (ohne Satz mit Nummer)', weiss?.rolle === 'Office Management' && weiss.zustaendigkeit?.startsWith('Lisa Probe ist seit 11 Jahren für administrative Fragen') && !/052/.test(weiss.zustaendigkeit ?? ''), JSON.stringify(weiss));
+    const lebenslauf = per.zustaendigkeitAus(['Danach leitete er drei Jahre die Abteilung bei einer Bank.', 'Er betreute grosse Projekte.'], 'Peter Beispiel');
+    pruefe('Team-Seite: Lebenslauf («leitete», «betreute») ist keine Zuständigkeit', lebenslauf === null, String(lebenslauf));
+}
+
+/* Zusammenführen und Wissen */
+{
+    const funde = [
+        { name: 'Anna Muster', rolle: null, quelle: 'team-link', reihenfolge: 30 },
+        { name: 'Peter Beispiel', rolle: 'Ansprechpartner für Muster-Cloud', quelle: 'text', reihenfolge: 5 },
+        { name: 'Peter Beispiel', rolle: 'Gründer und Direktor', zustaendigkeit: 'Schwerpunkte: Strategie, Projekte', quelle: 'team-seite', reihenfolge: 40 },
+        { name: 'Lisa Probe', rolle: 'Office Management', zustaendigkeit: 'Lisa Probe ist für administrative Fragen zuständig.', quelle: 'team-seite', reihenfolge: 35 },
+        { name: 'Eva Zahl', rolle: 'Leiterin Finanzen, Mitglied der Geschäftsleitung', quelle: 'team-seite', reihenfolge: 36 },
+        { name: 'Dr. med. dent. Anna Muster', rolle: null, quelle: 'bild', reihenfolge: 50 },
+    ];
+    const pers = per.fuehrePersonenZusammen(funde);
+    pruefe('Personen zusammengeführt: Leitung zuerst, Rolle mit höchstem Gewicht, Titel bevorzugt, ohne Rolle → Teammitglied',
+        pers.map((p) => `${p.name}|${p.rolle}`).join(';') === 'Peter Beispiel|Gründer und Direktor;Lisa Probe|Office Management;Eva Zahl|Leiterin Finanzen, Mitglied der Geschäftsleitung;Dr. med. dent. Anna Muster|Teammitglied',
+        JSON.stringify(pers));
+    const tipp = per.fuehrePersonenZusammen([
+        { name: 'Pelegrina Muster', rolle: null, quelle: 'bild', reihenfolge: 1 },
+        { name: 'Peregrina Muster', rolle: null, quelle: 'team-link', reihenfolge: 2 },
+        { name: 'Thomas Muster', rolle: null, quelle: 'team-link', reihenfolge: 3 },
+        { name: 'Thomas Eric Muster', rolle: null, quelle: 'team-link', reihenfolge: 4 },
+    ]);
+    pruefe('Personen: Tippfehler-Variante zusammengeführt (Name aus der Überschrift), verschiedene Personen getrennt', tipp.map((p) => p.name).join(',') === 'Peregrina Muster,Thomas Muster,Thomas Eric Muster', JSON.stringify(tipp));
+    pruefe('Personen: höchstens 12', per.fuehrePersonenZusammen(Array.from({ length: 20 }, (_, i) => ({ name: `Anna ${['Muster', 'Beispiel', 'Probe', 'Zahl', 'Wert', 'Feld', 'Stein', 'Baum', 'Berg', 'Tal', 'Bach', 'Wald', 'Hof', 'Graf', 'Vogt', 'Kunz', 'Lutz', 'Frey', 'Wyss', 'Kern'][i]}`, rolle: 'Mitarbeiterin', quelle: 'text', reihenfolge: i }))).length === 12);
+    const w = per.wissenTeam(pers, 'Muster GmbH');
+    const fragen = w.map((x) => x.frage);
+    pruefe('Wissen Team: «Wer leitet FIRMA?», «Wer ist für X zuständig?», «Wen kann ich wegen Y sprechen?», «Wer arbeitet bei FIRMA?» (Thema team)',
+        fragen.includes('Wer leitet Muster GmbH?') && fragen.includes('Wer ist für administrative Fragen zuständig?') && fragen.includes('Wen kann ich wegen Finanzen sprechen?') && fragen.includes('Wer arbeitet bei Muster GmbH?') && w.every((x) => x.thema === 'team' && x.antwort.length <= 480),
+        JSON.stringify(fragen));
+    pruefe('Wissen Team: Leitung mit Rolle in der Antwort', w[0].antwort === 'Laut Website: Peter Beispiel (Gründer und Direktor).', w[0].antwort);
+    pruefe('Wissen Team: ohne Personen keine Einträge', per.wissenTeam([], 'Muster GmbH').length === 0);
+    pruefe('Karte: «Kennt Ansprechpersonen» nur mit Personen (de/en)', begruessung.kannZeilen(['a', 'b', 'c'], 0, false).length === 3 && begruessung.kannZeilen(['a', 'b', 'c'], 2, false)[3] === 'Kennt Ansprechpersonen' && begruessung.kannZeilen(['a', 'b', 'c'], 2, true)[3] === 'Knows the contact persons' && begruessung.kannZeilen(null, 2, true) === null);
+
+    const extrakt = {
+        start_url: 'https://muster.ch', end_url: 'https://muster.ch/', host: 'muster.ch', sprache: 'de', seiten: [], titel: 'Muster GmbH', meta_description: null, og_site_name: null, og_image: null,
+        jsonld_name: null, jsonld_beschreibung: null, firma: 'Muster GmbH', firma_quelle: 'titel', logo_kandidaten: [], logo: null, theme_color: null, css_farben: [], button_farben: [],
+        farben: null, farbe_quelle: null, farb_signale: [], telefone: [], emails: [], adressen: [], oeffnungszeiten: [], ueberschriften: [], navigation: [],
+        abschnitte: [], text: 'Muster GmbH berät KMU.', personen: pers, team_seiten: 3, plattform: null, hinweise: [],
+    };
+    const rp = profilMod.regelProfil(extrakt);
+    pruefe('Regel-Profil: Feld personen und Team-Wissen, Schema gültig', rp.profil.personen.length === pers.length && rp.profil.wissen.some((x) => x.frage === 'Wer leitet Muster GmbH?') && profilMod.profilFehler(rp.profil).length === 0, JSON.stringify(profilMod.profilFehler(rp.profil)));
+    pruefe('Regel-Profil: Assistentenname nie der Vorname einer Person der Website', !pers.some((p) => p.name.split(' ')[0] === rp.profil.assistent_name));
+    const ki = profilMod.bereinigeKiProfil(
+        {
+            firma: 'Muster GmbH', assistent_name: 'Lena', branche: 'beratung', telefon: null, email: null, adresse: null, oeffnungszeiten_text: null,
+            firma_text: 'Die Muster GmbH berät KMU in allen Fragen der Organisation und Informatik.', faehigkeiten: [],
+            wissen: [
+                { frage: 'Wer ist der Geschäftsführer?', antwort: 'Unser Geschäftsführer ist Hans Erfunden.', thema: 'team' },
+                { frage: 'Was bietet die Muster GmbH?', antwort: 'Wir beraten KMU.', thema: 'leistungen' },
+            ],
+        },
+        extrakt,
+        rp.profil,
+    );
+    pruefe('KI-Profil: Team-Einträge der KI durch geprüfte Einträge ersetzt, Personen aus dem Scan', ki && !ki.profil.wissen.some((x) => /Erfunden/.test(x.antwort)) && ki.profil.wissen.some((x) => x.frage === 'Wer leitet Muster GmbH?') && ki.profil.personen.length === pers.length, JSON.stringify(ki?.profil.wissen.map((x) => x.frage)));
+    pruefe('Profil-Prüfung: Person mit Telefonnummer ist ein Fehler', profilMod.profilFehler({ ...rp.profil, personen: [{ name: 'Anna Muster', rolle: 'Mobile 079 000 00 00' }] }).includes('personen'));
+}
+
+/* Textbudget, Rechtstexte, Mobilnummern, Seitenwahl */
+{
+    const lang = Array.from({ length: 400 }, (_, i) => `Startseite Zeile ${i} mit etwas Text über Leistungen und Angebote der Firma.`);
+    const kurz = ['Über uns: Wir sind ein Familienbetrieb.', 'Anna Muster', 'Inhaberin'];
+    const text = scanner.textNachBudget([lang, kurz, ['© 2026 Muster GmbH. Alle Rechte vorbehalten.', 'Impressum | Datenschutz | AGB', 'Wir verwenden Cookies, um die Website zu verbessern.']], 5000);
+    pruefe('Textbudget: anteilig je Seite (kurze Seite ganz drin), Gesamtgrenze, ohne Rechtstext/Cookie', text.length <= 5000 && kurz.every((z) => text.includes(z)) && !/Alle Rechte|Impressum \|| Cookies/.test(text), `${text.length} Zeichen`);
+    pruefe('Textbudget: TEXT_MAX 20 000, Unterseiten bis 8', scanner.TEXT_MAX === 20000 && scanner.MAX_UNTERSEITEN === 8);
+    pruefe('Rechtstext erkannt, Kontaktzeile nicht', scanner.istRechtstext('Impressum | Datenschutzerklärung | AGB') && scanner.istRechtstext('© 2026 Muster GmbH') && !scanner.istRechtstext('Muster GmbH, Hard 5, 8408 Winterthur'));
+    pruefe('Mobilnummern (Mobile/Natel/Handy) aus dem Wissenstext entfernt, Festnetz bleibt', scanner.ohneMobilnummer('Tel 056 269 00 00 Mobile 079 420 00 00') === 'Tel 056 269 00 00');
+
+    const links = (liste) => liste.map(([url, text, nav]) => ({ url: `https://www.muster.ch${url}`, text, nav: !!nav }));
+    const seite = {
+        links: links([
+            ['/', 'Home', 1], ['/leistungen/', 'Leistungen', 1], ['/muster-cloud/', 'Muster-Cloud', 1], ['/ueber-uns/', 'Über uns', 1], ['/kontakt/', 'Kontakt', 1],
+            ['/impressum', 'Impressum'], ['/datenschutz', 'Datenschutz'], ['/blog/', 'Blog', 1], ['/team/muster-anna/', 'Anna Muster'],
+            ['/wasserqualitaet-in-der-tierhaltung-der-unterschaetzte-einfluss-auf-gesundheit-und-leistung/', 'Wasserqualität'], ['/preise/', 'Preise'], ['/faq/', 'FAQ'],
+            ['/en/contact/', 'Contact'], ['/standorte/', 'Standorte'], ['/produkte/', 'Produkte', 1], ['/referenzen/', 'Referenzen', 1],
+        ]),
+    };
+    const gew = scanner.waehleUnterseiten(seite, 'https://www.muster.ch/', 'de').map((u) => new URL(u).pathname);
+    pruefe('Seitenwahl: Reihenfolge Kontakt, Impressum, Über uns, Leistungen, Preise, …, FAQ, Standorte; höchstens 8; ohne Blog-Artikel, Datenschutz, andere Sprache, Personen-Seiten',
+        gew.length === 8 && gew.slice(0, 4).join(',') === '/kontakt/,/impressum,/ueber-uns/,/leistungen/' && gew.includes('/preise/') && gew.includes('/faq/') && gew.includes('/standorte/') &&
+            !gew.some((p) => /blog|datenschutz|\/en\/|wasserqualitaet|team\/muster-anna/.test(p)),
+        gew.join(' '));
+}
+
+/* Gleichzeitigkeit: Sitzung (Race «Andere Website») und Bild-Proxy */
+{
+    let s = sitz.neueSitzung();
+    const laufA = s.lauf;
+    s = sitz.neueSitzung(s); // «Andere Website» → Lauf B
+    const laufB = s.lauf;
+    pruefe('Race: Scan-Antwort A nach Start von B wird verworfen', sitz.bindeScan(s, laufA, 's-aaaaaaaaaaaaaaaa') === null && !sitz.istAktuell(s, laufA));
+    const b = sitz.bindeScan(s, laufB, 's-bbbbbbbbbbbbbbbb');
+    pruefe('Race: Scan-Antwort B wird gebunden', b?.scanId === 's-bbbbbbbbbbbbbbbb' && sitz.istAktuell(b, laufB, 's-bbbbbbbbbbbbbbbb'));
+    pruefe('Race: Profil-Antwort mit fremder scan_id verworfen, eigene angenommen', !sitz.profilPasst(b, laufB, { scan_id: 's-aaaaaaaaaaaaaaaa' }) && sitz.profilPasst(b, laufB, { scan_id: 's-bbbbbbbbbbbbbbbb' }) && !sitz.profilPasst(b, laufA, { scan_id: 's-bbbbbbbbbbbbbbbb' }));
+    pruefe('Race: zweite Bindung mit anderer Kennung im selben Lauf verworfen, ungültige Kennung verworfen', sitz.bindeScan(b, laufB, 's-cccccccccccccccc') === null && sitz.bindeScan(sitz.neueSitzung(b), laufB + 1, 'x') === null);
+    const logos = [{ src: '/api/demo/bild/s-bbbbbbbbbbbbbbbb/0' }, { src: '/api/demo/bild/s-aaaaaaaaaaaaaaaa/0' }, { src: '/api/demo/bild?u=https%3A%2F%2Fx.ch%2Fl.png' }, { src: '/api/demo/bild/s-bbbbbbbbbbbbbbbb/1x' }];
+    pruefe('Race: nur Logos mit der eigenen Scan-Kennung im Pfad', JSON.stringify(sitz.logosDesScans(logos, 's-bbbbbbbbbbbbbbbb')) === JSON.stringify([logos[0]]));
+    pruefe('Race: nach «Andere Website» ist auch B veraltet', !sitz.istAktuell(sitz.neueSitzung(b), laufB, 's-bbbbbbbbbbbbbbbb'));
+    const png = Buffer.from('89504e470d0a1a0a0000000d4948445200000001000000010806000000', 'hex');
+    const r = bildproxy.bildAntwort(Buffer.concat([png, Buffer.alloc(40)]), 'image/png', bildproxy.CACHE_SCAN);
+    pruefe('Bild-Proxy: Netlify-Vary: query und Vary: Accept auf jeder Bild-Antwort', r.status === 200 && r.headers.get('netlify-vary') === 'query' && r.headers.get('vary') === 'Accept');
+    const f = await bildproxy.logoAusScan('s-zzzzzzzzzzzzzzzz', '0');
+    pruefe('Bild-Proxy: unbekannter Scan → 404 (mit Vary)', f.status === 404 && f.headers.get('netlify-vary') === 'query');
+    const ungueltig = await bildproxy.logoAusScan('../etc', '0');
+    pruefe('Bild-Proxy: ungültige Scan-Kennung im Pfad → 404', ungueltig.status === 404);
 }
 
 console.log(`\n${gesamt - fehler}/${gesamt} Prüfungen bestanden.`);

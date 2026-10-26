@@ -81,6 +81,8 @@ export async function POST(req: Request) {
                 farbe: x.farben?.primaer ?? null,
                 farbe_quelle: x.farbe_quelle,
                 plattform: x.plattform,
+                // AUFTRAG-102: erkannte Ansprechpersonen (Name/Rolle stehen im Profil)
+                personen: regel.profil.personen?.length ?? 0,
             },
             dauer_ms: scan.dauer_ms,
         });

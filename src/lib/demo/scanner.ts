@@ -1,9 +1,12 @@
 /**
  * Website-Scanner der KI-Telefonassistent-Demo (AUFTRAG-092, Teil A).
  *
- * Ablauf: URL normalisieren → Startseite (≤ 5,5 s, A-096) → bis zu 5 priorisierte
- * interne Seiten + bis zu 4 Stylesheets, Manifest und Sprite-Dateien parallel
- * (je ≤ 4 s) → Extraktion → Logo-Umgebung und gewichtete Markenfarbe (A-096).
+ * Ablauf: URL normalisieren → Startseite (≤ 5,5 s, A-096) → bis zu 8 priorisierte
+ * interne Seiten (A-102) + bis zu 4 Stylesheets, Manifest und Sprite-Dateien parallel
+ * (je ≤ 4 s, höchstens 6 HTML-Abrufe gleichzeitig) → Team-Runde: bis zu 6 Personen-
+ * Unterseiten, Leitung zuerst (A-102; reicht das Budget nicht, lädt der Profil-Schritt
+ * sie nach) → Extraktion (Personen, Text bis 20 000 Zeichen je Seite anteilig) →
+ * Logo-Umgebung und gewichtete Markenfarbe (A-096).
  * Gesamtbudget 8 s, HTML max. 1,5 MB, CSS max. 300 kB, Sprite max. 1 MB.
  * Keine Browser-Automation.
  */
@@ -16,6 +19,7 @@ import { parseCssFarbe } from './farben';
 import { bestimmeMarkenfarbe, FARB_GEWICHT_LOGO, farbHaeufigkeit, istFrameworkFarbe, istKraeftig, type FarbSignal } from './markenfarbe';
 import { baueHintergrundIndex, bestimmeUmgebung, type Ahne } from './umgebung';
 import { findeOeffnungszeiten, istOeffnungszeitText } from './oeffnungszeiten';
+import { firmenWoerterVon, fuehrePersonenZusammen, istPersonenLink, MAX_TEAM_SEITEN, namensSchluessel, ordneTeamLinks, personAusTeamSeite, type PersonFund, type TeamLink } from './personen';
 import type { Abschnitt, Extrakt, LogoKandidat, Schritt, SeitenProtokoll } from './typen';
 
 export { istFrameworkFarbe } from './markenfarbe';
@@ -26,9 +30,10 @@ const SEITE_MS = 4000;
 const STARTSEITE_MS = 5500;
 const HTML_MAX = 1_500_000;
 const CSS_MAX = 300_000;
-const MAX_UNTERSEITEN = 5;
+/** AUFTRAG-102: bis zu 8 Unterseiten (vorher 5), Text bis 20 000 Zeichen (vorher 12 000), je Seite anteilig */
+export const MAX_UNTERSEITEN = 8;
 const MAX_CSS = 4;
-const TEXT_MAX = 12_000;
+export const TEXT_MAX = 20_000;
 
 export type ScanFehlerCode = 'eingabe' | 'gesperrt' | 'nicht_erreichbar' | 'status' | 'kein_html';
 
@@ -77,47 +82,95 @@ const ohneWww = (h: string) => h.toLowerCase().replace(/^www\./, '');
 /* Seitenwahl                                                          */
 /* ------------------------------------------------------------------ */
 
-const PRIORITAET: Array<[RegExp, number]> = [
-    [/kontakt|contact/i, 10],
-    [/öffnungszeit|oeffnungszeit|offnungszeit|sprechstunde|praxiszeit|bürozeit|geschaeftszeit|geschäftszeit/i, 9],
-    [/impressum|imprint/i, 8],
-    [/leistung|angebot|services?\b|dienstleistung|behandlung|sortiment/i, 8],
-    [/über-uns|ueber-uns|uber-uns|über uns|ueber uns|about|team|praxis|unternehmen|firma|wir\b/i, 7],
-    [/preise|tarife|kosten/i, 6],
+/**
+ * Seitenarten in der Reihenfolge des Auftrags (AUFTRAG-102): Kontakt, Impressum,
+ * Über uns/Team, Leistungen, Preise, Öffnungszeiten, FAQ, Standorte. Je Art die
+ * beste Seite (Navigation, kurzer Pfad, früh im Dokument), danach weitere Seiten
+ * der Hauptnavigation. Blog-Artikel (lange Pfade/Slugs), Kategorien, Rechtstexte
+ * ausser dem Impressum und andere Sprachen fallen weg.
+ */
+export const SEITEN_ARTEN: Array<{ art: string; re: RegExp }> = [
+    { art: 'kontakt', re: /kontakt|contact/i },
+    { art: 'impressum', re: /impressum|imprint|rechtliche[s]? angaben/i },
+    { art: 'ueber-uns', re: /über-uns|ueber-uns|uber-uns|über uns|ueber uns|about|team|mitarbeit|personen|geschäftsleitung|geschaeftsleitung|unternehmen|firma|portrait|wir-sind|wer-wir-sind|praxisteam|(?:^|\/)praxis(?:\/|$)/i },
+    { art: 'leistungen', re: /leistung|angebot|services?\b|dienstleistung|behandlung|sortiment|produkte|loesungen|lösungen|kompetenzen|was-wir-tun|fachgebiet/i },
+    { art: 'preise', re: /preise|tarife|kosten|honorar|preisliste/i },
+    { art: 'oeffnungszeiten', re: /öffnungszeit|oeffnungszeit|offnungszeit|sprechstunde|praxiszeit|bürozeit|geschaeftszeit|geschäftszeit/i },
+    { art: 'faq', re: /\bfaq\b|häufige fragen|haeufige-fragen|fragen-und-antworten|fragen & antworten/i },
+    { art: 'standorte', re: /standort|filiale|anfahrt|lageplan|niederlassung/i },
 ];
 
 const DATEI_RE = /\.(pdf|jpe?g|png|gif|webp|svg|zip|docx?|xlsx?|pptx?|mp4|mp3|ics|vcf)(\?|$)/i;
+const KEINE_SEITE_RE =
+    /\/(?:category|kategorie|tag|tags|author|autor|feed|wp-json|wp-admin|wp-login|page\/\d+|cart|warenkorb|checkout|kasse|login|anmelden|konto|account|suche|search)(?:\/|$)|datenschutz|privacy|agb|cookie|newsletter|\/(?:blog|news|aktuelles|aktuell|events?|jobs?|karriere|stellen|stellenangebote|medien|presse)(?:\/|$)/i;
 
-export function waehleUnterseiten(seite: SeitenAnalyse, startUrl: string, sprache: string | null): string[] {
+/** Blog-/Artikel-Seite? (lange Slugs, Datum im Pfad, tiefe Pfade) */
+function istArtikel(pfad: string): boolean {
+    const teile = pfad.split('/').filter(Boolean);
+    const slug = teile[teile.length - 1] ?? '';
+    return slug.split('-').length >= 6 || slug.length > 55 || /\/(?:19|20)\d{2}\/\d{2}\//.test(pfad) || teile.length > 3;
+}
+
+export function waehleUnterseiten(seite: SeitenAnalyse, startUrl: string, sprache: string | null, max = MAX_UNTERSEITEN): string[] {
     const start = new URL(startUrl);
-    const kandidaten = new Map<string, number>();
-    for (const { url, text } of seite.links) {
+    const kandidaten = new Map<string, { url: string; merkmal: string; tiefe: number; nav: boolean; reihenfolge: number; artikel: boolean }>();
+    seite.links.forEach(({ url, text, nav }, reihenfolge) => {
         let u: URL;
         try {
             u = new URL(url);
         } catch {
-            continue;
+            return;
         }
-        if (ohneWww(u.hostname) !== ohneWww(start.hostname)) continue;
-        if (DATEI_RE.test(u.pathname)) continue;
+        if (ohneWww(u.hostname) !== ohneWww(start.hostname)) return;
+        if (DATEI_RE.test(u.pathname)) return;
         u.hash = '';
-        const pfad = decodeURIComponent(u.pathname).toLowerCase();
-        if (pfad === start.pathname.toLowerCase() || pfad === '/' || pfad === '') continue;
+        let pfad = u.pathname.toLowerCase();
+        try {
+            pfad = decodeURIComponent(u.pathname).toLowerCase();
+        } catch {
+            /* roh */
+        }
+        if (pfad === start.pathname.toLowerCase() || pfad === '/' || pfad === '' || /^\/(?:de|de-ch|home|startseite|index\.(?:html?|php))\/?$/.test(pfad)) return;
         // andere Sprachversionen meiden, wenn die Startseite deutsch ist
-        if ((!sprache || sprache.startsWith('de')) && /^\/(en|fr|it|es)(\/|$)/.test(pfad)) continue;
+        if ((!sprache || sprache.startsWith('de')) && /^\/(en|fr|it|es)(\/|$)/.test(pfad)) return;
+        if (KEINE_SEITE_RE.test(pfad) && !/impressum|imprint/.test(pfad)) return;
+        // Unterseiten einzelner Personen lädt die Team-Runde (höchstens 6, Leitung zuerst)
+        if (istPersonenLink(u.toString())) return;
+        const schluessel = u.toString().replace(/\/$/, '');
+        const da = kandidaten.get(schluessel);
         const merkmal = `${pfad} ${text.toLowerCase()}`;
-        let punkte = 0;
-        for (const [re, p] of PRIORITAET) if (re.test(merkmal)) punkte = Math.max(punkte, p);
-        if (!punkte) continue;
-        // kurze Pfade bevorzugen (Hauptseiten statt Unterartikel)
-        punkte -= Math.min(3, pfad.split('/').filter(Boolean).length - 1);
-        const schluessel = u.toString();
-        kandidaten.set(schluessel, Math.max(kandidaten.get(schluessel) ?? 0, punkte));
+        if (da) {
+            da.merkmal += ` ${text.toLowerCase()}`;
+            da.nav = da.nav || !!nav;
+            return;
+        }
+        kandidaten.set(schluessel, { url: u.toString(), merkmal, tiefe: pfad.split('/').filter(Boolean).length, nav: !!nav, reihenfolge, artikel: istArtikel(pfad) });
+    });
+    const liste = [...kandidaten.values()];
+    const gewaehlt: string[] = [];
+    const rang = (k: (typeof liste)[number]) => k.tiefe * 2 - (k.nav ? 3 : 0) + k.reihenfolge * 0.001;
+    const bester = (re: RegExp) =>
+        liste
+            .filter((k) => !k.artikel && !gewaehlt.includes(k.url) && re.test(k.merkmal))
+            .sort((a, b) => rang(a) - rang(b))[0];
+    // 1. je Seitenart die beste Seite
+    for (const { re } of SEITEN_ARTEN) {
+        if (gewaehlt.length >= max) break;
+        const k = bester(re);
+        if (k) gewaehlt.push(k.url);
     }
-    return [...kandidaten.entries()]
-        .sort((a, b) => b[1] - a[1])
-        .map(([u]) => u)
-        .slice(0, MAX_UNTERSEITEN);
+    // 2. eine zweite Leistungs- bzw. Über-uns-Seite
+    for (const art of ['leistungen', 'ueber-uns']) {
+        if (gewaehlt.length >= max) break;
+        const k = bester(SEITEN_ARTEN.find((a) => a.art === art)!.re);
+        if (k) gewaehlt.push(k.url);
+    }
+    // 3. Hauptnavigation (Produkt-/Leistungsseiten mit Eigennamen, z. B. «BINTegration»)
+    for (const k of liste.filter((x) => x.nav && !x.artikel && x.tiefe <= 2 && !gewaehlt.includes(x.url)).sort((a, b) => a.reihenfolge - b.reihenfolge)) {
+        if (gewaehlt.length >= max) break;
+        gewaehlt.push(k.url);
+    }
+    return gewaehlt.slice(0, max);
 }
 
 function waehleStylesheets(alle: string[], startUrl: string): string[] {
@@ -860,6 +913,235 @@ async function pruefeLogoKandidaten(kandidaten: LogoKandidat[], deadline: number
     return [...ergebnisse, ...rest];
 }
 
+/* ------------------------------------------------------------------ */
+/* AUFTRAG-102: Team-Runde und Textbudget                              */
+/* ------------------------------------------------------------------ */
+
+/** Zeitlimit je Team-Unterseite (innerhalb des Gesamtbudgets) */
+const TEAM_SEITE_MS = 3000;
+/** Team-Runde nur, wenn danach noch so viel Budget bleibt */
+const TEAM_MIN_REST_MS = 1200;
+/** Team-Runde startet spätestens so lange vor Ablauf des Budgets (auch wenn noch Unterseiten fehlen) */
+const TEAM_START_VOR_ENDE_MS = 3000;
+
+const normUrl = (u: string) => u.replace(/#.*$/, '').replace(/\/$/, '').replace(/^https?:\/\/(www\.)?/i, '').toLowerCase();
+
+/**
+ * Team-Unterseiten laden: Links aus allen gelesenen Seiten (`/team/<name>/` …), höchstens 6,
+ * nur gleiche Site (Links sind bereits auf den Host gefiltert), je max. 1,5 MB, im Gesamtbudget.
+ * Reihenfolge: Leitung zuerst (Rolle in der Übersicht, Leitungsrolle auf anderen Seiten,
+ * Name als Ansprechperson im Text anderer Seiten), sonst Website-Reihenfolge.
+ * Liefert Funde (Name aus der Übersicht + Rolle/Zuständigkeit von der Unterseite).
+ */
+/** Gleichzeitige HTML-Abrufe begrenzen; wartende Abrufe in Prioritätsfolge (kleiner = früher). */
+export class AbrufSchlange {
+    private laufend = 0;
+    private warten: Array<{ prio: number; los: () => void }> = [];
+    private readonly max: number;
+    constructor(max: number) {
+        this.max = max;
+    }
+    async hole<T>(prio: number, f: () => Promise<T>): Promise<T> {
+        if (this.laufend >= this.max) {
+            await new Promise<void>((los) => {
+                this.warten.push({ prio, los });
+                this.warten.sort((a, b) => a.prio - b.prio);
+            });
+        }
+        this.laufend++;
+        try {
+            return await f();
+        } finally {
+            this.laufend--;
+            this.warten.shift()?.los();
+        }
+    }
+}
+
+/** Höchstens so viele HTML-Abrufe gleichzeitig an dieselbe Website (Browser-Standard je Host: 6). */
+const HTML_PARALLEL = 6;
+
+/**
+ * Team-Links aller gelesenen Seiten: Funde aus der Übersicht (Name, ggf. Rolle der Karte) und die
+ * geordnete Auswahl der Personen-Unterseiten (höchstens 6, Leitung zuerst; ohne bereits gelesene Seiten).
+ */
+function teamAuswahl(seiten: SeitenRoh[], fw: string[]): { funde: PersonFund[]; auswahl: TeamLink[] } {
+    const geladenUrls = new Set(seiten.map((s) => normUrl(s.analyse.url)));
+    const links: TeamLink[] = [];
+    const gesehen = new Set<string>();
+    seiten.forEach((s, si) => {
+        for (const l of s.analyse.team_links) {
+            const k = normUrl(l.url);
+            if (gesehen.has(k)) continue;
+            gesehen.add(k);
+            links.push({ ...l, reihenfolge: si * 100_000 + 20_000 + l.reihenfolge });
+        }
+    });
+    if (!links.length) return { funde: [], auswahl: [] };
+    // Namen aus der Übersicht (ohne Rolle → «Teammitglied», mit Rolle aus der Karte)
+    const funde: PersonFund[] = links.filter((l) => l.name).map((l) => ({ name: l.name as string, rolle: l.rolle, quelle: 'team-link' as const, reihenfolge: l.reihenfolge }));
+    const bekannt = seiten.flatMap((s) => s.analyse.personen);
+    const textAnderer = seiten
+        .filter((s) => !s.analyse.team_links.length)
+        .map((s) => s.analyse.zeilen.join('\n'))
+        .join('\n')
+        .slice(0, 300_000);
+    const auswahl = ordneTeamLinks(
+        links.filter((l) => !geladenUrls.has(normUrl(l.url)) && (!!l.name || istPersonenLink(l.url))),
+        bekannt,
+        textAnderer,
+        fw,
+    );
+    return { funde, auswahl };
+}
+
+async function ladeTeamSeiten(seiten: SeitenRoh[], deadline: number, fw: string[], protokoll: SeitenProtokoll[], schlange: AbrufSchlange): Promise<TeamErgebnis> {
+    const { funde, auswahl } = teamAuswahl(seiten, fw);
+    // reicht das Scan-Budget nicht, lädt der Profil-Schritt die Seiten nach (ergaenzeTeam)
+    if (!auswahl.length || deadline - Date.now() < TEAM_MIN_REST_MS) return { funde, geladen: 0, offen: auswahl, versucht: [] };
+    const erg = await Promise.allSettled(auswahl.map((l, rang) => schlange.hole(-100 + rang, () => holeHtml(l.url, deadline - 350, TEAM_SEITE_MS))));
+    let geladen = 0;
+    const offen: TeamLink[] = [];
+    erg.forEach((r, i) => {
+        const l = auswahl[i];
+        if (r.status !== 'fulfilled') {
+            const e = r.reason;
+            if (e instanceof NetzFehler && e.code === 'zeit') offen.push(l);
+            protokoll.push({ url: l.url, status: e instanceof NetzFehler ? (e.status ?? null) : null, bytes: 0, ms: 0, fehler: e instanceof Error ? e.message : String(e), art: 'team' });
+            return;
+        }
+        geladen++;
+        protokoll.push({ url: r.value.url, status: 200, bytes: r.value.bytes, ms: r.value.ms, art: 'team' });
+        const a = analysiereSeite(r.value.html, r.value.url, false);
+        const p = personAusTeamSeite(a.zeilen, l, fw);
+        if (p) funde.push({ name: p.name, rolle: p.rolle, zustaendigkeit: p.zustaendigkeit, quelle: 'team-seite', reihenfolge: l.reihenfolge });
+    });
+    return { funde, geladen, offen, versucht: auswahl.map((l) => normUrl(l.url)) };
+}
+
+/**
+ * Team-Links aus Seiten, die erst NACH dem Start der Team-Runde ankamen (langsame Server):
+ * deren Namen kommen dazu, ihre Personen-Seiten lädt der Profil-Schritt nach.
+ */
+function teamSpaet(seiten: SeitenRoh[], fw: string[], erst: TeamErgebnis): TeamErgebnis {
+    const spaet = teamAuswahl(seiten, fw);
+    const versucht = new Set(erst.versucht);
+    const offenUrls = new Set(erst.offen.map((l) => normUrl(l.url)));
+    const frei = Math.max(0, MAX_TEAM_SEITEN - erst.geladen - erst.offen.length);
+    const neu = spaet.auswahl.filter((l) => !versucht.has(normUrl(l.url)) && !offenUrls.has(normUrl(l.url))).slice(0, frei);
+    return { funde: [...erst.funde, ...spaet.funde], geladen: erst.geladen, offen: [...erst.offen, ...neu], versucht: erst.versucht };
+}
+
+export interface TeamErgebnis {
+    funde: PersonFund[];
+    geladen: number;
+    /** ausgewählte Team-Seiten, für die das Scan-Budget nicht reichte (lädt der Profil-Schritt nach) */
+    offen: TeamLink[];
+    /** in der Team-Runde angefragte Seiten (normalisierte Adressen) */
+    versucht: string[];
+}
+
+/** Zeit für das Nachladen offener Team-Seiten im Profil-Schritt (vor dem KI-Aufruf, Function-Limit 26 s) */
+export const TEAM_NACHLADEN_MS = 3500;
+
+/**
+ * AUFTRAG-102: Team-Seiten nachladen, für die das Scan-Budget (8 s) nicht reichte — im
+ * Profil-Schritt vor dem KI-Aufruf (POST /api/demo/profil, eigene Function, 26 s Limit:
+ * höchstens 3,5 s hier + 17 s KI). Gleiche Regeln wie im Scan (gleiche Site, je max. 1,5 MB,
+ * höchstens 6 Seiten, Leitung zuerst). Ändert `x` (Personen, Seitenprotokoll, Team-Zähler).
+ */
+export async function ergaenzeTeam(x: Extrakt, zeitMs = TEAM_NACHLADEN_MS): Promise<{ geladen: number; ms: number }> {
+    const t0 = Date.now();
+    const offen = (x.team_offen ?? []).slice(0, MAX_TEAM_SEITEN);
+    delete x.team_offen;
+    if (!offen.length) return { geladen: 0, ms: 0 };
+    const deadline = t0 + zeitMs;
+    const fw = firmenWoerterVon(x.host, x.og_site_name);
+    const schlange = new AbrufSchlange(HTML_PARALLEL);
+    const erg = await Promise.allSettled(offen.map((l, rang) => schlange.hole(rang, () => holeHtml(l.url, deadline - 100, TEAM_SEITE_MS))));
+    // bisherige Personen als Funde (Reihenfolge bleibt), dazu die Funde der Team-Seiten
+    const funde: PersonFund[] = x.personen.map((p, i) => ({ name: p.name, rolle: p.rolle === 'Teammitglied' ? null : p.rolle, zustaendigkeit: p.zustaendigkeit ?? null, quelle: 'text' as const, reihenfolge: i }));
+    let geladen = 0;
+    erg.forEach((r, i) => {
+        const l = offen[i];
+        if (r.status !== 'fulfilled') {
+            const e = r.reason;
+            x.seiten.push({ url: l.url, status: e instanceof NetzFehler ? (e.status ?? null) : null, bytes: 0, ms: 0, fehler: e instanceof Error ? e.message : String(e), art: 'team' });
+            return;
+        }
+        geladen++;
+        x.seiten.push({ url: r.value.url, status: 200, bytes: r.value.bytes, ms: r.value.ms, art: 'team' });
+        const p = personAusTeamSeite(analysiereSeite(r.value.html, r.value.url, false).zeilen, l, fw);
+        if (!p) return;
+        const da = x.personen.findIndex((q) => namensSchluessel(q.name) === namensSchluessel(p.name));
+        funde.push({ name: p.name, rolle: p.rolle, zustaendigkeit: p.zustaendigkeit, quelle: 'team-seite', reihenfolge: da >= 0 ? da : 1000 + i });
+    });
+    x.personen = fuehrePersonenZusammen(funde);
+    x.team_seiten = (x.team_seiten ?? 0) + geladen;
+    return { geladen, ms: Date.now() - t0 };
+}
+
+/** Mit «Mobile/Natel/Handy» bezeichnete Handynummern (Personen auf Team-Seiten) — nie ins Wissen. */
+const MOBIL_RE = /(?:mobile?|natel|handy|mobil)\s*[.:]?\s*(?:\+41|0041|0)\s?7[5-9](?:[\s./-]?\d){7}/gi;
+export function ohneMobilnummer(t: string): string {
+    return t.replace(MOBIL_RE, '').replace(/\s{2,}/g, ' ').trim();
+}
+
+/** Rechtstexte und Fusszeilen-Floskeln (gehören nicht ins Wissen). */
+const RECHTSTEXT_RE =
+    /^(?:©|\(c\)|copyright\b)|alle rechte vorbehalten|all rights reserved|haftungsausschluss|haftung für (?:links|inhalte)|urheberrecht|datenschutzerklärung|google analytics|ip-adresse|dsgvo|\bdsg\b|gerichtsstand|cookie-?einstellungen|nutzungsbedingungen/i;
+const RECHTS_LINKS_RE = /^(?:(?:impressum|datenschutz(?:erklärung)?|agb|rechtliches|disclaimer|sitemap|cookies?(?:-einstellungen)?|barrierefreiheit|kontakt)\s*(?:[|·•/–-]\s*)?){2,}$/i;
+
+/** Zeile gehört zu Fusszeilen-Rechtstext? (Kurze Kontaktzeilen bleiben.) */
+export function istRechtstext(z: string): boolean {
+    const t = z.trim();
+    if (RECHTS_LINKS_RE.test(t)) return true;
+    if (/^(?:©|\(c\)|copyright\b)/i.test(t) && t.length < 200) return true;
+    return t.length >= 80 && RECHTSTEXT_RE.test(t);
+}
+
+/**
+ * Text aus den Zeilen aller Seiten mit anteiligem Budget (AUFTRAG-102): jede Seite bekommt
+ * gleich viel; was eine Seite nicht braucht, geht an die übrigen (Wasserfüllung).
+ * Dubletten (Navigation/Fusszeile) nur einmal, Cookie- und Rechtstexte nie.
+ */
+export function textNachBudget(seitenZeilen: string[][], max: number): string {
+    const gesehen = new Set<string>();
+    const proSeite = seitenZeilen.map((zeilen) =>
+        zeilen.filter((z) => {
+            const key = z.toLowerCase();
+            if (gesehen.has(key)) return false;
+            gesehen.add(key);
+            return !((z.length < 400 && COOKIE_ZEILE_RE.test(z)) || istRechtstext(z));
+        }),
+    );
+    const laengen = proSeite.map((z) => z.reduce((n, x) => n + x.length + 1, 0));
+    const budget = laengen.map(() => 0);
+    let rest = max;
+    let offen = laengen.map((_, i) => i).filter((i) => laengen[i] > 0);
+    while (rest > 0 && offen.length) {
+        const anteil = Math.max(1, Math.floor(rest / offen.length));
+        for (const i of offen) {
+            const nimm = Math.min(anteil, laengen[i] - budget[i], rest);
+            budget[i] += nimm;
+            rest -= nimm;
+        }
+        offen = offen.filter((i) => budget[i] < laengen[i]);
+    }
+    const teile: string[] = [];
+    let gesamt = 0;
+    proSeite.forEach((zeilen, i) => {
+        let n = 0;
+        for (const z of zeilen) {
+            if (n + z.length + 1 > budget[i] || gesamt + z.length + 1 > max) break;
+            teile.push(z);
+            n += z.length + 1;
+            gesamt += z.length + 1;
+        }
+    });
+    return teile.join('\n');
+}
+
 export interface ScanErgebnis {
     extrakt: Extrakt;
     schritte: Schritt[];
@@ -887,7 +1169,7 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
             // AUFTRAG-096: Startseite bis 5,5 s (langsame Server, z. B. Weiterleitung + 2 s Antwortzeit);
             // ohne Startseite gibt es gar kein Ergebnis — Unterseiten bekommen dann eben weniger Zeit
             startseite = await holeHtml(v, deadline, STARTSEITE_MS);
-            protokoll.push({ url: startseite.url, status: 200, bytes: startseite.bytes, ms: startseite.ms });
+            protokoll.push({ url: startseite.url, status: 200, bytes: startseite.bytes, ms: startseite.ms, art: 'start' });
             break;
         } catch (e) {
             letzterFehler = e;
@@ -905,12 +1187,49 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
     const plattform = plattformVon(startAnalyse, startseite.html);
     if (plattform) hinweise.push(`Plattform: ${plattform}`);
 
-    // 2. Unterseiten + Stylesheets (+ Manifest, Sprites) parallel
+    // 2. Unterseiten (bis 8) + Stylesheets (+ Manifest, Sprites) parallel. Sobald die Unterseiten da sind,
+    //    folgt die Team-Runde (AUFTRAG-102: bis 6 Personen-Unterseiten, Leitung zuerst) — Logo/CSS laufen weiter.
     const unterseiten = waehleUnterseiten(startAnalyse, startseite.url, startAnalyse.lang);
     const css = waehleStylesheets(startAnalyse.stylesheets, startseite.url);
     const logoKontext: LogoKontext = { startHost: ohneWww(new URL(startseite.url).hostname), sprites: new Map() };
-    const [unterErg, cssErg, logos, manifestFarbe] = await Promise.all([
-        Promise.allSettled(unterseiten.map((u) => holeHtml(u, deadline - 250))),
+    const firmenWoerter = firmenWoerterVon(new URL(startseite.url).hostname, startAnalyse.og_site_name);
+    // höchstens 6 HTML-Abrufe gleichzeitig an die Website; Team-Seiten (Leitung zuerst) vor noch wartenden Unterseiten
+    const schlange = new AbrufSchlange(HTML_PARALLEL);
+    const unterUndTeam = async (): Promise<TeamErgebnis> => {
+        // Jede Unterseite wird bei Ankunft analysiert; die Team-Runde startet, sobald alle da sind,
+        // spätestens TEAM_START_VOR_ENDE_MS vor Ablauf des Budgets (mit den bis dahin gelesenen Seiten).
+        const roh: Array<SeitenRoh | null | undefined> = unterseiten.map(() => undefined);
+        const alle = Promise.all(
+            unterseiten.map((u, i) =>
+                schlange.hole(i, () => holeHtml(u, deadline - 250)).then(
+                    (v) => {
+                        protokoll.push({ url: v.url, status: 200, bytes: v.bytes, ms: v.ms, art: 'unterseite' });
+                        roh[i] = { analyse: analysiereSeite(v.html, v.url, false), html: v.html };
+                    },
+                    (e: unknown) => {
+                        protokoll.push({ url: u, status: e instanceof NetzFehler ? (e.status ?? null) : null, bytes: 0, ms: 0, fehler: e instanceof Error ? e.message : String(e), art: 'unterseite' });
+                        roh[i] = null;
+                    },
+                ),
+            ),
+        );
+        let uhr: ReturnType<typeof setTimeout> | undefined;
+        const spaetestens = new Promise<void>((res) => {
+            uhr = setTimeout(res, Math.max(0, deadline - TEAM_START_VOR_ENDE_MS - Date.now()));
+        });
+        await Promise.race([alle, spaetestens]);
+        clearTimeout(uhr);
+        const bisher = [seiten[0], ...roh.filter((r): r is SeitenRoh => !!r)];
+        const teamPromise = ladeTeamSeiten(bisher, deadline, firmenWoerter, protokoll, schlange);
+        await alle;
+        // Reihenfolge der Seiten = Priorität der Auswahl (Kontakt, Impressum, Über uns, …)
+        for (const r of roh) if (r) seiten.push(r);
+        const team = await teamPromise;
+        // Seiten, die erst nach dem Start der Team-Runde kamen: deren Team-Links nachtragen
+        return seiten.length > bisher.length ? teamSpaet(seiten, firmenWoerter, team) : team;
+    };
+    const [team, cssErg, logos, manifestFarbe] = await Promise.all([
+        unterUndTeam(),
         Promise.allSettled(
             css.map((u) =>
                 holeSicher(u, {
@@ -924,15 +1243,6 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         pruefeLogoKandidaten(startAnalyse.logo_kandidaten, deadline - 300, logoKontext),
         holeManifestFarbe(startAnalyse.manifest, deadline - 300),
     ]);
-    unterErg.forEach((r, i) => {
-        if (r.status === 'fulfilled') {
-            protokoll.push({ url: r.value.url, status: 200, bytes: r.value.bytes, ms: r.value.ms });
-            seiten.push({ analyse: analysiereSeite(r.value.html, r.value.url, false), html: r.value.html });
-        } else {
-            const e = r.reason;
-            protokoll.push({ url: unterseiten[i], status: e instanceof NetzFehler ? (e.status ?? null) : null, bytes: 0, ms: 0, fehler: e instanceof Error ? e.message : String(e) });
-        }
-    });
     let cssText = startAnalyse.inline_css;
     // CSS-Hintergründe auf Logo-Selektoren (relativ zur jeweiligen Stylesheet-Adresse)
     // Spätere Stylesheets überschreiben frühere (Kaskade): Reihenfolge fliesst in die Punkte ein
@@ -1026,11 +1336,8 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         }
     }
     const { firma, quelle } = bestimmeFirma(jsonldName, startAnalyse.og_site_name, startAnalyse.titel, new URL(startseite.url).hostname, alleZeilen);
-    let textGesamt = '';
-    for (const z of alleZeilen) {
-        if (textGesamt.length + z.length + 1 > TEXT_MAX) break;
-        textGesamt += (textGesamt ? '\n' : '') + z;
-    }
+    // AUFTRAG-102: Textbudget je Seite anteilig (Startseite zuerst, keine Dubletten, keine Cookie- und Rechtstexte)
+    const textGesamt = textNachBudget(seiten.map((s) => s.analyse.zeilen.map(ohneMobilnummer).filter((z) => z.length >= 2)), TEXT_MAX);
 
     // Telefon: JSON-LD > tel:-Links (Häufigkeit) > Text (Häufigkeit); nie eine als Fax bezeichnete Nummer
     const telefone: string[] = [];
@@ -1080,10 +1387,11 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
     const ueberschriften = [...new Set(seiten.flatMap((s) => s.analyse.ueberschriften))].slice(0, 60);
     const navigation = startAnalyse.navigation.slice(0, 40);
     const abschnitte: Abschnitt[] = [];
-    for (const a of seiten.flatMap((s) => s.analyse.abschnitte)) {
+    for (const roh of seiten.flatMap((s) => s.analyse.abschnitte)) {
+        const a = { titel: roh.titel, text: ohneMobilnummer(roh.text) };
         if (abschnitte.some((x) => x.titel.toLowerCase() === a.titel.toLowerCase() || x.text === a.text)) continue;
         abschnitte.push(a);
-        if (abschnitte.length >= 40) break;
+        if (abschnitte.length >= 50) break;
     }
 
     // Farben (AUFTRAG-096): gewichtete Signale; die Logo-Farbe zählt nur, wenn der Server sie kennt
@@ -1124,13 +1432,16 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         navigation,
         abschnitte,
         text: textGesamt,
+        personen: fuehrePersonenZusammen([...seiten.flatMap((s, si) => s.analyse.personen.map((f) => ({ ...f, reihenfolge: si * 100_000 + f.reihenfolge }))), ...team.funde]),
+        team_seiten: team.geladen,
+        ...(team.offen.length ? { team_offen: team.offen } : {}),
         plattform,
         hinweise,
     };
 
     const dauer = Date.now() - start;
     const schritte: Schritt[] = [
-        { schluessel: 'website', ok: true, detail: `${seiten.length} Seite(n)`, ms: tWebsite },
+        { schluessel: 'website', ok: true, detail: `${seiten.length} Seite(n) + ${team.geladen} Team-Seite(n)`, ms: tWebsite },
         { schluessel: 'unternehmen', ok: quelle !== 'host' || !!extrakt.meta_description, detail: `${firma} (${quelle})`, ms: dauer },
         { schluessel: 'kontakt', ok: telefone.length > 0 || emails.length > 0, detail: `${telefone.length} Tel., ${emails.length} E-Mail`, ms: dauer },
         { schluessel: 'oeffnungszeiten', ok: true, detail: oeffnungszeiten.length ? 'gefunden' : 'keine Angabe', ms: dauer },

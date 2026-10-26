@@ -59,6 +59,21 @@ export const STANDARD_FAEHIGKEITEN_EN = [
     'Takes requests and callback wishes',
 ];
 
+/**
+ * AUFTRAG-102: zusätzlicher Punkt unter «Kann» — nur wenn auf der Website Personen
+ * gefunden wurden (Profil-Feld `personen`). Steht nur auf der Karte, nicht in
+ * `faehigkeiten` (die Schnittstelle zur Anlage erwartet genau drei).
+ */
+export const KANN_ANSPRECHPERSONEN = 'Kennt Ansprechpersonen';
+export const KANN_ANSPRECHPERSONEN_EN = 'Knows the contact persons';
+
+/** «Kann»-Zeilen der Karte: drei Fähigkeiten, dazu «Kennt Ansprechpersonen», wenn Personen bekannt sind. */
+export function kannZeilen(faehigkeiten: string[] | null, personen: number, englisch: boolean): string[] | null {
+    if (!faehigkeiten) return null;
+    const drei = faehigkeiten.slice(0, 3);
+    return personen > 0 ? [...drei, englisch ? KANN_ANSPRECHPERSONEN_EN : KANN_ANSPRECHPERSONEN] : drei;
+}
+
 /** Englische Fassung, wenn alle Fähigkeiten Standard sind (ohne Server-Aufruf), sonst null. */
 export function standardAufEnglisch(de: string[]): string[] | null {
     const en = de.slice(0, 3).map((d) => STANDARD_FAEHIGKEITEN_EN[STANDARD_FAEHIGKEITEN.indexOf(d)]);

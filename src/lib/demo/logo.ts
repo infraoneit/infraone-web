@@ -18,6 +18,7 @@
 import { load } from 'cheerio/slim';
 import type { LogoKandidat, LogoQuelle } from './typen';
 import type { BildAnalyse } from './bildanalyse';
+import { logoPfadPraefix } from './sitzung';
 
 export const LOGO_MIN_KANTE = 48;
 export const LOGO_SEITENVERHAELTNIS: [number, number] = [0.2, 6];
@@ -524,15 +525,26 @@ export interface LogoFuerKarte {
     umgebung: string | null;
     /** AUFTRAG-096: Inline-SVG ohne eigene Farbe (die Website färbt es) */
     ohneEigeneFarbe: boolean;
+    /** AUFTRAG-102: Original-Adresse des Logos (öffentlich, für Prüfung/Messung); null bei Inline-SVG/data:-URI */
+    url: string | null;
 }
 
-export function logoProxyPfad(k: LogoKandidat, index: number, scanId: string): string {
-    return k.url && !k.inhalt ? `/api/demo/bild?u=${encodeURIComponent(k.url)}` : `/api/demo/bild?s=${encodeURIComponent(scanId)}&i=${index}`;
+/** Präfix aller Logos eines Scans (AUFTRAG-102): die Scan-Kennung steht im Pfad. */
+export { logoPfadPraefix };
+
+/**
+ * Proxy-Pfad eines Logos (AUFTRAG-102): IMMER `/api/demo/bild/<scan>/<n>` — auch für
+ * Logos mit Adresse. Vorher `?u=<adresse>` bzw. `?s=<scan>&i=<n>`; auf Netlify ignorierte
+ * der CDN-Cache diese Query-Parameter, und gleichzeitige Scans bekamen dasselbe Bild.
+ */
+export function logoProxyPfad(_k: LogoKandidat, index: number, scanId: string): string {
+    return `${logoPfadPraefix(scanId)}${index}`;
 }
 
 export function logoFuerKarte(k: LogoKandidat, index: number, scanId: string): LogoFuerKarte {
     return {
         src: logoProxyPfad(k, index, scanId),
+        url: k.url && !k.inhalt ? k.url : null,
         index,
         quelle: k.quelle,
         format: k.format ?? null,
@@ -572,8 +584,9 @@ function istOeffentlicherUrsprung(origin: string): boolean {
 /**
  * logo_url im Auftrag an den Orchestrator (Schnittstelle A-091 verlangt
  * http/https): Original-URL des Logos; bei Inline-SVG/data:-URI der Proxy-Link
- * mit dem öffentlichen Ursprung (DEMO_OEFFENTLICHE_URL bzw. Anfrage-Ursprung,
- * nur wenn öffentlich https) — sonst null statt eines lokalen Hosts.
+ * (`/api/demo/bild/<scan>/<n>`, AUFTRAG-102) mit dem öffentlichen Ursprung
+ * (DEMO_OEFFENTLICHE_URL bzw. Anfrage-Ursprung, nur wenn öffentlich https) —
+ * sonst null statt eines lokalen Hosts.
  */
 export function logoUrlFuerAuftrag(k: LogoKandidat | null, index: number, scanId: string, origin: string): string | null {
     if (!k) return null;
