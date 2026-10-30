@@ -174,6 +174,32 @@ export interface ProfilErgebnis {
     verworfen?: number;
 }
 
+/**
+ * AUFTRAG-112: Profil eines Vorprüfungs-Scans — nur Firmenname (wie im Regel-Profil, für die
+ * Namensvarianten der Handelsregister-Prüfung) und Website; kein Assistent, kein Wissen, keine
+ * Fähigkeiten, kein Logo, keine Farben (`stimme` ist nur Platzhalter des Typs). Geht nie an den
+ * Browser und in keinen Auftrag: die Routen lehnen Vorprüfungs-Scans ab (409 scan_unvollstaendig).
+ */
+export function vorpruefungsProfil(x: Extrakt): Profil {
+    return {
+        firma: ss(x.firma ?? x.host),
+        website: websiteVon(x),
+        assistent_name: '',
+        branche: '',
+        telefon: null,
+        email: null,
+        adresse: null,
+        oeffnungszeiten_text: null,
+        firma_text: '',
+        faehigkeiten: [],
+        wissen: [],
+        logo_url: null,
+        farben: null,
+        stimme: 'weiblich',
+        personen: [],
+    };
+}
+
 export function regelProfil(x: Extrakt): ProfilErgebnis {
     const t0 = Date.now();
     const firma = ss(x.firma ?? x.host);

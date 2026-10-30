@@ -16,9 +16,13 @@
  * «Register nicht erreichbar» ist eine normale Antwort (200, ergebnis «nicht_erreichbar»).
  * Schalter DEMO_HANDELSREGISTER=aus (nur lokal): sofort «uebersprungen», ohne Scan-Abfrage (so laufen
  * auch Browser-Tests mit nachgebildeten Scans durch).
+ *
+ * AUFTRAG-112: arbeitet auf dem Vorprüfungs-Scan (Startseite + Impressum); Scans mit gesperrtem Host
+ * (Sperrliste, z. B. vor diesem Auftrag gespeichert) → 404 wie abgelaufen.
  */
 import { antwort, fehler, leseJson, MELDUNG } from '@/lib/demo/api';
 import { leseScan } from '@/lib/demo/scans';
+import { scanFreigegeben } from '@/lib/demo/sperrliste';
 import { automatischePruefung, bestaetige, handelsregisterModus, manuelleSuche, uebersprungen } from '@/lib/demo/handelsregister';
 
 export const runtime = 'nodejs';
@@ -32,7 +36,7 @@ export async function POST(req: Request) {
     const scanId = typeof body.scan_id === 'string' ? body.scan_id.slice(0, 40) : '';
     if (handelsregisterModus() === 'aus') return antwort(uebersprungen(scanId));
     const scan = await leseScan(scanId);
-    if (!scan) return fehler(MELDUNG.scanAbgelaufen, 404);
+    if (!scan || !scanFreigegeben(scan)) return fehler(MELDUNG.scanAbgelaufen, 404);
 
     try {
         if (typeof body.bestaetige === 'string') {

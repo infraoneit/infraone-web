@@ -26,11 +26,15 @@
  * AUFTRAG-111: Der Nachweis trägt die Bindung Website ↔ Firma (`gebunden`, mitsigniert); ohne sie
  * 403. `profil.firma` (so meldet sich der Assistent) = gebundener Sprechname: die Marke aus dem
  * Scan nur, wenn sie zum Handelsregister-Namen passt, sonst der Registername ohne Rechtsform am Ende.
+ *
+ * AUFTRAG-112: Scans mit gesperrtem Host (Sperrliste) → 404 MELDUNG.scanAbgelaufen. Nach der
+ * Nachweis-Prüfung zusätzlich nur Vollscans (Stufe «voll»): Vorprüfung → 409 «scan_unvollstaendig».
  */
-import { antwort, clientIp, fehler, leseJson, MELDUNG, pruefeTurnstile } from '@/lib/demo/api';
+import { antwort, clientIp, fehler, leseJson, MELDUNG, pruefeTurnstile, scanUnvollstaendig } from '@/lib/demo/api';
 import { pruefeRueckrufNummer } from '@/lib/demo/nummer';
 import { anrufPruefen, anrufZaehlen, pseudonyme } from '@/lib/demo/limits';
-import { leseScan } from '@/lib/demo/scans';
+import { leseScan, scanStufe } from '@/lib/demo/scans';
+import { scanFreigegeben } from '@/lib/demo/sperrliste';
 import { auftraegeBereinigen, erstelleAuftrag, loescheAuftrag, nimmAnrufAn } from '@/lib/demo/auftraege';
 import { geraetAusAnfrage, mitGeraetCookie } from '@/lib/demo/geraet';
 import { aufraeumenGelegentlich } from '@/lib/demo/speicher';
@@ -77,6 +81,8 @@ async function anruf(req: Request, geraetHash: string): Promise<Response> {
 
     const scan = await leseScan(typeof body.scan_id === 'string' ? body.scan_id : '');
     if (!scan) return fehler(MELDUNG.scanAbgelaufen, 410);
+    // AUFTRAG-112: Scan einer gesperrten Website (z. B. vor dem Inhaltsfilter gespeichert) → wie abgelaufen
+    if (!scanFreigegeben(scan)) return fehler(MELDUNG.scanAbgelaufen, 404);
 
     // AUFTRAG-109: bestätigter, signierter Handelsregister-Nachweis des Scans (vor den Limits)
     let hr: AnrufNachweis;
@@ -90,6 +96,8 @@ async function anruf(req: Request, geraetHash: string): Promise<Response> {
         console.info(`[demo/anruf] abgewiesen: ${hr.code} scan=${scan.id.slice(0, 10)}`);
         return antwort({ fehler: hr.meldung, code: hr.code }, 403);
     }
+    // AUFTRAG-112: Anruf nur mit Vollscan (nach der Bestätigung); ältere Datensätze ohne Feld gelten als voll
+    if (scanStufe(scan) !== 'voll') return scanUnvollstaendig();
 
     const p = pseudonyme({ ip, geraetHash, nummer: pruefung.e164 });
     try {

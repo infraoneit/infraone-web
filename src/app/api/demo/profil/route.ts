@@ -8,10 +8,14 @@
  * AUFTRAG-102: Reichte das Scan-Budget (8 s) nicht für die Team-Seiten, lädt dieser
  * Schritt sie vor dem KI-Aufruf nach (höchstens 3,5 s). Die KI-Frist ergibt sich aus dem
  * Function-Limit: höchstens 21 s, zusammen mit dem Nachladen höchstens 24,5 s (< 26 s).
+ *
+ * AUFTRAG-112: nur für Vollscans — gesperrter Host (Sperrliste) → 404, Vorprüfungs-Scan (Firma noch
+ * nicht bestätigt) → 409 {code: «scan_unvollstaendig», fehler}.
  */
-import { antwort, fehler, leseJson, MELDUNG } from '@/lib/demo/api';
+import { antwort, fehler, leseJson, MELDUNG, scanUnvollstaendig } from '@/lib/demo/api';
 import { baueProfil } from '@/lib/demo/profil';
-import { leseScan, speichereScan } from '@/lib/demo/scans';
+import { leseScan, scanStufe, speichereScan } from '@/lib/demo/scans';
+import { scanFreigegeben } from '@/lib/demo/sperrliste';
 import { formatiereNummer } from '@/lib/demo/nummer';
 import { ergaenzeTeam } from '@/lib/demo/scanner';
 
@@ -26,7 +30,9 @@ export async function POST(req: Request) {
     const body = await leseJson(req, 1_000);
     const scanId = typeof body?.scan_id === 'string' ? body.scan_id : '';
     const scan = await leseScan(scanId);
-    if (!scan) return fehler(MELDUNG.scanAbgelaufen, 404);
+    // AUFTRAG-112: gesperrter Host → wie abgelaufen; Vorprüfung → erst nach der Bestätigung und dem Vollscan
+    if (!scan || !scanFreigegeben(scan)) return fehler(MELDUNG.scanAbgelaufen, 404);
+    if (scanStufe(scan) === 'vorpruefung') return scanUnvollstaendig();
 
     const t0 = Date.now();
     // AUFTRAG-102: Team-Seiten, für die das Scan-Budget nicht reichte, vor dem KI-Aufruf nachladen (höchstens 3,5 s)

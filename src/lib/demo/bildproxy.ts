@@ -16,9 +16,10 @@
  */
 import { erkenneFormat, MIME } from './bildanalyse';
 import { bereinigeSvg } from './logo';
-import { fehler } from './api';
+import { fehler, MELDUNG, scanUnvollstaendig } from './api';
 import { holeSicher, NetzFehler } from './netz';
-import { leseScan, SCAN_ID_RE } from './scans';
+import { leseScan, SCAN_ID_RE, scanStufe } from './scans';
+import { scanFreigegeben } from './sperrliste';
 
 export const BILD_MAX_BYTES = 2 * 1024 * 1024;
 
@@ -88,11 +89,15 @@ export async function fremdesBild(u: string, cache: string): Promise<Response> {
 /**
  * Logo `index` aus dem gespeicherten Scan `scanId`: Inline-SVG bzw. data:-URI direkt,
  * sonst die geprüfte Adresse des Kandidaten über den Proxy. Nur gültige Kandidaten.
+ * AUFTRAG-112: Scan mit gesperrtem Host → 404 MELDUNG.scanAbgelaufen; Vorprüfungs-Scan (noch kein
+ * Logo gelesen) → 409 «scan_unvollstaendig».
  */
 export async function logoAusScan(scanId: string, indexRoh: string | number, cache = CACHE_SCAN): Promise<Response> {
     const index = Number(indexRoh);
     if (!SCAN_ID_RE.test(scanId) || !Number.isInteger(index) || index < 0 || index > 20) return mitVary(fehler('Logo nicht gefunden', 404));
     const scan = await leseScan(scanId);
+    if (scan && !scanFreigegeben(scan)) return mitVary(fehler(MELDUNG.scanAbgelaufen, 404));
+    if (scan && scanStufe(scan) === 'vorpruefung') return mitVary(scanUnvollstaendig());
     const k = scan?.extrakt.logo_kandidaten[index] ?? null;
     if (!k || k.gueltig === false) return mitVary(fehler('Logo nicht gefunden', 404));
     if (k.inhalt) {

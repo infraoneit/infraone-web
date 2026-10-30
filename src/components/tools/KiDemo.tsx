@@ -15,6 +15,12 @@
  * Bestätigung (Server prüft die Bindung Website ↔ Firma) → erst dann «<Name> ist bereit», Karte mit
  * dem Handelsregister-Namen und Anruf-Formular. Bis dahin zeigt das Telefon keinen Firmennamen
  * aus dem Scan.
+ *
+ * AUFTRAG-112: Das URL-Feld ist das Tor. Stufe 1 (`starteScan`, POST /api/demo/scan {url}): Inhaltsfilter
+ * und Vorprüfung (Startseite + Impressum) — das Telefon zeigt nur «Website erreichbar», «Firma wird im
+ * Handelsregister geprüft …» und «Wartet auf die Bestätigung Ihrer Firma»; keine Chips, kein Logo, keine
+ * Farbe, kein Profil. Stufe 2 (`starteVollscan`, POST /api/demo/scan {scan_id}) erst nach der
+ * Bestätigung der Firma: «Website wird gelesen …» → «Website gelesen», danach die bisherige Abfolge.
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import Link from 'next/link';
@@ -99,6 +105,14 @@ interface LogoVomServer {
     ohneEigeneFarbe?: boolean;
 }
 
+/** AUFTRAG-112: Antwort der Vorprüfung (Stufe 1) — bewusst ohne Logos, Farben, Funde und Profil */
+interface VorpruefungAntwort {
+    scan_id: string;
+    stufe: 'vorpruefung';
+    host: string;
+}
+
+/** Antwort des Vollscans (Stufe 2, nach der Bestätigung der Firma) */
 interface ScanAntwort {
     scan_id: string;
     profil: Profil;
@@ -379,6 +393,11 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     // Karte — sie erscheint erst, wenn die Firma bestätigt ist
     const [hrScanId, setHrScanId] = useState<string | null>(null);
     const [vorbereitet, setVorbereitet] = useState<Karte | null>(null);
+    // AUFTRAG-112: Scan-Kennung, deren Vorprüfung da ist (Stufe 1); Fehlertext des Vollscans (Stufe 2);
+    // Kennung, für die der Vollscan schon gestartet wurde (einmal je Bestätigung)
+    const [vorgeprueft, setVorgeprueft] = useState<string | null>(null);
+    const [vollFehler, setVollFehler] = useState<string | null>(null);
+    const vollGestartet = useRef<string | null>(null);
 
     // AUFTRAG-102: Sitzung (Lauf + Scan-Kennung) — Logo, Farben und Profil gehören immer zum laufenden Scan
     const sitzungRef = useRef<Sitzung>(LEERE_SITZUNG);
@@ -432,6 +451,12 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     const hrUebersprungen = hrStart !== null && hrStart !== 'netz' && hrStart.ergebnis === 'uebersprungen';
     const hrOk = !!hrBestaetigt || hrUebersprungen;
 
+    /*
+     * AUFTRAG-112, Stufe 1: Inhaltsfilter und Vorprüfung (POST /api/demo/scan {url}). Danach zeigt das
+     * Telefon nur «Website erreichbar» → «Firma wird im Handelsregister geprüft …» → «Wartet auf die
+     * Bestätigung Ihrer Firma» (schritteAnzeige); keine Chips, kein Logo, keine Farbe (Welle bleibt
+     * neutral), kein Profil. Der Handelsregister-Abgleich startet mit der Antwort.
+     */
     const starteScan = useCallback(
         async (e: FormEvent) => {
             e.preventDefault();
@@ -445,9 +470,6 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             const neu = neueSitzung(sitzungRef.current);
             sitzungRef.current = neu;
             const lauf = neu.lauf;
-            // bis zur Scan-Antwort: gleicher Lauf; danach zusätzlich gleiche Scan-Kennung
-            const bindung: { scanId?: string } = {};
-            const aktuell = () => istAktuell(sitzungRef.current, lauf, bindung.scanId);
             const h = hostVon(wert);
             setScanFehler(null);
             setChips([]);
@@ -459,12 +481,24 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             setHrHinweis(null);
             setHrScanId(null);
             setVorbereitet(null);
+            setVorgeprueft(null);
+            setVollFehler(null);
+            vollGestartet.current = null;
             setHost(h);
             setWelleFarbe(GRUEN_LEERLAUF);
-            setSchritte([{ id: 'website', titel: 'Website wird gelesen …', detail: h, status: 'laeuft' }]);
+            // bis zur Antwort der Vorprüfung keine Schritte (das Telefon zeigt Host und Welle)
+            setSchritte([]);
             setZustand('scan');
 
-            let scan: ScanAntwort;
+            // Fehler (auch 422 Inhaltsfilter): Meldung unter dem URL-Feld, zurück zur Eingabe, keine Schritte,
+            // das Feld behält den Wert und bekommt den Fokus
+            const zurueckZurEingabe = (text: string) => {
+                setScanFehler(text);
+                setSchritte([]);
+                setZustand('eingabe');
+                setTimeout(() => eingabeRef.current?.focus(), 0);
+            };
+            let v: VorpruefungAntwort;
             try {
                 const res = await fetch('/api/demo/scan', {
                     method: 'POST',
@@ -472,40 +506,88 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                     body: JSON.stringify({ url: wert }),
                 });
                 const daten = await res.json().catch(() => ({}));
-                if (!aktuell()) return;
+                if (!istAktuell(sitzungRef.current, lauf)) return;
                 if (!res.ok) {
-                    setScanFehler(typeof daten.fehler === 'string' ? daten.fehler : HINWEIS.netz);
                     // AUFTRAG-103: Limit erreicht → Button bleibt gesperrt, kein Neuversuch
                     if (res.status === 429) setScanGesperrt(true);
-                    setSchritte([]);
-                    setZustand('eingabe');
+                    zurueckZurEingabe(typeof daten.fehler === 'string' ? daten.fehler : HINWEIS.netz);
+                    return;
+                }
+                v = daten as VorpruefungAntwort;
+            } catch {
+                if (!istAktuell(sitzungRef.current, lauf)) return;
+                zurueckZurEingabe(HINWEIS.netz);
+                return;
+            }
+            // AUFTRAG-102: Scan-Kennung an diesen Lauf binden; ab jetzt zählt nur noch, was zu ihr gehört
+            const gebunden = bindeScan(sitzungRef.current, lauf, v.scan_id);
+            if (!gebunden) {
+                if (sitzungRef.current.lauf !== lauf) return;
+                zurueckZurEingabe(HINWEIS.netz);
+                return;
+            }
+            sitzungRef.current = gebunden;
+            setSchritte([
+                { id: 'website', titel: HR_SCHRITT.websiteErreichbar, detail: h, status: 'ok' },
+                // Text und Stand folgen dem Abgleich und der Bestätigung (schritteAnzeige)
+                { id: 'handelsregister', titel: HR_SCHRITT.telefonPruefung, status: 'laeuft' },
+            ]);
+            setVorgeprueft(v.scan_id);
+            // AUFTRAG-111: der Firmen-Schritt im Formularbereich kann ab jetzt suchen und bestätigen
+            setHrScanId(v.scan_id);
+            // AUFTRAG-109: Handelsregister-Abgleich startet sofort
+            void pruefeRegister(v.scan_id, lauf);
+        },
+        [eingabe, zustand, scanGesperrt, pruefeRegister],
+    );
+
+    /*
+     * AUFTRAG-112, Stufe 2: erst nach der Bestätigung der Firma (gleiche scan_id) bzw. bei abgeschalteter
+     * Prüfung — Vollscan (POST /api/demo/scan {scan_id}), danach exakt die bisherige Abfolge: Logo,
+     * Markenfarbe und Welle, Telefon, Öffnungszeiten, Wissen (KI-Profil), Chips; die Karte wird vorbereitet
+     * («Assistent wird vorbereitet …», «<Name> ist bereit» im Effekt unten). Fehler: Schritt «website» auf
+     * Fehler, Hinweis mit dem Servertext und «Nochmals versuchen». Fehlt der Nachweis (403), zurück zum
+     * Firmen-Schritt; nach der neuen Bestätigung startet Stufe 2 wieder.
+     */
+    const starteVollscan = useCallback(
+        async (scanId: string, lauf: number, h: string) => {
+            const aktuell = () => istAktuell(sitzungRef.current, lauf, scanId);
+            setVollFehler(null);
+            setzeSchritt({ id: 'website', titel: HR_SCHRITT.websiteWirdGelesen, detail: h, status: 'laeuft' });
+            const scheitern = (text: string) => {
+                setzeSchritt({ id: 'website', titel: text, detail: h, status: 'fehler' });
+                setVollFehler(text);
+            };
+
+            let scan: ScanAntwort;
+            try {
+                const res = await fetch('/api/demo/scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ scan_id: scanId }),
+                });
+                const daten = await res.json().catch(() => ({}));
+                if (!aktuell()) return;
+                if (res.status === 403 && (daten.code === HR_CODE_FEHLT || daten.code === HR_CODE_ABGELAUFEN)) {
+                    vollGestartet.current = null;
+                    setzeSchritt({ id: 'website', titel: HR_SCHRITT.websiteErreichbar, detail: h, status: 'ok' });
+                    setHrBestaetigt(null);
+                    setHrHinweis(typeof daten.fehler === 'string' ? daten.fehler : null);
+                    void pruefeRegister(scanId, lauf);
+                    return;
+                }
+                if (!res.ok || daten.scan_id !== scanId) {
+                    scheitern(typeof daten.fehler === 'string' ? daten.fehler : HINWEIS.netz);
                     return;
                 }
                 scan = daten as ScanAntwort;
             } catch {
                 if (!aktuell()) return;
-                setScanFehler(HINWEIS.netz);
-                setSchritte([]);
-                setZustand('eingabe');
+                scheitern(HINWEIS.netz);
                 return;
             }
-            // AUFTRAG-102: Scan-Kennung an diesen Lauf binden; ab jetzt zählt nur noch, was zu ihr gehört
-            const gebunden = bindeScan(sitzungRef.current, lauf, scan.scan_id);
-            if (!gebunden) {
-                if (sitzungRef.current.lauf !== lauf) return;
-                setScanFehler(HINWEIS.netz);
-                setSchritte([]);
-                setZustand('eingabe');
-                return;
-            }
-            sitzungRef.current = gebunden;
-            bindung.scanId = scan.scan_id;
-            // AUFTRAG-109: Handelsregister-Abgleich startet sofort (parallel zu Profil, Logo und Schritten)
-            void pruefeRegister(scan.scan_id, lauf);
-            // AUFTRAG-111: der Firmen-Schritt im Formularbereich kann ab jetzt suchen und bestätigen
-            setHrScanId(scan.scan_id);
 
-            // Stufe 2 (KI-Profil) und Logo laufen parallel zu den Schritten; das Profil zählt nur mit derselben scan_id
+            // KI-Profil und Logo laufen parallel zu den Schritten; das Profil zählt nur mit derselben scan_id
             const profilVersprechen: Promise<ProfilAntwort> = fetch('/api/demo/profil', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -522,9 +604,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             };
 
             const seiten = scan.funde?.seiten ?? 1;
-            setzeSchritt({ id: 'website', titel: 'Website gelesen', detail: `${h} · ${seiten} ${seiten === 1 ? 'Seite' : 'Seiten'}`, status: 'ok' });
-            // AUFTRAG-111: Firmen-Prüfung läuft parallel; Text und Stand des Schritts folgen der Bestätigung (schritteAnzeige)
-            setzeSchritt({ id: 'handelsregister', titel: HR_SCHRITT.telefonPruefung, status: 'laeuft' });
+            setzeSchritt({ id: 'website', titel: HR_SCHRITT.websiteGelesen, detail: HR_SCHRITT.websiteGelesenDetail(h, seiten), status: 'ok' });
             if (!(await takt())) return;
 
             setzeSchritt({ id: 'logo', titel: 'Logo wird geprüft …', status: 'laeuft' });
@@ -577,12 +657,12 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             }
             if (!(await takt())) return;
 
-            // AUFTRAG-111: Karte vorbereiten; «Assistent bereit», Karte und Formular erst nach der Bestätigung
-            // der Firma (Effekt unten). Bis dahin: «Wartet auf die Bestätigung Ihrer Firma».
+            // AUFTRAG-111: Karte vorbereiten; «Assistent bereit», Karte und Formular folgen im Effekt unten
+            // (AUFTRAG-112: die Firma ist hier schon bestätigt — Stufe 2 startet erst danach)
             const stimme: Stimme = p.stimme ?? (scan.assistent_weiblich ? 'weiblich' : 'maennlich');
             setVorbereitet({ scanId: scan.scan_id, profil: p, faehigkeitenEn: standardAufEnglisch(p.faehigkeiten), stimme, logo, primaer: farbe ?? NEUTRAL_PRIMAER });
         },
-        [eingabe, zustand, setzeSchritt, scanGesperrt, pruefeRegister],
+        [setzeSchritt, pruefeRegister],
     );
 
     /*
@@ -604,6 +684,29 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         ];
         return () => zeiten.forEach(clearTimeout);
     }, [zustand, vorbereitet, hrOk, hrScanId, setzeSchritt]);
+
+    /*
+     * AUFTRAG-112: Stufe 2 startet, sobald die Firma bestätigt ist (bzw. die Prüfung abgeschaltet) — nur für
+     * den Scan, dessen Vorprüfung da ist, und nur einmal je Bestätigung (nach 403 im Vollscan wieder).
+     */
+    useEffect(() => {
+        if (zustand !== 'scan' || !hrOk || !hrScanId || vorgeprueft !== hrScanId || vollGestartet.current === hrScanId) return;
+        const scanId = hrScanId;
+        const lauf = sitzungRef.current.lauf;
+        const t = setTimeout(() => {
+            if (vollGestartet.current === scanId || !istAktuell(sitzungRef.current, lauf, scanId)) return;
+            vollGestartet.current = scanId;
+            void starteVollscan(scanId, lauf, host);
+        }, 0);
+        return () => clearTimeout(t);
+    }, [zustand, hrOk, hrScanId, vorgeprueft, host, starteVollscan]);
+
+    /** AUFTRAG-112: «Nochmals versuchen» nach einem Fehler im Vollscan */
+    const vollscanNochmals = () => {
+        if (!hrScanId || !istAktuell(sitzungRef.current, sitzungRef.current.lauf, hrScanId)) return;
+        vollGestartet.current = hrScanId;
+        void starteVollscan(hrScanId, sitzungRef.current.lauf, host);
+    };
 
     // AUFTRAG-098: Fähigkeiten auf Englisch erst bei der ersten Wahl von «English» übersetzen (einmal je Scan)
     const enAngefragt = useRef<string | null>(null);
@@ -690,6 +793,9 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         setHrHinweis(null);
         setHrScanId(null);
         setVorbereitet(null);
+        setVorgeprueft(null);
+        setVollFehler(null);
+        vollGestartet.current = null;
         setTimeout(() => {
             eingabeRef.current?.focus();
             eingabeRef.current?.select();
@@ -932,18 +1038,23 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     /*
      * AUFTRAG-111: Schritte im Telefon — «Handelsregister» folgt der Bestätigung (läuft → «Handelsregister:
      * <Name>», ok); sind die übrigen Schritte fertig und die Firma noch offen, wartet «Assistent».
+     * AUFTRAG-112: Die Firma wartet schon nach der Vorprüfung (Stufe 1); findet der automatische Abgleich
+     * nichts Aktives: «Firma im Handelsregister nicht gefunden» (leer, «Unten nach Firmenname oder UID suchen»).
      */
-    const wartetAufFirma = zustand === 'scan' && !!vorbereitet && !hrOk;
+    const wartetAufFirma = zustand === 'scan' && !!hrScanId && vorgeprueft === hrScanId && !hrOk;
+    const hrNichtGefunden = hrStart !== null && hrStart !== 'netz' && (hrStart.ergebnis === 'kein_treffer' || hrStart.ergebnis === 'nicht_aktiv');
     const schritteAnzeige: SchrittAnzeige[] = useMemo(() => {
         const hr: SchrittAnzeige = hrBestaetigt
             ? { id: 'handelsregister', titel: HR_SCHRITT.telefonBestaetigt(hrBestaetigt.name), status: 'ok' }
             : hrUebersprungen
               ? { id: 'handelsregister', titel: 'Handelsregister-Prüfung ausgeschaltet', status: 'leer' }
-              : { id: 'handelsregister', titel: HR_SCHRITT.telefonPruefung, status: 'laeuft' };
+              : hrNichtGefunden
+                ? { id: 'handelsregister', titel: HR_SCHRITT.telefonNichtGefunden, detail: HR_SCHRITT.telefonNichtGefundenDetail, status: 'leer' }
+                : { id: 'handelsregister', titel: HR_SCHRITT.telefonPruefung, status: 'laeuft' };
         const liste = schritte.map((s) => (s.id === 'handelsregister' ? hr : s));
         if (wartetAufFirma && !liste.some((s) => s.id === 'assistent')) liste.push({ id: 'assistent', titel: HR_SCHRITT.assistentWartet, status: 'leer' });
         return liste;
-    }, [schritte, hrBestaetigt, hrUebersprungen, wartetAufFirma]);
+    }, [schritte, hrBestaetigt, hrUebersprungen, hrNichtGefunden, wartetAufFirma]);
 
     const dauerSek =
         zustand === 'verbunden' && verbundenSeit
@@ -998,7 +1109,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 const nummer = Math.min(SCAN_SCHRITTE, Math.max(1, schritteAnzeige.length));
                 return {
                     kopf: `Schritt ${nummer} von ${SCAN_SCHRITTE}${laufend ? `: ${laufend.titel}` : ''}`,
-                    text: fund?.titel ?? 'Website wird gelesen …',
+                    // AUFTRAG-112: bis zur Antwort der Vorprüfung gibt es noch keinen Fund (die Website wird erst nach der Bestätigung gelesen)
+                    text: fund?.titel ?? HR_SCHRITT.telefonPruefung,
                     zeichen: fund?.farbe ? 'farbe' : 'scan',
                     farbe: fund?.farbe,
                 };
@@ -1020,6 +1132,17 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     const statusSichtbar = !!statusZeile && !sicht.telefon && sicht.buehne;
 
 
+    /** Bestätigte Firma (Zeile «Handelsregister: Name, Sitz · UID») — über dem Formular bzw. über dem Hinweis nach einem Fehler im Vollscan */
+    const bestaetigtZeile = (b: HrBestaetigt) => (
+        <p className="mt-2 flex items-start gap-2 text-sm text-text-secondary" data-handelsregister-bestaetigt={b.uid}>
+            <Check className="mt-0.5 w-4 h-4 flex-shrink-0 text-primary" strokeWidth={3} aria-hidden="true" />
+            <span>
+                Handelsregister: <span className="font-semibold text-text-primary">{b.name}</span>, {b.sitz} ·{' '}
+                <span className="tabular-nums whitespace-nowrap">{b.uid_formatiert}</span>
+            </span>
+        </p>
+    );
+
     /** Formular des Testanrufs; als Platzhalter (während des Scans) unsichtbar mit gleicher Höhe, darüber ein Skelett. */
     const anrufFormular = (platzhalter: boolean) => {
         const inhalt = (
@@ -1027,15 +1150,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                     <h2 id="ki-demo-anruf-titel" className="text-xl sm:text-2xl font-bold text-text-primary tracking-tight">
                                         {zustand === 'fehler' ? fehlerTitel(auftrag?.grund) : `${kartenAnzeige?.name ?? 'Ihr Assistent'} ruft Sie an`}
                                     </h2>
-                                    {hrBestaetigt && !platzhalter && (
-                                        <p className="mt-2 flex items-start gap-2 text-sm text-text-secondary" data-handelsregister-bestaetigt={hrBestaetigt.uid}>
-                                            <Check className="mt-0.5 w-4 h-4 flex-shrink-0 text-primary" strokeWidth={3} aria-hidden="true" />
-                                            <span>
-                                                Handelsregister: <span className="font-semibold text-text-primary">{hrBestaetigt.name}</span>, {hrBestaetigt.sitz} ·{' '}
-                                                <span className="tabular-nums whitespace-nowrap">{hrBestaetigt.uid_formatiert}</span>
-                                            </span>
-                                        </p>
-                                    )}
+                                    {hrBestaetigt && !platzhalter && bestaetigtZeile(hrBestaetigt)}
                                     <form onSubmit={starteAnruf} noValidate className="mt-5 space-y-5">
                                         <fieldset disabled={zustand !== 'bereit' || !!anrufSperre} className="min-w-0 space-y-5 disabled:opacity-80">
                                             <div role="radiogroup" aria-labelledby="ki-demo-sprache-titel">
@@ -1250,8 +1365,9 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                 className="w-full h-14 pl-12 pr-4 rounded-2xl bg-transparent text-text-primary text-lg placeholder:text-text-secondary/80 focus:outline-none read-only:text-text-secondary"
                             />
                         </div>
-                        {/* AUFTRAG-111: wartet der fertige Scan auf die Firma, steht hier «Andere Website» statt «Wird gescannt …» */}
-                        {zustand === 'eingabe' || (zustand === 'scan' && !wartetAufFirma) ? (
+                        {/* AUFTRAG-111: wartet der fertige Scan auf die Firma, steht hier «Andere Website» statt «Wird gescannt …»
+                            (AUFTRAG-112: schon nach der Vorprüfung, und nach einem Fehler im Vollscan) */}
+                        {zustand === 'eingabe' || (zustand === 'scan' && !wartetAufFirma && !vollFehler) ? (
                             <div className="sm:w-auto sm:min-w-[13.5rem]">
                                 <PrimaerKnopf zustand={zustand} name={name} type="submit" id="ki-demo-scan-knopf" gesperrt={zustand === 'eingabe' && scanGesperrt} />
                             </div>
@@ -1374,6 +1490,26 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                 }}
                                 onAndereWebsite={andereWebsite}
                             />
+                        ) : zustand === 'scan' && vollFehler ? (
+                            // AUFTRAG-112: Fehler im Vollscan (Stufe 2) — Hinweis mit dem Servertext unter der bestätigten Firma
+                            <div data-vollscan-fehler="">
+                                <h2 id="ki-demo-anruf-titel" className="text-xl sm:text-2xl font-bold text-text-primary tracking-tight">
+                                    Ihr Testanruf
+                                </h2>
+                                {hrBestaetigt && bestaetigtZeile(hrBestaetigt)}
+                                <p role="alert" className="mt-4 rounded-2xl border border-red-200 dark:border-red-900/60 bg-red-50 dark:bg-red-950/40 px-4 py-3 text-sm text-red-800 dark:text-red-200">
+                                    {vollFehler}
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={vollscanNochmals}
+                                    id="ki-demo-vollscan-nochmals"
+                                    className="mt-4 inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl border-2 border-border text-text-primary text-base font-semibold hover:border-primary transition-colors"
+                                >
+                                    <RotateCcw className="w-4 h-4" aria-hidden="true" />
+                                    {HR_SCHRITT.nochmalsVersuchen}
+                                </button>
+                            </div>
                         ) : !karte || !kartenAnzeige || zustand === 'scan' ? (
                             anrufFormular(true)
                         ) : zustand === 'beendet' ? (
@@ -1461,7 +1597,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                     : zustand === 'bereit' && !hrOk
                       ? `${name}, Ihr Assistent, ist bereit. Bitte bestätigen Sie zuerst Ihre Firma im Handelsregister.`
                       : wartetAufFirma
-                        ? 'Ihre Website ist gelesen. Bitte bestätigen Sie Ihre Firma im Handelsregister.'
+                        ? `${HR_SCHRITT.websiteErreichbar}. ${HR_SCHRITT.assistentWartet}.`
                         : ansage(zustand, name, firma)}
             </p>
         </div>

@@ -30,7 +30,9 @@ export type NetzFehlerCode =
     | 'zu_gross'
     | 'status'
     | 'typ'
-    | 'weiterleitungen';
+    | 'weiterleitungen'
+    /** AUFTRAG-112: Host vom Inhaltsfilter gesperrt (Sperrliste oder Cloudflare for Families) */
+    | 'host_inhalt';
 
 export class NetzFehler extends Error {
     code: NetzFehlerCode;
@@ -174,6 +176,11 @@ export interface AbrufOptionen {
     /** Bei Überschreitung abschneiden statt Fehler (HTML/CSS). */
     abschneiden?: boolean;
     maxWeiterleitungen?: number;
+    /**
+     * AUFTRAG-112: Inhaltsfilter, VOR jedem Hop (auch jeder Weiterleitung) mit dem Host aufgerufen;
+     * false → NetzFehler `host_inhalt`, der Host wird nicht geladen.
+     */
+    hostFreigabe?: (host: string) => Promise<boolean>;
 }
 
 export interface AbrufErgebnis {
@@ -300,7 +307,8 @@ function einzelAbruf(url: URL, opt: AbrufOptionen, deadline: number): Promise<Ei
 
 /**
  * Ruft eine URL sicher ab (Weiterleitungen bis 5, jede Station geprüft).
- * Wirft NetzFehler; Nicht-2xx wirft Code `status`.
+ * Wirft NetzFehler; Nicht-2xx wirft Code `status`. AUFTRAG-112: mit `hostFreigabe` prüft der
+ * Inhaltsfilter jeden Host vor dem Laden (gesperrt → `host_inhalt`, kein Abruf).
  */
 export async function holeSicher(roh: string, opt: AbrufOptionen): Promise<AbrufErgebnis> {
     const start = Date.now();
@@ -308,6 +316,10 @@ export async function holeSicher(roh: string, opt: AbrufOptionen): Promise<Abruf
     const maxW = opt.maxWeiterleitungen ?? 5;
     let url = pruefeUrlFormal(roh);
     for (let i = 0; i <= maxW; i++) {
+        // AUFTRAG-112: gesperrte Hosts (auch Weiterleitungsziele) werden nie geladen
+        if (opt.hostFreigabe && !(await opt.hostFreigabe(url.hostname))) {
+            throw new NetzFehler('host_inhalt', 'Diese Website ist für die Demo gesperrt');
+        }
         const r = await einzelAbruf(url, opt, deadline);
         if (r.status >= 300 && r.status < 400 && r.headers.location) {
             if (i === maxW) throw new NetzFehler('weiterleitungen', 'Zu viele Weiterleitungen');

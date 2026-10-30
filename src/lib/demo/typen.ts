@@ -289,9 +289,17 @@ export interface Extrakt {
     bindung_text?: string;
 }
 
+/**
+ * AUFTRAG-112: Stufe eines gespeicherten Scans — `vorpruefung` (vor der Bestätigung der Firma: nur
+ * Startseite + Impressum, kein Logo/Wissen/Profil) bzw. `voll` (Vollscan nach der Bestätigung).
+ */
+export type ScanStufe = 'vorpruefung' | 'voll';
+
 /** Gespeicherter Scan (Blob `scan/{id}`, lebt 2 h). */
 export interface ScanGespeichert {
     id: string;
+    /** AUFTRAG-112: fehlt bei Scans von vor diesem Auftrag — die gelten als `voll` (lib/demo/scans.ts `scanStufe`) */
+    stufe?: ScanStufe;
     erstellt: string;
     ablauf: number;
     extrakt: Extrakt;

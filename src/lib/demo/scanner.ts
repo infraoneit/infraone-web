@@ -9,6 +9,12 @@
  * Logo-Umgebung und gewichtete Markenfarbe (A-096).
  * Gesamtbudget 8 s, HTML max. 1,5 MB, CSS max. 300 kB, Sprite max. 1 MB.
  * Keine Browser-Automation.
+ *
+ * AUFTRAG-112: zwei Stufen. `vorpruefung` (vor der Bestätigung der Firma) liest nur die Startseite und
+ * höchstens zwei Impressum-Seiten — was die Handelsregister-Prüfung braucht (Titel, Firma, UID-Kandidaten,
+ * Textbasis der Bindung), kein Logo, keine Farbe, kein Text, kein Team. `scanneWebsite` (Vollscan) läuft
+ * erst nach der Bestätigung. Beide prüfen jeden HTML-Abruf (auch jede Weiterleitung) mit dem
+ * Inhaltsfilter (lib/demo/sperrliste.ts); ein gesperrter Host wird nie geladen (ScanFehler `inhalt`).
  */
 import { holeSicher, dekodiere, NetzFehler, pruefeUrlFormal } from './netz';
 import { analysiereBild, erkenneFormat } from './bildanalyse';
@@ -22,6 +28,7 @@ import { findeOeffnungszeiten, istOeffnungszeitText } from './oeffnungszeiten';
 import { firmenWoerterVon, fuehrePersonenZusammen, istPersonenLink, MAX_TEAM_SEITEN, namensSchluessel, ordneTeamLinks, personAusTeamSeite, type PersonFund, type TeamLink } from './personen';
 import { findeUids } from './zefix';
 import { bindungsTextAusSeiten, istImpressumSeite } from './bindung';
+import { hostFreigegeben } from './sperrliste';
 import type { Abschnitt, Extrakt, LogoKandidat, Schritt, SeitenProtokoll } from './typen';
 
 export { istFrameworkFarbe } from './markenfarbe';
@@ -37,7 +44,11 @@ export const MAX_UNTERSEITEN = 8;
 const MAX_CSS = 4;
 export const TEXT_MAX = 20_000;
 
-export type ScanFehlerCode = 'eingabe' | 'gesperrt' | 'nicht_erreichbar' | 'status' | 'kein_html';
+/** AUFTRAG-112: `inhalt` = Host vom Inhaltsfilter gesperrt (auch nach einer Weiterleitung) */
+export type ScanFehlerCode = 'eingabe' | 'gesperrt' | 'nicht_erreichbar' | 'status' | 'kein_html' | 'inhalt';
+
+/** AUFTRAG-112: Inhaltsfilter vor jedem HTML-Abruf (true = Host darf geladen werden). */
+export type HostFreigabe = (host: string) => Promise<boolean>;
 
 export class ScanFehler extends Error {
     code: ScanFehlerCode;
@@ -113,9 +124,26 @@ function istArtikel(pfad: string): boolean {
     return slug.split('-').length >= 6 || slug.length > 55 || /\/(?:19|20)\d{2}\/\d{2}\//.test(pfad) || teile.length > 3;
 }
 
-export function waehleUnterseiten(seite: SeitenAnalyse, startUrl: string, sprache: string | null, max = MAX_UNTERSEITEN): string[] {
+interface UnterseitenKandidat {
+    url: string;
+    merkmal: string;
+    tiefe: number;
+    nav: boolean;
+    reihenfolge: number;
+    artikel: boolean;
+}
+
+/** Rang einer Unterseite (kleiner = besser): kurzer Pfad, Navigation, früh im Dokument. */
+const unterseitenRang = (k: UnterseitenKandidat) => k.tiefe * 2 - (k.nav ? 3 : 0) + k.reihenfolge * 0.001;
+
+/**
+ * Interne Links der Startseite als Kandidaten für Unterseiten (gleiche Site, keine Dateien, keine
+ * Startseite, keine anderen Sprachen, keine Rechtstexte ausser dem Impressum, keine Personen-Seiten).
+ * AUFTRAG-112: gemeinsam für den Vollscan (`waehleUnterseiten`) und die Vorprüfung (`waehleImpressumSeiten`).
+ */
+function unterseitenKandidaten(seite: SeitenAnalyse, startUrl: string, sprache: string | null): UnterseitenKandidat[] {
     const start = new URL(startUrl);
-    const kandidaten = new Map<string, { url: string; merkmal: string; tiefe: number; nav: boolean; reihenfolge: number; artikel: boolean }>();
+    const kandidaten = new Map<string, UnterseitenKandidat>();
     seite.links.forEach(({ url, text, nav }, reihenfolge) => {
         let u: URL;
         try {
@@ -148,9 +176,13 @@ export function waehleUnterseiten(seite: SeitenAnalyse, startUrl: string, sprach
         }
         kandidaten.set(schluessel, { url: u.toString(), merkmal, tiefe: pfad.split('/').filter(Boolean).length, nav: !!nav, reihenfolge, artikel: istArtikel(pfad) });
     });
-    const liste = [...kandidaten.values()];
+    return [...kandidaten.values()];
+}
+
+export function waehleUnterseiten(seite: SeitenAnalyse, startUrl: string, sprache: string | null, max = MAX_UNTERSEITEN): string[] {
+    const liste = unterseitenKandidaten(seite, startUrl, sprache);
     const gewaehlt: string[] = [];
-    const rang = (k: (typeof liste)[number]) => k.tiefe * 2 - (k.nav ? 3 : 0) + k.reihenfolge * 0.001;
+    const rang = unterseitenRang;
     const bester = (re: RegExp) =>
         liste
             .filter((k) => !k.artikel && !gewaehlt.includes(k.url) && re.test(k.merkmal))
@@ -173,6 +205,22 @@ export function waehleUnterseiten(seite: SeitenAnalyse, startUrl: string, sprach
         gewaehlt.push(k.url);
     }
     return gewaehlt.slice(0, max);
+}
+
+/** AUFTRAG-112: höchstens so viele Impressum-Seiten liest die Vorprüfung. */
+export const VORPRUEFUNG_IMPRESSUM_MAX = 2;
+
+/**
+ * AUFTRAG-112: Impressum-Links der Startseite für die Vorprüfung (Seitenart `impressum` aus
+ * `SEITEN_ARTEN`, gleiche Kandidaten und Rangfolge wie im Vollscan), höchstens `max`.
+ */
+export function waehleImpressumSeiten(seite: SeitenAnalyse, startUrl: string, sprache: string | null, max = VORPRUEFUNG_IMPRESSUM_MAX): string[] {
+    const re = SEITEN_ARTEN.find((a) => a.art === 'impressum')!.re;
+    return unterseitenKandidaten(seite, startUrl, sprache)
+        .filter((k) => !k.artikel && re.test(k.merkmal))
+        .sort((a, b) => unterseitenRang(a) - unterseitenRang(b))
+        .slice(0, max)
+        .map((k) => k.url);
 }
 
 function waehleStylesheets(alle: string[], startUrl: string): string[] {
@@ -735,7 +783,10 @@ interface SeitenRoh {
     html: string;
 }
 
-async function holeHtml(url: string, deadline: number, zeitMax = SEITE_MS): Promise<{ url: string; html: string; ms: number; bytes: number }> {
+/** AUFTRAG-112: Vorgabe des Inhaltsfilters für HTML-Abrufe (Sperrliste + Cloudflare for Families, zwischengespeichert). */
+const STANDARD_FREIGABE: HostFreigabe = hostFreigegeben;
+
+async function holeHtml(url: string, deadline: number, zeitMax = SEITE_MS, hostFreigabe?: HostFreigabe): Promise<{ url: string; html: string; ms: number; bytes: number }> {
     const rest = deadline - Date.now();
     if (rest < 300) throw new NetzFehler('zeit', 'Zeitbudget aufgebraucht');
     const r = await holeSicher(url, {
@@ -743,6 +794,8 @@ async function holeHtml(url: string, deadline: number, zeitMax = SEITE_MS): Prom
         zeitMs: Math.min(zeitMax, rest),
         maxBytes: HTML_MAX,
         abschneiden: true,
+        // AUFTRAG-112: Inhaltsfilter vor jedem Hop (auch Weiterleitungen)
+        hostFreigabe,
     });
     const typ = r.contentType;
     const html = dekodiere(r.body, typ);
@@ -771,6 +824,7 @@ async function holeManifestFarbe(url: string | null, deadline: number): Promise<
 function netzZuScanFehler(e: unknown): ScanFehler {
     if (e instanceof ScanFehler) return e;
     if (e instanceof NetzFehler) {
+        if (e.code === 'host_inhalt') return new ScanFehler('inhalt', e.message);
         if (e.code === 'host_gesperrt') return new ScanFehler('gesperrt', e.message);
         if (e.code === 'url_ungueltig') return new ScanFehler('eingabe', e.message);
         if (e.code === 'status') return new ScanFehler('status', e.message, e.status);
@@ -997,11 +1051,11 @@ function teamAuswahl(seiten: SeitenRoh[], fw: string[]): { funde: PersonFund[]; 
     return { funde, auswahl };
 }
 
-async function ladeTeamSeiten(seiten: SeitenRoh[], deadline: number, fw: string[], protokoll: SeitenProtokoll[], schlange: AbrufSchlange): Promise<TeamErgebnis> {
+async function ladeTeamSeiten(seiten: SeitenRoh[], deadline: number, fw: string[], protokoll: SeitenProtokoll[], schlange: AbrufSchlange, hostFreigabe?: HostFreigabe): Promise<TeamErgebnis> {
     const { funde, auswahl } = teamAuswahl(seiten, fw);
     // reicht das Scan-Budget nicht, lädt der Profil-Schritt die Seiten nach (ergaenzeTeam)
     if (!auswahl.length || deadline - Date.now() < TEAM_MIN_REST_MS) return { funde, geladen: 0, offen: auswahl, versucht: [] };
-    const erg = await Promise.allSettled(auswahl.map((l, rang) => schlange.hole(-100 + rang, () => holeHtml(l.url, deadline - 350, TEAM_SEITE_MS))));
+    const erg = await Promise.allSettled(auswahl.map((l, rang) => schlange.hole(-100 + rang, () => holeHtml(l.url, deadline - 350, TEAM_SEITE_MS, hostFreigabe))));
     let geladen = 0;
     const offen: TeamLink[] = [];
     erg.forEach((r, i) => {
@@ -1060,7 +1114,8 @@ export async function ergaenzeTeam(x: Extrakt, zeitMs = TEAM_NACHLADEN_MS): Prom
     const deadline = t0 + zeitMs;
     const fw = firmenWoerterVon(x.host, x.og_site_name);
     const schlange = new AbrufSchlange(HTML_PARALLEL);
-    const erg = await Promise.allSettled(offen.map((l, rang) => schlange.hole(rang, () => holeHtml(l.url, deadline - 100, TEAM_SEITE_MS))));
+    // AUFTRAG-112: auch hier der Inhaltsfilter (gleiche Site, zwischengespeichert)
+    const erg = await Promise.allSettled(offen.map((l, rang) => schlange.hole(rang, () => holeHtml(l.url, deadline - 100, TEAM_SEITE_MS, STANDARD_FREIGABE))));
     // bisherige Personen als Funde (Reihenfolge bleibt), dazu die Funde der Team-Seiten
     const funde: PersonFund[] = x.personen.map((p, i) => ({ name: p.name, rolle: p.rolle === 'Teammitglied' ? null : p.rolle, zustaendigkeit: p.zustaendigkeit ?? null, quelle: 'text' as const, reihenfolge: i }));
     let geladen = 0;
@@ -1150,29 +1205,27 @@ export interface ScanErgebnis {
     dauer_ms: number;
 }
 
-/** Scannt eine Website (ohne Browser-Automation, Budget 8 s). */
-export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS): Promise<ScanErgebnis> {
-    const start = Date.now();
-    const deadline = start + budgetMs;
-    const url = normalisiereEingabe(eingabe);
-    const protokoll: SeitenProtokoll[] = [];
-    const hinweise: string[] = [];
+type Startseite = { url: string; html: string; ms: number; bytes: number };
 
-    // 1. Startseite: https, bei Verbindungsfehler www-Variante, zuletzt http
+/**
+ * Startseite laden (gemeinsam für Vorprüfung und Vollscan): https, bei Verbindungsfehler die
+ * www-Variante, zuletzt http; je bis 5,5 s im Budget. AUFTRAG-112: jeder Hop durch den
+ * Inhaltsfilter (`hostFreigabe`); ein gesperrter Host → ScanFehler `inhalt`, keine weitere Variante.
+ */
+async function ladeStartseite(url: URL, deadline: number, protokoll: SeitenProtokoll[], hostFreigabe: HostFreigabe): Promise<Startseite> {
     const varianten: string[] = [url.toString()];
     const wwwHost = url.hostname.startsWith('www.') ? url.hostname.slice(4) : `www.${url.hostname}`;
     varianten.push(Object.assign(new URL(url.toString()), { hostname: wwwHost }).toString());
     varianten.push(url.toString().replace(/^https:/, 'http:'));
-    let startseite: { url: string; html: string; ms: number; bytes: number } | null = null;
     let letzterFehler: unknown = null;
     for (const v of varianten) {
         const t0 = Date.now();
         try {
             // AUFTRAG-096: Startseite bis 5,5 s (langsame Server, z. B. Weiterleitung + 2 s Antwortzeit);
             // ohne Startseite gibt es gar kein Ergebnis — Unterseiten bekommen dann eben weniger Zeit
-            startseite = await holeHtml(v, deadline, STARTSEITE_MS);
+            const startseite = await holeHtml(v, deadline, STARTSEITE_MS, hostFreigabe);
             protokoll.push({ url: startseite.url, status: 200, bytes: startseite.bytes, ms: startseite.ms, art: 'start' });
-            break;
+            return startseite;
         } catch (e) {
             letzterFehler = e;
             protokoll.push({ url: v, status: e instanceof NetzFehler ? (e.status ?? null) : null, bytes: 0, ms: Date.now() - t0, fehler: e instanceof Error ? e.message : String(e) });
@@ -1181,7 +1234,151 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
             if (Date.now() > deadline - 1500) break;
         }
     }
-    if (!startseite) throw netzZuScanFehler(letzterFehler);
+    throw netzZuScanFehler(letzterFehler);
+}
+
+/**
+ * Firma und Bindung aus den gelesenen Seiten (gemeinsam für Vorprüfung und Vollscan, AUFTRAG-112):
+ * Zeilen ohne Dubletten/Cookie-Zeilen, JSON-LD, Firmenname, UID-Kandidaten (AUFTRAG-109), Firmenname
+ * mit Rechtsform aus dem Text und die Textbasis der Bindung (AUFTRAG-111: Titel, Impressum-Seite(n),
+ * Fusszeile). `seiten[0]` ist die Startseite.
+ */
+function firmaUndBindung(seiten: SeitenRoh[], endUrl: string) {
+    const startAnalyse = seiten[0].analyse;
+    const alleJsonLd = seiten.flatMap((s) => s.analyse.jsonld);
+    const betrieb = besterBetrieb(alleJsonLd);
+    const websiteKnoten = alleJsonLd.find((k) => /website/i.test(typVon(k)));
+    const jsonldName = text(betrieb?.name) ?? text(websiteKnoten?.name);
+
+    // Zeilen: Startseite zuerst, Dubletten (Navigation/Footer) nur einmal
+    const gesehen = new Set<string>();
+    const alleZeilen: string[] = [];
+    for (const s of seiten) {
+        for (const z of s.analyse.zeilen) {
+            const key = z.toLowerCase();
+            if (gesehen.has(key)) continue;
+            gesehen.add(key);
+            if (z.length < 400 && COOKIE_ZEILE_RE.test(z)) continue;
+            alleZeilen.push(z);
+        }
+    }
+    const endHost = new URL(endUrl).hostname;
+    const hostBasis = ohneWww(endHost);
+    const { firma, quelle } = bestimmeFirma(jsonldName, startAnalyse.og_site_name, startAnalyse.titel, endHost, alleZeilen);
+    return {
+        betrieb,
+        jsonldName,
+        alleZeilen,
+        hostBasis,
+        firma,
+        quelle,
+        // AUFTRAG-109: UID aus Impressum/Fusszeile/JSON-LD (Hauptweg des Handelsregister-Abgleichs)
+        uid_kandidaten: findeUids([JSON.stringify(alleJsonLd).slice(0, 200_000), ...alleZeilen]),
+        firma_register: firmaAusText(alleZeilen, vergleichsform(hostBasis.split('.')[0])),
+        // AUFTRAG-111 (Nachtrag): Textbasis der Bindung nur aus Titel, Impressum-Seite(n) und Fusszeile
+        // (Näherung: letzte 2000 Zeichen des Startseiten-Textes ohne Cookie-Zeilen), normalisiert, ≤ 200 kB
+        bindung_text: bindungsTextAusSeiten({
+            titel: startAnalyse.titel,
+            impressum: seiten.slice(1).filter((s) => istImpressumSeite(s.analyse.url, s.analyse.titel, s.analyse.ueberschriften)).flatMap((s) => s.analyse.zeilen),
+            startZeilen: startAnalyse.zeilen.filter((z) => !(z.length < 400 && COOKIE_ZEILE_RE.test(z))),
+        }),
+    };
+}
+
+/** AUFTRAG-112: Zeitlimit je Impressum-Seite in der Vorprüfung */
+const IMPRESSUM_MS = 2000;
+
+/**
+ * AUFTRAG-112: Vorprüfung vor der Bestätigung der Firma — nur, was die Handelsregister-Prüfung braucht.
+ * Startseite (wie im Vollscan, bis 5,5 s, Inhaltsfilter auf jedem Hop und damit auf dem End-Host) und
+ * höchstens zwei Impressum-Seiten (parallel, je bis 2 s, im Budget). Gefüllt: Host, Start- und
+ * End-Adresse, Titel, Beschreibung, og:site_name, JSON-LD-Name, Firma (+ Quelle, + mit Rechtsform),
+ * Sprache, UID-Kandidaten, Textbasis der Bindung, Seitenprotokoll, Plattform. Leer: Text, Abschnitte,
+ * Überschriften, Logos, Farben, Stylesheets, Personen, Telefone, E-Mails, Adressen, Öffnungszeiten.
+ * Schritte: nur `website`.
+ */
+export async function vorpruefung(eingabe: string, budgetMs = SCAN_BUDGET_MS, hostFreigabe: HostFreigabe = STANDARD_FREIGABE): Promise<ScanErgebnis> {
+    const start = Date.now();
+    const deadline = start + budgetMs;
+    const url = normalisiereEingabe(eingabe);
+    const protokoll: SeitenProtokoll[] = [];
+    const startseite = await ladeStartseite(url, deadline, protokoll, hostFreigabe);
+    const tWebsite = Date.now() - start;
+    const startAnalyse = analysiereSeite(startseite.html, startseite.url, true);
+    const seiten: SeitenRoh[] = [{ analyse: startAnalyse, html: startseite.html }];
+    const plattform = plattformVon(startAnalyse, startseite.html);
+
+    // nur Impressum-Seiten (höchstens 2), parallel
+    const links = waehleImpressumSeiten(startAnalyse, startseite.url, startAnalyse.lang);
+    const roh = await Promise.all(
+        links.map((u) =>
+            holeHtml(u, deadline - 250, IMPRESSUM_MS, hostFreigabe).then(
+                (v): SeitenRoh => {
+                    protokoll.push({ url: v.url, status: 200, bytes: v.bytes, ms: v.ms, art: 'unterseite' });
+                    return { analyse: analysiereSeite(v.html, v.url, false), html: v.html };
+                },
+                (e: unknown) => {
+                    // auch eine Weiterleitung auf einen gesperrten Host (host_inhalt): Seite nicht geladen
+                    protokoll.push({ url: u, status: e instanceof NetzFehler ? (e.status ?? null) : null, bytes: 0, ms: 0, fehler: e instanceof Error ? e.message : String(e), art: 'unterseite' });
+                    return null;
+                },
+            ),
+        ),
+    );
+    for (const r of roh) if (r) seiten.push(r);
+
+    const f = firmaUndBindung(seiten, startseite.url);
+    const extrakt: Extrakt = {
+        start_url: url.toString(),
+        end_url: startseite.url,
+        host: f.hostBasis,
+        sprache: startAnalyse.lang,
+        seiten: protokoll,
+        titel: startAnalyse.titel,
+        meta_description: startAnalyse.meta_description,
+        og_site_name: startAnalyse.og_site_name,
+        og_image: null,
+        jsonld_name: f.jsonldName,
+        jsonld_beschreibung: null,
+        firma: f.firma,
+        firma_quelle: f.quelle,
+        logo_kandidaten: [],
+        logo: null,
+        theme_color: null,
+        css_farben: [],
+        button_farben: [],
+        farben: null,
+        farbe_quelle: null,
+        farb_signale: [],
+        telefone: [],
+        emails: [],
+        adressen: [],
+        oeffnungszeiten: [],
+        ueberschriften: [],
+        navigation: [],
+        abschnitte: [],
+        text: '',
+        personen: [],
+        team_seiten: 0,
+        plattform,
+        hinweise: plattform ? [`Plattform: ${plattform}`] : [],
+        uid_kandidaten: f.uid_kandidaten,
+        firma_register: f.firma_register,
+        bindung_text: f.bindung_text,
+    };
+    return { extrakt, schritte: [{ schluessel: 'website', ok: true, detail: f.hostBasis, ms: tWebsite }], dauer_ms: Date.now() - start };
+}
+
+/** Scannt eine Website (ohne Browser-Automation, Budget 8 s). AUFTRAG-112: erst nach der Bestätigung der Firma. */
+export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS, hostFreigabe: HostFreigabe = STANDARD_FREIGABE): Promise<ScanErgebnis> {
+    const start = Date.now();
+    const deadline = start + budgetMs;
+    const url = normalisiereEingabe(eingabe);
+    const protokoll: SeitenProtokoll[] = [];
+    const hinweise: string[] = [];
+
+    // 1. Startseite: https, bei Verbindungsfehler www-Variante, zuletzt http (AUFTRAG-112: mit Inhaltsfilter)
+    const startseite = await ladeStartseite(url, deadline, protokoll, hostFreigabe);
     const tWebsite = Date.now() - start;
 
     const startAnalyse = analysiereSeite(startseite.html, startseite.url, true);
@@ -1203,7 +1400,7 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         const roh: Array<SeitenRoh | null | undefined> = unterseiten.map(() => undefined);
         const alle = Promise.all(
             unterseiten.map((u, i) =>
-                schlange.hole(i, () => holeHtml(u, deadline - 250)).then(
+                schlange.hole(i, () => holeHtml(u, deadline - 250, SEITE_MS, hostFreigabe)).then(
                     (v) => {
                         protokoll.push({ url: v.url, status: 200, bytes: v.bytes, ms: v.ms, art: 'unterseite' });
                         roh[i] = { analyse: analysiereSeite(v.html, v.url, false), html: v.html };
@@ -1222,7 +1419,7 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         await Promise.race([alle, spaetestens]);
         clearTimeout(uhr);
         const bisher = [seiten[0], ...roh.filter((r): r is SeitenRoh => !!r)];
-        const teamPromise = ladeTeamSeiten(bisher, deadline, firmenWoerter, protokoll, schlange);
+        const teamPromise = ladeTeamSeiten(bisher, deadline, firmenWoerter, protokoll, schlange, hostFreigabe);
         await alle;
         // Reihenfolge der Seiten = Priorität der Auswahl (Kontakt, Impressum, Über uns, …)
         for (const r of roh) if (r) seiten.push(r);
@@ -1319,25 +1516,9 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         delete k.selektor;
     }
 
-    // 3. Zusammenführen
-    const alleJsonLd = seiten.flatMap((s) => s.analyse.jsonld);
-    const betrieb = besterBetrieb(alleJsonLd);
-    const websiteKnoten = alleJsonLd.find((k) => /website/i.test(typVon(k)));
-    const jsonldName = text(betrieb?.name) ?? text(websiteKnoten?.name);
-
-    // Zeilen: Startseite zuerst, Dubletten (Navigation/Footer) nur einmal
-    const gesehen = new Set<string>();
-    const alleZeilen: string[] = [];
-    for (const s of seiten) {
-        for (const z of s.analyse.zeilen) {
-            const key = z.toLowerCase();
-            if (gesehen.has(key)) continue;
-            gesehen.add(key);
-            if (z.length < 400 && COOKIE_ZEILE_RE.test(z)) continue;
-            alleZeilen.push(z);
-        }
-    }
-    const { firma, quelle } = bestimmeFirma(jsonldName, startAnalyse.og_site_name, startAnalyse.titel, new URL(startseite.url).hostname, alleZeilen);
+    // 3. Zusammenführen (AUFTRAG-112: Firma, UID-Kandidaten und Bindung gemeinsam mit der Vorprüfung)
+    const fb = firmaUndBindung(seiten, startseite.url);
+    const { betrieb, jsonldName, alleZeilen, firma, quelle } = fb;
     // AUFTRAG-102: Textbudget je Seite anteilig (Startseite zuerst, keine Dubletten, keine Cookie- und Rechtstexte)
     const textGesamt = textNachBudget(seiten.map((s) => s.analyse.zeilen.map(ohneMobilnummer).filter((z) => z.length >= 2)), TEXT_MAX);
 
@@ -1352,7 +1533,7 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
     for (const n of haeufigste(findeTelefone(alleZeilen))) telDazu(n);
 
     // E-Mail: JSON-LD > mailto > Text; eigene Domain bevorzugt
-    const hostBasis = ohneWww(new URL(startseite.url).hostname);
+    const hostBasis = fb.hostBasis;
     const mailRoh = [
         ...(betrieb && text(betrieb.email) ? [String(text(betrieb.email)).replace(/^mailto:/i, '').toLowerCase()] : []),
         ...haeufigste(seiten.flatMap((s) => s.analyse.mailto)),
@@ -1439,16 +1620,10 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         ...(team.offen.length ? { team_offen: team.offen } : {}),
         plattform,
         hinweise,
-        // AUFTRAG-109: UID aus Impressum/Fusszeile/JSON-LD (Hauptweg des Handelsregister-Abgleichs)
-        uid_kandidaten: findeUids([JSON.stringify(alleJsonLd).slice(0, 200_000), ...alleZeilen]),
-        firma_register: firmaAusText(alleZeilen, vergleichsform(hostBasis.split('.')[0])),
-        // AUFTRAG-111 (Nachtrag): Textbasis der Bindung nur aus Titel, Impressum-Seite(n) und Fusszeile
-        // (Näherung: letzte 2000 Zeichen des Startseiten-Textes ohne Cookie-Zeilen), normalisiert, ≤ 200 kB
-        bindung_text: bindungsTextAusSeiten({
-            titel: startAnalyse.titel,
-            impressum: seiten.slice(1).filter((s) => istImpressumSeite(s.analyse.url, s.analyse.titel, s.analyse.ueberschriften)).flatMap((s) => s.analyse.zeilen),
-            startZeilen: startAnalyse.zeilen.filter((z) => !(z.length < 400 && COOKIE_ZEILE_RE.test(z))),
-        }),
+        // AUFTRAG-109/111: UID-Kandidaten, Firmenname mit Rechtsform, Textbasis der Bindung (firmaUndBindung)
+        uid_kandidaten: fb.uid_kandidaten,
+        firma_register: fb.firma_register,
+        bindung_text: fb.bindung_text,
     };
 
     const dauer = Date.now() - start;

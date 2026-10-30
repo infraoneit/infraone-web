@@ -18,6 +18,14 @@ export function fehler(text: string, status: number): Response {
     return antwort({ fehler: text }, status);
 }
 
+/** AUFTRAG-112: Kennung der 409-Antwort für Scans, die erst die Vorprüfung haben (Firma nicht bestätigt, kein Vollscan). */
+export const CODE_SCAN_UNVOLLSTAENDIG = 'scan_unvollstaendig';
+
+/** AUFTRAG-112: 409 {code: «scan_unvollstaendig», fehler: MELDUNG.scanUnvollstaendig} */
+export function scanUnvollstaendig(): Response {
+    return antwort({ code: CODE_SCAN_UNVOLLSTAENDIG, fehler: MELDUNG.scanUnvollstaendig }, 409);
+}
+
 /** Liest einen JSON-Körper mit Grössenlimit; null bei Fehler. */
 export async function leseJson(req: Request, maxBytes = 10_000): Promise<Record<string, unknown> | null> {
     const laenge = Number(req.headers.get('content-length') || 0);
@@ -180,6 +188,10 @@ export async function pruefeTurnstile(token: unknown, ip: string): Promise<boole
 export const MELDUNG = {
     urlUngueltig: 'Bitte geben Sie eine gültige Website-Adresse ein, z. B. muster-ag.ch.',
     urlGesperrt: 'Diese Adresse können wir nicht prüfen. Bitte geben Sie eine öffentliche Website ein.',
+    // AUFTRAG-112: Inhaltsfilter (Sperrliste / Cloudflare for Families), wortgleich
+    urlInhalt: 'Diese Website können wir für die Demo nicht verwenden. Bitte geben Sie die Website Ihrer Firma ein.',
+    // AUFTRAG-112: Vorprüfungs-Scan (Firma noch nicht bestätigt, Vollscan fehlt), wortgleich
+    scanUnvollstaendig: 'Ihr Assistent wird noch vorbereitet. Bitte bestätigen Sie zuerst Ihre Firma und warten Sie einen Moment.',
     nichtErreichbar: 'Diese Website konnten wir nicht erreichen. Prüfen Sie die Adresse oder versuchen Sie es gleich nochmals.',
     status: 'Diese Website antwortet nicht wie erwartet. Prüfen Sie die Adresse oder versuchen Sie eine andere Seite.',
     keinHtml: 'Unter dieser Adresse finden wir keine Webseite. Prüfen Sie die Adresse.',

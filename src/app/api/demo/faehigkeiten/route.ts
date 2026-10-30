@@ -9,10 +9,13 @@
  * zu den deutschen Fähigkeiten), höchstens zwei KI-Versuche je Scan; fällt die
  * KI aus, gilt die englische Standardliste. Nur Anzeige — nicht Teil des
  * Auftrags an die Anlage.
+ *
+ * AUFTRAG-112: gesperrter Host (Sperrliste) → 404, Vorprüfungs-Scan → 409 «scan_unvollstaendig».
  */
-import { antwort, fehler, leseJson, MELDUNG } from '@/lib/demo/api';
+import { antwort, fehler, leseJson, MELDUNG, scanUnvollstaendig } from '@/lib/demo/api';
 import { faehigkeitenAufEnglisch, faehigkeitenEnglisch } from '@/lib/demo/profil';
-import { leseScan, speichereScan } from '@/lib/demo/scans';
+import { leseScan, scanStufe, speichereScan } from '@/lib/demo/scans';
+import { scanFreigegeben } from '@/lib/demo/sperrliste';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -21,7 +24,8 @@ export const maxDuration = 15;
 export async function POST(req: Request) {
     const body = await leseJson(req, 1_000);
     const scan = await leseScan(typeof body?.scan_id === 'string' ? body.scan_id : '');
-    if (!scan) return fehler(MELDUNG.scanAbgelaufen, 404);
+    if (!scan || !scanFreigegeben(scan)) return fehler(MELDUNG.scanAbgelaufen, 404);
+    if (scanStufe(scan) === 'vorpruefung') return scanUnvollstaendig();
     const de = scan.profil.faehigkeiten.slice(0, 3);
     const gleich = (a: string[] | undefined) => !!a && a.length === de.length && a.every((x, i) => x === de[i]);
     if (scan.karte_en && gleich(scan.karte_en.de) && scan.karte_en.quelle !== 'rueckfall') {
