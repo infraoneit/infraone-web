@@ -16,6 +16,12 @@
  * dem signierten Cookie `demo_geraet` (fehlt es, setzt diese Antwort es). Ablauf: Auftrag anlegen
  * → zählen → erst dann anstossen; scheitert das Zählen, wird der Auftrag gelöscht (500, kein
  * Anstoss). Der Auftrag trägt `ip_hash`, `ip_art`, `geraet_hash` (nur für die Anlage mit Bearer).
+ *
+ * AUFTRAG-109: Nur Scans mit bestätigtem Handelsregister-Eintrag (signierter Nachweis, an
+ * scan_id + UID gebunden, 30 min; lib/demo/handelsregister.ts). Ohne gültigen Nachweis 403
+ * {fehler, code: "handelsregister_fehlt" | "handelsregister_abgelaufen"} — geprüft vor den
+ * Limits (zählt nichts). Der Auftrag trägt `handelsregister` {uid, uid_formatiert, name, sitz,
+ * status, quelle, geprueft_am}.
  */
 import { antwort, clientIp, fehler, leseJson, MELDUNG, pruefeTurnstile } from '@/lib/demo/api';
 import { pruefeRueckrufNummer } from '@/lib/demo/nummer';
@@ -28,6 +34,7 @@ import { SPRACHEN, type Farben, type Sprache } from '@/lib/demo/typen';
 import { gueltigeLogos, logoUrlFuerAuftrag } from '@/lib/demo/logo';
 import { stimmeFuer } from '@/lib/demo/namen';
 import { stosseAn } from '@/lib/demo/anstoss';
+import { nachweisFuerAnruf, type AnrufNachweis } from '@/lib/demo/handelsregister';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -65,6 +72,19 @@ async function anruf(req: Request, geraetHash: string): Promise<Response> {
 
     const scan = await leseScan(typeof body.scan_id === 'string' ? body.scan_id : '');
     if (!scan) return fehler(MELDUNG.scanAbgelaufen, 410);
+
+    // AUFTRAG-109: bestätigter, signierter Handelsregister-Nachweis des Scans (vor den Limits)
+    let hr: AnrufNachweis;
+    try {
+        hr = await nachweisFuerAnruf(scan);
+    } catch (e) {
+        console.error('[demo/anruf] Handelsregister-Nachweis nicht lesbar:', e instanceof Error ? e.message : e);
+        return fehler(MELDUNG.allgemein, 500);
+    }
+    if (!hr.ok) {
+        console.info(`[demo/anruf] abgewiesen: ${hr.code} scan=${scan.id.slice(0, 10)}`);
+        return antwort({ fehler: hr.meldung, code: hr.code }, 403);
+    }
 
     const p = pseudonyme({ ip, geraetHash, nummer: pruefung.e164 });
     try {
@@ -105,6 +125,7 @@ async function anruf(req: Request, geraetHash: string): Promise<Response> {
                 ip_hash: p.ip_hash,
                 ip_art: p.ip_art,
                 geraet_hash: p.geraet_hash,
+                handelsregister: hr.handelsregister,
             }),
         zaehle: () => anrufZaehlen(p),
         loesche: (a) => loescheAuftrag(a),

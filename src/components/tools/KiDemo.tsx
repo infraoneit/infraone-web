@@ -16,6 +16,8 @@ import Link from 'next/link';
 import { ArrowDown, ArrowRight, ArrowUp, BookOpen, Check, Clock, Globe, Languages, Loader2, Phone, PhoneCall, RotateCcw, Timer, X } from 'lucide-react';
 import styles from './KiDemo.module.css';
 import { Telefon, SPRACH_WAHL, ANRUF_VON, sprachName, type KartenAnzeige, type SchrittAnzeige } from './ki-demo/Telefon';
+import { Handelsregister } from './ki-demo/Handelsregister';
+import { HR_CODE_ABGELAUFEN, HR_CODE_FEHLT, type HrAntwort, type HrBestaetigt } from '@/lib/demo/handelsregister-texte';
 import {
     brauchtDunklenGrund,
     dominanteFarbe,
@@ -363,6 +365,10 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     // AUFTRAG-103: nach 429 bleibt der jeweilige Button gesperrt (Server-Klartext bleibt stehen, kein Neuversuch)
     const [scanGesperrt, setScanGesperrt] = useState(false);
     const [anrufSperre, setAnrufSperre] = useState<string | null>(null);
+    // AUFTRAG-109: Handelsregister-Abgleich (startet mit der Scan-Antwort), Bestätigung, Hinweis nach 403
+    const [hrStart, setHrStart] = useState<HrAntwort | 'netz' | null>(null);
+    const [hrBestaetigt, setHrBestaetigt] = useState<HrBestaetigt | null>(null);
+    const [hrHinweis, setHrHinweis] = useState<string | null>(null);
 
     // AUFTRAG-102: Sitzung (Lauf + Scan-Kennung) — Logo, Farben und Profil gehören immer zum laufenden Scan
     const sitzungRef = useRef<Sitzung>(LEERE_SITZUNG);
@@ -389,6 +395,33 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         });
     }, []);
 
+    /*
+     * AUFTRAG-109: automatischer Abgleich mit dem Handelsregister (UID aus dem Impressum, sonst
+     * Firmenname). Läuft parallel zu den Scan-Schritten; nur die Antwort zum laufenden Scan zählt.
+     * Ist der Scan schon bestätigt (gültiger Nachweis), geht es direkt zum Anruf-Schritt.
+     */
+    const pruefeRegister = useCallback(async (scanId: string, lauf: number) => {
+        setHrStart(null);
+        try {
+            const res = await fetch('/api/demo/handelsregister', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ scan_id: scanId }),
+            });
+            const d = (await res.json().catch(() => null)) as HrAntwort | null;
+            if (!istAktuell(sitzungRef.current, lauf, scanId)) return;
+            if (!res.ok || !d || d.scan_id !== scanId) {
+                setHrStart('netz');
+                return;
+            }
+            if (d.ergebnis === 'bestaetigt' && d.bestaetigt) setHrBestaetigt(d.bestaetigt);
+            setHrStart(d);
+        } catch {
+            if (istAktuell(sitzungRef.current, lauf, scanId)) setHrStart('netz');
+        }
+    }, []);
+    const hrOk = !!hrBestaetigt || (hrStart !== null && hrStart !== 'netz' && hrStart.ergebnis === 'uebersprungen');
+
     const starteScan = useCallback(
         async (e: FormEvent) => {
             e.preventDefault();
@@ -411,6 +444,9 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             setKarte(null);
             setAuftrag(null);
             setFormFehler(null);
+            setHrStart(null);
+            setHrBestaetigt(null);
+            setHrHinweis(null);
             setHost(h);
             setWelleFarbe(GRUEN_LEERLAUF);
             setSchritte([{ id: 'website', titel: 'Website wird gelesen …', detail: h, status: 'laeuft' }]);
@@ -452,6 +488,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             }
             sitzungRef.current = gebunden;
             bindung.scanId = scan.scan_id;
+            // AUFTRAG-109: Handelsregister-Abgleich startet sofort (parallel zu Profil, Logo und Schritten)
+            void pruefeRegister(scan.scan_id, lauf);
 
             // Stufe 2 (KI-Profil) und Logo laufen parallel zu den Schritten; das Profil zählt nur mit derselben scan_id
             const profilVersprechen: Promise<ProfilAntwort> = fetch('/api/demo/profil', {
@@ -532,7 +570,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             setKarte({ scanId: scan.scan_id, profil: p, faehigkeitenEn: standardAufEnglisch(p.faehigkeiten), stimme, logo, primaer: farbe ?? NEUTRAL_PRIMAER });
             setZustand('bereit');
         },
-        [eingabe, zustand, setzeSchritt, scanGesperrt],
+        [eingabe, zustand, setzeSchritt, scanGesperrt, pruefeRegister],
     );
 
     // AUFTRAG-098: Fähigkeiten auf Englisch erst bei der ersten Wahl von «English» übersetzen (einmal je Scan)
@@ -615,6 +653,9 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         setFormFehler(null);
         setVerbundenSeit(null);
         setWelleFarbe(GRUEN_LEERLAUF);
+        setHrStart(null);
+        setHrBestaetigt(null);
+        setHrHinweis(null);
         setTimeout(() => {
             eingabeRef.current?.focus();
             eingabeRef.current?.select();
@@ -631,7 +672,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
      * Versuch scheiterte mit 403.
      */
     useEffect(() => {
-        if (!turnstileSiteKey || zustand !== 'bereit' || anrufSperre || !turnstileRef.current) return;
+        // AUFTRAG-109: das Formular (und damit der Container) erscheint erst nach der Handelsregister-Bestätigung
+        if (!turnstileSiteKey || zustand !== 'bereit' || !hrOk || anrufSperre || !turnstileRef.current) return;
         let aktiv = true;
         const rendern = () => {
             if (!aktiv || !window.turnstile || !turnstileRef.current || turnstileWidget.current) return;
@@ -668,13 +710,13 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 }
             }
         };
-    }, [turnstileSiteKey, zustand, anrufSperre]);
+    }, [turnstileSiteKey, zustand, anrufSperre, hrOk]);
 
     /* ---------- Anruf ---------- */
 
     const starteAnruf = async (e: FormEvent) => {
         e.preventDefault();
-        if (!karte || zustand !== 'bereit' || anrufSperre) return;
+        if (!karte || zustand !== 'bereit' || anrufSperre || !hrOk) return;
         setFormFehler(null);
         const pruefung = pruefeRueckrufNummer(nummer, vorwahl);
         if (!pruefung.ok) {
@@ -708,6 +750,14 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 }),
             });
             const daten = await res.json().catch(() => ({}));
+            // AUFTRAG-109: Nachweis fehlt oder ist abgelaufen → zurück zur Bestätigung (Ergebnis kommt aus dem Speicher)
+            if (res.status === 403 && (daten.code === HR_CODE_FEHLT || daten.code === HR_CODE_ABGELAUFEN)) {
+                setHrBestaetigt(null);
+                setHrHinweis(typeof daten.fehler === 'string' ? daten.fehler : null);
+                setZustand('bereit');
+                void pruefeRegister(karte.scanId, sitzungRef.current.lauf);
+                return;
+            }
             if (res.status !== 201 || typeof daten.id !== 'string') {
                 const text = typeof daten.fehler === 'string' ? daten.fehler : HINWEIS.netz;
                 // AUFTRAG-103: 429 (Limit) zeigt den Server-Klartext und sperrt den Button — kein automatischer Neuversuch
@@ -892,7 +942,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 };
             }
             case 'bereit':
-                return { kopf: 'Scan abgeschlossen', text: `${assistent} ist bereit`, zeichen: 'farbe', farbe: kartenAnzeige?.primaer };
+                return { kopf: 'Scan abgeschlossen', text: hrOk ? `${assistent} ist bereit` : 'Bitte bestätigen Sie Ihre Firma', zeichen: 'farbe', farbe: kartenAnzeige?.primaer };
             case 'wartend':
                 return { kopf: 'Testanruf', text: 'Wir rufen Sie gleich an …', zeichen: 'puls' };
             case 'waehlt':
@@ -915,6 +965,15 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                     <h2 id="ki-demo-anruf-titel" className="text-xl sm:text-2xl font-bold text-text-primary tracking-tight">
                                         {zustand === 'fehler' ? fehlerTitel(auftrag?.grund) : `${kartenAnzeige?.name ?? 'Ihr Assistent'} ruft Sie an`}
                                     </h2>
+                                    {hrBestaetigt && !platzhalter && (
+                                        <p className="mt-2 flex items-start gap-2 text-sm text-text-secondary" data-handelsregister-bestaetigt={hrBestaetigt.uid}>
+                                            <Check className="mt-0.5 w-4 h-4 flex-shrink-0 text-primary" strokeWidth={3} aria-hidden="true" />
+                                            <span>
+                                                Handelsregister: <span className="font-semibold text-text-primary">{hrBestaetigt.name}</span>, {hrBestaetigt.sitz} ·{' '}
+                                                <span className="tabular-nums whitespace-nowrap">{hrBestaetigt.uid_formatiert}</span>
+                                            </span>
+                                        </p>
+                                    )}
                                     <form onSubmit={starteAnruf} noValidate className="mt-5 space-y-5">
                                         <fieldset disabled={zustand !== 'bereit' || !!anrufSperre} className="min-w-0 space-y-5 disabled:opacity-80">
                                             <div role="radiogroup" aria-labelledby="ki-demo-sprache-titel">
@@ -1260,6 +1319,19 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                     </div>
                                 </div>
                             </>
+                        ) : zustand === 'bereit' && !hrOk ? (
+                            // AUFTRAG-109: erst die Firma im Handelsregister bestätigen, dann der Anruf-Schritt
+                            <Handelsregister
+                                scanId={karte.scanId}
+                                start={hrStart}
+                                hinweis={hrHinweis}
+                                onNochmals={() => void pruefeRegister(karte.scanId, sitzungRef.current.lauf)}
+                                onBestaetigt={(b) => {
+                                    setHrBestaetigt(b);
+                                    setHrHinweis(null);
+                                    setFormFehler(null);
+                                }}
+                            />
                         ) : (
                             anrufFormular(false)
                         )}
@@ -1313,7 +1385,11 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
 
             {/* Ansage der Zustandswechsel für Screenreader */}
             <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-                {zustand === 'fehler' ? `${fehlerMeldung(auftrag?.grund).text.replace(/:$/, '')}: 052 222 18 18.` : ansage(zustand, name, firma)}
+                {zustand === 'fehler'
+                    ? `${fehlerMeldung(auftrag?.grund).text.replace(/:$/, '')}: 052 222 18 18.`
+                    : zustand === 'bereit' && !hrOk
+                      ? `${name}, Ihr Assistent für ${firma}, ist bereit. Bitte bestätigen Sie zuerst Ihre Firma im Handelsregister.`
+                      : ansage(zustand, name, firma)}
             </p>
         </div>
     );

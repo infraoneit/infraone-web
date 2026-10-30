@@ -17,7 +17,7 @@
  */
 import { leseGueltig, speicher } from './speicher';
 import { isoZuerich, tagZuerich, zufall } from './api';
-import type { AuftragFuerOrchestrator, AuftragGespeichert, AuftragStatus, IpArt, Profil, Sprache } from './typen';
+import type { AuftragFuerOrchestrator, AuftragGespeichert, AuftragStatus, HandelsregisterAuftrag, IpArt, Profil, Sprache } from './typen';
 
 export const AUFTRAG_TTL_MS = 24 * 60 * 60 * 1000;
 export const WARTEN_MAX_MS = 10 * 60 * 1000;
@@ -47,6 +47,8 @@ export async function erstelleAuftrag(daten: {
     ip_hash?: string | null;
     ip_art?: IpArt | null;
     geraet_hash?: string | null;
+    /** AUFTRAG-109: bestätigter Handelsregister-Eintrag (null bei abgeschalteter Prüfung) */
+    handelsregister?: HandelsregisterAuftrag | null;
 }): Promise<AuftragGespeichert> {
     const jetzt = new Date();
     const auftrag: AuftragGespeichert = {
@@ -67,6 +69,7 @@ export async function erstelleAuftrag(daten: {
         ip_hash: daten.ip_hash ?? null,
         ip_art: daten.ip_art ?? null,
         geraet_hash: daten.geraet_hash ?? null,
+        handelsregister: daten.handelsregister ?? null,
     };
     await speicher().schreibe(`auftrag/${auftrag.id}`, auftrag);
     await speicher().schreibe(markerSchluessel(auftrag), { id: auftrag.id, ablauf: auftrag.ablauf });
@@ -168,9 +171,20 @@ export async function leseAuftrag(id: string): Promise<AuftragGespeichert | null
  * Öffentliche Statusansicht: nur Status, keine Nummer, kein Profil.
  * AUFTRAG-095: bei «fehler» zusätzlich der Grund (z. B. limit, besetzt), damit
  * die Seite eine zutreffende Meldung zeigt statt immer «nicht erreicht».
+ * AUFTRAG-109: `handelsregister` nur mit name, sitz, uid (öffentliche Registerdaten; null bei
+ * älteren Aufträgen bzw. abgeschalteter Prüfung).
  */
 export function oeffentlich(a: AuftragGespeichert) {
-    return { id: a.id, status: a.status, zeit: a.zeit, dauer_s: a.dauer_s, zusammenfassung: a.zusammenfassung, grund: a.status === 'fehler' ? a.grund : null };
+    const hr = a.handelsregister ?? null;
+    return {
+        id: a.id,
+        status: a.status,
+        zeit: a.zeit,
+        dauer_s: a.dauer_s,
+        zusammenfassung: a.zusammenfassung,
+        grund: a.status === 'fehler' ? a.grund : null,
+        handelsregister: hr ? { name: hr.name, sitz: hr.sitz, uid: hr.uid } : null,
+    };
 }
 
 export function fuerOrchestrator(a: AuftragGespeichert): AuftragFuerOrchestrator {

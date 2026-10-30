@@ -1,6 +1,6 @@
 /**
- * GET /api/demo/auftraege/{id} → {id, status, zeit, dauer_s, zusammenfassung, grund}
- * (grund nur bei «fehler», AUFTRAG-095)
+ * GET /api/demo/auftraege/{id} → {id, status, zeit, dauer_s, zusammenfassung, grund, handelsregister}
+ * (grund nur bei «fehler», AUFTRAG-095; handelsregister {name, sitz, uid} oder null, AUFTRAG-109)
  *
  * Öffentlich (Status-Polling der Seite). Nur mit der unvorhersehbaren
  * Auftrags-Id (16 Zufallszeichen); liefert weder Nummer noch Profil.
