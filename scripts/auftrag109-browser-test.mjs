@@ -29,6 +29,15 @@
  * eigene Server hat kein DEMO_ANSTOSS_URL (kein Anstoss der Anlage).
  *
  *   $env:BASE_URL='http://localhost:3101'; $env:SERVER_LOG='<log des Servers>'; node scripts/auftrag109-browser-test.mjs
+ *
+ * AUFTRAG-111 (angepasst, nur wo die neue Reihenfolge bzw. die Bindung die Erwartung ändert):
+ * - Der Firmen-Schritt erscheint schon während des Scans; das Anruf-Formular erst nach Bestätigung
+ *   UND Ende der Scan-Schritte (KI-Profil bis ~21 s) → Wartezeit aufs Formular 90 s statt 15 s.
+ * - example.com findet jetzt über das Domain-Label «example» einen Eintrag → Schritte 2 und 3
+ *   nutzen httpbin.org (Zefix: kein Treffer für UID, Name und Label; gemessen 30.10.2026).
+ * - Schritt 2: Die manuell gefundene Elektro-Tel gehört nicht zu httpbin.org → statt Anruf-Formular
+ *   jetzt die Meldung website_passt_nicht (Bindung, AUFTRAG-111 P2/P4), kein Formular.
+ * - Schritt 7: auf elektro-tel.ch über «Nein, andere Firma suchen» (die Firma muss zur Website passen).
  */
 import { chromium } from 'playwright-core';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -113,6 +122,10 @@ async function eintraege(page) {
 }
 
 const formularDa = (page) => page.locator('#ki-demo-nummer').count().then((n) => n > 0);
+// A111: Formular erst nach Bestätigung und Ende der Scan-Schritte (KI-Profil bis ~21 s)
+const FORMULAR_MS = 90000;
+// A111: Website ohne Zefix-Treffer (UID, Name, Domain-Label); example.com trifft jetzt «example consulting gmbh»
+const OHNE_TREFFER = process.env.OHNE_TREFFER_SITE || 'httpbin.org';
 const DATENSCHUTZ = 'Wir prüfen den Firmennamen gegen das öffentliche Handelsregister (Zefix).';
 
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });
@@ -149,7 +162,7 @@ try {
         const ziel = liste.find((e) => e.uid === 'CHE107160757' && e.aktiv) ?? liste.find((e) => e.aktiv);
         if (ziel) await s.page.click(`label[data-uid="${ziel.uid}"]`);
         await s.page.click('#ki-demo-hr-bestaetigen');
-        await s.page.waitForSelector('#ki-demo-nummer', { timeout: 15000 });
+        await s.page.waitForSelector('#ki-demo-nummer', { timeout: FORMULAR_MS });
         const bestaetigt = await s.page.getAttribute('[data-handelsregister-bestaetigt]', 'data-handelsregister-bestaetigt');
         check('1: nach «Ja, das ist meine Firma» erscheint das Anruf-Formular', (await formularDa(s.page)) && (await s.page.locator('#ki-demo-einwilligung').count()) === 1 && (await s.page.locator('input[name="ki-demo-sprache-wahl"]').count()) === 3);
         check('1: bestätigte Firma steht über dem Formular', bestaetigt === ziel?.uid, `${bestaetigt}`);
@@ -171,10 +184,10 @@ try {
     if (!NUR_AUS) {
         const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: 'de-CH' });
         const s = await vorbereiten(ctx);
-        await scanne(s, 'example.com');
+        await scanne(s, OHNE_TREFFER);
         const stand = await warteRegister(s);
         const text = await s.page.locator('[data-handelsregister]').innerText();
-        check('2: example.com → kein Treffer mit freundlichem Hinweis', stand === 'kein_treffer' && /keinen passenden Eintrag gefunden/.test(text), stand);
+        check(`2: ${OHNE_TREFFER} → kein Treffer mit freundlichem Hinweis`, stand === 'kein_treffer' && /keinen passenden Eintrag gefunden/.test(text), stand);
         check('2: Eingabefeld «Firmenname oder UID», 3 Versuche', (await s.page.locator('label[for="ki-demo-hr-suche"]').innerText()) === 'Firmenname oder UID' && /Noch 3 Versuche/.test(text));
         check('2: kein Anruf-Formular ohne Treffer', !(await formularDa(s.page)));
         await s.page.locator('section[aria-labelledby="ki-demo-anruf-titel"]').screenshot({ path: path.join(SCREENS, '2-kein-treffer.png') });
@@ -191,12 +204,15 @@ try {
         check('2: Herkunft «Gefunden über Ihre Eingabe»', tm.includes('Gefunden über Ihre Eingabe.'));
         await s.page.locator('section[aria-labelledby="ki-demo-anruf-titel"]').screenshot({ path: path.join(SCREENS, '2-manuell-treffer.png') });
         await s.page.click('#ki-demo-hr-bestaetigen');
-        await s.page.waitForSelector('#ki-demo-nummer', { timeout: 15000 });
-        check('2: nach Bestätigung Anruf-Formular (nicht abgesendet)', (await formularDa(s.page)) && s.anrufe.length === 0);
+        // A111: Elektro-Tel gehört nicht zu dieser Website → Meldung statt Formular (Bindung P2/P4)
+        await s.page.waitForSelector('[data-hr-passt-nicht] [role="alert"]', { timeout: 15000 });
+        const passt = (await s.page.locator('[data-hr-passt-nicht] [role="alert"]').innerText()).replace(/\s+/g, ' ').trim();
+        check('2: nach Bestätigung website_passt_nicht statt Anruf-Formular (A111)', passt.startsWith(`Die Website ${OHNE_TREFFER} gehört laut Handelsregister und Website-Inhalt nicht zu Elektro-Tel AG`) && !(await formularDa(s.page)) && s.anrufe.length === 0, passt);
         const manuell = s.daten.hr.filter((x) => x.body.suche).map((x) => x.antwort?.versuche_rest);
         check('2: Server zählt die manuellen Versuche (2 → 1)', JSON.stringify(manuell) === '[2,1]', JSON.stringify(manuell));
-        check('2: keine Konsolenfehler', s.konsole.length === 0, s.konsole.slice(0, 3).join(' | '));
-        protokoll.laeufe.push({ test: '2 example.com manuell', scanId: s.daten.scan?.scan_id, versuche: manuell });
+        const unerwartet2 = s.konsole.filter((k) => !/status of 409/.test(k));
+        check('2: keine unerwarteten Konsolenfehler (nur die bewusste 409, A111)', unerwartet2.length === 0, unerwartet2.slice(0, 3).join(' | '));
+        protokoll.laeufe.push({ test: `2 ${OHNE_TREFFER} manuell`, scanId: s.daten.scan?.scan_id, versuche: manuell });
         await ctx.close();
     }
 
@@ -204,7 +220,7 @@ try {
     if (!NUR_AUS) {
         const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: 'de-CH' });
         const s = await vorbereiten(ctx);
-        await scanne(s, 'example.com');
+        await scanne(s, OHNE_TREFFER);
         await warteRegister(s);
         for (let i = 1; i <= 3; i++) {
             await s.page.fill('#ki-demo-hr-suche', `Muster Nirgendwo ${i} AG`);
@@ -260,8 +276,10 @@ try {
     if (!NUR_AUS) {
         const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: 'de-CH' });
         const s = await vorbereiten(ctx);
-        await scanne(s, 'example.com');
+        // A111: die gewählte Firma muss zur Website gehören → elektro-tel.ch, Suche über «Nein, andere Firma suchen»
+        await scanne(s, 'elektro-tel.ch');
         await warteRegister(s);
+        await s.page.click('#ki-demo-hr-andere');
         await s.page.fill('#ki-demo-hr-suche', 'Elektro-Tel AG');
         await s.page.click('#ki-demo-hr-suchen');
         await s.page.waitForSelector('[data-handelsregister="treffer"] label[data-uid]', { timeout: 30000 });
@@ -273,7 +291,7 @@ try {
         const ziel = liste.find((e) => e.uid === 'CHE107160757') ?? liste[0];
         await s.page.click(`label[data-uid="${ziel.uid}"]`);
         await s.page.click('#ki-demo-hr-bestaetigen');
-        await s.page.waitForSelector('#ki-demo-nummer', { timeout: 15000 });
+        await s.page.waitForSelector('#ki-demo-nummer', { timeout: FORMULAR_MS });
         check('7: gewählter Eintrag bestätigt, Formular da (nicht abgesendet)', (await s.page.getAttribute('[data-handelsregister-bestaetigt]', 'data-handelsregister-bestaetigt')) === ziel.uid && s.anrufe.length === 0);
         check('7: keine Konsolenfehler', s.konsole.length === 0, s.konsole.slice(0, 3).join(' | '));
         await ctx.close();

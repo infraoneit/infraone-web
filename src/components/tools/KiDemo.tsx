@@ -10,6 +10,11 @@
  *
  * Kundeninhalte (Karte, Anruf) tragen die Farben des Kunden, nie
  * InfraOne-Grün (Portmann-Prinzip). Buttons/CTA bleiben im Marken-Grün.
+ *
+ * AUFTRAG-111: URL → sofort «Welche ist Ihre Firma?» (Handelsregister, parallel zum Scan) →
+ * Bestätigung (Server prüft die Bindung Website ↔ Firma) → erst dann «<Name> ist bereit», Karte mit
+ * dem Handelsregister-Namen und Anruf-Formular. Bis dahin zeigt das Telefon keinen Firmennamen
+ * aus dem Scan.
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import Link from 'next/link';
@@ -17,7 +22,8 @@ import { ArrowDown, ArrowRight, ArrowUp, BookOpen, Check, Clock, Globe, Language
 import styles from './KiDemo.module.css';
 import { Telefon, SPRACH_WAHL, ANRUF_VON, sprachName, type KartenAnzeige, type SchrittAnzeige } from './ki-demo/Telefon';
 import { Handelsregister } from './ki-demo/Handelsregister';
-import { HR_CODE_ABGELAUFEN, HR_CODE_FEHLT, type HrAntwort, type HrBestaetigt } from '@/lib/demo/handelsregister-texte';
+import { HR_CODE_ABGELAUFEN, HR_CODE_FEHLT, HR_SCHRITT, type HrAntwort, type HrBestaetigt } from '@/lib/demo/handelsregister-texte';
+import { kuerzeName, sprechName } from '@/lib/demo/bindung';
 import {
     brauchtDunklenGrund,
     dominanteFarbe,
@@ -70,8 +76,8 @@ const HINWEIS = {
 
 const GRUEN_LEERLAUF = '#4CAF50';
 
-/** Schritte des Scans im Telefon: Website, Logo, Farbe, Telefon, Öffnungszeiten, Wissen, Assistent */
-const SCAN_SCHRITTE = 7;
+/** Schritte des Scans im Telefon: Website, Handelsregister (AUFTRAG-111), Logo, Farbe, Telefon, Öffnungszeiten, Wissen, Assistent */
+const SCAN_SCHRITTE = 8;
 
 /* ------------------------------------------------------------------ */
 /* Typen der API                                                       */
@@ -369,6 +375,10 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     const [hrStart, setHrStart] = useState<HrAntwort | 'netz' | null>(null);
     const [hrBestaetigt, setHrBestaetigt] = useState<HrBestaetigt | null>(null);
     const [hrHinweis, setHrHinweis] = useState<string | null>(null);
+    // AUFTRAG-111: Scan-Kennung des Firmen-Schritts (schon während des Scans) und die fertig vorbereitete
+    // Karte — sie erscheint erst, wenn die Firma bestätigt ist
+    const [hrScanId, setHrScanId] = useState<string | null>(null);
+    const [vorbereitet, setVorbereitet] = useState<Karte | null>(null);
 
     // AUFTRAG-102: Sitzung (Lauf + Scan-Kennung) — Logo, Farben und Profil gehören immer zum laufenden Scan
     const sitzungRef = useRef<Sitzung>(LEERE_SITZUNG);
@@ -381,7 +391,6 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
     const turnstileWidget = useRef<string | null>(null);
 
     const name = karte?.profil.assistent_name ?? '';
-    const firma = karte?.profil.firma ?? '';
 
     /* ---------- Scan ---------- */
 
@@ -420,7 +429,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             if (istAktuell(sitzungRef.current, lauf, scanId)) setHrStart('netz');
         }
     }, []);
-    const hrOk = !!hrBestaetigt || (hrStart !== null && hrStart !== 'netz' && hrStart.ergebnis === 'uebersprungen');
+    const hrUebersprungen = hrStart !== null && hrStart !== 'netz' && hrStart.ergebnis === 'uebersprungen';
+    const hrOk = !!hrBestaetigt || hrUebersprungen;
 
     const starteScan = useCallback(
         async (e: FormEvent) => {
@@ -447,6 +457,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             setHrStart(null);
             setHrBestaetigt(null);
             setHrHinweis(null);
+            setHrScanId(null);
+            setVorbereitet(null);
             setHost(h);
             setWelleFarbe(GRUEN_LEERLAUF);
             setSchritte([{ id: 'website', titel: 'Website wird gelesen …', detail: h, status: 'laeuft' }]);
@@ -490,6 +502,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             bindung.scanId = scan.scan_id;
             // AUFTRAG-109: Handelsregister-Abgleich startet sofort (parallel zu Profil, Logo und Schritten)
             void pruefeRegister(scan.scan_id, lauf);
+            // AUFTRAG-111: der Firmen-Schritt im Formularbereich kann ab jetzt suchen und bestätigen
+            setHrScanId(scan.scan_id);
 
             // Stufe 2 (KI-Profil) und Logo laufen parallel zu den Schritten; das Profil zählt nur mit derselben scan_id
             const profilVersprechen: Promise<ProfilAntwort> = fetch('/api/demo/profil', {
@@ -509,6 +523,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
 
             const seiten = scan.funde?.seiten ?? 1;
             setzeSchritt({ id: 'website', titel: 'Website gelesen', detail: `${h} · ${seiten} ${seiten === 1 ? 'Seite' : 'Seiten'}`, status: 'ok' });
+            // AUFTRAG-111: Firmen-Prüfung läuft parallel; Text und Stand des Schritts folgen der Bestätigung (schritteAnzeige)
+            setzeSchritt({ id: 'handelsregister', titel: HR_SCHRITT.telefonPruefung, status: 'laeuft' });
             if (!(await takt())) return;
 
             setzeSchritt({ id: 'logo', titel: 'Logo wird geprüft …', status: 'laeuft' });
@@ -561,17 +577,33 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             }
             if (!(await takt())) return;
 
-            setzeSchritt({ id: 'assistent', titel: 'Assistent wird vorbereitet …', status: 'laeuft' });
-            if (!(await takt(380))) return;
-            setzeSchritt({ id: 'assistent', titel: `${p.assistent_name} ist bereit`, status: 'ok' });
-            if (!(await takt(320))) return;
-
+            // AUFTRAG-111: Karte vorbereiten; «Assistent bereit», Karte und Formular erst nach der Bestätigung
+            // der Firma (Effekt unten). Bis dahin: «Wartet auf die Bestätigung Ihrer Firma».
             const stimme: Stimme = p.stimme ?? (scan.assistent_weiblich ? 'weiblich' : 'maennlich');
-            setKarte({ scanId: scan.scan_id, profil: p, faehigkeitenEn: standardAufEnglisch(p.faehigkeiten), stimme, logo, primaer: farbe ?? NEUTRAL_PRIMAER });
-            setZustand('bereit');
+            setVorbereitet({ scanId: scan.scan_id, profil: p, faehigkeitenEn: standardAufEnglisch(p.faehigkeiten), stimme, logo, primaer: farbe ?? NEUTRAL_PRIMAER });
         },
         [eingabe, zustand, setzeSchritt, scanGesperrt, pruefeRegister],
     );
+
+    /*
+     * AUFTRAG-111: Assistent erst nach der Bestätigung der Firma bereit. Sind die Scan-Schritte fertig
+     * (Karte vorbereitet) und ist die Firma bestätigt: «Assistent wird vorbereitet …» → «<Name> ist
+     * bereit» → Karte und Anruf-Formular. Ohne Bestätigung bleibt der Schritt «Assistent» auf
+     * «Wartet auf die Bestätigung Ihrer Firma» (schritteAnzeige).
+     */
+    useEffect(() => {
+        if (zustand !== 'scan' || !vorbereitet || !hrOk || vorbereitet.scanId !== hrScanId) return;
+        const k = vorbereitet;
+        const zeiten = [
+            setTimeout(() => setzeSchritt({ id: 'assistent', titel: 'Assistent wird vorbereitet …', status: 'laeuft' }), 0),
+            setTimeout(() => setzeSchritt({ id: 'assistent', titel: `${k.profil.assistent_name} ist bereit`, status: 'ok' }), 380),
+            setTimeout(() => {
+                setKarte(k);
+                setZustand('bereit');
+            }, 700),
+        ];
+        return () => zeiten.forEach(clearTimeout);
+    }, [zustand, vorbereitet, hrOk, hrScanId, setzeSchritt]);
 
     // AUFTRAG-098: Fähigkeiten auf Englisch erst bei der ersten Wahl von «English» übersetzen (einmal je Scan)
     const enAngefragt = useRef<string | null>(null);
@@ -656,6 +688,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         setHrStart(null);
         setHrBestaetigt(null);
         setHrHinweis(null);
+        setHrScanId(null);
+        setVorbereitet(null);
         setTimeout(() => {
             eingabeRef.current?.focus();
             eingabeRef.current?.select();
@@ -864,12 +898,23 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
         const p = karte.profil;
         const primaer = karte.primaer;
         const englisch = sprache === 'englisch';
+        /*
+         * AUFTRAG-111: Firmenname erst nach der Bestätigung — Rollenzeile mit dem Handelsregister-Namen
+         * (ab 40 Zeichen gekürzt, Titel voll), Begrüssung und Anruf-Ansichten mit dem gebundenen
+         * Sprechnamen (so meldet sich der Assistent). Vorher neutral («Ihrer Firma»), nie der Scan-Name.
+         * Schalter «aus» (nur Entwicklung): wie bisher der Name aus dem Scan.
+         */
+        const hrName = hrBestaetigt?.name ?? null;
+        const neutral = englisch ? 'your company' : 'Ihrer Firma';
+        const sprech = hrName ? sprechName(p.firma, hrName) : hrUebersprungen ? p.firma : null;
+        const rollenFirma = hrName ?? (hrUebersprungen ? p.firma : neutral);
         return {
             name: p.assistent_name,
             // AUFTRAG-098: bei «English» Karte auf Englisch («AI phone assistant of FIRMA»)
-            rollenZeile: rollenZeile(karte.stimme, sprache, p.firma),
+            rollenZeile: rollenZeile(karte.stimme, sprache, kuerzeName(rollenFirma, 40)),
+            rollenTitel: rollenZeile(karte.stimme, sprache, rollenFirma),
             lang: englisch ? ('en' as const) : ('de' as const),
-            firma: p.firma,
+            firma: sprech ?? (englisch ? 'Your company' : 'Ihre Firma'),
             website: p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''),
             // AUFTRAG-102: «Kennt Ansprechpersonen» nur, wenn auf der Website Personen gefunden wurden
             kann: kannZeilen(englisch ? karte.faehigkeitenEn : p.faehigkeiten, p.personen?.length ?? 0, englisch),
@@ -879,9 +924,26 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             text: textAuf(primaer),
             akzentHell: lesbarAuf(primaer, '#F5F6F7', 3),
             akzentDunkel: lesbarAuf(primaer, '#0F1216', 3),
-            begruessung: begruessungFuer(sprache, p.assistent_name, p.firma, karte.stimme, begruessungNachStimme),
+            begruessung: begruessungFuer(sprache, p.assistent_name, sprech ?? neutral, karte.stimme, begruessungNachStimme),
         };
-    }, [karte, sprache, begruessungNachStimme]);
+    }, [karte, sprache, begruessungNachStimme, hrBestaetigt, hrUebersprungen]);
+    const firma = kartenAnzeige?.firma ?? '';
+
+    /*
+     * AUFTRAG-111: Schritte im Telefon — «Handelsregister» folgt der Bestätigung (läuft → «Handelsregister:
+     * <Name>», ok); sind die übrigen Schritte fertig und die Firma noch offen, wartet «Assistent».
+     */
+    const wartetAufFirma = zustand === 'scan' && !!vorbereitet && !hrOk;
+    const schritteAnzeige: SchrittAnzeige[] = useMemo(() => {
+        const hr: SchrittAnzeige = hrBestaetigt
+            ? { id: 'handelsregister', titel: HR_SCHRITT.telefonBestaetigt(hrBestaetigt.name), status: 'ok' }
+            : hrUebersprungen
+              ? { id: 'handelsregister', titel: 'Handelsregister-Prüfung ausgeschaltet', status: 'leer' }
+              : { id: 'handelsregister', titel: HR_SCHRITT.telefonPruefung, status: 'laeuft' };
+        const liste = schritte.map((s) => (s.id === 'handelsregister' ? hr : s));
+        if (wartetAufFirma && !liste.some((s) => s.id === 'assistent')) liste.push({ id: 'assistent', titel: HR_SCHRITT.assistentWartet, status: 'leer' });
+        return liste;
+    }, [schritte, hrBestaetigt, hrUebersprungen, wartetAufFirma]);
 
     const dauerSek =
         zustand === 'verbunden' && verbundenSeit
@@ -931,9 +993,9 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
             case 'eingabe':
                 return null;
             case 'scan': {
-                const laufend = [...schritte].reverse().find((s) => s.status === 'laeuft');
-                const fund = [...schritte].reverse().find((s) => s.status !== 'laeuft');
-                const nummer = Math.min(SCAN_SCHRITTE, Math.max(1, schritte.length));
+                const laufend = [...schritteAnzeige].reverse().find((s) => s.status === 'laeuft');
+                const fund = [...schritteAnzeige].reverse().find((s) => s.status !== 'laeuft');
+                const nummer = Math.min(SCAN_SCHRITTE, Math.max(1, schritteAnzeige.length));
                 return {
                     kopf: `Schritt ${nummer} von ${SCAN_SCHRITTE}${laufend ? `: ${laufend.titel}` : ''}`,
                     text: fund?.titel ?? 'Website wird gelesen …',
@@ -1188,7 +1250,8 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                 className="w-full h-14 pl-12 pr-4 rounded-2xl bg-transparent text-text-primary text-lg placeholder:text-text-secondary/80 focus:outline-none read-only:text-text-secondary"
                             />
                         </div>
-                        {zustand === 'eingabe' || zustand === 'scan' ? (
+                        {/* AUFTRAG-111: wartet der fertige Scan auf die Firma, steht hier «Andere Website» statt «Wird gescannt …» */}
+                        {zustand === 'eingabe' || (zustand === 'scan' && !wartetAufFirma) ? (
                             <div className="sm:w-auto sm:min-w-[13.5rem]">
                                 <PrimaerKnopf zustand={zustand} name={name} type="submit" id="ki-demo-scan-knopf" gesperrt={zustand === 'eingabe' && scanGesperrt} />
                             </div>
@@ -1270,7 +1333,7 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                     zustand={zustand}
                     host={host}
                     welleFarbe={telefonWelle}
-                    schritte={schritte}
+                    schritte={schritteAnzeige}
                     karte={kartenAnzeige}
                     sprache={sprache}
                     onSprache={setSprache}
@@ -1290,7 +1353,28 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                         className={`${styles.einblenden} ${styles.aktionKarte} rounded-[1.75rem] border border-border bg-card p-5 sm:p-7 shadow-[0_30px_60px_-40px_rgba(10,18,10,0.45)]`}
                         style={aktionMin ? { minHeight: aktionMin } : undefined}
                     >
-                        {!karte || !kartenAnzeige || zustand === 'scan' ? (
+                        {(zustand === 'scan' || zustand === 'bereit') && !hrOk ? (
+                            // AUFTRAG-111: «Welche ist Ihre Firma?» sofort nach der URL-Eingabe (während des Scans);
+                            // nach 403 (Bestätigung abgelaufen) wieder hier
+                            <Handelsregister
+                                key={hrScanId ?? 'scan'}
+                                scanId={hrScanId}
+                                website={host}
+                                start={hrStart}
+                                hinweis={hrHinweis}
+                                onNochmals={() => {
+                                    if (hrScanId) void pruefeRegister(hrScanId, sitzungRef.current.lauf);
+                                }}
+                                onBestaetigt={(b, scanId) => {
+                                    // nur für den laufenden Scan (eine verspätete Antwort eines früheren Scans zählt nicht)
+                                    if (scanId !== sitzungRef.current.scanId) return;
+                                    setHrBestaetigt(b);
+                                    setHrHinweis(null);
+                                    setFormFehler(null);
+                                }}
+                                onAndereWebsite={andereWebsite}
+                            />
+                        ) : !karte || !kartenAnzeige || zustand === 'scan' ? (
                             anrufFormular(true)
                         ) : zustand === 'beendet' ? (
                             <>
@@ -1319,19 +1403,6 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                     </div>
                                 </div>
                             </>
-                        ) : zustand === 'bereit' && !hrOk ? (
-                            // AUFTRAG-109: erst die Firma im Handelsregister bestätigen, dann der Anruf-Schritt
-                            <Handelsregister
-                                scanId={karte.scanId}
-                                start={hrStart}
-                                hinweis={hrHinweis}
-                                onNochmals={() => void pruefeRegister(karte.scanId, sitzungRef.current.lauf)}
-                                onBestaetigt={(b) => {
-                                    setHrBestaetigt(b);
-                                    setHrHinweis(null);
-                                    setFormFehler(null);
-                                }}
-                            />
                         ) : (
                             anrufFormular(false)
                         )}
@@ -1388,8 +1459,10 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                 {zustand === 'fehler'
                     ? `${fehlerMeldung(auftrag?.grund).text.replace(/:$/, '')}: 052 222 18 18.`
                     : zustand === 'bereit' && !hrOk
-                      ? `${name}, Ihr Assistent für ${firma}, ist bereit. Bitte bestätigen Sie zuerst Ihre Firma im Handelsregister.`
-                      : ansage(zustand, name, firma)}
+                      ? `${name}, Ihr Assistent, ist bereit. Bitte bestätigen Sie zuerst Ihre Firma im Handelsregister.`
+                      : wartetAufFirma
+                        ? 'Ihre Website ist gelesen. Bitte bestätigen Sie Ihre Firma im Handelsregister.'
+                        : ansage(zustand, name, firma)}
             </p>
         </div>
     );

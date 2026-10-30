@@ -280,6 +280,13 @@ export interface Extrakt {
     uid_kandidaten?: string[];
     /** AUFTRAG-109: Firmenname mit Rechtsform aus dem Text, passend zum Host (z. B. «Muster Holz AG») */
     firma_register?: string | null;
+    /**
+     * AUFTRAG-111: normalisierte Textbasis für Regel 3 der Bindung Website ↔ Handelsregister —
+     * Nachtrag: nur Titel der Startseite, Text der Impressum-Seite(n) und Fusszeile (Näherung: letzte
+     * 2000 Zeichen des Startseiten-Textes); drei Abschnitte, getrennt durch « | » (lib/demo/bindung.ts),
+     * höchstens 200 000 Zeichen; fehlt bei älteren Scans. Geht nie an die KI und nie an den Browser.
+     */
+    bindung_text?: string;
 }
 
 /** Gespeicherter Scan (Blob `scan/{id}`, lebt 2 h). */

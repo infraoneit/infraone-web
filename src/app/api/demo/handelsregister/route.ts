@@ -7,7 +7,9 @@
  *                                    zwischengespeichert je Scan
  * - {scan_id, suche: "…"}         → manuelle Suche «Firmenname oder UID» (höchstens 3 je Scan)
  * - {scan_id, bestaetige: "CHE…"} → «Ja, das ist meine Firma»: nur ein gezeigter, aktiver Eintrag;
- *                                    legt den signierten Nachweis ab (30 min)
+ *                                    legt den signierten Nachweis ab (30 min). AUFTRAG-111: nur, wenn
+ *                                    die Firma zur gescannten Website gehört, sonst 409
+ *                                    {code: "website_passt_nicht", fehler, website, firma}
  *
  * Antwort 200: HrAntwort (lib/demo/handelsregister-texte.ts). Fehler: 404 Scan abgelaufen,
  * 400/409/422 {fehler}, 429 {fehler} (manuelle Suchen aufgebraucht).
@@ -35,7 +37,10 @@ export async function POST(req: Request) {
     try {
         if (typeof body.bestaetige === 'string') {
             const r = await bestaetige(scan, body.bestaetige.slice(0, 40));
-            return r.ok ? antwort(r.antwort) : fehler(r.meldung, r.status);
+            if (r.ok) return antwort(r.antwort);
+            // AUFTRAG-111: Firma gehört nicht zur Website → 409 mit Kennung (Widget: «Andere Website eingeben»)
+            if (r.code) return antwort({ code: r.code, fehler: r.meldung, website: r.website, firma: r.firma }, r.status);
+            return fehler(r.meldung, r.status);
         }
         if (typeof body.suche === 'string') {
             const r = await manuelleSuche(scan, body.suche.slice(0, 200));

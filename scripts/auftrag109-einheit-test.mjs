@@ -18,6 +18,10 @@
  * Firmen in den Antworten: Elektro-Tel AG (öffentlicher Registereintrag, gemessen 30.10.2026)
  * und erfundene «Muster»-Firmen; Nummern erfunden.
  *
+ * AUFTRAG-111 (angepasst, wo die neue Bindung die Erwartung ändert): Der Nachweis trägt die
+ * Bindungsregel (`signiereNachweis(scan, uid, bis, gebunden)`), die automatische Prüfung sucht nach
+ * den Namen zuletzt mit dem Domain-Label. Alles Übrige unverändert.
+ *
  *   node scripts/auftrag109-einheit-test.mjs
  */
 import { registerHooks } from 'node:module';
@@ -256,7 +260,8 @@ pruefe('UID in JSON-LD (vatID)', JSON.stringify(zefix.findeUids(JSON.stringify([
     const scanId = 's-abcdefghijklmnop';
     const jetzt = Date.now();
     const bis = jetzt + hr.NACHWEIS_TTL_MS;
-    const n = hr.signiereNachweis(scanId, 'CHE107160757', bis);
+    // A111: Bindungsregel im Nachweis (hier «uid»)
+    const n = hr.signiereNachweis(scanId, 'CHE107160757', bis, 'uid');
     pruefe('Nachweis gültig', hr.pruefeNachweis(n, scanId, jetzt).ok === true && hr.pruefeNachweis(n, scanId, jetzt).uid === 'CHE107160757');
     pruefe('Nachweis 30 Minuten gültig', hr.NACHWEIS_TTL_MS === 30 * 60 * 1000);
     pruefe('Nachweis abgelaufen', hr.pruefeNachweis(n, scanId, bis + 1).grund === 'abgelaufen');
@@ -344,7 +349,8 @@ try {
         const vor = zaehle();
         const a = await hr.automatischePruefung(scan);
         const namen = global.aufrufe.slice(vor).map((x) => x.body?.name);
-        pruefe('Automatisch ohne UID: Namenssuche, höchstens 3 Varianten', a.ergebnis === 'kein_treffer' && namen.length === 3 && namen[0] === 'Muster Nirgends Holzbau AG' && namen.includes('Muster Nirgends Holzbau') && namen.includes('Muster Nirgends'), namen.join(' | '));
+        // A111: nach höchstens 3 Namensvarianten zuletzt das Domain-Label des Hosts (elektro-tel.ch → «elektro tel»)
+        pruefe('Automatisch ohne UID: Namenssuche, höchstens 3 Varianten (+ Domain-Label, A111)', a.ergebnis === 'kein_treffer' && namen.length === 4 && namen[0] === 'Muster Nirgends Holzbau AG' && namen.includes('Muster Nirgends Holzbau') && namen.includes('Muster Nirgends') && namen[3] === 'elektro tel', namen.join(' | '));
         const u = await hr.manuelleSuche(scan, 'CHE-107.160.758');
         pruefe('Manuell: ungültige UID → 422, zählt nicht', !u.ok && u.status === 422 && (await hr.leseEintrag(scan)).manuell === 0);
         const kurz = await hr.manuelleSuche(scan, 'ab');
@@ -482,16 +488,16 @@ try {
         // abgelaufener Nachweis → 403 abgelaufen; Nachweis eines anderen Scans → 403 fehlt
         const e = await hr.leseEintrag(scan);
         const altBis = Date.now() - 1000;
-        await speicherMod.speicher().schreibe(`handelsregister/${scan.id}`, { ...e, bestaetigt: { ...e.bestaetigt, nachweis: hr.signiereNachweis(scan.id, 'CHE107160757', altBis), nachweis_bis: altBis } });
+        await speicherMod.speicher().schreibe(`handelsregister/${scan.id}`, { ...e, bestaetigt: { ...e.bestaetigt, nachweis: hr.signiereNachweis(scan.id, 'CHE107160757', altBis, 'uid'), nachweis_bis: altBis } });
         const abg = await mitLog(() => anrufRoute.POST(post('/api/demo/anruf', anrufBody(scan.id))));
         const dabg = await abg.r.json();
         pruefe('Route anruf: abgelaufener Nachweis → 403 handelsregister_abgelaufen', abg.r.status === 403 && dabg.code === texte.HR_CODE_ABGELAUFEN && dabg.fehler === texte.HR_TEXT.abgelaufen);
         const bis = Date.now() + 60_000;
-        await speicherMod.speicher().schreibe(`handelsregister/${scan.id}`, { ...e, bestaetigt: { ...e.bestaetigt, nachweis: hr.signiereNachweis('s-anderescan000000', 'CHE107160757', bis), nachweis_bis: bis } });
+        await speicherMod.speicher().schreibe(`handelsregister/${scan.id}`, { ...e, bestaetigt: { ...e.bestaetigt, nachweis: hr.signiereNachweis('s-anderescan000000', 'CHE107160757', bis, 'uid'), nachweis_bis: bis } });
         const fremd = await mitLog(() => anrufRoute.POST(post('/api/demo/anruf', anrufBody(scan.id))));
         pruefe('Route anruf: Nachweis eines anderen Scans → 403 handelsregister_fehlt', fremd.r.status === 403 && (await fremd.r.json()).code === texte.HR_CODE_FEHLT);
         // Nachweis mit anderer (nicht gezeigter) UID, korrekt signiert → 403
-        await speicherMod.speicher().schreibe(`handelsregister/${scan.id}`, { ...e, bestaetigt: { ...e.bestaetigt, uid: 'CHE169547556', nachweis: hr.signiereNachweis(scan.id, 'CHE169547556', bis), nachweis_bis: bis } });
+        await speicherMod.speicher().schreibe(`handelsregister/${scan.id}`, { ...e, bestaetigt: { ...e.bestaetigt, uid: 'CHE169547556', nachweis: hr.signiereNachweis(scan.id, 'CHE169547556', bis, 'uid'), nachweis_bis: bis } });
         const ungezeigt = await mitLog(() => anrufRoute.POST(post('/api/demo/anruf', anrufBody(scan.id))));
         pruefe('Route anruf: signierter Nachweis für nicht gezeigte UID → 403', ungezeigt.r.status === 403);
 
