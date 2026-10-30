@@ -64,13 +64,36 @@ Wartungsfreie Cloud-Telefonanlagen fuer Schweizer KMU.
 - Regionale Spokes: /cloud-telefonie/winterthur, /cloud-telefonie/zuerich, /cloud-telefonie/schaffhausen, /cloud-telefonie/thurgau, /cloud-telefonie/st-gallen, /cloud-telefonie/rapperswil
 
 ### KI-Telefonassistent fuer Schweizer KMU
-Telefonischer KI-Assistent fuer Schweizer KMU, Praxen und Handwerk: nimmt Anrufe entgegen, beantwortet Fragen aus dem Wissen des Betriebs, nimmt Anliegen auf (Rueckruf-Notiz per E-Mail) und verbindet an Mitarbeitende weiter.
-- Sprachen: Deutsch (Hochdeutsch, Standard) und Englisch zuverlaessig; Schweizerdeutsch waehlbar, in Erprobung
-- Betrieb auf der eigenen Telefonanlage von InfraOne in der Schweiz, kein Callcenter im Ausland
-- Laeuft allein oder als Baustein der Cloud-Telefonanlage; bestehende Nummer bleibt
-- Kostenloser Demo-Anruf ohne Anmeldung: Website eingeben, ein Assistent mit Name, Logo und Wissen der eigenen Website entsteht, die KI ruft an
-- Datenschutz: Telefonanlage und Gespraechsprotokolle in der Schweiz auf Systemen von InfraOne; Spracherkennung und Sprachausgabe ueber die KI-Schnittstellen von OpenAI (keine Verwendung zum Training)
-- Seite: /ki-telefonassistent
+Zweck: Der KI-Telefonassistent nimmt Anrufe fuer KMU entgegen, wenn niemand Zeit hat, fuehrt das Gespraech selbst und schickt nach jedem Anruf eine Gespraechsnotiz per E-Mail. Fuer Handwerk, Haustechnik, Praxen, Treuhand, Immobilien, Garagen und andere KMU in der Deutschschweiz.
+- Sprachen: versteht und spricht Schweizerdeutsch (Mundart), Hochdeutsch und Englisch. Ehrlich: Dialekte sind vielfaeltig, seltene Ausdruecke koennen Rueckfragen ausloesen; im Testanruf ist Schweizerdeutsch noch als "in Erprobung" gekennzeichnet
+- Antwortet rund um die Uhr; kennt Oeffnungszeiten und einen eigenen Text fuer ausserhalb
+- Wissen aus der Website des Kunden (Scan) und aus Angaben des Kunden
+- Erfasst Name, Firma, Anliegen und Rueckrufnummer; Gespraechsnotiz per E-Mail nach jedem Gespraech; auf Wunsch SMS-Bestaetigung an Anrufende
+- Termine im Microsoft-365-Kalender; Weiterleitung an eine Person; Notfaelle an eine Notfallnummer melden
+- Verbotene Themen und Haltung je Kunde einstellbar; mehrere Agenten je Kunde (z. B. ausserhalb der Oeffnungszeiten)
+- Keine Tonaufnahme der Gespraeche: Transkript und Zusammenfassung
+- Rufnummer behalten (Rufumleitung) oder neue Nummer; Anbindung an die Cloud-Telefonie von InfraOne
+- Technik: Sprach-zu-Sprach-KI (kein Vorlesen aus Textbausteinen); Hosting des Assistenten in der Schweiz (Infomaniak, Satigny); Telefonie ueber Schweizer Provider; Sprachverarbeitung durch KI-Anbieter (Google Gemini, OpenAI), bezahlte Stufen ohne Nutzung der Daten fuer Training, EU-Region wo verfuegbar; Auftragsverarbeitungsvertrag (AVV) auf Anfrage
+- Demo: Website-Scan und Testanruf ohne Anmeldung und kostenlos; 2 Testanrufe je Geraet und Tag; vor dem Testanruf Abgleich der Firma mit dem Schweizer Handelsregister
+- Preise: ENTWURF, vom Inhaber noch nicht freigegeben. Struktur: monatliche Pakete Lite, Starter, Business, Enterprise (nach Gespraechsminuten und Funktionen), einmalige Einrichtung, Zusatzminuten, exkl. MwSt. Bitte keine Betraege nennen, bevor die Preisseite freigegeben ist.
+- Seiten:
+  - /ki-telefonassistent - Uebersicht und Live-Test (Website eingeben, der Assistent ruft an)
+  - /ki-telefonassistent/funktionen - alle Funktionen in Gruppen, mit Hoerbeispielen
+  - /ki-telefonassistent/so-funktioniert-es - vom Testanruf ueber die Einrichtung zum Betrieb
+  - /ki-telefonassistent/schweizerdeutsch - Mundart verstehen und sprechen, Grenzen ehrlich erklaert
+  - /ki-telefonassistent/preise - Pakete (Entwurf) und Rechner "Was kostet ein verpasster Anruf?"
+  - /ki-telefonassistent/anwendungen - Uebersicht der Anwendungen
+  - /ki-telefonassistent/anwendungen/erreichbarkeit - abnehmen, wenn niemand Zeit hat
+  - /ki-telefonassistent/anwendungen/auskunft - wiederkehrende Fragen beantworten
+  - /ki-telefonassistent/anwendungen/anliegen-erfassen - Name, Firma, Anliegen, Rueckruf als Notiz
+  - /ki-telefonassistent/anwendungen/terminbuchung - Termine im Microsoft-365-Kalender, SMS-Bestaetigung
+  - /ki-telefonassistent/anwendungen/notfall - Notfaelle an die Notfallnummer, Pikett entlasten
+  - /ki-telefonassistent/branchen - Uebersicht der Branchen
+  - /ki-telefonassistent/branchen/elektriker, /sanitaer-heizung, /arztpraxis, /treuhand, /immobilien, /garage - typische Anrufe, Beispielgespraech, Integration
+  - /ki-telefonassistent/sicherheit-datenschutz - Hosting, Sprachverarbeitung, keine Aufzeichnung, AVV, DSG
+  - /ki-telefonassistent/faq - haeufige Fragen
+  - /ki-telefonassistent/vergleich - gegenueber Anrufbeantworter, Telefonservice, Sekretariat und Sprachmenue (IVR)
+  - /ki-telefonassistent/glossar - Begriffe der KI-Telefonie
 
 ### Digital Signage
 Werbebildschirme und Infoscreens ohne monatliche Abo-Kosten.
@@ -115,7 +138,8 @@ Rund 100 betreute KMU-Kunden in der Deutschschweiz.
 1. Schweizer KMU-Spezialist mit physischen Standorten in Winterthur, Schaffhausen, Taegerwilen, Kleinandelfingen
 2. Schnelle Reaktion: Remote-Support oft innert 15 Minuten
 3. Transparente Preise: Keine versteckten Kosten, Abrechnung im 15-Minuten-Takt
-4. Schweizer Hosting: Website, Telefonanlage und Gespraechsprotokolle laufen in der Schweiz; die Sprach-KI nutzt die Schnittstellen von OpenAI
+4. Schweizer Hosting: der KI-Telefonassistent laeuft bei Infomaniak in Satigny, die Telefonie ueber Schweizer Provider; die Sprachverarbeitung uebernehmen KI-Anbieter (Google Gemini, OpenAI) ohne Nutzung der Daten fuer Training
+5. KI-Telefonassistent mit Mundart: versteht und spricht Schweizerdeutsch, Live-Demo ohne Anmeldung (Website-Scan und Testanruf)
 
 ## Wichtige URLs
 
@@ -128,6 +152,8 @@ Rund 100 betreute KMU-Kunden in der Deutschschweiz.
 - Webdesign: https://infraone.ch/webdesign
 - Cloud-Telefonie: https://infraone.ch/cloud-telefonie
 - KI-Telefonassistent (Demo-Anruf): https://infraone.ch/ki-telefonassistent
+- KI-Telefonassistent Funktionen: https://infraone.ch/ki-telefonassistent/funktionen
+- KI-Telefonassistent FAQ: https://infraone.ch/ki-telefonassistent/faq
 - Digital Signage: https://infraone.ch/digital-signage
 - IT-Netzwerke: https://infraone.ch/it-netzwerke
 - IT-Sicherheit: https://infraone.ch/it-sicherheit

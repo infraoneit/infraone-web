@@ -1,214 +1,136 @@
-import { Metadata } from 'next';
 import Link from 'next/link';
 import {
     ArrowRight,
     Briefcase,
     Building2,
+    CalendarCheck,
     Car,
-    ChevronDown,
+    BookOpen,
     ClipboardList,
     Globe,
+    Mail,
+    Headset,
+    Scale,
+    Languages,
+    MapPin,
     MessageSquareText,
-    Phone,
-    PhoneForwarded,
+    PhoneCall,
     PhoneIncoming,
-    Rocket,
+    Server,
     ShieldCheck,
-    Sparkles,
+    Siren,
     Stethoscope,
-    UtensilsCrossed,
+    Wrench,
     Zap,
 } from 'lucide-react';
-import { AnimatedSection } from '@/components/ui/AnimatedSection';
-import { Button } from '@/components/ui/Button';
 import { KiDemo } from '@/components/tools/KiDemo';
-import {
-    generateBreadcrumbListSchema,
-    generateFAQSchema,
-    generateKiTelefonassistentServiceSchema,
-    generateWebPageSchema,
-} from '@/lib/seo/schema';
-import { BASE_URL } from '@/lib/constants';
+import { generateFAQSchema, generateKiTelefonassistentServiceSchema } from '@/lib/seo/schema';
+import { kiMetadata } from '@/components/ki-telefonassistent/meta';
+import { JsonLd } from '@/components/ki-telefonassistent/JsonLd';
+import { kiKrumen, kiSeitenSchemas } from '@/components/ki-telefonassistent/Brotkrumen';
+import { Abschnitt, AbschlussCta, FaqListe, IconKachel, OhneMit, Prosa, Querverweise, Schrittfolge } from '@/components/ki-telefonassistent/Bausteine';
+import { PreisTeaser } from '@/components/ki-telefonassistent/Preise';
+import { Gespraech } from '@/components/ki-telefonassistent/Gespraech';
+import { faqFuerSchema, faqNachIds, HUB_FAQ_IDS } from '@/components/ki-telefonassistent/inhalte/faq';
+import { ANWENDUNGEN } from '@/components/ki-telefonassistent/inhalte/anwendungen';
+import { BRANCHEN } from '@/components/ki-telefonassistent/inhalte/branchen';
+import { KI_BASIS } from '@/components/ki-telefonassistent/seiten';
 
-// Texte wortgleich aus AUFTRAG-092 (Lektor: Claude) — nicht umformulieren.
-// AUFTRAG-095: Hero-Satz gekürzt (ein Satz Nutzen), Abschnitt «So läuft es bei Ihnen» neu.
-// AUFTRAG-098: kein Mundart-Versprechen mehr (Hochdeutsch Vorgabe, Englisch gleichwertig,
-// Schweizerdeutsch in Erprobung) — Titel, Beschreibung, Badge, Hero-Satz, FAQ wortgleich Manager-Vorgabe.
-const TITEL = 'KI-Telefonassistent für Schweizer KMU – Demo-Anruf in einer Minute | InfraOne';
+// Hero und Widget: unverändert aus AUFTRAG-092/095/098 (Widget gehört AUFTRAG-109, nur eingebettet).
+// AUFTRAG-110: Seite wird Hub des Bereichs mit Unterseiten; Texte unterhalb des Heros neu.
+const TITEL = 'KI-Telefonassistent für Schweizer KMU | InfraOne';
 const BESCHREIBUNG =
-    'Geben Sie Ihre Website ein, wir bauen daraus Ihren KI-Telefonassistenten und rufen Sie an. Zuverlässig auf Deutsch und Englisch, Schweizerdeutsch in Erprobung. Betrieb in der Schweiz.';
-const URL_SEITE = `${BASE_URL}/ki-telefonassistent`;
-const OG_BILD = '/og/ki-telefonassistent.png';
+    'Der KI-Telefonassistent von InfraOne nimmt rund um die Uhr ab, versteht Schweizerdeutsch und schickt Ihnen nach jedem Anruf eine Notiz. Jetzt live testen.';
 
-export const metadata: Metadata = {
-    title: { absolute: TITEL },
-    description: BESCHREIBUNG,
-    keywords: ['KI-Telefonassistent', 'KI-Telefonassistent Schweiz', 'Voicebot Schweiz', 'Telefonassistent KMU', 'KI Anrufbeantworter'],
-    alternates: {
-        canonical: URL_SEITE,
-        languages: { 'de-CH': URL_SEITE },
+export const metadata = kiMetadata({
+    pfad: KI_BASIS,
+    titel: TITEL,
+    beschreibung: BESCHREIBUNG,
+    keywords: ['KI-Telefonassistent', 'KI-Telefonassistent Schweiz', 'KI Telefonassistent Schweizerdeutsch', 'Voicebot Schweiz', 'Telefonassistent KMU', 'KI Anrufbeantworter'],
+});
+
+const nutzen = [
+    {
+        icon: PhoneIncoming,
+        titel: 'Kein Anruf läuft ins Leere',
+        text: 'Der Assistent nimmt ab, wenn Ihr Team im Kundengespräch, auf der Baustelle oder im Feierabend ist – rund um die Uhr, auch am Wochenende.',
     },
-    openGraph: {
-        type: 'website',
-        locale: 'de_CH',
-        url: URL_SEITE,
-        siteName: 'InfraOne IT Solutions',
-        title: TITEL,
-        description: BESCHREIBUNG,
-        images: [{ url: OG_BILD, width: 1200, height: 630, alt: 'KI-Telefonassistent für Schweizer KMU – InfraOne' }],
+    {
+        icon: ClipboardList,
+        titel: 'Sie wissen, wer was wollte',
+        text: 'Nach jedem Gespräch erhalten Sie eine Notiz per E-Mail: Name, Firma, Anliegen, Rückrufnummer, Zusammenfassung und Transkript.',
     },
-    twitter: {
-        card: 'summary_large_image',
-        title: TITEL,
-        description: BESCHREIBUNG,
-        images: [OG_BILD],
+    {
+        icon: Languages,
+        titel: 'Anrufende reden, wie sie reden',
+        text: 'Er versteht und spricht Schweizerdeutsch, Hochdeutsch und Englisch und antwortet aus Ihrem Wissen – nicht aus Textbausteinen.',
     },
-};
+];
 
 const schritte = [
     {
         icon: Globe,
-        titel: '1. Website eingeben',
-        text: 'Wir lesen Ihre öffentliche Website: Leistungen, Kontakt, Öffnungszeiten, Logo und Farben.',
-    },
-    {
-        icon: Sparkles,
-        titel: '2. Assistent entsteht',
-        text: 'In Sekunden steht ein Assistent mit Ihrem Namen, Ihrem Auftritt und einem Wissen aus Ihrer Website.',
-    },
-    {
-        icon: PhoneIncoming,
-        titel: '3. Die KI ruft Sie an',
-        text: 'Sie hören, wie Ihr Assistent Anrufer begrüsst, Fragen beantwortet und Anliegen aufnimmt – in der Sprache, die Sie wählen.',
-    },
-];
-
-const alltag = [
-    {
-        icon: Phone,
-        titel: 'Anrufe entgegennehmen – rund um die Uhr',
-        text: 'Der Assistent nimmt ab, wenn Ihr Team im Gespräch, unterwegs oder nicht im Büro ist – auch abends und am Wochenende.',
-    },
-    {
-        icon: MessageSquareText,
-        titel: 'Fragen beantworten – aus Ihrem Wissen, nie erfunden',
-        text: 'Er beantwortet Fragen zu Leistungen, Öffnungszeiten und Abläufen mit den Angaben, die Sie ihm mitgeben.',
+        titel: 'Live testen',
+        text: 'Website eingeben, der Assistent entsteht aus Ihren Inhalten und ruft Sie an. Ohne Anmeldung, in einer Minute.',
     },
     {
         icon: ClipboardList,
-        titel: 'Anliegen aufnehmen – mit Rückruf-Notiz per E-Mail',
-        text: 'Er hält Name, Nummer und Anliegen fest und schickt Ihnen nach dem Gespräch eine Notiz per E-Mail.',
+        titel: 'Einrichten',
+        text: 'Wir übernehmen das Wissen aus Ihrer Website, prüfen es mit Ihnen und legen Begrüssung, Öffnungszeiten und Regeln fest.',
     },
     {
-        icon: PhoneForwarded,
-        titel: 'Weiterverbinden – an die richtige Person, wenn sie frei ist',
-        text: 'Er verbindet Anrufer mit Mitarbeitenden oder definierten Nummern und prüft vorher, wer gerade erreichbar ist.',
+        icon: PhoneCall,
+        titel: 'Aufschalten',
+        text: 'Sie leiten Ihre bestehende Nummer um, immer oder nur in bestimmten Fällen. Oder Sie erhalten eine neue Nummer.',
+    },
+    {
+        icon: MessageSquareText,
+        titel: 'Im Alltag nutzen',
+        text: 'Nach jedem Anruf eine Notiz per E-Mail. Wissen und Regeln passen wir an, wenn sich bei Ihnen etwas ändert.',
     },
 ];
 
-const betriebe = [
+const ohneMit = [
     {
-        icon: Stethoscope,
-        titel: 'Praxen (Arzt, Zahnarzt, Physio)',
-        text: 'Er nimmt Terminwünsche auf, beantwortet Fragen zu Öffnungszeiten und Anfahrt und entlastet den Empfang während der Behandlungen.',
+        thema: 'Anruf während eines Kundentermins',
+        ohne: 'Es klingelt ins Leere oder auf den Anrufbeantworter. Wer etwas Dringendes hat, ruft beim nächsten Betrieb an.',
+        mit: 'Der Assistent nimmt ab, klärt das Anliegen und schickt Ihnen eine Notiz für den Rückruf.',
     },
     {
-        icon: Zap,
-        titel: 'Handwerk und Elektro',
-        text: 'Er nimmt Aufträge und Störungsmeldungen entgegen, während das Team auf der Baustelle ist, und gibt Dringendes weiter.',
+        thema: 'Anruf nach Feierabend',
+        ohne: 'Eine Ansage nennt die Öffnungszeiten. Ob es ein Notfall war, wissen Sie erst am nächsten Morgen.',
+        mit: 'Er beantwortet Fragen, nimmt Anliegen auf und meldet echte Notfälle sofort an Ihre Notfallnummer.',
     },
     {
-        icon: Car,
-        titel: 'Garagen',
-        text: 'Er nimmt Servicetermine und Reifenwechsel-Anfragen auf und gibt Auskunft zu Öffnungszeiten und Abholung.',
+        thema: 'Rückruf',
+        ohne: 'Eine unbekannte Nummer in der Anrufliste, ohne Hinweis, worum es ging.',
+        mit: 'Sie rufen zurück und kennen Name, Firma und Anliegen schon.',
     },
     {
-        icon: Briefcase,
-        titel: 'Treuhand und Beratung',
-        text: 'Er beantwortet allgemeine Fragen, nimmt Rückrufwünsche auf und verbindet Mandanten mit der zuständigen Person.',
+        thema: 'Immer dieselben Fragen',
+        ohne: 'Öffnungszeiten, Anfahrt, Leistungen: Jede Frage unterbricht die Arbeit.',
+        mit: 'Er beantwortet wiederkehrende Fragen aus Ihrer Website und Ihren Angaben.',
     },
     {
-        icon: UtensilsCrossed,
-        titel: 'Gastronomie',
-        text: 'Er beantwortet Fragen zu Öffnungszeiten und Angebot und nimmt Reservationswünsche auf, auch wenn im Service viel los ist.',
-    },
-    {
-        icon: Building2,
-        titel: 'KMU mit Empfang',
-        text: 'Er übernimmt, wenn der Empfang besetzt ist oder Pause macht, damit Anrufer trotzdem jemanden erreichen.',
+        thema: 'Terminwunsch',
+        ohne: 'Notiz auf einem Zettel, Rückruf, nochmals Rückruf.',
+        mit: 'Termin direkt im Microsoft-365-Kalender, Bestätigung per SMS.',
     },
 ];
 
-const faqs = [
-    {
-        question: 'Spricht der Assistent wirklich Schweizerdeutsch?',
-        answer: 'Er kann es, aber wir empfehlen Hochdeutsch oder Englisch. Schweizerdeutsch ist bei uns in Erprobung und klingt noch nicht in jedem Gespräch natürlich. Sie wählen die Sprache vor dem Anruf.',
-    },
-    {
-        question: 'Was kostet der Testanruf?',
-        answer: 'Nichts. Sie brauchen keine Anmeldung und keine Kreditkarte.',
-    },
-    {
-        question: 'Woher weiss der Assistent etwas über meine Firma?',
-        answer: 'Aus Ihrer öffentlichen Website. Im Kundenbetrieb pflegen wir Ihr Wissen gemeinsam mit Ihnen – aus Ihren Unterlagen, Preisen und Abläufen.',
-    },
-    {
-        question: 'Kann er Anrufe weiterverbinden?',
-        answer: 'Ja, an Mitarbeitende oder definierte Nummern, und er prüft vorher, wer gerade frei ist. Nimmt niemand ab, kommt der Anrufer zum Assistenten zurück.',
-    },
-    {
-        question: 'Was passiert, wenn er etwas nicht weiss?',
-        answer: 'Er sagt es offen, nimmt das Anliegen auf und organisiert einen Rückruf. Er erfindet keine Preise und keine Zusagen.',
-    },
-    {
-        question: 'Brauche ich eine neue Telefonanlage?',
-        answer: 'Nein. Der Assistent kann allein laufen oder als Baustein in unserer Cloud-Telefonanlage. Ihre Nummer behalten Sie.',
-    },
-    {
-        question: 'Wie lange dauert die Einrichtung?',
-        answer: 'Den Testassistenten haben Sie in einer Minute. Den Assistenten für Ihren Betrieb richten wir nach Ihren Vorgaben ein – Begrüssung, Fragen, Empfänger der Zusammenfassung.',
-    },
-    {
-        question: 'Wo werden meine Daten verarbeitet?',
-        answer: 'Anlage und Protokolle in der Schweiz bei InfraOne; die Sprach-KI über die Schnittstellen von OpenAI. Details in den Datenschutzhinweisen.',
-    },
-];
+const anwendungIcons = { erreichbarkeit: PhoneIncoming, auskunft: MessageSquareText, 'anliegen-erfassen': ClipboardList, terminbuchung: CalendarCheck, notfall: Siren } as const;
+const branchenIcons = { elektriker: Zap, 'sanitaer-heizung': Wrench, arztpraxis: Stethoscope, treuhand: Briefcase, immobilien: Building2, garage: Car } as const;
 
-// AUFTRAG-098: Reihenfolge und Vorgabe wie die Sprachwahl im Testanruf
-const sprachen = [
-    { name: 'Deutsch', text: 'Hochdeutsch, klar und zuverlässig – die Vorgabe.', hinweis: 'vorgewählt', standard: true, lang: 'de' },
-    { name: 'English', text: 'Reliable for international callers.', hinweis: null, standard: false, lang: 'en' },
-    { name: 'Schweizerdeutsch', text: 'Als Option wählbar, klingt noch nicht in jedem Gespräch natürlich.', hinweis: 'in Erprobung', standard: false, lang: 'de' },
-];
-
-// AUFTRAG-095: nur, was wir wirklich leisten; Preis nicht freigegeben → «Festpreis auf Anfrage»
-const beiIhnen = [
-    {
-        icon: Globe,
-        titel: 'Ihre Website und Ihre Vorgaben',
-        text: 'Wir übernehmen Leistungen, Öffnungszeiten und Kontaktdaten aus Ihrer Website und ergänzen sie mit Ihnen um Begrüssung, Abläufe und Antworten.',
-    },
-    {
-        icon: PhoneForwarded,
-        titel: 'Ihre Nummer bleibt',
-        text: 'Sie behalten Ihre Telefonnummer. Sie bestimmen, wann der Assistent abnimmt – zum Beispiel ausserhalb der Öffnungszeiten oder wenn niemand frei ist.',
-    },
-    {
-        icon: Rocket,
-        titel: 'Live in 48 Stunden',
-        text: 'Nach Ihrer Freigabe ist der Assistent innert 48 Stunden in Betrieb. Die Notiz zu jedem Gespräch erhalten Sie per E-Mail.',
-    },
+const warumInfraOne = [
+    { icon: Headset, titel: 'IT-Partner, nicht nur Software', text: 'InfraOne betreut rund 100 KMU in der IT. Den Assistenten richten wir mit Ihnen ein und bleiben Ansprechpartner im Betrieb.' },
+    { icon: PhoneCall, titel: 'Eigene Telefonie', text: 'Cloud-Telefonie und Telefonanlage kommen ebenfalls von uns. Der Assistent wird bei Bedarf Teil Ihrer Anlage.' },
+    { icon: MapPin, titel: 'Vor Ort in der Region', text: 'Standorte in Winterthur, Schaffhausen, Tägerwilen und Kleinandelfingen – wenn es vor Ort etwas braucht, kommen wir vorbei.' },
+    { icon: Server, titel: 'Betrieb in der Schweiz', text: 'Der Assistent läuft bei Infomaniak in Satigny, die Telefonie über Schweizer Provider.' },
 ];
 
 export default function KiTelefonassistentPage() {
     const serviceSchema = generateKiTelefonassistentServiceSchema(BESCHREIBUNG);
-    const webPageSchema = generateWebPageSchema(URL_SEITE, 'KI-Telefonassistent für Schweizer KMU', BESCHREIBUNG);
-    const breadcrumbSchema = generateBreadcrumbListSchema([
-        { name: 'Home', url: BASE_URL },
-        { name: 'Cloud-Telefonie', url: `${BASE_URL}/cloud-telefonie` },
-        { name: 'KI-Telefonassistent', url: URL_SEITE },
-    ]);
-    const faqSchema = generateFAQSchema(faqs);
+    const hubFaq = faqNachIds(HUB_FAQ_IDS);
     // Turnstile nur, wenn Site-Key UND Secret gesetzt sind (sonst aus)
     const turnstileSiteKey =
         process.env.TURNSTILE_SITE_KEY && process.env.TURNSTILE_SECRET ? process.env.TURNSTILE_SITE_KEY : undefined;
@@ -217,12 +139,10 @@ export default function KiTelefonassistentPage() {
 
     return (
         <>
-            {[serviceSchema, webPageSchema, breadcrumbSchema, faqSchema].map((schema, i) => (
-                <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-            ))}
+            <JsonLd daten={[serviceSchema, ...kiSeitenSchemas(KI_BASIS, 'KI-Telefonassistent für Schweizer KMU', BESCHREIBUNG, kiKrumen()), generateFAQSchema(faqFuerSchema(hubFaq))]} />
 
-            {/* Hero: das Eingabefeld ist die Bühne, rechts das lebende Telefon */}
-            <section className="relative overflow-clip pt-10 pb-16 sm:pt-14 lg:pt-16 lg:pb-24 lg:min-h-[min(calc(100svh-5rem),62rem)]">
+            {/* Hero: das Eingabefeld ist die Bühne, rechts das lebende Telefon (unverändert) */}
+            <section id="live-test" className="relative overflow-clip pt-10 pb-16 sm:pt-14 lg:pt-16 lg:pb-24 lg:min-h-[min(calc(100svh-5rem),62rem)] scroll-mt-20">
                 <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
                     <div className="absolute inset-0 bg-gradient-to-b from-surface/70 via-background to-background" />
                     {/* weicher Lichtfleck als Verlauf statt blur-Filter (billiger zu malen, besseres LCP auf Mobilgeräten) */}
@@ -247,213 +167,244 @@ export default function KiTelefonassistentPage() {
                 </div>
             </section>
 
-            {/* 1. So funktioniert der Testanruf */}
-            <section className="py-16 lg:py-24 bg-surface">
-                <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="mb-10 lg:mb-14">
-                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">So funktioniert der Testanruf</h2>
-                    </AnimatedSection>
-                    <ol className="grid md:grid-cols-3 gap-px rounded-3xl overflow-hidden border border-border bg-border">
-                        {schritte.map((s) => (
-                            <li key={s.titel} className="bg-card p-6 lg:p-8">
-                                <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6">
-                                    <s.icon className="w-5 h-5" aria-hidden="true" />
-                                </div>
-                                <h3 className="text-xl font-bold text-text-primary mb-2">{s.titel}</h3>
-                                <p className="text-text-secondary leading-relaxed">{s.text}</p>
-                            </li>
-                        ))}
-                    </ol>
+            {/* 1. Nutzen in drei Kacheln */}
+            <Abschnitt
+                titel="Was der Assistent Ihrem Betrieb abnimmt"
+                intro={
+                    <p>
+                        Der KI-Telefonassistent ist eine Telefonistin, die nie in der Pause ist: Er nimmt Anrufe an, wenn niemand Zeit hat, beantwortet Fragen aus Ihrem Wissen und hält fest, was Sie erledigen müssen. Für kleine und mittlere Betriebe in der Schweiz, die kein eigenes Sekretariat haben oder es entlasten wollen.
+                    </p>
+                }
+                hintergrund="surface"
+            >
+                <div className="grid md:grid-cols-3 gap-5">
+                    {nutzen.map((n) => (
+                        <IconKachel key={n.titel} icon={n.icon} titel={n.titel}>
+                            {n.text}
+                        </IconKachel>
+                    ))}
                 </div>
-            </section>
+                <p className="mt-8">
+                    <Link href={`${KI_BASIS}/funktionen`} className="inline-flex items-center gap-2 font-semibold text-text-primary underline underline-offset-4 decoration-primary hover:decoration-2">
+                        Alle Funktionen im Überblick
+                        <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                </p>
+            </Abschnitt>
 
-            {/* 2. Warum ein Assistent aus der Schweiz (AUFTRAG-098, ersetzt «Warum Schweizerdeutsch den Unterschied macht») */}
-            <section className="py-16 lg:py-24 bg-background">
-                <div className="container mx-auto px-4">
-                    <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-                        <AnimatedSection animation="slideUp" className="lg:col-span-7">
-                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-6">Warum ein Assistent aus der Schweiz</h2>
-                            <p className="text-lg text-text-secondary leading-relaxed max-w-3xl">
-                                Ihr Assistent läuft auf unserer eigenen Telefonanlage in der Schweiz – nicht in einem Callcenter im Ausland. Auf Deutsch und Englisch spricht er zuverlässig. Schweizerdeutsch bieten wir als Option an; es ist bei uns in Erprobung. Welche KI-Dienste dabei mitarbeiten, erklären wir weiter unten offen.
-                            </p>
-                        </AnimatedSection>
-                        <AnimatedSection animation="slideUp" delay={0.1} className="lg:col-span-5">
-                            <ul className="rounded-3xl border border-border bg-card divide-y divide-border overflow-hidden">
-                                {sprachen.map((s) => (
-                                    <li key={s.name} className="flex items-center gap-4 px-5 py-4 lg:px-6 lg:py-5">
-                                        <span
-                                            className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${s.standard ? 'bg-primary text-white' : 'bg-surface text-text-secondary border border-border'}`}
-                                            aria-hidden="true"
-                                        >
-                                            <MessageSquareText className="w-4 h-4" />
-                                        </span>
-                                        <span className="min-w-0">
-                                            <span className="block text-lg font-semibold text-text-primary">
-                                                {s.name}
-                                                {s.hinweis && <span className={`ml-2 align-middle text-xs font-semibold ${s.standard ? 'text-primary' : 'text-text-secondary'}`}>{s.hinweis}</span>}
-                                            </span>
-                                            <span className="block text-sm text-text-secondary" lang={s.lang}>
-                                                {s.text}
-                                            </span>
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </AnimatedSection>
-                    </div>
+            {/* 2. So funktioniert es: vier Schritte */}
+            <Abschnitt
+                titel="So funktioniert es"
+                intro={<p>Vom ersten Testanruf bis zum Assistenten, der für Ihren Betrieb abnimmt, sind es vier Schritte. Den ersten machen Sie oben auf dieser Seite selbst.</p>}
+                kopfRechts={
+                    <Link href={`${KI_BASIS}/so-funktioniert-es`} className="inline-flex items-center gap-2 font-semibold text-text-primary underline underline-offset-4 decoration-primary hover:decoration-2 whitespace-nowrap">
+                        Ablauf im Detail
+                        <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                }
+            >
+                <Schrittfolge schritte={schritte} />
+            </Abschnitt>
+
+            {/* 3. Ohne / Mit Assistent */}
+            <Abschnitt
+                titel="Ohne und mit Assistent"
+                intro={<p>Was sich im Alltag ändert, sehen Sie am besten an den Momenten, in denen heute niemand abnimmt.</p>}
+                hintergrund="surface"
+            >
+                <OhneMit zeilen={ohneMit} />
+            </Abschnitt>
+
+            {/* 4. Anwendungen */}
+            <Abschnitt
+                titel="Wofür Betriebe ihn einsetzen"
+                intro={<p>Sie können mit einer Aufgabe starten und später weitere dazunehmen. Jede Anwendung zeigt ein Beispielgespräch in Mundart und auf Hochdeutsch.</p>}
+                kopfRechts={
+                    <Link href={`${KI_BASIS}/anwendungen`} className="inline-flex items-center gap-2 font-semibold text-text-primary underline underline-offset-4 decoration-primary hover:decoration-2 whitespace-nowrap">
+                        Alle Anwendungen
+                        <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                }
+            >
+                <div className="grid sm:grid-cols-2 xl:grid-cols-5 gap-4">
+                    {ANWENDUNGEN.map((a) => (
+                        <IconKachel key={a.slug} icon={anwendungIcons[a.slug]} titel={a.name} href={`${KI_BASIS}/anwendungen/${a.slug}`}>
+                            {a.teaser}
+                        </IconKachel>
+                    ))}
                 </div>
-            </section>
+            </Abschnitt>
 
-            {/* 3. Was der Assistent im Alltag übernimmt */}
-            <section className="py-16 lg:py-24 bg-surface">
-                <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="mb-10 lg:mb-14">
-                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">Was der Assistent im Alltag übernimmt</h2>
-                    </AnimatedSection>
-                    <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
-                        {alltag.map((k) => (
-                            <div key={k.titel} className="h-full p-6 rounded-2xl bg-card border border-border transition-colors hover:border-primary/40">
-                                <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-5">
-                                    <k.icon className="w-5 h-5" aria-hidden="true" />
-                                </div>
-                                <h3 className="text-lg font-bold text-text-primary mb-2 leading-snug">{k.titel}</h3>
-                                <p className="text-sm text-text-secondary leading-relaxed">{k.text}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* 4. So läuft es bei Ihnen (AUFTRAG-095) */}
-            <section className="py-16 lg:py-24 bg-background">
-                <div className="container mx-auto px-4">
-                    <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
-                        <AnimatedSection animation="slideUp" className="lg:col-span-4">
-                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">So läuft es bei Ihnen</h2>
-                            <p className="mt-5 text-lg text-text-secondary leading-relaxed">
-                                Aus dem Testassistenten wird Ihr Assistent: eingerichtet von uns, mit Ihren Inhalten und Ihrer Nummer.
-                            </p>
-                            <p className="mt-6 inline-flex rounded-xl border border-border bg-card px-4 py-3 font-semibold text-text-primary">Festpreis auf Anfrage</p>
-                        </AnimatedSection>
-                        <ol className="lg:col-span-8 space-y-4">
-                            {beiIhnen.map((b, i) => (
-                                <li key={b.titel} className="flex gap-5 rounded-2xl border border-border bg-card p-5 sm:p-6">
+            {/* 5. Branchen (Anker #betriebe für das Menü «Für wen») */}
+            <Abschnitt
+                id="betriebe"
+                titel="Für welche Betriebe"
+                intro={<p>Überall, wo das Team arbeitet, statt am Telefon zu sitzen. Für sechs Branchen zeigen wir typische Anrufe und wie der Assistent sie behandelt.</p>}
+                hintergrund="surface"
+                kopfRechts={
+                    <Link href={`${KI_BASIS}/branchen`} className="inline-flex items-center gap-2 font-semibold text-text-primary underline underline-offset-4 decoration-primary hover:decoration-2 whitespace-nowrap">
+                        Alle Branchen
+                        <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                }
+            >
+                <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {BRANCHEN.map((b) => {
+                        const Icon = branchenIcons[b.slug];
+                        return (
+                            <li key={b.slug}>
+                                <Link href={`${KI_BASIS}/branchen/${b.slug}`} className="group h-full flex gap-4 p-5 rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors">
                                     <span className="flex-shrink-0 w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center" aria-hidden="true">
-                                        <b.icon className="w-5 h-5" />
+                                        <Icon className="w-5 h-5" />
                                     </span>
                                     <span className="min-w-0">
-                                        <span className="block text-sm font-semibold text-text-secondary">Schritt {i + 1}</span>
-                                        <h3 className="mt-0.5 text-xl font-bold text-text-primary">{b.titel}</h3>
-                                        <p className="mt-2 text-text-secondary leading-relaxed">{b.text}</p>
+                                        <span className="flex items-center gap-1.5 font-bold text-text-primary group-hover:text-primary">
+                                            {b.name}
+                                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
+                                        </span>
+                                        <span className="mt-1 block text-sm text-text-secondary leading-relaxed">{b.teaser}</span>
                                     </span>
-                                </li>
-                            ))}
-                        </ol>
-                    </div>
-                </div>
-            </section>
-
-            {/* 5. Für welche Betriebe (Anker für das Menü «Für wen», AUFTRAG-100) */}
-            <section id="betriebe" className="py-16 lg:py-24 bg-surface scroll-mt-24">
-                <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="mb-10 lg:mb-14">
-                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">Für welche Betriebe</h2>
-                    </AnimatedSection>
-                    <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
-                        {betriebe.map((b) => (
-                            <li key={b.titel} className="flex gap-4">
-                                <span className="flex-shrink-0 w-11 h-11 rounded-xl bg-card border border-border text-primary flex items-center justify-center" aria-hidden="true">
-                                    <b.icon className="w-5 h-5" />
-                                </span>
-                                <span>
-                                    <h3 className="font-bold text-text-primary mb-1.5">{b.titel}</h3>
-                                    <p className="text-sm text-text-secondary leading-relaxed">{b.text}</p>
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </section>
-
-            {/* 6. Datenschutz und Technik */}
-            <section className="py-16 lg:py-24 bg-background">
-                <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp">
-                        <div className="rounded-3xl border border-border bg-card p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-10">
-                            <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-                                <ShieldCheck className="w-7 h-7" aria-hidden="true" />
-                            </div>
-                            <div>
-                                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-5">Datenschutz und Technik, ehrlich erklärt</h2>
-                                <p className="text-lg text-text-secondary leading-relaxed max-w-3xl">
-                                    Die Telefonanlage und Ihre Gesprächsprotokolle laufen in der Schweiz auf Systemen von InfraOne. Für Spracherkennung und Sprachausgabe nutzen wir die KI-Schnittstellen von OpenAI; Gesprächsinhalte werden dort nicht zum Training verwendet. Ihre Nummer aus dem Testanruf verwenden wir für diesen Anruf und für eine Rückmeldung von uns, falls Sie Fragen haben – nicht für Werbung. Mitschnitte gibt es im Kundenbetrieb nur mit Einwilligung beider Seiten.
-                                </p>
-                                <Link
-                                    href="/datenschutz#testanruf-ki-telefonassistent"
-                                    className="mt-5 inline-flex items-center gap-2 font-semibold text-text-primary underline underline-offset-4 decoration-primary hover:decoration-2"
-                                >
-                                    Datenschutzhinweise zum Testanruf
-                                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
                                 </Link>
-                            </div>
-                        </div>
-                    </AnimatedSection>
-                </div>
-            </section>
+                            </li>
+                        );
+                    })}
+                </ul>
+                <p className="mt-6 text-text-secondary">
+                    Ihre Branche ist nicht dabei? Gastronomie, Coiffeur, Physiotherapie oder Beratung funktionieren nach demselben Prinzip –{' '}
+                    <Link href="/kontakt" className="font-semibold text-text-primary underline underline-offset-4 decoration-primary">
+                        fragen Sie uns
+                    </Link>
+                    .
+                </p>
+            </Abschnitt>
 
-            {/* 7. Häufige Fragen (natives details/summary: ohne JavaScript bedienbar) */}
-            <section className="py-16 lg:py-24 bg-surface border-t border-border">
+            {/* 6. Mundart */}
+            <Abschnitt titel="Versteht Mundart – und antwortet auch so">
+                <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+                    <Prosa className="lg:col-span-7">
+                        <p>
+                            In der Deutschschweiz ist Mundart die Alltagssprache, auch am Telefon. Der Assistent versteht Schweizerdeutsch und spricht es auch. Anrufende müssen nicht auf Hochdeutsch umstellen, und wer lieber Hochdeutsch oder Englisch spricht, wird ebenso bedient.
+                        </p>
+                        <p>
+                            Er arbeitet mit Sprach-zu-Sprach-KI: Er hört das Gesprochene und antwortet direkt, statt Text in Sprache umzuwandeln und Bausteine vorzulesen. Dialekte sind vielfältig, und nicht jeder Ausdruck aus jeder Region wird auf Anhieb verstanden. Im Testanruf ist Schweizerdeutsch deshalb noch als «in Erprobung» gekennzeichnet – prüfen Sie ihn am besten mit Ihrem eigenen Dialekt.
+                        </p>
+                        <p>
+                            <Link href={`${KI_BASIS}/schweizerdeutsch`}>Mehr zu Schweizerdeutsch und den Grenzen</Link>
+                        </p>
+                    </Prosa>
+                    <div className="lg:col-span-5">
+                        <Gespraech
+                            sprache="gsw"
+                            titel="So tönt es"
+                            zeilen={[
+                                { wer: 'anrufer', text: 'Grüezi, bi üs gheit immer wieder d Sicherig use. Chönd Sie emal verbicho?' },
+                                { wer: 'assistent', text: 'Sicher. Isch nume ein Ruum betroffe oder s ganze Huus?' },
+                                { wer: 'anrufer', text: 'Nume d Chuchi.' },
+                                { wer: 'assistent', text: 'Guet, dänn nimm ich das als dringendi Störig uf. Wie isch Ihri Adrässe?' },
+                            ]}
+                        />
+                        <p className="mt-3 text-sm text-text-secondary">Beispiel, gekürzt.</p>
+                    </div>
+                </div>
+            </Abschnitt>
+
+            {/* 7. Preise-Teaser (mit Entwurfsband, solange nicht freigegeben) */}
+            <Abschnitt
+                id="preise"
+                titel="Preise"
+                intro={<p>Monatliche Pakete nach Gesprächsminuten und Funktionen, dazu eine einmalige Einrichtung. Der Testanruf ist kostenlos.</p>}
+                hintergrund="surface"
+            >
+                <PreisTeaser />
+            </Abschnitt>
+
+            {/* 8. Warum InfraOne */}
+            <Abschnitt
+                titel="Warum mit InfraOne"
+                intro={<p>InfraOne ist ein IT-Dienstleister aus Winterthur. Der Assistent ist für uns kein Einzelprodukt, sondern Teil von Telefonie und IT, die wir für KMU betreiben.</p>}
+            >
+                <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
+                    {warumInfraOne.map((w) => (
+                        <IconKachel key={w.titel} icon={w.icon} titel={w.titel}>
+                            {w.text}
+                        </IconKachel>
+                    ))}
+                </div>
+            </Abschnitt>
+
+            {/* 9. Vertrauen: Datenschutz und Technik */}
+            <section className="py-16 lg:py-24 bg-surface">
                 <div className="container mx-auto px-4">
-                    <AnimatedSection animation="slideUp" className="mb-10 lg:mb-14">
-                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">Häufige Fragen</h2>
-                    </AnimatedSection>
-                    <div className="grid lg:grid-cols-2 gap-4 lg:items-start">
-                        {faqs.map((f) => (
-                            <details key={f.question} className="group rounded-2xl border border-border bg-card open:border-primary/40">
-                                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-text-primary [&::-webkit-details-marker]:hidden">
-                                    {f.question}
-                                    <ChevronDown className="w-5 h-5 flex-shrink-0 text-primary transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
-                                </summary>
-                                <p className="px-5 pb-5 -mt-1 text-text-secondary leading-relaxed">
-                                    {f.answer.endsWith('Details in den Datenschutzhinweisen.') ? (
-                                        <>
-                                            {f.answer.replace('Details in den Datenschutzhinweisen.', 'Details in den ')}
-                                            <Link href="/datenschutz#testanruf-ki-telefonassistent" className="underline underline-offset-2 text-text-primary hover:no-underline">
-                                                Datenschutzhinweisen
-                                            </Link>
-                                            .
-                                        </>
-                                    ) : (
-                                        f.answer
-                                    )}
+                    <div className="rounded-3xl border border-border bg-card p-6 md:p-10 grid lg:grid-cols-12 gap-8 lg:gap-12">
+                        <div className="lg:col-span-7">
+                            <span className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6" aria-hidden="true">
+                                <ShieldCheck className="w-7 h-7" />
+                            </span>
+                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-5">Datenschutz, offen erklärt</h2>
+                            <Prosa>
+                                <p>
+                                    Der Assistent läuft auf Servern in der Schweiz, bei Infomaniak in Satigny, die Telefonie über Schweizer Provider. Für die Sprachverarbeitung setzen wir KI-Anbieter ein – Google Gemini und OpenAI –, in bezahlten Stufen, bei denen Daten nicht für das Training verwendet werden.
                                 </p>
-                            </details>
-                        ))}
+                                <p>
+                                    Gespräche werden nicht aufgezeichnet. Sie erhalten Transkript und Zusammenfassung per E-Mail. Einen Auftragsverarbeitungsvertrag nach Schweizer Datenschutzgesetz erhalten Sie auf Anfrage.
+                                </p>
+                            </Prosa>
+                        </div>
+                        <ul className="lg:col-span-5 space-y-3 self-center">
+                            <li>
+                                <Link href={`${KI_BASIS}/sicherheit-datenschutz`} className="group flex items-center justify-between gap-4 rounded-2xl border border-border p-5 hover:border-primary/50 transition-colors">
+                                    <span>
+                                        <span className="block font-semibold text-text-primary group-hover:text-primary">Sicherheit und Datenschutz</span>
+                                        <span className="block text-sm text-text-secondary">Wo was läuft, was erfasst wird, AVV</span>
+                                    </span>
+                                    <ArrowRight className="w-5 h-5 flex-shrink-0 text-primary" aria-hidden="true" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/datenschutz#testanruf-ki-telefonassistent" className="group flex items-center justify-between gap-4 rounded-2xl border border-border p-5 hover:border-primary/50 transition-colors">
+                                    <span>
+                                        <span className="block font-semibold text-text-primary group-hover:text-primary">Datenschutzhinweise zum Testanruf</span>
+                                        <span className="block text-sm text-text-secondary">Was mit Website und Nummer passiert</span>
+                                    </span>
+                                    <ArrowRight className="w-5 h-5 flex-shrink-0 text-primary" aria-hidden="true" />
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </section>
 
-            {/* 8. Abschluss-CTA */}
-            <section className="py-16 lg:py-20 bg-primary">
-                <div className="container mx-auto px-4 text-center text-white">
-                    <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Bereit für Ihren eigenen Assistenten?</h2>
-                    <p className="text-lg opacity-90 mb-8 max-w-xl mx-auto">Testen Sie ihn oben mit Ihrer Website. Oder sprechen Sie direkt mit uns.</p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90" asChild>
-                            <Link href="/kontakt">
-                                Erstgespräch vereinbaren
-                                <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                            </Link>
-                        </Button>
-                        <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary" asChild>
-                            <a href="tel:+41522221818">
-                                <Phone className="w-5 h-5" aria-hidden="true" />
-                                052 222 18 18
-                            </a>
-                        </Button>
-                    </div>
-                </div>
-            </section>
+            {/* 10. FAQ-Auszug */}
+            <Abschnitt
+                titel="Häufige Fragen"
+                kopfRechts={
+                    <Link href={`${KI_BASIS}/faq`} className="inline-flex items-center gap-2 font-semibold text-text-primary underline underline-offset-4 decoration-primary hover:decoration-2 whitespace-nowrap">
+                        Alle Fragen
+                        <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                }
+            >
+                <FaqListe eintraege={hubFaq} />
+            </Abschnitt>
+
+            {/* 11. Weiterlesen: interne Verlinkung */}
+            <Querverweise
+                links={[
+                    { titel: 'Vergleich', text: 'KI-Assistent, Anrufbeantworter, Telefonservice, Sekretariat oder Sprachmenü?', href: `${KI_BASIS}/vergleich`, icon: Scale },
+                    { titel: 'So funktioniert es', text: 'Vom Testanruf zum eigenen Assistenten, Schritt für Schritt.', href: `${KI_BASIS}/so-funktioniert-es`, icon: ClipboardList },
+                    { titel: 'Glossar', text: 'Sprach-zu-Sprach-KI, Rufumleitung, vPBX und weitere Begriffe erklärt.', href: `${KI_BASIS}/glossar`, icon: BookOpen },
+                    { titel: 'Cloud-Telefonie', text: 'Telefonanlage aus der Cloud, in die sich der Assistent einfügt.', href: '/cloud-telefonie', icon: PhoneCall },
+                    { titel: 'IT-Support', text: 'Hilfe per Fernwartung und vor Ort, für KMU in der Ostschweiz.', href: '/it-support', icon: Headset },
+                    { titel: 'Kontakt', text: 'Erstgespräch vereinbaren oder direkt anrufen.', href: '/kontakt', icon: Mail },
+                ]}
+            />
+
+            {/* 12. Abschluss-CTA */}
+            <AbschlussCta
+                titel="Bereit für Ihren eigenen Assistenten?"
+                text="Testen Sie ihn oben mit Ihrer Website – kostenlos, ohne Anmeldung. Oder sprechen Sie direkt mit uns über Ihren Betrieb."
+                liveHref="#live-test"
+            />
         </>
     );
 }

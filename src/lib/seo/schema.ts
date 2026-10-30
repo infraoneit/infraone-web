@@ -390,6 +390,7 @@ export function renderJsonLd(schema: any): string {
  */
 
 import { BASE_URL } from '@/lib/constants';
+import { PAKETE, PREISE_FREIGEGEBEN } from '@/lib/ki-telefonassistent-preise';
 
 /**
  * Generiert LocalBusiness Schema für das Layout (sitewide)
@@ -1559,27 +1560,139 @@ export function generateDigitalSignageSpokeSchema(
 }
 
 /**
- * Generiert Service Schema für /ki-telefonassistent (AUFTRAG-092)
- * Bewusst ohne Angebote/Preise (keine Preise auf dieser Seite).
+ * Generiert Service Schema für /ki-telefonassistent (AUFTRAG-092, erweitert AUFTRAG-110).
+ * Angebote (Offer) erst, wenn die Preise freigegeben sind (PREISE_FREIGEGEBEN).
+ * Der Anbieter verweist auf das sitewide LocalBusiness (@id /#organization) —
+ * kein zweites Organization-Objekt.
  */
 export function generateKiTelefonassistentServiceSchema(description: string) {
+    const angebote = generateKiTelefonassistentOfferCatalog();
     return {
         '@context': 'https://schema.org',
         '@type': 'Service',
-        '@id': `${BASE_URL}/ki-telefonassistent#service`,
+        '@id': KI_SERVICE_ID,
         name: 'KI-Telefonassistent',
         alternateName: ['KI-Telefonassistent für Schweizer KMU', 'Telefonassistent mit künstlicher Intelligenz'],
         serviceType: ['KI-Telefonassistent', 'Voicebot', 'Telefonassistenz'],
+        category: 'Telefonie und Kommunikation',
         description,
         provider: { '@id': `${BASE_URL}/#organization` },
         url: `${BASE_URL}/ki-telefonassistent`,
         areaServed: { '@type': 'Country', name: 'Switzerland' },
-        // AUFTRAG-098: Deutsch und Englisch zuverlässig, Schweizerdeutsch wählbar (in Erprobung)
+        audience: { '@type': 'BusinessAudience', audienceType: 'KMU in der Schweiz' },
+        // AUFTRAG-110: versteht und spricht Schweizerdeutsch, Hochdeutsch und Englisch
         availableLanguage: [
+            { '@type': 'Language', name: 'Schweizerdeutsch', alternateName: 'gsw' },
             { '@type': 'Language', name: 'Deutsch', alternateName: 'de' },
             { '@type': 'Language', name: 'Englisch', alternateName: 'en' },
-            { '@type': 'Language', name: 'Schweizerdeutsch', alternateName: 'gsw' },
         ],
         isRelatedTo: { '@id': `${BASE_URL}/cloud-telefonie#service` },
+        ...(angebote && { hasOfferCatalog: angebote }),
+    };
+}
+
+/* ------------------------------------------------------------------ */
+/* KI-Telefonassistent: Unterseiten (AUFTRAG-110)                      */
+/* ------------------------------------------------------------------ */
+
+export const KI_SERVICE_ID = `${BASE_URL}/ki-telefonassistent#service`;
+
+/**
+ * Angebotskatalog aus src/lib/ki-telefonassistent-preise.ts —
+ * null, solange die Preise Entwurf sind (keine Platzhalter in strukturierten Daten).
+ */
+export function generateKiTelefonassistentOfferCatalog() {
+    if (!PREISE_FREIGEGEBEN) return null;
+    return {
+        '@type': 'OfferCatalog',
+        name: 'Pakete KI-Telefonassistent',
+        itemListElement: PAKETE.filter((p) => p.preisMonat !== null).map((p) => ({
+            '@type': 'Offer',
+            name: `KI-Telefonassistent ${p.name}`,
+            description: p.merkmale.join(', '),
+            price: String(p.preisMonat),
+            priceCurrency: 'CHF',
+            priceSpecification: {
+                '@type': 'UnitPriceSpecification',
+                price: String(p.preisMonat),
+                priceCurrency: 'CHF',
+                unitCode: 'MON',
+                valueAddedTaxIncluded: false,
+            },
+            seller: { '@id': `${BASE_URL}/#organization` },
+        })),
+    };
+}
+
+/**
+ * WebPage einer Unterseite des KI-Bereichs: gehört zur Website, handelt vom
+ * Service (about) und verweist auf die Brotkrumen.
+ */
+export function generateKiSeitenSchema(url: string, name: string, description: string) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url,
+        name,
+        description,
+        inLanguage: 'de-CH',
+        isPartOf: { '@id': `${BASE_URL}/#website` },
+        about: { '@id': KI_SERVICE_ID },
+        breadcrumb: { '@id': `${url}#breadcrumb` },
+    };
+}
+
+/** BreadcrumbList mit @id (verknüpft mit generateKiSeitenSchema) */
+export function generateKiBreadcrumbSchema(url: string, items: Array<{ name: string; url: string }>) {
+    return {
+        ...generateBreadcrumbListSchema(items),
+        '@id': `${url}#breadcrumb`,
+    };
+}
+
+/** DefinedTermSet für das Glossar (/ki-telefonassistent/glossar) */
+export function generateDefinedTermSetSchema(url: string, name: string, begriffe: Array<{ id: string; begriff: string; erklaerung: string }>) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'DefinedTermSet',
+        '@id': `${url}#glossar`,
+        name,
+        url,
+        inLanguage: 'de-CH',
+        hasDefinedTerm: begriffe.map((b) => ({
+            '@type': 'DefinedTerm',
+            '@id': `${url}#${b.id}`,
+            name: b.begriff,
+            description: b.erklaerung,
+            inDefinedTermSet: `${url}#glossar`,
+        })),
+    };
+}
+
+/**
+ * HowTo: Weg vom Testanruf zum eigenen Assistenten (/so-funktioniert-es).
+ * Bewusst ohne totalTime: Eine Einrichtungsdauer ist nicht belegt.
+ */
+export function generateHowToSchema(
+    url: string,
+    name: string,
+    description: string,
+    schritte: Array<{ name: string; text: string; anker?: string }>,
+) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        '@id': `${url}#howto`,
+        name,
+        description,
+        inLanguage: 'de-CH',
+        step: schritte.map((s, i) => ({
+            '@type': 'HowToStep',
+            position: i + 1,
+            name: s.name,
+            text: s.text,
+            ...(s.anker && { url: `${url}#${s.anker}` }),
+        })),
     };
 }
