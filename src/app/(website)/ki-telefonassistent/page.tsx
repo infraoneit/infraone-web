@@ -30,6 +30,7 @@ import { kiMetadata } from '@/components/ki-telefonassistent/meta';
 import { JsonLd } from '@/components/ki-telefonassistent/JsonLd';
 import { kiKrumen, kiSeitenSchemas } from '@/components/ki-telefonassistent/Brotkrumen';
 import { Abschnitt, AbschlussCta, FaqListe, IconKachel, OhneMit, Prosa, Querverweise, Schrittfolge } from '@/components/ki-telefonassistent/Bausteine';
+import { KALENDER_SMS_SATZ } from '@/lib/in-entwicklung';
 import { PreisTeaser } from '@/components/ki-telefonassistent/Preise';
 import { Gespraech } from '@/components/ki-telefonassistent/Gespraech';
 import { faqFuerSchema, faqNachIds, HUB_FAQ_IDS } from '@/components/ki-telefonassistent/inhalte/faq';
@@ -126,7 +127,9 @@ const ohneMit = [
     {
         thema: 'Terminwunsch',
         ohne: 'Notiz auf einem Zettel, Rückruf, nochmals Rückruf.',
-        mit: 'Termin direkt im Microsoft-365-Kalender, Bestätigung per SMS.',
+        // AUFTRAG-113: Kalendereintrag und SMS in Entwicklung (Satz wortgleich, dazu die Badge)
+        mit: KALENDER_SMS_SATZ,
+        inEntwicklung: true,
     },
 ];
 

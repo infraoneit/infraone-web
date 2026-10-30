@@ -2,8 +2,10 @@
  * Funktionen des KI-Telefonassistenten in Gruppen (AUFTRAG-110).
  * Jede Funktion: Titel, zwei bis drei Sätze, «so hört es sich an»-Beispiel.
  * Nur Fakten aus AUFTRAG-110, Abschnitt 3.
+ * AUFTRAG-113: Kalendereintrag und SMS-Bestätigung sind in Entwicklung (Badge + Satz).
  */
 import type { Sprache, Zeile } from '../Gespraech';
+import { KALENDER_SMS_SATZ } from '@/lib/in-entwicklung';
 
 export interface Funktion {
     id: string;
@@ -11,6 +13,8 @@ export interface Funktion {
     text: string;
     beispiel: { sprache: Sprache; zeilen: Zeile[] };
     link?: { text: string; href: string };
+    /** AUFTRAG-113: Badge «In Entwicklung, kommt bald» am Titel */
+    inEntwicklung?: boolean;
 }
 
 export interface FunktionsGruppe {
@@ -132,17 +136,19 @@ export const FUNKTIONS_GRUPPEN: FunktionsGruppe[] = [
     {
         id: 'termine',
         titel: 'Termine und Öffnungszeiten',
-        intro: 'Der Assistent kennt Ihre Zeiten und kann Termine direkt im Kalender eintragen.',
+        intro: 'Der Assistent kennt Ihre Zeiten und nimmt Terminwünsche auf. Der Eintrag im Kalender ist in Entwicklung.',
         funktionen: [
             {
                 id: 'kalender',
                 titel: 'Termine im Microsoft-365-Kalender',
-                text: 'Der Assistent trägt Termine direkt in einen Microsoft-365-Kalender ein. Welche Termine er vergeben darf und welche Angaben er dafür erfragt, legen Sie fest.',
+                text: `${KALENDER_SMS_SATZ} Welche Termine er aufnimmt und welche Angaben er dafür erfragt, legen Sie fest.`,
+                inEntwicklung: true,
                 beispiel: {
                     sprache: 'gsw',
                     zeilen: [
                         { wer: 'anrufer', text: 'Chönnt ich nächscht Wuche für de Service verbicho?' },
-                        { wer: 'assistent', text: 'Am Mittwuch am nüüni chönnt ich Sie iiträge. Passt das?' },
+                        { wer: 'assistent', text: 'Gern. Ich nimm Ihre Terminwunsch uf, und mir mälded eus für d Bestätigung.' },
+                        { wer: 'hinweis', text: 'Terminwunsch als Notiz per E-Mail' },
                     ],
                 },
                 link: { text: 'Anwendung «Terminbuchung»', href: `${B}/anwendungen/terminbuchung` },
@@ -213,12 +219,13 @@ export const FUNKTIONS_GRUPPEN: FunktionsGruppe[] = [
             {
                 id: 'sms',
                 titel: 'SMS-Bestätigung an Anrufende',
-                text: 'Auf Wunsch erhält die anrufende Person eine SMS-Bestätigung, zum Beispiel mit dem vereinbarten Termin oder dem Hinweis, dass ihr Anliegen angekommen ist.',
+                text: 'Die anrufende Person erhält künftig auf Wunsch eine SMS-Bestätigung, zum Beispiel mit dem vereinbarten Termin oder dem Hinweis, dass ihr Anliegen angekommen ist. Heute erhalten Sie nach jedem Gespräch die Notiz per E-Mail.',
+                inEntwicklung: true,
                 beispiel: {
                     sprache: 'de',
                     zeilen: [
-                        { wer: 'assistent', text: 'Ihr Termin ist eingetragen. Sie erhalten gleich eine SMS mit der Bestätigung.' },
-                        { wer: 'hinweis', text: 'SMS an die anrufende Person' },
+                        { wer: 'assistent', text: 'Ich habe Ihr Anliegen notiert. Wir melden uns bei Ihnen.' },
+                        { wer: 'hinweis', text: 'Notiz per E-Mail; SMS an Anrufende in Entwicklung' },
                     ],
                 },
             },

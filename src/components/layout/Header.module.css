@@ -1,48 +1,18 @@
-/* Mega-Menü und mobiles Akkordeon (AUFTRAG-100).
-   Panels bleiben immer im DOM (Links für Crawler), geschlossen sind sie
+/* Schlichte Dropdowns und mobiles Akkordeon (AUFTRAG-100, vereinfacht in AUFTRAG-113:
+   keine Mega-Panels über die ganze Breite und kein Schleier mehr).
+   Dropdowns bleiben immer im DOM (Links für Crawler), geschlossen sind sie
    unsichtbar (visibility) und damit weder fokussierbar noch klickbar.
-   Bewegt werden nur opacity und transform (60 fps); Panels liegen absolut
-   unter dem Header, die Seite darunter bleibt stehen. */
+   Bewegt werden nur opacity und transform (60 fps); die Seite darunter bleibt stehen. */
 
 /* ------------------------------------------------------------------ */
-/* Desktop: Mega-Panel (volle Breite unter dem Header)                 */
+/* Desktop: Dropdown direkt unter dem Leistenknopf                     */
 /* ------------------------------------------------------------------ */
 
-.panel {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 100%;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-6px);
-    transition:
-        opacity 0.16s ease,
-        transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1),
-        visibility 0s linear 0.22s;
-}
-.panel[data-offen='true'] {
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    transition:
-        opacity 0.16s ease,
-        transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1),
-        visibility 0s;
-}
-
-/* Inhalt scrollt bei niedrigen Fenstern im Panel, nicht die Seite */
-.panelHuelle {
-    max-height: calc(100svh - 6rem);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-}
-
-/* Desktop: einfaches Dropdown («Unternehmen») unter dem Auslöser */
 .dropdown {
     position: absolute;
     left: 0;
     top: calc(100% - 0.75rem);
+    z-index: 10;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-4px);
@@ -60,37 +30,20 @@
         transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1),
         visibility 0s;
 }
+/* Pfeil-Knopf neben dem Link «Cloud-Telefonie»: Fokusrahmen innen, damit er den Linktext nicht berührt */
+.pfeilKnopf:focus-visible {
+    outline-offset: -2px;
+}
 
-/* Abdunkelung der Seite, solange ein Mega-Panel offen ist (liegt unter dem Header) */
-.schleier {
-    position: fixed;
-    inset: 0;
-    z-index: 40;
-    background: rgb(10 18 10 / 0.16);
-    opacity: 0;
-    visibility: hidden;
-    transition:
-        opacity 0.18s ease,
-        visibility 0s linear 0.18s;
-}
-:global(.dark) .schleier {
-    background: rgb(0 0 0 / 0.45);
-}
-.schleier[data-offen='true'] {
-    opacity: 1;
-    visibility: visible;
-    transition:
-        opacity 0.18s ease,
-        visibility 0s;
-}
-@media (max-width: 1023.98px) {
-    .schleier {
-        display: none;
-    }
+/* Bei niedrigen Fenstern scrollt das Dropdown selbst, nicht die Seite */
+.dropdown > div {
+    max-height: calc(100svh - 7rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 /* ------------------------------------------------------------------ */
-/* Hervorhebung: «KI-Anruf testen» (einzige Hervorhebung im Menü)      */
+/* Mobil: Hervorhebung «KI-Anruf testen» unter dem Akkordeon           */
 /* ------------------------------------------------------------------ */
 
 .kiKarte {
@@ -145,8 +98,7 @@
         transform: scaleY(0.6);
     }
 }
-/* Nur animieren, solange das Panel offen ist (sonst kostet es nichts) */
-.panel:not([data-offen='true']) .welle > span,
+/* Nur animieren, solange das Menü offen ist (sonst kostet es nichts) */
 .mobil:not([data-offen='true']) .welle > span {
     animation-play-state: paused;
 }
@@ -200,23 +152,17 @@
 /* ------------------------------------------------------------------ */
 
 @media (prefers-reduced-motion: reduce) {
-    .panel,
-    .panel[data-offen='true'],
     .dropdown,
     .dropdown[data-offen='true'] {
         transform: none;
     }
-    .panel,
     .dropdown,
-    .schleier,
     .mobil {
         transition:
             opacity 0.08s linear,
             visibility 0s linear 0.08s;
     }
-    .panel[data-offen='true'],
     .dropdown[data-offen='true'],
-    .schleier[data-offen='true'],
     .mobil[data-offen='true'] {
         transition:
             opacity 0.08s linear,

@@ -4,6 +4,8 @@ import { JsonLd } from '@/components/ki-telefonassistent/JsonLd';
 import { kiKrumen, kiSeitenSchemas } from '@/components/ki-telefonassistent/Brotkrumen';
 import { Abschnitt, AbschlussCta, Prosa, Querverweise, SeitenKopf } from '@/components/ki-telefonassistent/Bausteine';
 import { KI_BASIS } from '@/components/ki-telefonassistent/seiten';
+import { MitHinweis } from '@/components/ki-telefonassistent/InEntwicklung';
+import { inEntwicklung } from '@/lib/in-entwicklung';
 
 const PFAD = `${KI_BASIS}/vergleich`;
 const TITEL = 'KI-Telefonassistent im Vergleich | InfraOne';
@@ -19,7 +21,8 @@ const zeilen: Array<{ kriterium: string; werte: [string, string, string, string,
     { kriterium: 'Beantwortet Fragen', werte: ['ja, aus Ihrem Wissen', 'nein', 'nach Gesprächsleitfaden', 'ja, mit Erfahrung im Betrieb', 'nur vorbereitete Ansagen'] },
     { kriterium: 'Erfasst Anliegen', werte: ['vollständig, Notiz per E-Mail', 'Sprachnachricht, oft unvollständig', 'Notiz durch Mitarbeitende', 'ja', 'nein'] },
     { kriterium: 'Mundart', werte: ['versteht und spricht Schweizerdeutsch', '–', 'je nach Besetzung', 'ja', 'Tastendruck oder Stichworte'] },
-    { kriterium: 'Termine', werte: ['im Microsoft-365-Kalender', 'nein', 'je nach Anbieter', 'ja', 'nein'] },
+    // AUFTRAG-113: «in Entwicklung» statt «im Microsoft-365-Kalender» (Zusatz → Badge in der Zelle)
+    { kriterium: 'Termine', werte: [inEntwicklung('Terminwunsch per E-Mail; Kalendereintrag'), 'nein', 'je nach Anbieter', 'ja', 'nein'] },
     { kriterium: 'Notfälle', werte: ['meldet sofort an Ihre Notfallnummer', 'erst beim Abhören', 'je nach Vereinbarung', 'während der Arbeitszeit', 'Weiterleitung per Taste'] },
     { kriterium: 'Mehrere Anrufe gleichzeitig', werte: ['ja, je nach Paket', 'ja', 'je nach Besetzung', 'einer nach dem anderen', 'ja'] },
     { kriterium: 'Persönlicher Kontakt', werte: ['KI-Stimme, Weiterleitung möglich', 'nein', 'ja, fremde Person', 'ja, kennt die Kundschaft', 'nein'] },
@@ -103,7 +106,7 @@ export default function VergleichSeite() {
                                     </th>
                                     {z.werte.map((w, i) => (
                                         <td key={i} className={`px-5 py-4 align-top leading-relaxed ${i === 0 ? 'bg-primary/[0.05] text-text-primary font-medium' : 'text-text-secondary'}`}>
-                                            {w}
+                                            <MitHinweis text={w} />
                                         </td>
                                     ))}
                                 </tr>

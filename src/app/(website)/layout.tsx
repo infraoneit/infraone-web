@@ -6,7 +6,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { generateSitewideLocalBusinessSchema, generateSitewideWebSiteSchema } from "@/lib/seo/schema";
-import { ladeNavRegionen } from "@/lib/nav-regionen";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -155,8 +154,8 @@ export default async function RootLayout({
       >
         <ThemeProvider>
           <ScrollToTop />
-          {/* AUFTRAG-100: Mega-Menü «Für wen» verlinkt die Regionsseiten aus den [region]-Templates */}
-          <Header regionen={await ladeNavRegionen()} />
+          {/* AUFTRAG-113: schlichte Dropdowns, keine Regionen mehr im Header (Regionsseiten verlinken die Leistungsseiten) */}
+          <Header />
           {/* pt-16 lg:pt-20 compensates for fixed header height */}
           <main className="flex-1 pt-16 lg:pt-20">
             {children}

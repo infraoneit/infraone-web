@@ -10,6 +10,7 @@ import { AnimatedSection } from '@/components/ui/AnimatedSection';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { Brotkrumen, type Krume } from './Brotkrumen';
+import { InEntwicklungBadge, MitHinweis } from './InEntwicklung';
 import { KI_BASIS } from './seiten';
 
 /* ------------------------------------------------------------------ */
@@ -24,9 +25,12 @@ export function SeitenKopf({
     aside,
     aktionen = true,
     unterLead,
+    hinweis,
 }: {
     krumen: Krume[];
     eyebrow: string;
+    /** AUFTRAG-113: z. B. Badge «In Entwicklung, kommt bald» neben der Eyebrow (Titelbereich) */
+    hinweis?: ReactNode;
     titel: ReactNode;
     /** beantwortet die Frage des Suchenden in den ersten zwei Sätzen */
     lead: ReactNode;
@@ -44,10 +48,13 @@ export function SeitenKopf({
                 <Brotkrumen krumen={krumen} className="mb-8 lg:mb-10" />
                 <div className={cn('grid gap-10 lg:gap-14', aside && 'lg:grid-cols-12 lg:items-center')}>
                     <div className={cn(aside && 'lg:col-span-7')}>
-                        <p className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary">
-                            <span className="w-2 h-2 rounded-full bg-primary" aria-hidden="true" />
-                            {eyebrow}
-                        </p>
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                            <p className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary">
+                                <span className="w-2 h-2 rounded-full bg-primary" aria-hidden="true" />
+                                {eyebrow}
+                            </p>
+                            {hinweis}
+                        </div>
                         <h1 className="mt-4 text-[2.1rem] leading-[1.08] sm:text-5xl lg:text-[3.25rem] font-bold tracking-[-0.03em] text-text-primary text-balance">
                             {titel}
                         </h1>
@@ -226,7 +233,7 @@ export function Schrittfolge({ schritte, spalten = 4 }: { schritte: Schritt[]; s
 /* Ohne / Mit Assistent                                                */
 /* ------------------------------------------------------------------ */
 
-export function OhneMit({ zeilen }: { zeilen: Array<{ thema: string; ohne: string; mit: string }> }) {
+export function OhneMit({ zeilen }: { zeilen: Array<{ thema: string; ohne: string; mit: string; inEntwicklung?: boolean }> }) {
     return (
         <div className="rounded-3xl border border-border bg-card overflow-hidden">
             <div className="hidden md:grid md:grid-cols-[minmax(0,0.6fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-border bg-surface/60 text-sm font-semibold text-text-secondary">
@@ -250,6 +257,13 @@ export function OhneMit({ zeilen }: { zeilen: Array<{ thema: string; ohne: strin
                             <span>
                                 <span className="md:sr-only font-semibold">Mit: </span>
                                 {z.mit}
+                                {/* AUFTRAG-113: Kalender/SMS in Entwicklung */}
+                                {z.inEntwicklung && (
+                                    <>
+                                        {' '}
+                                        <InEntwicklungBadge className="ml-1" />
+                                    </>
+                                )}
                             </span>
                         </p>
                     </li>
@@ -382,7 +396,7 @@ export function Hakenliste({ punkte, spalten = 1 }: { punkte: ReactNode[]; spalt
             {punkte.map((p, i) => (
                 <li key={i} className="flex gap-3 text-text-secondary leading-relaxed">
                     <Check className="w-5 h-5 mt-0.5 flex-shrink-0 text-primary" aria-hidden="true" />
-                    <span>{p}</span>
+                    <span>{typeof p === 'string' ? <MitHinweis text={p} /> : p}</span>
                 </li>
             ))}
         </ul>

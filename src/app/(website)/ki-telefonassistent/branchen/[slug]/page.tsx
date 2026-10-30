@@ -21,6 +21,7 @@ import { GespraechPaar } from '@/components/ki-telefonassistent/Gespraech';
 import { BRANCHEN, branche } from '@/components/ki-telefonassistent/inhalte/branchen';
 import { anwendung } from '@/components/ki-telefonassistent/inhalte/anwendungen';
 import { KI_BASIS } from '@/components/ki-telefonassistent/seiten';
+import { InEntwicklungBadge } from '@/components/ki-telefonassistent/InEntwicklung';
 
 export const dynamicParams = false;
 
@@ -121,6 +122,8 @@ export default async function BranchenSeite({ params }: { params: Promise<{ slug
                                     <Icon className="w-5 h-5" />
                                 </span>
                                 <h3 className="text-lg font-bold text-text-primary mb-2">{x.titel}</h3>
+                                {/* AUFTRAG-113: Kalender/SMS in Entwicklung */}
+                                {x.inEntwicklung && <InEntwicklungBadge className="mb-2" />}
                                 <p className="text-text-secondary leading-relaxed">{x.text}</p>
                             </div>
                         );

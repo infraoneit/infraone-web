@@ -3,6 +3,10 @@
  * Je Seite: typische Anrufe und wie der Assistent sie behandelt,
  * Beispielgespräch (Mundart UND Hochdeutsch), Integration, Besonderheiten.
  * Nur Fakten aus AUFTRAG-110, Abschnitt 3. Alle Firmen sind erfunden.
+ *
+ * AUFTRAG-113: Der Eintrag im Microsoft-365-Kalender und die SMS-Bestätigung sind in
+ * Entwicklung. «trägt einen Termin ein» → «nimmt den Terminwunsch auf; Kalendereintrag in
+ * Entwicklung». Integrations-Karten mit `inEntwicklung: true` zeigen die Badge.
  */
 import type { Beispiel } from '../Gespraech';
 import type { AnwendungSlug, BranchenSlug } from '../seiten';
@@ -20,7 +24,8 @@ export interface Branche {
     anrufe: Array<{ anruf: string; antwort: string }>;
     firma: string;
     beispiel: Beispiel;
-    integration: Array<{ titel: string; text: string }>;
+    /** `inEntwicklung` zeigt die Badge «In Entwicklung, kommt bald» (AUFTRAG-113) */
+    integration: Array<{ titel: string; text: string; inEntwicklung?: boolean }>;
     achten: { titel: string; punkte: Array<{ titel: string; text: string }> };
     anwendungen: AnwendungSlug[];
 }
@@ -46,7 +51,7 @@ export const BRANCHEN: Branche[] = [
         anrufe: [
             { anruf: '«Bei uns fliegt immer wieder die Sicherung raus.»', antwort: 'Er fragt nach, ob nur ein Raum oder das ganze Haus betroffen ist, und behandelt die Meldung nach Ihren Regeln: als Notfall ans Pikett oder als dringende Störung für den nächsten Arbeitstag.' },
             { anruf: '«Können Sie mir eine Offerte für eine Ladestation machen?»', antwort: 'Er nimmt das Vorhaben, die Adresse, den gewünschten Zeitraum und die Rückrufnummer auf. Preise nennt er nur, wenn Sie das wollen.' },
-            { anruf: '«Wir brauchen eine periodische Kontrolle.»', antwort: 'Er erfasst Objekt und Kontaktperson oder trägt einen Termin direkt in Ihren Microsoft-365-Kalender ein.' },
+            { anruf: '«Wir brauchen eine periodische Kontrolle.»', antwort: 'Er erfasst Objekt und Kontaktperson und nimmt den Terminwunsch auf; Kalendereintrag in Entwicklung.' },
             { anruf: '«Machen Sie auch Photovoltaik und Smart Home?»', antwort: 'Er antwortet aus Ihrer Website und Ihren Angaben und bietet einen Rückruf durch die zuständige Person an.' },
             { anruf: '«Ich habe eine Frage zur Rechnung.»', antwort: 'Er nimmt die Frage mit Rechnungsnummer und Rückrufnummer auf und schickt sie ans Büro.' },
             { anruf: '«Wann kommt Ihr Monteur?»', antwort: 'Einsatzpläne kennt er nicht. Er nimmt die Frage auf oder leitet an die Person weiter, die die Einsätze plant.' },
@@ -62,7 +67,7 @@ export const BRANCHEN: Branche[] = [
                 { wer: 'assistent', text: 'Guet. Dänn nimm ich das als dringendi Störig für morn uf. Wo isch d Adrässe, und under welere Nummere erreicht me Sie?' },
                 { wer: 'anrufer', text: 'Musterstrass 8 z Winterthur, uf dere Nummere.' },
                 { wer: 'assistent', text: 'Merci, Herr Meier. Mir mälded eus morn am Morge bi Ihne für en Termin.' },
-                { wer: 'hinweis', text: 'Notiz per E-Mail ans Büro, SMS-Bestätigung an Herrn Meier' },
+                { wer: 'hinweis', text: 'Notiz per E-Mail ans Büro' },
             ],
             hochdeutsch: [
                 { wer: 'assistent', text: 'Guten Abend, Muster Elektro AG, der digitale Assistent. Wie kann ich Ihnen helfen?' },
@@ -72,12 +77,12 @@ export const BRANCHEN: Branche[] = [
                 { wer: 'assistent', text: 'Gut. Dann nehme ich das als dringende Störung für morgen auf. Wie lautet die Adresse, und unter welcher Nummer erreichen wir Sie?' },
                 { wer: 'anrufer', text: 'Musterstrasse 8 in Winterthur, unter dieser Nummer.' },
                 { wer: 'assistent', text: 'Danke, Herr Meier. Wir melden uns morgen früh bei Ihnen für einen Termin.' },
-                { wer: 'hinweis', text: 'Notiz per E-Mail ans Büro, SMS-Bestätigung an Herrn Meier' },
+                { wer: 'hinweis', text: 'Notiz per E-Mail ans Büro' },
             ],
         },
         integration: [
             { titel: 'Notfall ans Pikett', text: 'Was als Notfall gilt, etwa ein Stromausfall im ganzen Haus oder in einem Gewerbebetrieb, legen Sie fest. Der Assistent meldet solche Fälle sofort an Ihre Notfallnummer.' },
-            { titel: 'Termine im Kalender', text: 'Kontrollen und Besichtigungen trägt er direkt in Ihren Microsoft-365-Kalender ein.' },
+            { titel: 'Termine im Kalender', text: 'Kontrollen und Besichtigungen nimmt er als Terminwunsch auf und meldet sie Ihnen per E-Mail. Der Eintrag im Microsoft-365-Kalender ist in Entwicklung.', inEntwicklung: true },
             { titel: 'Weiterleitung', text: 'Will jemand dringend die Bauleitung sprechen, leitet er an die hinterlegte Nummer weiter.' },
             { titel: 'Cloud-Telefonie', text: 'Läuft Ihre Telefonanlage bei InfraOne, wird der Assistent Teil davon. Sonst genügt eine Rufumleitung.' },
         ],
@@ -112,7 +117,7 @@ export const BRANCHEN: Branche[] = [
         anrufe: [
             { anruf: '«Im Keller ist ein Rohr geplatzt.»', antwort: 'Er erkennt den Notfall nach Ihren Regeln, meldet ihn sofort an die Notfallnummer und nimmt Name, Adresse und Rückrufnummer auf.' },
             { anruf: '«Unsere Heizung läuft nicht mehr.»', antwort: 'Ob das ein Notfall ist, bestimmen Sie, zum Beispiel abhängig von der Jahreszeit. Er fragt nach Fehlermeldung und Adresse und handelt danach.' },
-            { anruf: '«Der Boiler sollte entkalkt werden.»', antwort: 'Er nimmt den Servicewunsch auf oder trägt einen Termin in Ihren Microsoft-365-Kalender ein.' },
+            { anruf: '«Der Boiler sollte entkalkt werden.»', antwort: 'Er nimmt den Servicewunsch und den Terminwunsch auf; Kalendereintrag in Entwicklung.' },
             { anruf: '«Wir möchten das Bad umbauen.»', antwort: 'Er erfasst Vorhaben, Objekt, Zeitrahmen und Rückrufnummer für die Offerte.' },
             { anruf: '«Lohnt sich bei uns eine Wärmepumpe?»', antwort: 'Beratung überlässt er Ihnen. Er nimmt das Interesse auf und bietet einen Rückruf an.' },
             { anruf: '«Das WC läuft ständig nach.»', antwort: 'Kein Notfall: Er nimmt das Anliegen für den nächsten Arbeitstag auf.' },
@@ -144,8 +149,8 @@ export const BRANCHEN: Branche[] = [
         integration: [
             { titel: 'Notfallnummer', text: 'Rohrbruch, Wasserschaden, Heizungsausfall: Was Sie als Notfall festlegen, meldet der Assistent sofort an Ihr Pikett.' },
             { titel: 'Mehrere Agenten', text: 'Tagsüber ein Agent für Service und Offerten, nachts einer mit strengeren Notfallregeln.' },
-            { titel: 'Servicetermine', text: 'Wartungen und Entkalkungen trägt er in Ihren Microsoft-365-Kalender ein.' },
-            { titel: 'SMS an Anrufende', text: 'Die Kundin erhält eine Bestätigung, dass ihre Meldung angekommen ist.' },
+            { titel: 'Servicetermine', text: 'Wartungen und Entkalkungen nimmt er als Terminwunsch auf. Der Eintrag im Microsoft-365-Kalender ist in Entwicklung.', inEntwicklung: true },
+            { titel: 'SMS an Anrufende', text: 'Die Kundin erhält künftig eine Bestätigung, dass ihre Meldung angekommen ist.', inEntwicklung: true },
         ],
         achten: {
             titel: 'Worauf Haustechnik-Betriebe achten sollten',
@@ -177,7 +182,7 @@ export const BRANCHEN: Branche[] = [
         },
         anrufe: [
             { anruf: '«Haben Sie in den Herbstferien offen?»', antwort: 'Er antwortet aus Ihren Angaben zu Öffnungszeiten und Ferien.' },
-            { anruf: '«Ich brauche einen Termin für eine Kontrolle.»', antwort: 'Führt Ihre Praxis die Termine in Microsoft 365, trägt er ihn direkt ein. Sonst nimmt er den Terminwunsch für das Praxisteam auf.' },
+            { anruf: '«Ich brauche einen Termin für eine Kontrolle.»', antwort: 'Er nimmt den Terminwunsch für das Praxisteam auf; Kalendereintrag in Entwicklung.' },
             { anruf: '«Ich brauche ein neues Rezept.»', antwort: 'Er nimmt Name, Medikament und Rückrufnummer auf und schickt die Notiz an den Empfang.' },
             { anruf: '«Sind meine Laborwerte da?»', antwort: 'Dazu gibt er keine Auskunft. Er nimmt einen Rückrufwunsch für das Praxisteam auf.' },
             { anruf: '«Mir geht es plötzlich sehr schlecht.»', antwort: 'Für Notfälle hinterlegen Sie, was er sagt, etwa den Hinweis auf die Notrufnummer 144 oder auf Ihren Notfalldienst.' },
@@ -205,7 +210,7 @@ export const BRANCHEN: Branche[] = [
         },
         integration: [
             { titel: 'Ausserhalb der Öffnungszeiten', text: 'Ein eigener Text oder ein eigener Agent für die Zeit, in der die Praxis geschlossen ist, mit Ihrem Hinweis für Notfälle.' },
-            { titel: 'Termine', text: 'Mit Microsoft-365-Kalender direkt eingetragen, sonst als Terminwunsch in der Notiz.' },
+            { titel: 'Termine', text: 'Als Terminwunsch in der Notiz an den Empfang. Der Eintrag im Microsoft-365-Kalender ist in Entwicklung.', inEntwicklung: true },
             { titel: 'Weiterleitung', text: 'Bestimmte Anliegen leitet er an eine hinterlegte Nummer weiter, etwa an die Ärztin im Hintergrunddienst.' },
             { titel: 'Notiz an den Empfang', text: 'Jede Anfrage kommt vollständig per E-Mail an, mit Zusammenfassung und Transkript.' },
         ],
@@ -225,11 +230,11 @@ export const BRANCHEN: Branche[] = [
         slug: 'treuhand',
         metaTitel: 'KI-Telefonassistent für Treuhandbüros | InfraOne',
         metaBeschreibung:
-            'Für Treuhandbüros: Der KI-Telefonassistent nimmt Anliegen von Mandanten auf, beantwortet Fragen zu Unterlagen und Abläufen und vereinbart Termine.',
+            'Für Treuhandbüros: Der KI-Telefonassistent nimmt Anliegen von Mandanten auf, beantwortet Fragen zu Unterlagen und Abläufen und notiert Terminwünsche.',
         name: 'Treuhand',
         teaser: 'Mandanten bedienen, auch wenn in der Steuerzeit alle am Abschluss sitzen.',
         h1: 'KI-Telefonassistent für Treuhandbüros',
-        lead: 'In der Steuerzeit klingelt das Telefon am meisten, wenn am wenigsten Zeit ist: Der KI-Telefonassistent nimmt Anliegen von Mandantinnen und Mandanten auf, beantwortet allgemeine Fragen zu Unterlagen und Abläufen und vereinbart Besprechungstermine. Steuer- und Rechtsauskünfte gibt er nicht.',
+        lead: 'In der Steuerzeit klingelt das Telefon am meisten, wenn am wenigsten Zeit ist: Der KI-Telefonassistent nimmt Anliegen von Mandantinnen und Mandanten auf, beantwortet allgemeine Fragen zu Unterlagen und Abläufen und nimmt Wünsche für Besprechungstermine auf. Steuer- und Rechtsauskünfte gibt er nicht.',
         alltag: {
             titel: 'Konzentration gegen Erreichbarkeit',
             absaetze: [
@@ -240,7 +245,7 @@ export const BRANCHEN: Branche[] = [
         anrufe: [
             { anruf: '«Was muss ich für die Steuererklärung einreichen?»', antwort: 'Er nennt die Unterlagen aus Ihrer Checkliste, so wie Sie sie hinterlegt haben.' },
             { anruf: '«Haben Sie meine Unterlagen erhalten?»', antwort: 'Das kann er nicht prüfen. Er nimmt die Frage für die zuständige Person auf.' },
-            { anruf: '«Ich möchte meine Steuererklärung besprechen.»', antwort: 'Er vereinbart einen Termin in Ihrem Microsoft-365-Kalender und bestätigt per SMS.' },
+            { anruf: '«Ich möchte meine Steuererklärung besprechen.»', antwort: 'Er nimmt den Terminwunsch auf; Kalendereintrag und SMS-Bestätigung in Entwicklung.' },
             { anruf: '«Wir gründen eine GmbH und suchen eine Buchhaltung.»', antwort: 'Er erfasst Firma, Vorhaben und Rückrufnummer für ein Erstgespräch.' },
             { anruf: '«Kann ich das als Abzug geltend machen?»', antwort: 'Steuerauskünfte schliessen Sie aus. Er nimmt die Frage für einen Rückruf auf.' },
             { anruf: '«Ich muss dringend Herrn Muster sprechen.»', antwort: 'Er leitet an die hinterlegte Nummer weiter oder nimmt einen Rückrufwunsch auf, so wie Sie es festlegen.' },
@@ -251,26 +256,26 @@ export const BRANCHEN: Branche[] = [
             mundart: [
                 { wer: 'assistent', text: 'Grüezi, Muster Treuhand AG, de digital Assistänt. Wie chan ich Ihne hälfe?' },
                 { wer: 'anrufer', text: 'Grüezi, Widmer. Ich wett mit em Herr Muster d Stüürerklärig bespräche.' },
-                { wer: 'assistent', text: 'Gern, Frau Widmer. Am Donnschtig am halbi drü chönnt ich Sie iiträge. Passt Ihne das?' },
-                { wer: 'anrufer', text: 'Ja. Was mues ich mitbringe?' },
+                { wer: 'assistent', text: 'Gern, Frau Widmer. Wänn würds Ihne passe?' },
+                { wer: 'anrufer', text: 'Am liebschte nächscht Wuche am Namittag. Was mues ich mitbringe?' },
                 { wer: 'assistent', text: 'De Lohnuusweis, d Bankuuszüg per Ändi Jahr und d Belege für Abzüg, zum Bischpil für Chrankheitschöschte.' },
                 { wer: 'anrufer', text: 'Guet, merci.' },
-                { wer: 'assistent', text: 'Ich han de Termin iitreit. Sie überchömed e SMS mit de Bestätigung.' },
-                { wer: 'hinweis', text: 'Termin im Microsoft-365-Kalender, SMS an Frau Widmer' },
+                { wer: 'assistent', text: 'Ich gib Ihre Terminwunsch am Herr Muster wiiter. Är meldet sich bi Ihne für d Bestätigung.' },
+                { wer: 'hinweis', text: 'Terminwunsch als Notiz per E-Mail an Herrn Muster' },
             ],
             hochdeutsch: [
                 { wer: 'assistent', text: 'Guten Tag, Muster Treuhand AG, der digitale Assistent. Wie kann ich Ihnen helfen?' },
                 { wer: 'anrufer', text: 'Guten Tag, Widmer. Ich möchte mit Herrn Muster die Steuererklärung besprechen.' },
-                { wer: 'assistent', text: 'Gerne, Frau Widmer. Am Donnerstag um 14.30 Uhr könnte ich Sie eintragen. Passt Ihnen das?' },
-                { wer: 'anrufer', text: 'Ja. Was muss ich mitbringen?' },
+                { wer: 'assistent', text: 'Gerne, Frau Widmer. Wann würde es Ihnen passen?' },
+                { wer: 'anrufer', text: 'Am liebsten nächste Woche am Nachmittag. Was muss ich mitbringen?' },
                 { wer: 'assistent', text: 'Den Lohnausweis, die Bankauszüge per Ende Jahr und die Belege für Abzüge, zum Beispiel für Krankheitskosten.' },
                 { wer: 'anrufer', text: 'Gut, danke.' },
-                { wer: 'assistent', text: 'Ich habe den Termin eingetragen. Sie erhalten eine SMS mit der Bestätigung.' },
-                { wer: 'hinweis', text: 'Termin im Microsoft-365-Kalender, SMS an Frau Widmer' },
+                { wer: 'assistent', text: 'Ich gebe Ihren Terminwunsch an Herrn Muster weiter. Er meldet sich bei Ihnen für die Bestätigung.' },
+                { wer: 'hinweis', text: 'Terminwunsch als Notiz per E-Mail an Herrn Muster' },
             ],
         },
         integration: [
-            { titel: 'Besprechungstermine', text: 'Direkt im Microsoft-365-Kalender, mit SMS-Bestätigung an die Mandantin.' },
+            { titel: 'Besprechungstermine', text: 'Als Terminwunsch per E-Mail an die zuständige Person. Kalendereintrag und SMS-Bestätigung an die Mandantin sind in Entwicklung.', inEntwicklung: true },
             { titel: 'Notiz an die zuständige Person', text: 'Sie bestimmen, wer die Gesprächsnotizen per E-Mail erhält.' },
             { titel: 'Weiterleitung', text: 'Für Anliegen, die nicht warten können, leitet er an eine hinterlegte Nummer weiter.' },
             { titel: 'Microsoft 365 und IT', text: 'InfraOne betreut auch Ihre IT und Microsoft 365, wenn Sie das möchten.' },
@@ -293,7 +298,7 @@ export const BRANCHEN: Branche[] = [
         metaBeschreibung:
             'Für Bewirtschaftung und Vermarktung: Der KI-Telefonassistent nimmt Schadenmeldungen und Besichtigungsanfragen an und meldet Notfälle sofort weiter.',
         name: 'Immobilien',
-        teaser: 'Schadenmeldungen erfassen, Besichtigungen vereinbaren, Notfälle weitermelden.',
+        teaser: 'Schadenmeldungen erfassen, Besichtigungswünsche aufnehmen, Notfälle weitermelden.',
         h1: 'KI-Telefonassistent für Immobilienfirmen',
         lead: 'Mieterinnen melden Schäden, Interessenten fragen nach Besichtigungen, und abends ruft jemand wegen eines Wasserschadens an: Der KI-Telefonassistent nimmt diese Anrufe an, erfasst Objekt, Anliegen und Rückrufnummer und meldet Notfälle sofort an Ihre Notfallnummer.',
         alltag: {
@@ -306,8 +311,8 @@ export const BRANCHEN: Branche[] = [
         anrufe: [
             { anruf: '«Die Waschmaschine im Keller ist defekt.»', antwort: 'Er nimmt Objekt, Anliegen und Rückrufnummer auf und schickt die Meldung an die Bewirtschaftung.' },
             { anruf: '«Bei uns tropft Wasser von der Decke.»', antwort: 'Nach Ihren Regeln ein Notfall: Er meldet sofort an Ihre Notfallnummer.' },
-            { anruf: '«Ist die Wohnung an der Musterstrasse noch frei?»', antwort: 'Er antwortet aus den Angaben auf Ihrer Website und bietet eine Besichtigung an.' },
-            { anruf: '«Kann ich die Wohnung am Samstag anschauen?»', antwort: 'Er trägt die Besichtigung in Ihren Microsoft-365-Kalender ein und bestätigt per SMS.' },
+            { anruf: '«Ist die Wohnung an der Musterstrasse noch frei?»', antwort: 'Er antwortet aus den Angaben auf Ihrer Website und nimmt einen Besichtigungswunsch auf.' },
+            { anruf: '«Kann ich die Wohnung am Samstag anschauen?»', antwort: 'Er nimmt den Besichtigungswunsch auf; Kalendereintrag und SMS-Bestätigung in Entwicklung.' },
             { anruf: '«Wie kündige ich meine Wohnung?»', antwort: 'Er erklärt den Ablauf so, wie Sie ihn hinterlegt haben, und nimmt bei Bedarf einen Rückruf auf.' },
             { anruf: '«Ich brauche den Hauswart.»', antwort: 'Er leitet an die hinterlegte Nummer weiter oder nimmt das Anliegen auf.' },
         ],
@@ -319,26 +324,26 @@ export const BRANCHEN: Branche[] = [
                 { wer: 'anrufer', text: 'Grüezi, Steiner. Ich interessier mi für d Dreieinhalbzimmerwohnig a de Musterstrass. Isch die no frei?' },
                 { wer: 'assistent', text: 'Ja, d Wohnig isch no uusgschribe. Möchted Sie si go aaluege?' },
                 { wer: 'anrufer', text: 'Gern, am liebschte am Samschtig.' },
-                { wer: 'assistent', text: 'Am Samschtig am zähni git s e Bsichtigung. Söll ich Sie iiträge?' },
-                { wer: 'anrufer', text: 'Ja, bitte.' },
-                { wer: 'assistent', text: 'Erledigt, Herr Steiner. Sie überchömed e SMS mit de Adrässe und de Ziit.' },
-                { wer: 'hinweis', text: 'Termin im Microsoft-365-Kalender, SMS an Herrn Steiner' },
+                { wer: 'assistent', text: 'Ich nimm Ihre Bsichtigungswunsch für de Samschtig uf. Under welere Nummere erreicht me Sie?' },
+                { wer: 'anrufer', text: 'Uf dere Nummere.' },
+                { wer: 'assistent', text: 'Merci, Herr Steiner. D Vermarktig meldet sich bi Ihne mit em Termin.' },
+                { wer: 'hinweis', text: 'Besichtigungswunsch als Notiz per E-Mail an die Vermarktung' },
             ],
             hochdeutsch: [
                 { wer: 'assistent', text: 'Guten Tag, Muster Immobilien AG, der digitale Assistent. Wie kann ich Ihnen helfen?' },
                 { wer: 'anrufer', text: 'Guten Tag, Steiner. Ich interessiere mich für die Dreieinhalbzimmerwohnung an der Musterstrasse. Ist sie noch frei?' },
                 { wer: 'assistent', text: 'Ja, die Wohnung ist noch ausgeschrieben. Möchten Sie sie besichtigen?' },
                 { wer: 'anrufer', text: 'Gerne, am liebsten am Samstag.' },
-                { wer: 'assistent', text: 'Am Samstag um 10 Uhr gibt es eine Besichtigung. Soll ich Sie eintragen?' },
-                { wer: 'anrufer', text: 'Ja, bitte.' },
-                { wer: 'assistent', text: 'Erledigt, Herr Steiner. Sie erhalten eine SMS mit Adresse und Uhrzeit.' },
-                { wer: 'hinweis', text: 'Termin im Microsoft-365-Kalender, SMS an Herrn Steiner' },
+                { wer: 'assistent', text: 'Ich nehme Ihren Besichtigungswunsch für Samstag auf. Unter welcher Nummer erreicht man Sie?' },
+                { wer: 'anrufer', text: 'Unter dieser Nummer.' },
+                { wer: 'assistent', text: 'Danke, Herr Steiner. Die Vermarktung meldet sich bei Ihnen mit dem Termin.' },
+                { wer: 'hinweis', text: 'Besichtigungswunsch als Notiz per E-Mail an die Vermarktung' },
             ],
         },
         integration: [
             { titel: 'Notfallnummer', text: 'Wasserschaden oder Heizungsausfall meldet er sofort an Ihre Notfallnummer oder an den Notfalldienst Ihrer Wahl.' },
             { titel: 'Mehrere Agenten', text: 'Einer für die Bewirtschaftung, einer für die Vermarktung, jeder mit eigenen Regeln.' },
-            { titel: 'Besichtigungen im Kalender', text: 'Termine landen im Microsoft-365-Kalender, die Bestätigung kommt per SMS.' },
+            { titel: 'Besichtigungen im Kalender', text: 'Besichtigungswünsche gehen per E-Mail an die Vermarktung. Eintrag im Microsoft-365-Kalender und SMS-Bestätigung sind in Entwicklung.', inEntwicklung: true },
             { titel: 'Notizen an die richtige Stelle', text: 'Sie legen fest, wer die Gesprächsnotizen per E-Mail erhält.' },
         ],
         achten: {
@@ -357,21 +362,21 @@ export const BRANCHEN: Branche[] = [
         slug: 'garage',
         metaTitel: 'KI-Telefonassistent für Garagen | InfraOne',
         metaBeschreibung:
-            'Für Garagen und Autogewerbe: Der KI-Telefonassistent bucht Service- und Pneutermine, beantwortet Fragen zu Öffnungszeiten und nimmt Anliegen auf.',
+            'Für Garagen und Autogewerbe: Der KI-Telefonassistent nimmt Wünsche für Service- und Pneutermine auf und beantwortet Fragen zu Öffnungszeiten.',
         name: 'Garage',
-        teaser: 'Service- und Pneutermine buchen, Fragen zu Abholung und Öffnungszeiten beantworten.',
+        teaser: 'Terminwünsche für Service und Pneus aufnehmen, Fragen zu Abholung und Öffnungszeiten beantworten.',
         h1: 'KI-Telefonassistent für Garagen',
-        lead: 'Im Frühling und im Herbst wollen alle gleichzeitig die Pneus wechseln, und in der Werkstatt hat niemand die Hände frei: Der KI-Telefonassistent vereinbart Service- und Pneutermine, beantwortet Fragen zu Öffnungszeiten und Abholung und nimmt alle anderen Anliegen auf.',
+        lead: 'Im Frühling und im Herbst wollen alle gleichzeitig die Pneus wechseln, und in der Werkstatt hat niemand die Hände frei: Der KI-Telefonassistent nimmt Wünsche für Service- und Pneutermine entgegen, beantwortet Fragen zu Öffnungszeiten und Abholung und nimmt alle anderen Anliegen auf.',
         alltag: {
             titel: 'Saison in der Werkstatt, Stau am Telefon',
             absaetze: [
                 'In einer Garage arbeitet das Team vor allem in der Werkstatt, nicht am Telefon. Wer gerade unter einem Auto steht, kann nicht abnehmen. In der Pneusaison kommen die Anrufe besonders gehäuft, und viele davon drehen sich um einen Termin.',
-                'Der Assistent nimmt diese Anrufe ab, vergibt Termine nach Ihren Regeln und beantwortet, was Sie freigeben: Öffnungszeiten, Abholzeiten, Leistungen. Was er nicht wissen kann, etwa ob ein Auto schon fertig ist, gibt er an die Werkstatt weiter.',
+                'Der Assistent nimmt diese Anrufe ab, nimmt Terminwünsche nach Ihren Regeln auf und beantwortet, was Sie freigeben: Öffnungszeiten, Abholzeiten, Leistungen. Was er nicht wissen kann, etwa ob ein Auto schon fertig ist, gibt er an die Werkstatt weiter.',
             ],
         },
         anrufe: [
-            { anruf: '«Ich möchte die Winterpneus montieren lassen.»', antwort: 'Er trägt den Termin in Ihren Microsoft-365-Kalender ein und bestätigt per SMS.' },
-            { anruf: '«Mein Auto muss in den Service.»', antwort: 'Er erfragt Fahrzeug und gewünschten Zeitraum und vergibt einen Termin oder nimmt den Wunsch auf.' },
+            { anruf: '«Ich möchte die Winterpneus montieren lassen.»', antwort: 'Er nimmt Fahrzeug und Terminwunsch auf; Kalendereintrag und SMS-Bestätigung in Entwicklung.' },
+            { anruf: '«Mein Auto muss in den Service.»', antwort: 'Er erfragt Fahrzeug und gewünschten Zeitraum und nimmt den Terminwunsch für die Werkstatt auf.' },
             { anruf: '«Ist mein Auto schon fertig?»', antwort: 'Das sieht er nicht. Er gibt die Frage an die Werkstatt weiter und nennt die Öffnungszeiten für die Abholung.' },
             { anruf: '«Haben Sie den Occasion-Wagen aus dem Inserat noch?»', antwort: 'Er nimmt das Interesse für den Verkauf auf und bietet einen Rückruf an.' },
             { anruf: '«Ich habe eine Panne.»', antwort: 'Wie er damit umgeht, legen Sie fest: Weiterleitung an eine Nummer oder Ihr Hinweis auf den Pannendienst.' },
@@ -400,7 +405,7 @@ export const BRANCHEN: Branche[] = [
             ],
         },
         integration: [
-            { titel: 'Termine im Kalender', text: 'Pneuwechsel und Service trägt er in Ihren Microsoft-365-Kalender ein, mit SMS-Bestätigung.' },
+            { titel: 'Termine im Kalender', text: 'Wünsche für Pneuwechsel und Service gehen per E-Mail an die Werkstatt. Eintrag im Microsoft-365-Kalender und SMS-Bestätigung sind in Entwicklung.', inEntwicklung: true },
             { titel: 'Werkstatt und Verkauf', text: 'Mehrere Agenten oder klare Empfänger: Anfragen zum Verkauf gehen an den Verkauf, Fragen zum Service an die Werkstatt.' },
             { titel: 'Weiterleitung', text: 'Für Pannen oder dringende Fälle leitet er an eine hinterlegte Nummer weiter.' },
             { titel: 'Öffnungszeiten', text: 'Er kennt Ihre Öffnungszeiten und hat für die Zeit ausserhalb einen eigenen Text.' },
@@ -408,7 +413,7 @@ export const BRANCHEN: Branche[] = [
         achten: {
             titel: 'Worauf Garagen achten sollten',
             punkte: [
-                { titel: 'Termin-Regeln festlegen', text: 'Welche Termine darf der Assistent vergeben, und welche Angaben braucht er dafür? Das klären wir bei der Einrichtung.' },
+                { titel: 'Termin-Regeln festlegen', text: 'Welche Terminwünsche soll der Assistent aufnehmen, und welche Angaben braucht er dafür? Das klären wir bei der Einrichtung.' },
                 { titel: 'Saisonspitzen planen', text: 'Vor der Pneusaison lohnt es sich, Wissen und Regeln zu prüfen, etwa ob Einlagerung oder Ersatzwagen angeboten werden.' },
                 { titel: 'Ehrlich bleiben', text: 'Was der Assistent nicht sehen kann, etwa den Stand einer Reparatur, sagt er offen und gibt es weiter.' },
             ],

@@ -6,6 +6,8 @@ import { kiKrumen, kiSeitenSchemas } from '@/components/ki-telefonassistent/Brot
 import { Abschnitt, AbschlussCta, FaqListe, Hakenliste, IconKachel, Prosa, Querverweise, SeitenKopf } from '@/components/ki-telefonassistent/Bausteine';
 import { faqNachIds } from '@/components/ki-telefonassistent/inhalte/faq';
 import { KI_BASIS } from '@/components/ki-telefonassistent/seiten';
+import { MitHinweis } from '@/components/ki-telefonassistent/InEntwicklung';
+import { inEntwicklung } from '@/lib/in-entwicklung';
 
 const PFAD = `${KI_BASIS}/sicherheit-datenschutz`;
 const TITEL = 'Sicherheit und Datenschutz beim KI-Telefonassistenten';
@@ -19,7 +21,8 @@ const orte = [
     { was: 'Telefonie', wo: 'Schweizer Provider', hinweis: 'Ihre Nummer bleibt, die Umleitung läuft über Schweizer Telefonie.' },
     { was: 'Sprachverarbeitung (Hören und Sprechen)', wo: 'KI-Anbieter Google Gemini und OpenAI', hinweis: 'Bezahlte Stufen ohne Training mit Ihren Daten, wo verfügbar in einer EU-Region.' },
     { was: 'Gesprächsnotizen', wo: 'per E-Mail an Ihre Adressen', hinweis: 'Sie bestimmen, wer welche Notizen erhält.' },
-    { was: 'Termine (falls genutzt)', wo: 'Ihr Microsoft-365-Kalender', hinweis: 'Der Assistent trägt Termine dort ein, wo Sie es festlegen.' },
+    // AUFTRAG-113: Kalendereintrag in Entwicklung
+    { was: 'Termine (falls genutzt)', wo: inEntwicklung('Ihr Microsoft-365-Kalender'), hinweis: 'Der Eintrag im Kalender ist in Entwicklung. Heute gehen Terminwünsche als Notiz per E-Mail an Sie.' },
 ];
 
 const grundsaetze = [
@@ -59,7 +62,9 @@ export default function SicherheitDatenschutzSeite() {
                         {orte.map((o) => (
                             <li key={o.was} className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.3fr)]">
                                 <p className="px-5 pt-5 md:px-6 md:py-5 font-semibold text-text-primary">{o.was}</p>
-                                <p className="px-5 pt-1 md:px-6 md:py-5 text-text-primary">{o.wo}</p>
+                                <p className="px-5 pt-1 md:px-6 md:py-5 text-text-primary">
+                                    <MitHinweis text={o.wo} />
+                                </p>
                                 <p className="px-5 pt-1 pb-5 md:px-6 md:py-5 text-text-secondary leading-relaxed">{o.hinweis}</p>
                             </li>
                         ))}

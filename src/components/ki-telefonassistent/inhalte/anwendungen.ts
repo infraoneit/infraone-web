@@ -3,9 +3,21 @@
  * Je Seite: Problem, Lösung, Beispielgespräch (Mundart UND Hochdeutsch),
  * was danach passiert, für wen. Nur Fakten aus AUFTRAG-110, Abschnitt 3.
  * Alle Firmen in den Beispielen sind erfunden («Muster …»).
+ *
+ * AUFTRAG-113: Der Eintrag im Microsoft-365-Kalender und die SMS-Bestätigung sind in
+ * Entwicklung. Einträge mit `inEntwicklung: true` bzw. dem Zusatz «(in Entwicklung, kommt
+ * bald)» erscheinen mit der Badge; Sätze und Beispiele versprechen nichts davon.
  */
 import type { Beispiel } from '../Gespraech';
 import type { AnwendungSlug, BranchenSlug } from '../seiten';
+import { inEntwicklung, KALENDER_SMS_SATZ } from '@/lib/in-entwicklung';
+
+/** Punkt mit Titel und Text; `inEntwicklung` zeigt die Badge «In Entwicklung, kommt bald» */
+export interface Punkt {
+    titel: string;
+    text: string;
+    inEntwicklung?: boolean;
+}
 
 export interface Anwendung {
     slug: AnwendungSlug;
@@ -20,12 +32,15 @@ export interface Anwendung {
     h1: string;
     /** erster Absatz beantwortet die Suchfrage in zwei Sätzen */
     lead: string;
+    /** AUFTRAG-113: Badge «In Entwicklung, kommt bald» im Titelbereich */
+    inEntwicklung?: boolean;
     problem: { titel: string; absaetze: string[]; momente: string[] };
-    loesung: { titel: string; absaetze: string[]; ablauf: Array<{ titel: string; text: string }> };
+    loesung: { titel: string; absaetze: string[]; ablauf: Punkt[] };
     beispiel: Beispiel;
     firma: string;
-    danach: { absatz: string; punkte: Array<{ titel: string; text: string }>; notiz: Array<{ label: string; wert: string }> };
+    danach: { absatz: string; punkte: Punkt[]; notiz: Array<{ label: string; wert: string }> };
     fuerWen: { absatz: string; branchen: BranchenSlug[] };
+    /** Einträge mit Zusatz «(in Entwicklung, kommt bald)» erscheinen mit Badge */
     festlegen: string[];
     verwandt: AnwendungSlug[];
 }
@@ -96,7 +111,7 @@ export const ANWENDUNGEN: Anwendung[] = [
             punkte: [
                 { titel: 'Gesprächsnotiz per E-Mail', text: 'Name, Firma, Anliegen, Rückrufnummer und eine kurze Zusammenfassung, direkt nach dem Gespräch.' },
                 { titel: 'Transkript statt Aufnahme', text: 'Das Gespräch wird nicht aufgezeichnet. Sie erhalten den Wortlaut als Text und sehen, was genau gesagt wurde.' },
-                { titel: 'SMS-Bestätigung auf Wunsch', text: 'Die anrufende Person erhält eine kurze Bestätigung, dass ihr Anliegen angekommen ist.' },
+                { titel: 'SMS-Bestätigung auf Wunsch', text: 'Die anrufende Person erhält künftig eine kurze Bestätigung, dass ihr Anliegen angekommen ist.', inEntwicklung: true },
             ],
             notiz: [
                 { label: 'Name', wert: 'Frau Keller' },
@@ -115,7 +130,7 @@ export const ANWENDUNGEN: Anwendung[] = [
             'Begrüssung und Sprache, mit der er sich meldet',
             'Ihren Text für die Zeit ausserhalb der Öffnungszeiten',
             'wer die Gesprächsnotizen per E-Mail erhält',
-            'ob Anrufende eine SMS-Bestätigung bekommen',
+            inEntwicklung('ob Anrufende eine SMS-Bestätigung bekommen'),
         ],
         verwandt: ['anliegen-erfassen', 'notfall', 'auskunft'],
     },
@@ -251,7 +266,7 @@ export const ANWENDUNGEN: Anwendung[] = [
                 { wer: 'assistent', text: 'Und wänn sind Sie am beschte erreichbar, falls de Hauswart en Termin abmache wott?' },
                 { wer: 'anrufer', text: 'Am Abig, ab de sächsi.' },
                 { wer: 'assistent', text: 'Ich han alles: tropfende Wasserhahne i de Chuchi, Musterweg 12, dritte Stock, Rückruf am Abig. D Bewirtschaftig meldet sich bi Ihne.' },
-                { wer: 'hinweis', text: 'Notiz an die Bewirtschaftung, SMS-Bestätigung an Frau Bühler' },
+                { wer: 'hinweis', text: 'Notiz per E-Mail an die Bewirtschaftung' },
             ],
             hochdeutsch: [
                 { wer: 'assistent', text: 'Guten Tag, Muster Immobilien AG, Sie sind mit dem digitalen Assistenten verbunden. Wie kann ich Ihnen helfen?' },
@@ -261,7 +276,7 @@ export const ANWENDUNGEN: Anwendung[] = [
                 { wer: 'assistent', text: 'Und wann sind Sie am besten erreichbar, falls der Hauswart einen Termin vereinbaren möchte?' },
                 { wer: 'anrufer', text: 'Am Abend, ab 18 Uhr.' },
                 { wer: 'assistent', text: 'Ich habe alles: tropfender Wasserhahn in der Küche, Musterweg 12, dritter Stock, Rückruf am Abend. Die Bewirtschaftung meldet sich bei Ihnen.' },
-                { wer: 'hinweis', text: 'Notiz an die Bewirtschaftung, SMS-Bestätigung an Frau Bühler' },
+                { wer: 'hinweis', text: 'Notiz per E-Mail an die Bewirtschaftung' },
             ],
         },
         danach: {
@@ -269,7 +284,7 @@ export const ANWENDUNGEN: Anwendung[] = [
             punkte: [
                 { titel: 'Notiz per E-Mail', text: 'Mit den vier Kernangaben und einer Zusammenfassung in wenigen Sätzen.' },
                 { titel: 'Transkript', text: 'Der ganze Gesprächsverlauf als Text, falls ein Detail wichtig wird.' },
-                { titel: 'SMS an die anrufende Person', text: 'Auf Wunsch eine kurze Bestätigung, dass die Meldung angekommen ist.' },
+                { titel: 'SMS an die anrufende Person', text: 'Auf Wunsch eine kurze Bestätigung, dass die Meldung angekommen ist.', inEntwicklung: true },
             ],
             notiz: [
                 { label: 'Name', wert: 'Frau Bühler' },
@@ -286,7 +301,7 @@ export const ANWENDUNGEN: Anwendung[] = [
         festlegen: [
             'welche Angaben er immer erfragt (mindestens Name, Firma, Anliegen, Rückrufnummer)',
             'wer welche Notizen per E-Mail erhält',
-            'ob Anrufende eine SMS-Bestätigung bekommen',
+            inEntwicklung('ob Anrufende eine SMS-Bestätigung bekommen'),
             'mit welchem Satz er das Gespräch abschliesst',
         ],
         verwandt: ['erreichbarkeit', 'notfall', 'terminbuchung'],
@@ -296,17 +311,19 @@ export const ANWENDUNGEN: Anwendung[] = [
     {
         slug: 'terminbuchung',
         metaTitel: 'Terminbuchung per KI-Telefonassistent | InfraOne',
+        // AUFTRAG-113: Kalendereintrag und SMS-Bestätigung in Entwicklung, nichts versprechen
         metaBeschreibung:
-            'Der KI-Telefonassistent trägt Termine direkt in Ihren Microsoft-365-Kalender ein und bestätigt sie per SMS – auch abends, wenn Ihr Büro geschlossen ist.',
+            'Der KI-Telefonassistent nimmt Terminwünsche am Telefon auf und meldet sie Ihnen per E-Mail. Kalendereintrag und SMS-Bestätigung sind in Entwicklung.',
         name: 'Terminbuchung',
-        teaser: 'Termine direkt im Microsoft-365-Kalender, Bestätigung per SMS.',
-        h1: 'Termine vereinbaren, während Sie arbeiten',
-        lead: 'Der KI-Telefonassistent trägt Termine direkt in Ihren Microsoft-365-Kalender ein und bestätigt sie der anrufenden Person auf Wunsch per SMS. Sie legen fest, welche Termine er vergeben darf und welche Angaben er dafür erfragt.',
+        teaser: 'Terminwünsche aufnehmen; Kalendereintrag und SMS in Entwicklung.',
+        h1: 'Terminwünsche aufnehmen, während Sie arbeiten',
+        lead: `Der KI-Telefonassistent nimmt Anrufe mit Terminwünschen an, wenn Ihr Team keine Zeit hat, und fragt nach Anliegen und passender Zeit. ${KALENDER_SMS_SATZ}`,
+        inEntwicklung: true,
         problem: {
             titel: 'Ein Termin, drei Telefonate',
             absaetze: [
                 'Ein Termin am Telefon klingt einfach. In der Praxis wird er zum Pingpong: Die Kundin ruft an, niemand ist frei, Sie rufen zurück, sie ist nicht erreichbar, sie ruft wieder an. Bis der Termin steht, haben drei Gespräche stattgefunden.',
-                'Dazu kommt das Risiko der Zettelwirtschaft: Ein Termin, der auf einem Notizblock statt im Kalender landet, ist ein Termin, der doppelt vergeben oder vergessen werden kann.',
+                'Dazu kommt das Risiko der Zettelwirtschaft: Ein Terminwunsch, der auf einem Notizblock statt vollständig im Postfach landet, kann vergessen oder doppelt vergeben werden.',
             ],
             momente: [
                 'Pneuwechsel und Service in der Saison',
@@ -316,16 +333,17 @@ export const ANWENDUNGEN: Anwendung[] = [
             ],
         },
         loesung: {
-            titel: 'So bucht der Assistent Termine',
+            titel: 'So nimmt der Assistent Terminwünsche auf',
             absaetze: [
-                'Der Assistent ist mit Ihrem Microsoft-365-Kalender verbunden und trägt Termine direkt dort ein. Welche Arten von Terminen er vergeben darf und welche Angaben er dafür erfragt – zum Beispiel Fahrzeug, Grund des Besuchs oder Objekt –, legen Sie bei der Einrichtung fest.',
-                'Am Ende des Gesprächs wiederholt er Datum, Uhrzeit und Anliegen. Auf Wunsch erhält die anrufende Person eine SMS-Bestätigung, und Sie bekommen wie bei jedem Gespräch eine Notiz per E-Mail.',
+                'Der Assistent fragt nach, worum es geht und wann es der anrufenden Person passen würde. Welche Arten von Terminen er aufnimmt und welche Angaben er dafür erfragt – zum Beispiel Fahrzeug, Grund des Besuchs oder Objekt –, legen Sie bei der Einrichtung fest.',
+                'Am Ende des Gesprächs wiederholt er Anliegen und Wunschzeit, damit nichts falsch notiert ist. Sie erhalten wie nach jedem Gespräch eine Notiz per E-Mail und bestätigen den Termin selbst.',
+                KALENDER_SMS_SATZ,
             ],
             ablauf: [
                 { titel: 'Wunsch aufnehmen', text: 'Worum geht es, und wann würde es passen?' },
-                { titel: 'Termin eintragen', text: 'Direkt im Microsoft-365-Kalender, nach Ihren Regeln.' },
-                { titel: 'Bestätigen', text: 'Zusammenfassung im Gespräch, auf Wunsch per SMS.' },
+                { titel: 'Zusammenfassen', text: 'Er wiederholt Anliegen und Wunschzeit im Gespräch.' },
                 { titel: 'Notiz an Sie', text: 'Per E-Mail, mit Zusammenfassung und Transkript.' },
+                { titel: 'Kalender und SMS', text: 'Eintrag im Microsoft-365-Kalender und Bestätigung per SMS.', inEntwicklung: true },
             ],
         },
         firma: 'Garage Muster AG',
@@ -336,45 +354,46 @@ export const ANWENDUNGEN: Anwendung[] = [
                 { wer: 'anrufer', text: 'Grüezi, Huber. Ich sött d Winterpneu montiere la.' },
                 { wer: 'assistent', text: 'Gern, Herr Huber. Für weles Auto, und wänn würds Ihne passe?' },
                 { wer: 'anrufer', text: 'Für en VW Golf. Am liebschte nächscht Wuche am Morge.' },
-                { wer: 'assistent', text: 'Am Zischtig am achti chönnt ich Sie iiträge. Passt das?' },
-                { wer: 'anrufer', text: 'Ja, das passt.' },
-                { wer: 'assistent', text: 'Guet. Pneuwächsel für de VW Golf am Zischtig am achti. Sie überchömed grad e SMS mit de Bestätigung. Uf Widerhöre!' },
-                { wer: 'hinweis', text: 'Termin im Microsoft-365-Kalender, SMS an Herrn Huber' },
+                { wer: 'assistent', text: 'Ich nimm Ihre Terminwunsch uf: Pneuwächsel für de VW Golf, nächscht Wuche am Morge. Under welere Nummere chönd mir Sie erreiche?' },
+                { wer: 'anrufer', text: 'Uf dere Nummere.' },
+                { wer: 'assistent', text: 'Merci, Herr Huber. D Garage meldet sich bi Ihne und bestätigt de Termin. Uf Widerhöre!' },
+                { wer: 'hinweis', text: 'Terminwunsch als Notiz per E-Mail an die Werkstatt' },
             ],
             hochdeutsch: [
                 { wer: 'assistent', text: 'Guten Tag, Garage Muster AG, der digitale Assistent. Was kann ich für Sie tun?' },
                 { wer: 'anrufer', text: 'Guten Tag, Huber. Ich möchte die Winterreifen montieren lassen.' },
                 { wer: 'assistent', text: 'Gerne, Herr Huber. Für welches Auto, und wann würde es Ihnen passen?' },
                 { wer: 'anrufer', text: 'Für einen VW Golf. Am liebsten nächste Woche am Morgen.' },
-                { wer: 'assistent', text: 'Am Dienstag um 8 Uhr könnte ich Sie eintragen. Passt das?' },
-                { wer: 'anrufer', text: 'Ja, das passt.' },
-                { wer: 'assistent', text: 'Gut. Reifenwechsel für den VW Golf am Dienstag um 8 Uhr. Sie erhalten gleich eine SMS mit der Bestätigung. Auf Wiederhören!' },
-                { wer: 'hinweis', text: 'Termin im Microsoft-365-Kalender, SMS an Herrn Huber' },
+                { wer: 'assistent', text: 'Ich nehme Ihren Terminwunsch auf: Reifenwechsel für den VW Golf, nächste Woche am Morgen. Unter welcher Nummer erreichen wir Sie?' },
+                { wer: 'anrufer', text: 'Unter dieser Nummer.' },
+                { wer: 'assistent', text: 'Danke, Herr Huber. Die Garage meldet sich bei Ihnen und bestätigt den Termin. Auf Wiederhören!' },
+                { wer: 'hinweis', text: 'Terminwunsch als Notiz per E-Mail an die Werkstatt' },
             ],
         },
         danach: {
-            absatz: 'Am Montagmorgen steht der Termin im Kalender der Werkstatt, und der Kunde hat seine Bestätigung schon am Sonntagabend erhalten.',
+            absatz: 'Am Montagmorgen liegt der Terminwunsch vollständig im Postfach der Werkstatt. Sie bestätigen den Termin mit einem kurzen Rückruf, ohne nachfragen zu müssen.',
             punkte: [
-                { titel: 'Eintrag im Kalender', text: 'Im Microsoft-365-Kalender, den Sie bei der Einrichtung bestimmen.' },
-                { titel: 'SMS-Bestätigung', text: 'Datum, Uhrzeit und Anliegen für die anrufende Person.' },
-                { titel: 'Notiz per E-Mail', text: 'Mit Zusammenfassung und Transkript, wie nach jedem Gespräch.' },
+                { titel: 'Notiz per E-Mail', text: 'Anliegen, Wunschzeit und Rückrufnummer, dazu Zusammenfassung und Transkript.' },
+                { titel: 'Eintrag im Kalender', text: 'Im Microsoft-365-Kalender, den Sie bei der Einrichtung bestimmen.', inEntwicklung: true },
+                { titel: 'SMS-Bestätigung', text: 'Datum, Uhrzeit und Anliegen für die anrufende Person.', inEntwicklung: true },
             ],
             notiz: [
                 { label: 'Name', wert: 'Herr Huber' },
                 { label: 'Anliegen', wert: 'Winterreifen montieren, VW Golf' },
-                { label: 'Termin', wert: 'Dienstag, 8 Uhr, im Kalender eingetragen' },
-                { label: 'Rückruf', wert: 'nicht nötig, SMS-Bestätigung gesendet' },
+                { label: 'Terminwunsch', wert: 'nächste Woche, am Morgen' },
+                { label: 'Rückruf', wert: 'Nummer des Anrufs, Termin bestätigen' },
             ],
         },
         fuerWen: {
-            absatz: 'Terminbuchung passt zu Betrieben, deren Arbeit in Terminen organisiert ist und die mit Microsoft 365 arbeiten: Garagen, Praxen, Treuhandbüros, Immobilienbüros mit Besichtigungen. Wer noch nicht mit Microsoft 365 arbeitet, findet bei InfraOne auch die Umstellung.',
+            absatz: 'Terminwünsche aufzunehmen, passt zu Betrieben, deren Arbeit in Terminen organisiert ist: Garagen, Praxen, Treuhandbüros, Immobilienbüros mit Besichtigungen. Für den Eintrag im Kalender, der in Entwicklung ist, braucht es Microsoft 365; wer noch nicht damit arbeitet, findet bei InfraOne auch die Umstellung.',
             branchen: ['garage', 'arztpraxis', 'treuhand'],
         },
         festlegen: [
-            'welcher Microsoft-365-Kalender verwendet wird',
-            'welche Arten von Terminen der Assistent vergeben darf',
+            'welche Arten von Terminen der Assistent aufnimmt',
             'welche Angaben er für einen Termin erfragt',
-            'ob Anrufende eine SMS-Bestätigung erhalten',
+            'wer die Terminwünsche per E-Mail erhält',
+            inEntwicklung('welcher Microsoft-365-Kalender verwendet wird'),
+            inEntwicklung('ob Anrufende eine SMS-Bestätigung erhalten'),
         ],
         verwandt: ['anliegen-erfassen', 'auskunft', 'erreichbarkeit'],
     },
@@ -440,7 +459,7 @@ export const ANWENDUNGEN: Anwendung[] = [
             punkte: [
                 { titel: 'Meldung an die Notfallnummer', text: 'Sofort, mit Name, Adresse und Rückrufnummer.' },
                 { titel: 'Notiz per E-Mail', text: 'Für das Büro, mit Zusammenfassung und Transkript.' },
-                { titel: 'SMS auf Wunsch', text: 'Die anrufende Person erhält eine Bestätigung, dass die Meldung angekommen ist.' },
+                { titel: 'SMS auf Wunsch', text: 'Die anrufende Person erhält künftig eine Bestätigung, dass die Meldung angekommen ist.', inEntwicklung: true },
             ],
             notiz: [
                 { label: 'Name', wert: 'Herr Brunner' },

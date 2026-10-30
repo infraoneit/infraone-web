@@ -10,6 +10,7 @@ import { GespraechPaar } from '@/components/ki-telefonassistent/Gespraech';
 import { ANWENDUNGEN, anwendung } from '@/components/ki-telefonassistent/inhalte/anwendungen';
 import { branche } from '@/components/ki-telefonassistent/inhalte/branchen';
 import { KI_BASIS } from '@/components/ki-telefonassistent/seiten';
+import { InEntwicklungBadge } from '@/components/ki-telefonassistent/InEntwicklung';
 
 export const dynamicParams = false;
 
@@ -33,6 +34,16 @@ const ICONS: Record<string, LucideIcon> = {
 };
 const DANACH_ICONS: LucideIcon[] = [Mail, FileText, Smartphone];
 
+/** Icon nach Inhalt (AUFTRAG-113: Kalender und SMS stehen nicht mehr an fester Stelle) */
+function danachIcon(titel: string, i: number): LucideIcon {
+    if (/kalender/i.test(titel)) return CalendarCheck;
+    if (/sms/i.test(titel)) return Smartphone;
+    if (/notfall/i.test(titel)) return Siren;
+    if (/transkript/i.test(titel)) return FileText;
+    if (/notiz/i.test(titel)) return Mail;
+    return DANACH_ICONS[i % DANACH_ICONS.length];
+}
+
 export default async function AnwendungSeite({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const a = anwendung(slug);
@@ -55,7 +66,7 @@ export default async function AnwendungSeite({ params }: { params: Promise<{ slu
         <>
             <JsonLd daten={kiSeitenSchemas(pfad, a.h1, a.metaBeschreibung, krumen)} />
 
-            <SeitenKopf krumen={krumen} eyebrow={`Anwendung: ${a.name}`} titel={a.h1} lead={<p>{a.lead}</p>} />
+            <SeitenKopf krumen={krumen} eyebrow={`Anwendung: ${a.name}`} hinweis={a.inEntwicklung ? <InEntwicklungBadge /> : undefined} titel={a.h1} lead={<p>{a.lead}</p>} />
 
             {/* Problem */}
             <Abschnitt titel={a.problem.titel} hintergrund="surface">
@@ -93,6 +104,7 @@ export default async function AnwendungSeite({ params }: { params: Promise<{ slu
                                 {i + 1}
                             </span>
                             <h3 className="text-lg font-bold text-text-primary mb-1.5">{s.titel}</h3>
+                            {s.inEntwicklung && <InEntwicklungBadge className="mb-2" />}
                             <p className="text-text-secondary leading-relaxed">{s.text}</p>
                         </li>
                     ))}
@@ -109,14 +121,22 @@ export default async function AnwendungSeite({ params }: { params: Promise<{ slu
                 <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 items-start">
                     <ul className="lg:col-span-7 grid gap-4">
                         {a.danach.punkte.map((p, i) => {
-                            const Icon = DANACH_ICONS[i % DANACH_ICONS.length];
+                            const Icon = danachIcon(p.titel, i);
                             return (
                                 <li key={p.titel} className="flex gap-4 rounded-2xl border border-border bg-card p-5">
                                     <span className="flex-shrink-0 w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center" aria-hidden="true">
                                         <Icon className="w-5 h-5" />
                                     </span>
                                     <span>
-                                        <h3 className="font-bold text-text-primary">{p.titel}</h3>
+                                        <h3 className="font-bold text-text-primary">
+                                            {p.titel}
+                                            {p.inEntwicklung && (
+                                                <>
+                                                    {' '}
+                                                    <InEntwicklungBadge className="ml-1" />
+                                                </>
+                                            )}
+                                        </h3>
                                         <p className="mt-1 text-text-secondary leading-relaxed">{p.text}</p>
                                     </span>
                                 </li>
