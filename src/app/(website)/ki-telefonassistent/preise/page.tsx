@@ -9,12 +9,13 @@ import { faqNachIds } from '@/components/ki-telefonassistent/inhalte/faq';
 import { KI_BASIS, KI_PREISE_PFAD } from '@/components/ki-telefonassistent/seiten';
 import { chf, EINRICHTUNG_EINMALIG, MWST_HINWEIS, PAKETE, PREISE_FREIGEGEBEN, WAEHRUNG } from '@/lib/ki-telefonassistent-preise';
 import { generateKiTelefonassistentServiceSchema } from '@/lib/seo/schema';
+import { KALENDER_SMS_SATZ } from '@/lib/in-entwicklung';
 
 const TITEL = 'Preise des KI-Telefonassistenten | InfraOne';
 const BESCHREIBUNG =
     'Pakete des KI-Telefonassistenten mit Gesprächsminuten, Einrichtung und Zusatzminuten, dazu ein Rechner: Was kostet Sie ein verpasster Anruf heute?';
 
-// AUFTRAG-110: noindex, solange die Preise Entwurf sind (nur diese Seite)
+// AUFTRAG-110: noindex, solange die Preise Entwurf sind (nur diese Seite); seit AUFTRAG-113 freigegeben → indexierbar
 export const metadata = kiMetadata({ pfad: KI_PREISE_PFAD, titel: TITEL, beschreibung: BESCHREIBUNG, noindex: !PREISE_FREIGEGEBEN });
 
 const entwurf = PREISE_FREIGEGEBEN ? '' : ' (Entwurf)';
@@ -29,8 +30,8 @@ const preisFaq: FaqEintrag[] = [
     {
         id: 'welches-paket',
         frage: 'Welches Paket passt zu mir?',
-        antwort:
-            'Das hängt vor allem davon ab, wie viele Gesprächsminuten Sie pro Monat brauchen und ob der Assistent Termine eintragen, SMS senden, weiterleiten oder Notfälle melden soll. Der Rechner unten hilft beim Einschätzen der Anrufe; im Erstgespräch schauen wir es gemeinsam an.',
+        // AUFTRAG-113: Kalendereintrag und SMS sind in Entwicklung (Satz wortgleich aus lib/in-entwicklung.ts)
+        antwort: `Das hängt vor allem davon ab, wie viele Gesprächsminuten Sie pro Monat brauchen und ob der Assistent weiterleiten oder Notfälle melden soll. ${KALENDER_SMS_SATZ} Der Rechner unten hilft beim Einschätzen der Anrufe; im Erstgespräch schauen wir es gemeinsam an.`,
     },
     {
         id: 'cloud-telefonie',

@@ -5,19 +5,21 @@
  * Preisseite, Preis-Teaser auf der Hub-Seite, FAQ-Antworten, Sitemap
  * (/preise erst nach Freigabe) und robots (noindex bis zur Freigabe).
  *
- * STAND: ENTWURF. Die Werte unten sind Platzhalter des Managers vom 30.10.2026
- * und werden vom Inhaber ersetzt. Solange PREISE_FREIGEGEBEN = false:
- * - sichtbares Band «Entwurf, Preise noch nicht freigegeben» auf /preise und im Teaser
- * - /ki-telefonassistent/preise mit robots noindex und nicht in der Sitemap
- * - keine Angebotsdaten (Offer) im JSON-LD
+ * STAND: FREIGEGEBEN (AUFTRAG-113, Inhaber 30.10.2026: «Preisstruktur ist übrigens gut so.»).
+ * Die Beträge sind unverändert. Mit PREISE_FREIGEGEBEN = true:
+ * - kein Entwurfsband mehr auf /preise und im Teaser
+ * - /ki-telefonassistent/preise indexierbar und in der Sitemap
+ * - Angebotsdaten (Offer) im JSON-LD
+ * Solange PREISE_FREIGEGEBEN = false wäre: Entwurfsband, noindex, keine Offer.
+ * (public/llms.txt und llms-full.txt nennen die Beträge seit AUFTRAG-113.)
  *
- * Freigabe: Werte anpassen, PREISE_FREIGEGEBEN auf true setzen, fertig.
- * (public/llms.txt und llms-full.txt nennen bewusst keine Entwurfsbeträge;
- * nach der Freigabe dort die Beträge nachtragen.)
+ * AUFTRAG-113: Kalendereintrag und SMS-Bestätigung sind in Entwicklung; die
+ * Merkmale tragen den Zusatz «(in Entwicklung, kommt bald)» (Darstellung als Badge).
  */
+import { inEntwicklung } from '@/lib/in-entwicklung';
 
-/** Erst auf true setzen, wenn der Inhaber die Preise freigegeben hat. */
-export const PREISE_FREIGEGEBEN = false;
+/** Vom Inhaber freigegeben (AUFTRAG-113, 30.10.2026). */
+export const PREISE_FREIGEGEBEN = true;
 
 /** Text des Entwurfsbands (nur sichtbar, solange PREISE_FREIGEGEBEN = false). */
 export const ENTWURF_HINWEIS = 'Entwurf, Preise noch nicht freigegeben';
@@ -55,8 +57,9 @@ export const PAKETE: KiPaket[] = [
         name: 'Starter',
         preisMonat: 149,
         minuten: 500,
-        fuerWen: 'Für Betriebe, die am Telefon Termine vergeben und bestätigen.',
-        merkmale: ['500 Gesprächsminuten pro Monat', 'Termine im Microsoft-365-Kalender', 'SMS-Bestätigung an Anrufende'],
+        // Nachtrag AUFTRAG-113: Kalendereintrag/SMS in Entwicklung → Zielgruppe ohne Terminvergabe beschreiben
+        fuerWen: 'Für Betriebe, die am Telefon Terminwünsche aufnehmen und Rückrufe organisieren.',
+        merkmale: ['500 Gesprächsminuten pro Monat', inEntwicklung('Termine im Microsoft-365-Kalender'), inEntwicklung('SMS-Bestätigung an Anrufende')],
         empfohlen: true,
     },
     {

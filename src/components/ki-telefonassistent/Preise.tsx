@@ -1,8 +1,10 @@
 /**
  * Preisdarstellung KI-Telefonassistent (AUFTRAG-110) — alle Werte aus
  * src/lib/ki-telefonassistent-preise.ts. Solange PREISE_FREIGEGEBEN = false,
- * zeigt jede Preisdarstellung das Entwurfsband.
+ * zeigt jede Preisdarstellung das Entwurfsband (seit AUFTRAG-113 freigegeben).
+ * AUFTRAG-113: Merkmale mit Zusatz «(in Entwicklung, kommt bald)» erscheinen mit Badge.
  */
+import { Fragment } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Check, FilePenLine } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -21,6 +23,7 @@ import {
     WAEHRUNG,
 } from '@/lib/ki-telefonassistent-preise';
 import { KI_PREISE_PFAD } from './seiten';
+import { MitHinweis } from './InEntwicklung';
 
 /** Sichtbares Band «Entwurf, Preise noch nicht freigegeben» (nur solange nicht freigegeben) */
 export function EntwurfsBand({ className = '', detail = true }: { className?: string; detail?: boolean }) {
@@ -65,7 +68,9 @@ export function PaketKarten() {
                         {p.merkmale.map((m) => (
                             <li key={m} className="flex gap-2.5 text-sm text-text-primary leading-snug">
                                 <Check className="w-4 h-4 mt-0.5 flex-shrink-0 text-primary" aria-hidden="true" />
-                                {m}
+                                <span>
+                                    <MitHinweis text={m} />
+                                </span>
                             </li>
                         ))}
                     </ul>
@@ -153,7 +158,14 @@ export function PreisTeaser() {
                                     {p.preisMonat !== null && <span className="text-xs font-medium text-text-secondary"> / Mt.</span>}
                                 </span>
                             </p>
-                            <p className="mt-1 text-sm text-text-secondary leading-snug">{p.merkmale.slice(0, 2).join(' · ')}</p>
+                            <p className="mt-1 text-sm text-text-secondary leading-snug">
+                                {p.merkmale.slice(0, 2).map((m, i) => (
+                                    <Fragment key={m}>
+                                        {i > 0 && ' · '}
+                                        <MitHinweis text={m} />
+                                    </Fragment>
+                                ))}
+                            </p>
                         </li>
                     ))}
                 </ul>

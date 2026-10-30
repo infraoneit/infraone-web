@@ -7,6 +7,7 @@ import { Abschnitt, AbschlussCta, Prosa, Querverweise, SeitenKopf } from '@/comp
 import { ANWENDUNGEN } from '@/components/ki-telefonassistent/inhalte/anwendungen';
 import { branche } from '@/components/ki-telefonassistent/inhalte/branchen';
 import { KI_BASIS } from '@/components/ki-telefonassistent/seiten';
+import { InEntwicklungBadge } from '@/components/ki-telefonassistent/InEntwicklung';
 import { generateItemListSchema } from '@/lib/seo/schema';
 
 const PFAD = `${KI_BASIS}/anwendungen`;
@@ -24,19 +25,20 @@ const ICONS: Record<string, LucideIcon> = {
     notfall: Siren,
 };
 
+// AUFTRAG-113: Kalendereintrag und SMS sind in Entwicklung — hier nur, was heute geht
 const ablauf = [
     { titel: 'Begrüssung', text: 'mit Ihrem Firmennamen' },
     { titel: 'Frage beantworten', text: 'Auskunft aus Ihrem Wissen' },
     { titel: 'Anliegen aufnehmen', text: 'Name, Firma, Anliegen, Rückruf' },
-    { titel: 'Termin oder Notfall', text: 'Kalender oder Notfallnummer' },
-    { titel: 'Notiz und SMS', text: 'an Sie und an die anrufende Person' },
+    { titel: 'Terminwunsch oder Notfall', text: 'Notiz oder Notfallnummer' },
+    { titel: 'Notiz an Sie', text: 'per E-Mail, mit Zusammenfassung' },
 ];
 
 const wegweiser = [
     { wenn: 'Sie verpassen Anrufe, weil Ihr Team unterwegs oder beschäftigt ist', dann: 'erreichbarkeit' },
     { wenn: 'dieselben Fragen Ihr Team mehrmals am Tag unterbrechen', dann: 'auskunft' },
     { wenn: 'Telefonnotizen unvollständig sind oder im Team verloren gehen', dann: 'anliegen-erfassen' },
-    { wenn: 'Ihre Arbeit in Terminen organisiert ist und Sie Microsoft 365 nutzen', dann: 'terminbuchung' },
+    { wenn: 'Ihre Arbeit in Terminen organisiert ist und viele Terminwünsche am Telefon ankommen', dann: 'terminbuchung' },
     { wenn: 'Sie einen Pikettdienst führen oder Kundschaft nachts Hilfe braucht', dann: 'notfall' },
 ] as const;
 
@@ -57,7 +59,7 @@ export default function AnwendungenSeite() {
                 titel="Wofür KMU den KI-Telefonassistenten einsetzen"
                 lead={
                     <p>
-                        Der KI-Telefonassistent übernimmt am Telefon fünf Aufgaben: erreichbar sein, Auskunft geben, Anliegen erfassen, Termine buchen und Notfälle weitermelden. Oft kommt mehreres zusammen – hier sehen Sie, wie jede Aufgabe im Alltag aussieht.
+                        Der KI-Telefonassistent übernimmt am Telefon fünf Aufgaben: erreichbar sein, Auskunft geben, Anliegen erfassen, Terminwünsche aufnehmen und Notfälle weitermelden. Oft kommt mehreres zusammen – hier sehen Sie, wie jede Aufgabe im Alltag aussieht.
                     </p>
                 }
             />
@@ -74,6 +76,7 @@ export default function AnwendungenSeite() {
                                         <Icon className="w-5 h-5" />
                                     </span>
                                     <h3 className="text-xl font-bold text-text-primary group-hover:text-primary">{a.name}</h3>
+                                    {a.inEntwicklung && <InEntwicklungBadge className="mt-2 w-fit" />}
                                     <p className="mt-2 text-text-secondary leading-relaxed">{a.lead.split('. ')[0]}.</p>
                                     <p className="mt-4 text-sm text-text-secondary">
                                         <span className="font-semibold text-text-primary">Typisch für: </span>
@@ -94,7 +97,7 @@ export default function AnwendungenSeite() {
                             </span>
                             <h3 className="text-xl font-bold text-text-primary">Ihre eigene Aufgabe</h3>
                             <p className="mt-2 text-text-secondary leading-relaxed">
-                                Haben Sie einen Ablauf am Telefon, der hier fehlt? Erzählen Sie uns davon. Für Abläufe, die über Notiz, SMS und Kalender hinausgehen, prüfen wir mit Ihnen eigene Integrationen.
+                                Haben Sie einen Ablauf am Telefon, der hier fehlt? Erzählen Sie uns davon. Für Abläufe, die über Notiz, Weiterleitung und Notfallmeldung hinausgehen, prüfen wir mit Ihnen eigene Integrationen.
                             </p>
                             <Link href="/kontakt" className="mt-auto pt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-text-primary hover:text-primary">
                                 Beratung vereinbaren
@@ -155,7 +158,7 @@ export default function AnwendungenSeite() {
                         Fangen Sie mit dem an, was heute am meisten schmerzt. Naheliegend für kleine Betriebe ist die Erreichbarkeit zusammen mit dem Erfassen von Anliegen: Der Assistent nimmt ab, wenn niemand Zeit hat, und Sie erhalten nach jedem Gespräch eine vollständige Notiz.
                     </p>
                     <p>
-                        Termine und Notfallregeln kommen dazu, sobald Sie wissen, welche Termine der Assistent vergeben soll und was bei Ihnen als Notfall gilt. Das Wissen aus Ihrer Website steht von Anfang an zur Verfügung, die Auskunft läuft also vom ersten Tag an mit.
+                        Terminwünsche und Notfallregeln kommen dazu, sobald Sie wissen, welche Termine der Assistent aufnehmen soll und was bei Ihnen als Notfall gilt. Das Wissen aus Ihrer Website steht von Anfang an zur Verfügung, die Auskunft läuft also vom ersten Tag an mit.
                     </p>
                     <p>
                         Wie gut das zu Ihrem Betrieb passt, hören Sie am schnellsten selbst: Im <Link href={KI_BASIS}>Testanruf</Link> baut die Demo aus Ihrer Website einen Assistenten und ruft Sie an.

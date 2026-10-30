@@ -1,12 +1,13 @@
 /**
  * Seitenverzeichnis des Bereichs /ki-telefonassistent (AUFTRAG-110).
  *
- * Eine Quelle für Navigation (Mega-Menü und Footer), Sitemap, interne
- * Verlinkung und das SEO-Prüfskript. Reines TypeScript ohne JSX/Imports,
+ * Eine Quelle für Sitemap, interne Verlinkung und das SEO-Prüfskript
+ * (das Menü im Header führt seit AUFTRAG-113 eine eigene, kleinere Auswahl
+ * in components/layout/navigation.ts). Reines TypeScript ohne JSX/Imports,
  * damit es auch die Node-Prüfskripte direkt laden können.
  *
- * Regeln für `kurz` (wie im übrigen Menü): ein Satz mit Punkt, höchstens
- * 45 Zeichen, keine Zahlen, keine Superlative.
+ * Regeln für `kurz`: ein Satz mit Punkt, höchstens 45 Zeichen, keine Zahlen,
+ * keine Superlative.
  */
 
 export const KI_BASIS = '/ki-telefonassistent';
@@ -18,7 +19,7 @@ export interface KiSeite {
     pfad: string;
     /** Name im Menü und in Brotkrumen */
     titel: string;
-    /** ein Satz fürs Mega-Menü */
+    /** ein Satz als Kurzbeschreibung (AUFTRAG-113: Kalendereintrag in Entwicklung, daher «Terminwünsche aufnehmen») */
     kurz: string;
     gruppe: KiGruppe;
     /** Priorität in der Sitemap */
@@ -42,7 +43,7 @@ export const KI_SEITEN: KiSeite[] = [
     { pfad: `${KI_BASIS}/anwendungen/erreichbarkeit`, titel: 'Erreichbarkeit', kurz: 'Abnehmen, wenn niemand frei ist.', gruppe: 'anwendungen', prioritaet: 0.7 },
     { pfad: `${KI_BASIS}/anwendungen/auskunft`, titel: 'Auskunft', kurz: 'Wiederkehrende Fragen beantworten.', gruppe: 'anwendungen', prioritaet: 0.7 },
     { pfad: `${KI_BASIS}/anwendungen/anliegen-erfassen`, titel: 'Anliegen erfassen', kurz: 'Wer, was, Rückruf: als Notiz per E-Mail.', gruppe: 'anwendungen', prioritaet: 0.7 },
-    { pfad: `${KI_BASIS}/anwendungen/terminbuchung`, titel: 'Terminbuchung', kurz: 'Termine direkt im Kalender eintragen.', gruppe: 'anwendungen', prioritaet: 0.7 },
+    { pfad: `${KI_BASIS}/anwendungen/terminbuchung`, titel: 'Terminbuchung', kurz: 'Terminwünsche am Telefon aufnehmen.', gruppe: 'anwendungen', prioritaet: 0.7 },
     { pfad: `${KI_BASIS}/anwendungen/notfall`, titel: 'Notfall und Pikett', kurz: 'Dringendes sofort an die Notfallnummer.', gruppe: 'anwendungen', prioritaet: 0.6 },
 
     { pfad: `${KI_BASIS}/branchen`, titel: 'Alle Branchen', kurz: 'Beispiele aus sechs Branchen.', gruppe: 'branchen', prioritaet: 0.7 },
@@ -59,14 +60,7 @@ export const KI_SEITEN: KiSeite[] = [
     { pfad: `${KI_BASIS}/glossar`, titel: 'Glossar', kurz: 'Begriffe der KI-Telefonie erklärt.', gruppe: 'vertrauen', prioritaet: 0.5 },
 ];
 
-export const KI_GRUPPEN_TITEL: Record<KiGruppe, string> = {
-    produkt: 'Produkt',
-    anwendungen: 'Anwendungen',
-    branchen: 'Branchen',
-    vertrauen: 'Wissen und Vertrauen',
-};
-
-/** Pfad der Preisseite (noindex und nicht in der Sitemap, solange die Preise Entwurf sind) */
+/** Pfad der Preisseite (seit AUFTRAG-113 freigegeben: indexierbar und in der Sitemap) */
 export const KI_PREISE_PFAD = `${KI_BASIS}/preise`;
 
 export function kiSeite(pfad: string): KiSeite {

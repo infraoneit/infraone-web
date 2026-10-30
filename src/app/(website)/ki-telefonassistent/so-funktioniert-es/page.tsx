@@ -21,6 +21,7 @@ import { JsonLd } from '@/components/ki-telefonassistent/JsonLd';
 import { kiKrumen, kiSeitenSchemas } from '@/components/ki-telefonassistent/Brotkrumen';
 import { Abschnitt, AbschlussCta, Hakenliste, Prosa, Querverweise, SeitenKopf, Schrittfolge, type Schritt } from '@/components/ki-telefonassistent/Bausteine';
 import { KI_BASIS } from '@/components/ki-telefonassistent/seiten';
+import { inEntwicklung } from '@/lib/in-entwicklung';
 
 const PFAD = `${KI_BASIS}/so-funktioniert-es`;
 const TITEL = 'So funktioniert der KI-Telefonassistent | InfraOne';
@@ -53,7 +54,7 @@ const einrichtung: Array<Schritt & { id: string }> = [
     { id: 'website-scan', icon: Globe, titel: 'Website-Scan', text: 'Ausgangspunkt ist Ihre Website. Leistungen, Öffnungszeiten, Kontakt und Abläufe werden zum Grundwissen des Assistenten.' },
     { id: 'wissen-pruefen', icon: BookOpenCheck, titel: 'Wissen prüfen', text: 'Sie prüfen das Wissen und ergänzen, was nicht online steht: Abläufe, häufige Fragen, Parkplätze. Und Sie schliessen Themen aus, die er nicht behandeln soll.' },
     { id: 'begruessung', icon: MessageSquareText, titel: 'Begrüssung und Haltung', text: 'Begrüssungstext, Sprache, förmlich oder locker, Ihr Text für die Zeit ausserhalb der Öffnungszeiten. Bei Bedarf mehrere Agenten, etwa für Tag und Nacht.' },
-    { id: 'regeln', icon: Settings2, titel: 'Regeln festlegen', text: 'Wohin er weiterleitet, was als Notfall gilt und an welche Nummer er Notfälle meldet, wer die Notizen erhält, ob Anrufende eine SMS bekommen, welcher Kalender gilt.' },
+    { id: 'regeln', icon: Settings2, titel: 'Regeln festlegen', text: 'Wohin er weiterleitet, was als Notfall gilt und an welche Nummer er Notfälle meldet, wer die Notizen und Terminwünsche erhält. Kalendereintrag und SMS-Bestätigung sind in Entwicklung.' },
     { id: 'rufumleitung', icon: PhoneForwarded, titel: 'Rufumleitung oder Nummer', text: 'Sie leiten Ihre Nummer um – immer, bei besetzt, nach einigen Klingeltönen oder ausserhalb der Öffnungszeiten – oder Sie erhalten eine neue Nummer. Mit Cloud-Telefonie von InfraOne direkt in der Anlage.' },
     { id: 'freigabe', icon: ShieldCheck, titel: 'Testen und freigeben', text: 'Sie rufen selbst an und hören, wie der Assistent antwortet. Erst nach Ihrer Freigabe nimmt er echte Anrufe an.' },
 ];
@@ -71,7 +72,8 @@ const bereithalten = [
     'Themen, über die der Assistent nicht sprechen soll',
     'die Nummer für Weiterleitungen und die Notfallnummer',
     'die E-Mail-Adressen, an die die Notizen gehen',
-    'Zugang zum Microsoft-365-Kalender, falls er Termine eintragen soll',
+    // AUFTRAG-113: Kalendereintrag in Entwicklung (Zusatz → Badge in der Hakenliste)
+    inEntwicklung('Zugang zum Microsoft-365-Kalender für den Kalendereintrag'),
     'Zugang zur Telefonanlage oder zum Anbieter für die Rufumleitung',
 ];
 

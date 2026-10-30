@@ -34,15 +34,47 @@
  *   node scripts/auftrag100-browser-test.mjs --menue    (nur Teil M)
  *   node scripts/auftrag100-browser-test.mjs --telefon  (nur Teil T)
  *
- * Screenshots: ../auftraege/ergebnisse/A100-screens/
+ * Screenshots: ../auftraege/ergebnisse/A100-screens/ (oder SCREENS_ORDNER)
+ *
+ * ANPASSUNG AUFTRAG-113 (Menü-Kompromiss): Das Mega-Menü ist durch schlichte Dropdowns ersetzt
+ * (Leistungen ▾ · KI-Telefonassistent ▾ · IT-Support · Cloud-Telefonie ▾ · Unternehmen ▾). Was nicht
+ * mehr gilt und warum:
+ * - «Für wen» (Branchen-Ankerlinks und 24 Regionen im Header) entfällt laut Inhaber. M0 prüft deshalb
+ *   umgekehrt, dass KEINE Regionsseite mehr im Header steht; die Branchen-Prüfung «jede Branche verlinkt
+ *   einen passenden Abschnitt» entfällt mangels Branchen im Menü (die Regionen prüft auftrag113 E).
+ * - M6 «Klick auf einen Branchen-Link» → jetzt Klick auf «Peoplefone vPBX» (einziger Anker-Link im Menü).
+ * - M7 «Regionen aufklappbar» und «Branchen-Link» → jetzt Gruppe «Cloud-Telefonie» und ein Link der KI-Gruppe.
+ * - M4: die Wellenform gibt es nur noch in der mobilen KI-Karte (kein Mega-Panel mit Karte mehr).
+ * - Panels: Dropdowns liegen direkt unter ihrem Knopf (oben 60–100 px statt «ab Header-Unterkante»).
+ * - M0: Zielseiten mit gefolgter Weiterleitung (Footer-Link /telefonie → /cloud-telefonie; im Header seit dem Nachtrag keiner mehr).
+ * - Vorgabe-Server jetzt :3005 (Port 3000 gehört dem Inhaber); `@/`-Importe über registerHooks.
+ * Teil T (Telefon scrollt mit) ist unverändert und gehört nicht zum Menü.
  */
 import { chromium } from 'playwright-core';
+import { registerHooks } from 'node:module';
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const BASE = process.env.BASE_URL || 'http://localhost:3000';
+// AUFTRAG-113: navigation.ts importiert über `@/…` (seit AUFTRAG-110) — Auflösung wie in den übrigen Skripten
+registerHooks({
+    resolve(s, k, weiter) {
+        let x = s;
+        if (x.startsWith('@/')) x = pathToFileURL(path.join(ROOT, 'src', x.slice(2))).href;
+        try {
+            return weiter(x, k);
+        } catch (e) {
+            if ((x.startsWith('.') || x.startsWith('file:')) && !/\.[cm]?[jt]sx?$/.test(x)) return weiter(x + '.ts', k);
+            throw e;
+        }
+    },
+});
+const BASE = process.env.BASE_URL || 'http://localhost:3005';
+if (/:3000\b/.test(BASE)) {
+    console.error('Port 3000 gehört dem Inhaber (Testlink) — bitte den eigenen Server auf :3005 verwenden.');
+    process.exit(2);
+}
 const CHROME = process.env.PLAYWRIGHT_CHROMIUM || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const SCREENS = path.resolve(ROOT, '..', 'auftraege', 'ergebnisse', process.env.SCREENS_ORDNER || 'A100-screens');
 const args = process.argv.slice(2);
@@ -125,67 +157,43 @@ function regionenAusContent() {
     return liste;
 }
 const REGIONEN = regionenAusContent();
-const MENUE_LINKS = [
-    ...nav.LEISTUNGEN.flatMap((g) => g.links),
-    nav.LEISTUNGEN_UEBERSICHT,
-    { titel: nav.KI_KARTE.titel, href: nav.KI_KARTE.href, text: nav.KI_KARTE.text },
-    nav.ERSTGESPRAECH,
-    ...nav.BRANCHEN,
-    ...nav.UNTERNEHMEN,
-    ...nav.DIREKTLINKS,
-];
+// AUFTRAG-113: alle Adressen des neuen Headers aus der Quelle (statt LEISTUNGEN/BRANCHEN/DIREKTLINKS des Mega-Menüs)
+const MENUE_LINKS = [...nav.headerLinks(), { titel: nav.KI_KARTE.titel, href: nav.KI_KARTE.href, text: nav.KI_KARTE.text }];
 
 /* ------------------------------------------------------------------ */
-/* Teil M: Mega-Menü                                                   */
+/* Teil M: Menü (seit AUFTRAG-113 schlichte Dropdowns)                 */
 /* ------------------------------------------------------------------ */
 async function teilM0() {
     const html = await (await fetch(`${BASE}/`)).text();
     const kopf = html.slice(html.indexOf('<header'), html.indexOf('</header>'));
     const hrefs = new Set([...kopf.matchAll(/href="([^"]+)"/g)].map((m) => m[1].replace(/&amp;/g, '&')));
-    const fehlend = [...MENUE_LINKS, ...REGIONEN].map((l) => l.href).filter((h) => !hrefs.has(h));
-    check('M0 Server-HTML: alle Menü-Links im <header> (ohne JavaScript, crawlbar)', fehlend.length === 0, fehlend.length ? `fehlend: ${fehlend.join(', ')}` : `${MENUE_LINKS.length} Menü-Links + ${REGIONEN.length} Regionen`);
-    check('M0 24 Regionsseiten aus den [region]-Templates', REGIONEN.length === 24 && REGIONEN.every((r) => hrefs.has(r.href)), REGIONEN.length);
-    check('M0 Panels im Server-HTML (Leistungen, Für wen, Unternehmen, Mobil)', ['nav-panel-leistungen', 'nav-panel-fuer-wen', 'nav-panel-unternehmen', 'nav-mobil'].every((id) => kopf.includes(`id="${id}"`)));
+    const fehlend = MENUE_LINKS.map((l) => l.href).filter((h) => !hrefs.has(h));
+    check('M0 Server-HTML: alle Menü-Links im <header> (ohne JavaScript, crawlbar)', fehlend.length === 0, fehlend.length ? `fehlend: ${fehlend.join(', ')}` : `${new Set(MENUE_LINKS.map((l) => l.href)).size} Menü-Adressen`);
+    // AUFTRAG-113: «Für wen» mit 24 Regionen entfällt → umgekehrt prüfen
+    check('M0 keine der 24 Regionsseiten mehr im <header> (AUFTRAG-113)', REGIONEN.length === 24 && !REGIONEN.some((r) => hrefs.has(r.href)), REGIONEN.filter((r) => hrefs.has(r.href)).map((r) => r.href).join(', ') || `${REGIONEN.length} Regionen geprüft`);
+    check('M0 Dropdowns im Server-HTML (Leistungen, KI, Cloud-Telefonie, Unternehmen, Mobil), kein «Für wen»', ['nav-panel-leistungen', 'nav-panel-ki', 'nav-panel-cloud', 'nav-panel-unternehmen', 'nav-mobil'].every((id) => kopf.includes(`id="${id}"`)) && !kopf.includes('fuer-wen'));
 
-    // Jede Zielseite antwortet 200, jeder Anker existiert auf der Zielseite
-    const ziele = [...new Set([...MENUE_LINKS, ...REGIONEN].map((l) => l.href))];
+    // Jede Zielseite antwortet 200 (AUFTRAG-113: Weiterleitungen gefolgt, /telefonie → /cloud-telefonie), jeder Anker existiert
+    const ziele = [...new Set(MENUE_LINKS.map((l) => l.href))];
     const status = [];
     const anker = [];
     const seitenCache = new Map();
     for (const z of ziele) {
         const pfad = z.split('#')[0];
         if (!seitenCache.has(pfad)) {
-            const r = await fetch(`${BASE}${pfad}`, { redirect: 'manual' });
+            const r = await fetch(`${BASE}${pfad}`, { redirect: 'follow' });
             seitenCache.set(pfad, { status: r.status, html: r.status === 200 ? await r.text() : '' });
         }
         const s = seitenCache.get(pfad);
         if (s.status !== 200) status.push(`${pfad} ${s.status}`);
         if (z.includes('#') && !s.html.includes(`id="${z.split('#')[1]}"`)) anker.push(z);
     }
-    check(`M0 alle ${seitenCache.size} Zielseiten antworten 200 (nur bestehende Seiten)`, status.length === 0, status.join(', '));
-    check('M0 Anker der Branchen existieren (#betriebe, #anwendungsfaelle, #branchen)', anker.length === 0, anker.join(', ') || [...new Set(MENUE_LINKS.filter((l) => l.href.includes('#')).map((l) => l.href))].join(', '));
-
-    // Branchen passen zur Zielseite: der Branchenname (oder ein Synonym) steht im Ziel-Abschnitt
-    const passend = {
-        Praxen: /Praxen/,
-        'Handwerk & Elektro': /Handwerk und Elektro/,
-        'Treuhand & Beratung': /Treuhand/,
-        'Gastronomie & Retail': /Retail &amp; Gastronomie|Retail & Gastronomie/,
-        Garagen: /Garagen/,
-        'KMU mit mehreren Standorten': /Multi-Standort|Standorte/,
-    };
-    const unpassend = [];
-    for (const b of nav.BRANCHEN) {
-        const [pfad, id] = b.href.split('#');
-        const html = seitenCache.get(pfad)?.html ?? '';
-        const start = html.indexOf(`id="${id}"`);
-        const abschnitt = start < 0 ? '' : html.slice(start, html.indexOf('</section>', start));
-        if (!passend[b.titel]?.test(abschnitt)) unpassend.push(`${b.titel} → ${b.href}`);
-    }
-    check('M0 jede Branche verlinkt einen Abschnitt, der diese Branche behandelt', unpassend.length === 0, unpassend.join(', ') || nav.BRANCHEN.map((b) => `${b.titel} → ${b.href}`).join(' | '));
+    check(`M0 alle ${seitenCache.size} Zielseiten antworten 200 (nur bestehende Seiten, Weiterleitungen gefolgt)`, status.length === 0, status.join(', '));
+    check('M0 Anker der Menü-Links existieren (#peoplefone)', anker.length === 0, anker.join(', ') || [...new Set(MENUE_LINKS.filter((l) => l.href.includes('#')).map((l) => l.href))].join(', '));
+    // AUFTRAG-113: Prüfung «jede Branche verlinkt einen passenden Abschnitt» entfällt — keine Branchen mehr im Menü
 
     // Texte: kurz, ohne Zahlen (Produktnamen 3CX und Microsoft 365 ausgenommen), ohne Superlative, ß, Dachmarke
-    const texte = [...MENUE_LINKS.flatMap((l) => [l.titel, l.text ?? '']), nav.KI_KARTE.aktion, ...nav.LEISTUNGEN.map((g) => g.titel), 'Für wen', 'Unternehmen', 'Branchen', 'Regionen'].filter(Boolean);
+    const texte = [...MENUE_LINKS.flatMap((l) => [l.titel, l.text ?? '']), nav.KI_KARTE.aktion, ...nav.LEISTUNGEN.map((g) => g.titel), ...nav.KI_MENUE.map((g) => g.titel), ...nav.LEISTE.map((x) => x.titel)].filter(Boolean);
     const mitZahl = texte.filter((t) => /\d/.test(t.replace(/\b3CX\b/g, '').replace(/Microsoft 365/g, '')));
     const superlativ = texte.filter((t) => /\b(beste[nrs]?|bester|führend\w*|top|nr\.?\s*1|einzig\w*|unschlagbar|garantiert|perfekt\w*|revolution\w*|weltklasse|marktführer\w*|schnellste\w*|günstigste\w*)\b/i.test(t));
     check('M0 Menütexte ohne Zahlen (ausser Produktnamen 3CX, Microsoft 365)', mitZahl.length === 0, mitZahl.join(' | '));
@@ -193,7 +201,8 @@ async function teilM0() {
     check('M0 Menütexte kurz (Beschreibung ≤ 45 Zeichen)', MENUE_LINKS.every((l) => !l.text || l.text.length <= 45), MENUE_LINKS.filter((l) => l.text && l.text.length > 45).map((l) => l.text).join(' | '));
     check('M0 kein ß, keine Dachmarke Elektro-Tel im Header', !/ß/.test(kopf) && !/Elektro-Tel/i.test(kopf));
     check('M0 «Neu» nur beim KI-Telefonassistenten', MENUE_LINKS.filter((l) => l.badge).map((l) => `${l.titel}:${l.badge}`).join() === 'KI-Telefonassistent:Neu');
-    check('M0 Direktlinks IT-Support und Cloud-Telefonie in der Leiste, CTA «Kostenloses Erstgespräch»', /href="\/it-support"[^>]*>IT-Support</.test(kopf) && /href="\/cloud-telefonie"[^>]*>Cloud-Telefonie</.test(kopf) && kopf.includes('>Kostenloses Erstgespräch<'));
+    // AUFTRAG-113: IT-Support bleibt Direktlink, Cloud-Telefonie ist Link-Knopf mit Dropdown (wie live)
+    check('M0 Direktlink IT-Support, Leistenknopf Cloud-Telefonie als Link, CTA «Kostenloses Erstgespräch»', /href="\/it-support"[^>]*>IT-Support</.test(kopf) && /<a[^>]*id="nav-link-cloud"[^>]*href="\/cloud-telefonie"|<a[^>]*href="\/cloud-telefonie"[^>]*id="nav-link-cloud"/.test(kopf) && kopf.includes('>Kostenloses Erstgespräch<'));
 }
 
 /** Zustand eines Panels im Browser */
@@ -214,7 +223,8 @@ async function teilM1(browser, theme) {
     await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
     await shot(page, `${name}-0-zu.png`);
     const vorher = await seitenLage(page);
-    for (const id of ['leistungen', 'fuer-wen', 'unternehmen']) {
+    // AUFTRAG-113: vier schlichte Dropdowns statt Leistungen/Für wen/Unternehmen
+    for (const id of ['leistungen', 'ki', 'cloud', 'unternehmen']) {
         await page.mouse.move(700, 500);
         await page.hover(`#nav-knopf-${id}`);
         await warte(page, 450);
@@ -222,31 +232,29 @@ async function teilM1(browser, theme) {
         const lage = await seitenLage(page);
         check(`${name}: Hover öffnet «${id}» (aria-expanded, sichtbar)`, z.expanded === 'true' && z.sichtbar, JSON.stringify(z));
         check(`${name}: «${id}» ohne Layoutsprung (Seite steht)`, lage.main === vorher.main && lage.scrollY === vorher.scrollY && lage.breite === vorher.breite, `${JSON.stringify(vorher)} → ${JSON.stringify(lage)}`);
-        check(`${name}: «${id}» unter dem Header (top ${z.top} px), im Fenster`, z.top >= 80 && z.top <= 100 && z.bottom <= 900, `${z.top}–${z.bottom}`);
+        // AUFTRAG-113: Dropdown direkt unter dem Knopf (überlappt die Header-Unterkante um 12 px)
+        check(`${name}: «${id}» unter dem Knopf (top ${z.top} px), im Fenster`, z.top >= 60 && z.top <= 100 && z.bottom <= 900, `${z.top}–${z.bottom}`);
         await shot(page, `${name}-${id}.png`);
-        // in das Panel fahren: bleibt offen
-        if (id !== 'unternehmen') {
-            await page.mouse.move(400, z.top + 60, { steps: 6 });
-            await warte(page, 300);
-            check(`${name}: «${id}» bleibt offen beim Weg ins Panel`, (await panelZustand(page, id)).expanded === 'true');
-        }
+        // in das Dropdown fahren: bleibt offen
+        const mitte = await page.evaluate((id) => {
+            const r = document.querySelector(`#nav-panel-${id} > div`).getBoundingClientRect();
+            return { x: Math.round(r.left + r.width / 2), y: Math.round(r.top + Math.min(60, r.height / 2)) };
+        }, id);
+        await page.mouse.move(mitte.x, mitte.y, { steps: 6 });
+        await warte(page, 300);
+        check(`${name}: «${id}» bleibt offen beim Weg ins Dropdown`, (await panelZustand(page, id)).expanded === 'true');
         await page.mouse.move(720, 880, { steps: 4 });
         await warte(page, 500);
-        if (id !== 'unternehmen') {
-            const nachUnten = await panelZustand(page, id);
-            // unter dem Panel liegt die Abdunkelung: Maus dort = Panel verlassen
-            check(`${name}: Verlassen schliesst «${id}»`, nachUnten.expanded === 'false' && !nachUnten.sichtbar, JSON.stringify(nachUnten));
-        } else {
-            check(`${name}: Verlassen schliesst «${id}»`, (await panelZustand(page, id)).expanded === 'false');
-        }
+        const nachUnten = await panelZustand(page, id);
+        check(`${name}: Verlassen schliesst «${id}»`, nachUnten.expanded === 'false' && !nachUnten.sichtbar, JSON.stringify(nachUnten));
     }
-    // Wechsel zwischen den Auslösern ohne Flackern: direkt das andere Panel
+    // Wechsel zwischen den Auslösern ohne Flackern: direkt das andere Dropdown
     await page.hover('#nav-knopf-leistungen');
     await warte(page, 400);
-    await page.hover('#nav-knopf-fuer-wen');
+    await page.hover('#nav-knopf-ki');
     await warte(page, 60);
-    const wechsel = [await panelZustand(page, 'leistungen'), await panelZustand(page, 'fuer-wen')];
-    check(`${name}: Wechsel Leistungen → Für wen sofort`, wechsel[0].expanded === 'false' && wechsel[1].expanded === 'true', wechsel.map((w) => w.expanded).join('/'));
+    const wechsel = [await panelZustand(page, 'leistungen'), await panelZustand(page, 'ki')];
+    check(`${name}: Wechsel Leistungen → KI-Telefonassistent sofort`, wechsel[0].expanded === 'false' && wechsel[1].expanded === 'true', wechsel.map((w) => w.expanded).join('/'));
     await page.mouse.move(720, 880);
     await warte(page, 500);
     // Klick ausserhalb schliesst
@@ -299,14 +307,15 @@ async function teilM2(browser) {
     }
     await warte(page, 250);
     const danach = await aktiv();
-    check(`${name}: Tab aus dem Panel schliesst es, Fokus auf «Für wen» (keine Fokusfalle, ${n} Tabs)`, (await panelZustand(page, 'leistungen')).expanded === 'false' && danach.id === 'nav-knopf-fuer-wen', JSON.stringify(danach));
+    // AUFTRAG-113: nächster Leistenknopf ist «KI-Telefonassistent» (statt «Für wen»)
+    check(`${name}: Tab aus dem Dropdown schliesst es, Fokus auf «KI-Telefonassistent» (keine Fokusfalle, ${n} Tabs)`, (await panelZustand(page, 'leistungen')).expanded === 'false' && danach.id === 'nav-knopf-ki', JSON.stringify(danach));
     await page.keyboard.press(' ');
     await warte(page, 250);
-    check(`${name}: Leertaste öffnet «Für wen»`, (await panelZustand(page, 'fuer-wen')).expanded === 'true');
-    await shot(page, `${name}-2-fuer-wen.png`);
+    check(`${name}: Leertaste öffnet «KI-Telefonassistent»`, (await panelZustand(page, 'ki')).expanded === 'true');
+    await shot(page, `${name}-2-ki.png`);
     await page.keyboard.press(' ');
     await warte(page, 250);
-    check(`${name}: Leertaste schliesst wieder`, (await panelZustand(page, 'fuer-wen')).expanded === 'false');
+    check(`${name}: Leertaste schliesst wieder`, (await panelZustand(page, 'ki')).expanded === 'false');
     // Shift+Tab rückwärts in das offene Panel von «Unternehmen»
     await page.focus('#nav-knopf-unternehmen');
     await page.keyboard.press('Enter');
@@ -334,11 +343,16 @@ async function teilM3(browser) {
         return { logoRechts: Math.round(logo.right), navLinks: Math.round(r(navEl).left), navRechts: Math.round(r(navEl).right), aktionenLinks: Math.round(aktionen.left), zeilen: new Set(items.map((i) => Math.round(i.top))).size, ueberlauf: document.documentElement.scrollWidth - window.innerWidth };
     });
     check(`${name}: Leiste ohne Überlappung (Abstände ≥ 16 px, eine Zeile)`, leiste.navLinks - leiste.logoRechts >= 16 && leiste.aktionenLinks - leiste.navRechts >= 16 && leiste.zeilen === 1 && leiste.ueberlauf <= 0, JSON.stringify(leiste));
-    for (const id of ['leistungen', 'fuer-wen']) {
+    // AUFTRAG-113: alle vier Dropdowns, auch seitlich im Fenster
+    for (const id of ['leistungen', 'ki', 'cloud', 'unternehmen']) {
         await page.hover(`#nav-knopf-${id}`);
         await warte(page, 450);
         const z = await panelZustand(page, id);
-        check(`${name}: «${id}» passt ins Fenster (${z.top}–${z.bottom} px)`, z.sichtbar && z.bottom <= 768, JSON.stringify(z));
+        const seitlich = await page.evaluate((id) => {
+            const r = document.querySelector(`#nav-panel-${id} > div`).getBoundingClientRect();
+            return { links: Math.round(r.left), rechts: Math.round(r.right) };
+        }, id);
+        check(`${name}: «${id}» passt ins Fenster (${z.top}–${z.bottom} px, ${seitlich.links}–${seitlich.rechts} px)`, z.sichtbar && z.bottom <= 768 && seitlich.links >= 0 && seitlich.rechts <= 1024, JSON.stringify({ ...z, ...seitlich }));
         await shot(page, `${name}-${id}.png`);
         await page.mouse.move(500, 760);
         await warte(page, 450);
@@ -353,8 +367,9 @@ async function teilM4(browser) {
     await page.hover('#nav-knopf-leistungen');
     await warte(page, 300);
     const z = await panelZustand(page, 'leistungen');
-    const welle = await page.evaluate(() => getComputedStyle(document.querySelector('#nav-panel-leistungen [aria-hidden="true"] > span')).animationName);
-    check(`${name}: prefers-reduced-motion – Panel ohne Verschiebung, Überblendung ≤ 0,08 s, Welle still`, z.sichtbar && z.transform === 'none' && z.dauer.split(',').every((d) => parseFloat(d) <= 0.08) && welle === 'none', `${z.transform} · ${z.dauer} · ${welle}`);
+    // AUFTRAG-113: die Wellenform gibt es nur noch in der mobilen KI-Karte (im DOM, auf dem Desktop ausgeblendet)
+    const welle = await page.evaluate(() => getComputedStyle(document.querySelector('#nav-mobil a[class*="kiKarte"] [aria-hidden="true"] > span')).animationName);
+    check(`${name}: prefers-reduced-motion – Dropdown ohne Verschiebung, Überblendung ≤ 0,08 s, Welle still`, z.sichtbar && z.transform === 'none' && z.dauer.split(',').every((d) => parseFloat(d) <= 0.08) && welle === 'none', `${z.transform} · ${z.dauer} · ${welle}`);
     await ctx.close();
 }
 
@@ -372,19 +387,25 @@ async function teilM5(browser) {
     await ctx.close();
 }
 
+// AUFTRAG-113: keine Branchen-Anker mehr im Menü — geprüft wird der einzige Anker-Link «Peoplefone vPBX»
 async function teilM6(browser) {
-    const name = 'menue-branche-klick';
+    const name = 'menue-anker-klick';
     const { ctx, page, konsole } = await neueSeite(browser, { breite: 1440, hoehe: 900 });
     await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-    await page.hover('#nav-knopf-fuer-wen');
+    await page.hover('#nav-knopf-cloud');
     await warte(page, 400);
-    await page.click('#nav-panel-fuer-wen a[href="/digital-signage#branchen"]');
-    await page.waitForURL('**/digital-signage#branchen', { timeout: 30000 });
+    await page.click('#nav-panel-cloud a[href="/cloud-telefonie#peoplefone"]');
+    await page.waitForURL('**/cloud-telefonie#peoplefone', { timeout: 30000 });
     await page.waitForLoadState('networkidle');
-    await warte(page, 700);
-    const ziel = await page.evaluate(() => ({ top: Math.round(document.getElementById('branchen').getBoundingClientRect().top), h2: document.querySelector('#branchen h2')?.textContent.trim(), offen: [...document.querySelectorAll('[id^="nav-knopf-"][aria-expanded="true"]')].length }));
-    check(`${name}: «Gastronomie & Retail» → /digital-signage#branchen, Abschnitt unter dem Header, Menü zu`, ziel.top >= 60 && ziel.top <= 160 && ziel.offen === 0 && /Für wen ist Digital Signage/.test(ziel.h2 || ''), JSON.stringify(ziel));
-    await shot(page, `${name}-digital-signage.png`);
+    await warte(page, 900);
+    const ziel = await page.evaluate(() => ({
+        top: Math.round(document.getElementById('peoplefone').getBoundingClientRect().top),
+        h2: document.querySelector('#peoplefone h2')?.textContent.trim(),
+        nenntPeoplefone: /peoplefone/i.test(document.getElementById('peoplefone').textContent),
+        offen: [...document.querySelectorAll('[id^="nav-knopf-"][aria-expanded="true"]')].length,
+    }));
+    check(`${name}: «Peoplefone vPBX» → /cloud-telefonie#peoplefone, Abschnitt unter dem Header, Menü zu`, ziel.top >= 60 && ziel.top <= 160 && ziel.offen === 0 && ziel.nenntPeoplefone, JSON.stringify(ziel));
+    await shot(page, `${name}-peoplefone.png`);
     check(`${name}: keine Konsolenfehler`, konsole.length === 0, konsole.slice(0, 3).join(' | '));
     await ctx.close();
 }
@@ -412,22 +433,22 @@ async function teilM7(browser, theme) {
         const links = [...box.querySelectorAll('a')].filter((a) => getComputedStyle(a).visibility === 'visible');
         return { expanded: document.getElementById('nav-mobil-knopf-leistungen').getAttribute('aria-expanded'), links: links.length, kleinste: Math.min(...links.map((a) => a.getBoundingClientRect().height)) };
     });
-    check(`${name}: Akkordeon «Leistungen» klappt auf (15 Links), Touchziele ≥ 44 px`, leistungen.expanded === 'true' && leistungen.links === 15 && leistungen.kleinste >= 44, JSON.stringify(leistungen));
+    // AUFTRAG-113 (mit Nachtrag ohne /telefonie): 11 Leistungen + «Alle Leistungen im Überblick» = 12 Links (vorher 14 + Übersicht)
+    check(`${name}: Akkordeon «Leistungen» klappt auf (12 Links), Touchziele ≥ 44 px`, leistungen.expanded === 'true' && leistungen.links === 12 && leistungen.kleinste >= 44, JSON.stringify(leistungen));
     await shot(page, `${name}-2-leistungen.png`);
-    await page.tap('#nav-mobil-knopf-fuer-wen');
+    // AUFTRAG-113: statt «Für wen» mit Regionen → Gruppe «Cloud-Telefonie» (fünf Einträge)
+    await page.tap('#nav-mobil-knopf-cloud');
     await warte(page, 450);
-    const exklusiv = await page.evaluate(() => [document.getElementById('nav-mobil-knopf-leistungen').getAttribute('aria-expanded'), document.getElementById('nav-mobil-knopf-fuer-wen').getAttribute('aria-expanded')]);
-    check(`${name}: eine Hauptgruppe offen (Für wen auf, Leistungen zu)`, exklusiv.join() === 'false,true', exklusiv.join());
-    await page.tap('#nav-mobil-knopf-regionen-itSupport');
-    await warte(page, 450);
-    const regionen = await page.evaluate(() => {
-        const box = document.getElementById('nav-mobil-regionen-itSupport');
+    const exklusiv = await page.evaluate(() => [document.getElementById('nav-mobil-knopf-leistungen').getAttribute('aria-expanded'), document.getElementById('nav-mobil-knopf-cloud').getAttribute('aria-expanded')]);
+    check(`${name}: eine Hauptgruppe offen (Cloud-Telefonie auf, Leistungen zu)`, exklusiv.join() === 'false,true', exklusiv.join());
+    const cloud = await page.evaluate(() => {
+        const box = document.getElementById('nav-mobil-cloud');
         const links = [...box.querySelectorAll('a')];
         return { links: links.length, namen: links.map((a) => a.textContent.trim()), kleinste: Math.min(...links.map((a) => a.getBoundingClientRect().height)), knoepfe: Math.min(...[...document.querySelectorAll('#nav-mobil button')].filter((b) => b.getClientRects().length && getComputedStyle(b).visibility === 'visible').map((b) => b.getBoundingClientRect().height)) };
     });
-    check(`${name}: Regionen «IT-Support» aufklappbar (6 Seiten), Touchziele ≥ 44 px`, regionen.links === 6 && regionen.kleinste >= 44 && regionen.knoepfe >= 44, `${regionen.namen.join(', ')} · Link ${regionen.kleinste} px · Knöpfe ${regionen.knoepfe} px`);
-    await page.locator('#nav-mobil-knopf-fuer-wen').scrollIntoViewIfNeeded();
-    await shot(page, `${name}-3-fuer-wen-regionen.png`);
+    check(`${name}: Gruppe «Cloud-Telefonie» aufklappbar (5 Einträge), Touchziele ≥ 44 px`, cloud.links === 5 && cloud.kleinste >= 44 && cloud.knoepfe >= 44, `${cloud.namen.join(', ')} · Link ${cloud.kleinste} px · Knöpfe ${cloud.knoepfe} px`);
+    await page.locator('#nav-mobil-knopf-cloud').scrollIntoViewIfNeeded();
+    await shot(page, `${name}-3-cloud.png`);
     await page.keyboard.press('Escape');
     await warte(page, 400);
     const zu = await page.evaluate(() => ({ expanded: document.getElementById('nav-mobil-knopf').getAttribute('aria-expanded'), y: window.scrollY, fokus: document.activeElement?.id }));
@@ -435,14 +456,15 @@ async function teilM7(browser, theme) {
     // Link im Overlay: navigiert und schliesst
     await page.tap('#nav-mobil-knopf');
     await warte(page, 350);
-    await page.tap('#nav-mobil-knopf-fuer-wen');
+    // AUFTRAG-113: statt Branchen-Link ein Link der KI-Gruppe (Funktionen)
+    await page.tap('#nav-mobil-knopf-ki');
     await warte(page, 400);
-    await page.tap('#nav-mobil-fuer-wen a[href="/ki-telefonassistent#betriebe"] >> nth=0');
-    await page.waitForURL('**/ki-telefonassistent#betriebe', { timeout: 30000 });
+    await page.tap('#nav-mobil-ki a[href="/ki-telefonassistent/funktionen"]');
+    await page.waitForURL('**/ki-telefonassistent/funktionen', { timeout: 30000 });
     await page.waitForLoadState('networkidle');
     await warte(page, 800);
-    const ziel = await page.evaluate(() => ({ offen: document.getElementById('nav-mobil-knopf').getAttribute('aria-expanded'), top: Math.round(document.getElementById('betriebe').getBoundingClientRect().top), body: document.body.style.position }));
-    check(`${name}: Branchen-Link → /ki-telefonassistent#betriebe, Overlay zu, Abschnitt oben`, ziel.offen === 'false' && ziel.body === '' && ziel.top >= 40 && ziel.top <= 140, JSON.stringify(ziel));
+    const ziel = await page.evaluate(() => ({ offen: document.getElementById('nav-mobil-knopf').getAttribute('aria-expanded'), h1: document.querySelector('h1')?.textContent.trim(), body: document.body.style.position, y: Math.round(window.scrollY) }));
+    check(`${name}: KI-Link → /ki-telefonassistent/funktionen, Overlay zu, Seite oben`, ziel.offen === 'false' && ziel.body === '' && ziel.y <= 5 && /Was der KI-Telefonassistent kann/.test(ziel.h1 || ''), JSON.stringify(ziel));
     check(`${name}: keine Konsolenfehler`, konsole.length === 0, konsole.slice(0, 3).join(' | '));
     await ctx.close();
 }

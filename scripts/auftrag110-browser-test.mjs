@@ -12,6 +12,13 @@
  * Sicherheit: Alle Aufrufe auf /api/demo/** werden im Browser abgefangen — kein Scan, kein Anruf.
  *
  *   BASE_URL=http://localhost:3102 node scripts/auftrag110-browser-test.mjs
+ *
+ * ANPASSUNG AUFTRAG-113: Das Mega-Panel «KI-Telefonassistent» ist ein schlichtes Dropdown mit zwei
+ * Spalten (Produkt, Mehr) und dem Knopf «KI-Anruf testen». «Alle Bereichsseiten verlinkt» gilt deshalb
+ * nicht mehr: Anwendungs- und Branchen-Unterseiten, Vergleich und Glossar stehen bewusst NICHT im Header
+ * (geprüft wird jetzt genau diese Auswahl). Die Preise sind freigegeben: statt «Entwurfsband sichtbar /
+ * noindex» wird «kein Entwurfsband, indexierbar» geprüft. Der Anker #betriebe bleibt (Hub-Abschnitt),
+ * gehört aber nicht mehr zu einem Menü «Für wen».
  */
 import { chromium } from 'playwright-core';
 import { registerHooks } from 'node:module';
@@ -34,6 +41,7 @@ registerHooks({
 });
 const { KI_SEITEN, KI_BASIS, KI_PREISE_PFAD } = await import(pathToFileURL(path.join(ROOT, 'src/components/ki-telefonassistent/seiten.ts')).href);
 const { PREISE_FREIGEGEBEN } = await import(pathToFileURL(path.join(ROOT, 'src/lib/ki-telefonassistent-preise.ts')).href);
+const nav = await import(pathToFileURL(path.join(ROOT, 'src/components/layout/navigation.ts')).href);
 
 const BASE = (process.env.BASE_URL || 'http://localhost:3102').replace(/\/$/, '');
 if (/:3000\b/.test(BASE)) throw new Error('Port 3000 gehört dem Manager — bitte 3102 verwenden.');
@@ -123,6 +131,16 @@ if (!PREISE_FREIGEGEBEN) {
     await lade(desktop.page, KI_PREISE_PFAD);
     const robots = await desktop.page.locator('meta[name="robots"]').getAttribute('content');
     check('/preise: robots noindex', /noindex/.test(robots ?? ''), robots);
+} else {
+    // AUFTRAG-113: Preise freigegeben → kein Entwurfsband, /preise indexierbar
+    for (const pfad of [KI_PREISE_PFAD, KI_BASIS]) {
+        await lade(desktop.page, pfad);
+        check(`${pfad}: kein Entwurfsband (Preise freigegeben)`, (await desktop.page.locator('[data-entwurf="preise"]').count()) === 0);
+        if (pfad === KI_BASIS) await desktop.page.locator('#preise').screenshot({ path: path.join(SCREENS, 'hub-preis-teaser-desktop.png') });
+    }
+    await lade(desktop.page, KI_PREISE_PFAD);
+    const robots = (await desktop.page.locator('meta[name="robots"]').count()) ? await desktop.page.locator('meta[name="robots"]').first().getAttribute('content') : '';
+    check('/preise: indexierbar (kein noindex)', !/noindex/.test(robots ?? ''), robots || '(kein robots-meta)');
 }
 
 /* ---------------- Rechner «Was kostet ein verpasster Anruf?» ---------------- */
@@ -158,11 +176,11 @@ if (!PREISE_FREIGEGEBEN) {
 {
     await lade(desktop.page, KI_BASIS);
     check('Hub: Widget-Eingabe sichtbar (#ki-demo-url)', await desktop.page.locator('#ki-demo-url').isVisible());
-    check('Hub: Anker #betriebe (Menü «Für wen») vorhanden', (await desktop.page.locator('#betriebe').count()) === 1);
+    check('Hub: Anker #betriebe vorhanden', (await desktop.page.locator('#betriebe').count()) === 1);
     check('Hub: Abschluss-CTA springt nativ zu #live-test', (await desktop.page.locator('a[href="#live-test"]').count()) >= 1 && (await desktop.page.locator('#live-test').count()) === 1);
 }
 
-/* ---------------- Mega-Menü Desktop 1440 ---------------- */
+/* ---------------- Menü «KI-Telefonassistent» Desktop 1440 (AUFTRAG-113: Dropdown statt Mega-Panel) ---------------- */
 {
     const p = desktop.page;
     await lade(p, '/');
@@ -170,9 +188,12 @@ if (!PREISE_FREIGEGEBEN) {
     const panel = p.locator('#nav-panel-ki');
     await p.waitForTimeout(350);
     const offen = (await panel.getAttribute('data-offen')) === 'true' && (await panel.isVisible());
-    const links = await panel.locator('a').count();
-    check('Menü 1440: Panel «KI-Telefonassistent» öffnet', offen, `data-offen=${await panel.getAttribute('data-offen')}`);
-    check('Menü 1440: alle Bereichsseiten verlinkt', links >= KI_SEITEN.length, `${links} Links`);
+    const hrefs = await panel.locator('a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+    const soll = [...nav.KI_MENUE.flatMap((g) => g.links.map((l) => l.href)), nav.KI_KARTE.href];
+    const nichtImMenue = KI_SEITEN.map((s) => s.pfad).filter((p) => /\/(anwendungen|branchen)\/|\/vergleich$|\/glossar$/.test(p));
+    check('Menü 1440: Dropdown «KI-Telefonassistent» öffnet', offen, `data-offen=${await panel.getAttribute('data-offen')}`);
+    // AUFTRAG-113: genau Produkt + Mehr + «KI-Anruf testen»; Unterseiten nur über Übersichten, Brotkrumen, Hub, Sitemap
+    check('Menü 1440: genau die Auswahl aus AUFTRAG-113 (9 Seiten + «KI-Anruf testen»), keine Anwendungs-/Branchen-Unterseiten', JSON.stringify(hrefs) === JSON.stringify(soll) && !hrefs.some((h) => nichtImMenue.includes(h)), `${hrefs.length} Links`);
     await p.screenshot({ path: path.join(SCREENS, 'menue-ki-1440.png') });
     await p.keyboard.press('Escape');
     await p.waitForTimeout(250);

@@ -14,6 +14,7 @@ import {
     PREIS_ZUSATZMINUTE,
     PREISE_FREIGEGEBEN,
 } from '@/lib/ki-telefonassistent-preise';
+import { KALENDER_SMS_SATZ } from '@/lib/in-entwicklung';
 
 const B = '/ki-telefonassistent';
 
@@ -56,8 +57,8 @@ export const FAQ_KATEGORIEN: FaqKategorie[] = [
             {
                 id: 'was-danach',
                 frage: 'Was erhalte ich nach einem Anruf?',
-                antwort:
-                    'Nach jedem Gespräch schickt der Assistent eine Gesprächsnotiz per E-Mail: Name, Firma, Anliegen und Rückrufnummer der anrufenden Person, dazu eine Zusammenfassung und das Transkript. Auf Wunsch erhält die anrufende Person eine Bestätigung per SMS.',
+                // AUFTRAG-113: SMS-Bestätigung in Entwicklung
+                antwort: `Nach jedem Gespräch schickt der Assistent eine Gesprächsnotiz per E-Mail: Name, Firma, Anliegen und Rückrufnummer der anrufenden Person, dazu eine Zusammenfassung und das Transkript. ${KALENDER_SMS_SATZ}`,
             },
             {
                 id: 'fehler',
@@ -150,15 +151,15 @@ export const FAQ_KATEGORIEN: FaqKategorie[] = [
             {
                 id: 'termine',
                 frage: 'Kann der Assistent Termine vereinbaren?',
-                antwort:
-                    'Ja. Er kann Termine direkt in einen Microsoft-365-Kalender eintragen. Welche Termine er vergeben darf und welche Angaben er dafür erfragt, legen Sie fest. Die anrufende Person kann eine Bestätigung per SMS erhalten.',
+                // AUFTRAG-113: Kalendereintrag in Entwicklung
+                antwort: `Er nimmt Terminwünsche auf, mit Anliegen, gewünschter Zeit und Rückrufnummer. ${KALENDER_SMS_SATZ} Welche Termine er aufnimmt und welche Angaben er dafür erfragt, legen Sie fest.`,
                 link: { text: 'Terminbuchung am Telefon', href: `${B}/anwendungen/terminbuchung` },
             },
             {
                 id: 'sms',
                 frage: 'Verschickt der Assistent SMS?',
-                antwort:
-                    'Ja, auf Wunsch eine SMS-Bestätigung an die anrufende Person, zum Beispiel mit dem vereinbarten Termin oder der Bestätigung, dass ihr Anliegen aufgenommen ist. Sie selbst erhalten nach jedem Gespräch eine Notiz per E-Mail.',
+                // AUFTRAG-113: SMS-Bestätigung in Entwicklung
+                antwort: `Noch nicht. ${KALENDER_SMS_SATZ} Die SMS soll der anrufenden Person bestätigen, dass ihr Anliegen angekommen ist, oder den vereinbarten Termin nennen.`,
             },
             {
                 id: 'weiterleiten',
