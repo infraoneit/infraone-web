@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next';
 import fs from 'fs';
 import path from 'path';
 import { BASE_URL } from '@/lib/constants';
+import { KI_BASIS, KI_PREISE_PFAD, KI_SEITEN } from '@/components/ki-telefonassistent/seiten';
+import { PREISE_FREIGEGEBEN } from '@/lib/ki-telefonassistent-preise';
 
 /**
  * Liest alle Blog-Slugs aus content/blog/
@@ -76,6 +78,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: '/software-entwicklung', priority: 0.8 },
     ];
 
+    // AUFTRAG-110: Bereich KI-Telefonassistent (Hub steht oben bei den Service-Hubs).
+    // Die Preisseite erst nach Freigabe der Preise (vorher noindex).
+    const kiTelefonassistentPages = KI_SEITEN.filter((s) => s.pfad !== KI_BASIS)
+        .filter((s) => PREISE_FREIGEGEBEN || s.pfad !== KI_PREISE_PFAD)
+        .map((s) => ({ url: s.pfad, priority: s.prioritaet }));
+
     // Cloud-Telefonie Technologie-Varianten (eigene SEO-Landings)
     const cloudTelefonieVariants = [
         { url: '/cloud-telefonie/3cx', priority: 0.8 },
@@ -107,6 +115,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ...mainPages,
         ...servicePages.map(p => ({ ...p, changeFrequency: 'weekly' as const })),
         ...cloudTelefonieVariants.map(p => ({ ...p, changeFrequency: 'monthly' as const })),
+        ...kiTelefonassistentPages.map(p => ({ ...p, changeFrequency: 'monthly' as const })),
         ...webdesignRegions.map(r => ({
             url: `/webdesign/${r}`,
             priority: 0.6,

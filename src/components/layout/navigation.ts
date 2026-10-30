@@ -14,30 +14,46 @@
 import type { LucideIcon } from 'lucide-react';
 import {
     AudioLines,
+    BookOpen,
     Briefcase,
+    Building2,
+    CalendarCheck,
     Car,
     Cctv,
+    ClipboardList,
     Cloud,
     CodeXml,
     Handshake,
     Hammer,
     Headset,
+    HelpCircle,
     Info,
+    Languages,
     LayoutGrid,
+    ListChecks,
     Mail,
     MapPinned,
+    MessageSquareText,
     MessagesSquare,
     MonitorPlay,
     MonitorSmartphone,
     Network,
     Newspaper,
     PhoneCall,
+    PhoneIncoming,
+    Route,
     Router,
+    Scale,
     ShieldCheck,
+    Siren,
     Stethoscope,
+    Tag,
     UtensilsCrossed,
     Wifi,
+    Wrench,
+    Zap,
 } from 'lucide-react';
+import { KI_BASIS, KI_GRUPPEN_TITEL, KI_SEITEN } from '@/components/ki-telefonassistent/seiten';
 
 export interface NavLink {
     titel: string;
@@ -54,7 +70,7 @@ export interface NavGruppe {
     links: NavLink[];
 }
 
-export type PanelId = 'leistungen' | 'fuer-wen' | 'unternehmen';
+export type PanelId = 'leistungen' | 'ki' | 'fuer-wen' | 'unternehmen';
 
 /** Leistungen in drei Spalten */
 export const LEISTUNGEN: NavGruppe[] = [
@@ -103,6 +119,49 @@ export const KI_KARTE = {
 } as const;
 
 export const ERSTGESPRAECH: NavLink = { titel: 'Kostenloses Erstgespräch', href: '/kontakt' };
+
+/* ------------------------------------------------------------------ */
+/* KI-Telefonassistent (AUFTRAG-110): eigenes Mega-Panel mit Unterseiten */
+/* ------------------------------------------------------------------ */
+
+const KI_ICONS: Record<string, LucideIcon> = {
+    [KI_BASIS]: AudioLines,
+    [`${KI_BASIS}/funktionen`]: ListChecks,
+    [`${KI_BASIS}/so-funktioniert-es`]: Route,
+    [`${KI_BASIS}/schweizerdeutsch`]: Languages,
+    [`${KI_BASIS}/preise`]: Tag,
+    [`${KI_BASIS}/anwendungen`]: LayoutGrid,
+    [`${KI_BASIS}/anwendungen/erreichbarkeit`]: PhoneIncoming,
+    [`${KI_BASIS}/anwendungen/auskunft`]: MessageSquareText,
+    [`${KI_BASIS}/anwendungen/anliegen-erfassen`]: ClipboardList,
+    [`${KI_BASIS}/anwendungen/terminbuchung`]: CalendarCheck,
+    [`${KI_BASIS}/anwendungen/notfall`]: Siren,
+    [`${KI_BASIS}/branchen`]: Building2,
+    [`${KI_BASIS}/branchen/elektriker`]: Zap,
+    [`${KI_BASIS}/branchen/sanitaer-heizung`]: Wrench,
+    [`${KI_BASIS}/branchen/arztpraxis`]: Stethoscope,
+    [`${KI_BASIS}/branchen/treuhand`]: Briefcase,
+    [`${KI_BASIS}/branchen/immobilien`]: Building2,
+    [`${KI_BASIS}/branchen/garage`]: Car,
+    [`${KI_BASIS}/sicherheit-datenschutz`]: ShieldCheck,
+    [`${KI_BASIS}/faq`]: HelpCircle,
+    [`${KI_BASIS}/vergleich`]: Scale,
+    [`${KI_BASIS}/glossar`]: BookOpen,
+};
+
+/** Übersichtsseiten («Alle …») stehen in ihrer Gruppe zuletzt */
+const istUebersicht = (titel: string) => titel.startsWith('Alle ');
+
+/** Vier Spalten: Produkt, Anwendungen, Branchen, Wissen und Vertrauen */
+export const KI_BEREICH: NavGruppe[] = (['produkt', 'anwendungen', 'branchen', 'vertrauen'] as const).map((g) => ({
+    id: `ki-${g}`,
+    titel: KI_GRUPPEN_TITEL[g],
+    links: KI_SEITEN.filter((s) => s.gruppe === g)
+        .sort((a, b) => Number(istUebersicht(a.titel)) - Number(istUebersicht(b.titel)))
+        .map((s) => ({ titel: s.titel, href: s.pfad, text: s.kurz, icon: KI_ICONS[s.pfad] })),
+}));
+
+export const KI_UEBERSICHT: NavLink = { titel: 'KI-Telefonassistent im Überblick', href: KI_BASIS };
 
 /** Branchen: Links auf bestehende Abschnitte, die die Branche behandeln */
 export const BRANCHEN: NavLink[] = [
@@ -159,6 +218,8 @@ export function pfadVon(href: string): string {
 /** Welche Gruppe gehört zur aktuellen Route (für die Hervorhebung in der Leiste)? */
 export function aktivePanelId(pfad: string, regionen: NavRegionen): PanelId | 'direkt' | null {
     if (DIREKTLINKS.some((l) => l.href === pfad)) return 'direkt';
+    // AUFTRAG-110: der ganze Bereich /ki-telefonassistent gehört zum eigenen Panel
+    if (pfad === KI_BASIS || pfad.startsWith(`${KI_BASIS}/`)) return 'ki';
     const inRegion = REGION_GRUPPEN.some((g) => regionen[g.schluessel].some((r) => `${g.basis}/${r.slug}` === pfad));
     if (inRegion) return 'fuer-wen';
     if (pfad === LEISTUNGEN_UEBERSICHT.href || LEISTUNGEN.some((g) => g.links.some((l) => pfadVon(l.href) === pfad))) return 'leistungen';

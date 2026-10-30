@@ -17,6 +17,18 @@ const footerLinks = {
         { label: 'KI & Software-Entwicklung', href: '/software-entwicklung' },
         { label: 'Digital Signage', href: '/digital-signage' },
     ],
+    // AUFTRAG-110: eigene Spalte für den Bereich KI-Telefonassistent
+    ki: [
+        { label: 'Übersicht und Live-Test', href: '/ki-telefonassistent' },
+        { label: 'Funktionen', href: '/ki-telefonassistent/funktionen' },
+        { label: 'Anwendungen', href: '/ki-telefonassistent/anwendungen' },
+        { label: 'Branchen', href: '/ki-telefonassistent/branchen' },
+        { label: 'Schweizerdeutsch', href: '/ki-telefonassistent/schweizerdeutsch' },
+        { label: 'So funktioniert es', href: '/ki-telefonassistent/so-funktioniert-es' },
+        { label: 'Preise', href: '/ki-telefonassistent/preise' },
+        { label: 'Sicherheit und Datenschutz', href: '/ki-telefonassistent/sicherheit-datenschutz' },
+        { label: 'Häufige Fragen', href: '/ki-telefonassistent/faq' },
+    ],
     company: [
         { label: 'Über uns', href: '/unternehmen' },
         { label: 'Partner', href: '/partner' },
@@ -74,9 +86,10 @@ export function Footer() {
         <footer className="bg-surface border-t border-border">
             {/* Main Footer */}
             <div className="container mx-auto px-4 py-12 lg:py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+                {/* AUFTRAG-110: fünf Spalten mit KI-Telefonassistent; bei lg steht der Firmenblock über den vier Linkspalten */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-8 lg:gap-10 xl:gap-x-8 xl:gap-y-12">
                     {/* Company Info & Locations */}
-                    <div className="lg:col-span-2">
+                    <div className="md:col-span-2 lg:col-span-4 xl:col-span-2">
                         <h3 className="text-lg font-bold text-text-primary mb-4">
                             InfraOne IT Solutions
                         </h3>
@@ -85,7 +98,7 @@ export function Footer() {
                         </p>
 
                         {/* Locations Grid */}
-                        <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-2 gap-4 mb-6">
                             {locations.map((location) => (
                                 <a
                                     key={location.city}
@@ -172,6 +185,23 @@ export function Footer() {
                         <h3 className="text-lg font-bold text-text-primary mb-4">Leistungen</h3>
                         <ul className="space-y-2">
                             {footerLinks.services.map((link) => (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-sm text-text-secondary hover:text-primary transition-colors"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* KI-Telefonassistent (AUFTRAG-110) */}
+                    <div>
+                        <h3 className="text-lg font-bold text-text-primary mb-4">KI-Telefonassistent</h3>
+                        <ul className="space-y-2">
+                            {footerLinks.ki.map((link) => (
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}

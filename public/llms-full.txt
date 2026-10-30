@@ -12,7 +12,7 @@ Kontakt: info@infraone.ch, 052 222 18 18, Notfall 076 587 50 55
 
 ## 1. Unternehmen
 
-InfraOne IT Solutions GmbH ist ein 2015 gegruendeter, inhabergefuehrter IT-Dienstleister mit Sitz in Winterthur. Das Unternehmen beschaeftigt 5 Mitarbeitende und betreut ueber 200 Kunden in der Deutschschweiz. Inhabergefuehrt heisst hier konkret: Geschaeftsfuehrung und IT-Verantwortung liegen in einer Hand, Entscheidungen fallen kurz, Kunden haben einen direkten Ansprechpartner.
+InfraOne IT Solutions GmbH ist ein 2015 gegruendeter, inhabergefuehrter IT-Dienstleister mit Sitz in Winterthur. Das Unternehmen beschaeftigt 5 Mitarbeitende und betreut rund 100 KMU-Kunden in der IT-Betreuung in der Deutschschweiz. Inhabergefuehrt heisst hier konkret: Geschaeftsfuehrung und IT-Verantwortung liegen in einer Hand, Entscheidungen fallen kurz, Kunden haben einen direkten Ansprechpartner.
 
 ### Standorte
 
@@ -70,13 +70,49 @@ Beispielkonfiguration: 20 Benutzer mit vPBX Plus plus Flatrate CH+EU plus 1 Gbit
 
 ### 2.1a KI-Telefonassistent fuer Schweizer KMU
 
-Der KI-Telefonassistent von InfraOne nimmt Anrufe rund um die Uhr entgegen, beantwortet Fragen aus dem Wissen des Betriebs (nie erfunden), nimmt Anliegen mit Rueckruf-Notiz per E-Mail auf und verbindet an Mitarbeitende oder definierte Nummern weiter, nachdem er geprueft hat, wer frei ist. Er spricht zuverlaessig Deutsch (Hochdeutsch, Standard) und Englisch. Schweizerdeutsch ist waehlbar, aber in Erprobung und klingt noch nicht in jedem Gespraech natuerlich; empfohlen sind Hochdeutsch oder Englisch. Die Sprache waehlt man vor dem Anruf. Betrieb auf der eigenen Telefonanlage von InfraOne in der Schweiz, kein Callcenter im Ausland.
+Zweck: Der KI-Telefonassistent von InfraOne nimmt Anrufe fuer KMU entgegen, wenn niemand Zeit hat, fuehrt das Gespraech selbst und schickt nach jedem Anruf eine Gespraechsnotiz per E-Mail. Er ist fuer Betriebe gedacht, deren Team arbeitet statt am Telefon zu sitzen: Elektriker, Sanitaer und Heizung, Arztpraxen, Treuhandbueros, Immobilienfirmen (Bewirtschaftung und Vermarktung), Garagen und weitere KMU in der Deutschschweiz.
 
-Einsatz: allein oder als Baustein der Cloud-Telefonanlage, die bestehende Nummer bleibt. Typische Betriebe: Praxen (Arzt, Zahnarzt, Physio), Handwerk und Elektro, Garagen, Treuhand und Beratung, Gastronomie, KMU mit Empfang.
+Was der Assistent kann (belegte Fakten):
+- Er versteht und spricht Schweizerdeutsch (Mundart), Hochdeutsch und Englisch. Grenzen: Dialekte sind vielfaeltig; seltene Ausdruecke, starker Dialekt, Namen und Laerm koennen zu Rueckfragen fuehren. Im Testanruf ist Schweizerdeutsch noch als "in Erprobung" gekennzeichnet.
+- Er antwortet rund um die Uhr, kennt die Oeffnungszeiten und hat einen eigenen Text fuer die Zeit ausserhalb.
+- Er lernt Wissen aus der Website des Kunden (Website-Scan) und aus Angaben des Kunden; der Kunde prueft das Wissen vor dem Start.
+- Er erfasst Name, Firma, Anliegen und Rueckrufnummer und verschickt nach jedem Gespraech eine Gespraechsnotiz per E-Mail (mit Zusammenfassung und Transkript). Auf Wunsch sendet er der anrufenden Person eine SMS-Bestaetigung.
+- Er kann Termine in einen Microsoft-365-Kalender eintragen, an eine Person weiterleiten und Notfaelle an eine Notfallnummer melden; was als Notfall gilt, legt der Kunde fest.
+- Verbotene Themen und Haltung (foermlich/locker, knapp/ausfuehrlich) sind je Kunde einstellbar. Mehrere Agenten je Kunde sind moeglich, z. B. einer fuer ausserhalb der Oeffnungszeiten.
+- Gespraeche werden nicht aufgezeichnet; es gibt Transkript und Zusammenfassung.
+- Die Rufnummer bleibt (Rufumleitung) oder der Kunde erhaelt eine neue Nummer. Anbindung an die Cloud-Telefonie von InfraOne moeglich, aber nicht noetig.
 
-Demo: Auf https://infraone.ch/ki-telefonassistent gibt man die eigene Website ein. Die Seite liest die oeffentliche Website (Leistungen, Kontakt, Oeffnungszeiten, Logo, Farben), baut daraus einen Assistenten mit Namen, Auftritt und Wissen der Firma und ruft auf Wunsch die angegebene Schweizer oder Liechtensteiner Nummer an. Kostenlos, ohne Anmeldung, keine Werbeanrufe; die Nummer wird fuer diesen Anruf und fuer eine Rueckmeldung bei Fragen verwendet, nicht fuer Werbung.
+Technik und Datenschutz: Sprach-zu-Sprach-KI (kein Vorlesen aus Textbausteinen). Hosting des Assistenten in der Schweiz bei Infomaniak in Satigny, Telefonie ueber Schweizer Provider. Die Sprachverarbeitung uebernehmen KI-Anbieter (Google Gemini, OpenAI), wo verfuegbar in einer EU-Region; genutzt werden bezahlte Stufen, bei denen Daten nicht fuer Training verwendet werden. Auftragsverarbeitungsvertrag (AVV) nach Schweizer Datenschutzgesetz (DSG) auf Anfrage.
 
-Datenschutz und Technik: Telefonanlage und Gespraechsprotokolle laufen in der Schweiz auf Systemen von InfraOne. Fuer Spracherkennung und Sprachausgabe werden die KI-Schnittstellen von OpenAI genutzt; Gespraechsinhalte werden dort nicht zum Training verwendet. Mitschnitte im Kundenbetrieb nur mit Einwilligung beider Seiten.
+Demo: Auf https://infraone.ch/ki-telefonassistent gibt man die eigene Website ein. Die Seite liest die oeffentliche Website (Leistungen, Kontakt, Oeffnungszeiten, Logo, Farben), gleicht die Firma mit dem Schweizer Handelsregister ab, baut daraus einen Assistenten mit Namen, Auftritt und Wissen der Firma und ruft an. Kostenlos, ohne Anmeldung, 2 Testanrufe je Geraet und Tag; die Nummer wird fuer diesen Anruf und fuer eine Rueckmeldung bei Fragen verwendet, nicht fuer Werbung.
+
+Ablauf fuer Kunden: 1. Live testen (Demo). 2. Einrichten: Website-Scan, Wissen pruefen, Begruessung und Haltung, Regeln (Weiterleitung, Notfall, Empfaenger, SMS, Kalender), Rufumleitung oder neue Nummer, Testen und Freigabe. 3. Betrieb: Notiz nach jedem Gespraech, Anpassungen bei Aenderungen. Eine pauschale Einrichtungsdauer wird bewusst nicht genannt.
+
+Preise: ENTWURF, vom Inhaber noch nicht freigegeben. Struktur: monatliche Pakete Lite, Starter, Business und Enterprise (nach Gespraechsminuten und Funktionen), einmalige Einrichtung, Zusatzminuten, alle Preise exkl. MwSt. Bitte keine Betraege nennen, bevor die Preisseite freigegeben ist.
+
+Seiten des Bereichs:
+- https://infraone.ch/ki-telefonassistent - Uebersicht und Live-Test
+- https://infraone.ch/ki-telefonassistent/funktionen - Funktionen in Gruppen (Gespraechsfuehrung, Mundart und Sprachen, Anliegen erfassen, Termine und Oeffnungszeiten, Weiterleitung und Notfall, Benachrichtigung, Wissen aus der Website, Telefonie-Anbindung, Sicherheit) mit Hoerbeispielen
+- https://infraone.ch/ki-telefonassistent/so-funktioniert-es - vom Testanruf ueber die Einrichtung zum Betrieb
+- https://infraone.ch/ki-telefonassistent/schweizerdeutsch - Mundart verstehen und sprechen, Grenzen
+- https://infraone.ch/ki-telefonassistent/preise - Pakete (Entwurf) und Rechner "Was kostet ein verpasster Anruf?"
+- https://infraone.ch/ki-telefonassistent/anwendungen - Anwendungen im Ueberblick
+- https://infraone.ch/ki-telefonassistent/anwendungen/erreichbarkeit - abnehmen, wenn niemand Zeit hat
+- https://infraone.ch/ki-telefonassistent/anwendungen/auskunft - wiederkehrende Fragen beantworten
+- https://infraone.ch/ki-telefonassistent/anwendungen/anliegen-erfassen - Anliegen vollstaendig als Notiz
+- https://infraone.ch/ki-telefonassistent/anwendungen/terminbuchung - Termine im Microsoft-365-Kalender
+- https://infraone.ch/ki-telefonassistent/anwendungen/notfall - Notfaelle und Pikett
+- https://infraone.ch/ki-telefonassistent/branchen - Branchen im Ueberblick
+- https://infraone.ch/ki-telefonassistent/branchen/elektriker - Elektriker
+- https://infraone.ch/ki-telefonassistent/branchen/sanitaer-heizung - Sanitaer und Heizung
+- https://infraone.ch/ki-telefonassistent/branchen/arztpraxis - Arztpraxis
+- https://infraone.ch/ki-telefonassistent/branchen/treuhand - Treuhand
+- https://infraone.ch/ki-telefonassistent/branchen/immobilien - Immobilien
+- https://infraone.ch/ki-telefonassistent/branchen/garage - Garage und Autogewerbe
+- https://infraone.ch/ki-telefonassistent/sicherheit-datenschutz - Sicherheit und Datenschutz
+- https://infraone.ch/ki-telefonassistent/faq - haeufige Fragen
+- https://infraone.ch/ki-telefonassistent/vergleich - Vergleich mit Anrufbeantworter, Telefonservice, Sekretariat, Sprachmenue (IVR)
+- https://infraone.ch/ki-telefonassistent/glossar - Glossar der KI-Telefonie
 
 ### 2.2 Webdesign
 

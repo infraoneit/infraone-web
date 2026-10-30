@@ -30,7 +30,9 @@ import {
     DIREKTLINKS,
     ERSTGESPRAECH,
     KEINE_REGIONEN,
+    KI_BEREICH,
     KI_KARTE,
+    KI_UEBERSICHT,
     LEISTUNGEN,
     LEISTUNGEN_UEBERSICHT,
     pfadVon,
@@ -48,7 +50,7 @@ const SCHLIESSEN_MS = 180;
 /** Balkenhöhen der kleinen Wellenform in der KI-Karte */
 const WELLE = [0.35, 0.6, 0.85, 0.5, 0.95, 0.7, 0.4, 0.8, 1, 0.65, 0.45, 0.9, 0.55, 0.75, 0.4, 0.85, 0.6, 0.3];
 
-type MobilGruppe = 'leistungen' | 'fuer-wen' | 'unternehmen';
+type MobilGruppe = 'leistungen' | 'ki' | 'fuer-wen' | 'unternehmen';
 
 export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }) {
     const pathname = usePathname();
@@ -189,7 +191,8 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
 
     /* ---------- Bausteine ---------- */
 
-    const panelLink = (l: NavLink) => {
+    /** iconErstAbXl: im KI-Panel (vier Spalten) bei 1024 px ohne Icon, damit lange Wörter nicht überlaufen */
+    const panelLink = (l: NavLink, iconErstAbXl = false) => {
         const Icon = l.icon;
         return (
             <Link
@@ -199,7 +202,7 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
                 className="group flex items-center gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-surface focus-visible:bg-surface aria-[current=page]:bg-surface xl:items-start xl:py-2.5"
             >
                 {Icon && (
-                    <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary xl:mt-0.5" aria-hidden="true">
+                    <span className={cn('h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary xl:mt-0.5', iconErstAbXl ? 'hidden xl:flex' : 'flex')} aria-hidden="true">
                         <Icon className="h-[1.125rem] w-[1.125rem]" />
                     </span>
                 )}
@@ -283,6 +286,32 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
         </Link>,
     );
 
+    // AUFTRAG-110: Bereich KI-Telefonassistent mit vier Spalten und der KI-Karte
+    const panelKi = panelHuelle(
+        <div className="grid grid-cols-[repeat(4,minmax(0,1fr))_14rem] gap-x-2 py-6 xl:grid-cols-[repeat(4,minmax(0,1fr))_17.5rem] xl:gap-x-6 xl:py-8">
+            {KI_BEREICH.map((g) => (
+                <div key={g.id} className="min-w-0">
+                    <p id={`nav-gruppe-${g.id}`} className="px-3 pb-2 text-[0.8125rem] font-semibold text-text-secondary">
+                        {g.titel}
+                    </p>
+                    <ul aria-labelledby={`nav-gruppe-${g.id}`} className="space-y-0.5">
+                        {g.links.map((l) => (
+                            <li key={l.href}>{panelLink(l, true)}</li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
+            <div className="flex flex-col gap-3 pt-7">
+                {kiKarte()}
+                {erstgespraech}
+            </div>
+        </div>,
+        <Link href={KI_UEBERSICHT.href} onClick={schliessen} className="group inline-flex items-center gap-2 py-3.5 px-3 text-sm font-semibold text-text-primary hover:text-primary">
+            {KI_UEBERSICHT.titel}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
+        </Link>,
+    );
+
     const panelFuerWen = panelHuelle(
         <div className="grid grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-x-6 py-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] xl:gap-x-12 xl:py-8">
             <div className="min-w-0">
@@ -354,7 +383,7 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
         </div>
     );
 
-    const ausloeser = (id: PanelId, titel: string, inhalt: ReactNode) => (
+    const ausloeser = (id: PanelId, titel: ReactNode, inhalt: ReactNode) => (
         <li
             className={cn('flex items-center', id === 'unternehmen' ? 'relative' : 'static')}
             onPointerEnter={mausRein(id)}
@@ -372,7 +401,7 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
                 onClick={knopfKlick(id)}
                 onKeyDown={knopfTaste(id)}
                 className={cn(
-                    'flex h-10 items-center gap-1 rounded-lg px-2 text-[0.875rem] font-medium text-text-primary transition-colors hover:bg-surface hover:text-primary xl:px-3.5 xl:text-[0.9375rem]',
+                    'flex h-10 items-center gap-1 whitespace-nowrap rounded-lg px-2 text-[0.875rem] font-medium text-text-primary transition-colors hover:bg-surface hover:text-primary xl:px-3.5 xl:text-[0.9375rem]',
                     (offen === id || aktiv === id) && 'text-primary-hover dark:text-primary',
                     offen === id && 'bg-surface',
                 )}
@@ -452,6 +481,23 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
                 {LEISTUNGEN_UEBERSICHT.titel}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
+        </div>
+    );
+
+    const mobilKi = (
+        <div className="space-y-4 pb-5">
+            {KI_BEREICH.map((g) => (
+                <div key={g.id}>
+                    <p id={`nav-mobil-gruppe-${g.id}`} className="px-3 pb-1 text-sm font-semibold text-text-secondary">
+                        {g.titel}
+                    </p>
+                    <ul aria-labelledby={`nav-mobil-gruppe-${g.id}`}>
+                        {g.links.map((l) => (
+                            <li key={l.href}>{mobilLink(l)}</li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
         </div>
     );
 
@@ -571,13 +617,22 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
                         <nav ref={navRef} aria-label="Hauptnavigation" className="hidden lg:block h-full">
                             <ul className="flex h-full items-stretch gap-0 xl:gap-1">
                                 {ausloeser('leistungen', 'Leistungen', panelLeistungen)}
+                                {ausloeser(
+                                    'ki',
+                                    <>
+                                        {/* bei 1024 px kürzer, damit die Leiste nicht umbricht */}
+                                        <span className="xl:hidden">KI-Assistent</span>
+                                        <span className="hidden xl:inline">KI-Telefonassistent</span>
+                                    </>,
+                                    panelKi,
+                                )}
                                 {ausloeser('fuer-wen', 'Für wen', panelFuerWen)}
                                 {DIREKTLINKS.map((l) => (
                                     <li key={l.href} className="flex items-center" onPointerEnter={mausRein(null)}>
                                         <Link
                                             href={l.href}
                                             aria-current={pathname === l.href ? 'page' : undefined}
-                                            className="flex h-10 items-center rounded-lg px-2 text-[0.875rem] font-medium text-text-primary transition-colors hover:bg-surface hover:text-primary aria-[current=page]:text-primary-hover dark:aria-[current=page]:text-primary xl:px-3.5 xl:text-[0.9375rem]"
+                                            className="flex h-10 items-center whitespace-nowrap rounded-lg px-2 text-[0.875rem] font-medium text-text-primary transition-colors hover:bg-surface hover:text-primary aria-[current=page]:text-primary-hover dark:aria-[current=page]:text-primary xl:px-3.5 xl:text-[0.9375rem]"
                                         >
                                             {l.titel}
                                         </Link>
@@ -591,7 +646,11 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
                         <div className="hidden lg:flex items-center gap-3" onPointerEnter={mausRein(null)}>
                             <ThemeToggle />
                             <Button variant="primary" size="sm" className="lg:px-3 xl:px-4" asChild>
-                                <Link href="/kontakt">Kostenloses Erstgespräch</Link>
+                                {/* AUFTRAG-110: bei 1024 px kurz, damit der zusätzliche Menüpunkt Platz hat */}
+                                <Link href="/kontakt" aria-label="Kostenloses Erstgespräch">
+                                    <span className="xl:hidden">Erstgespräch</span>
+                                    <span className="hidden xl:inline">Kostenloses Erstgespräch</span>
+                                </Link>
                             </Button>
                         </div>
 
@@ -629,6 +688,9 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
                                 <ul className="border-b border-border [&>li:first-child]:border-t-0">
                                     <li className="border-t border-border">
                                         {mobilAkkordeon('leistungen', 'Leistungen', mobilGruppe === 'leistungen', umschaltenMobil('leistungen'), mobilLeistungen)}
+                                    </li>
+                                    <li className="border-t border-border">
+                                        {mobilAkkordeon('ki', 'KI-Telefonassistent', mobilGruppe === 'ki', umschaltenMobil('ki'), mobilKi)}
                                     </li>
                                     <li className="border-t border-border">
                                         {mobilAkkordeon('fuer-wen', 'Für wen', mobilGruppe === 'fuer-wen', umschaltenMobil('fuer-wen'), mobilFuerWen)}
@@ -676,7 +738,7 @@ export function Header({ regionen = KEINE_REGIONEN }: { regionen?: NavRegionen }
             </header>
 
             {/* Abdunkelung unter offenen Mega-Panels (Klick daneben schliesst) */}
-            <div className={styles.schleier} data-offen={offen === 'leistungen' || offen === 'fuer-wen'} aria-hidden="true" />
+            <div className={styles.schleier} data-offen={offen === 'leistungen' || offen === 'ki' || offen === 'fuer-wen'} aria-hidden="true" />
         </>
     );
 }
