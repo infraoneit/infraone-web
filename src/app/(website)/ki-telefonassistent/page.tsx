@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import {
     ArrowRight,
+    BadgeCheck,
     Briefcase,
     Building2,
     CalendarCheck,
@@ -70,8 +71,19 @@ const nutzen = [
 const schritte = [
     {
         icon: Globe,
-        titel: 'Live testen',
-        text: 'Website eingeben, der Assistent entsteht aus Ihren Inhalten und ruft Sie an. Ohne Anmeldung, in einer Minute.',
+        titel: 'Website scannen',
+        text: 'Sie geben Ihre Website ein, der Testassistent entsteht aus Ihren Inhalten. Ohne Anmeldung.',
+    },
+    {
+        // Nachtrag 02:30 (AUFTRAG-109): Handelsregister-Prüfung vor dem Testanruf
+        icon: BadgeCheck,
+        titel: 'Firma bestätigen (Handelsregister)',
+        text: 'Wir prüfen Ihre Firma im Handelsregister (Zefix), und Sie bestätigen «Ja, das ist meine Firma». Ohne aktiven Eintrag kein Testanruf.',
+    },
+    {
+        icon: PhoneIncoming,
+        titel: 'Testanruf',
+        text: 'Der Assistent ruft Sie an: Sie hören, wie er Ihre Firma vorstellt, Fragen beantwortet und ein Anliegen aufnimmt.',
     },
     {
         icon: ClipboardList,
@@ -195,7 +207,7 @@ export default function KiTelefonassistentPage() {
             {/* 2. So funktioniert es: vier Schritte */}
             <Abschnitt
                 titel="So funktioniert es"
-                intro={<p>Vom ersten Testanruf bis zum Assistenten, der für Ihren Betrieb abnimmt, sind es vier Schritte. Den ersten machen Sie oben auf dieser Seite selbst.</p>}
+                intro={<p>Die ersten drei Schritte machen Sie oben auf dieser Seite selbst: Website eingeben, Firma bestätigen, Anruf annehmen. Danach richten wir den Assistenten mit Ihnen für Ihren Betrieb ein.</p>}
                 kopfRechts={
                     <Link href={`${KI_BASIS}/so-funktioniert-es`} className="inline-flex items-center gap-2 font-semibold text-text-primary underline underline-offset-4 decoration-primary hover:decoration-2 whitespace-nowrap">
                         Ablauf im Detail
@@ -203,7 +215,7 @@ export default function KiTelefonassistentPage() {
                     </Link>
                 }
             >
-                <Schrittfolge schritte={schritte} />
+                <Schrittfolge schritte={schritte} spalten={3} />
             </Abschnitt>
 
             {/* 3. Ohne / Mit Assistent */}

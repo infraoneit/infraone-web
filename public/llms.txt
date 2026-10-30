@@ -74,7 +74,7 @@ Zweck: Der KI-Telefonassistent nimmt Anrufe fuer KMU entgegen, wenn niemand Zeit
 - Keine Tonaufnahme der Gespraeche: Transkript und Zusammenfassung
 - Rufnummer behalten (Rufumleitung) oder neue Nummer; Anbindung an die Cloud-Telefonie von InfraOne
 - Technik: Sprach-zu-Sprach-KI (kein Vorlesen aus Textbausteinen); Hosting des Assistenten in der Schweiz (Infomaniak, Satigny); Telefonie ueber Schweizer Provider; Sprachverarbeitung durch KI-Anbieter (Google Gemini, OpenAI), bezahlte Stufen ohne Nutzung der Daten fuer Training, EU-Region wo verfuegbar; Auftragsverarbeitungsvertrag (AVV) auf Anfrage
-- Demo: Website-Scan und Testanruf ohne Anmeldung und kostenlos; 2 Testanrufe je Geraet und Tag; vor dem Testanruf Abgleich der Firma mit dem Schweizer Handelsregister
+- Demo (Live-Test): Website-Scan und Testanruf ohne Anmeldung und kostenlos; 2 Testanrufe je Geraet und Tag. Voraussetzung: aktiver Eintrag im Schweizer Handelsregister. Ablauf: Website-Scan, dann Pruefung der Firma im Handelsregister (Zefix; bevorzugt ueber die UID im Impressum, sonst ueber den Firmennamen, sonst manuelle Eingabe) mit Bestaetigung "Ja, das ist meine Firma", dann Testanruf. Ohne aktiven Eintrag kein Testanruf; dann persoenliche Vorfuehrung ueber /kontakt
 - Preise: ENTWURF, vom Inhaber noch nicht freigegeben. Struktur: monatliche Pakete Lite, Starter, Business, Enterprise (nach Gespraechsminuten und Funktionen), einmalige Einrichtung, Zusatzminuten, exkl. MwSt. Bitte keine Betraege nennen, bevor die Preisseite freigegeben ist.
 - Seiten:
   - /ki-telefonassistent - Uebersicht und Live-Test (Website eingeben, der Assistent ruft an)

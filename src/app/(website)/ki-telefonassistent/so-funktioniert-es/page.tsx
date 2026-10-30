@@ -31,7 +31,20 @@ export const metadata = kiMetadata({ pfad: PFAD, titel: TITEL, beschreibung: BES
 
 const testSchritte: Schritt[] = [
     { icon: Globe, titel: 'Website eingeben', text: 'Auf der Seite KI-Telefonassistent geben Sie Ihre Website-Adresse ein. Wir lesen die öffentlichen Seiten: Leistungen, Kontakt, Öffnungszeiten, Logo und Farben.' },
-    { icon: BadgeCheck, titel: 'Firma bestätigen', text: 'Wir gleichen die Firma hinter der Website mit dem Schweizer Handelsregister ab, und Sie bestätigen, dass es Ihre ist. Der Testanruf ist eingetragenen Firmen vorbehalten.' },
+    // Nachtrag 02:30 (AUFTRAG-109): Handelsregister-Prüfung zwischen Website-Scan und Anruf
+    {
+        icon: BadgeCheck,
+        titel: 'Firma bestätigen (Handelsregister)',
+        text: (
+            <>
+                Wir prüfen die Firma hinter der Website im Schweizer Handelsregister (Zefix), bevorzugt über die UID im Impressum, sonst über den Namen oder Ihre Eingabe. Sie bestätigen «Ja, das ist meine Firma». Ohne aktiven Eintrag ist kein Testanruf möglich – dann zeigen wir Ihnen den Assistenten{' '}
+                <Link href="/kontakt" className="text-text-primary underline underline-offset-4 decoration-primary">
+                    persönlich
+                </Link>
+                .
+            </>
+        ),
+    },
     { icon: PhoneCall, titel: 'Nummer und Sprache', text: 'Sie geben Ihre Telefonnummer ein und wählen die Sprache des Gesprächs.' },
     { icon: MessageSquareText, titel: 'Der Assistent ruft an', text: 'Er stellt Ihre Firma vor, beantwortet Fragen und nimmt ein Anliegen auf. Kostenlos, ohne Anmeldung, zwei Testanrufe pro Gerät und Tag.' },
 ];
@@ -65,8 +78,14 @@ const bereithalten = [
 export default function SoFunktioniertEsSeite() {
     const krumen = kiKrumen({ name: 'So funktioniert es', pfad: PFAD });
     const howTo = generateHowToSchema(`${BASE_URL}${PFAD}`, 'Einen KI-Telefonassistenten für Ihren Betrieb einrichten', BESCHREIBUNG, [
-        { name: 'Live testen', text: 'Website eingeben, Firma im Handelsregister bestätigen, Nummer und Sprache wählen, Testanruf erhalten.', anker: 'live-testen' },
-        ...einrichtung.map((s) => ({ name: s.titel, text: String(s.text), anker: s.id })),
+        { name: 'Website scannen', text: 'Auf der Seite KI-Telefonassistent die eigene Website eingeben; aus Leistungen, Kontakt, Öffnungszeiten, Logo und Farben entsteht der Testassistent.', anker: 'live-testen' },
+        {
+            name: 'Firma bestätigen (Handelsregister)',
+            text: 'Die Firma wird im Schweizer Handelsregister (Zefix) geprüft, bevorzugt über die UID im Impressum, sonst über den Namen oder eine manuelle Eingabe; der Besucher bestätigt «Ja, das ist meine Firma». Ohne aktiven Eintrag gibt es keinen Testanruf.',
+            anker: 'live-testen',
+        },
+        { name: 'Testanruf', text: 'Telefonnummer eingeben und Sprache wählen; der Assistent ruft an, stellt die Firma vor, beantwortet Fragen und nimmt ein Anliegen auf.', anker: 'live-testen' },
+        ...einrichtung.map((s) => ({ name: `Einrichtung: ${s.titel}`, text: String(s.text), anker: s.id })),
         { name: 'Im Alltag nutzen', text: 'Nach jedem Gespräch eine Notiz per E-Mail; Wissen und Regeln werden angepasst, wenn sich etwas ändert.', anker: 'betrieb' },
     ]);
 

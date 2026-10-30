@@ -212,6 +212,14 @@ export const FAQ_KATEGORIEN: FaqKategorie[] = [
         id: 'testanruf',
         titel: 'Testanruf',
         eintraege: [
+            // Nachtrag 02:30 (AUFTRAG-109)
+            {
+                id: 'wer-testanruf',
+                frage: 'Wer kann den Testanruf nutzen?',
+                antwort:
+                    'Firmen mit aktivem Eintrag im Schweizer Handelsregister. Vor dem Anruf prüfen wir das über die UID im Impressum Ihrer Website oder über den Firmennamen im öffentlichen Register (Zefix), und Sie bestätigen «Ja, das ist meine Firma». Ohne Eintrag zeigen wir Ihnen den Assistenten gerne persönlich.',
+                link: { text: 'Kontakt aufnehmen', href: '/kontakt' },
+            },
             {
                 id: 'testanruf-kosten',
                 frage: 'Was kostet der Testanruf, und wie oft kann ich testen?',
@@ -223,7 +231,7 @@ export const FAQ_KATEGORIEN: FaqKategorie[] = [
                 id: 'handelsregister',
                 frage: 'Warum braucht es für den Testanruf einen Handelsregister-Eintrag?',
                 antwort:
-                    'Der Testanruf ist für Firmen gedacht. Vor dem Anruf gleichen wir die Firma hinter der Website mit dem Schweizer Handelsregister ab, und Sie bestätigen, dass es Ihre Firma ist. So bleibt der Testanruf eingetragenen Firmen vorbehalten. Ohne aktiven Eintrag melden Sie sich am einfachsten direkt bei uns, dann zeigen wir Ihnen den Assistenten im Gespräch.',
+                    'Der Testanruf ist für Firmen gedacht. Vor dem Anruf gleichen wir die Firma hinter der Website mit dem Schweizer Handelsregister (Zefix) ab, und Sie bestätigen, dass es Ihre Firma ist. So bleibt der Testanruf eingetragenen Firmen vorbehalten. Ohne aktiven Eintrag melden Sie sich am einfachsten direkt bei uns, dann zeigen wir Ihnen den Assistenten im Gespräch.',
             },
         ],
     },
@@ -232,7 +240,7 @@ export const FAQ_KATEGORIEN: FaqKategorie[] = [
 export const ALLE_FAQ: FaqEintrag[] = FAQ_KATEGORIEN.flatMap((k) => k.eintraege);
 
 /** Auszug für die Hub-Seite (in dieser Reihenfolge) */
-export const HUB_FAQ_IDS = ['schweizerdeutsch', 'nummer-behalten', 'was-danach', 'notfall', 'fehler', 'datenschutz', 'kosten', 'testanruf-kosten'];
+export const HUB_FAQ_IDS = ['schweizerdeutsch', 'nummer-behalten', 'was-danach', 'notfall', 'fehler', 'datenschutz', 'kosten', 'testanruf-kosten', 'wer-testanruf', 'einrichtungsdauer'];
 
 export function faqNachIds(ids: string[]): FaqEintrag[] {
     return ids.map((id) => {
