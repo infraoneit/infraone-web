@@ -3,7 +3,9 @@
  * ein Datei-Rückfall unter `.demo-store/` (gitignored).
  *
  * Schlüssel: `scan/{id}`, `auftrag/{id}`, `warteschlange/{ms}-{id}`,
- * `limit/{tag}/{art}-{hash}`, `meta/aufgeraeumt`.
+ * `limit/{tag}/{art}-{hash}`, `meta/aufgeraeumt`,
+ * `handelsregister/{scan_id}` (AUFTRAG-109: Register-Ergebnisse und Bestätigung je Scan,
+ * eigener Schlüssel — der Profil-Schritt schreibt `scan/{id}` parallel neu).
  * Lebensdauer über das Feld `ablauf` (Epoch-ms) im gespeicherten Wert;
  * abgelaufene Einträge gelten beim Lesen als nicht vorhanden.
  */
@@ -158,7 +160,7 @@ export async function aufraeumenGelegentlich(): Promise<boolean> {
     if (meta && Date.now() - meta.zeit < AUFRAEUMEN_ALLE_MS) return false;
     await s.schreibe('meta/aufgeraeumt', { zeit: Date.now() });
     const jetzt = Date.now();
-    for (const praefix of ['scan/', 'auftrag/', 'limit/']) {
+    for (const praefix of ['scan/', 'auftrag/', 'limit/', 'handelsregister/']) {
         const schluessel = await s.liste(praefix);
         for (const k of schluessel.slice(0, 500)) {
             const wert = await s.lese<{ ablauf?: number }>(k);

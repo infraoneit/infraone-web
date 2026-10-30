@@ -109,6 +109,29 @@ export interface AuftragGespeichert {
     ip_hash?: string | null;
     ip_art?: IpArt | null;
     geraet_hash?: string | null;
+    /**
+     * AUFTRAG-109: bestätigter Handelsregister-Eintrag (öffentliche Registerdaten). Fehlt bei
+     * älteren Aufträgen und bei abgeschalteter Prüfung (DEMO_HANDELSREGISTER=aus, nur lokal).
+     */
+    handelsregister?: HandelsregisterAuftrag | null;
+}
+
+/** AUFTRAG-109: Handelsregister-Eintrag im Auftrag (vom Besucher bestätigt, Nachweis serverseitig geprüft). */
+export interface HandelsregisterAuftrag {
+    /** «CHE107160757» */
+    uid: string;
+    /** «CHE-107.160.757» */
+    uid_formatiert: string;
+    /** Firmenname laut Register */
+    name: string;
+    /** Rechtssitz laut Register */
+    sitz: string;
+    /** Status laut Register (z. B. EXISTIEREND) */
+    status: string;
+    /** Weg zum Treffer: UID aus dem Impressum, Namenssuche oder manuelle Eingabe */
+    quelle: 'uid' | 'name' | 'manuell';
+    /** Zeitpunkt der Register-Abfrage (ISO, Zürich) */
+    geprueft_am: string;
 }
 
 /** AUFTRAG-103: Art der Client-Adresse («unbekannt» nur ohne gültige Adresse, z. B. lokal ohne Kopf). */
@@ -250,6 +273,13 @@ export interface Extrakt {
     team_offen?: Array<{ url: string; name: string | null; slugName: string; rolle: string | null; reihenfolge: number }>;
     plattform: string | null;
     hinweise: string[];
+    /**
+     * AUFTRAG-109: UIDs mit gültiger Prüfziffer aus allen gelesenen Seiten (Impressum,
+     * Fusszeile, JSON-LD), höchstens 3; fehlt bei älteren Scans.
+     */
+    uid_kandidaten?: string[];
+    /** AUFTRAG-109: Firmenname mit Rechtsform aus dem Text, passend zum Host (z. B. «Muster Holz AG») */
+    firma_register?: string | null;
 }
 
 /** Gespeicherter Scan (Blob `scan/{id}`, lebt 2 h). */

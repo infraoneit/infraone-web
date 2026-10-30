@@ -20,6 +20,7 @@ import { bestimmeMarkenfarbe, FARB_GEWICHT_LOGO, farbHaeufigkeit, istFrameworkFa
 import { baueHintergrundIndex, bestimmeUmgebung, type Ahne } from './umgebung';
 import { findeOeffnungszeiten, istOeffnungszeitText } from './oeffnungszeiten';
 import { firmenWoerterVon, fuehrePersonenZusammen, istPersonenLink, MAX_TEAM_SEITEN, namensSchluessel, ordneTeamLinks, personAusTeamSeite, type PersonFund, type TeamLink } from './personen';
+import { findeUids } from './zefix';
 import type { Abschnitt, Extrakt, LogoKandidat, Schritt, SeitenProtokoll } from './typen';
 
 export { istFrameworkFarbe } from './markenfarbe';
@@ -1437,6 +1438,9 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         ...(team.offen.length ? { team_offen: team.offen } : {}),
         plattform,
         hinweise,
+        // AUFTRAG-109: UID aus Impressum/Fusszeile/JSON-LD (Hauptweg des Handelsregister-Abgleichs)
+        uid_kandidaten: findeUids([JSON.stringify(alleJsonLd).slice(0, 200_000), ...alleZeilen]),
+        firma_register: firmaAusText(alleZeilen, vergleichsform(hostBasis.split('.')[0])),
     };
 
     const dauer = Date.now() - start;
