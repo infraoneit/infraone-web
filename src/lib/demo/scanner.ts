@@ -21,6 +21,7 @@ import { baueHintergrundIndex, bestimmeUmgebung, type Ahne } from './umgebung';
 import { findeOeffnungszeiten, istOeffnungszeitText } from './oeffnungszeiten';
 import { firmenWoerterVon, fuehrePersonenZusammen, istPersonenLink, MAX_TEAM_SEITEN, namensSchluessel, ordneTeamLinks, personAusTeamSeite, type PersonFund, type TeamLink } from './personen';
 import { findeUids } from './zefix';
+import { bindungsTextAusSeiten, istImpressumSeite } from './bindung';
 import type { Abschnitt, Extrakt, LogoKandidat, Schritt, SeitenProtokoll } from './typen';
 
 export { istFrameworkFarbe } from './markenfarbe';
@@ -1441,6 +1442,13 @@ export async function scanneWebsite(eingabe: string, budgetMs = SCAN_BUDGET_MS):
         // AUFTRAG-109: UID aus Impressum/Fusszeile/JSON-LD (Hauptweg des Handelsregister-Abgleichs)
         uid_kandidaten: findeUids([JSON.stringify(alleJsonLd).slice(0, 200_000), ...alleZeilen]),
         firma_register: firmaAusText(alleZeilen, vergleichsform(hostBasis.split('.')[0])),
+        // AUFTRAG-111 (Nachtrag): Textbasis der Bindung nur aus Titel, Impressum-Seite(n) und Fusszeile
+        // (Näherung: letzte 2000 Zeichen des Startseiten-Textes ohne Cookie-Zeilen), normalisiert, ≤ 200 kB
+        bindung_text: bindungsTextAusSeiten({
+            titel: startAnalyse.titel,
+            impressum: seiten.slice(1).filter((s) => istImpressumSeite(s.analyse.url, s.analyse.titel, s.analyse.ueberschriften)).flatMap((s) => s.analyse.zeilen),
+            startZeilen: startAnalyse.zeilen.filter((z) => !(z.length < 400 && COOKIE_ZEILE_RE.test(z))),
+        }),
     };
 
     const dauer = Date.now() - start;

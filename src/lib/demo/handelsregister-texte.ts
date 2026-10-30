@@ -1,7 +1,8 @@
 /**
- * Handelsregister-Prüfung der KI-Demo (AUFTRAG-109): Texte und Antworttypen, die Widget
- * (Browser) und Server gemeinsam nutzen. Ohne Node-Module — darf in den Client-Bundle.
+ * Handelsregister-Prüfung der KI-Demo (AUFTRAG-109, Bindung AUFTRAG-111): Texte und Antworttypen,
+ * die Widget (Browser) und Server gemeinsam nutzen. Ohne Node-Module — darf in den Client-Bundle.
  */
+import type { Gebunden } from './bindung';
 
 /** Höchstens so viele manuelle Suchen («Firmenname oder UID») je Scan. */
 export const MANUELL_MAX = 3;
@@ -38,6 +39,18 @@ export interface HrBestaetigt {
     uid_formatiert: string;
     name: string;
     sitz: string;
+    /** AUFTRAG-111: Regel, über die die Firma an die Website gebunden ist */
+    gebunden?: Gebunden;
+}
+
+/** AUFTRAG-111: Antwort 409 von «bestaetige», wenn die Firma nicht zur gescannten Website gehört. */
+export interface HrWebsitePasstNicht {
+    code: 'website_passt_nicht';
+    fehler: string;
+    /** gescannte Website (Host) */
+    website: string;
+    /** gewählte Firma laut Register */
+    firma: string;
 }
 
 /** Antwort von POST /api/demo/handelsregister. */
@@ -58,6 +71,35 @@ export interface HrAntwort {
 /** Kennungen der 403-Antworten von POST /api/demo/anruf ohne gültigen Nachweis. */
 export const HR_CODE_FEHLT = 'handelsregister_fehlt';
 export const HR_CODE_ABGELAUFEN = 'handelsregister_abgelaufen';
+
+/**
+ * AUFTRAG-111, P2 (wortgleich): Meldung, wenn die gewählte Firma nicht zur Website gehört. Als Teile,
+ * damit das Widget Website und Firma fett setzen kann; `websitePasstNichtText` = ganzer Satz.
+ */
+export function websitePasstNichtTeile(website: string, firma: string): [string, string, string, string, string] {
+    return ['Die Website ', website, ' gehört laut Handelsregister und Website-Inhalt nicht zu ', firma, '. Bitte geben Sie die Website Ihrer Firma ein oder wählen Sie den passenden Eintrag.'];
+}
+export function websitePasstNichtText(website: string, firma: string): string {
+    return websitePasstNichtTeile(website, firma).join('');
+}
+
+/** AUFTRAG-111, P6 (wortgleich) */
+export const HR_SCHRITT = {
+    /** Titel des Firmen-Schritts beim Start (bleibt bei Treffern) */
+    titel: 'Welche ist Ihre Firma?',
+    untertitelEiner: (domain: string) => `Diesen Eintrag haben wir zu ${domain} im Handelsregister gefunden.`,
+    untertitelMehrere: (domain: string) => `Zu ${domain} passen mehrere Einträge im Handelsregister. Wählen Sie Ihre Firma.`,
+    /** Schritt im Telefon während der Prüfung */
+    telefonPruefung: 'Firma wird im Handelsregister geprüft …',
+    /** Schritt im Telefon nach der Bestätigung (Status ok) */
+    telefonBestaetigt: (name: string) => `Handelsregister: ${name}`,
+    /** Assistent-Schritt vor der Bestätigung (Status leer) */
+    assistentWartet: 'Wartet auf die Bestätigung Ihrer Firma',
+    /** Knopf bei website_passt_nicht */
+    andereWebsite: 'Andere Website eingeben',
+    /** Textlink unter dem Suchformular (P3) */
+    zurueck: 'Zurück zu den Vorschlägen',
+} as const;
 
 export const HR_TEXT = {
     /** Datenschutz-Hinweis im Widget (AUFTRAG-109, Abschnitt 3, wortgleich) */

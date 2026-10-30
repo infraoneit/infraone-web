@@ -6,10 +6,15 @@
  *    ohne aktiven Treffer Namenssuche mit Varianten (Firmenname mit Rechtsform aus dem Text,
  *    Profil-Firma, ohne Rechtsform, erste zwei Wörter; höchstens 3 Abfragen).
  * 2. Manuell: «Firmenname oder UID», höchstens 3 Suchen je Scan (MANUELL_MAX).
- * 3. Bestätigen: nur ein aktiver Eintrag, der diesem Scan als Treffer gezeigt wurde. Dann
- *    entsteht ein signierter Nachweis (HMAC-SHA256 wie Cookie `demo_geraet`, Schlüssel
- *    DEMO_TOKEN), gebunden an scan_id + UID, gültig 30 Minuten.
- * 4. POST /api/demo/anruf prüft den Nachweis (nachweisFuerAnruf) — ohne gültigen Nachweis 403.
+ *    AUFTRAG-111: Liefern UID und Namen keinen aktiven Eintrag, sucht die Prüfung zuletzt mit dem
+ *    Domain-Label («elektro-tel.ch» → «elektro tel»).
+ * 3. Bestätigen: nur ein aktiver Eintrag, der diesem Scan als Treffer gezeigt wurde. AUFTRAG-111:
+ *    und nur, wenn die Firma zur gescannten Website gehört (lib/demo/bindung.ts: UID von der
+ *    Website, Domain-Label oder Name in Titel/Impressum/Fusszeile); sonst 409 `website_passt_nicht`, kein
+ *    Nachweis. Dann entsteht ein signierter Nachweis (HMAC-SHA256 wie Cookie `demo_geraet`,
+ *    Schlüssel DEMO_TOKEN), gebunden an scan_id + UID + Bindungsregel (`gebunden`), gültig 30 Minuten.
+ * 4. POST /api/demo/anruf prüft den Nachweis (nachweisFuerAnruf) — ohne gültigen Nachweis (oder
+ *    ohne `gebunden`) 403.
  *
  * Speicher: `handelsregister/{scan_id}` (Lebensdauer wie der Scan, 2 h): Ergebnisse jeder
  * Abfrage (Wiederholungen erzeugen keine neuen Register-Aufrufe), gezeigte Treffer, Zahl der
@@ -27,6 +32,7 @@
  * Zeile `[demo/handelsregister] …` mit der Zahl der Aufrufe — ohne Suchbegriffe.
  */
 import { createHmac, timingSafeEqual } from 'node:crypto';
+import { domainToUnicode } from 'node:url';
 import { leseGueltig, speicher } from './speicher';
 import { isoZuerich } from './api';
 import { aufNetlify } from './limits';
@@ -43,7 +49,8 @@ import {
     type ZefixOptionen,
     type ZefixTreffer,
 } from './zefix';
-import { HR_CODE_ABGELAUFEN, HR_CODE_FEHLT, HR_TEXT, MANUELL_MAX, type HrAntwort, type HrErgebnis, type HrModus, type HrQuelle, type HrTrefferAnzeige } from './handelsregister-texte';
+import { HR_CODE_ABGELAUFEN, HR_CODE_FEHLT, HR_TEXT, MANUELL_MAX, websitePasstNichtText, type HrAntwort, type HrErgebnis, type HrModus, type HrQuelle, type HrTrefferAnzeige } from './handelsregister-texte';
+import { bindungsText, domainSuchbegriff, GEBUNDEN_ARTEN, HR_CODE_WEBSITE_PASST_NICHT, pruefeBindung, type BindungsBasis, type Gebunden } from './bindung';
 import type { Extrakt, HandelsregisterAuftrag, Profil } from './typen';
 
 /** Gültigkeit des Nachweises nach der Bestätigung */
@@ -82,34 +89,40 @@ export function handelsregisterModus(): HrModus {
 /* Nachweis (signiert, an scan_id + UID gebunden, 30 min)              */
 /* ------------------------------------------------------------------ */
 
-const NACHWEIS_RE = /^(CHE\d{9})\.(\d{13})\.([A-Za-z0-9_-]{43})$/;
+/**
+ * AUFTRAG-111: `<uid>.<gebunden>.<bis>.<signatur>` — die Bindungsregel ist mitsigniert. Nachweise im
+ * alten Format (ohne `gebunden`, A-109) passen nicht mehr und gelten als ungültig.
+ */
+const NACHWEIS_RE = /^(CHE\d{9})\.(uid|domain|text)\.(\d{13})\.([A-Za-z0-9_-]{43})$/;
 
-function nachweisSignatur(scanId: string, uid: string, bis: number): string {
+function nachweisSignatur(scanId: string, uid: string, gebunden: Gebunden, bis: number): string {
     const schluessel = process.env.DEMO_TOKEN || 'infraone-demo';
-    return createHmac('sha256', schluessel).update(`handelsregister:${scanId}:${uid}:${bis}`).digest('base64url');
+    return createHmac('sha256', schluessel).update(`handelsregister:${scanId}:${uid}:${gebunden}:${bis}`).digest('base64url');
 }
 
-/** Nachweis `<uid>.<bis>.<signatur>`; bis = Epoch-ms des Ablaufs. */
-export function signiereNachweis(scanId: string, uid: string, bis: number): string {
-    return `${uid}.${bis}.${nachweisSignatur(scanId, uid, bis)}`;
+/** Nachweis `<uid>.<gebunden>.<bis>.<signatur>`; bis = Epoch-ms des Ablaufs, gebunden = Bindungsregel. */
+export function signiereNachweis(scanId: string, uid: string, bis: number, gebunden: Gebunden): string {
+    if (!GEBUNDEN_ARTEN.includes(gebunden)) throw new Error('Nachweis ohne Bindung');
+    return `${uid}.${gebunden}.${bis}.${nachweisSignatur(scanId, uid, gebunden, bis)}`;
 }
 
-export type NachweisPruefung = { ok: true; uid: string; bis: number } | { ok: false; grund: 'fehlt' | 'format' | 'signatur' | 'abgelaufen' };
+export type NachweisPruefung = { ok: true; uid: string; bis: number; gebunden: Gebunden } | { ok: false; grund: 'fehlt' | 'format' | 'signatur' | 'abgelaufen' };
 
-/** Prüft Signatur (scan_id + UID + Ablauf) und Ablauf. */
+/** Prüft Signatur (scan_id + UID + Bindung + Ablauf) und Ablauf. Ohne `gebunden` → «format». */
 export function pruefeNachweis(wert: string | null | undefined, scanId: string, jetzt = Date.now()): NachweisPruefung {
     if (!wert) return { ok: false, grund: 'fehlt' };
     const m = String(wert).match(NACHWEIS_RE);
     if (!m) return { ok: false, grund: 'format' };
-    const [, uid, bisText, sig] = m;
+    const [, uid, gebundenText, bisText, sig] = m;
+    const gebunden = gebundenText as Gebunden;
     const bis = Number(bisText);
     const a = Buffer.from(sig);
-    const b = Buffer.from(nachweisSignatur(scanId, uid, bis));
+    const b = Buffer.from(nachweisSignatur(scanId, uid, gebunden, bis));
     if (a.length !== b.length || !timingSafeEqual(a, b)) return { ok: false, grund: 'signatur' };
     if (bis <= jetzt) return { ok: false, grund: 'abgelaufen' };
     // länger als die Gültigkeit (+1 min Uhr-Toleranz) kann kein eigener Nachweis sein
     if (bis > jetzt + NACHWEIS_TTL_MS + 60_000) return { ok: false, grund: 'format' };
-    return { ok: true, uid, bis };
+    return { ok: true, uid, bis, gebunden };
 }
 
 /* ------------------------------------------------------------------ */
@@ -142,14 +155,16 @@ export interface HrScanEintrag {
     zefix_aufrufe: number;
     /** Epoch-ms: bis dahin nach «nicht erreichbar» keine neuen Register-Aufrufe */
     pause_bis?: number;
-    bestaetigt: (HandelsregisterAuftrag & { nachweis: string; nachweis_bis: number }) | null;
+    /** AUFTRAG-111: `gebunden` = Regel, über die die Firma an die Website gebunden ist (im Nachweis signiert) */
+    bestaetigt: (HandelsregisterAuftrag & { nachweis: string; nachweis_bis: number; gebunden?: Gebunden }) | null;
 }
 
 /** Minimal nötige Felder eines Scans (lib/demo/scans.ts). */
 export interface ScanFuerRegister {
     id: string;
     ablauf: number;
-    extrakt: Pick<Extrakt, 'text' | 'firma' | 'jsonld_name'> & Partial<Pick<Extrakt, 'uid_kandidaten' | 'firma_register'>>;
+    extrakt: Pick<Extrakt, 'text' | 'firma' | 'jsonld_name'> &
+        Partial<Pick<Extrakt, 'uid_kandidaten' | 'firma_register' | 'host' | 'end_url' | 'titel' | 'og_site_name' | 'meta_description' | 'bindung_text'>>;
     profil: Pick<Profil, 'firma'>;
 }
 
@@ -165,11 +180,11 @@ async function speichereEintrag(e: HrScanEintrag): Promise<void> {
     await speicher().schreibe(schluessel(e.scan_id), e);
 }
 
-/** Bestätigung nur, solange ihr Nachweis gültig ist. */
+/** Bestätigung nur, solange ihr Nachweis gültig ist (AUFTRAG-111: und eine Bindung trägt). */
 function gueltigeBestaetigung(e: HrScanEintrag, jetzt = Date.now()) {
-    if (!e.bestaetigt) return null;
+    if (!e.bestaetigt?.gebunden) return null;
     const p = pruefeNachweis(e.bestaetigt.nachweis, e.scan_id, jetzt);
-    return p.ok && p.uid === e.bestaetigt.uid ? e.bestaetigt : null;
+    return p.ok && p.uid === e.bestaetigt.uid && p.gebunden === e.bestaetigt.gebunden ? e.bestaetigt : null;
 }
 
 function anzeige(t: ZefixTreffer): HrTrefferAnzeige {
@@ -186,7 +201,7 @@ function antwortAus(e: HrScanEintrag, modus: HrModus, ergebnis: HrErgebnis | nul
         quelle: b ? b.quelle : (sicht?.quelle ?? null),
         treffer: liste.slice(0, TREFFER_MAX).map(anzeige),
         versuche_rest: Math.max(0, MANUELL_MAX - e.manuell),
-        bestaetigt: b ? { uid: b.uid, uid_formatiert: b.uid_formatiert, name: b.name, sitz: b.sitz } : null,
+        bestaetigt: b ? { uid: b.uid, uid_formatiert: b.uid_formatiert, name: b.name, sitz: b.sitz, gebunden: b.gebunden } : null,
         ...(b ? { gueltig_bis: b.nachweis_bis } : {}),
     };
 }
@@ -259,6 +274,32 @@ export function namensVarianten(basis: Array<string | null | undefined>, max = A
         if (aus.length >= max) break;
     }
     return aus;
+}
+
+/** Host der gescannten Website (Unicode, ohne www); aus `host`, sonst aus `end_url`. */
+export function scanHost(x: ScanFuerRegister['extrakt']): string {
+    let h = String(x.host ?? '').trim();
+    if (!h && x.end_url) {
+        try {
+            h = new URL(x.end_url).hostname;
+        } catch {
+            h = '';
+        }
+    }
+    h = h.toLowerCase().replace(/^www\d*\./, '');
+    // IDN (xn--…) für Anzeige und Domain-Label als Unicode
+    return h.includes('xn--') ? domainToUnicode(h) || h : h;
+}
+
+/**
+ * AUFTRAG-111: Basis der Bindung — UIDs von der Website (Regel 1), Host (Regel 2) und die beim Scan
+ * gespeicherte Textbasis der Regel 3 (`bindung_text`: Nachtrag — nur Titel, Impressum, Fusszeile;
+ * keine Wissenseinträge, kein übriger Text). Ältere Scans ohne Feld: nur der Titel.
+ */
+export function bindungsBasis(scan: ScanFuerRegister): BindungsBasis {
+    const x = scan.extrakt;
+    const text = typeof x.bindung_text === 'string' ? x.bindung_text : bindungsText([x.titel]);
+    return { uids: uidKandidaten(x), host: scanHost(x), text };
 }
 
 /** UID-Kandidaten eines Scans (ältere Scans ohne Feld: aus dem gespeicherten Text). */
@@ -340,6 +381,20 @@ async function automatischIntern(scan: ScanFuerRegister, opt: ZefixOptionen): Pr
             quelle = quelle ?? 'name';
             break;
         }
+        // AUFTRAG-111 (c): liefern UID und Namen nichts Aktives, zuletzt das Domain-Label
+        // («elektro-tel.ch» → «elektro tel»), sofern es nicht schon als Name gesucht wurde
+        const label = domainSuchbegriff(scanHost(scan.extrakt));
+        if (erreichbar && label && !gesammelt.some((t) => t.aktiv) && !namen.some((n) => vergleichsName(n) === vergleichsName(label))) {
+            const r = await abfrage(e, 'name', label, o);
+            if (!r.ok) {
+                erreichbar = false;
+            } else {
+                const geordnet = ordneTreffer(r.treffer, label, TREFFER_MAX);
+                merke(e, geordnet, 'name', r.geprueft_am);
+                for (const t of geordnet) if (!gesammelt.some((g) => g.uid === t.uid)) gesammelt.push(t);
+                if (geordnet.length) quelle = quelle ?? 'name';
+            }
+        }
     }
 
     if (!erreichbar && !gesammelt.some((t) => t.aktiv)) {
@@ -361,7 +416,8 @@ async function automatischIntern(scan: ScanFuerRegister, opt: ZefixOptionen): Pr
 /* Manuelle Suche und Bestätigung                                      */
 /* ------------------------------------------------------------------ */
 
-export type HrFehler = { ok: false; status: number; meldung: string };
+/** AUFTRAG-111: bei website_passt_nicht zusätzlich `code`, `website` (Host) und `firma` (Registername). */
+export type HrFehler = { ok: false; status: number; meldung: string; code?: typeof HR_CODE_WEBSITE_PASST_NICHT; website?: string; firma?: string };
 export type HrErfolg = { ok: true; antwort: HrAntwort };
 
 /** Manuelle Suche «Firmenname oder UID» (höchstens MANUELL_MAX je Scan; Eingabefehler zählen nicht). */
@@ -404,7 +460,12 @@ export async function manuelleSuche(scan: ScanFuerRegister, eingabe: string, opt
     return { ok: true, antwort: antwortAus(e, modus, null, e.letzte) };
 }
 
-/** Bestätigt einen gezeigten, aktiven Eintrag und legt den signierten Nachweis (30 min) ab. */
+/**
+ * Bestätigt einen gezeigten, aktiven Eintrag und legt den signierten Nachweis (30 min) ab.
+ * AUFTRAG-111: vorher die Bindungsprüfung (UID von der Website, Domain-Label, Name in Titel/Impressum/Fusszeile);
+ * passt die Firma nicht zur Website → 409 `website_passt_nicht`, kein Nachweis, zählt nicht als
+ * manuelle Suche (eine frühere Bestätigung desselben Scans bleibt unverändert).
+ */
 export async function bestaetige(scan: ScanFuerRegister, uidRoh: string, jetzt = Date.now()): Promise<HrErfolg | HrFehler> {
     const modus = handelsregisterModus();
     if (modus === 'aus') return { ok: true, antwort: uebersprungen(scan.id) };
@@ -414,6 +475,13 @@ export async function bestaetige(scan: ScanFuerRegister, uidRoh: string, jetzt =
     const t = e.treffer[uid];
     if (!t) return { ok: false, status: 409, meldung: HR_TEXT.nichtBestaetigbar };
     if (!t.aktiv) return { ok: false, status: 409, meldung: HR_TEXT.aktivNoetig };
+    const basis = bindungsBasis(scan);
+    const gebunden = pruefeBindung(t, basis);
+    if (!gebunden) {
+        console.info(`[demo/handelsregister] scan=${scan.id.slice(0, 10)} art=bestaetigt-abgelehnt grund=${HR_CODE_WEBSITE_PASST_NICHT} quelle=${t.quelle} uids=${basis.uids.length} text_zeichen=${basis.text.length}`);
+        const website = basis.host || 'diese Website';
+        return { ok: false, status: 409, code: HR_CODE_WEBSITE_PASST_NICHT, meldung: websitePasstNichtText(website, t.name), website, firma: t.name };
+    }
     const bis = jetzt + NACHWEIS_TTL_MS;
     e.bestaetigt = {
         uid: t.uid,
@@ -423,11 +491,12 @@ export async function bestaetige(scan: ScanFuerRegister, uidRoh: string, jetzt =
         status: t.status,
         quelle: t.quelle,
         geprueft_am: t.geprueft_am,
-        nachweis: signiereNachweis(scan.id, t.uid, bis),
+        nachweis: signiereNachweis(scan.id, t.uid, bis, gebunden),
         nachweis_bis: bis,
+        gebunden,
     };
     await speichereEintrag(e);
-    console.info(`[demo/handelsregister] scan=${scan.id.slice(0, 10)} art=bestaetigt quelle=${t.quelle} gueltig_min=${Math.round(NACHWEIS_TTL_MS / 60000)}`);
+    console.info(`[demo/handelsregister] scan=${scan.id.slice(0, 10)} art=bestaetigt quelle=${t.quelle} gebunden=${gebunden} gueltig_min=${Math.round(NACHWEIS_TTL_MS / 60000)}`);
     return { ok: true, antwort: antwortAus(e, modus, null, e.letzte) };
 }
 
@@ -441,8 +510,9 @@ export type AnrufNachweis =
 
 /**
  * Für POST /api/demo/anruf: Der Scan muss einen bestätigten Eintrag mit gültigem, signiertem
- * Nachweis tragen (Signatur über scan_id + UID + Ablauf, nicht abgelaufen, UID = bestätigte UID,
- * Eintrag aktiv). Schalter «aus» (nur lokal): ok ohne Eintrag.
+ * Nachweis tragen (Signatur über scan_id + UID + Bindung + Ablauf, nicht abgelaufen, UID = bestätigte
+ * UID, Eintrag aktiv). AUFTRAG-111: Nachweise ohne `gebunden` (altes Format) → abgelehnt.
+ * Schalter «aus» (nur lokal): ok ohne Eintrag.
  */
 export async function nachweisFuerAnruf(scan: Pick<ScanFuerRegister, 'id' | 'ablauf'>, jetzt = Date.now()): Promise<AnrufNachweis> {
     if (handelsregisterModus() === 'aus') return { ok: true, handelsregister: null };
@@ -454,6 +524,6 @@ export async function nachweisFuerAnruf(scan: Pick<ScanFuerRegister, 'id' | 'abl
         return p.grund === 'abgelaufen' ? { ok: false, code: HR_CODE_ABGELAUFEN, meldung: HR_TEXT.abgelaufen } : { ok: false, code: HR_CODE_FEHLT, meldung: HR_TEXT.fehlt };
     }
     const t = e.treffer[b.uid];
-    if (p.uid !== b.uid || !t || !t.aktiv) return { ok: false, code: HR_CODE_FEHLT, meldung: HR_TEXT.fehlt };
+    if (p.uid !== b.uid || !b.gebunden || p.gebunden !== b.gebunden || !t || !t.aktiv) return { ok: false, code: HR_CODE_FEHLT, meldung: HR_TEXT.fehlt };
     return { ok: true, handelsregister: { uid: b.uid, uid_formatiert: b.uid_formatiert, name: b.name, sitz: b.sitz, status: b.status, quelle: b.quelle, geprueft_am: b.geprueft_am } };
 }

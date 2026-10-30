@@ -22,6 +22,10 @@
  * {fehler, code: "handelsregister_fehlt" | "handelsregister_abgelaufen"} — geprüft vor den
  * Limits (zählt nichts). Der Auftrag trägt `handelsregister` {uid, uid_formatiert, name, sitz,
  * status, quelle, geprueft_am}.
+ *
+ * AUFTRAG-111: Der Nachweis trägt die Bindung Website ↔ Firma (`gebunden`, mitsigniert); ohne sie
+ * 403. `profil.firma` (so meldet sich der Assistent) = gebundener Sprechname: die Marke aus dem
+ * Scan nur, wenn sie zum Handelsregister-Namen passt, sonst der Registername ohne Rechtsform am Ende.
  */
 import { antwort, clientIp, fehler, leseJson, MELDUNG, pruefeTurnstile } from '@/lib/demo/api';
 import { pruefeRueckrufNummer } from '@/lib/demo/nummer';
@@ -35,6 +39,7 @@ import { gueltigeLogos, logoUrlFuerAuftrag } from '@/lib/demo/logo';
 import { stimmeFuer } from '@/lib/demo/namen';
 import { stosseAn } from '@/lib/demo/anstoss';
 import { nachweisFuerAnruf, type AnrufNachweis } from '@/lib/demo/handelsregister';
+import { sprechName } from '@/lib/demo/bindung';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -97,6 +102,8 @@ async function anruf(req: Request, geraetHash: string): Promise<Response> {
 
     // Endgültige Primärfarbe bestimmt der Browser aus dem Logo (optional)
     const profil = { ...scan.profil };
+    // AUFTRAG-111 (P5): der Assistent meldet sich mit dem gebundenen Sprechnamen, nie mit der Scan-Marke allein
+    if (hr.handelsregister) profil.firma = sprechName(scan.profil.firma, hr.handelsregister.name);
     const f = body.farben as Partial<Farben> | undefined;
     if (f && typeof f === 'object' && HEX_RE.test(String(f.primaer)) && HEX_RE.test(String(f.sekundaer))) {
         profil.farben = { primaer: String(f.primaer).toUpperCase(), sekundaer: String(f.sekundaer).toUpperCase() };

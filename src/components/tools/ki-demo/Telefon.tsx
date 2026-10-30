@@ -23,7 +23,8 @@ export const ANRUF_VON = '+41 44 552 03 06';
 export type SchrittStatus = 'laeuft' | 'ok' | 'leer';
 
 export interface SchrittAnzeige {
-    id: 'website' | 'logo' | 'farbe' | 'telefon' | 'zeiten' | 'wissen' | 'assistent';
+    /** AUFTRAG-111: dazu «handelsregister» (Firma wird geprüft / Handelsregister: Name) */
+    id: 'website' | 'handelsregister' | 'logo' | 'farbe' | 'telefon' | 'zeiten' | 'wissen' | 'assistent';
     titel: string;
     detail?: string;
     status: SchrittStatus;
@@ -37,6 +38,8 @@ export interface KartenAnzeige {
     name: string;
     /** Ganze Rollenzeile: «KI-Telefonassistentin von FIRMA» bzw. bei English «AI phone assistant of FIRMA» (AUFTRAG-098) */
     rollenZeile: string;
+    /** AUFTRAG-111: Rollenzeile mit vollem Firmennamen (Titel-Attribut, wenn die Karte ihn kürzt) */
+    rollenTitel?: string;
     /** Sprache der Karte (AUFTRAG-098: English → Karte auf Englisch) */
     lang: 'de' | 'en';
     firma: string;
@@ -205,7 +208,10 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
                                     </span>
                                     <span className="min-w-0 flex-1">
                                         <span className="flex items-center gap-2 text-[0.84rem] font-semibold leading-tight">
-                                            <span className="truncate">{s.titel}</span>
+                                            {/* AUFTRAG-111: die Firmen-Schritte (wortgleiche, längere Texte) brechen zweizeilig um statt abgeschnitten zu werden */}
+                                            <span className={s.id === 'handelsregister' || s.id === 'assistent' ? 'min-w-0 line-clamp-2' : 'truncate'} data-schritt-titel="">
+                                                {s.titel}
+                                            </span>
                                             {s.farbe && <span className="flex-shrink-0 w-3.5 h-3.5 rounded-full ring-1 ring-black/10" style={{ background: s.farbe }} aria-hidden="true" />}
                                         </span>
                                         {s.detail && <span className="block text-[0.74rem] leading-snug text-[#5b6472] dark:text-[#9aa3af] truncate">{s.detail}</span>}
@@ -223,11 +229,13 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
 
                     {/* Assistenten-Karte */}
                     {karte && (
-                        <Ansicht aktiv={zustand === 'bereit'} label={`${karte.name}, ${karte.rollenZeile}`}>
+                        <Ansicht aktiv={zustand === 'bereit'} label={`${karte.name}, ${karte.rollenTitel ?? karte.rollenZeile}`}>
                             <div className={`${styles.kundenFlaeche} px-5 pt-12 pb-5`} lang={karte.lang}>
                                 <LogoOderInitiale karte={karte} />
                                 <p className="mt-3 text-[1.7rem] font-bold leading-none tracking-tight">{karte.name}</p>
-                                <p className="mt-1.5 text-[0.82rem] leading-snug opacity-90 line-clamp-2">{karte.rollenZeile}</p>
+                                <p className="mt-1.5 text-[0.82rem] leading-snug opacity-90 line-clamp-2" title={karte.rollenTitel ?? karte.rollenZeile}>
+                                    {karte.rollenZeile}
+                                </p>
                                 <div className="mt-3 w-28" style={{ color: karte.text }}>
                                     <Welle farbe={karte.primaer} modus="ruhe" anzahl={16} hell className="[--welle-hoehe:22px]" />
                                 </div>

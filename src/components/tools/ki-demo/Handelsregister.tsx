@@ -1,50 +1,65 @@
 'use client';
 
 /**
- * Handelsregister-Schritt der KI-Demo (AUFTRAG-109): zwischen Scan und Anruf.
+ * Handelsregister-Schritt der KI-Demo (AUFTRAG-109, Reihenfolge und Bindung AUFTRAG-111).
  *
- * Zeigt das Ergebnis des Abgleichs mit Zefix (automatisch: UID aus dem Impressum, sonst
- * Firmenname), lässt den Besucher bestätigen («Ja, das ist meine Firma», bei mehreren Treffern
- * Auswahl, höchstens 5) und bietet ohne Treffer eine zweite Suche «Firmenname oder UID»
- * (höchstens 3 je Scan). Erst nach der Bestätigung zeigt das Widget den Anruf-Schritt. Der
- * Server erzwingt das zusätzlich (POST /api/demo/anruf → 403 ohne signierten Nachweis).
+ * AUFTRAG-111: Erster sichtbarer Schritt nach der URL-Eingabe («Welche ist Ihre Firma?»), noch
+ * während der Scan im Telefon läuft. Zeigt das Ergebnis des Abgleichs mit Zefix (automatisch: UID
+ * aus dem Impressum, Firmenname, zuletzt Domain-Label), lässt den Besucher bestätigen («Ja, das ist
+ * meine Firma», bei mehreren Treffern Auswahl, höchstens 5) und bietet eine eigene Suche «Firmenname
+ * oder UID» (höchstens 3 je Scan). «Meine Firma ist nicht dabei» / «Nein, andere Firma suchen» klappt
+ * die Liste ein; «Zurück zu den Vorschlägen» zeigt sie wieder. Die Liste einer eigenen Suche ersetzt
+ * die automatische.
+ *
+ * Gehört die gewählte Firma nicht zur gescannten Website (Server: 409 `website_passt_nicht`),
+ * erscheint die Meldung unter der Liste mit «Andere Website eingeben»; die Liste bleibt wählbar und
+ * es zählt nicht als Suchversuch. Erst nach der Bestätigung zeigt das Widget den Anruf-Schritt; der
+ * Server erzwingt das zusätzlich (POST /api/demo/anruf → 403 ohne signierten, gebundenen Nachweis).
  */
 import { useId, useState, type FormEvent } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Building2, Check, Loader2, RotateCcw, Search } from 'lucide-react';
-import { HR_TEXT, MANUELL_MAX, type HrAntwort, type HrBestaetigt, type HrTrefferAnzeige } from '@/lib/demo/handelsregister-texte';
+import { ArrowRight, Building2, Check, Globe, Loader2, RotateCcw, Search } from 'lucide-react';
+import {
+    HR_SCHRITT,
+    HR_TEXT,
+    MANUELL_MAX,
+    websitePasstNichtTeile,
+    type HrAntwort,
+    type HrBestaetigt,
+    type HrTrefferAnzeige,
+} from '@/lib/demo/handelsregister-texte';
+import { HR_CODE_WEBSITE_PASST_NICHT } from '@/lib/demo/bindung';
 
 const KNOPF =
     'w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl text-[1.1875rem] font-bold leading-6 text-center bg-primary text-white shadow-lg shadow-primary/25 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60 disabled:cursor-default';
 const KNOPF_ZWEIT =
     'inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl border-2 border-border text-text-primary text-base font-semibold hover:border-primary transition-colors disabled:opacity-50 disabled:cursor-default';
+const TEXTLINK = 'block mx-auto text-sm font-semibold text-text-primary underline underline-offset-2 hover:no-underline';
 
 const NETZ = 'Die Verbindung hat nicht geklappt. Bitte versuchen Sie es gleich nochmals.';
 
 interface Props {
-    scanId: string;
+    /** Scan-Kennung; null, solange die Scan-Antwort noch fehlt (Schritt zeigt «wird abgeglichen») */
+    scanId: string | null;
+    /** Website (Host, z. B. «elektro-tel.ch») für die Untertitel */
+    website: string;
     /**
-     * Ergebnis der automatischen Prüfung (startet schon während des Scans); null = läuft,
-     * 'netz' = Verbindungsfehler. Eine bestätigte Antwort behandelt das Widget selbst (dann
-     * erscheint dieser Schritt nicht).
+     * Ergebnis der automatischen Prüfung (startet mit der Scan-Antwort); null = läuft,
+     * 'netz' = Verbindungsfehler. Eine bestätigte Antwort behandelt das Widget selbst.
      */
     start: HrAntwort | 'netz' | null;
     /** automatische Prüfung nochmals anstossen (Register war nicht erreichbar) */
     onNochmals: () => void;
-    onBestaetigt: (b: HrBestaetigt) => void;
+    /** bestätigt — mit der Scan-Kennung, zu der die Bestätigung gehört */
+    onBestaetigt: (b: HrBestaetigt, scanId: string) => void;
+    /** AUFTRAG-111: zurück zum URL-Feld (vorbefüllt, fokussiert, Scan zurückgesetzt) */
+    onAndereWebsite: () => void;
     /** Hinweis von aussen, z. B. «Bestätigung abgelaufen» nach 403 der Anruf-Route */
     hinweis?: string | null;
 }
 
 function versucheText(n: number): string {
     return n === 1 ? 'Noch 1 Versuch' : `Noch ${n} Versuche`;
-}
-
-function quelleText(q: HrAntwort['quelle']): string | null {
-    if (q === 'uid') return 'Gefunden über die UID auf Ihrer Website.';
-    if (q === 'name') return 'Gefunden über den Firmennamen auf Ihrer Website.';
-    if (q === 'manuell') return 'Gefunden über Ihre Eingabe.';
-    return null;
 }
 
 function Eintrag({ t, gewaehlt, name, onWahl }: { t: HrTrefferAnzeige; gewaehlt: boolean; name: string; onWahl: () => void }) {
@@ -80,15 +95,18 @@ function Eintrag({ t, gewaehlt, name, onWahl }: { t: HrTrefferAnzeige; gewaehlt:
     );
 }
 
-export function Handelsregister({ scanId, start, onNochmals, onBestaetigt, hinweis = null }: Props) {
+export function Handelsregister({ scanId, website, start, onNochmals, onBestaetigt, onAndereWebsite, hinweis = null }: Props) {
     // Antwort einer eigenen Suche, gebunden an die automatische Antwort, auf der sie aufbaut:
-    // kommt eine neue automatische Antwort (Nochmals prüfen, neuer Scan), gilt wieder diese.
+    // kommt eine neue automatische Antwort (Nochmals prüfen), gilt wieder diese.
     const [eigene, setEigene] = useState<{ basis: Props['start']; antwort: HrAntwort } | null>(null);
+    // letzte Liste mit Treffern vor einer eigenen Suche (für «Zurück zu den Vorschlägen»)
+    const [vorschlaege, setVorschlaege] = useState<{ basis: Props['start']; antwort: HrAntwort } | null>(null);
     const [wahl, setWahl] = useState<string | null>(null);
     const [suchOffen, setSuchOffen] = useState(false);
     const [suche, setSuche] = useState('');
     const [laeuft, setLaeuft] = useState<'suche' | 'bestaetige' | null>(null);
     const [fehler, setFehler] = useState<string | null>(null);
+    const [passtNicht, setPasstNicht] = useState<{ website: string; firma: string } | null>(null);
     const radioName = useId();
 
     const eigeneGilt = !!eigene && eigene.basis === start;
@@ -101,6 +119,17 @@ export function Handelsregister({ scanId, start, onNochmals, onBestaetigt, hinwe
     const aktive = treffer.filter((t) => t.aktiv);
     const auswahl = wahl && aktive.some((t) => t.uid === wahl) ? wahl : aktive.length === 1 ? aktive[0].uid : null;
 
+    const rest = antwort?.versuche_rest ?? 0;
+    const ergebnis = !scanId ? 'pruefen' : netz ? 'netz' : (antwort?.ergebnis ?? 'pruefen');
+    const ohneAktive = ergebnis === 'kein_treffer' || ergebnis === 'nicht_aktiv';
+    // frühere Vorschläge, zu denen der Besucher nach einer erfolglosen eigenen Suche zurück kann
+    const vorschlag = vorschlaege && vorschlaege.basis === start && vorschlaege.antwort !== antwort && vorschlaege.antwort.treffer.some((t) => t.aktiv) ? vorschlaege.antwort : null;
+    const ausgeschoepft = ohneAktive && rest === 0 && !vorschlag;
+    // P3: «Meine Firma ist nicht dabei» klappt die Liste ein — nur das Suchformular bleibt
+    const listeZu = ergebnis === 'treffer' && suchOffen;
+    const suchFormular = (ohneAktive && rest > 0) || (listeZu && rest > 0);
+    const zurueck = listeZu || (ohneAktive && !!vorschlag);
+
     const post = async (body: Record<string, string>) => {
         const res = await fetch('/api/demo/handelsregister', {
             method: 'POST',
@@ -112,13 +141,19 @@ export function Handelsregister({ scanId, start, onNochmals, onBestaetigt, hinwe
     };
 
     const bestaetigen = async () => {
-        if (!auswahl || laeuft) return;
+        if (!auswahl || laeuft || !scanId) return;
         setLaeuft('bestaetige');
         setFehler(null);
+        setPasstNicht(null);
         try {
             const { res, daten } = await post({ bestaetige: auswahl });
             if (res.ok && daten?.bestaetigt && daten.scan_id === scanId) {
-                onBestaetigt(daten.bestaetigt as HrBestaetigt);
+                onBestaetigt(daten.bestaetigt as HrBestaetigt, scanId);
+                return;
+            }
+            // AUFTRAG-111: Firma gehört nicht zur Website — Meldung unter der Liste, Liste bleibt wählbar
+            if (res.status === 409 && daten?.code === HR_CODE_WEBSITE_PASST_NICHT) {
+                setPasstNicht({ website: typeof daten.website === 'string' ? daten.website : website, firma: typeof daten.firma === 'string' ? daten.firma : '' });
                 return;
             }
             setFehler(typeof daten?.fehler === 'string' ? daten.fehler : NETZ);
@@ -131,7 +166,7 @@ export function Handelsregister({ scanId, start, onNochmals, onBestaetigt, hinwe
 
     const suchen = async (e: FormEvent) => {
         e.preventDefault();
-        if (laeuft) return;
+        if (laeuft || !scanId) return;
         const text = suche.trim();
         if (text.length < 3) {
             setFehler(HR_TEXT.suchtextKurz);
@@ -140,14 +175,17 @@ export function Handelsregister({ scanId, start, onNochmals, onBestaetigt, hinwe
         }
         setLaeuft('suche');
         setFehler(null);
+        setPasstNicht(null);
         try {
             const { res, daten } = await post({ suche: text });
             if (res.ok && daten && daten.scan_id === scanId) {
                 // schon bestätigt (gültiger Nachweis) → direkt weiter
                 if (daten.ergebnis === 'bestaetigt' && daten.bestaetigt) {
-                    onBestaetigt(daten.bestaetigt as HrBestaetigt);
+                    onBestaetigt(daten.bestaetigt as HrBestaetigt, scanId);
                     return;
                 }
+                // P4: die Liste der eigenen Suche ersetzt die bisherige; diese bleibt als Vorschlag erreichbar
+                if (antwort && antwort.ergebnis === 'treffer' && antwort.treffer.some((t) => t.aktiv)) setVorschlaege({ basis: start, antwort });
                 setAntwort(daten as HrAntwort);
                 setWahl(null);
                 if ((daten as HrAntwort).ergebnis === 'treffer') setSuchOffen(false);
@@ -162,29 +200,45 @@ export function Handelsregister({ scanId, start, onNochmals, onBestaetigt, hinwe
         }
     };
 
-    const rest = antwort?.versuche_rest ?? 0;
-    const ergebnis = netz ? 'netz' : (antwort?.ergebnis ?? 'pruefen');
-    const ohneAktive = ergebnis === 'kein_treffer' || ergebnis === 'nicht_aktiv';
-    const ausgeschoepft = ohneAktive && rest === 0;
-    const suchFormular = (ohneAktive && rest > 0) || (ergebnis === 'treffer' && suchOffen && rest > 0);
+    const zurueckZuVorschlaegen = () => {
+        setFehler(null);
+        setPasstNicht(null);
+        setSuchOffen(false);
+        // nach einer erfolglosen eigenen Suche: frühere Liste wieder zeigen (Zähler bleibt aktuell)
+        if (ohneAktive && vorschlag) {
+            setAntwort({ ...vorschlag, versuche_rest: rest });
+            setWahl(null);
+        }
+        setTimeout(() => (document.querySelector('[data-handelsregister] input[type="radio"]:not(:disabled)') as HTMLInputElement | null)?.focus(), 0);
+    };
 
     const titel =
-        ergebnis === 'pruefen' || ergebnis === 'bestaetigt' || ergebnis === 'uebersprungen'
-            ? 'Ihre Firma im Handelsregister'
-            : ergebnis === 'netz' || ergebnis === 'nicht_erreichbar'
-              ? 'Handelsregister nicht erreichbar'
-              : ergebnis === 'treffer'
-                ? aktive.length > 1
-                    ? 'Welche ist Ihre Firma?'
-                    : 'Ist das Ihre Firma?'
+        ergebnis === 'pruefen' || ergebnis === 'treffer'
+            ? HR_SCHRITT.titel
+            : ergebnis === 'bestaetigt' || ergebnis === 'uebersprungen'
+              ? 'Ihre Firma im Handelsregister'
+              : ergebnis === 'netz' || ergebnis === 'nicht_erreichbar'
+                ? 'Handelsregister nicht erreichbar'
                 : ausgeschoepft
                   ? 'Kein Testanruf möglich'
                   : ergebnis === 'nicht_aktiv'
                     ? 'Kein aktiver Eintrag gefunden'
                     : 'Firma nicht gefunden';
 
+    const manuell = antwort?.quelle === 'manuell';
+    const untertitel =
+        ergebnis === 'treffer'
+            ? manuell
+                ? `${aktive.length > 1 ? 'Wir haben mehrere Einträge im Handelsregister gefunden. Wählen Sie Ihre Firma.' : 'Diesen Eintrag haben wir im Handelsregister gefunden.'} Gefunden über Ihre Eingabe.`
+                : aktive.length > 1
+                  ? HR_SCHRITT.untertitelMehrere(website)
+                  : HR_SCHRITT.untertitelEiner(website)
+            : `Diese Einträge sind im Handelsregister nicht aktiv.${manuell ? ' Gefunden über Ihre Eingabe.' : ''}`;
+
+    const passt = passtNicht ? websitePasstNichtTeile(passtNicht.website, passtNicht.firma) : null;
+
     return (
-        <div data-handelsregister={ergebnis}>
+        <div data-handelsregister={ergebnis} data-hr-liste={listeZu ? 'zu' : 'offen'}>
             <h2 id="ki-demo-anruf-titel" className="text-xl sm:text-2xl font-bold text-text-primary tracking-tight">
                 {titel}
             </h2>
@@ -214,39 +268,59 @@ export function Handelsregister({ scanId, start, onNochmals, onBestaetigt, hinwe
                 </div>
             )}
 
-            {(ergebnis === 'treffer' || ergebnis === 'nicht_aktiv') && treffer.length > 0 && (
+            {(ergebnis === 'treffer' || ergebnis === 'nicht_aktiv') && treffer.length > 0 && !listeZu && (
                 <div className="mt-4">
-                    <p className="text-sm text-text-secondary">
-                        {ergebnis === 'treffer'
-                            ? aktive.length > 1
-                                ? 'Wir haben mehrere Einträge im Handelsregister gefunden. Wählen Sie Ihre Firma.'
-                                : 'Diesen Eintrag haben wir im Handelsregister gefunden.'
-                            : 'Diese Einträge sind im Handelsregister nicht aktiv.'}{' '}
-                        {quelleText(antwort?.quelle ?? null)}
+                    <p className="text-sm text-text-secondary" id="ki-demo-hr-untertitel">
+                        {untertitel}
                     </p>
                     <fieldset className="mt-3 space-y-2.5 min-w-0" aria-label="Einträge im Handelsregister">
                         {treffer.map((t) => (
-                            <Eintrag key={t.uid} t={t} name={radioName} gewaehlt={auswahl === t.uid} onWahl={() => setWahl(t.uid)} />
+                            <Eintrag
+                                key={t.uid}
+                                t={t}
+                                name={radioName}
+                                gewaehlt={auswahl === t.uid}
+                                onWahl={() => {
+                                    setWahl(t.uid);
+                                    setPasstNicht(null);
+                                }}
+                            />
                         ))}
                     </fieldset>
+                    {passt && (
+                        <div className="mt-3 space-y-3" data-hr-passt-nicht="">
+                            <p role="alert" className="rounded-2xl border border-red-200 dark:border-red-900/60 bg-red-50 dark:bg-red-950/40 px-4 py-3 text-sm text-red-800 dark:text-red-200">
+                                {passt[0]}
+                                <strong className="font-semibold">{passt[1]}</strong>
+                                {passt[2]}
+                                <strong className="font-semibold">{passt[3]}</strong>
+                                {passt[4]}
+                            </p>
+                            <button type="button" onClick={onAndereWebsite} className={KNOPF_ZWEIT} id="ki-demo-hr-andere-website">
+                                <Globe className="w-4 h-4" aria-hidden="true" />
+                                {HR_SCHRITT.andereWebsite}
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
 
-            {ergebnis === 'treffer' && (
+            {ergebnis === 'treffer' && !listeZu && (
                 <div className="mt-5 space-y-3">
                     <button type="button" onClick={bestaetigen} disabled={!auswahl || !!laeuft} className={KNOPF} id="ki-demo-hr-bestaetigen">
                         {laeuft === 'bestaetige' ? <Loader2 className="w-5 h-5 animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <Check className="w-5 h-5" aria-hidden="true" />}
                         Ja, das ist meine Firma
                     </button>
-                    {!suchOffen && rest > 0 && (
+                    {rest > 0 && (
                         <button
                             type="button"
                             onClick={() => {
                                 setSuchOffen(true);
                                 setFehler(null);
+                                setPasstNicht(null);
                                 setTimeout(() => document.getElementById('ki-demo-hr-suche')?.focus(), 0);
                             }}
-                            className="block mx-auto text-sm font-semibold text-text-primary underline underline-offset-2 hover:no-underline"
+                            className={TEXTLINK}
                             id="ki-demo-hr-andere"
                         >
                             {aktive.length > 1 ? 'Meine Firma ist nicht dabei' : 'Nein, andere Firma suchen'}
@@ -261,8 +335,8 @@ export function Handelsregister({ scanId, start, onNochmals, onBestaetigt, hinwe
                         ? rest < MANUELL_MAX
                             ? 'Zu dieser Eingabe haben wir im Handelsregister keinen Eintrag gefunden.'
                             : 'Zu Ihrer Website haben wir im Handelsregister keinen passenden Eintrag gefunden.'
-                        : HR_TEXT.aktivNoetig}{' '}
-                    Geben Sie den Firmennamen oder die UID ein, dann suchen wir nochmals.
+                        : HR_TEXT.aktivNoetig}
+                    {rest > 0 ? ' Geben Sie den Firmennamen oder die UID ein, dann suchen wir nochmals.' : ''}
                 </p>
             )}
 
@@ -295,6 +369,12 @@ export function Handelsregister({ scanId, start, onNochmals, onBestaetigt, hinwe
                         {versucheText(rest)}
                     </p>
                 </form>
+            )}
+
+            {zurueck && (
+                <button type="button" onClick={zurueckZuVorschlaegen} className={`${TEXTLINK} mt-4`} id="ki-demo-hr-zurueck">
+                    {HR_SCHRITT.zurueck}
+                </button>
             )}
 
             {fehler && (
