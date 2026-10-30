@@ -12,6 +12,9 @@
  *   409 website_passt_nicht (wortgleicher Text, kein Nachweis, zählt nicht als Suche), Routen,
  *   Auftrag mit Sprechname
  *
+ * AUFTRAG-112 (angepasst): pornhub.com steht auf der Sperrliste — die Routen weisen diesen Scan mit 404 ab;
+ * die Route-Prüfung von 409 website_passt_nicht / 403 läuft mit der neutralen Website beispiel-portal.ch.
+ *
  * Eigener Speicher-Ordner (Temp), kein DEMO_ANSTOSS_URL (kein Anstoss, kein Anruf).
  * Registerdaten: Elektro-Tel AG und «lnfraOne IT Solutions GmbH» (öffentliche Einträge, gemessen
  * 30.10.2026) und erfundene «Muster»-Firmen; Nummern erfunden.
@@ -304,12 +307,21 @@ try {
         pruefe('409: Log ohne Firmennamen und ohne Host', zeilen.some((z) => /art=bestaetigt-abgelehnt grund=website_passt_nicht/.test(z)) && !zeilen.join('\n').match(/Elektro|pornhub/i), zeilen.join(' | '));
         const n = await hr.nachweisFuerAnruf(scan);
         pruefe('409: Anruf bleibt gesperrt (handelsregister_fehlt)', !n.ok && n.code === texte.HR_CODE_FEHLT);
+        // AUFTRAG-112 (angepasst): pornhub.com steht auf der Sperrliste — jede Route, die einen Scan liest, weist
+        // ihn ab (404 wie abgelaufen). Die Route-Prüfung von 409/403 läuft deshalb mit einer neutralen Website.
+        const rGesperrt = await stumm(() => hrRoute.POST(post('/api/demo/handelsregister', { scan_id: scan.id, bestaetige: 'CHE107160757' })));
+        const aGesperrt = await stumm(() => anrufRoute.POST(post('/api/demo/anruf', anrufBody(scan.id))));
+        pruefe('A-112: Routen handelsregister/anruf weisen den pornhub.com-Scan ab (Sperrliste → 404)', rGesperrt.r.status === 404 && aGesperrt.r.status === 404);
+        const neutral = await neuerScan('beispiel-portal.ch', { firma: 'Beispiel Portal', titel: 'Beispiel Portal', bindung_text: b.bindungsText(['Beispiel Portal', 'Videos und Fotos', 'Nutzungsbedingungen']) }, { firma: 'Beispiel Portal' });
+        await stumm(() => hr.automatischePruefung(neutral));
+        await stumm(() => hr.manuelleSuche(neutral, 'Elektro-Tel AG'));
+        const sollNeutral = soll.replace('pornhub.com', 'beispiel-portal.ch');
         // Route: 409 mit Kennung, Anruf 403
-        const r = await stumm(() => hrRoute.POST(post('/api/demo/handelsregister', { scan_id: scan.id, bestaetige: 'CHE107160757' })));
+        const r = await stumm(() => hrRoute.POST(post('/api/demo/handelsregister', { scan_id: neutral.id, bestaetige: 'CHE107160757' })));
         const d = await r.r.json();
-        pruefe('Route handelsregister: 409 {code: "website_passt_nicht", fehler, website, firma}', r.r.status === 409 && d.code === 'website_passt_nicht' && d.fehler === soll && d.website === 'pornhub.com' && d.firma === ET.name && !('nachweis' in d), JSON.stringify(d));
+        pruefe('Route handelsregister: 409 {code: "website_passt_nicht", fehler, website, firma}', r.r.status === 409 && d.code === 'website_passt_nicht' && d.fehler === sollNeutral && d.website === 'beispiel-portal.ch' && d.firma === ET.name && !('nachweis' in d), JSON.stringify(d));
         const vorAuftraege = (await speicherMod.speicher().liste('auftrag/')).length;
-        const ra = await stumm(() => anrufRoute.POST(post('/api/demo/anruf', anrufBody(scan.id))));
+        const ra = await stumm(() => anrufRoute.POST(post('/api/demo/anruf', anrufBody(neutral.id))));
         const da = await ra.r.json();
         pruefe('Route anruf nach 409: 403 handelsregister_fehlt, kein Auftrag', ra.r.status === 403 && da.code === texte.HR_CODE_FEHLT && (await speicherMod.speicher().liste('auftrag/')).length === vorAuftraege, JSON.stringify(da));
         // Liste bleibt wählbar: eine andere gezeigte Firma, die ebenfalls nicht passt → wieder 409, Zähler unverändert

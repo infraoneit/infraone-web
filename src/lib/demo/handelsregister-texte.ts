@@ -99,6 +99,19 @@ export const HR_SCHRITT = {
     andereWebsite: 'Andere Website eingeben',
     /** Textlink unter dem Suchformular (P3) */
     zurueck: 'Zurück zu den Vorschlägen',
+    /** AUFTRAG-112 (wortgleich): Telefon-Schritt nach der Vorprüfung (Status ok, detail Host) */
+    websiteErreichbar: 'Website erreichbar',
+    /** AUFTRAG-112 (wortgleich): Telefon-Schritt, wenn die automatische Prüfung nichts Aktives findet (Status leer) */
+    telefonNichtGefunden: 'Firma im Handelsregister nicht gefunden',
+    telefonNichtGefundenDetail: 'Unten nach Firmenname oder UID suchen',
+    /** AUFTRAG-112 (wortgleich): Vollscan nach der Bestätigung (läuft → «Website gelesen», detail «<host> · n Seiten») */
+    websiteWirdGelesen: 'Website wird gelesen …',
+    websiteGelesen: 'Website gelesen',
+    websiteGelesenDetail: (host: string, seiten: number) => `${host} · ${seiten} ${seiten === 1 ? 'Seite' : 'Seiten'}`,
+    /** AUFTRAG-112 (wortgleich): gedämpfte Zeile unter dem Untertitel des Firmen-Schritts */
+    leseHinweis: 'Ihre Website lesen wir erst, nachdem Sie Ihre Firma bestätigt haben.',
+    /** AUFTRAG-112 (wortgleich): Knopf nach einem Fehler im Vollscan */
+    nochmalsVersuchen: 'Nochmals versuchen',
 } as const;
 
 export const HR_TEXT = {

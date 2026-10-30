@@ -14,6 +14,9 @@
  *    Liste bleibt wählbar → «Andere Website eingeben» → URL-Feld vorbefüllt und fokussiert.
  * D) Mobil 375 px: Firmen-Schritt während des Scans ohne waagrechtes Scrollen.
  *
+ * AUFTRAG-112 (angepasst): Vorprüfung vor der Bestätigung, Vollscan und KI-Profil erst danach — die
+ * Wartezeit aufs Anruf-Formular nach «Ja, das ist meine Firma» ist deshalb 90 s statt 30 s.
+ *
  * KEIN Anruf: Das Formular wird nie abgesendet; jede Seite fängt POST /api/demo/anruf ab (418).
  *
  *   $env:BASE_URL='http://localhost:3005'; node scripts/auftrag111-browser-test.mjs
@@ -145,7 +148,8 @@ try {
 
         // A: bestätigen
         await s.page.click('#ki-demo-hr-bestaetigen');
-        await s.page.waitForSelector('#ki-demo-nummer', { state: 'visible', timeout: 30000 });
+        // AUFTRAG-112 (angepasst): Vollscan und KI-Profil laufen erst nach der Bestätigung → bis 90 s (wie A-109)
+        await s.page.waitForSelector('#ki-demo-nummer', { state: 'visible', timeout: 90000 });
         await s.page.waitForTimeout(400);
         const rolle = await s.page.$eval('figure [role="group"] p[title]', (p) => ({ text: p.textContent?.trim() ?? '', titel: p.getAttribute('title') ?? '' })).catch(() => null);
         const nach = await telefonSchritte(s.page);

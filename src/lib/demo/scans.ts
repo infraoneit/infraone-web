@@ -1,9 +1,13 @@
 /**
  * Gespeicherte Scans der KI-Demo (`scan/{id}`, Lebensdauer 2 h).
+ *
+ * AUFTRAG-112: Ein Scan entsteht als `vorpruefung` (POST /api/demo/scan {url}) und wird nach der
+ * Bestätigung der Firma unter derselben Kennung zum `voll`-Scan (POST /api/demo/scan {scan_id}).
+ * Datensätze ohne Feld `stufe` (vor diesem Auftrag gespeichert) gelten als `voll`.
  */
 import { leseGueltig, speicher } from './speicher';
 import { isoZuerich, zufall } from './api';
-import type { Extrakt, Profil, ProfilQuelle, ScanGespeichert, Schritt } from './typen';
+import type { Extrakt, Profil, ProfilQuelle, ScanGespeichert, ScanStufe, Schritt } from './typen';
 
 export const SCAN_TTL_MS = 2 * 60 * 60 * 1000;
 export const SCAN_ID_RE = /^s-[a-z0-9]{16}$/;
@@ -15,8 +19,15 @@ export function neueScanId(): string {
     return `s-${zufall(16)}`;
 }
 
+/** AUFTRAG-112: Stufe eines gespeicherten Scans; ohne Feld (ältere Datensätze, bis 2 h alt) → `voll`. */
+export function scanStufe(scan: Pick<ScanGespeichert, 'stufe'>): ScanStufe {
+    return scan.stufe === 'vorpruefung' ? 'vorpruefung' : 'voll';
+}
+
 export async function speichereNeuenScan(daten: {
     id?: string;
+    /** AUFTRAG-112: `vorpruefung` (Scan-Route) — ohne Angabe gilt der Datensatz als `voll` */
+    stufe?: ScanStufe;
     extrakt: Extrakt;
     profil: Profil;
     profil_quelle: ProfilQuelle;

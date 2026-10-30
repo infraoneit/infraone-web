@@ -15,6 +15,9 @@
  * erscheint die Meldung unter der Liste mit «Andere Website eingeben»; die Liste bleibt wählbar und
  * es zählt nicht als Suchversuch. Erst nach der Bestätigung zeigt das Widget den Anruf-Schritt; der
  * Server erzwingt das zusätzlich (POST /api/demo/anruf → 403 ohne signierten, gebundenen Nachweis).
+ *
+ * AUFTRAG-112: Unter dem Untertitel von «Welche ist Ihre Firma?» und «Firma nicht gefunden» steht gedämpft
+ * «Ihre Website lesen wir erst, nachdem Sie Ihre Firma bestätigt haben.» (der Vollscan läuft erst danach).
  */
 import { useId, useState, type FormEvent } from 'react';
 import Link from 'next/link';
@@ -255,6 +258,12 @@ export function Handelsregister({ scanId, website, start, onNochmals, onBestaeti
                     Wir gleichen Ihre Website mit dem Handelsregister ab …
                 </p>
             )}
+            {/* AUFTRAG-112: gedämpfte Zeile unter dem Untertitel («Welche ist Ihre Firma?»; Liste eingeklappt: unter dem Titel) */}
+            {(ergebnis === 'pruefen' || (ergebnis === 'treffer' && listeZu)) && (
+                <p className="mt-2 text-xs text-text-secondary" data-hr-lesehinweis="">
+                    {HR_SCHRITT.leseHinweis}
+                </p>
+            )}
 
             {(ergebnis === 'netz' || ergebnis === 'nicht_erreichbar') && (
                 <div className="mt-4 space-y-4">
@@ -273,6 +282,11 @@ export function Handelsregister({ scanId, website, start, onNochmals, onBestaeti
                     <p className="text-sm text-text-secondary" id="ki-demo-hr-untertitel">
                         {untertitel}
                     </p>
+                    {ergebnis === 'treffer' && (
+                        <p className="mt-2 text-xs text-text-secondary" data-hr-lesehinweis="">
+                            {HR_SCHRITT.leseHinweis}
+                        </p>
+                    )}
                     <fieldset className="mt-3 space-y-2.5 min-w-0" aria-label="Einträge im Handelsregister">
                         {treffer.map((t) => (
                             <Eintrag
@@ -337,6 +351,12 @@ export function Handelsregister({ scanId, website, start, onNochmals, onBestaeti
                             : 'Zu Ihrer Website haben wir im Handelsregister keinen passenden Eintrag gefunden.'
                         : HR_TEXT.aktivNoetig}
                     {rest > 0 ? ' Geben Sie den Firmennamen oder die UID ein, dann suchen wir nochmals.' : ''}
+                </p>
+            )}
+            {/* AUFTRAG-112: gedämpfte Zeile unter dem Untertitel von «Firma nicht gefunden» */}
+            {ergebnis === 'kein_treffer' && !ausgeschoepft && (
+                <p className="mt-2 text-xs text-text-secondary" data-hr-lesehinweis="">
+                    {HR_SCHRITT.leseHinweis}
                 </p>
             )}
 

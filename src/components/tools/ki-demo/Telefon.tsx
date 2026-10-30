@@ -10,7 +10,7 @@
  * überblenden (keine Layout-Sprünge: das Gerät hat feste Masse).
  */
 import type { CSSProperties, ReactNode } from 'react';
-import { Check, Clock, Grid3x3, Loader2, Mic, Minus, Phone, PhoneOff, Volume2 } from 'lucide-react';
+import { Check, Clock, Grid3x3, Loader2, Mic, Minus, Phone, PhoneOff, Volume2, X } from 'lucide-react';
 import styles from '../KiDemo.module.css';
 import { Welle } from './Welle';
 import type { Zustand } from '@/lib/demo/zustand';
@@ -20,7 +20,8 @@ import type { Sprache } from '@/lib/demo/typen';
 /** Absendernummer der Demo-Anrufe (Orchestrator `ausgehende_cli`). */
 export const ANRUF_VON = '+41 44 552 03 06';
 
-export type SchrittStatus = 'laeuft' | 'ok' | 'leer';
+/** AUFTRAG-112: `fehler` = Vollscan nach der Bestätigung gescheitert (Titel = Text des Servers) */
+export type SchrittStatus = 'laeuft' | 'ok' | 'leer' | 'fehler';
 
 export interface SchrittAnzeige {
     /** AUFTRAG-111: dazu «handelsregister» (Firma wird geprüft / Handelsregister: Name) */
@@ -192,7 +193,9 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
                                         className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${
                                             s.status === 'ok'
                                                 ? 'bg-[#1f7a35] text-white'
-                                                : s.status === 'leer'
+                                                : s.status === 'fehler'
+                                                  ? 'bg-[#b42318] text-white'
+                                                  : s.status === 'leer'
                                                   ? 'bg-black/[0.08] text-[#5b6472] dark:bg-white/10 dark:text-[#9aa3af]'
                                                   : 'text-[#5b6472] dark:text-[#9aa3af]'
                                         }`}
@@ -200,6 +203,8 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
                                     >
                                         {s.status === 'ok' ? (
                                             <Check className={`${styles.haken} w-3 h-3`} strokeWidth={3.2} />
+                                        ) : s.status === 'fehler' ? (
+                                            <X className="w-3 h-3" strokeWidth={3.2} />
                                         ) : s.status === 'leer' ? (
                                             <Minus className="w-3 h-3" strokeWidth={3} />
                                         ) : (
@@ -208,8 +213,9 @@ export function Telefon({ zustand, host, welleFarbe, schritte, karte, sprache, o
                                     </span>
                                     <span className="min-w-0 flex-1">
                                         <span className="flex items-center gap-2 text-[0.84rem] font-semibold leading-tight">
-                                            {/* AUFTRAG-111: die Firmen-Schritte (wortgleiche, längere Texte) brechen zweizeilig um statt abgeschnitten zu werden */}
-                                            <span className={s.id === 'handelsregister' || s.id === 'assistent' ? 'min-w-0 line-clamp-2' : 'truncate'} data-schritt-titel="">
+                                            {/* AUFTRAG-111: die Firmen-Schritte (wortgleiche, längere Texte) brechen zweizeilig um statt abgeschnitten zu werden;
+                                                AUFTRAG-112: ebenso ein Fehler im Vollscan (Text des Servers) */}
+                                            <span className={s.id === 'handelsregister' || s.id === 'assistent' || s.status === 'fehler' ? 'min-w-0 line-clamp-2' : 'truncate'} data-schritt-titel="" data-schritt-stand={s.status}>
                                                 {s.titel}
                                             </span>
                                             {s.farbe && <span className="flex-shrink-0 w-3.5 h-3.5 rounded-full ring-1 ring-black/10" style={{ background: s.farbe }} aria-hidden="true" />}
