@@ -11,7 +11,9 @@ import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { Brotkrumen, type Krume } from './Brotkrumen';
 import { InEntwicklungBadge, MitHinweis } from './InEntwicklung';
+import { MitKiAnbieterLink } from './KiAnbieter';
 import { KI_BASIS } from './seiten';
+import { ANFRAGE_HREF, ANFRAGE_TEXTE } from '@/lib/ki-anfrage';
 
 /* ------------------------------------------------------------------ */
 /* Seitenkopf der Unterseiten                                          */
@@ -69,8 +71,13 @@ export function SeitenKopf({
     );
 }
 
-/** «Live testen» + «Beratung vereinbaren» (roter Faden zum Live-Test) */
-export function AktionenStandard({ className = '', hell = false }: { className?: string; hell?: boolean }) {
+/**
+ * «Live testen» + «Assistent anfragen» (roter Faden zum Live-Test).
+ * [31.10.2026] AUFTRAG-114: zweiter Knopf statt «Beratung vereinbaren» (/kontakt) jetzt «Assistent anfragen»
+ * auf das Formular #anfrage — natives <a> wegen des Hashs (Next-<Link> löst kein hashchange aus).
+ * `anfrageHref`: auf Seiten mit eigenem Formular «#anfrage», sonst die Hub-Seite.
+ */
+export function AktionenStandard({ className = '', hell = false, anfrageHref = ANFRAGE_HREF }: { className?: string; hell?: boolean; anfrageHref?: string }) {
     return (
         <div className={cn('flex flex-col sm:flex-row gap-3 sm:gap-4', className)}>
             <Button variant="primary" size="lg" className={cn('px-7', hell && 'bg-white text-[#14361a] hover:bg-white/90 shadow-none')} asChild>
@@ -80,10 +87,10 @@ export function AktionenStandard({ className = '', hell = false }: { className?:
                 </Link>
             </Button>
             <Button variant="outline" size="lg" className={cn('px-7', hell && 'border-white text-white hover:bg-white hover:text-[#14361a]')} asChild>
-                <Link href="/kontakt">
-                    Beratung vereinbaren
+                <a href={anfrageHref} data-anfrage-knopf="">
+                    {ANFRAGE_TEXTE.cta}
                     <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                </Link>
+                </a>
             </Button>
         </div>
     );
@@ -257,7 +264,7 @@ export function OhneMit({ zeilen }: { zeilen: Array<{ thema: string; ohne: strin
                             <span>
                                 <span className="md:sr-only font-semibold">Mit: </span>
                                 {z.mit}
-                                {/* AUFTRAG-113: Kalender/SMS in Entwicklung */}
+                                {/* AUFTRAG-113/114: Badge nur noch für den Kalendereintrag */}
                                 {z.inEntwicklung && (
                                     <>
                                         {' '}
@@ -295,7 +302,10 @@ export function FaqListe({ eintraege, zweispaltig = true }: { eintraege: FaqEint
                         <ChevronDown className="w-5 h-5 flex-shrink-0 text-primary transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
                     </summary>
                     <div className="px-5 pb-5 -mt-1 text-text-secondary leading-relaxed">
-                        <p>{f.antwort}</p>
+                        {/* AUFTRAG-114: «Datenschutzerklärung» im KI-Anbieter-Satz verlinkt (JSON-LD bleibt Klartext) */}
+                        <p>
+                            <MitKiAnbieterLink text={f.antwort} />
+                        </p>
                         {f.link && (
                             <Link href={f.link.href} className="mt-3 inline-flex items-center gap-1.5 font-semibold text-text-primary underline underline-offset-4 decoration-primary hover:decoration-2">
                                 {f.link.text}
@@ -317,11 +327,14 @@ export function AbschlussCta({
     titel = 'Hören Sie selbst, wie Ihr Assistent klingt',
     text = 'Geben Sie Ihre Website ein und lassen Sie sich anrufen – kostenlos und ohne Anmeldung. Oder besprechen Sie Ihren Betrieb direkt mit uns.',
     liveHref = KI_BASIS,
+    anfrageHref = ANFRAGE_HREF,
 }: {
     titel?: string;
     text?: string;
     /** auf der Hub-Seite ein nativer Anker zum Widget (#live-test) */
     liveHref?: string;
+    /** AUFTRAG-114: Formular «Assistent anfragen»; auf Seiten mit eigenem Formular «#anfrage» */
+    anfrageHref?: string;
 }) {
     const istAnker = liveHref.startsWith('#');
     return (
@@ -343,11 +356,12 @@ export function AbschlussCta({
                             </Link>
                         )}
                     </Button>
+                    {/* AUFTRAG-114: «Assistent anfragen» statt «Beratung vereinbaren»; natives <a> wegen des Hashs */}
                     <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary-hover" asChild>
-                        <Link href="/kontakt">
-                            Beratung vereinbaren
+                        <a href={anfrageHref} data-anfrage-knopf="">
+                            {ANFRAGE_TEXTE.cta}
                             <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                        </Link>
+                        </a>
                     </Button>
                     <Button variant="outline" size="lg" className="border-white/60 text-white hover:bg-white hover:text-primary-hover" asChild>
                         <a href="tel:+41522221818">

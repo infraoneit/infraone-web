@@ -13,8 +13,11 @@
  * Solange PREISE_FREIGEGEBEN = false wäre: Entwurfsband, noindex, keine Offer.
  * (public/llms.txt und llms-full.txt nennen die Beträge seit AUFTRAG-113.)
  *
- * AUFTRAG-113: Kalendereintrag und SMS-Bestätigung sind in Entwicklung; die
- * Merkmale tragen den Zusatz «(in Entwicklung, kommt bald)» (Darstellung als Badge).
+ * AUFTRAG-113: Merkmale mit dem Zusatz «(in Entwicklung, kommt bald)» erscheinen mit Badge.
+ * [31.10.2026] AUFTRAG-114: Die SMS-Bestätigung an Anrufende funktioniert bereits (Inhaber) und
+ * steht ohne Zusatz in den Paketen; nur «Termine im Microsoft-365-Kalender» ist noch in
+ * Entwicklung. Was beim Starter steht, steht auch bei Business und Enterprise (konsistent).
+ * Beträge unverändert.
  */
 import { inEntwicklung } from '@/lib/in-entwicklung';
 
@@ -57,9 +60,14 @@ export const PAKETE: KiPaket[] = [
         name: 'Starter',
         preisMonat: 149,
         minuten: 500,
-        // Nachtrag AUFTRAG-113: Kalendereintrag/SMS in Entwicklung → Zielgruppe ohne Terminvergabe beschreiben
+        // Nachtrag AUFTRAG-113: Kalendereintrag noch nicht verfügbar → Zielgruppe ohne Terminvergabe beschreiben
         fuerWen: 'Für Betriebe, die am Telefon Terminwünsche aufnehmen und Rückrufe organisieren.',
-        merkmale: ['500 Gesprächsminuten pro Monat', inEntwicklung('Termine im Microsoft-365-Kalender'), inEntwicklung('SMS-Bestätigung an Anrufende')],
+        // AUFTRAG-114: SMS-Bestätigung verfügbar, nur der Kalendereintrag mit Badge (wortgleich aus dem Auftrag)
+        merkmale: [
+            '500 Gesprächsminuten pro Monat',
+            'SMS-Bestätigung an Anrufende',
+            inEntwicklung('Termine im Microsoft-365-Kalender'),
+        ],
         empfohlen: true,
     },
     {
@@ -68,9 +76,12 @@ export const PAKETE: KiPaket[] = [
         preisMonat: 299,
         minuten: 1500,
         fuerWen: 'Für Betriebe mit vielen Anrufen, Pikettdienst oder mehreren Teams.',
+        // AUFTRAG-114: alles aus Starter auch hier (SMS-Bestätigung, Kalendereintrag mit Badge)
         merkmale: [
             '1500 Gesprächsminuten pro Monat',
             '3 gleichzeitige Gespräche',
+            'SMS-Bestätigung an Anrufende',
+            inEntwicklung('Termine im Microsoft-365-Kalender'),
             'Weiterleitung an eine Person',
             'Notfallmeldung an Ihre Notfallnummer',
             'Mehrere Agenten, z. B. ausserhalb der Öffnungszeiten',
@@ -82,7 +93,16 @@ export const PAKETE: KiPaket[] = [
         preisMonat: null,
         minuten: null,
         fuerWen: 'Für Unternehmen mit eigenen Systemen, Telefonanlage und mehreren Standorten.',
-        merkmale: ['Eigene Integrationen', 'Anbindung an die vPBX', 'Mehrere Standorte'],
+        // AUFTRAG-114: alles aus Starter und Business auch hier
+        merkmale: [
+            'Minuten und Gespräche nach Bedarf',
+            'SMS-Bestätigung an Anrufende',
+            inEntwicklung('Termine im Microsoft-365-Kalender'),
+            'Weiterleitung und Notfallmeldung wie Business',
+            'Eigene Integrationen',
+            'Anbindung an die vPBX',
+            'Mehrere Standorte',
+        ],
     },
 ];
 

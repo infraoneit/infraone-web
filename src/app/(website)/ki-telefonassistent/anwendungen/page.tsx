@@ -25,13 +25,14 @@ const ICONS: Record<string, LucideIcon> = {
     notfall: Siren,
 };
 
-// AUFTRAG-113: Kalendereintrag und SMS sind in Entwicklung — hier nur, was heute geht
+// AUFTRAG-113: Kalendereintrag in Entwicklung — hier nur, was heute geht.
+// [31.10.2026] AUFTRAG-114: Die SMS-Bestätigung funktioniert bereits → Schritt «Notiz und SMS» wie vor AUFTRAG-113.
 const ablauf = [
     { titel: 'Begrüssung', text: 'mit Ihrem Firmennamen' },
     { titel: 'Frage beantworten', text: 'Auskunft aus Ihrem Wissen' },
     { titel: 'Anliegen aufnehmen', text: 'Name, Firma, Anliegen, Rückruf' },
     { titel: 'Terminwunsch oder Notfall', text: 'Notiz oder Notfallnummer' },
-    { titel: 'Notiz an Sie', text: 'per E-Mail, mit Zusammenfassung' },
+    { titel: 'Notiz und SMS', text: 'an Sie und an die anrufende Person' },
 ];
 
 const wegweiser = [
@@ -97,7 +98,7 @@ export default function AnwendungenSeite() {
                             </span>
                             <h3 className="text-xl font-bold text-text-primary">Ihre eigene Aufgabe</h3>
                             <p className="mt-2 text-text-secondary leading-relaxed">
-                                Haben Sie einen Ablauf am Telefon, der hier fehlt? Erzählen Sie uns davon. Für Abläufe, die über Notiz, Weiterleitung und Notfallmeldung hinausgehen, prüfen wir mit Ihnen eigene Integrationen.
+                                Haben Sie einen Ablauf am Telefon, der hier fehlt? Erzählen Sie uns davon. Für Abläufe, die über Notiz, SMS, Weiterleitung und Notfallmeldung hinausgehen, prüfen wir mit Ihnen eigene Integrationen.
                             </p>
                             <Link href="/kontakt" className="mt-auto pt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-text-primary hover:text-primary">
                                 Beratung vereinbaren

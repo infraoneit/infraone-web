@@ -30,8 +30,10 @@ import { kiMetadata } from '@/components/ki-telefonassistent/meta';
 import { JsonLd } from '@/components/ki-telefonassistent/JsonLd';
 import { kiKrumen, kiSeitenSchemas } from '@/components/ki-telefonassistent/Brotkrumen';
 import { Abschnitt, AbschlussCta, FaqListe, IconKachel, OhneMit, Prosa, Querverweise, Schrittfolge } from '@/components/ki-telefonassistent/Bausteine';
-import { KALENDER_SMS_SATZ } from '@/lib/in-entwicklung';
+import { KALENDER_SATZ } from '@/lib/in-entwicklung';
+import { KiAnbieterSatz } from '@/components/ki-telefonassistent/KiAnbieter';
 import { PreisTeaser } from '@/components/ki-telefonassistent/Preise';
+import { AnfrageFormular } from '@/components/ki-telefonassistent/AnfrageFormular';
 import { Gespraech } from '@/components/ki-telefonassistent/Gespraech';
 import { faqFuerSchema, faqNachIds, HUB_FAQ_IDS } from '@/components/ki-telefonassistent/inhalte/faq';
 import { ANWENDUNGEN } from '@/components/ki-telefonassistent/inhalte/anwendungen';
@@ -127,8 +129,8 @@ const ohneMit = [
     {
         thema: 'Terminwunsch',
         ohne: 'Notiz auf einem Zettel, Rückruf, nochmals Rückruf.',
-        // AUFTRAG-113: Kalendereintrag und SMS in Entwicklung (Satz wortgleich, dazu die Badge)
-        mit: KALENDER_SMS_SATZ,
+        // AUFTRAG-113/114: Satz wortgleich aus lib/in-entwicklung.ts, Badge für den Kalendereintrag
+        mit: KALENDER_SATZ,
         inEntwicklung: true,
     },
 ];
@@ -333,6 +335,9 @@ export default function KiTelefonassistentPage() {
                 <PreisTeaser />
             </Abschnitt>
 
+            {/* [31.10.2026] AUFTRAG-114: direkte Anfrage ohne vorherigen Testanruf (nach dem Preis-Teaser, vor den FAQ) */}
+            <AnfrageFormular />
+
             {/* 8. Warum InfraOne */}
             <Abschnitt
                 titel="Warum mit InfraOne"
@@ -357,8 +362,9 @@ export default function KiTelefonassistentPage() {
                             </span>
                             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-5">Datenschutz, offen erklärt</h2>
                             <Prosa>
+                                {/* [31.10.2026] AUFTRAG-114: Namen der KI-Anbieter nur noch in der Datenschutzerklärung */}
                                 <p>
-                                    Der Assistent läuft auf Servern in der Schweiz, bei Infomaniak in Satigny, die Telefonie über Schweizer Provider. Für die Sprachverarbeitung setzen wir KI-Anbieter ein – Google Gemini und OpenAI –, in bezahlten Stufen, bei denen Daten nicht für das Training verwendet werden.
+                                    Der Assistent läuft auf Servern in der Schweiz, bei Infomaniak in Satigny, die Telefonie über Schweizer Provider. <KiAnbieterSatz />
                                 </p>
                                 <p>
                                     Gespräche werden nicht aufgezeichnet. Sie erhalten Transkript und Zusammenfassung per E-Mail. Einen Auftragsverarbeitungsvertrag nach Schweizer Datenschutzgesetz erhalten Sie auf Anfrage.
@@ -419,6 +425,7 @@ export default function KiTelefonassistentPage() {
                 titel="Bereit für Ihren eigenen Assistenten?"
                 text="Testen Sie ihn oben mit Ihrer Website – kostenlos, ohne Anmeldung. Oder sprechen Sie direkt mit uns über Ihren Betrieb."
                 liveHref="#live-test"
+                anfrageHref="#anfrage"
             />
         </>
     );

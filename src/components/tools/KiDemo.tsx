@@ -29,6 +29,7 @@ import styles from './KiDemo.module.css';
 import { Telefon, SPRACH_WAHL, ANRUF_VON, sprachName, type KartenAnzeige, type SchrittAnzeige } from './ki-demo/Telefon';
 import { Handelsregister } from './ki-demo/Handelsregister';
 import { HR_CODE_ABGELAUFEN, HR_CODE_FEHLT, HR_SCHRITT, type HrAntwort, type HrBestaetigt } from '@/lib/demo/handelsregister-texte';
+import { ANFRAGE_FIRMA_SCHLUESSEL, ANFRAGE_HREF } from '@/lib/ki-anfrage';
 import { kuerzeName, sprechName } from '@/lib/demo/bindung';
 import {
     brauchtDunklenGrund,
@@ -1527,15 +1528,28 @@ export function KiDemo({ children, turnstileSiteKey, begruessungNachStimme = fal
                                     <PrimaerKnopf zustand={zustand} name={kartenAnzeige.name} type="button" onClick={nochmals} id="ki-demo-anruf-knopf" />
                                     <div className="pt-1">
                                         <p className="text-text-secondary leading-relaxed">{NACH_GESPRAECH}</p>
-                                        <Link
-                                            href={`/kontakt?subject=${encodeURIComponent('KI-Telefonassistent')}&message=${encodeURIComponent(
-                                                `Ich habe den Demo-Assistenten für ${kartenAnzeige.firma} (${kartenAnzeige.website}) getestet und möchte ihn für unseren Betrieb einrichten.`,
-                                            )}`}
+                                        {/*
+                                         * [31.10.2026] AUFTRAG-114: führt auf das Formular «Assistent anfragen» dieser Seite
+                                         * (#anfrage) statt auf /kontakt; natives <a> wegen des Hashs. Die getestete Firma
+                                         * (Handelsregister-Name, sonst der Name aus dem Scan) steht dort im Feld «Firma» vor —
+                                         * per sessionStorage, das Formular löscht den Schlüssel nach dem Lesen.
+                                         */}
+                                        <a
+                                            href={ANFRAGE_HREF}
+                                            onClick={() => {
+                                                const testFirma = hrBestaetigt?.name ?? (hrUebersprungen ? karte?.profil.firma : undefined) ?? '';
+                                                try {
+                                                    if (testFirma.trim()) window.sessionStorage.setItem(ANFRAGE_FIRMA_SCHLUESSEL, testFirma.trim());
+                                                } catch {
+                                                    // sessionStorage gesperrt: Formular öffnet ohne Vorbelegung
+                                                }
+                                            }}
+                                            data-ki-demo-anfrage=""
                                             className={`${styles.knopf} ${KNOPF_BASIS} mt-4 bg-primary text-white shadow-lg shadow-primary/25 hover:bg-primary-hover`}
                                         >
                                             So bekommt Ihre Firma diesen Assistenten
                                             <ArrowRight className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
-                                        </Link>
+                                        </a>
                                     </div>
                                 </div>
                             </>

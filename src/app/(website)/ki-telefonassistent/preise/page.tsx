@@ -4,12 +4,13 @@ import { JsonLd } from '@/components/ki-telefonassistent/JsonLd';
 import { kiKrumen, kiSeitenSchemas } from '@/components/ki-telefonassistent/Brotkrumen';
 import { Abschnitt, AbschlussCta, FaqListe, Prosa, Querverweise, SeitenKopf, type FaqEintrag } from '@/components/ki-telefonassistent/Bausteine';
 import { EntwurfsBand, PaketKarten, PreisDetails } from '@/components/ki-telefonassistent/Preise';
+import { AnfrageFormular } from '@/components/ki-telefonassistent/AnfrageFormular';
 import { RoiRechner } from '@/components/ki-telefonassistent/RoiRechner';
 import { faqNachIds } from '@/components/ki-telefonassistent/inhalte/faq';
 import { KI_BASIS, KI_PREISE_PFAD } from '@/components/ki-telefonassistent/seiten';
 import { chf, EINRICHTUNG_EINMALIG, MWST_HINWEIS, PAKETE, PREISE_FREIGEGEBEN, WAEHRUNG } from '@/lib/ki-telefonassistent-preise';
 import { generateKiTelefonassistentServiceSchema } from '@/lib/seo/schema';
-import { KALENDER_SMS_SATZ } from '@/lib/in-entwicklung';
+import { KALENDER_SATZ } from '@/lib/in-entwicklung';
 
 const TITEL = 'Preise des KI-Telefonassistenten | InfraOne';
 const BESCHREIBUNG =
@@ -30,8 +31,8 @@ const preisFaq: FaqEintrag[] = [
     {
         id: 'welches-paket',
         frage: 'Welches Paket passt zu mir?',
-        // AUFTRAG-113: Kalendereintrag und SMS sind in Entwicklung (Satz wortgleich aus lib/in-entwicklung.ts)
-        antwort: `Das hängt vor allem davon ab, wie viele Gesprächsminuten Sie pro Monat brauchen und ob der Assistent weiterleiten oder Notfälle melden soll. ${KALENDER_SMS_SATZ} Der Rechner unten hilft beim Einschätzen der Anrufe; im Erstgespräch schauen wir es gemeinsam an.`,
+        // AUFTRAG-113/114: Kalendereintrag in Entwicklung (Satz wortgleich aus lib/in-entwicklung.ts)
+        antwort: `Das hängt vor allem davon ab, wie viele Gesprächsminuten Sie pro Monat brauchen und ob der Assistent weiterleiten oder Notfälle melden soll. ${KALENDER_SATZ} Der Rechner unten hilft beim Einschätzen der Anrufe; im Erstgespräch schauen wir es gemeinsam an.`,
     },
     {
         id: 'cloud-telefonie',
@@ -76,6 +77,9 @@ export default function PreiseSeite() {
                 </div>
             </Abschnitt>
 
+            {/* [31.10.2026] AUFTRAG-114: «Anfragen» der Paketkarten springt hierher (#anfrage-<paketid>) */}
+            <AnfrageFormular />
+
             <Abschnitt
                 id="rechner"
                 titel="Was kostet ein verpasster Anruf?"
@@ -117,7 +121,7 @@ export default function PreiseSeite() {
                 ]}
             />
 
-            <AbschlussCta titel="Erst hören, dann entscheiden" text="Der Testanruf ist kostenlos und ohne Anmeldung. Hören Sie, wie Ihr Assistent klingt, und reden wir dann über das passende Paket." />
+            <AbschlussCta titel="Erst hören, dann entscheiden" text="Der Testanruf ist kostenlos und ohne Anmeldung. Hören Sie, wie Ihr Assistent klingt, und reden wir dann über das passende Paket." anfrageHref="#anfrage" />
         </>
     );
 }

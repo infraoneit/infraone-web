@@ -17,6 +17,15 @@
  *    Kalendereintrag oder die SMS als verfügbar behauptet (Text-Suche «trägt … ein» u. a. ohne Hinweis).
  * G) /ki-telefonassistent/preise ohne noindex, ohne Entwurfsband, in der Sitemap; Beträge unverändert.
  *
+ * Nachgeführt in AUFTRAG-114 (31.10.2026): Die SMS-Bestätigung funktioniert bereits (Inhaber) und ist
+ * wieder als verfügbar beschrieben; nur der Kalendereintrag bleibt «in Entwicklung». Darum
+ * - F: Satz KALENDER_SATZ statt KALENDER_SMS_SATZ (in-entwicklung.ts, wortgleich aus AUFTRAG-114);
+ * - F: die Text-Suche prüft nur noch Behauptungen zum Kalendereintrag; die drei SMS-Muster
+ *   («bestätigt per SMS», «erhält … SMS», «SMS an Herrn/Frau») entfallen, weil die SMS verfügbar ist
+ *   (die Gegenprüfung «SMS nie mit Badge/in Entwicklung» steht in auftrag114-einheit-test.mjs und
+ *   auftrag114-browser-test.mjs).
+ * Alles andere unverändert.
+ *
  * Sicherheit: Alle Aufrufe auf /api/demo/** werden im Browser abgefangen (418) — kein Scan, kein Anruf.
  *
  *   $env:BASE_URL='http://localhost:3005'; $env:SCREENS_DIR='…\A113-screens'; node scripts/auftrag113-browser-test.mjs
@@ -44,7 +53,8 @@ registerHooks({
 });
 const { KI_SEITEN, KI_BASIS, KI_PREISE_PFAD } = await import(pathToFileURL(path.join(ROOT, 'src/components/ki-telefonassistent/seiten.ts')).href);
 const { PREISE_FREIGEGEBEN, PAKETE, EINRICHTUNG_EINMALIG, PREIS_ZUSATZMINUTE } = await import(pathToFileURL(path.join(ROOT, 'src/lib/ki-telefonassistent-preise.ts')).href);
-const { IN_ENTWICKLUNG, KALENDER_SMS_SATZ } = await import(pathToFileURL(path.join(ROOT, 'src/lib/in-entwicklung.ts')).href);
+// AUFTRAG-114: KALENDER_SATZ ersetzt KALENDER_SMS_SATZ
+const { IN_ENTWICKLUNG, KALENDER_SATZ } = await import(pathToFileURL(path.join(ROOT, 'src/lib/in-entwicklung.ts')).href);
 
 const BASE = (process.env.BASE_URL || 'http://localhost:3005').replace(/\/$/, '');
 if (/:3000\b/.test(BASE)) {
@@ -532,7 +542,7 @@ try {
                 protokoll.badges[`${theme} ${pfad}`] = { anzahl: b.length, kontrast: k };
                 if (theme === 'light' && pfad === seiten[0]) {
                     const satz = await page.locator('main').innerText();
-                    check('F: Terminbuchung — Satz wortgleich im Lead', satz.includes(KALENDER_SMS_SATZ));
+                    check('F: Terminbuchung — Satz wortgleich im Lead', satz.includes(KALENDER_SATZ));
                 }
                 const badge = page.locator('main [data-in-entwicklung]').first();
                 await badge.scrollIntoViewIfNeeded();
@@ -544,16 +554,14 @@ try {
             await ctx.close();
         }
 
-        // Text-Suche im ganzen Bereich: kein Satz behauptet Kalendereintrag oder SMS als verfügbar
+        // Text-Suche im ganzen Bereich: kein Satz behauptet den Kalendereintrag als verfügbar
+        // (AUFTRAG-114: SMS-Muster entfallen — die SMS-Bestätigung ist verfügbar)
         const BEHAUPTUNG = [
             /\bträgt\b[^.!?]{0,120}\bein\b/i,
             // «eingetragen» nur im Termin-/Kalender-Zusammenhang (nicht «im Handelsregister eingetragen»)
             /(Termin|Kalender)[^.!?]{0,80}\beingetragen\b|\beingetragen\b[^.!?]{0,40}Kalender|\biitreit\b/i,
             /direkt (im|in Ihren|in einen) (Microsoft-365-)?Kalender/i,
             /Termin(e)? im (Microsoft-365-)?Kalender\b(?! verwendet)/i,
-            /(bestätigt|Bestätigung) (sie )?per SMS/i,
-            /(erhält|erhalten|bekommt|bekommen|überchömed)[^.!?]{0,60}\bSMS/i,
-            /SMS(-Bestätigung)? (gesendet|an (Herrn|Frau))/i,
         ];
         const HINWEIS = /in Entwicklung|kommt bald|kommen bald|künftig|noch nicht/i;
         const { ctx, page } = await neueSeite({ width: 1280, height: 900 });
@@ -579,7 +587,7 @@ try {
             }
         }
         await ctx.close();
-        check(`F: im Bereich /ki-telefonassistent (${KI_SEITEN.length} Seiten) kein Satz mehr, der Kalendereintrag oder SMS als verfügbar behauptet`, funde.length === 0, funde.slice(0, 5).join(' | ') || `${saetze} Treffer der Stichwortsuche, alle mit Hinweis «in Entwicklung»`);
+        check(`F: im Bereich /ki-telefonassistent (${KI_SEITEN.length} Seiten) kein Satz mehr, der den Kalendereintrag als verfügbar behauptet`, funde.length === 0, funde.slice(0, 5).join(' | ') || `${saetze} Treffer der Stichwortsuche, alle mit Hinweis «in Entwicklung»`);
         protokoll.kalenderSuche = { seiten: KI_SEITEN.length, treffer: saetze, mitHinweis, ohneHinweis: funde };
     }
 

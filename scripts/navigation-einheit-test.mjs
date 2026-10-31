@@ -15,6 +15,16 @@
  * - aktivePanelId / pfadVon (Hervorhebung), auch für alle 24 Regionsseiten
  * - toter Code: ladeNavRegionen / lib/nav-regionen.ts nirgends mehr im Quelltext
  *
+ * AUFTRAG-114 (Menü-Icons):
+ * - jeder Link in headerLinks() hat ein Icon, ausser LEISTUNGEN_UEBERSICHT (Pfeil rechts wie bisher),
+ *   ERSTGESPRAECH (CTA) und den Leistenknöpfen IT_SUPPORT und CLOUD_TELEFONIE_LEISTE (Leistenknöpfe
+ *   bleiben ohne Icon; der Cloud-Leistenknopf steht als Link in headerLinks() wie IT_SUPPORT)
+ * - Zuordnung exakt wie die Tabelle in AUFTRAG-114, P2 («KI-Anruf testen»: PhoneCall, im Auftrag nicht
+ *   genannt — wie die Knöpfe «Jetzt live testen» im KI-Bereich)
+ * - Icons unter «Leistungen» = Icons der Karten auf der Startseite (ServicesSection.tsx, gleiche Adresse)
+ * - Header.tsx bildet jeden Icon-Namen in einem expliziten Objekt ab, kein `import * as`
+ * - Menüdaten ohne Beschreibungstexte (erlaubt: titel, href, badge, icon)
+ *
  *   node scripts/navigation-einheit-test.mjs
  *
  * Node >= 22.18 (Type-Stripping).
@@ -176,7 +186,66 @@ pruefe('Texte ohne Zahlen (ausser 3CX, Microsoft 365)', mitZahl.length === 0, mi
 pruefe('Texte ohne Superlative', !texte.some((t) => /\b(beste[nrs]?|führend\w*|top|nr\.?\s*1|einzig\w*|unschlagbar|garantiert|perfekt\w*|weltklasse|marktführer\w*|schnellste\w*|günstigste\w*)\b/i.test(t)));
 pruefe('Texte ohne ß und ohne Dachmarke Elektro-Tel', !texte.some((t) => /ß|Elektro-Tel/i.test(t)));
 pruefe('Badge «Neu» nur beim KI-Telefonassistenten', links.filter((l) => l.badge).map((l) => `${l.titel}:${l.badge}`).join() === 'KI-Telefonassistent:Neu' && nav.NEU === 'Neu');
-pruefe('keine Beschreibungstexte und keine Icons in den Menüdaten', links.every((l) => Object.keys(l).every((k) => ['titel', 'href', 'badge'].includes(k))));
+// AUFTRAG-114: Icons sind jetzt erwünscht (Name als Text), Beschreibungstexte weiterhin nicht
+pruefe('keine Beschreibungstexte in den Menüdaten (erlaubt: titel, href, badge, icon)', links.every((l) => Object.keys(l).every((k) => ['titel', 'href', 'badge', 'icon'].includes(k))));
+
+/* ---------------- Icons (AUFTRAG-114, P2) ---------------- */
+const ICON_SOLL = {
+    'IT-Support': 'Headset',
+    'IT-Systeme & Netzwerke': 'Server',
+    'IT-Sicherheit': 'ShieldCheck',
+    'Microsoft 365': 'Cloud',
+    WLAN: 'Wifi',
+    Videoüberwachung: 'Video',
+    'Cloud-Telefonie': 'Phone',
+    'Cloud-Telefonie im Überblick': 'Phone',
+    'KI-Telefonassistent': 'AudioLines',
+    'Übersicht und Live-Test': 'AudioLines',
+    Webdesign: 'Palette',
+    'Digital Signage': 'Tv',
+    'KI & Software-Entwicklung': 'Code',
+    Funktionen: 'ListChecks',
+    'So funktioniert es': 'Workflow',
+    Schweizerdeutsch: 'Languages',
+    Preise: 'Tag',
+    Anwendungen: 'LayoutGrid',
+    Branchen: 'Building2',
+    'Sicherheit und Datenschutz': 'ShieldCheck',
+    'Häufige Fragen': 'CircleHelp',
+    'Peoplefone vPBX': 'Cloud',
+    '3CX': 'PhoneForwarded',
+    'Microsoft Teams': 'Users',
+    Yeastar: 'Router',
+    'Über uns': 'Building2',
+    Partner: 'Handshake',
+    Blog: 'Newspaper',
+    Kontakt: 'Mail',
+    'KI-Anruf testen': 'PhoneCall',
+};
+const OHNE_ICON = [nav.LEISTUNGEN_UEBERSICHT, nav.ERSTGESPRAECH, nav.IT_SUPPORT, nav.CLOUD_TELEFONIE_LEISTE];
+const mitIconPflicht = links.filter((l) => !OHNE_ICON.includes(l));
+const ohneIcon = mitIconPflicht.filter((l) => !l.icon);
+pruefe(`Icons: jeder Link in headerLinks() hat ein Icon (${mitIconPflicht.length} von ${links.length}; ohne: Übersicht, Erstgespräch, Leistenknöpfe IT-Support und Cloud-Telefonie)`, ohneIcon.length === 0 && OHNE_ICON.every((l) => l && links.includes(l)), ohneIcon.map((l) => l.titel).join(', '));
+pruefe('Icons: Ausnahmen tragen kein Icon (Übersicht mit Pfeil rechts, CTA, Leistenknöpfe)', OHNE_ICON.every((l) => !l.icon));
+const falscheIcons = mitIconPflicht.filter((l) => ICON_SOLL[l.titel] !== l.icon).map((l) => `${l.titel}: ${l.icon} statt ${ICON_SOLL[l.titel]}`);
+pruefe('Icons: Zuordnung exakt wie die Tabelle in AUFTRAG-114, P2', falscheIcons.length === 0, falscheIcons.join(', '));
+pruefe('Icons: alle Namen in NAV_ICON_NAMEN (lucide-react 0.562)', mitIconPflicht.every((l) => nav.NAV_ICON_NAMEN.includes(l.icon)) && Array.isArray(nav.NAV_ICON_NAMEN), [...new Set(mitIconPflicht.map((l) => l.icon))].join(','));
+const lucideTypen = readFileSync(path.join(ROOT, 'node_modules', 'lucide-react', 'dist', 'lucide-react.d.ts'), 'utf8');
+// Name als eigene Deklaration oder als Alias im Export (z. B. «CircleQuestionMark as CircleHelp»)
+const fehltInLucide = nav.NAV_ICON_NAMEN.filter((n) => !new RegExp(`declare const ${n}:| as ${n}[,} ]`).test(lucideTypen));
+pruefe('Icons: jeder Name existiert in lucide-react (Deklaration oder Alias)', fehltInLucide.length === 0, fehltInLucide.join(', '));
+const headerQuelle = readFileSync(path.join(ROOT, 'src', 'components', 'layout', 'Header.tsx'), 'utf8');
+const mapBlock = /const NAV_ICONS: Record<NavIconName, LucideIcon> = \{([\s\S]*?)\};/.exec(headerQuelle)?.[1] ?? '';
+const mapNamen = mapBlock.split(/[\s,]+/).filter(Boolean);
+pruefe('Header.tsx: explizites Objekt NAV_ICONS mit genau den Namen aus NAV_ICON_NAMEN, kein `import * as`', JSON.stringify([...mapNamen].sort()) === JSON.stringify([...nav.NAV_ICON_NAMEN].sort()) && !/^import \* as/m.test(headerQuelle), mapNamen.join(','));
+// Startseite: Icon und Adresse jeder Karte in ServicesSection.tsx
+const karten = [...readFileSync(path.join(ROOT, 'src', 'components', 'sections', 'ServicesSection.tsx'), 'utf8').matchAll(/icon:\s*(\w+),[\s\S]*?href:\s*'([^']+)'/g)].map((m) => ({ icon: m[1], href: m[2] }));
+const kartenIcon = (href) => karten.find((k) => k.href === href || (href === '/cloud-telefonie' && k.href === '/telefonie'))?.icon;
+const leistungsLinks = nav.LEISTUNGEN.flatMap((g) => g.links).filter((l) => l.href !== '/it-support');
+const abweichend = leistungsLinks.filter((l) => kartenIcon(l.href) !== l.icon).map((l) => `${l.titel}: Menü ${l.icon}, Karte ${kartenIcon(l.href)}`);
+pruefe(`Icons «Leistungen» = Karten der Startseite (${karten.length} Karten; Cloud-Telefonie-Karte zeigt auf /telefonie, IT-Support hat keine Karte)`, karten.length === 10 && abweichend.length === 0, abweichend.join(', '));
+pruefe('Icons der zehn Startseiten-Karten: Server, ShieldCheck, Cloud, Wifi, Phone, Video, Palette, Code, Tv, AudioLines', JSON.stringify(karten.map((k) => k.icon)) === JSON.stringify(['Server', 'ShieldCheck', 'Cloud', 'Wifi', 'Phone', 'Video', 'Palette', 'Code', 'Tv', 'AudioLines']));
+pruefe('navigation.ts bleibt frei von React- und lucide-Importen', !/from 'react'|from 'lucide-react'/.test(readFileSync(path.join(ROOT, 'src', 'components', 'layout', 'navigation.ts'), 'utf8')));
 
 /* ---------------- Hervorhebung ---------------- */
 pruefe('pfadVon schneidet den Anker ab', nav.pfadVon('/cloud-telefonie#peoplefone') === '/cloud-telefonie' && nav.pfadVon('/wlan') === '/wlan');

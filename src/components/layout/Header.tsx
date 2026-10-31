@@ -5,7 +5,9 @@
  *
  * Desktop (ab lg): Leistungen ▾ · KI-Telefonassistent ▾ (Badge «Neu») · IT-Support · Cloud-Telefonie ▾
  * · Unternehmen ▾. Jedes Dropdown liegt direkt unter seinem Knopf (höchstens zwei schmale Spalten,
- * keine Panels über die ganze Breite, kein Schleier, keine Beschreibungen, Icons oder Karten).
+ * keine Panels über die ganze Breite, kein Schleier, keine Beschreibungen oder Karten).
+ * [31.10.2026] AUFTRAG-114: Einträge in Dropdowns und im mobilen Akkordeon mit Icon (16 px, vor dem Text,
+ * aria-hidden); die Leistenknöpfe selbst bleiben ohne Icon. Zuordnung Name → Komponente in NAV_ICONS.
  * «Cloud-Telefonie» bleibt wie live ein Link auf /cloud-telefonie; das Dropdown öffnet per Hover,
  * über den Pfeil-Knopf daneben oder mit Pfeil runter.
  * Bedienung (wie AUFTRAG-100): Hover nur mit der Maus und kurzer Absicht-Verzögerung, Klick/Enter/
@@ -20,7 +22,38 @@ import { useEffect, useRef, useState, type CSSProperties, type FocusEvent, type 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, ChevronDown, Mail, Menu, Phone, X } from 'lucide-react';
+import {
+    ArrowRight,
+    AudioLines,
+    Building2,
+    ChevronDown,
+    CircleHelp,
+    Cloud,
+    Code,
+    Handshake,
+    Headset,
+    Languages,
+    LayoutGrid,
+    ListChecks,
+    Mail,
+    Menu,
+    Newspaper,
+    Palette,
+    Phone,
+    PhoneCall,
+    PhoneForwarded,
+    Router,
+    Server,
+    ShieldCheck,
+    Tag,
+    Tv,
+    Users,
+    Video,
+    Wifi,
+    Workflow,
+    X,
+    type LucideIcon,
+} from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -39,9 +72,50 @@ import {
     pfadVon,
     UNTERNEHMEN,
     type NavGruppe,
+    type NavIconName,
     type NavLink,
     type PanelId,
 } from './navigation';
+
+/**
+ * AUFTRAG-114: Icon-Name (navigation.ts) → lucide-Komponente. Bewusst ein explizites Objekt
+ * (kein `import * as`), damit nur diese Icons im Bundle landen; Record<NavIconName, …> erzwingt,
+ * dass jeder in navigation.ts zulässige Name hier eine Komponente hat.
+ */
+const NAV_ICONS: Record<NavIconName, LucideIcon> = {
+    Headset,
+    Server,
+    ShieldCheck,
+    Cloud,
+    Wifi,
+    Video,
+    Phone,
+    AudioLines,
+    Palette,
+    Tv,
+    Code,
+    ListChecks,
+    Workflow,
+    Languages,
+    Tag,
+    LayoutGrid,
+    Building2,
+    CircleHelp,
+    PhoneForwarded,
+    Users,
+    Router,
+    Handshake,
+    Newspaper,
+    Mail,
+    PhoneCall,
+};
+
+/** Icon vor einem Menüeintrag: 16 px, gedämpftes Grün, beim Überfahren volles Grün (AUFTRAG-114) */
+function NavIcon({ name, className = 'text-primary/70 group-hover:text-primary' }: { name?: NavIconName; className?: string }) {
+    if (!name) return null;
+    const Icon = NAV_ICONS[name];
+    return <Icon data-nav-icon={name} className={cn('h-4 w-4 flex-shrink-0 transition-colors', className)} aria-hidden="true" />;
+}
 
 /** Absicht beim Hovern: kurz warten, bevor ein Dropdown aufgeht bzw. zugeht */
 const OEFFNEN_MS = 80;
@@ -204,8 +278,9 @@ export function Header() {
             href={l.href}
             onClick={schliessen}
             aria-current={istAktuell(l.href) ? 'page' : undefined}
-            className="flex items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-[0.9375rem] font-medium text-text-primary transition-colors hover:bg-surface hover:text-primary focus-visible:bg-surface aria-[current=page]:bg-surface aria-[current=page]:text-primary-hover dark:aria-[current=page]:text-primary"
+            className="group flex items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-[0.9375rem] font-medium text-text-primary transition-colors hover:bg-surface hover:text-primary focus-visible:bg-surface aria-[current=page]:bg-surface aria-[current=page]:text-primary-hover dark:aria-[current=page]:text-primary"
         >
+            <NavIcon name={l.icon} />
             {l.titel}
             {l.badge && <NeuBadge />}
         </Link>
@@ -254,7 +329,8 @@ export function Header() {
             {zweiSpalten(LEISTUNGEN)}
             {fussLink(LEISTUNGEN_UEBERSICHT)}
         </>,
-        'w-[32rem]',
+        // AUFTRAG-114: breiter wegen der Icons (Einträge bleiben einzeilig), weiterhin ≤ 640 px
+        'w-[36rem]',
     );
 
     // AUFTRAG-113: «KI-Anruf testen» als schmaler Knopf in der Fusszeile, keine grosse Karte
@@ -268,15 +344,17 @@ export function Header() {
                     data-ki-anruf-testen=""
                     className="group inline-flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
                 >
+                    <NavIcon name={KI_KARTE.icon} className="text-white" />
                     {KI_KARTE.titel}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
                 </Link>
             </div>
         </>,
-        'w-[30rem]',
+        // AUFTRAG-114: breiter wegen der Icons, weiterhin ≤ 640 px
+        'w-[34rem]',
     );
 
-    const dropdownCloud = huelle(eineSpalte(CLOUD_TELEFONIE), 'w-64');
+    const dropdownCloud = huelle(eineSpalte(CLOUD_TELEFONIE), 'w-72');
     const dropdownUnternehmen = huelle(eineSpalte(UNTERNEHMEN), 'w-56');
 
     const knopfKlasse = (id: PanelId) =>
@@ -391,8 +469,9 @@ export function Header() {
             href={l.href}
             onClick={mobilSchliessen}
             aria-current={istAktuell(l.href) ? 'page' : undefined}
-            className="flex min-h-12 items-center gap-2 rounded-xl px-3 py-1.5 text-base font-medium text-text-primary transition-colors hover:bg-surface aria-[current=page]:bg-surface aria-[current=page]:text-primary-hover dark:aria-[current=page]:text-primary"
+            className="group flex min-h-12 items-center gap-2 rounded-xl px-3 py-1.5 text-base font-medium text-text-primary transition-colors hover:bg-surface aria-[current=page]:bg-surface aria-[current=page]:text-primary-hover dark:aria-[current=page]:text-primary"
         >
+            <NavIcon name={l.icon} />
             <span className="min-w-0">{l.titel}</span>
             {l.badge && <NeuBadge />}
         </Link>

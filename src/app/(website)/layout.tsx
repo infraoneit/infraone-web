@@ -132,9 +132,8 @@ export default async function RootLayout({
             `,
           }}
         />
-        {/* Resource Hints for Performance */}
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        {/* [31.10.2026] AUFTRAG-114: keine Resource Hints auf fonts.googleapis.com mehr - die Schriften
+            kommen ueber next/font aus dem eigenen Hosting (Datenschutzerklaerung: kein Abruf bei Google Fonts). */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(generateSitewideLocalBusinessSchema()) }}
@@ -156,8 +155,13 @@ export default async function RootLayout({
           <ScrollToTop />
           {/* AUFTRAG-113: schlichte Dropdowns, keine Regionen mehr im Header (Regionsseiten verlinken die Leistungsseiten) */}
           <Header />
-          {/* pt-16 lg:pt-20 compensates for fixed header height */}
-          <main className="flex-1 pt-16 lg:pt-20">
+          {/* [31.10.2026] AUFTRAG-114: Inhalt beginnt exakt an der Unterkante des fixen Headers (gemessen).
+              Mobil (< lg, 375/768 px): Header 80 px (h-16 + 16 px padding-top aus der Safe-Area-Regel in
+              globals.css), <main> beginnt bei 0 -> pt-20. Vorher pt-16 (64 px): die Hero-Ueberzeile lag
+              unter dem Header. Ab lg (1024/1280 px): Header 96 px (h-20 + 16 px), <main> beginnt wegen der
+              Kontaktleiste im Fluss (36 px, liegt unter dem Header) bei 36 px -> 96 - 36 = 60 px = lg:pt-15
+              (vorher lg:pt-20: 20 px Leerraum unter dem Header). */}
+          <main className="flex-1 pt-20 lg:pt-15">
             {children}
           </main>
           <Footer />

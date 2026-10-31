@@ -68,12 +68,12 @@ Zweck: Der KI-Telefonassistent nimmt Anrufe fuer KMU entgegen, wenn niemand Zeit
 - Sprachen: versteht und spricht Schweizerdeutsch (Mundart), Hochdeutsch und Englisch. Ehrlich: Dialekte sind vielfaeltig, seltene Ausdruecke koennen Rueckfragen ausloesen; im Testanruf ist Schweizerdeutsch noch als "in Erprobung" gekennzeichnet
 - Antwortet rund um die Uhr; kennt Oeffnungszeiten und einen eigenen Text fuer ausserhalb
 - Wissen aus der Website des Kunden (Scan) und aus Angaben des Kunden
-- Erfasst Name, Firma, Anliegen und Rueckrufnummer; Gespraechsnotiz per E-Mail nach jedem Gespraech; SMS-Bestaetigung an Anrufende: in Entwicklung, kommt bald
+- Erfasst Name, Firma, Anliegen und Rueckrufnummer; Gespraechsnotiz per E-Mail nach jedem Gespraech; auf Wunsch SMS-Bestaetigung an Anrufende
 - Nimmt Terminwuensche auf und meldet sie per E-Mail; Eintrag im Microsoft-365-Kalender: in Entwicklung, kommt bald; Weiterleitung an eine Person; Notfaelle an eine Notfallnummer melden
 - Verbotene Themen und Haltung je Kunde einstellbar; mehrere Agenten je Kunde (z. B. ausserhalb der Oeffnungszeiten)
 - Keine Tonaufnahme der Gespraeche: Transkript und Zusammenfassung
 - Rufnummer behalten (Rufumleitung) oder neue Nummer; Anbindung an die Cloud-Telefonie von InfraOne
-- Technik: Sprach-zu-Sprach-KI (kein Vorlesen aus Textbausteinen); Hosting des Assistenten in der Schweiz (Infomaniak, Satigny); Telefonie ueber Schweizer Provider; Sprachverarbeitung durch KI-Anbieter (Google Gemini, OpenAI), bezahlte Stufen ohne Nutzung der Daten fuer Training, EU-Region wo verfuegbar; Auftragsverarbeitungsvertrag (AVV) auf Anfrage
+- Technik: Sprach-zu-Sprach-KI (kein Vorlesen aus Textbausteinen); Hosting des Assistenten in der Schweiz (Infomaniak, Satigny); Telefonie ueber Schweizer Provider; Sprachverarbeitung durch KI-Anbieter in bezahlten Stufen ohne Training mit Kundendaten; die Anbieter nennt die Datenschutzerklaerung unter /datenschutz; Auftragsverarbeitungsvertrag (AVV) auf Anfrage
 - Demo (Live-Test): Website-Scan und Testanruf ohne Anmeldung und kostenlos; 2 Testanrufe je Geraet und Tag. Voraussetzung: aktiver Eintrag im Schweizer Handelsregister. Ablauf: Website-Scan, dann Pruefung der Firma im Handelsregister (Zefix; bevorzugt ueber die UID im Impressum, sonst ueber den Firmennamen, sonst manuelle Eingabe) mit Bestaetigung "Ja, das ist meine Firma", dann Testanruf. Ohne aktiven Eintrag kein Testanruf; dann persoenliche Vorfuehrung ueber /kontakt
 - Preise (vom Inhaber freigegeben, AUFTRAG-113): monatliche Pakete, exkl. MwSt., monatlich kuendbar: Lite CHF 49 (100 Gespraechsminuten), Starter CHF 149 (500 Gespraechsminuten), Business CHF 299 (1500 Gespraechsminuten), Enterprise auf Anfrage. Einrichtung einmalig CHF 490, jede zusaetzliche Gespraechsminute CHF 0.45. Details auf /ki-telefonassistent/preise.
 - Seiten:
@@ -86,7 +86,7 @@ Zweck: Der KI-Telefonassistent nimmt Anrufe fuer KMU entgegen, wenn niemand Zeit
   - /ki-telefonassistent/anwendungen/erreichbarkeit - abnehmen, wenn niemand Zeit hat
   - /ki-telefonassistent/anwendungen/auskunft - wiederkehrende Fragen beantworten
   - /ki-telefonassistent/anwendungen/anliegen-erfassen - Name, Firma, Anliegen, Rueckruf als Notiz
-  - /ki-telefonassistent/anwendungen/terminbuchung - Terminwuensche aufnehmen; Kalendereintrag und SMS-Bestaetigung in Entwicklung
+  - /ki-telefonassistent/anwendungen/terminbuchung - Terminwuensche aufnehmen und per SMS bestaetigen
   - /ki-telefonassistent/anwendungen/notfall - Notfaelle an die Notfallnummer, Pikett entlasten
   - /ki-telefonassistent/branchen - Uebersicht der Branchen
   - /ki-telefonassistent/branchen/elektriker, /sanitaer-heizung, /arztpraxis, /treuhand, /immobilien, /garage - typische Anrufe, Beispielgespraech, Integration
@@ -138,7 +138,7 @@ Rund 100 betreute KMU-Kunden in der Deutschschweiz.
 1. Schweizer KMU-Spezialist mit physischen Standorten in Winterthur, Schaffhausen, Taegerwilen, Kleinandelfingen
 2. Schnelle Reaktion: Remote-Support oft innert 15 Minuten
 3. Transparente Preise: Keine versteckten Kosten, Abrechnung im 15-Minuten-Takt
-4. Schweizer Hosting: der KI-Telefonassistent laeuft bei Infomaniak in Satigny, die Telefonie ueber Schweizer Provider; die Sprachverarbeitung uebernehmen KI-Anbieter (Google Gemini, OpenAI) ohne Nutzung der Daten fuer Training
+4. Schweizer Hosting: der KI-Telefonassistent laeuft bei Infomaniak in Satigny, die Telefonie ueber Schweizer Provider; Sprachverarbeitung durch KI-Anbieter in bezahlten Stufen ohne Training mit Kundendaten; die Anbieter nennt die Datenschutzerklaerung unter /datenschutz
 5. KI-Telefonassistent mit Mundart: versteht und spricht Schweizerdeutsch, Live-Demo ohne Anmeldung (Website-Scan und Testanruf)
 
 ## Wichtige URLs

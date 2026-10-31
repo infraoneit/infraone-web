@@ -14,7 +14,8 @@ import {
     PREIS_ZUSATZMINUTE,
     PREISE_FREIGEGEBEN,
 } from '@/lib/ki-telefonassistent-preise';
-import { KALENDER_SMS_SATZ } from '@/lib/in-entwicklung';
+import { KALENDER_SATZ } from '@/lib/in-entwicklung';
+import { KI_ANBIETER_SATZ } from '@/lib/ki-anbieter';
 
 const B = '/ki-telefonassistent';
 
@@ -57,8 +58,9 @@ export const FAQ_KATEGORIEN: FaqKategorie[] = [
             {
                 id: 'was-danach',
                 frage: 'Was erhalte ich nach einem Anruf?',
-                // AUFTRAG-113: SMS-Bestätigung in Entwicklung
-                antwort: `Nach jedem Gespräch schickt der Assistent eine Gesprächsnotiz per E-Mail: Name, Firma, Anliegen und Rückrufnummer der anrufenden Person, dazu eine Zusammenfassung und das Transkript. ${KALENDER_SMS_SATZ}`,
+                // AUFTRAG-114: SMS-Bestätigung verfügbar (Antwort wie vor AUFTRAG-113)
+                antwort:
+                    'Nach jedem Gespräch schickt der Assistent eine Gesprächsnotiz per E-Mail: Name, Firma, Anliegen und Rückrufnummer der anrufenden Person, dazu eine Zusammenfassung und das Transkript. Auf Wunsch erhält die anrufende Person eine Bestätigung per SMS.',
             },
             {
                 id: 'fehler',
@@ -151,15 +153,16 @@ export const FAQ_KATEGORIEN: FaqKategorie[] = [
             {
                 id: 'termine',
                 frage: 'Kann der Assistent Termine vereinbaren?',
-                // AUFTRAG-113: Kalendereintrag in Entwicklung
-                antwort: `Er nimmt Terminwünsche auf, mit Anliegen, gewünschter Zeit und Rückrufnummer. ${KALENDER_SMS_SATZ} Welche Termine er aufnimmt und welche Angaben er dafür erfragt, legen Sie fest.`,
+                // AUFTRAG-113/114: Kalendereintrag in Entwicklung (Satz wortgleich aus lib/in-entwicklung.ts)
+                antwort: `Er nimmt Terminwünsche auf, mit Anliegen, gewünschter Zeit und Rückrufnummer. ${KALENDER_SATZ} Welche Termine er aufnimmt und welche Angaben er dafür erfragt, legen Sie fest.`,
                 link: { text: 'Terminbuchung am Telefon', href: `${B}/anwendungen/terminbuchung` },
             },
             {
                 id: 'sms',
                 frage: 'Verschickt der Assistent SMS?',
-                // AUFTRAG-113: SMS-Bestätigung in Entwicklung
-                antwort: `Noch nicht. ${KALENDER_SMS_SATZ} Die SMS soll der anrufenden Person bestätigen, dass ihr Anliegen angekommen ist, oder den vereinbarten Termin nennen.`,
+                // AUFTRAG-114: SMS-Bestätigung verfügbar (Antwort wie vor AUFTRAG-113, «Terminwunsch» statt «vereinbarter Termin»)
+                antwort:
+                    'Ja, auf Wunsch eine SMS-Bestätigung an die anrufende Person, zum Beispiel mit ihrem Terminwunsch oder der Bestätigung, dass ihr Anliegen aufgenommen ist. Sie selbst erhalten nach jedem Gespräch eine Notiz per E-Mail.',
             },
             {
                 id: 'weiterleiten',
@@ -185,8 +188,8 @@ export const FAQ_KATEGORIEN: FaqKategorie[] = [
             {
                 id: 'datenschutz',
                 frage: 'Wo werden die Daten verarbeitet?',
-                antwort:
-                    'Der Assistent läuft auf Servern in der Schweiz, bei Infomaniak in Satigny. Die Telefonie läuft über Schweizer Provider. Für die Sprachverarbeitung setzen wir KI-Anbieter ein, Google Gemini und OpenAI, wo verfügbar in einer EU-Region. Gesprächsnotizen erhalten Sie per E-Mail.',
+                // AUFTRAG-114: Namen der KI-Anbieter nur in der Datenschutzerklärung (Satz wortgleich; Link in FaqListe)
+                antwort: `Der Assistent läuft auf Servern in der Schweiz, bei Infomaniak in Satigny. Die Telefonie läuft über Schweizer Provider. ${KI_ANBIETER_SATZ} Gesprächsnotizen erhalten Sie per E-Mail.`,
                 link: { text: 'Sicherheit und Datenschutz', href: `${B}/sicherheit-datenschutz` },
             },
             {
