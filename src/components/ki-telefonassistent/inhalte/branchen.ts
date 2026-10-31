@@ -4,9 +4,11 @@
  * Beispielgespräch (Mundart UND Hochdeutsch), Integration, Besonderheiten.
  * Nur Fakten aus AUFTRAG-110, Abschnitt 3. Alle Firmen sind erfunden.
  *
- * AUFTRAG-113: Der Eintrag im Microsoft-365-Kalender und die SMS-Bestätigung sind in
- * Entwicklung. «trägt einen Termin ein» → «nimmt den Terminwunsch auf; Kalendereintrag in
- * Entwicklung». Integrations-Karten mit `inEntwicklung: true` zeigen die Badge.
+ * AUFTRAG-113: Der Eintrag im Microsoft-365-Kalender ist in Entwicklung. «trägt einen Termin
+ * ein» → «nimmt den Terminwunsch auf; Kalendereintrag in Entwicklung». Integrations-Karten mit
+ * `inEntwicklung: true` zeigen die Badge.
+ * [31.10.2026] AUFTRAG-114: Die SMS-Bestätigung funktioniert bereits; sie steht wieder als
+ * verfügbar da und nie mehr auf einer Karte mit Badge.
  */
 import type { Beispiel } from '../Gespraech';
 import type { AnwendungSlug, BranchenSlug } from '../seiten';
@@ -67,7 +69,7 @@ export const BRANCHEN: Branche[] = [
                 { wer: 'assistent', text: 'Guet. Dänn nimm ich das als dringendi Störig für morn uf. Wo isch d Adrässe, und under welere Nummere erreicht me Sie?' },
                 { wer: 'anrufer', text: 'Musterstrass 8 z Winterthur, uf dere Nummere.' },
                 { wer: 'assistent', text: 'Merci, Herr Meier. Mir mälded eus morn am Morge bi Ihne für en Termin.' },
-                { wer: 'hinweis', text: 'Notiz per E-Mail ans Büro' },
+                { wer: 'hinweis', text: 'Notiz per E-Mail ans Büro, SMS-Bestätigung an Herrn Meier' },
             ],
             hochdeutsch: [
                 { wer: 'assistent', text: 'Guten Abend, Muster Elektro AG, der digitale Assistent. Wie kann ich Ihnen helfen?' },
@@ -77,7 +79,7 @@ export const BRANCHEN: Branche[] = [
                 { wer: 'assistent', text: 'Gut. Dann nehme ich das als dringende Störung für morgen auf. Wie lautet die Adresse, und unter welcher Nummer erreichen wir Sie?' },
                 { wer: 'anrufer', text: 'Musterstrasse 8 in Winterthur, unter dieser Nummer.' },
                 { wer: 'assistent', text: 'Danke, Herr Meier. Wir melden uns morgen früh bei Ihnen für einen Termin.' },
-                { wer: 'hinweis', text: 'Notiz per E-Mail ans Büro' },
+                { wer: 'hinweis', text: 'Notiz per E-Mail ans Büro, SMS-Bestätigung an Herrn Meier' },
             ],
         },
         integration: [
@@ -150,7 +152,7 @@ export const BRANCHEN: Branche[] = [
             { titel: 'Notfallnummer', text: 'Rohrbruch, Wasserschaden, Heizungsausfall: Was Sie als Notfall festlegen, meldet der Assistent sofort an Ihr Pikett.' },
             { titel: 'Mehrere Agenten', text: 'Tagsüber ein Agent für Service und Offerten, nachts einer mit strengeren Notfallregeln.' },
             { titel: 'Servicetermine', text: 'Wartungen und Entkalkungen nimmt er als Terminwunsch auf. Der Eintrag im Microsoft-365-Kalender ist in Entwicklung.', inEntwicklung: true },
-            { titel: 'SMS an Anrufende', text: 'Die Kundin erhält künftig eine Bestätigung, dass ihre Meldung angekommen ist.', inEntwicklung: true },
+            { titel: 'SMS an Anrufende', text: 'Die Kundin erhält eine Bestätigung, dass ihre Meldung angekommen ist.' },
         ],
         achten: {
             titel: 'Worauf Haustechnik-Betriebe achten sollten',
@@ -245,7 +247,7 @@ export const BRANCHEN: Branche[] = [
         anrufe: [
             { anruf: '«Was muss ich für die Steuererklärung einreichen?»', antwort: 'Er nennt die Unterlagen aus Ihrer Checkliste, so wie Sie sie hinterlegt haben.' },
             { anruf: '«Haben Sie meine Unterlagen erhalten?»', antwort: 'Das kann er nicht prüfen. Er nimmt die Frage für die zuständige Person auf.' },
-            { anruf: '«Ich möchte meine Steuererklärung besprechen.»', antwort: 'Er nimmt den Terminwunsch auf; Kalendereintrag und SMS-Bestätigung in Entwicklung.' },
+            { anruf: '«Ich möchte meine Steuererklärung besprechen.»', antwort: 'Er nimmt den Terminwunsch auf und bestätigt ihn der Mandantin per SMS.' },
             { anruf: '«Wir gründen eine GmbH und suchen eine Buchhaltung.»', antwort: 'Er erfasst Firma, Vorhaben und Rückrufnummer für ein Erstgespräch.' },
             { anruf: '«Kann ich das als Abzug geltend machen?»', antwort: 'Steuerauskünfte schliessen Sie aus. Er nimmt die Frage für einen Rückruf auf.' },
             { anruf: '«Ich muss dringend Herrn Muster sprechen.»', antwort: 'Er leitet an die hinterlegte Nummer weiter oder nimmt einen Rückrufwunsch auf, so wie Sie es festlegen.' },
@@ -275,7 +277,7 @@ export const BRANCHEN: Branche[] = [
             ],
         },
         integration: [
-            { titel: 'Besprechungstermine', text: 'Als Terminwunsch per E-Mail an die zuständige Person. Kalendereintrag und SMS-Bestätigung an die Mandantin sind in Entwicklung.', inEntwicklung: true },
+            { titel: 'Besprechungstermine', text: 'Als Terminwunsch per E-Mail an die zuständige Person. Der Eintrag im Microsoft-365-Kalender ist in Entwicklung.', inEntwicklung: true },
             { titel: 'Notiz an die zuständige Person', text: 'Sie bestimmen, wer die Gesprächsnotizen per E-Mail erhält.' },
             { titel: 'Weiterleitung', text: 'Für Anliegen, die nicht warten können, leitet er an eine hinterlegte Nummer weiter.' },
             { titel: 'Microsoft 365 und IT', text: 'InfraOne betreut auch Ihre IT und Microsoft 365, wenn Sie das möchten.' },
@@ -312,7 +314,7 @@ export const BRANCHEN: Branche[] = [
             { anruf: '«Die Waschmaschine im Keller ist defekt.»', antwort: 'Er nimmt Objekt, Anliegen und Rückrufnummer auf und schickt die Meldung an die Bewirtschaftung.' },
             { anruf: '«Bei uns tropft Wasser von der Decke.»', antwort: 'Nach Ihren Regeln ein Notfall: Er meldet sofort an Ihre Notfallnummer.' },
             { anruf: '«Ist die Wohnung an der Musterstrasse noch frei?»', antwort: 'Er antwortet aus den Angaben auf Ihrer Website und nimmt einen Besichtigungswunsch auf.' },
-            { anruf: '«Kann ich die Wohnung am Samstag anschauen?»', antwort: 'Er nimmt den Besichtigungswunsch auf; Kalendereintrag und SMS-Bestätigung in Entwicklung.' },
+            { anruf: '«Kann ich die Wohnung am Samstag anschauen?»', antwort: 'Er nimmt den Besichtigungswunsch auf und bestätigt ihn per SMS.' },
             { anruf: '«Wie kündige ich meine Wohnung?»', antwort: 'Er erklärt den Ablauf so, wie Sie ihn hinterlegt haben, und nimmt bei Bedarf einen Rückruf auf.' },
             { anruf: '«Ich brauche den Hauswart.»', antwort: 'Er leitet an die hinterlegte Nummer weiter oder nimmt das Anliegen auf.' },
         ],
@@ -343,7 +345,7 @@ export const BRANCHEN: Branche[] = [
         integration: [
             { titel: 'Notfallnummer', text: 'Wasserschaden oder Heizungsausfall meldet er sofort an Ihre Notfallnummer oder an den Notfalldienst Ihrer Wahl.' },
             { titel: 'Mehrere Agenten', text: 'Einer für die Bewirtschaftung, einer für die Vermarktung, jeder mit eigenen Regeln.' },
-            { titel: 'Besichtigungen im Kalender', text: 'Besichtigungswünsche gehen per E-Mail an die Vermarktung. Eintrag im Microsoft-365-Kalender und SMS-Bestätigung sind in Entwicklung.', inEntwicklung: true },
+            { titel: 'Besichtigungen im Kalender', text: 'Besichtigungswünsche gehen per E-Mail an die Vermarktung. Der Eintrag im Microsoft-365-Kalender ist in Entwicklung.', inEntwicklung: true },
             { titel: 'Notizen an die richtige Stelle', text: 'Sie legen fest, wer die Gesprächsnotizen per E-Mail erhält.' },
         ],
         achten: {
@@ -375,7 +377,7 @@ export const BRANCHEN: Branche[] = [
             ],
         },
         anrufe: [
-            { anruf: '«Ich möchte die Winterpneus montieren lassen.»', antwort: 'Er nimmt Fahrzeug und Terminwunsch auf; Kalendereintrag und SMS-Bestätigung in Entwicklung.' },
+            { anruf: '«Ich möchte die Winterpneus montieren lassen.»', antwort: 'Er nimmt Fahrzeug und Terminwunsch auf und bestätigt ihn per SMS.' },
             { anruf: '«Mein Auto muss in den Service.»', antwort: 'Er erfragt Fahrzeug und gewünschten Zeitraum und nimmt den Terminwunsch für die Werkstatt auf.' },
             { anruf: '«Ist mein Auto schon fertig?»', antwort: 'Das sieht er nicht. Er gibt die Frage an die Werkstatt weiter und nennt die Öffnungszeiten für die Abholung.' },
             { anruf: '«Haben Sie den Occasion-Wagen aus dem Inserat noch?»', antwort: 'Er nimmt das Interesse für den Verkauf auf und bietet einen Rückruf an.' },
@@ -405,7 +407,7 @@ export const BRANCHEN: Branche[] = [
             ],
         },
         integration: [
-            { titel: 'Termine im Kalender', text: 'Wünsche für Pneuwechsel und Service gehen per E-Mail an die Werkstatt. Eintrag im Microsoft-365-Kalender und SMS-Bestätigung sind in Entwicklung.', inEntwicklung: true },
+            { titel: 'Termine im Kalender', text: 'Wünsche für Pneuwechsel und Service gehen per E-Mail an die Werkstatt. Der Eintrag im Microsoft-365-Kalender ist in Entwicklung.', inEntwicklung: true },
             { titel: 'Werkstatt und Verkauf', text: 'Mehrere Agenten oder klare Empfänger: Anfragen zum Verkauf gehen an den Verkauf, Fragen zum Service an die Werkstatt.' },
             { titel: 'Weiterleitung', text: 'Für Pannen oder dringende Fälle leitet er an eine hinterlegte Nummer weiter.' },
             { titel: 'Öffnungszeiten', text: 'Er kennt Ihre Öffnungszeiten und hat für die Zeit ausserhalb einen eigenen Text.' },

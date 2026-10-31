@@ -2,10 +2,12 @@
  * Funktionen des KI-Telefonassistenten in Gruppen (AUFTRAG-110).
  * Jede Funktion: Titel, zwei bis drei Sätze, «so hört es sich an»-Beispiel.
  * Nur Fakten aus AUFTRAG-110, Abschnitt 3.
- * AUFTRAG-113: Kalendereintrag und SMS-Bestätigung sind in Entwicklung (Badge + Satz).
+ * AUFTRAG-113: Der Kalendereintrag ist in Entwicklung (Badge + Satz).
+ * [31.10.2026] AUFTRAG-114: Die SMS-Bestätigung funktioniert bereits und ist wieder verfügbar beschrieben.
  */
 import type { Sprache, Zeile } from '../Gespraech';
-import { KALENDER_SMS_SATZ } from '@/lib/in-entwicklung';
+import { KALENDER_SATZ } from '@/lib/in-entwicklung';
+import { KI_ANBIETER_SATZ } from '@/lib/ki-anbieter';
 
 export interface Funktion {
     id: string;
@@ -141,7 +143,7 @@ export const FUNKTIONS_GRUPPEN: FunktionsGruppe[] = [
             {
                 id: 'kalender',
                 titel: 'Termine im Microsoft-365-Kalender',
-                text: `${KALENDER_SMS_SATZ} Welche Termine er aufnimmt und welche Angaben er dafür erfragt, legen Sie fest.`,
+                text: `${KALENDER_SATZ} Welche Termine er aufnimmt und welche Angaben er dafür erfragt, legen Sie fest.`,
                 inEntwicklung: true,
                 beispiel: {
                     sprache: 'gsw',
@@ -219,13 +221,13 @@ export const FUNKTIONS_GRUPPEN: FunktionsGruppe[] = [
             {
                 id: 'sms',
                 titel: 'SMS-Bestätigung an Anrufende',
-                text: 'Die anrufende Person erhält künftig auf Wunsch eine SMS-Bestätigung, zum Beispiel mit dem vereinbarten Termin oder dem Hinweis, dass ihr Anliegen angekommen ist. Heute erhalten Sie nach jedem Gespräch die Notiz per E-Mail.',
-                inEntwicklung: true,
+                // AUFTRAG-114: verfügbar (Text wie vor AUFTRAG-113, «Terminwunsch» statt «vereinbarter Termin»)
+                text: 'Auf Wunsch erhält die anrufende Person eine SMS-Bestätigung, zum Beispiel mit ihrem Terminwunsch oder dem Hinweis, dass ihr Anliegen angekommen ist.',
                 beispiel: {
                     sprache: 'de',
                     zeilen: [
-                        { wer: 'assistent', text: 'Ich habe Ihr Anliegen notiert. Wir melden uns bei Ihnen.' },
-                        { wer: 'hinweis', text: 'Notiz per E-Mail; SMS an Anrufende in Entwicklung' },
+                        { wer: 'assistent', text: 'Ich habe Ihr Anliegen notiert. Sie erhalten gleich eine SMS mit der Bestätigung.' },
+                        { wer: 'hinweis', text: 'SMS an die anrufende Person' },
                     ],
                 },
             },
@@ -302,7 +304,8 @@ export const FUNKTIONS_GRUPPEN: FunktionsGruppe[] = [
             {
                 id: 'hosting',
                 titel: 'Hosting in der Schweiz',
-                text: 'Der Assistent läuft auf Servern in der Schweiz, bei Infomaniak in Satigny. Für die Sprachverarbeitung setzen wir KI-Anbieter ein – Google Gemini und OpenAI –, wo verfügbar in einer EU-Region.',
+                // AUFTRAG-114: Namen der KI-Anbieter nur in der Datenschutzerklärung (Satz wortgleich; Link auf der Seite)
+                text: `Der Assistent läuft auf Servern in der Schweiz, bei Infomaniak in Satigny. ${KI_ANBIETER_SATZ}`,
                 beispiel: {
                     sprache: 'de',
                     zeilen: [

@@ -19,7 +19,12 @@ export function HeroSection() {
     }, []);
 
     return (
-        <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-background via-background to-surface">
+        // [31.10.2026] AUFTRAG-114: mobil kein min-h-[90vh] mit Zentrieren mehr - der Inhalt ist hoeher als
+        // 90vh und wurde ueber den oberen Rand hinaus zentriert (Ueberzeile unter dem Header). Mobil
+        // normaler Fluss mit py-12, ab lg wie bisher 90vh und zentriert. Ab lg ebenfalls py-12 (statt py-0):
+        // bei niedrigen Fenstern (1024x768) ist der Inhalt hoeher als 90vh und stiesse sonst direkt an den
+        // Header; bei hohen Fenstern aendert das symmetrische Polster die zentrierte Lage nicht.
+        <section className="relative min-h-0 py-12 lg:min-h-[90vh] lg:py-12 flex items-center overflow-hidden bg-gradient-to-br from-background via-background to-surface">
             {/* Background Image */}
             <div className="absolute inset-0 opacity-10">
                 <Image src="/images/hero_homepage_1768423161913.webp" alt="Moderne IT-Infrastruktur und Server-Technik für Schweizer KMU" fill className="object-cover" priority sizes="100vw" quality={75} aria-hidden="true" />

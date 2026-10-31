@@ -101,7 +101,10 @@ const services: Array<{
 
 export function ServicesSection() {
     return (
-        <section className="py-20 lg:py-28 bg-background relative overflow-hidden">
+        // [31.10.2026] AUFTRAG-114: overflow-clip statt overflow-hidden - hidden machte die Section zum
+        // Scroll-Container, animation-timeline: view() bezog sich auf sie, die letzten Karten
+        // (mobil: KI-Telefonassistent) blieben unsichtbar. clip schneidet die Deko-Kreise genauso ab.
+        <section className="py-20 lg:py-28 bg-background relative overflow-clip">
             {/* Background Decoration */}
             <div className="absolute inset-0 opacity-50 pointer-events-none">
                 <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />

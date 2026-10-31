@@ -3,6 +3,8 @@
  * src/lib/ki-telefonassistent-preise.ts. Solange PREISE_FREIGEGEBEN = false,
  * zeigt jede Preisdarstellung das Entwurfsband (seit AUFTRAG-113 freigegeben).
  * AUFTRAG-113: Merkmale mit Zusatz «(in Entwicklung, kommt bald)» erscheinen mit Badge.
+ * [31.10.2026] AUFTRAG-114: Knopf der Paketkarten «Anfragen» → Formular auf derselben Seite
+ * (#anfrage-<paketid>, das Formular wählt das Paket vor); natives <a> wegen des Hashs.
  */
 import { Fragment } from 'react';
 import Link from 'next/link';
@@ -23,6 +25,7 @@ import {
     WAEHRUNG,
 } from '@/lib/ki-telefonassistent-preise';
 import { KI_PREISE_PFAD } from './seiten';
+import { ANFRAGE_ID, ANFRAGE_TEXTE } from '@/lib/ki-anfrage';
 import { MitHinweis } from './InEntwicklung';
 
 /** Sichtbares Band «Entwurf, Preise noch nicht freigegeben» (nur solange nicht freigegeben) */
@@ -74,16 +77,18 @@ export function PaketKarten() {
                             </li>
                         ))}
                     </ul>
-                    <Link
-                        href="/kontakt"
+                    <a
+                        href={`#${ANFRAGE_ID}-${p.id}`}
+                        data-paket-anfrage={p.id}
+                        aria-label={`${ANFRAGE_TEXTE.paketKnopf}: Paket ${p.name}`}
                         className={cn(
                             'mt-auto pt-6 inline-flex items-center gap-1.5 text-sm font-semibold',
                             p.empfohlen ? 'text-primary-hover dark:text-primary' : 'text-text-primary hover:text-primary',
                         )}
                     >
-                        {p.preisMonat === null ? 'Offerte anfragen' : 'Beratung vereinbaren'}
+                        {ANFRAGE_TEXTE.paketKnopf}
                         <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                    </Link>
+                    </a>
                 </article>
             ))}
         </div>

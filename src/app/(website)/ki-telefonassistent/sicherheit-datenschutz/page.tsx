@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { Ban, FileLock2, ListChecks, MicOff, Scale, ShieldCheck, UserCheck } from 'lucide-react';
 import { kiMetadata } from '@/components/ki-telefonassistent/meta';
 import { JsonLd } from '@/components/ki-telefonassistent/JsonLd';
@@ -8,18 +9,21 @@ import { faqNachIds } from '@/components/ki-telefonassistent/inhalte/faq';
 import { KI_BASIS } from '@/components/ki-telefonassistent/seiten';
 import { MitHinweis } from '@/components/ki-telefonassistent/InEntwicklung';
 import { inEntwicklung } from '@/lib/in-entwicklung';
+import { KiAnbieterSatz } from '@/components/ki-telefonassistent/KiAnbieter';
+import { SICHERHEIT_DATENSCHUTZ_BESCHREIBUNG } from '@/lib/ki-anbieter';
 
 const PFAD = `${KI_BASIS}/sicherheit-datenschutz`;
 const TITEL = 'Sicherheit und Datenschutz beim KI-Telefonassistenten';
-const BESCHREIBUNG =
-    'Hosting in der Schweiz bei Infomaniak, Sprachverarbeitung durch Google Gemini und OpenAI ohne Training, keine Aufzeichnung, AVV nach DSG auf Anfrage.';
+// [31.10.2026] AUFTRAG-114: Namen der KI-Anbieter nur noch in der Datenschutzerklärung (Text wortgleich aus dem Auftrag)
+const BESCHREIBUNG = SICHERHEIT_DATENSCHUTZ_BESCHREIBUNG;
 
 export const metadata = kiMetadata({ pfad: PFAD, titel: TITEL, beschreibung: BESCHREIBUNG });
 
-const orte = [
+const orte: Array<{ was: string; wo: string; hinweis: ReactNode }> = [
     { was: 'Assistent mit Wissen, Regeln und Notizen', wo: 'Schweiz, bei Infomaniak in Satigny', hinweis: 'Hier laufen Steuerung des Gesprächs, Ihr Wissen und die Erstellung der Notizen.' },
     { was: 'Telefonie', wo: 'Schweizer Provider', hinweis: 'Ihre Nummer bleibt, die Umleitung läuft über Schweizer Telefonie.' },
-    { was: 'Sprachverarbeitung (Hören und Sprechen)', wo: 'KI-Anbieter Google Gemini und OpenAI', hinweis: 'Bezahlte Stufen ohne Training mit Ihren Daten, wo verfügbar in einer EU-Region.' },
+    // AUFTRAG-114: Anbieter nur in der Datenschutzerklärung; «EU-Region» entfällt (dort: Verarbeitungsorte je Anbieter)
+    { was: 'Sprachverarbeitung (Hören und Sprechen)', wo: 'KI-Anbieter', hinweis: <KiAnbieterSatz /> },
     { was: 'Gesprächsnotizen', wo: 'per E-Mail an Ihre Adressen', hinweis: 'Sie bestimmen, wer welche Notizen erhält.' },
     // AUFTRAG-113: Kalendereintrag in Entwicklung
     { was: 'Termine (falls genutzt)', wo: inEntwicklung('Ihr Microsoft-365-Kalender'), hinweis: 'Der Eintrag im Kalender ist in Entwicklung. Heute gehen Terminwünsche als Notiz per E-Mail an Sie.' },
@@ -46,7 +50,8 @@ export default function SicherheitDatenschutzSeite() {
                 titel="Sicherheit und Datenschutz beim KI-Telefonassistenten"
                 lead={
                     <p>
-                        Der KI-Telefonassistent läuft auf Servern in der Schweiz, bei Infomaniak in Satigny. Für die Sprachverarbeitung setzen wir Google Gemini und OpenAI in bezahlten Stufen ein – Gesprächsdaten werden dort nicht für das Training verwendet, und Gespräche werden nicht aufgezeichnet.
+                        {/* AUFTRAG-114: Namen der KI-Anbieter nur noch in der Datenschutzerklärung */}
+                        Der KI-Telefonassistent läuft auf Servern in der Schweiz, bei Infomaniak in Satigny. <KiAnbieterSatz /> Gespräche werden nicht aufgezeichnet.
                     </p>
                 }
             />
@@ -105,7 +110,7 @@ export default function SicherheitDatenschutzSeite() {
             <Abschnitt titel="Rechtlicher Rahmen: DSG und Auftragsverarbeitung">
                 <Prosa>
                     <p>
-                        Im Sinne des Schweizer Datenschutzgesetzes (DSG) sind Sie für die Daten Ihrer Anrufenden verantwortlich; InfraOne bearbeitet sie in Ihrem Auftrag. Das regeln wir in einem Auftragsverarbeitungsvertrag (AVV), den Sie bei uns anfordern können. Welche KI-Anbieter für die Sprachverarbeitung zum Einsatz kommen, sagen wir offen: Google Gemini und OpenAI.
+                        Im Sinne des Schweizer Datenschutzgesetzes (DSG) sind Sie für die Daten Ihrer Anrufenden verantwortlich; InfraOne bearbeitet sie in Ihrem Auftrag. Das regeln wir in einem Auftragsverarbeitungsvertrag (AVV), den Sie bei uns anfordern können. <KiAnbieterSatz />
                     </p>
                     <p>
                         Wir empfehlen eine Begrüssung, in der sich der Assistent als digitaler Assistent vorstellt. So wissen Anrufende von Anfang an, mit wem sie sprechen. In allen Beispielen auf dieser Website stellt er sich so vor.

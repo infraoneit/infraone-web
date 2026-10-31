@@ -8,12 +8,14 @@ import { Gespraech } from '@/components/ki-telefonassistent/Gespraech';
 import { FUNKTIONS_GRUPPEN } from '@/components/ki-telefonassistent/inhalte/funktionen';
 import { KI_BASIS } from '@/components/ki-telefonassistent/seiten';
 import { InEntwicklungBadge } from '@/components/ki-telefonassistent/InEntwicklung';
+import { MitKiAnbieterLink } from '@/components/ki-telefonassistent/KiAnbieter';
 import { generateItemListSchema } from '@/lib/seo/schema';
 
 const PFAD = `${KI_BASIS}/funktionen`;
 const TITEL = 'Funktionen des KI-Telefonassistenten | InfraOne';
 const BESCHREIBUNG =
-    'Alle Funktionen des KI-Telefonassistenten: Mundart, Anliegen erfassen, Terminwünsche, Weiterleitung, Notfall, Wissen aus der Website und Telefonie.';
+    // AUFTRAG-114: SMS-Bestätigung wieder verfügbar
+    'Alle Funktionen des KI-Telefonassistenten: Mundart, Anliegen erfassen, Terminwünsche, Weiterleitung, Notfall, SMS, Wissen aus der Website und Telefonie.';
 
 export const metadata = kiMetadata({ pfad: PFAD, titel: TITEL, beschreibung: BESCHREIBUNG });
 
@@ -69,9 +71,12 @@ export default function FunktionenSeite() {
                         {g.funktionen.map((f) => (
                             <article key={f.id} id={f.id} className="h-full flex flex-col rounded-2xl border border-border bg-card p-6 scroll-mt-24">
                                 <h3 className="text-xl font-bold text-text-primary">{f.titel}</h3>
-                                {/* AUFTRAG-113: Kalender/SMS in Entwicklung */}
+                                {/* AUFTRAG-113/114: Badge nur noch für den Kalendereintrag */}
                                 {f.inEntwicklung && <InEntwicklungBadge className="mt-2 w-fit" />}
-                                <p className="mt-2 text-text-secondary leading-relaxed">{f.text}</p>
+                                {/* AUFTRAG-114: «Datenschutzerklärung» im KI-Anbieter-Satz verlinkt */}
+                                <p className="mt-2 text-text-secondary leading-relaxed">
+                                    <MitKiAnbieterLink text={f.text} />
+                                </p>
                                 <p className="mt-5 mb-2 text-xs font-semibold text-text-secondary">So hört es sich an</p>
                                 <Gespraech sprache={f.beispiel.sprache} zeilen={f.beispiel.zeilen} titel="Hörbeispiel" kompakt className="bg-background" />
                                 {f.link && (

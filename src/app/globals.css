@@ -297,6 +297,15 @@ body {
     .reveal-stagger-container > .reveal-stagger-item {
       animation-name: reveal-in-up;
     }
+
+    /* [31.10.2026] AUFTRAG-114: overflow:hidden macht einen Abschnitt zum
+       Scroll-Container, und view() nimmt den naechsten Scroll-Container als
+       Bezug - der Abschnitt scrollt nie, Karten an seinem Ende blieben
+       unsichtbar (Startseite mobil, Karte KI-Telefonassistent). clip schneidet
+       genauso ab, erzeugt aber keinen Scroll-Container. */
+    .overflow-hidden:has(.reveal, .reveal-stagger-container) {
+      overflow: clip;
+    }
   }
 }
 
@@ -394,7 +403,14 @@ body {
   
   /* Prevent horizontal overflow */
   body {
+    /* [31.10.2026] AUFTRAG-114: clip statt hidden (hidden bleibt nur als Rueckfall fuer
+       Browser ohne clip). Mit hidden wurde body mobil zum Scroll-Container (html hat selbst
+       overflow-x: clip, darum wird body nicht auf den Viewport uebertragen), und
+       animation-timeline: view() bezog sich auf den nie scrollenden body statt auf den
+       Viewport - Reveal-Elemente im letzten Fuenftel einer Seite blieben teilweise
+       unsichtbar. clip verhindert den Horizontal-Overflow genauso. */
     overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100vw;
   }
   

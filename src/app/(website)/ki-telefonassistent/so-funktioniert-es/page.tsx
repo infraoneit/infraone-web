@@ -54,7 +54,8 @@ const einrichtung: Array<Schritt & { id: string }> = [
     { id: 'website-scan', icon: Globe, titel: 'Website-Scan', text: 'Ausgangspunkt ist Ihre Website. Leistungen, Öffnungszeiten, Kontakt und Abläufe werden zum Grundwissen des Assistenten.' },
     { id: 'wissen-pruefen', icon: BookOpenCheck, titel: 'Wissen prüfen', text: 'Sie prüfen das Wissen und ergänzen, was nicht online steht: Abläufe, häufige Fragen, Parkplätze. Und Sie schliessen Themen aus, die er nicht behandeln soll.' },
     { id: 'begruessung', icon: MessageSquareText, titel: 'Begrüssung und Haltung', text: 'Begrüssungstext, Sprache, förmlich oder locker, Ihr Text für die Zeit ausserhalb der Öffnungszeiten. Bei Bedarf mehrere Agenten, etwa für Tag und Nacht.' },
-    { id: 'regeln', icon: Settings2, titel: 'Regeln festlegen', text: 'Wohin er weiterleitet, was als Notfall gilt und an welche Nummer er Notfälle meldet, wer die Notizen und Terminwünsche erhält. Kalendereintrag und SMS-Bestätigung sind in Entwicklung.' },
+    // AUFTRAG-114: SMS-Bestätigung verfügbar (Kalendereintrag: Badge in der Checkliste unten)
+    { id: 'regeln', icon: Settings2, titel: 'Regeln festlegen', text: 'Wohin er weiterleitet, was als Notfall gilt und an welche Nummer er Notfälle meldet, wer die Notizen und Terminwünsche erhält und ob Anrufende eine SMS-Bestätigung bekommen.' },
     { id: 'rufumleitung', icon: PhoneForwarded, titel: 'Rufumleitung oder Nummer', text: 'Sie leiten Ihre Nummer um – immer, bei besetzt, nach einigen Klingeltönen oder ausserhalb der Öffnungszeiten – oder Sie erhalten eine neue Nummer. Mit Cloud-Telefonie von InfraOne direkt in der Anlage.' },
     { id: 'freigabe', icon: ShieldCheck, titel: 'Testen und freigeben', text: 'Sie rufen selbst an und hören, wie der Assistent antwortet. Erst nach Ihrer Freigabe nimmt er echte Anrufe an.' },
 ];
